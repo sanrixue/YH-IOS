@@ -1,0 +1,6 @@
+platform :ios, '7.0'
+
+pod 'Reachability', '~>3.2'
+pod 'MBProgressHUD', '~>0.9.1'
+pod 'FXBlurView', '~> 1.6.3'
+pod 'SSZipArchive', '~>0.3.2'

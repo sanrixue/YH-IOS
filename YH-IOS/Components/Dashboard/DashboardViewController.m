@@ -46,6 +46,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         NSString *chartTheme = data[@"chartTheme"];
         [self performSegueWithIdentifier:kChartSegueIdentifier sender:chartTheme];
     }];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -58,10 +59,16 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (BOOL)prefersStatusBarHidden {
-    return YES;
+
+#pragma mark - status bar settings
+-(BOOL)prefersStatusBarHidden{
+    return NO;
+}
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
+#pragma mark - assistant methods
 - (void)loadHtml {
     NSURL *url = [NSURL URLWithString:self.dashboardUrlString];
     NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"];

@@ -55,16 +55,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AM5-df-HXJ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                            <webView contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AM5-df-HXJ">
+                                <rect key="frame" x="0.0" y="55" width="600" height="496"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="delegate" destination="0ms-0t-lsu" id="ZcI-xk-8Br"/>
                                 </connections>
                             </webView>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="omN-qS-kPz">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="55"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="Nav-Banner" translatesAutoresizingMaskIntoConstraints="NO" id="bpr-aA-rXK">
+                                        <rect key="frame" x="242" y="15" width="116" height="40"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.066666666666666666" green="0.66274509803921566" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="bpr-aA-rXK" firstAttribute="centerX" secondItem="omN-qS-kPz" secondAttribute="centerX" id="SBv-cB-kKb"/>
+                                    <constraint firstAttribute="bottom" secondItem="bpr-aA-rXK" secondAttribute="bottom" id="cQk-83-Yrh"/>
+                                    <constraint firstAttribute="height" constant="55" id="dJi-d9-u2N"/>
+                                </constraints>
+                            </view>
                             <tabBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7VJ-HQ-uj9">
                                 <rect key="frame" x="0.0" y="551" width="600" height="49"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="49" id="62o-Jg-nQJ"/>
+                                </constraints>
                                 <items>
                                     <tabBarItem title="KPI" image="TabBar-KPI" selectedImage="TabBar-KPI-S" id="4rm-By-bTN"/>
                                     <tabBarItem title="应用" image="TabBar-应用" selectedImage="TabBar-应用-S" id="hND-6P-aMF"/>
@@ -75,10 +92,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="AM5-df-HXJ" firstAttribute="top" secondItem="omN-qS-kPz" secondAttribute="bottom" id="5N8-MA-slD"/>
                             <constraint firstItem="7VJ-HQ-uj9" firstAttribute="top" secondItem="AM5-df-HXJ" secondAttribute="bottom" id="5me-GH-mf4"/>
                             <constraint firstItem="AM5-df-HXJ" firstAttribute="leading" secondItem="swf-XC-lkn" secondAttribute="leadingMargin" constant="-20" id="MoJ-kf-RUF"/>
+                            <constraint firstItem="omN-qS-kPz" firstAttribute="leading" secondItem="swf-XC-lkn" secondAttribute="leadingMargin" constant="-20" id="Vkw-UY-DaM"/>
                             <constraint firstItem="H0W-KM-1bH" firstAttribute="top" secondItem="7VJ-HQ-uj9" secondAttribute="bottom" id="bgn-Fu-dfE"/>
-                            <constraint firstItem="AM5-df-HXJ" firstAttribute="top" secondItem="swf-XC-lkn" secondAttribute="topMargin" id="jJR-73-Tm9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="omN-qS-kPz" secondAttribute="trailing" constant="-20" id="lLb-13-SCw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="7VJ-HQ-uj9" secondAttribute="trailing" constant="-20" id="o7b-19-XVy"/>
                             <constraint firstItem="7VJ-HQ-uj9" firstAttribute="leading" secondItem="swf-XC-lkn" secondAttribute="leadingMargin" constant="-20" id="wZV-nF-2fb"/>
                             <constraint firstAttribute="trailingMargin" secondItem="AM5-df-HXJ" secondAttribute="trailing" constant="-20" id="y9e-30-Dxu"/>
@@ -106,39 +125,39 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jiD-n2-AKa">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="49"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="55"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YAH-2G-WR8">
-                                        <rect key="frame" x="8" y="9" width="70" height="32"/>
+                                        <rect key="frame" x="0.0" y="20" width="70" height="32"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="9gs-qE-Rj3"/>
                                         </constraints>
                                         <state key="normal" title="返回" image="iconBack">
-                                            <color key="titleColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
                                             <action selector="actionBack:" destination="Fjl-vw-ucE" eventType="touchUpInside" id="ssw-fM-KLc"/>
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主题名称" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTN-eu-x5r">
-                                        <rect key="frame" x="0.0" y="14" width="600" height="21"/>
+                                        <rect key="frame" x="0.0" y="25" width="600" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="0.066666666666666666" green="0.66274509803921566" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="49" id="7p6-nc-AwX"/>
-                                    <constraint firstItem="uTN-eu-x5r" firstAttribute="centerY" secondItem="jiD-n2-AKa" secondAttribute="centerY" id="A98-KI-1Qm"/>
-                                    <constraint firstItem="YAH-2G-WR8" firstAttribute="leading" secondItem="jiD-n2-AKa" secondAttribute="leading" constant="8" id="Pay-7H-WWU"/>
+                                    <constraint firstAttribute="height" constant="55" id="7p6-nc-AwX"/>
+                                    <constraint firstItem="uTN-eu-x5r" firstAttribute="top" secondItem="YAH-2G-WR8" secondAttribute="top" id="Ctz-6n-a9l"/>
+                                    <constraint firstItem="YAH-2G-WR8" firstAttribute="leading" secondItem="jiD-n2-AKa" secondAttribute="leading" id="Pay-7H-WWU"/>
+                                    <constraint firstAttribute="bottom" secondItem="uTN-eu-x5r" secondAttribute="bottom" constant="9" id="TIH-bA-Reu"/>
                                     <constraint firstItem="uTN-eu-x5r" firstAttribute="leading" secondItem="jiD-n2-AKa" secondAttribute="leading" id="ctm-yc-fNN"/>
-                                    <constraint firstItem="YAH-2G-WR8" firstAttribute="centerY" secondItem="jiD-n2-AKa" secondAttribute="centerY" id="mry-xe-sk2"/>
                                     <constraint firstAttribute="trailing" secondItem="uTN-eu-x5r" secondAttribute="trailing" id="pS0-tu-EPX"/>
                                 </constraints>
                             </view>
                             <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UNg-xt-Kyh">
-                                <rect key="frame" x="0.0" y="49" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="55" width="600" height="545"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="delegate" destination="Fjl-vw-ucE" id="bDO-sS-P3i"/>
@@ -164,10 +183,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NLI-dC-qCX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1665" y="435"/>
+            <point key="canvasLocation" x="1713" y="424"/>
         </scene>
     </scenes>
     <resources>
+        <image name="Nav-Banner" width="84" height="25"/>
         <image name="TabBar-KPI" width="20" height="20"/>
         <image name="TabBar-KPI-S" width="20" height="20"/>
         <image name="TabBar-分析" width="20" height="20"/>
@@ -176,7 +196,7 @@
         <image name="TabBar-应用-S" width="22" height="22"/>
         <image name="TabBar-消息" width="20" height="21"/>
         <image name="TabBar-消息-S" width="20" height="21"/>
-        <image name="iconBack" width="22" height="22"/>
+        <image name="iconBack" width="17" height="21"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Ack-7W-5tl"/>

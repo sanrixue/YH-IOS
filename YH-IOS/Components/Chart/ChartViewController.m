@@ -47,9 +47,15 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (BOOL)prefersStatusBarHidden {
-    return YES;
+#pragma mark - status bar settings
+-(BOOL)prefersStatusBarHidden{
+    return NO;
 }
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
+#pragma mark - assistant methods
 - (void)loadHtml {
     NSURL *url = [NSURL URLWithString:self.chartUrlString];
     NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"];

@@ -8,13 +8,15 @@
 
 #ifndef const_h
 #define const_h
-#define BASE_URL @"http://demo.solife.us"
-#define BASE_URL1 @"http://localhost:3000/demo"
-#define BASE_PATH @"/highcharts/examples/setting"
-#define DEMO_LIST @"/highcharts/examples/local_demos"
-#define DEMO_DIRNAME @"Demos"
-#define CONFIG_DIRNAME @"Configs"
 
-#define PGY_APP_ID @"a647aea0062275a316e7354279fa01fb"
+#define BASE_URL          @"http://localhost:3000"
+#define LOGIN_PATH        @"/mobile/login"
+#define CONFIG_DIRNAME    @"Configs"
+#define ASSETS_DIRNAME    @"Assets"
+#define LOGIN_DIRNAME     @"Login"
+#define DASHBOARD_DIRNAME @"Dashboard"
+#define CHART_DIRNAME     @"Chart"
+
+#define PGY_APP_ID @"7586e8c77ceadd3240c5e243e9d0c391"
 
 #endif /* const_h */

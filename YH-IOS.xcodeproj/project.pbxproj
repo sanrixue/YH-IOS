@@ -8,6 +8,25 @@
 
 /* Begin PBXBuildFile section */
 		C40F896E1C0430A700434B7D /* YH-HTML.zip in Resources */ = {isa = PBXBuildFile; fileRef = C40F896D1C0430A700434B7D /* YH-HTML.zip */; settings = {ASSET_TAGS = (); }; };
+		C4771B9B1C05871400AAF44F /* .gitattributes in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8A1C05871400AAF44F /* .gitattributes */; settings = {ASSET_TAGS = (); }; };
+		C4771B9C1C05871400AAF44F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8B1C05871400AAF44F /* .gitignore */; settings = {ASSET_TAGS = (); }; };
+		C4771B9D1C05871400AAF44F /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8C1C05871400AAF44F /* .travis.yml */; settings = {ASSET_TAGS = (); }; };
+		C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B8E1C05871400AAF44F /* TFHpple.m */; settings = {ASSET_TAGS = (); }; };
+		C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B901C05871400AAF44F /* TFHppleElement.m */; settings = {ASSET_TAGS = (); }; };
+		C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B921C05871400AAF44F /* XPathQuery.m */; settings = {ASSET_TAGS = (); }; };
+		C4771BA11C05871400AAF44F /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = C4771B951C05871400AAF44F /* WebViewJavascriptBridge.js.txt */; settings = {ASSET_TAGS = (); }; };
+		C4771BA21C05871400AAF44F /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B961C05871400AAF44F /* WebViewJavascriptBridge.m */; settings = {ASSET_TAGS = (); }; };
+		C4771BA31C05871400AAF44F /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B981C05871400AAF44F /* WebViewJavascriptBridgeBase.m */; settings = {ASSET_TAGS = (); }; };
+		C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B9A1C05871400AAF44F /* WKWebViewJavascriptBridge.m */; settings = {ASSET_TAGS = (); }; };
+		C4771BA61C058A1800AAF44F /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BA51C058A1800AAF44F /* libxml2.tbd */; };
+		C4771BA91C058A7B00AAF44F /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BA71C058A7B00AAF44F /* PgySDK.framework */; settings = {ASSET_TAGS = (); }; };
+		C4771BAA1C058A7B00AAF44F /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BA81C058A7B00AAF44F /* PgyUpdate.framework */; settings = {ASSET_TAGS = (); }; };
+		C4771BAC1C058C4400AAF44F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BAB1C058C4400AAF44F /* SystemConfiguration.framework */; };
+		C4771BAE1C058C6600AAF44F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BAD1C058C6600AAF44F /* AVFoundation.framework */; };
+		C4771BB01C058C6F00AAF44F /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BAF1C058C6F00AAF44F /* AudioToolbox.framework */; };
+		C4771BB21C058C7C00AAF44F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB11C058C7C00AAF44F /* CoreMotion.framework */; };
+		C4771BB41C058C8400AAF44F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB31C058C8400AAF44F /* OpenGLES.framework */; };
+		C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB51C058C9000AAF44F /* CoreTelephony.framework */; };
 		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
 		C4DB7D781C02EC0500DA534E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D771C02EC0500DA534E /* main.m */; };
 		C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D7F1C02EC0500DA534E /* Main.storyboard */; };
@@ -47,6 +66,32 @@
 		1374D056885AF221F43AFB66 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		BA7C8A7FE878AF127C6E6870 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C40F896D1C0430A700434B7D /* YH-HTML.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "YH-HTML.zip"; sourceTree = "<group>"; };
+		C4771B8A1C05871400AAF44F /* .gitattributes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitattributes; sourceTree = "<group>"; };
+		C4771B8B1C05871400AAF44F /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		C4771B8C1C05871400AAF44F /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
+		C4771B8D1C05871400AAF44F /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		C4771B8E1C05871400AAF44F /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		C4771B8F1C05871400AAF44F /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		C4771B901C05871400AAF44F /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		C4771B911C05871400AAF44F /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		C4771B921C05871400AAF44F /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		C4771B941C05871400AAF44F /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		C4771B951C05871400AAF44F /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
+		C4771B961C05871400AAF44F /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		C4771B971C05871400AAF44F /* WebViewJavascriptBridgeBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewJavascriptBridgeBase.h; sourceTree = "<group>"; };
+		C4771B981C05871400AAF44F /* WebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
+		C4771B991C05871400AAF44F /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		C4771B9A1C05871400AAF44F /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		C4771BA51C058A1800AAF44F /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		C4771BA71C058A7B00AAF44F /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PgySDK.framework; sourceTree = "<group>"; };
+		C4771BA81C058A7B00AAF44F /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PgyUpdate.framework; sourceTree = "<group>"; };
+		C4771BAB1C058C4400AAF44F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		C4771BAD1C058C6600AAF44F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		C4771BAF1C058C6F00AAF44F /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		C4771BB11C058C7C00AAF44F /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		C4771BB31C058C8400AAF44F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		C4771BB51C058C9000AAF44F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		C4771BB71C058D1700AAF44F /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		C4DB7D731C02EC0500DA534E /* YH-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YH-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DB7D771C02EC0500DA534E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C4DB7D801C02EC0500DA534E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -83,6 +128,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */,
+				C4771BB41C058C8400AAF44F /* OpenGLES.framework in Frameworks */,
+				C4771BB21C058C7C00AAF44F /* CoreMotion.framework in Frameworks */,
+				C4771BB01C058C6F00AAF44F /* AudioToolbox.framework in Frameworks */,
+				C4771BAE1C058C6600AAF44F /* AVFoundation.framework in Frameworks */,
+				C4771BAC1C058C4400AAF44F /* SystemConfiguration.framework in Frameworks */,
+				C4771BA61C058A1800AAF44F /* libxml2.tbd in Frameworks */,
+				C4771BA91C058A7B00AAF44F /* PgySDK.framework in Frameworks */,
+				C4771BAA1C058A7B00AAF44F /* PgyUpdate.framework in Frameworks */,
 				C49A02A08C99679205CD6255 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,6 +158,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C4771B881C05871300AAF44F /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+				C4771B891C05871400AAF44F /* hpple */,
+				C4771B931C05871400AAF44F /* WebViewJavascriptBridge */,
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		C4771B891C05871400AAF44F /* hpple */ = {
+			isa = PBXGroup;
+			children = (
+				C4771B8A1C05871400AAF44F /* .gitattributes */,
+				C4771B8B1C05871400AAF44F /* .gitignore */,
+				C4771B8C1C05871400AAF44F /* .travis.yml */,
+				C4771B8D1C05871400AAF44F /* TFHpple.h */,
+				C4771B8E1C05871400AAF44F /* TFHpple.m */,
+				C4771B8F1C05871400AAF44F /* TFHppleElement.h */,
+				C4771B901C05871400AAF44F /* TFHppleElement.m */,
+				C4771B911C05871400AAF44F /* XPathQuery.h */,
+				C4771B921C05871400AAF44F /* XPathQuery.m */,
+			);
+			path = hpple;
+			sourceTree = "<group>";
+		};
+		C4771B931C05871400AAF44F /* WebViewJavascriptBridge */ = {
+			isa = PBXGroup;
+			children = (
+				C4771B941C05871400AAF44F /* WebViewJavascriptBridge.h */,
+				C4771B951C05871400AAF44F /* WebViewJavascriptBridge.js.txt */,
+				C4771B961C05871400AAF44F /* WebViewJavascriptBridge.m */,
+				C4771B971C05871400AAF44F /* WebViewJavascriptBridgeBase.h */,
+				C4771B981C05871400AAF44F /* WebViewJavascriptBridgeBase.m */,
+				C4771B991C05871400AAF44F /* WKWebViewJavascriptBridge.h */,
+				C4771B9A1C05871400AAF44F /* WKWebViewJavascriptBridge.m */,
+			);
+			path = WebViewJavascriptBridge;
+			sourceTree = "<group>";
+		};
 		C4DB7D6A1C02EC0500DA534E = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +222,7 @@
 		C4DB7D751C02EC0500DA534E /* YH-IOS */ = {
 			isa = PBXGroup;
 			children = (
+				C4771B881C05871300AAF44F /* Vendor */,
 				C4DB7DC71C02EE8E00DA534E /* Models */,
 				C4DB7DC51C02EE6000DA534E /* Shared */,
 				C4DB7DB51C02EE3800DA534E /* Utils */,
@@ -282,6 +376,16 @@
 		E7359AA6518F9148E9F7A313 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C4771BB71C058D1700AAF44F /* libxml2.2.tbd */,
+				C4771BB51C058C9000AAF44F /* CoreTelephony.framework */,
+				C4771BB31C058C8400AAF44F /* OpenGLES.framework */,
+				C4771BB11C058C7C00AAF44F /* CoreMotion.framework */,
+				C4771BAF1C058C6F00AAF44F /* AudioToolbox.framework */,
+				C4771BAD1C058C6600AAF44F /* AVFoundation.framework */,
+				C4771BAB1C058C4400AAF44F /* SystemConfiguration.framework */,
+				C4771BA71C058A7B00AAF44F /* PgySDK.framework */,
+				C4771BA81C058A7B00AAF44F /* PgyUpdate.framework */,
+				C4771BA51C058A1800AAF44F /* libxml2.tbd */,
 				016230E97585F60D9A2BE43F /* libPods.a */,
 			);
 			name = Frameworks;
@@ -394,9 +498,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4771B9B1C05871400AAF44F /* .gitattributes in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
+				C4771BA11C05871400AAF44F /* WebViewJavascriptBridge.js.txt in Resources */,
+				C4771B9C1C05871400AAF44F /* .gitignore in Resources */,
+				C4771B9D1C05871400AAF44F /* .travis.yml in Resources */,
 				C40F896E1C0430A700434B7D /* YH-HTML.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -474,11 +582,17 @@
 				C4DB7DB41C02ED2A00DA534E /* LoginViewController.m in Sources */,
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
+				C4771BA31C05871400AAF44F /* WebViewJavascriptBridgeBase.m in Sources */,
 				C4DB7DC41C02EE3800DA534E /* HttpUtils.m in Sources */,
+				C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
+				C4771BA21C05871400AAF44F /* WebViewJavascriptBridge.m in Sources */,
+				C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
+				C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */,
+				C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -622,6 +736,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/include/libxml2,
+				);
 				INFOPLIST_FILE = "YH-IOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -638,6 +761,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/usr/include/libxml2,
+				);
 				INFOPLIST_FILE = "YH-IOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+#import "const.h"
+#import <PgySDK/PgyManager.h>
+#import <PgyUpdate/PgyUpdateManager.h>
 
 @interface AppDelegate ()
 
@@ -17,6 +20,14 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //启动基本SDK
+    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
+    //启动更新检查SDK
+    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
+    [[PgyUpdateManager sharedPgyManager] checkUpdate];
+    
+    
     return YES;
 }
 

@@ -62,7 +62,25 @@
  */
 + (BOOL)isNetworkAvailable2;
 + (NSString *) networkType;
+/**
+ *  网页链接转换成本地html
+ *
+ *  @param urlString  网页链接
+ *  @param assetsPath 本地存放位置
+ *
+ *  @return html路径
+ */
++ (NSString *)urlConvertToLocal:(NSString *)urlString assetsPath:(NSString *)assetsPath;
 
+/**
+ *  网页链接转换为合法文件名称
+ *
+ *  @param url    网页链接
+ *  @param suffix 文件后缀
+ *
+ *  @return 合法文件名称
+ */
++ (NSString *)urlTofilename:(NSString *)url suffix:(NSString *)suffix;
 @end
 
 #endif

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C40F896E1C0430A700434B7D /* YH-HTML.zip in Resources */ = {isa = PBXBuildFile; fileRef = C40F896D1C0430A700434B7D /* YH-HTML.zip */; settings = {ASSET_TAGS = (); }; };
 		C4771B9B1C05871400AAF44F /* .gitattributes in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8A1C05871400AAF44F /* .gitattributes */; settings = {ASSET_TAGS = (); }; };
 		C4771B9C1C05871400AAF44F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8B1C05871400AAF44F /* .gitignore */; settings = {ASSET_TAGS = (); }; };
 		C4771B9D1C05871400AAF44F /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8C1C05871400AAF44F /* .travis.yml */; settings = {ASSET_TAGS = (); }; };
@@ -42,6 +41,8 @@
 		C4DB7DC41C02EE3800DA534E /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DC01C02EE3800DA534E /* HttpUtils.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DCA1C02EE8E00DA534E /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */; settings = {ASSET_TAGS = (); }; };
+		C4E9D8791C05A06C00132698 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E9D8781C05A06C00132698 /* DashboardViewController.m */; settings = {ASSET_TAGS = (); }; };
+		C4F621A41C05A9F6007F21B5 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F621A31C05A9F6007F21B5 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +66,6 @@
 		016230E97585F60D9A2BE43F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1374D056885AF221F43AFB66 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		BA7C8A7FE878AF127C6E6870 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		C40F896D1C0430A700434B7D /* YH-HTML.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = "YH-HTML.zip"; sourceTree = "<group>"; };
 		C4771B8A1C05871400AAF44F /* .gitattributes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitattributes; sourceTree = "<group>"; };
 		C4771B8B1C05871400AAF44F /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		C4771B8C1C05871400AAF44F /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
@@ -121,6 +121,10 @@
 		C4DB7DCA1C02EE8E00DA534E /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		C4DB7DCC1C02EE8E00DA534E /* HttpResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpResponse.h; sourceTree = "<group>"; };
 		C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpResponse.m; sourceTree = "<group>"; };
+		C4E9D8771C05A06C00132698 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
+		C4E9D8781C05A06C00132698 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
+		C4F621A21C05A9F6007F21B5 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
+		C4F621A31C05A9F6007F21B5 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -266,6 +270,8 @@
 		C4DB7DA91C02EC3D00DA534E /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				C4F621A11C05A9B9007F21B5 /* Chart */,
+				C4E9D8761C05A04600132698 /* Dashboard */,
 				C4DB7DB11C02ED2A00DA534E /* Login */,
 			);
 			path = Components;
@@ -331,7 +337,6 @@
 		C4DB7DC51C02EE6000DA534E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				C40F896D1C0430A700434B7D /* YH-HTML.zip */,
 				C4DB7DC61C02EE6000DA534E /* const.h */,
 			);
 			path = Shared;
@@ -362,6 +367,24 @@
 				C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */,
 			);
 			path = HttpResponse;
+			sourceTree = "<group>";
+		};
+		C4E9D8761C05A04600132698 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				C4E9D8771C05A06C00132698 /* DashboardViewController.h */,
+				C4E9D8781C05A06C00132698 /* DashboardViewController.m */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		C4F621A11C05A9B9007F21B5 /* Chart */ = {
+			isa = PBXGroup;
+			children = (
+				C4F621A21C05A9F6007F21B5 /* ChartViewController.h */,
+				C4F621A31C05A9F6007F21B5 /* ChartViewController.m */,
+			);
+			path = Chart;
 			sourceTree = "<group>";
 		};
 		C604676B995213DD1045036A /* Pods */ = {
@@ -505,7 +528,6 @@
 				C4771BA11C05871400AAF44F /* WebViewJavascriptBridge.js.txt in Resources */,
 				C4771B9C1C05871400AAF44F /* .gitignore in Resources */,
 				C4771B9D1C05871400AAF44F /* .travis.yml in Resources */,
-				C40F896E1C0430A700434B7D /* YH-HTML.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -589,10 +611,12 @@
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4771BA21C05871400AAF44F /* WebViewJavascriptBridge.m in Sources */,
+				C4E9D8791C05A06C00132698 /* DashboardViewController.m in Sources */,
 				C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */,
 				C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */,
+				C4F621A41C05A9F6007F21B5 /* ChartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

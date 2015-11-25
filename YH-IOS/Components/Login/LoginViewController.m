@@ -10,11 +10,14 @@
 #import "FileUtils.h"
 #import "HttpUtils.h"
 #import "const.h"
-#import <SSZipArchive.h>
 #import <MBProgressHUD.h>
 #import "WebViewJavascriptBridge.h"
+#import "DashboardViewController.h"
+
+static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
 
 @interface LoginViewController ()
+@property WebViewJavascriptBridge* bridge;
 @property (weak, nonatomic) IBOutlet UIWebView *browser;
 @property (strong, nonatomic) NSString *loginUrlString;
 @property (strong, nonatomic) NSString *assetsPath;
@@ -27,7 +30,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.browser.delegate = self;
     
     self.loginUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
     self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, LOGIN_DIRNAME]];
@@ -36,6 +38,28 @@
     tapGesture.numberOfTapsRequired = 3;
     tapGesture.numberOfTouchesRequired = 1;
     [self.browser addGestureRecognizer:tapGesture];
+    
+    
+    [WebViewJavascriptBridge enableLogging];
+    
+    _bridge = [WebViewJavascriptBridge bridgeForWebView:_browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"ObjC received message from JS: %@", data);
+        responseCallback(@"Response for message from ObjC");
+    }];
+    
+    [_bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+        NSString *username = data[@"username"];
+        NSString *password = data[@"password"];
+        
+        [self performSegueWithIdentifier:kDashboardSegueIdentifier sender:nil];
+    }];
+    
+    UITapGestureRecognizer *tagGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadHtml)];
+    tagGesture.numberOfTapsRequired = 3;
+    tagGesture.numberOfTouchesRequired = 1;
+    [_browser addGestureRecognizer:tagGesture];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -82,9 +106,8 @@
 
 - (void)loadHtml {
     NSURL *url = [NSURL URLWithString:self.loginUrlString];
-    NSString *assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, LOGIN_DIRNAME]];
     NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"];
-    NSString *htmlPath = [assetsPath stringByAppendingPathComponent:htmlName];
+    NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
     [self showProgressHUD:@"loading..."];
     
@@ -94,10 +117,21 @@
     }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.browser loadRequest:[NSURLRequest requestWithURL:url]];
         
+        if([HttpUtils isNetworkAvailable]) {
+            [self.browser loadRequest:[NSURLRequest requestWithURL:url]];
+        }
         [_progressHUD hide: YES];
     });
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqualToString:kDashboardSegueIdentifier]) {
+        
+    }
+    else {
+        NSLog(@"unkown identifier: %@", segue.identifier);
+    }
 }
 
 - (void)showProgressHUD:(NSString *)text {

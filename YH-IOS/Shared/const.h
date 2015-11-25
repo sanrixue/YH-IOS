@@ -11,6 +11,9 @@
 
 #define BASE_URL          @"http://localhost:3000"
 #define LOGIN_PATH        @"/mobile/login"
+#define DASHBOARD_PATH    @"/mobile/dashboard"
+#define CHART_PATH    @"/mobile/chart"
+
 #define CONFIG_DIRNAME    @"Configs"
 #define ASSETS_DIRNAME    @"Assets"
 #define LOGIN_DIRNAME     @"Login"

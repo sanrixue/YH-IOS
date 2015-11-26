@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DashboardViewController : UIViewController<UIWebViewDelegate>
+@interface DashboardViewController : UIViewController<UIWebViewDelegate, UITabBarDelegate>
 
 @end

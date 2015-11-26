@@ -88,6 +88,9 @@
                                     <tabBarItem title="分析" image="TabBar-分析" selectedImage="TabBar-分析-S" id="j7u-fF-ccm"/>
                                     <tabBarItem title="消息" image="TabBar-消息" selectedImage="TabBar-消息-S" id="jRv-Ww-nO5"/>
                                 </items>
+                                <connections>
+                                    <outlet property="delegate" destination="0ms-0t-lsu" id="XPh-cO-LJg"/>
+                                </connections>
                             </tabBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -105,6 +108,7 @@
                     </view>
                     <connections>
                         <outlet property="browser" destination="AM5-df-HXJ" id="y8S-Td-SGg"/>
+                        <outlet property="tabBar" destination="7VJ-HQ-uj9" id="Mty-IE-lzt"/>
                         <segue destination="Fjl-vw-ucE" kind="presentation" identifier="DashboardToChartSegueIdentifier" id="IWr-vi-Gbg"/>
                     </connections>
                 </viewController>

@@ -9,16 +9,18 @@
 #ifndef const_h
 #define const_h
 
-#define BASE_URL          @"http://localhost:3000"
+#define BASE_URL          @"http://121.40.35.29:4567"
+#define BASE_URL2          @"http://localhost:3000"
 #define LOGIN_PATH        @"/mobile/login"
 #define DASHBOARD_PATH    @"/mobile/dashboard"
-#define CHART_PATH    @"/mobile/chart"
+#define CHART_PATH        @"/mobile/chart"
+#define MESSAGE_PATH      @"/mobile/message"
+#define APPLICATION_PATH  @"/mobile/application"
+#define ANALYSE_PATH      @"/mobile/analyse"
 
 #define CONFIG_DIRNAME    @"Configs"
 #define ASSETS_DIRNAME    @"Assets"
-#define LOGIN_DIRNAME     @"Login"
-#define DASHBOARD_DIRNAME @"Dashboard"
-#define CHART_DIRNAME     @"Chart"
+
 
 #define PGY_APP_ID @"7586e8c77ceadd3240c5e243e9d0c391"
 

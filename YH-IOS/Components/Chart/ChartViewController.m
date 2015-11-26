@@ -32,7 +32,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     // Do any additional setup after loading the view.
     
     self.chartUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, CHART_PATH];
-    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, CHART_DIRNAME]];
+    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, [CHART_PATH lastPathComponent]]];
     
     self.labelTheme.text = self.chartTheme;
 }
@@ -94,4 +94,14 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     _progressHUD = [MBProgressHUD showHUDAddedTo:_browser animated:YES];
     _progressHUD.labelText = text;
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
-}@end
+}
+
+# pragma mark - 登录界面不支持旋转
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
+}
+#pragma mark - 屏幕旋转 刷新页面
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self loadHtml];
+}
+@end

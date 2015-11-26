@@ -32,7 +32,7 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     // Do any additional setup after loading the view, typically from a nib.
     
     self.loginUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
-    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, LOGIN_DIRNAME]];
+    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, [LOGIN_PATH lastPathComponent]]];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadHtml)];
     tapGesture.numberOfTapsRequired = 3;
@@ -49,8 +49,8 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     
     [_bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
         
-        NSString *username = data[@"username"];
-        NSString *password = data[@"password"];
+//        NSString *username = data[@"username"];
+//        NSString *password = data[@"password"];
         
         [self performSegueWithIdentifier:kDashboardSegueIdentifier sender:nil];
     }];
@@ -138,5 +138,10 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     _progressHUD = [MBProgressHUD showHUDAddedTo:_browser animated:YES];
     _progressHUD.labelText = text;
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+}
+
+# pragma mark - 登录界面不支持旋转
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return NO;
 }
 @end

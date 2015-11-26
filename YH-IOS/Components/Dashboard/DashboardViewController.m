@@ -23,6 +23,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 @property (strong, nonatomic) NSString *dashboardUrlString;
 @property (strong, nonatomic) NSString *assetsPath;
 @property (strong, nonatomic) MBProgressHUD *progressHUD;
+@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 @end
 
@@ -32,9 +33,6 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, DASHBOARD_PATH];
-    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, DASHBOARD_DIRNAME]];
-    
     [WebViewJavascriptBridge enableLogging];
     
     _bridge = [WebViewJavascriptBridge bridgeForWebView:_browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -43,8 +41,8 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     }];
     
     [_bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString *chartTheme = data[@"chartTheme"];
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:chartTheme];
+        NSString *subjectName = data[@"subjectName"];
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:subjectName];
     }];
     
 }
@@ -52,6 +50,10 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
+
+    self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, DASHBOARD_PATH];
+    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, [DASHBOARD_PATH lastPathComponent]]];
     [self loadHtml];
 }
 
@@ -112,5 +114,38 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         ChartViewController *chartViewController = (ChartViewController *)segue.destinationViewController;
         chartViewController.chartTheme = sender;
     }
+}
+
+#pragma mark - UITabBar delegate
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    NSString *path = DASHBOARD_PATH;
+    
+    if([item.title isEqualToString:@"KPI"]) {
+        path = DASHBOARD_PATH;
+    }
+    else if([item.title isEqualToString:@"应用"]) {
+        path = APPLICATION_PATH;
+    }
+    else if([item.title isEqualToString:@"分析"]) {
+        path = ANALYSE_PATH;
+    }
+    else if([item.title isEqualToString:@"消息"]) {
+        path = MESSAGE_PATH;
+    }
+    
+    
+    self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
+    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, [path lastPathComponent]]];
+    
+    [self loadHtml];
+}
+
+# pragma mark - 登录界面不支持旋转
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
+}
+#pragma mark - 屏幕旋转 刷新页面 
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self loadHtml];
 }
 @end

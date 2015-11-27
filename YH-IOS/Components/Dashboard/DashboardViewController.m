@@ -33,6 +33,8 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.assetsPath = [FileUtils dirPath:ASSETS_DIRNAME];
+    
     [WebViewJavascriptBridge enableLogging];
     
     _bridge = [WebViewJavascriptBridge bridgeForWebView:_browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -45,6 +47,8 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         [self performSegueWithIdentifier:kChartSegueIdentifier sender:subjectName];
     }];
     
+    _browser.scrollView.scrollEnabled = NO;
+    _browser.scrollView.bounces = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -52,8 +56,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
 
-    self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, DASHBOARD_PATH];
-    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, [DASHBOARD_PATH lastPathComponent]]];
+    self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, KPI_PATH];
     [self loadHtml];
 }
 
@@ -75,8 +78,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     NSURL *url = [NSURL URLWithString:self.dashboardUrlString];
     NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
-    
-    [self showProgressHUD:@"loading..."];
+
     
     if([FileUtils checkFileExist:htmlPath isDir:NO]) {
         NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
@@ -88,8 +90,44 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         if([HttpUtils isNetworkAvailable]) {
             [self.browser loadRequest:[NSURLRequest requestWithURL:url]];
         }
-        [_progressHUD hide: YES];
     });
+}
+
+/**
+ *  core methods - 所有网络链接都缓存至本地
+ *
+ *  @param webView        <#webView description#>
+ *  @param request        <#request description#>
+ *  @param navigationType <#navigationType description#>
+ *
+ *  @return <#return value description#>
+ */
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSString *requestString = [[request URL] absoluteString];
+    
+    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
+        
+        if([requestString hasPrefix:BASE_URL]) {
+            
+            [self showProgressHUD:@"loading..."];
+            
+            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
+            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+            
+            [_progressHUD hide:YES];
+            return NO;
+        }
+        else {
+            
+            return YES;
+        }
+    }
+    else if ([requestString hasPrefix:@"file://"]) {
+        
+    }
+    
+    return YES;
 }
 
 /*
@@ -118,13 +156,10 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 
 #pragma mark - UITabBar delegate
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    NSString *path = DASHBOARD_PATH;
+    NSString *path = KPI_PATH;
     
     if([item.title isEqualToString:@"KPI"]) {
-        path = DASHBOARD_PATH;
-    }
-    else if([item.title isEqualToString:@"应用"]) {
-        path = APPLICATION_PATH;
+        path = KPI_PATH;
     }
     else if([item.title isEqualToString:@"分析"]) {
         path = ANALYSE_PATH;
@@ -133,11 +168,14 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         path = MESSAGE_PATH;
     }
     
-    
-    self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
-    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, [path lastPathComponent]]];
-    
-    [self loadHtml];
+    if([item.title isEqualToString:@"应用"]) {
+        [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://form.mikecrm.com/f.php?t=fErp3n"]]];
+    }
+    else {
+        self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
+        
+        [self loadHtml];
+    }
 }
 
 # pragma mark - 登录界面不支持旋转

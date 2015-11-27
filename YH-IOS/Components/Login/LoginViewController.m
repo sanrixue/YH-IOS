@@ -32,7 +32,7 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     // Do any additional setup after loading the view, typically from a nib.
     
     self.loginUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
-    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, [LOGIN_PATH lastPathComponent]]];
+    self.assetsPath = [FileUtils dirPath:ASSETS_DIRNAME];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadHtml)];
     tapGesture.numberOfTapsRequired = 3;
@@ -52,7 +52,14 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
 //        NSString *username = data[@"username"];
 //        NSString *password = data[@"password"];
         
-        [self performSegueWithIdentifier:kDashboardSegueIdentifier sender:nil];
+        if([HttpUtils isNetworkAvailable]) {
+            [self performSegueWithIdentifier:kDashboardSegueIdentifier sender:nil];
+        }
+        else {
+            [self showProgressHUD:@"请确认网络环境."];
+            _progressHUD.mode = MBProgressHUDModeText;
+            [_progressHUD hide:YES afterDelay:2.0];
+        }
     }];
     
     UITapGestureRecognizer *tagGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadHtml)];
@@ -60,6 +67,8 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     tagGesture.numberOfTouchesRequired = 1;
     [_browser addGestureRecognizer:tagGesture];
 
+    _browser.scrollView.scrollEnabled = NO;
+    _browser.scrollView.bounces = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -90,12 +99,21 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     
     if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
         
-        NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath];
-        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-        [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-        
-        [_progressHUD hide:YES];
-        return NO;
+        if([requestString hasPrefix:BASE_URL]) {
+            
+            [self showProgressHUD:@"loading..."];
+            
+            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
+            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+            
+            [_progressHUD hide:YES];
+            return NO;
+        }
+        else {
+            [_progressHUD hide:YES];
+            return YES;
+        }
     }
     else if ([requestString hasPrefix:@"file://"]) {
 
@@ -109,7 +127,6 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
-    [self showProgressHUD:@"loading..."];
     
     if([FileUtils checkFileExist:htmlPath isDir:NO]) {
         NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
@@ -121,7 +138,6 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
         if([HttpUtils isNetworkAvailable]) {
             [self.browser loadRequest:[NSURLRequest requestWithURL:url]];
         }
-        [_progressHUD hide: YES];
     });
 }
 

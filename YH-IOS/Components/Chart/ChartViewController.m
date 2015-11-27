@@ -32,9 +32,12 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     // Do any additional setup after loading the view.
     
     self.chartUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, CHART_PATH];
-    self.assetsPath = [FileUtils dirPaths:@[ASSETS_DIRNAME, [CHART_PATH lastPathComponent]]];
+    self.assetsPath = [FileUtils dirPath:ASSETS_DIRNAME];
     
     self.labelTheme.text = self.chartTheme;
+    
+    _browser.scrollView.scrollEnabled = NO;
+    _browser.scrollView.bounces = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -61,8 +64,6 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
-    [self showProgressHUD:@"loading..."];
-    
     if([FileUtils checkFileExist:htmlPath isDir:NO]) {
         NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
         [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
@@ -73,10 +74,44 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
         if([HttpUtils isNetworkAvailable]) {
             [self.browser loadRequest:[NSURLRequest requestWithURL:url]];
         }
-        [_progressHUD hide: YES];
     });
 }
 
+/**
+ *  core methods - 所有网络链接都缓存至本地
+ *
+ *  @param webView        <#webView description#>
+ *  @param request        <#request description#>
+ *  @param navigationType <#navigationType description#>
+ *
+ *  @return <#return value description#>
+ */
+//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+//    NSString *requestString = [[request URL] absoluteString];
+//    
+//    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
+//        
+//        if([requestString hasPrefix:BASE_URL]) {
+//            
+//            [self showProgressHUD:@"loading..."];
+//            
+//            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath];
+//            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+//            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+//            
+//            [_progressHUD hide:YES];
+//            return NO;
+//        }
+//        else {
+//            return YES;
+//        }
+//    }
+//    else if ([requestString hasPrefix:@"file://"]) {
+//        
+//    }
+    
+//    return YES;
+//}
 /*
  #pragma mark - Navigation
  

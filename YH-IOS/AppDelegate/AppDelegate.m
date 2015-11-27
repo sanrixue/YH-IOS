@@ -23,6 +23,7 @@
     
     //启动基本SDK
     [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
+    [[PgyManager sharedPgyManager] setEnableFeedback:NO];
     //启动更新检查SDK
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
     [[PgyUpdateManager sharedPgyManager] checkUpdate];

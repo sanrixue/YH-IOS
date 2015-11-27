@@ -174,12 +174,15 @@
 /**
  *  网页链接转换成本地html
  *
- *  @param urlString  网页链接
- *  @param assetsPath 本地存放位置
+ *  @param urlString    网页链接
+ *  @param assetsPath   本地存放位置
+ *  @param writeToLocal 
+ *      YES: 所有js/css/img文件写到本地，html使用相对本地链接
+ *      NO:  所有js/css/img链接转换为绝对路径链接
  *
  *  @return html路径
  */
-+ (NSString *)urlConvertToLocal:(NSString *)urlString assetsPath:(NSString *)assetsPath {
++ (NSString *)urlConvertToLocal:(NSString *)urlString assetsPath:(NSString *)assetsPath writeToLocal:(BOOL)isWriteToLocal {
     
     NSError *error = nil;
     NSURL *url = [NSURL URLWithString:urlString];
@@ -197,22 +200,25 @@
         NSDictionary *dict = element.attributes;
         if(dict && [dict[@"src"] length] > 0) {
             if([dict[@"src"] hasPrefix:@"http://"] || [dict[@"src"] hasPrefix:@"https://"]) {
-                NSLog(@"yes: %@", dict[@"src"]);
                 tagUrl = dict[@"src"];
             }
             else {
-                NSLog(@"no: %@", dict[@"src"]);
                 tagUrl = [self urlConcatHyplink:urlString path:dict[@"src"]];
             }
             
-            filename = [self urlTofilename:[tagUrl lastPathComponent] suffix:@".js"];
-            
-            filepath = [assetsPath stringByAppendingPathComponent:filename];
-            if(![self checkFileExist:filepath isDir:NO]) {
-                tagContent = [self HttpRquest:tagUrl];
-                [tagContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+            if(isWriteToLocal) {
+                filename = [self urlTofilename:[tagUrl lastPathComponent] suffix:@".js"];
+                
+                filepath = [assetsPath stringByAppendingPathComponent:filename];
+                if(![self checkFileExist:filepath isDir:NO]) {
+                    tagContent = [self HttpRquest:tagUrl];
+                    [tagContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+                }
+                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:filename];
             }
-            htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:filename];
+            else {
+                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:tagUrl];
+            }
         }
     }
     
@@ -220,23 +226,26 @@
     elements = [doc searchWithXPathQuery:@"//link"];
     for(TFHppleElement *element in elements) {
         NSDictionary *dict = element.attributes;
-        if(dict && [dict[@"type"] isEqualToString:@"text/css"] && dict[@"href"]) {
+        if(dict && dict[@"href"] && [dict[@"href"] length] > 0) {
             if([dict[@"href"] hasPrefix:@"http://"] || [dict[@"href"] hasPrefix:@"https://"]) {
-                NSLog(@"yes: %@", dict[@"href"]);
                 tagUrl = dict[@"href"];
             }
             else {
-                NSLog(@"no: %@", dict[@"href"]);
                 tagUrl = [self urlConcatHyplink:urlString path:dict[@"href"]];
             }
             
-            filename = [self urlTofilename:[tagUrl lastPathComponent] suffix:@".css"];
-            filepath = [htmlContent stringByAppendingPathComponent:filename];
-            if(![self checkFileExist:filepath isDir:NO]) {
-                tagContent = [self HttpRquest:tagUrl];
-                [tagContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+            if(isWriteToLocal) {
+                filename = [self urlTofilename:[tagUrl lastPathComponent] suffix:@".css"];
+                filepath = [assetsPath stringByAppendingPathComponent:filename];
+                if(![self checkFileExist:filepath isDir:NO]) {
+                    tagContent = [self HttpRquest:tagUrl];
+                    [tagContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+                }
+                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"href"] withString:filename];
             }
-            htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"href"] withString:filename];
+            else {
+                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"href"] withString:tagUrl];
+            }
         }
     }
     
@@ -246,21 +255,24 @@
         NSDictionary *dict = element.attributes;
         if(dict && dict[@"src"] && [dict[@"src"] length] > 0) {
             if([dict[@"src"] hasPrefix:@"http://"] || [dict[@"src"] hasPrefix:@"https://"]) {
-                NSLog(@"yes: %@", dict[@"src"]);
                 tagUrl = dict[@"src"];
             }
             else {
-                NSLog(@"no: %@", dict[@"src"]);
                 tagUrl = [self urlConcatHyplink:urlString path:dict[@"src"]];
             }
             
-            filename = [self urlTofilename:[tagUrl lastPathComponent] suffix:[NSString stringWithFormat:@".%@", [tagUrl pathExtension]]];
-            filepath = [assetsPath stringByAppendingPathComponent:filename];
-            if(![self checkFileExist:filepath isDir:NO]) {
-                NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:tagUrl]];
-                [imageData writeToFile:filepath atomically:YES];
+            if(isWriteToLocal) {
+                filename = [self urlTofilename:[tagUrl lastPathComponent] suffix:[NSString stringWithFormat:@".%@", [tagUrl pathExtension]]];
+                filepath = [assetsPath stringByAppendingPathComponent:filename];
+                if(![self checkFileExist:filepath isDir:NO]) {
+                    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:tagUrl]];
+                    [imageData writeToFile:filepath atomically:YES];
+                }
+                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:filename];
             }
-            htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:filename];
+            else {
+                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:tagUrl];
+            }
         }
     }
     

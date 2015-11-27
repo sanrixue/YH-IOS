@@ -65,12 +65,15 @@
 /**
  *  网页链接转换成本地html
  *
- *  @param urlString  网页链接
- *  @param assetsPath 本地存放位置
+ *  @param urlString    网页链接
+ *  @param assetsPath   本地存放位置
+ *  @param writeToLocal
+ *      YES: 所有js/css/img文件写到本地，html使用相对本地链接
+ *      NO:  所有js/css/img链接转换为绝对路径链接
  *
  *  @return html路径
  */
-+ (NSString *)urlConvertToLocal:(NSString *)urlString assetsPath:(NSString *)assetsPath;
++ (NSString *)urlConvertToLocal:(NSString *)urlString assetsPath:(NSString *)assetsPath writeToLocal:(BOOL)isWriteToLocal;
 
 /**
  *  网页链接转换为合法文件名称

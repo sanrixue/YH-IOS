@@ -84,8 +84,8 @@
                                 </constraints>
                                 <items>
                                     <tabBarItem title="KPI" image="TabBar-KPI" selectedImage="TabBar-KPI-S" id="4rm-By-bTN"/>
-                                    <tabBarItem title="应用" image="TabBar-应用" selectedImage="TabBar-应用-S" id="hND-6P-aMF"/>
-                                    <tabBarItem title="分析" image="TabBar-分析" selectedImage="TabBar-分析-S" id="j7u-fF-ccm"/>
+                                    <tabBarItem title="分析" image="TabBar-分析" selectedImage="TabBar-分析-S" id="hND-6P-aMF"/>
+                                    <tabBarItem title="应用" image="TabBar-应用" selectedImage="TabBar-应用-S" id="j7u-fF-ccm"/>
                                     <tabBarItem title="消息" image="TabBar-消息" selectedImage="TabBar-消息-S" id="jRv-Ww-nO5"/>
                                 </items>
                                 <connections>

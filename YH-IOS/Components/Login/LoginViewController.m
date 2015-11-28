@@ -80,7 +80,20 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    [self showProgressHUD:@"收到IOS系统，内存警告."];
+    self.progressHUD.mode = MBProgressHUDModeText;
+    [_progressHUD hide:YES afterDelay:2.0];
 }
+
+- (void)dealloc {
+    _browser.delegate = nil;
+    _browser = nil;
+    [_progressHUD hide:YES];
+    _progressHUD = nil;
+    _bridge = nil;
+}
+
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }

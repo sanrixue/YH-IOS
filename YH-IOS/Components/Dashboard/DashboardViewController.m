@@ -47,8 +47,8 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         [self performSegueWithIdentifier:kChartSegueIdentifier sender:subjectName];
     }];
     
-    _browser.scrollView.scrollEnabled = NO;
-    _browser.scrollView.bounces = NO;
+//    _browser.scrollView.scrollEnabled = NO;
+//    _browser.scrollView.bounces = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -63,6 +63,18 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    [self showProgressHUD:@"收到IOS系统，内存警告."];
+    self.progressHUD.mode = MBProgressHUDModeText;
+    [_progressHUD hide:YES afterDelay:2.0];
+}
+
+- (void)dealloc {
+    _browser.delegate = nil;
+    _browser = nil;
+    [_progressHUD hide:YES];
+    _progressHUD = nil;
+    _bridge = nil;
 }
 
 #pragma mark - status bar settings

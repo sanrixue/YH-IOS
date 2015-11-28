@@ -36,8 +36,8 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     
     self.labelTheme.text = self.chartTheme;
     
-    _browser.scrollView.scrollEnabled = NO;
-    _browser.scrollView.bounces = NO;
+//    _browser.scrollView.scrollEnabled = NO;
+//    _browser.scrollView.bounces = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -49,6 +49,18 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    [self showProgressHUD:@"收到IOS系统，内存警告."];
+    self.progressHUD.mode = MBProgressHUDModeText;
+    [_progressHUD hide:YES afterDelay:2.0];
+}
+
+- (void)dealloc {
+    _browser.delegate = nil;
+    _browser = nil;
+    [_progressHUD hide:YES];
+    _progressHUD = nil;
+    _bridge = nil;
 }
 #pragma mark - status bar settings
 -(BOOL)prefersStatusBarHidden{
@@ -86,32 +98,32 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
  *
  *  @return <#return value description#>
  */
-//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-//    NSString *requestString = [[request URL] absoluteString];
-//    
-//    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
-//        
-//        if([requestString hasPrefix:BASE_URL]) {
-//            
-//            [self showProgressHUD:@"loading..."];
-//            
-//            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath];
-//            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-//            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-//            
-//            [_progressHUD hide:YES];
-//            return NO;
-//        }
-//        else {
-//            return YES;
-//        }
-//    }
-//    else if ([requestString hasPrefix:@"file://"]) {
-//        
-//    }
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSString *requestString = [[request URL] absoluteString];
     
-//    return YES;
-//}
+    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
+        
+        if([requestString hasPrefix:BASE_URL]) {
+            
+            [self showProgressHUD:@"loading..."];
+            
+            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
+            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+            
+            [_progressHUD hide:YES];
+            return NO;
+        }
+        else {
+            return YES;
+        }
+    }
+    else if ([requestString hasPrefix:@"file://"]) {
+        
+    }
+    
+    return YES;
+}
 /*
  #pragma mark - Navigation
  

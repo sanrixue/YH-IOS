@@ -156,21 +156,6 @@
     return _netWorkType;
 }
 
-+ (NSString*)HttpRquest:(NSString *)urlString {
-    
-    NSLog(@"%@", urlString);
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    [request setURL:[NSURL URLWithString:urlString]];
-    [request setHTTPMethod:@"GET"];
-    [request setCachePolicy:NSURLRequestReloadIgnoringCacheData];
-    NSHTTPURLResponse* urlResponse = nil;
-    NSError *error = [[NSError alloc] init];
-    NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&urlResponse error:&error];
-    NSMutableString *result = [[NSMutableString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-    
-    return result;
-}
-
 /**
  *  网页链接转换成本地html
  *
@@ -187,7 +172,8 @@
     NSError *error = nil;
     NSURL *url = [NSURL URLWithString:urlString];
     
-    NSString *htmlContent = [self HttpRquest:urlString];
+    HttpResponse *reponse = [self httpGet:urlString];
+    NSString *htmlContent = reponse.string;
     NSString *filename, *filepath;
     
     NSData *htmlData = [htmlContent dataUsingEncoding:NSUTF8StringEncoding];
@@ -211,7 +197,7 @@
                 
                 filepath = [assetsPath stringByAppendingPathComponent:filename];
                 if(![self checkFileExist:filepath isDir:NO]) {
-                    tagContent = [self HttpRquest:tagUrl];
+                    tagContent = [self httpGet:tagUrl].string;
                     [tagContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
                 }
                 htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:filename];
@@ -238,7 +224,7 @@
                 filename = [self urlTofilename:[tagUrl lastPathComponent] suffix:@".css"];
                 filepath = [assetsPath stringByAppendingPathComponent:filename];
                 if(![self checkFileExist:filepath isDir:NO]) {
-                    tagContent = [self HttpRquest:tagUrl];
+                    tagContent = [self httpGet:tagUrl].string;
                     [tagContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
                 }
                 htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"href"] withString:filename];
@@ -311,7 +297,17 @@
  *  @return 合法文件名称
  */
 + (NSString *)urlTofilename:(NSString *)url suffix:(NSString *)suffix {
-    for(NSString *str in @[@".", @":", @"/", @"?"]) {
+    NSArray *blackList = @[@".", @":", @"/", @"?"];
+    
+    if([url hasSuffix:suffix]) {
+        url = [url stringByDeletingPathExtension];
+    }
+    
+    while([url hasPrefix:@"/"]) {
+        url = [url substringWithRange:NSMakeRange(1,url.length-1)];
+    }
+    
+    for(NSString *str in blackList) {
         url = [url stringByReplacingOccurrencesOfString:str withString:@"_"];
     }
     if(![url hasSuffix:suffix]) {

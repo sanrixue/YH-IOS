@@ -33,7 +33,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.assetsPath = [FileUtils dirPath:ASSETS_DIRNAME];
+    self.assetsPath = [FileUtils dirPaths:@[HTML_DIRNAME, [KPI_PATH lastPathComponent]]];
     
     [WebViewJavascriptBridge enableLogging];
     
@@ -88,7 +88,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 #pragma mark - assistant methods
 - (void)loadHtml {
     NSURL *url = [NSURL URLWithString:self.dashboardUrlString];
-    NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"];
+    NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
 
     
@@ -184,6 +184,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://form.mikecrm.com/f.php?t=fErp3n"]]];
     }
     else {
+        self.assetsPath = [FileUtils dirPaths:@[HTML_DIRNAME, [path lastPathComponent]]];
         self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
         
         [self loadHtml];

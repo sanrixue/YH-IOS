@@ -83,7 +83,10 @@
  *
  *  @return 合法文件名称
  */
-+ (NSString *)urlTofilename:(NSString *)url suffix:(NSString *)suffix;
++ (NSArray *)urlTofilename:(NSString *)url suffix:(NSString *)suffix;
+
++ (NSString *)urlConcatHyplink:(NSString *)urlString path:(NSString *)path;
++ (BOOL) checkFileExist: (NSString*) pathname isDir: (BOOL) isDir;
 @end
 
 #endif

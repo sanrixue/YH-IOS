@@ -32,7 +32,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     // Do any additional setup after loading the view.
     
     self.chartUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, CHART_PATH];
-    self.assetsPath = [FileUtils dirPath:ASSETS_DIRNAME];
+    self.assetsPath = [FileUtils dirPaths:@[HTML_DIRNAME, [CHART_PATH lastPathComponent]]];
     
     self.labelTheme.text = self.chartTheme;
     
@@ -73,7 +73,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 #pragma mark - assistant methods
 - (void)loadHtml {
     NSURL *url = [NSURL URLWithString:self.chartUrlString];
-    NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"];
+    NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
     if([FileUtils checkFileExist:htmlPath isDir:NO]) {

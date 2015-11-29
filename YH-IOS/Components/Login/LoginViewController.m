@@ -32,7 +32,7 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     // Do any additional setup after loading the view, typically from a nib.
     
     self.loginUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
-    self.assetsPath = [FileUtils dirPath:ASSETS_DIRNAME];
+    self.assetsPath = [FileUtils dirPaths:@[HTML_DIRNAME, [LOGIN_PATH lastPathComponent]]];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadHtml)];
     tapGesture.numberOfTapsRequired = 3;
@@ -137,7 +137,7 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
 
 - (void)loadHtml {
     NSURL *url = [NSURL URLWithString:self.loginUrlString];
-    NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"];
+    NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
     

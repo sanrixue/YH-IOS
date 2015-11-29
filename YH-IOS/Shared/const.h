@@ -9,8 +9,8 @@
 #ifndef const_h
 #define const_h
 
-#define BASE_URL         @"http://121.40.35.29:4567"
-#define BASE_URL2           @"http://localhost:3000"
+#define BASE_URL2         @"http://121.40.35.29:4567"
+#define BASE_URL           @"http://localhost:3000"
 #define LOGIN_PATH        @"/mobile/login"
 #define KPI_PATH          @"/mobile/kpi"
 #define CHART_PATH        @"/mobile/chart"
@@ -19,7 +19,8 @@
 #define ANALYSE_PATH      @"/mobile/analyse"
 
 #define CONFIG_DIRNAME    @"Configs"
-#define ASSETS_DIRNAME    @"Assets"
+#define HTML_DIRNAME      @"HTML"
+#define ASSETS1_DIRNAME    @"Assets"
 
 #define URL_WRITE_LOCAL   @"1"
 

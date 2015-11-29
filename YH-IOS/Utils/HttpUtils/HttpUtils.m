@@ -47,7 +47,7 @@
     if(!isOK) {
         [httpResponse.errors addObject:(NSString *)psd([error localizedDescription], @"http get未知错误")];
     }
-
+    
     return httpResponse;
 }
 
@@ -94,8 +94,8 @@
     if(!isOK) {
         [httpResponse.errors addObject:(NSString *)psd([error localizedDescription], @"http get未知错误")];
     }
-
-
+    
+    
     return httpResponse;
 }
 
@@ -156,12 +156,34 @@
     return _netWorkType;
 }
 
++ (BOOL)isServerModified:(NSString *)urlString header:(NSDictionary *)header lastModifiedPath:(NSString *)lastModifiedPath{
+    NSMutableDictionary *lastModifiedDict = [NSMutableDictionary dictionaryWithContentsOfFile:lastModifiedPath];
+    if(!lastModifiedDict) {
+        lastModifiedDict = [NSMutableDictionary dictionary];
+    }
+    
+    NSString *localLastModified = lastModifiedDict[urlString];
+    
+    if(header && header[@"Last-Modified"]) {
+        if(localLastModified && [localLastModified isEqualToString:header[@"Last-Modified"]]) {
+          return NO;
+        }
+        else {
+            lastModifiedDict[urlString] = header[@"Last-Modified"];
+            [lastModifiedDict writeToFile:lastModifiedPath atomically:YES];
+            
+            return YES;
+        }
+    }
+    
+    return YES;
+}
 /**
  *  网页链接转换成本地html
  *
  *  @param urlString    网页链接
  *  @param assetsPath   本地存放位置
- *  @param writeToLocal 
+ *  @param writeToLocal
  *      YES: 所有js/css/img文件写到本地，html使用相对本地链接
  *      NO:  所有js/css/img链接转换为绝对路径链接
  *
@@ -172,16 +194,26 @@
     NSError *error = nil;
     NSURL *url = [NSURL URLWithString:urlString];
     
-    HttpResponse *reponse = [self httpGet:urlString];
-    NSString *htmlContent = reponse.string;
-    NSString *filename, *filepath;
+    HttpResponse *httpResponse = [self httpGet:urlString];
+    NSString *htmlContent = httpResponse.string;
+    NSString *filename, *filepath, *assetLocalPath, *tagUrl;
+    
+    filename = [self urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"][0];
+    filepath = [assetsPath stringByAppendingPathComponent:filename];
+    
+    NSString *lastModifiedPath = [assetsPath stringByAppendingPathComponent:@"lastModified.dict"];
+    if(![self isServerModified:urlString header:httpResponse.response.allHeaderFields lastModifiedPath:lastModifiedPath]) {
+        NSLog(@"%@ 304", urlString);
+        
+        return filepath;
+    }
     
     NSData *htmlData = [htmlContent dataUsingEncoding:NSUTF8StringEncoding];
     TFHpple *doc = [[TFHpple alloc] initWithHTMLData:htmlData];
+
     
     // <script src="../*.js"></script>
     NSArray *elements = [doc searchWithXPathQuery:@"//script"];
-    NSString *tagUrl, *tagContent;
     for(TFHppleElement *element in elements) {
         NSDictionary *dict = element.attributes;
         if(dict && [dict[@"src"] length] > 0) {
@@ -189,22 +221,18 @@
                 tagUrl = dict[@"src"];
             }
             else {
-                tagUrl = [self urlConcatHyplink:urlString path:dict[@"src"]];
+                tagUrl = [HttpUtils urlConcatHyplink:urlString path:dict[@"src"]];
             }
             
+            
             if(isWriteToLocal) {
-                filename = [self urlTofilename:[tagUrl lastPathComponent] suffix:@".js"];
-                
-                filepath = [assetsPath stringByAppendingPathComponent:filename];
-                if(![self checkFileExist:filepath isDir:NO]) {
-                    tagContent = [self httpGet:tagUrl].string;
-                    [tagContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
-                }
-                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:filename];
+                assetLocalPath = [self isShouldWrite:tagUrl assetsPath:assetsPath suffix:@".js"];
             }
             else {
-                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:tagUrl];
+                assetLocalPath = tagUrl;
             }
+            
+            htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:assetLocalPath];
         }
     }
     
@@ -221,17 +249,14 @@
             }
             
             if(isWriteToLocal) {
-                filename = [self urlTofilename:[tagUrl lastPathComponent] suffix:@".css"];
-                filepath = [assetsPath stringByAppendingPathComponent:filename];
-                if(![self checkFileExist:filepath isDir:NO]) {
-                    tagContent = [self httpGet:tagUrl].string;
-                    [tagContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
-                }
-                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"href"] withString:filename];
+                
+                assetLocalPath = [self isShouldWrite:tagUrl assetsPath:assetsPath suffix:@".css"];
             }
             else {
-                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"href"] withString:tagUrl];
+                assetLocalPath = tagUrl;
             }
+            
+            htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"href"] withString:assetLocalPath];
         }
     }
     
@@ -248,21 +273,20 @@
             }
             
             if(isWriteToLocal) {
-                filename = [self urlTofilename:[tagUrl lastPathComponent] suffix:[NSString stringWithFormat:@".%@", [tagUrl pathExtension]]];
-                filepath = [assetsPath stringByAppendingPathComponent:filename];
-                if(![self checkFileExist:filepath isDir:NO]) {
-                    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:tagUrl]];
-                    [imageData writeToFile:filepath atomically:YES];
-                }
-                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:filename];
+                
+                NSString *imgExt = [NSString stringWithFormat:@".%@", [tagUrl pathExtension]];
+                assetLocalPath = [self isShouldWrite:tagUrl assetsPath:assetsPath suffix:imgExt];
             }
             else {
-                htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:tagUrl];
+                
+                assetLocalPath = tagUrl;
             }
+            
+            htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:tagUrl];
         }
     }
     
-     //<a href="../.."></a>
+    //<a href="../.."></a>
     NSMutableArray *links = [NSMutableArray array];
     elements = [doc searchWithXPathQuery:@"//a"];
     for(TFHppleElement *element in elements) {
@@ -282,11 +306,83 @@
         htmlContent = [htmlContent stringByReplacingOccurrencesOfString:href withString:[self urlConcatHyplink:urlString path:href]];
     }
     
-    filename = [self urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"];
-    filepath = [assetsPath stringByAppendingPathComponent:filename];
+
     [htmlContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
     
     return filepath;
+}
+
++ (NSString *)isShouldWrite:(NSString *)tagUrl assetsPath:(NSString *)assetsPath suffix:(NSString *)suffix{
+    
+    BOOL isShouldWrite = YES;
+    NSArray *parts = [self urlTofilename:tagUrl suffix:suffix];
+    
+    NSString *timestampDictPath = [assetsPath stringByAppendingPathComponent:@"timestamp.dict"];
+    NSMutableDictionary *timestampDict = [NSMutableDictionary dictionaryWithContentsOfFile:timestampDictPath];
+    if(!timestampDict) {
+        timestampDict = [NSMutableDictionary dictionary];
+    }
+    
+    
+    
+    NSString *filename = parts[0], *timestamp=nil;
+    NSString *filepath = [assetsPath stringByAppendingPathComponent:filename];
+    
+    if([parts count] > 1) {
+        timestamp = parts[1];
+        
+        if(timestampDict && timestampDict[filename] && [timestampDict[filename] isEqualToString:timestamp]) {
+            
+            isShouldWrite = NO;
+            
+            NSLog(@"no write - %@ ? %@", filename, timestamp);
+        }
+        else {
+            NSLog(@"write - %@ ? %@", filename, timestamp);
+            
+            timestampDict[filename] = timestamp;
+            [timestampDict writeToFile:timestampDictPath atomically:YES];
+        }
+    }
+    else if([HttpUtils checkFileExist:filepath isDir:NO]) {
+        isShouldWrite = NO;
+    }
+    
+    if(isShouldWrite) {
+        [self writeAssetFile:tagUrl filePath:filepath];
+    }
+    
+    return filename;
+}
+
++ (void)writeAssetFile:(NSString *)assetUrl filePath:(NSString *)filePath {
+    NSString *assetExt = [filePath pathExtension];
+    
+    if([self include:@[@"js", @"css"] object:assetExt]) {
+        
+        NSString *assetContent = [self httpGet:assetUrl].string;
+        [assetContent writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+    else if([self include:@[@"png", @"jpg", @"jpeg", @"gif", @"ico", @"icon"] object:assetExt]) {
+        
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:assetUrl]];
+        [imageData writeToFile:filePath atomically:YES];
+    }
+    else {
+        NSLog(@"unkown path extension: %@", assetExt);
+    }
+}
+
++ (BOOL)include:(NSArray *)array object:(NSString *)object {
+    BOOL isInclude = NO;
+    for(NSString *item in array) {
+        if([item isEqualToString:[object lowercaseString]]) {
+            isInclude = YES;
+            break;
+        }
+    }
+    
+    return isInclude;
 }
 /**
  *  网页链接转换为合法文件名称
@@ -296,8 +392,18 @@
  *
  *  @return 合法文件名称
  */
-+ (NSString *)urlTofilename:(NSString *)url suffix:(NSString *)suffix {
++ (NSArray *)urlTofilename:(NSString *)url suffix:(NSString *)suffix {
     NSArray *blackList = @[@".", @":", @"/", @"?"];
+    
+    url = [url stringByReplacingOccurrencesOfString:BASE_URL withString:@""];
+    NSArray *parts = [url componentsSeparatedByString:@"?"];
+    
+    NSString *timestamp = nil;
+    if([parts count] > 1) {
+        url = parts[0];
+        timestamp = parts[1];
+    }
+    
     
     if([url hasSuffix:suffix]) {
         url = [url stringByDeletingPathExtension];
@@ -313,7 +419,16 @@
     if(![url hasSuffix:suffix]) {
         url = [NSString stringWithFormat:@"%@%@", url, suffix];
     }
-    return url;
+    
+    NSArray *result = [NSArray array];
+    if(timestamp) {
+        result = @[url, timestamp];
+    }
+    else {
+        result = @[url];
+    }
+    
+    return result;
 }
 
 + (NSString *)urlConcatHyplink:(NSString *)urlString path:(NSString *)path {

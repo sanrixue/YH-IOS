@@ -186,6 +186,14 @@
     return YES;
 }
 
+/**
+ *  http#get时header添加If-None-Match，避免表态文件重复加载
+ *
+ *  @param urlString  链接
+ *  @param assetsPath 缓存位置
+ *
+ *  @return HttpResponse
+ */
 + (HttpResponse *)checkResponseHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath {
     NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:@"cachedHeader.plist"];
     NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
@@ -203,6 +211,7 @@
         cachedHeaderDict[urlString] = httpResponse.response.allHeaderFields;
         [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
     }
+    NSLog(@"%@ - %@", urlString, httpResponse.statusCode);
     
     return httpResponse;
 }
@@ -211,9 +220,22 @@
     HttpResponse *httpResponse = [self checkResponseHeader:urlString assetsPath:assetsPath];
     
     NSString *filePath = [assetsPath stringByAppendingPathComponent:[urlString lastPathComponent]];
-    if(![self checkFileExist:filePath isDir:NO] || ![httpResponse.statusCode isEqualToNumber:@(304)]) {
-        [self writeAssetFile:urlString filePath:filePath];
+    BOOL isShouldWrite = NO;
+    if([self checkFileExist:filePath isDir:NO]) {
         
+        if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+            isShouldWrite = YES;
+        }
+    }
+    else {
+        if([httpResponse.statusCode isEqualToNumber:@(200)] || [httpResponse.statusCode isEqualToNumber:@(304)]) {
+            isShouldWrite = YES;
+        }
+    }
+    
+    if(isShouldWrite) {
+        
+        [self writeAssetFile:urlString filePath:filePath];
         NSString *fileDir = [filePath stringByDeletingPathExtension];
         if([self checkFileExist:fileDir isDir:YES]) {
             [self removeFile:fileDir];
@@ -232,18 +254,13 @@
  *
  *  @return html路径
  */
-+ (NSString *)urlConvertToLocal:(NSString *)urlString assetsPath:(NSString *)assetsPath writeToLocal:(BOOL)isWriteToLocal {
++ (NSString *)urlConvertToLocal:(NSString *)urlString content:(NSString *)htmlContent assetsPath:(NSString *)assetsPath writeToLocal:(BOOL)isWriteToLocal {
     
     NSError *error = nil;
     NSString *filename = [self urlTofilename:urlString suffix:@".html"][0];
     NSString *filepath = [assetsPath stringByAppendingPathComponent:filename];
-    
-    HttpResponse *httpResponse = [self checkResponseHeader:urlString assetsPath:assetsPath];
-    if([httpResponse.statusCode isEqualToNumber:@(304)]) {
-        return filepath;
-    }
-    
-    NSString *htmlContent = httpResponse.string, *assetLocalPath, *tagUrl;
+
+    NSString *assetLocalPath, *tagUrl;
     NSData *htmlData = [htmlContent dataUsingEncoding:NSUTF8StringEncoding];
     TFHpple *doc = [[TFHpple alloc] initWithHTMLData:htmlData];
 
@@ -306,16 +323,14 @@
             }
             
             if(isWriteToLocal) {
-                
                 NSString *imgExt = [NSString stringWithFormat:@".%@", [tagUrl pathExtension]];
                 assetLocalPath = [self isShouldWrite:tagUrl assetsPath:assetsPath suffix:imgExt];
             }
             else {
-                
                 assetLocalPath = tagUrl;
             }
             
-            htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:tagUrl];
+            htmlContent = [htmlContent stringByReplacingOccurrencesOfString:dict[@"src"] withString:assetLocalPath];
         }
     }
     

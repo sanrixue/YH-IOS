@@ -12,6 +12,9 @@
 #import <MBProgressHUD.h>
 #import "WebViewJavascriptBridge.h"
 #import "ChartViewController.h"
+#import "HttpResponse.h"
+#import <SCLAlertView.h>
+
 
 static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentifier";
 
@@ -72,58 +75,76 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 
 #pragma mark - assistant methods
 - (void)loadHtml {
-    NSURL *url = [NSURL URLWithString:self.chartUrlString];
-    NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"][0];
+    NSString *htmlName = [HttpUtils urlTofilename:self.chartUrlString suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
-//    if([FileUtils checkFileExist:htmlPath isDir:NO]) {
-//        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-//        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-//    }
+    if([FileUtils checkFileExist:htmlPath isDir:NO]) {
+        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         if([HttpUtils isNetworkAvailable]) {
-            [self.browser loadRequest:[NSURLRequest requestWithURL:url]];
+            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.chartUrlString assetsPath:self.assetsPath];
+            if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+                
+                [self showProgressHUD:@"loading..."];
+                
+                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.chartUrlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
+                NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+                
+                [self.progressHUD hide:YES];
+            }
+        }
+        else {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            
+            [alert addButton:@"刷新" actionBlock:^(void) {
+                [self loadHtml];
+            }];
+            
+            [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
         }
     });
 }
 
-/**
- *  core methods - 所有网络链接都缓存至本地
- *
- *  @param webView        <#webView description#>
- *  @param request        <#request description#>
- *  @param navigationType <#navigationType description#>
- *
- *  @return <#return value description#>
- */
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSString *requestString = [[request URL] absoluteString];
-    
-    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
-        
-        if([requestString hasPrefix:BASE_URL]) {
-            
-            [self showProgressHUD:@"loading..."];
-            
-            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
-            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-            
-            [_progressHUD hide:YES];
-            return NO;
-        }
-        else {
-            return YES;
-        }
-    }
-    else if ([requestString hasPrefix:@"file://"]) {
-        
-    }
-    
-    return YES;
-}
+///**
+// *  core methods - 所有网络链接都缓存至本地
+// *
+// *  @param webView        <#webView description#>
+// *  @param request        <#request description#>
+// *  @param navigationType <#navigationType description#>
+// *
+// *  @return <#return value description#>
+// */
+//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+//    NSString *requestString = [[request URL] absoluteString];
+//    
+//    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
+//        
+//        if([requestString hasPrefix:BASE_URL]) {
+//            
+//            [self showProgressHUD:@"loading..."];
+//            
+//            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
+//            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+//            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+//            
+//            [_progressHUD hide:YES];
+//            return NO;
+//        }
+//        else {
+//            return YES;
+//        }
+//    }
+//    else if ([requestString hasPrefix:@"file://"]) {
+//        
+//    }
+//    
+//    return YES;
+//}
 /*
  #pragma mark - Navigation
  

@@ -72,8 +72,8 @@
  *      NO:  所有js/css/img链接转换为绝对路径链接
  *
  *  @return html路径
- */
-+ (NSString *)urlConvertToLocal:(NSString *)urlString assetsPath:(NSString *)assetsPath writeToLocal:(BOOL)isWriteToLocal;
+ */ 
++ (NSString *)urlConvertToLocal:(NSString *)urlString content:(NSString *)htmlContent assetsPath:(NSString *)assetsPath writeToLocal:(BOOL)isWriteToLocal;
 
 /**
  *  网页链接转换为合法文件名称
@@ -90,6 +90,16 @@
 
 
 + (void)downloadAssetFile:(NSString *)urlString assetsPath:(NSString *)assetsPath;
+
+/**
+ *  http#get时header添加If-None-Match，避免表态文件重复加载
+ *
+ *  @param urlString  链接
+ *  @param assetsPath 缓存位置
+ *
+ *  @return HttpResponse
+ */
++ (HttpResponse *)checkResponseHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath;
 @end
 
 #endif

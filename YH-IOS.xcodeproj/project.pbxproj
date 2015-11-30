@@ -28,6 +28,9 @@
 		C4771BB41C058C8400AAF44F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB31C058C8400AAF44F /* OpenGLES.framework */; };
 		C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB51C058C9000AAF44F /* CoreTelephony.framework */; };
 		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
+		C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
+		C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */; settings = {ASSET_TAGS = (); }; };
+		C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7D781C02EC0500DA534E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D771C02EC0500DA534E /* main.m */; };
 		C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D7F1C02EC0500DA534E /* Main.storyboard */; };
 		C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D821C02EC0500DA534E /* Assets.xcassets */; };
@@ -35,14 +38,11 @@
 		C4DB7D911C02EC0600DA534E /* YH_IOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D901C02EC0600DA534E /* YH_IOSTests.m */; };
 		C4DB7D9C1C02EC0600DA534E /* YH_IOSUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D9B1C02EC0600DA534E /* YH_IOSUITests.m */; };
 		C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DAE1C02EC3D00DA534E /* AppDelegate.m */; settings = {ASSET_TAGS = (); }; };
-		C4DB7DB41C02ED2A00DA534E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DB31C02ED2A00DA534E /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DB81C02EE3800DA534E /* DateUtils.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7DC21C02EE3800DA534E /* ExtendNSLogFunctionality.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DBA1C02EE3800DA534E /* ExtendNSLogFunctionality.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DBD1C02EE3800DA534E /* FileUtils.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DCA1C02EE8E00DA534E /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */; settings = {ASSET_TAGS = (); }; };
-		C4E9D8791C05A06C00132698 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E9D8781C05A06C00132698 /* DashboardViewController.m */; settings = {ASSET_TAGS = (); }; };
-		C4F621A41C05A9F6007F21B5 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4F621A31C05A9F6007F21B5 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +93,12 @@
 		C4771BB31C058C8400AAF44F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		C4771BB51C058C9000AAF44F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		C4771BB71C058D1700AAF44F /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
+		C4C6283B1C0C1ED6000AD5D8 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
+		C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
+		C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
+		C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
+		C4C628411C0C1ED6000AD5D8 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C4DB7D731C02EC0500DA534E /* YH-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YH-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DB7D771C02EC0500DA534E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C4DB7D801C02EC0500DA534E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -107,8 +113,6 @@
 		C4DB7D9D1C02EC0600DA534E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4DB7DAD1C02EC3D00DA534E /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		C4DB7DAE1C02EC3D00DA534E /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		C4DB7DB21C02ED2A00DA534E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		C4DB7DB31C02ED2A00DA534E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C4DB7DB71C02EE3800DA534E /* DateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtils.h; sourceTree = "<group>"; };
 		C4DB7DB81C02EE3800DA534E /* DateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtils.m; sourceTree = "<group>"; };
 		C4DB7DB91C02EE3800DA534E /* ExtendNSLogFunctionality.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExtendNSLogFunctionality.h; sourceTree = "<group>"; };
@@ -121,10 +125,6 @@
 		C4DB7DCA1C02EE8E00DA534E /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		C4DB7DCC1C02EE8E00DA534E /* HttpResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpResponse.h; sourceTree = "<group>"; };
 		C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpResponse.m; sourceTree = "<group>"; };
-		C4E9D8771C05A06C00132698 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
-		C4E9D8781C05A06C00132698 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
-		C4F621A21C05A9F6007F21B5 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
-		C4F621A31C05A9F6007F21B5 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +201,51 @@
 			path = WebViewJavascriptBridge;
 			sourceTree = "<group>";
 		};
+		C4C628381C0C1ED6000AD5D8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				C4C628391C0C1ED6000AD5D8 /* BaseView */,
+				C4C6283A1C0C1ED6000AD5D8 /* Chart */,
+				C4C6283D1C0C1ED6000AD5D8 /* Dashboard */,
+				C4C628401C0C1ED6000AD5D8 /* Login */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		C4C628391C0C1ED6000AD5D8 /* BaseView */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BaseView;
+			sourceTree = "<group>";
+		};
+		C4C6283A1C0C1ED6000AD5D8 /* Chart */ = {
+			isa = PBXGroup;
+			children = (
+				C4C6283B1C0C1ED6000AD5D8 /* ChartViewController.h */,
+				C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */,
+			);
+			path = Chart;
+			sourceTree = "<group>";
+		};
+		C4C6283D1C0C1ED6000AD5D8 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */,
+				C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		C4C628401C0C1ED6000AD5D8 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				C4C628411C0C1ED6000AD5D8 /* LoginViewController.h */,
+				C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
 		C4DB7D6A1C02EC0500DA534E = {
 			isa = PBXGroup;
 			children = (
@@ -226,11 +271,11 @@
 		C4DB7D751C02EC0500DA534E /* YH-IOS */ = {
 			isa = PBXGroup;
 			children = (
+				C4C628381C0C1ED6000AD5D8 /* Components */,
 				C4771B881C05871300AAF44F /* Vendor */,
 				C4DB7DC71C02EE8E00DA534E /* Models */,
 				C4DB7DC51C02EE6000DA534E /* Shared */,
 				C4DB7DB51C02EE3800DA534E /* Utils */,
-				C4DB7DA91C02EC3D00DA534E /* Components */,
 				C4DB7DAC1C02EC3D00DA534E /* AppDelegate */,
 				C4DB7D7F1C02EC0500DA534E /* Main.storyboard */,
 				C4DB7D821C02EC0500DA534E /* Assets.xcassets */,
@@ -267,16 +312,6 @@
 			path = "YH-IOSUITests";
 			sourceTree = "<group>";
 		};
-		C4DB7DA91C02EC3D00DA534E /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				C4F621A11C05A9B9007F21B5 /* Chart */,
-				C4E9D8761C05A04600132698 /* Dashboard */,
-				C4DB7DB11C02ED2A00DA534E /* Login */,
-			);
-			path = Components;
-			sourceTree = "<group>";
-		};
 		C4DB7DAC1C02EC3D00DA534E /* AppDelegate */ = {
 			isa = PBXGroup;
 			children = (
@@ -284,15 +319,6 @@
 				C4DB7DAE1C02EC3D00DA534E /* AppDelegate.m */,
 			);
 			path = AppDelegate;
-			sourceTree = "<group>";
-		};
-		C4DB7DB11C02ED2A00DA534E /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				C4DB7DB21C02ED2A00DA534E /* LoginViewController.h */,
-				C4DB7DB31C02ED2A00DA534E /* LoginViewController.m */,
-			);
-			path = Login;
 			sourceTree = "<group>";
 		};
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
@@ -367,24 +393,6 @@
 				C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */,
 			);
 			path = HttpResponse;
-			sourceTree = "<group>";
-		};
-		C4E9D8761C05A04600132698 /* Dashboard */ = {
-			isa = PBXGroup;
-			children = (
-				C4E9D8771C05A06C00132698 /* DashboardViewController.h */,
-				C4E9D8781C05A06C00132698 /* DashboardViewController.m */,
-			);
-			path = Dashboard;
-			sourceTree = "<group>";
-		};
-		C4F621A11C05A9B9007F21B5 /* Chart */ = {
-			isa = PBXGroup;
-			children = (
-				C4F621A21C05A9F6007F21B5 /* ChartViewController.h */,
-				C4F621A31C05A9F6007F21B5 /* ChartViewController.m */,
-			);
-			path = Chart;
 			sourceTree = "<group>";
 		};
 		C604676B995213DD1045036A /* Pods */ = {
@@ -601,22 +609,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4DB7DC21C02EE3800DA534E /* ExtendNSLogFunctionality.m in Sources */,
-				C4DB7DB41C02ED2A00DA534E /* LoginViewController.m in Sources */,
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				C4771BA31C05871400AAF44F /* WebViewJavascriptBridgeBase.m in Sources */,
 				C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
+				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4771BA21C05871400AAF44F /* WebViewJavascriptBridge.m in Sources */,
-				C4E9D8791C05A06C00132698 /* DashboardViewController.m in Sources */,
+				C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */,
+				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */,
 				C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */,
-				C4F621A41C05A9F6007F21B5 /* ChartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

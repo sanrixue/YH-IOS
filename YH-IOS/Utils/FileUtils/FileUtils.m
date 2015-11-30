@@ -22,6 +22,14 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     return [paths objectAtIndex:0];
 }
+
++ (NSString *)userspace {
+    //获取应用程序沙盒的Documents目录
+    NSString *basePath = [FileUtils basePath];
+    NSString *userSpacePath = [basePath stringByAppendingPathComponent:@"namespace"];
+    
+    return userSpacePath;
+}
 /**
  *  传递目录名取得沙盒中的绝对路径(一级),不存在则创建，请慎用！
  *
@@ -35,10 +43,10 @@
     NSString *basePath = [FileUtils basePath];
     BOOL isDir = true, existed;
     
-//    NSString *userSpacePath = [basePath stringByAppendingPathComponent:@"namespace"];
+    NSString *userSpacePath = [basePath stringByAppendingPathComponent:@"namespace"];
     
     // 一级目录路径， 不存在则创建
-    NSString *pathName = [basePath stringByAppendingPathComponent:dirName];
+    NSString *pathName = [userSpacePath stringByAppendingPathComponent:dirName];
     existed = [fileManager fileExistsAtPath:pathName isDirectory:&isDir];
     if ( !(isDir == true && existed == YES) ) {
         [fileManager createDirectoryAtPath:pathName withIntermediateDirectories:YES attributes:nil error:nil];
@@ -60,9 +68,9 @@
     NSString *basePath = [FileUtils basePath];
     BOOL isDir = true, existed;
     
-//    NSString *userSpacePath = [basePath stringByAppendingPathComponent:@"namespace"];
+    NSString *userSpacePath = [basePath stringByAppendingPathComponent:@"namespace"];
     
-    NSString *pathName = basePath;
+    NSString *pathName = userSpacePath;
     for(NSString *dirName in dirNames) {
         pathName = [pathName stringByAppendingPathComponent:dirName];
         existed = [fileManager fileExistsAtPath:pathName isDirectory:&isDir];

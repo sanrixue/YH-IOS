@@ -12,7 +12,8 @@
 #import "const.h"
 #import <MBProgressHUD.h>
 #import "WebViewJavascriptBridge.h"
-#import "DashboardViewController.h"
+#import "HttpResponse.h"
+#import <SCLAlertView.h>
 
 static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
 
@@ -33,15 +34,9 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     
     self.loginUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
     self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
-    
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadHtml)];
-    tapGesture.numberOfTapsRequired = 3;
-    tapGesture.numberOfTouchesRequired = 1;
-    [self.browser addGestureRecognizer:tapGesture];
-    
+
     
     [WebViewJavascriptBridge enableLogging];
-    
     _bridge = [WebViewJavascriptBridge bridgeForWebView:_browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"ObjC received message from JS: %@", data);
         responseCallback(@"Response for message from ObjC");
@@ -71,8 +66,10 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     _browser.scrollView.bounces = NO;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *fontsPath = [NSString stringWithFormat:@"%@%@", BASE_URL, FONTS_PATH];
-        [HttpUtils downloadAssetFile:fontsPath assetsPath:[FileUtils basePath]];
+        if([HttpUtils isNetworkAvailable]) {
+            NSString *fontsPath = [NSString stringWithFormat:@"%@%@", BASE_URL, FONTS_PATH];
+            [HttpUtils downloadAssetFile:fontsPath assetsPath:[FileUtils userspace]];
+        }
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
@@ -107,58 +104,65 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     return YES;
 }
 
-/**
- *  core methods - 所有网络链接都缓存至本地
- *
- *  @param webView        <#webView description#>
- *  @param request        <#request description#>
- *  @param navigationType <#navigationType description#>
- *
- *  @return <#return value description#>
- */
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    NSString *requestString = [[request URL] absoluteString];
-    
-    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
-        
-        if([requestString hasPrefix:BASE_URL]) {
-            
-            [self showProgressHUD:@"loading..."];
-            
-            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
-            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-            
-            [_progressHUD hide:YES];
-            return NO;
-        }
-        else {
-            [_progressHUD hide:YES];
-            return YES;
-        }
-    }
-    else if ([requestString hasPrefix:@"file://"]) {
-
-    }
-    
-    return YES;
-}
+///**
+// *  core methods - 所有网络链接都缓存至本地
+// *
+// *  @param webView        <#webView description#>
+// *  @param request        <#request description#>
+// *  @param navigationType <#navigationType description#>
+// *
+// *  @return <#return value description#>
+// */
+//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+//    NSString *requestString = [[request URL] absoluteString];
+//    
+//    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
+//        
+//        if([requestString hasPrefix:BASE_URL]) {
+//            
+//            [self showProgressHUD:@"loading..."];
+//            
+//            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
+//            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+//            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+//            
+//            [_progressHUD hide:YES];
+//            return NO;
+//        }
+//        else {
+//            return YES;
+//        }
+//    }
+//    else if ([requestString hasPrefix:@"file://"]) {
+//
+//    }
+//    
+//    return YES;
+//}
 
 - (void)loadHtml {
-    NSURL *url = [NSURL URLWithString:self.loginUrlString];
-    NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"][0];
+    NSString *htmlName = [HttpUtils urlTofilename:self.loginUrlString suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
-    
-//    if([FileUtils checkFileExist:htmlPath isDir:NO]) {
-//        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-//        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-//    }
+    if([FileUtils checkFileExist:htmlPath isDir:NO]) {
+        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         if([HttpUtils isNetworkAvailable]) {
-            [self.browser loadRequest:[NSURLRequest requestWithURL:url]];
+            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.loginUrlString assetsPath:self.assetsPath];
+            if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+                
+                [self showProgressHUD:@"loading..."];
+                
+                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.loginUrlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
+                NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+                
+                [self.progressHUD hide:YES];
+            }
         }
     });
 }

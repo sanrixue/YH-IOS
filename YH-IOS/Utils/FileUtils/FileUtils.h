@@ -19,6 +19,7 @@
 @interface FileUtils : NSObject
 
 + (NSString *)basePath;
++ (NSString *)userspace;
 /**
  *  传递目录名取得沙盒中的绝对路径(一级),不存在则创建，请慎用！
  *
@@ -106,29 +107,6 @@
  */
 + (void) writeJSON:(NSMutableDictionary *)data
               Into:(NSString *) slidePath;
-
-
-/**
- *  获取文档的缩略图，即文档中的pdf/gif文件; 文件名为PageID, 后缀应该小写
- *
- *  @param FileID fileID
- *  @param PageID pageID
- *
- *  @return pdf/gif文档路径
- */
-+ (NSString*) slideThumbnail:(NSString *)FileID
-                     PageID:(NSString *)PageID
-                        Dir:(NSString *)dir;
-
-/**
- *  在线浏览目录时，根据文档属性显示对应缩略图
- *
- *  @param slideTyoe 文档类型
- *
- *  @return 缩略图地址
- */
-+ (NSString *)slideThumbnail:(NSString *)slideTyoe;
-
 
 
 

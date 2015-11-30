@@ -69,6 +69,15 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
 
     _browser.scrollView.scrollEnabled = NO;
     _browser.scrollView.bounces = NO;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *fontsPath = [NSString stringWithFormat:@"%@%@", BASE_URL, FONTS_PATH];
+        [HttpUtils downloadAssetFile:fontsPath assetsPath:[FileUtils basePath]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+        });
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated {

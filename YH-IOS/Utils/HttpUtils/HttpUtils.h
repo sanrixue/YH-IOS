@@ -87,6 +87,9 @@
 
 + (NSString *)urlConcatHyplink:(NSString *)urlString path:(NSString *)path;
 + (BOOL) checkFileExist: (NSString*) pathname isDir: (BOOL) isDir;
+
+
++ (void)downloadAssetFile:(NSString *)urlString assetsPath:(NSString *)assetsPath;
 @end
 
 #endif

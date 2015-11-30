@@ -2,18 +2,21 @@ PODS:
   - FXBlurView (1.6.4)
   - MBProgressHUD (0.9.1)
   - Reachability (3.2)
+  - SCLAlertView-Objective-C (0.7.9)
   - SSZipArchive (0.3.3)
 
 DEPENDENCIES:
   - FXBlurView (~> 1.6.3)
   - MBProgressHUD (~> 0.9.1)
   - Reachability (~> 3.2)
+  - SCLAlertView-Objective-C
   - SSZipArchive (~> 0.3.2)
 
 SPEC CHECKSUMS:
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  SCLAlertView-Objective-C: e36ab12dc1ec4ff6f932888083b21d71a3a1ad23
   SSZipArchive: 2cf2a6d3ac9f03252b7d96f93728b9b983be9afb
 
 COCOAPODS: 0.39.0

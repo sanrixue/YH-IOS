@@ -15,6 +15,7 @@
 #import "ExtendNSLogFunctionality.h"
 #import "Reachability.h"
 #import "TFHpple.h"
+#import <SSZipArchive.h>
 
 @interface HttpUtils()
 
@@ -184,6 +185,42 @@
     
     return YES;
 }
+
++ (HttpResponse *)checkResponseHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath {
+    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:@"cachedHeader.plist"];
+    NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
+    
+    NSDictionary *header = [NSDictionary dictionary];
+    if(cachedHeaderDict[urlString] && cachedHeaderDict[urlString][@"Etag"]) {
+        header = @{@"IF-None-Match": cachedHeaderDict[urlString][@"Etag"]};
+    }
+    HttpResponse *httpResponse = [self httpGet:urlString header:header timeoutInterval:10.0];
+    
+    if(![httpResponse.statusCode isEqualToNumber:@(304)]) {
+        if(!cachedHeaderDict) {
+            cachedHeaderDict = [NSMutableDictionary dictionary];
+        }
+        cachedHeaderDict[urlString] = httpResponse.response.allHeaderFields;
+        [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
+    }
+    
+    return httpResponse;
+}
+
++ (void)downloadAssetFile:(NSString *)urlString assetsPath:(NSString *)assetsPath {
+    HttpResponse *httpResponse = [self checkResponseHeader:urlString assetsPath:assetsPath];
+    
+    NSString *filePath = [assetsPath stringByAppendingPathComponent:[urlString lastPathComponent]];
+    if(![self checkFileExist:filePath isDir:NO] || ![httpResponse.statusCode isEqualToNumber:@(304)]) {
+        [self writeAssetFile:urlString filePath:filePath];
+        
+        NSString *fileDir = [filePath stringByDeletingPathExtension];
+        if([self checkFileExist:fileDir isDir:YES]) {
+            [self removeFile:fileDir];
+        }
+        [SSZipArchive unzipFileAtPath:filePath toDestination:assetsPath];
+    }
+}
 /**
  *  网页链接转换成本地html
  *
@@ -198,40 +235,18 @@
 + (NSString *)urlConvertToLocal:(NSString *)urlString assetsPath:(NSString *)assetsPath writeToLocal:(BOOL)isWriteToLocal {
     
     NSError *error = nil;
-    NSURL *url = [NSURL URLWithString:urlString];
-    
-    
-    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:@"cachedHeaderPath.plist"];
-    NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
-    
-    NSDictionary *header = [NSDictionary dictionary];
-    if(cachedHeaderDict[urlString] && cachedHeaderDict[urlString][@"Etag"]) {
-        header = @{@"IF-None-Match": cachedHeaderDict[urlString][@"Etag"]};
-    }
-    HttpResponse *httpResponse = [self httpGet:urlString header:header timeoutInterval:10.0];
-    
-    
-    NSString *filename = [self urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"][0];
+    NSString *filename = [self urlTofilename:urlString suffix:@".html"][0];
     NSString *filepath = [assetsPath stringByAppendingPathComponent:filename];
     
+    HttpResponse *httpResponse = [self checkResponseHeader:urlString assetsPath:assetsPath];
     if([httpResponse.statusCode isEqualToNumber:@(304)]) {
         return filepath;
     }
-    else {
-        if(!cachedHeaderDict) {
-            cachedHeaderDict = [NSMutableDictionary dictionary];
-        }
-        cachedHeaderDict[urlString] = httpResponse.response.allHeaderFields;
-        [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
-    }
     
     NSString *htmlContent = httpResponse.string, *assetLocalPath, *tagUrl;
-
-    
     NSData *htmlData = [htmlContent dataUsingEncoding:NSUTF8StringEncoding];
     TFHpple *doc = [[TFHpple alloc] initWithHTMLData:htmlData];
 
-    
     // <script src="../*.js"></script>
     NSArray *elements = [doc searchWithXPathQuery:@"//script"];
     for(TFHppleElement *element in elements) {
@@ -243,7 +258,6 @@
             else {
                 tagUrl = [HttpUtils urlConcatHyplink:urlString path:dict[@"src"]];
             }
-            
             
             if(isWriteToLocal) {
                 assetLocalPath = [self isShouldWrite:tagUrl assetsPath:assetsPath suffix:@".js"];
@@ -269,7 +283,6 @@
             }
             
             if(isWriteToLocal) {
-                
                 assetLocalPath = [self isShouldWrite:tagUrl assetsPath:assetsPath suffix:@".css"];
             }
             else {
@@ -343,8 +356,6 @@
         timestampDict = [NSMutableDictionary dictionary];
     }
     
-    
-    
     NSString *filename = parts[0], *timestamp=nil;
     NSString *filepath = [assetsPath stringByAppendingPathComponent:filename];
     
@@ -383,7 +394,7 @@
         NSString *assetContent = [self httpGet:assetUrl].string;
         [assetContent writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }
-    else if([self include:@[@"png", @"jpg", @"jpeg", @"gif", @"ico", @"icon"] object:assetExt]) {
+    else if([self include:@[@"png", @"jpg", @"jpeg", @"gif", @"ico", @"icon", @"zip"] object:assetExt]) {
         
         NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:assetUrl]];
         [imageData writeToFile:filePath atomically:YES];
@@ -467,5 +478,23 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isExist = [fileManager fileExistsAtPath:pathname isDirectory:&isDir];
     return isExist;
+}
+
+/**
+ *  物理删除文件，并返回是否删除成功的布尔值。
+ *
+ *  @param filePath 待删除的文件路径
+ *
+ *  @return 是否删除成功的布尔值
+ */
++ (BOOL)removeFile:(NSString *)filePath {
+    NSError *error;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL removed = [fileManager removeItemAtPath: filePath error: &error];
+    if(error) {
+        NSLog(@"<# remove file %@ failed: %@", filePath, [error localizedDescription]);
+    }
+    
+    return removed;
 }
 @end

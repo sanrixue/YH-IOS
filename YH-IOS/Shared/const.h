@@ -18,6 +18,8 @@
 #define APPLICATION_PATH  @"/mobile/application"
 #define ANALYSE_PATH      @"/mobile/analyse"
 
+#define FONTS_PATH        @"/mobile/assets/fonts.zip"
+
 #define CONFIG_DIRNAME    @"Configs"
 #define HTML_DIRNAME      @"HTML"
 #define ASSETS1_DIRNAME    @"Assets"

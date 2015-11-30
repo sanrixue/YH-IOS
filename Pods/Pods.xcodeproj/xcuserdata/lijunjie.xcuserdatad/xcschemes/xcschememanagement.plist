@@ -24,6 +24,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SCLAlertView-Objective-C.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SSZipArchive.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,17 +42,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>337D28D7A0274DC511B2F6EF4CF01CB5</key>
+		<key>4D668FD361719655C82BAC7BBD46C094</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A5956B94DEDE9A9F8635FF9B3B66C285</key>
+		<key>7AB30F02E343A486936F67EFF886153B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DA94645D27863A5DCDBA6BF4E260C1B1</key>
+		<key>A2400548C7FBE0D5209C1ECFA0CF0582</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FD5265A624082B6B1AD7C543F4A446B0</key>
 		<dict>
 			<key>primary</key>
 			<true/>

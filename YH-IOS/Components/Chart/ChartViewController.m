@@ -32,7 +32,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     // Do any additional setup after loading the view.
     
     self.chartUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, CHART_PATH];
-    self.assetsPath = [FileUtils dirPaths:@[HTML_DIRNAME, [CHART_PATH lastPathComponent]]];
+    self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
     
     self.labelTheme.text = self.chartTheme;
     
@@ -76,10 +76,10 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     NSString *htmlName = [HttpUtils urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
-    if([FileUtils checkFileExist:htmlPath isDir:NO]) {
-        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-    }
+//    if([FileUtils checkFileExist:htmlPath isDir:NO]) {
+//        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+//        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+//    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         

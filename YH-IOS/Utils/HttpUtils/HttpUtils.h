@@ -24,7 +24,7 @@
  *
  *  @return Http#Get HttpResponse
  */
-+ (HttpResponse *)httpGet:(NSString *)urlString timeoutInterval:(NSTimeInterval)timeoutInterval;
++ (HttpResponse *)httpGet:(NSString *)urlString header:(NSDictionary *)header timeoutInterval:(NSTimeInterval)timeoutInterval;
 
 
 /**

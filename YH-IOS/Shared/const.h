@@ -9,7 +9,7 @@
 #ifndef const_h
 #define const_h
 
-#define BASE_URL2         @"http://121.40.35.29:4567"
+#define BASE_URL2        @"http://121.40.35.29:4567"
 #define BASE_URL           @"http://localhost:3000"
 #define LOGIN_PATH        @"/mobile/login"
 #define KPI_PATH          @"/mobile/kpi"

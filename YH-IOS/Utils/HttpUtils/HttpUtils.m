@@ -34,11 +34,16 @@
  *
  *  @return Http#Get HttpResponse
  */
-+ (HttpResponse *)httpGet:(NSString *)urlString timeoutInterval:(NSTimeInterval)timeoutInterval {
++ (HttpResponse *)httpGet:(NSString *)urlString header:(NSDictionary *)header timeoutInterval:(NSTimeInterval)timeoutInterval {
     NSLog(@"%@", urlString);
     NSURL *url = [NSURL URLWithString:urlString];
     HttpResponse *httpResponse = [[HttpResponse alloc] init];
-    NSURLRequest *request = [[NSURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:timeoutInterval];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:timeoutInterval];
+    if(header) {
+        for(NSString *key in header) {
+            [request setValue:header[key] forHTTPHeaderField:key];
+        }
+    }
     NSError *error;
     NSURLResponse *response;
     httpResponse.received = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
@@ -60,8 +65,9 @@
  *  @return Http#Get HttpResponse
  */
 + (HttpResponse *)httpGet:(NSString *)urlString {
-    return [HttpUtils httpGet:urlString timeoutInterval:15.0];
+    return [HttpUtils httpGet:urlString header:nil timeoutInterval:15.0];
 }
+
 
 /**
  *  Http#Post功能代码封装
@@ -110,7 +116,7 @@
 
 + (BOOL)isNetworkAvailable:(NSTimeInterval)timeoutInterval {
     // @"http://www.apple.com"
-    HttpResponse *httpResponse = [HttpUtils httpGet:BASE_URL timeoutInterval:timeoutInterval];
+    HttpResponse *httpResponse = [HttpUtils httpGet:BASE_URL header:nil timeoutInterval:timeoutInterval];
     
     return (httpResponse.statusCode && ([httpResponse.statusCode intValue] == 200));
 }
@@ -157,24 +163,24 @@
 }
 
 + (BOOL)isServerModified:(NSString *)urlString header:(NSDictionary *)header lastModifiedPath:(NSString *)lastModifiedPath{
-    NSMutableDictionary *lastModifiedDict = [NSMutableDictionary dictionaryWithContentsOfFile:lastModifiedPath];
-    if(!lastModifiedDict) {
-        lastModifiedDict = [NSMutableDictionary dictionary];
-    }
-    
-    NSString *localLastModified = lastModifiedDict[urlString];
-    
-    if(header && header[@"Last-Modified"]) {
-        if(localLastModified && [localLastModified isEqualToString:header[@"Last-Modified"]]) {
-          return NO;
-        }
-        else {
-            lastModifiedDict[urlString] = header[@"Last-Modified"];
-            [lastModifiedDict writeToFile:lastModifiedPath atomically:YES];
-            
-            return YES;
-        }
-    }
+//    NSMutableDictionary *lastModifiedDict = [NSMutableDictionary dictionaryWithContentsOfFile:lastModifiedPath];
+//    if(!lastModifiedDict) {
+//        lastModifiedDict = [NSMutableDictionary dictionary];
+//    }
+//    
+//    NSString *localCachedHeader = lastModifiedDict[urlString];
+//    
+//    if(header && header[@"Last-Modified"]) {
+//        if(localCachedHeader && && localCachedHeader[@"ETag"] && [localLastModified isEqualToString:header[@"Last-Modified"]]) {
+//          return NO;
+//        }
+//        else {
+//            lastModifiedDict[urlString] = header;
+//            [lastModifiedDict writeToFile:lastModifiedPath atomically:YES];
+//            
+//            return YES;
+//        }
+//    }
     
     return YES;
 }
@@ -194,19 +200,33 @@
     NSError *error = nil;
     NSURL *url = [NSURL URLWithString:urlString];
     
-    HttpResponse *httpResponse = [self httpGet:urlString];
-    NSString *htmlContent = httpResponse.string;
-    NSString *filename, *filepath, *assetLocalPath, *tagUrl;
     
-    filename = [self urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"][0];
-    filepath = [assetsPath stringByAppendingPathComponent:filename];
+    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:@"cachedHeaderPath.plist"];
+    NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
     
-    NSString *lastModifiedPath = [assetsPath stringByAppendingPathComponent:@"lastModified.dict"];
-    if(![self isServerModified:urlString header:httpResponse.response.allHeaderFields lastModifiedPath:lastModifiedPath]) {
-        NSLog(@"%@ 304", urlString);
-        
+    NSDictionary *header = [NSDictionary dictionary];
+    if(cachedHeaderDict[urlString] && cachedHeaderDict[urlString][@"Etag"]) {
+        header = @{@"IF-None-Match": cachedHeaderDict[urlString][@"Etag"]};
+    }
+    HttpResponse *httpResponse = [self httpGet:urlString header:header timeoutInterval:10.0];
+    
+    
+    NSString *filename = [self urlTofilename:[url.pathComponents componentsJoinedByString:@"/"] suffix:@".html"][0];
+    NSString *filepath = [assetsPath stringByAppendingPathComponent:filename];
+    
+    if([httpResponse.statusCode isEqualToNumber:@(304)]) {
         return filepath;
     }
+    else {
+        if(!cachedHeaderDict) {
+            cachedHeaderDict = [NSMutableDictionary dictionary];
+        }
+        cachedHeaderDict[urlString] = httpResponse.response.allHeaderFields;
+        [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
+    }
+    
+    NSString *htmlContent = httpResponse.string, *assetLocalPath, *tagUrl;
+
     
     NSData *htmlData = [htmlContent dataUsingEncoding:NSUTF8StringEncoding];
     TFHpple *doc = [[TFHpple alloc] initWithHTMLData:htmlData];
@@ -328,27 +348,27 @@
     NSString *filename = parts[0], *timestamp=nil;
     NSString *filepath = [assetsPath stringByAppendingPathComponent:filename];
     
-    if([parts count] > 1) {
-        timestamp = parts[1];
-        
-        if(timestampDict && timestampDict[filename] && [timestampDict[filename] isEqualToString:timestamp]) {
-            
-            isShouldWrite = NO;
-            
-            NSLog(@"no write - %@ ? %@", filename, timestamp);
-        }
-        else {
-            NSLog(@"write - %@ ? %@", filename, timestamp);
-            
-            timestampDict[filename] = timestamp;
-            [timestampDict writeToFile:timestampDictPath atomically:YES];
-        }
-    }
-    else if([HttpUtils checkFileExist:filepath isDir:NO]) {
-        isShouldWrite = NO;
-    }
+//    if([parts count] > 1) {
+//        timestamp = parts[1];
+//        
+//        if(timestampDict && timestampDict[filename] && [timestampDict[filename] isEqualToString:timestamp]) {
+//            
+//            isShouldWrite = NO;
+//            
+//            NSLog(@"no write - %@ ? %@", filename, timestamp);
+//        }
+//        else {
+//            NSLog(@"write - %@ ? %@", filename, timestamp);
+//            
+//            timestampDict[filename] = timestamp;
+//            [timestampDict writeToFile:timestampDictPath atomically:YES];
+//        }
+//    }
+//    else if([HttpUtils checkFileExist:filepath isDir:NO]) {
+//        isShouldWrite = NO;
+//    }
     
-    if(isShouldWrite) {
+    if(![HttpUtils checkFileExist:filepath isDir:NO]) {
         [self writeAssetFile:tagUrl filePath:filepath];
     }
     

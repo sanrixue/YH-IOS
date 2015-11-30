@@ -32,7 +32,7 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     // Do any additional setup after loading the view, typically from a nib.
     
     self.loginUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
-    self.assetsPath = [FileUtils dirPaths:@[HTML_DIRNAME, [LOGIN_PATH lastPathComponent]]];
+    self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadHtml)];
     tapGesture.numberOfTapsRequired = 3;
@@ -141,10 +141,10 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
     
-    if([FileUtils checkFileExist:htmlPath isDir:NO]) {
-        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-    }
+//    if([FileUtils checkFileExist:htmlPath isDir:NO]) {
+//        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+//        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+//    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         

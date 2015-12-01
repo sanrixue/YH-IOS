@@ -47,17 +47,19 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     [_bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSString *bannerName = data[@"bannerName"];
         NSString *link       = data[@"link"];
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": bannerName, @"link": link}];
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": bannerName, @"link": link, @"tabBarItemIndex": self.tabBarItemIndex}];
     }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
-
-    self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, KPI_PATH];
-    [self loadHtml];
+    if(!self.tabBarItemIndex) {
+        self.tabBarItemIndex = @(0);
+    }
+    
+    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:[self.tabBarItemIndex integerValue]]];
+    [self tabBarClick: [self.tabBarItemIndex integerValue]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -136,27 +138,29 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         ChartViewController *chartViewController = (ChartViewController *)segue.destinationViewController;
         chartViewController.bannerName = sender[@"bannerName"];
         chartViewController.link = sender[@"link"];
+        chartViewController.dashBoardTabBarItemIndex = self.tabBarItemIndex;
     }
 }
 
 #pragma mark - UITabBar delegate
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-    NSString *path = KPI_PATH;
-    
-    if([item.title isEqualToString:@"KPI"]) {
-        path = KPI_PATH;
-    }
-    else if([item.title isEqualToString:@"分析"]) {
-        path = ANALYSE_PATH;
-    }
-    else if([item.title isEqualToString:@"消息"]) {
-        path = MESSAGE_PATH;
-    }
-    else if([item.title isEqualToString:@"应用"]) {
-        path = APPLICATION_PATH;
-    }
-    
 
+    [self tabBarClick:item.tag];
+    
+}
+
+- (void)tabBarClick:(NSInteger)index {
+    
+    NSString *path = KPI_PATH;
+    switch (index) {
+        case 0: path = KPI_PATH; break;
+        case 1: path = ANALYSE_PATH; break;
+        case 2: path = APPLICATION_PATH; break;
+        case 3: path = MESSAGE_PATH; break;
+        default: path = KPI_PATH; break;
+    }
+    
+    self.tabBarItemIndex = @(index);
     self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
     
     [self loadHtml];

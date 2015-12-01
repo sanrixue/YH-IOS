@@ -14,6 +14,7 @@
 #import "ChartViewController.h"
 #import "HttpResponse.h"
 #import <SCLAlertView.h>
+#import "DashboardViewController.h"
 
 
 static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentifier";
@@ -25,6 +26,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 @property (strong, nonatomic) NSString *assetsPath;
 @property (strong, nonatomic) MBProgressHUD *progressHUD;
 @property (weak, nonatomic) IBOutlet UILabel *labelTheme;
+@property (assign, nonatomic) BOOL isInnerLink;
 
 @end
 
@@ -34,7 +36,15 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.chartUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, self.link];
+    self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
+    
+    if(self.isInnerLink) {
+        self.chartUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, self.link];
+    }
+    else {
+        self.chartUrlString = self.link;
+    }
+    
     self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
     
     self.labelTheme.text = self.bannerName;
@@ -64,6 +74,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     [_progressHUD hide:YES];
     _progressHUD = nil;
     _bridge = nil;
+    _dashBoardTabBarItemIndex = nil;
 }
 #pragma mark - status bar settings
 -(BOOL)prefersStatusBarHidden{
@@ -75,6 +86,12 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 
 #pragma mark - assistant methods
 - (void)loadHtml {
+    self.isInnerLink ? [self loadOuterLink] : [self loadInnerLink];
+}
+- (void)loadOuterLink {
+    [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.chartUrlString]]];
+}
+- (void)loadInnerLink {
     NSString *htmlName = [HttpUtils urlTofilename:self.chartUrlString suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
@@ -111,6 +128,13 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 }
 - (IBAction)actionBack:(id)sender {
     [self performSegueWithIdentifier:kDashbaordSegueIdentifer sender:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqualToString:kDashbaordSegueIdentifer]) {
+        DashboardViewController *dashboardViewController = (DashboardViewController*)segue.destinationViewController;
+        dashboardViewController.tabBarItemIndex = self.dashBoardTabBarItemIndex;
+    }
 }
 
 - (void)showProgressHUD:(NSString *)text {

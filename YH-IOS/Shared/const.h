@@ -9,14 +9,16 @@
 #ifndef const_h
 #define const_h
 
-#define BASE_URL        @"http://121.40.35.29:4567"
-#define BASE_URL2           @"http://localhost:3000"
+#define BASE_URL2          @"http://121.40.35.29:4567"
+#define BASE_URL          @"http://localhost:4567"
 #define LOGIN_PATH        @"/mobile/login"
 #define KPI_PATH          @"/mobile/kpi"
 #define CHART_PATH        @"/mobile/chart"
 #define MESSAGE_PATH      @"/mobile/message"
 #define APPLICATION_PATH  @"/mobile/application"
 #define ANALYSE_PATH      @"/mobile/analyse"
+#define ANALYSE_DETAIL_PATH @"/mobile/analyse_detail"
+
 
 #define FONTS_PATH        @"/mobile/assets/fonts.zip"
 

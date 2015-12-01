@@ -45,12 +45,10 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     }];
     
     [_bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString *subjectName = data[@"subjectName"];
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:subjectName];
+        NSString *bannerName = data[@"bannerName"];
+        NSString *link       = data[@"link"];
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": bannerName, @"link": link}];
     }];
-    
-//    _browser.scrollView.scrollEnabled = NO;
-//    _browser.scrollView.bounces = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -125,52 +123,6 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     });
 }
 
-///**
-// *  core methods - 所有网络链接都缓存至本地
-// *
-// *  @param webView        <#webView description#>
-// *  @param request        <#request description#>
-// *  @param navigationType <#navigationType description#>
-// *
-// *  @return <#return value description#>
-// */
-//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-//    NSString *requestString = [[request URL] absoluteString];
-//    
-//    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
-//        
-//        if([requestString hasPrefix:BASE_URL]) {
-//            
-//            [self showProgressHUD:@"loading..."];
-//            
-//            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
-//            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-//            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-//            
-//            [_progressHUD hide:YES];
-//            return NO;
-//        }
-//        else {
-//            
-//            return YES;
-//        }
-//    }
-//    else if ([requestString hasPrefix:@"file://"]) {
-//        
-//    }
-//    
-//    return YES;
-//}
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 
 - (void)showProgressHUD:(NSString *)text {
@@ -182,7 +134,8 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:kChartSegueIdentifier]) {
         ChartViewController *chartViewController = (ChartViewController *)segue.destinationViewController;
-        chartViewController.chartTheme = sender;
+        chartViewController.bannerName = sender[@"bannerName"];
+        chartViewController.link = sender[@"link"];
     }
 }
 
@@ -199,15 +152,14 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     else if([item.title isEqualToString:@"消息"]) {
         path = MESSAGE_PATH;
     }
+    else if([item.title isEqualToString:@"应用"]) {
+        path = APPLICATION_PATH;
+    }
     
-    if([item.title isEqualToString:@"应用"]) {
-        [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://form.mikecrm.com/f.php?t=fErp3n"]]];
-    }
-    else {
-        self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
-        
-        [self loadHtml];
-    }
+
+    self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
+    
+    [self loadHtml];
 }
 
 # pragma mark - 登录界面不支持旋转

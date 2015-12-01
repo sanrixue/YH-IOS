@@ -34,10 +34,10 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.chartUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, CHART_PATH];
+    self.chartUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, self.link];
     self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
     
-    self.labelTheme.text = self.chartTheme;
+    self.labelTheme.text = self.bannerName;
     
 //    _browser.scrollView.scrollEnabled = NO;
 //    _browser.scrollView.bounces = NO;
@@ -109,51 +109,6 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
         }
     });
 }
-
-///**
-// *  core methods - 所有网络链接都缓存至本地
-// *
-// *  @param webView        <#webView description#>
-// *  @param request        <#request description#>
-// *  @param navigationType <#navigationType description#>
-// *
-// *  @return <#return value description#>
-// */
-//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-//    NSString *requestString = [[request URL] absoluteString];
-//    
-//    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
-//        
-//        if([requestString hasPrefix:BASE_URL]) {
-//            
-//            [self showProgressHUD:@"loading..."];
-//            
-//            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
-//            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-//            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-//            
-//            [_progressHUD hide:YES];
-//            return NO;
-//        }
-//        else {
-//            return YES;
-//        }
-//    }
-//    else if ([requestString hasPrefix:@"file://"]) {
-//        
-//    }
-//    
-//    return YES;
-//}
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 - (IBAction)actionBack:(id)sender {
     [self performSegueWithIdentifier:kDashbaordSegueIdentifer sender:nil];
 }

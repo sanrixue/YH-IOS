@@ -10,5 +10,6 @@
 
 @interface ChartViewController : UIViewController<UIWebViewDelegate>
 
-@property (strong, nonatomic) NSString *chartTheme;
+@property (strong, nonatomic) NSString *bannerName;
+@property (strong, nonatomic) NSString *link;
 @end

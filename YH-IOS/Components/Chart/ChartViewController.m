@@ -27,6 +27,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 @property (strong, nonatomic) MBProgressHUD *progressHUD;
 @property (weak, nonatomic) IBOutlet UILabel *labelTheme;
 @property (assign, nonatomic) BOOL isInnerLink;
+@property (weak, nonatomic) IBOutlet UIButton *btnComment;
 
 @end
 
@@ -125,10 +126,46 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
         }
     });
 }
+
+#pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)actionWriteComment:(UIButton *)sender {
+    
+    SCLAlertView *alert = [[SCLAlertView alloc] init];
+    UITextField *textField = [alert addTextField:@"想说点什么呢~"];
+
+    
+
+    [alert addButton:@"确认"
+     validationBlock:^BOOL {
+         BOOL isValid = (textField.text && textField.text.length > 0);
+         if(!isValid) {
+             [self showProgressHUD:@"需说些什么，好提交"];
+             _progressHUD.mode = MBProgressHUDModeText;
+             [_progressHUD hide:YES afterDelay:2.0];
+         }
+         
+         return isValid;
+     }
+     actionBlock:^(void) {
+         NSLog(@"%@", textField.text);
+         // 隐藏键盘
+         [textField resignFirstResponder];
+         [self showProgressHUD:@"提交中..."];
+         
+         
+         [_progressHUD hide:YES];
+         
+     }];
+    
+    NSString *subTitle = [NSString stringWithFormat:@"对【%@】有什么看法?", self.bannerName];
+    [alert showInfo:self title:@"发表评论" subTitle:subTitle closeButtonTitle:@"取消" duration:0.0f];
+}
+
+#pragma mark - assistant methods
 - (void)showProgressHUD:(NSString *)text {
     _progressHUD = [MBProgressHUD showHUDAddedTo:_browser animated:YES];
     _progressHUD.labelText = text;
@@ -143,4 +180,6 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self loadHtml];
 }
+
+
 @end

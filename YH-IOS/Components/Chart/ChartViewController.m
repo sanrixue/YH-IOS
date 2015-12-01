@@ -74,7 +74,6 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     [_progressHUD hide:YES];
     _progressHUD = nil;
     _bridge = nil;
-    _dashBoardTabBarItemIndex = nil;
 }
 #pragma mark - status bar settings
 -(BOOL)prefersStatusBarHidden{
@@ -86,7 +85,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 
 #pragma mark - assistant methods
 - (void)loadHtml {
-    self.isInnerLink ? [self loadOuterLink] : [self loadInnerLink];
+    self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
 }
 - (void)loadOuterLink {
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.chartUrlString]]];
@@ -127,14 +126,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     });
 }
 - (IBAction)actionBack:(id)sender {
-    [self performSegueWithIdentifier:kDashbaordSegueIdentifer sender:nil];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqualToString:kDashbaordSegueIdentifer]) {
-        DashboardViewController *dashboardViewController = (DashboardViewController*)segue.destinationViewController;
-        dashboardViewController.tabBarItemIndex = self.dashBoardTabBarItemIndex;
-    }
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)showProgressHUD:(NSString *)text {

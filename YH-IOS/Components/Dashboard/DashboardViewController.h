@@ -9,5 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface DashboardViewController : UIViewController<UIWebViewDelegate, UITabBarDelegate>
-@property (strong, nonatomic) NSNumber *tabBarItemIndex;
 @end

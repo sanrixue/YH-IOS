@@ -195,13 +195,22 @@
  *  @return HttpResponse
  */
 + (HttpResponse *)checkResponseHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath {
+    urlString = [self urlCleaner:urlString];
     NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:@"cachedHeader.plist"];
     NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
     
-    NSDictionary *header = [NSDictionary dictionary];
-    if(cachedHeaderDict[urlString] && cachedHeaderDict[urlString][@"Etag"]) {
-        header = @{@"IF-None-Match": cachedHeaderDict[urlString][@"Etag"]};
+    NSMutableDictionary *header = [NSMutableDictionary dictionary];
+    if(cachedHeaderDict[urlString]) {
+        
+        if(cachedHeaderDict[urlString][@"Etag"]) {
+            header[@"IF-None-Match"] = cachedHeaderDict[urlString][@"Etag"];
+        }
+        
+        if(cachedHeaderDict[urlString][@"Last-Modified"]) {
+            header[@"If-Modified-Since"] = cachedHeaderDict[urlString][@"Last-Modified"];
+        }
     }
+    
     HttpResponse *httpResponse = [self httpGet:urlString header:header timeoutInterval:10.0];
     
     if(![httpResponse.statusCode isEqualToNumber:@(304)]) {
@@ -220,27 +229,20 @@
     HttpResponse *httpResponse = [self checkResponseHeader:urlString assetsPath:assetsPath];
     
     NSString *filePath = [assetsPath stringByAppendingPathComponent:[urlString lastPathComponent]];
-    BOOL isShouldWrite = NO;
-    if([self checkFileExist:filePath isDir:NO]) {
-        
-        if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-            isShouldWrite = YES;
-        }
-    }
-    else {
-        if([httpResponse.statusCode isEqualToNumber:@(200)] || [httpResponse.statusCode isEqualToNumber:@(304)]) {
-            isShouldWrite = YES;
-        }
-    }
+
     
-    if(isShouldWrite) {
+    if([httpResponse.statusCode isEqualToNumber:@(200)] ||
+       ([httpResponse.statusCode isEqualToNumber:@(304)] && ![self checkFileExist:filePath isDir:NO])) {
         
-        [self writeAssetFile:urlString filePath:filePath];
+        
+        [self writeAssetFile:urlString filePath:filePath assetContent:nil];
         NSString *fileDir = [filePath stringByDeletingPathExtension];
+        
         if([self checkFileExist:fileDir isDir:YES]) {
             [self removeFile:fileDir];
         }
         [SSZipArchive unzipFileAtPath:filePath toDestination:assetsPath];
+        [self removeFile:filePath];
     }
 }
 /**
@@ -362,51 +364,32 @@
 
 + (NSString *)isShouldWrite:(NSString *)tagUrl assetsPath:(NSString *)assetsPath suffix:(NSString *)suffix{
     
-    BOOL isShouldWrite = YES;
-    NSArray *parts = [self urlTofilename:tagUrl suffix:suffix];
-    
-    NSString *timestampDictPath = [assetsPath stringByAppendingPathComponent:@"timestamp.dict"];
-    NSMutableDictionary *timestampDict = [NSMutableDictionary dictionaryWithContentsOfFile:timestampDictPath];
-    if(!timestampDict) {
-        timestampDict = [NSMutableDictionary dictionary];
-    }
-    
-    NSString *filename = parts[0], *timestamp=nil;
+    NSString *filename = [self urlTofilename:tagUrl suffix:suffix][0];
     NSString *filepath = [assetsPath stringByAppendingPathComponent:filename];
     
-//    if([parts count] > 1) {
-//        timestamp = parts[1];
-//        
-//        if(timestampDict && timestampDict[filename] && [timestampDict[filename] isEqualToString:timestamp]) {
-//            
-//            isShouldWrite = NO;
-//            
-//            NSLog(@"no write - %@ ? %@", filename, timestamp);
-//        }
-//        else {
-//            NSLog(@"write - %@ ? %@", filename, timestamp);
-//            
-//            timestampDict[filename] = timestamp;
-//            [timestampDict writeToFile:timestampDictPath atomically:YES];
-//        }
-//    }
-//    else if([HttpUtils checkFileExist:filepath isDir:NO]) {
-//        isShouldWrite = NO;
-//    }
-    
-    if(![HttpUtils checkFileExist:filepath isDir:NO]) {
-        [self writeAssetFile:tagUrl filePath:filepath];
+    HttpResponse *httpResponse = [self checkResponseHeader:tagUrl assetsPath:assetsPath];
+
+    if([httpResponse.statusCode isEqualToNumber:@(200)] ||
+      ([httpResponse.statusCode isEqualToNumber:@(304)] && ![self checkFileExist:filepath isDir:NO])) {
+        
+        NSString *assetContent = nil;
+        if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+            assetContent = httpResponse.string;
+        }
+        
+        [self writeAssetFile:tagUrl filePath:filepath assetContent:assetContent];
     }
     
     return filename;
 }
 
-+ (void)writeAssetFile:(NSString *)assetUrl filePath:(NSString *)filePath {
++ (void)writeAssetFile:(NSString *)assetUrl filePath:(NSString *)filePath assetContent:(NSString *)assetContent {
     NSString *assetExt = [filePath pathExtension];
     
     if([self include:@[@"js", @"css"] object:assetExt]) {
         
-        NSString *assetContent = [self httpGet:assetUrl].string;
+        assetContent = assetContent ?: [self httpGet:assetUrl].string;
+
         [assetContent writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }
     else if([self include:@[@"png", @"jpg", @"jpeg", @"gif", @"ico", @"icon", @"zip"] object:assetExt]) {
@@ -429,6 +412,10 @@
     }
     
     return isInclude;
+}
+
++ (NSString *)urlCleaner:(NSString *)urlString {
+    return [urlString componentsSeparatedByString:@"?"][0];
 }
 /**
  *  网页链接转换为合法文件名称

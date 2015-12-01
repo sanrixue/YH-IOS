@@ -26,7 +26,11 @@
 + (NSString *)userspace {
     //获取应用程序沙盒的Documents目录
     NSString *basePath = [FileUtils basePath];
-    NSString *userSpacePath = [basePath stringByAppendingPathComponent:@"namespace"];
+    
+    NSDictionary *localVersionInfo =[[NSBundle mainBundle] infoDictionary];
+    NSString *currentVersion = localVersionInfo[@"CFBundleShortVersionString"];
+    NSString *namespace = [NSString stringWithFormat:@"namespace_%@", currentVersion];
+    NSString *userSpacePath = [basePath stringByAppendingPathComponent:namespace];
     
     return userSpacePath;
 }
@@ -40,10 +44,9 @@
 + (NSString *)dirPath: (NSString *)dirName {
     //获取应用程序沙盒的Documents目录
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSString *basePath = [FileUtils basePath];
     BOOL isDir = true, existed;
     
-    NSString *userSpacePath = [basePath stringByAppendingPathComponent:@"namespace"];
+    NSString *userSpacePath = [self userspace];
     
     // 一级目录路径， 不存在则创建
     NSString *pathName = [userSpacePath stringByAppendingPathComponent:dirName];

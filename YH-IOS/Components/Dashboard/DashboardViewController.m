@@ -39,7 +39,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     
     [WebViewJavascriptBridge enableLogging];
     
-    _bridge = [WebViewJavascriptBridge bridgeForWebView:_browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+    _bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"ObjC received message from JS: %@", data);
         responseCallback(@"Response for message from ObjC");
     }];
@@ -47,19 +47,17 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     [_bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSString *bannerName = data[@"bannerName"];
         NSString *link       = data[@"link"];
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": bannerName, @"link": link, @"tabBarItemIndex": self.tabBarItemIndex}];
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": bannerName, @"link": link}];
     }];
+    
+    
+    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
+    [self tabBarClick: 0];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    if(!self.tabBarItemIndex) {
-        self.tabBarItemIndex = @(0);
-    }
-    
-    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:[self.tabBarItemIndex integerValue]]];
-    [self tabBarClick: [self.tabBarItemIndex integerValue]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -98,7 +96,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
     }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         if([HttpUtils isNetworkAvailable]) {
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.dashboardUrlString assetsPath:self.assetsPath];
@@ -125,7 +123,12 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     });
 }
 
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
 
+}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    NSLog(@"%@", error.description);
+}
 
 - (void)showProgressHUD:(NSString *)text {
     _progressHUD = [MBProgressHUD showHUDAddedTo:_browser animated:YES];
@@ -138,7 +141,6 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         ChartViewController *chartViewController = (ChartViewController *)segue.destinationViewController;
         chartViewController.bannerName = sender[@"bannerName"];
         chartViewController.link = sender[@"link"];
-        chartViewController.dashBoardTabBarItemIndex = self.tabBarItemIndex;
     }
 }
 
@@ -160,7 +162,6 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         default: path = KPI_PATH; break;
     }
     
-    self.tabBarItemIndex = @(index);
     self.dashboardUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
     
     [self loadHtml];

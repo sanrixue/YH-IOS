@@ -12,5 +12,4 @@
 
 @property (strong, nonatomic) NSString *bannerName;
 @property (strong, nonatomic) NSString *link;
-@property (strong, nonatomic) NSNumber *dashBoardTabBarItemIndex;
 @end

@@ -6,7 +6,7 @@
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface DashboardViewController : UIViewController<UIWebViewDelegate, UITabBarDelegate>
+@interface DashboardViewController : BaseViewController<UITabBarDelegate>
 @end

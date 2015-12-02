@@ -6,9 +6,9 @@
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface LoginViewController : UIViewController<UIWebViewDelegate>
+@interface LoginViewController : BaseViewController
 
 
 @end

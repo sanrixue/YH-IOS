@@ -34,6 +34,12 @@
     
     return userSpacePath;
 }
+
++ (NSString *)loadingPath:(BOOL)isLogin {
+    NSString *userspace = [FileUtils userspace];
+    NSString *indexName = isLogin ? @"Loading/Login.html" : @"Loading/Load.html";
+    return  [userspace stringByAppendingPathComponent:indexName];
+}
 /**
  *  传递目录名取得沙盒中的绝对路径(一级),不存在则创建，请慎用！
  *

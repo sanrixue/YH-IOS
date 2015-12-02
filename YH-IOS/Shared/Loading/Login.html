@@ -1,0 +1,41 @@
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>logining</title>
+    <link href="assets/stylesheets/bootstrap.min.css" rel = "stylesheet">
+    <style type="text/css">
+      img { width: 100%; }
+      .row { margin-left:0px; margin-right:0px;}
+      .container { padding-left:0px;padding-right:0px;}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div id="loading" class="col-xs-12">
+          <img src="assets/images/login_loading.gif">
+        </div>
+      </div>
+      <div id="logo" class="row" style="position:absolute;bottom:0px;">
+        <div class="col-xs-12">
+          <img src="assets/images/login_logo.png">
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+      window.onload = function() {
+        var logo = document.getElementById("logo");
+        var loading = document.getElementById("loading");
+        // x = w.innerWidth || e.clientWidth || g.clientWidth;
+        // y = w.innerHeight || e.clientHeight;
+        loading.style.position = "absolute";
+        loading.style.bottom = logo.clientHeight + "px";
+        console.log(loading.style)
+        console.log(logo.clientHeight)
+      }
+    </script>
+
+  </body>
+</html>

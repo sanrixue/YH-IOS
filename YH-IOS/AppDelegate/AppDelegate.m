@@ -11,6 +11,9 @@
 #import <PgySDK/PgyManager.h>
 #import <PgyUpdate/PgyUpdateManager.h>
 
+#import "FileUtils.h"
+#import <SSZipArchive.h>
+
 @interface AppDelegate ()
 
 @end
@@ -28,6 +31,13 @@
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
     [[PgyUpdateManager sharedPgyManager] checkUpdate];
     
+    NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Loading.zip"];
+    NSString *userspace = [FileUtils userspace];
+    NSString *loadingPath = [userspace stringByAppendingPathComponent:@"Loading"];
+    
+    if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
+        [SSZipArchive unzipFileAtPath:zipPath toDestination:userspace];
+    }
     
     return YES;
 }

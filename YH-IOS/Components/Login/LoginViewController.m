@@ -18,11 +18,6 @@
 static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
 
 @interface LoginViewController ()
-@property WebViewJavascriptBridge* bridge;
-@property (weak, nonatomic) IBOutlet UIWebView *browser;
-@property (strong, nonatomic) NSString *loginUrlString;
-@property (strong, nonatomic) NSString *assetsPath;
-@property (strong, nonatomic) MBProgressHUD *progressHUD;
 
 @end
 
@@ -32,17 +27,16 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     
-    self.loginUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
-    self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
+    self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
 
     
     [WebViewJavascriptBridge enableLogging];
-    _bridge = [WebViewJavascriptBridge bridgeForWebView:_browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"ObjC received message from JS: %@", data);
         responseCallback(@"Response for message from ObjC");
     }];
     
-    [_bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
+    [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
         
 //        NSString *username = data[@"username"];
 //        NSString *password = data[@"password"];
@@ -52,18 +46,18 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
         }
         else {
             [self showProgressHUD:@"请确认网络环境."];
-            _progressHUD.mode = MBProgressHUDModeText;
-            [_progressHUD hide:YES afterDelay:2.0];
+            self.progressHUD.mode = MBProgressHUDModeText;
+            [self.progressHUD hide:YES afterDelay:2.0];
         }
     }];
     
     UITapGestureRecognizer *tagGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadHtml)];
     tagGesture.numberOfTapsRequired = 3;
     tagGesture.numberOfTouchesRequired = 1;
-    [_browser addGestureRecognizer:tagGesture];
+    [self.browser addGestureRecognizer:tagGesture];
 
-    _browser.scrollView.scrollEnabled = NO;
-    _browser.scrollView.bounces = NO;
+    self.browser.scrollView.scrollEnabled = NO;
+    self.browser.scrollView.bounces = NO;
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if([HttpUtils isNetworkAvailable]) {
@@ -81,91 +75,51 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     [super viewWillAppear:animated];
     
     [self loadHtml];
-    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-    
-    [self showProgressHUD:@"收到IOS系统，内存警告."];
-    self.progressHUD.mode = MBProgressHUDModeText;
-    [_progressHUD hide:YES afterDelay:2.0];
-}
 
 - (void)dealloc {
-    _browser.delegate = nil;
-    _browser = nil;
-    [_progressHUD hide:YES];
-    _progressHUD = nil;
-    _bridge = nil;
+    self.browser.delegate = nil;
+    self.browser = nil;
+    [self.progressHUD hide:YES];
+    self.progressHUD = nil;
+    self.bridge = nil;
 }
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
 }
 
-///**
-// *  core methods - 所有网络链接都缓存至本地
-// *
-// *  @param webView        <#webView description#>
-// *  @param request        <#request description#>
-// *  @param navigationType <#navigationType description#>
-// *
-// *  @return <#return value description#>
-// */
-//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-//    NSString *requestString = [[request URL] absoluteString];
-//    
-//    if ([requestString hasPrefix:@"http://"] || [requestString hasPrefix:@"https://"]) {
-//        
-//        if([requestString hasPrefix:BASE_URL]) {
-//            
-//            [self showProgressHUD:@"loading..."];
-//            
-//            NSString *htmlPath = [HttpUtils urlConvertToLocal:requestString assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
-//            NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
-//            [webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-//            
-//            [_progressHUD hide:YES];
-//            return NO;
-//        }
-//        else {
-//            return YES;
-//        }
-//    }
-//    else if ([requestString hasPrefix:@"file://"]) {
-//
-//    }
-//    
-//    return YES;
-//}
-
 - (void)loadHtml {
-    NSString *htmlName = [HttpUtils urlTofilename:self.loginUrlString suffix:@".html"][0];
+    NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
     if([FileUtils checkFileExist:htmlPath isDir:NO]) {
         NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
         [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
     }
+    else {
+        [self showLoading:YES];
+    }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        
+
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if([HttpUtils isNetworkAvailable]) {
-            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.loginUrlString assetsPath:self.assetsPath];
+            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
                 
-                [self showProgressHUD:@"loading..."];
-                
-                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.loginUrlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
+                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
                 NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
                 [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-                
-                [self.progressHUD hide:YES];
             }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+            });
         }
     });
+        
+
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -177,11 +131,7 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     }
 }
 
-- (void)showProgressHUD:(NSString *)text {
-    _progressHUD = [MBProgressHUD showHUDAddedTo:_browser animated:YES];
-    _progressHUD.labelText = text;
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
-}
+
 
 # pragma mark - 登录界面不支持旋转
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

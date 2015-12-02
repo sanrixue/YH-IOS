@@ -6,26 +6,15 @@
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
 
-#import "FileUtils.h"
-#import "HttpUtils.h"
-#import "const.h"
-#import <MBProgressHUD.h>
-#import "WebViewJavascriptBridge.h"
+
 #import "ChartViewController.h"
-#import "HttpResponse.h"
-#import <SCLAlertView.h>
+
 #import "DashboardViewController.h"
 #import "APIHelper.h"
-
 
 static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentifier";
 
 @interface ChartViewController ()
-@property WebViewJavascriptBridge* bridge;
-@property (weak, nonatomic) IBOutlet UIWebView *browser;
-@property (strong, nonatomic) NSString *chartUrlString;
-@property (strong, nonatomic) NSString *assetsPath;
-@property (strong, nonatomic) MBProgressHUD *progressHUD;
 @property (weak, nonatomic) IBOutlet UILabel *labelTheme;
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (weak, nonatomic) IBOutlet UIButton *btnComment;
@@ -39,22 +28,11 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     // Do any additional setup after loading the view.
     
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
-    
-    if(self.isInnerLink) {
-        self.chartUrlString = [NSString stringWithFormat:@"%@%@", BASE_URL, self.link];
-    }
-    else {
-        self.chartUrlString = self.link;
-    }
-    
-    self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
+
+    self.urlString = self.isInnerLink ? [NSString stringWithFormat:@"%@%@", BASE_URL, self.link] : self.link;
     
     self.labelTheme.text = self.bannerName;
     
-//    _browser.scrollView.scrollEnabled = NO;
-//    _browser.scrollView.bounces = NO;
-    
-    [APIHelper reportData:@"1" reportID:@"1"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -69,15 +47,15 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     
     [self showProgressHUD:@"收到IOS系统，内存警告."];
     self.progressHUD.mode = MBProgressHUDModeText;
-    [_progressHUD hide:YES afterDelay:2.0];
+    [self.progressHUD hide:YES afterDelay:2.0];
 }
 
 - (void)dealloc {
-    _browser.delegate = nil;
-    _browser = nil;
-    [_progressHUD hide:YES];
-    _progressHUD = nil;
-    _bridge = nil;
+    self.browser.delegate = nil;
+    self.browser = nil;
+    [self.progressHUD hide:YES];
+    self.progressHUD = nil;
+    self.bridge = nil;
 }
 #pragma mark - status bar settings
 -(BOOL)prefersStatusBarHidden{
@@ -92,26 +70,31 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
 }
 - (void)loadOuterLink {
-    [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.chartUrlString]]];
+    [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
 }
 - (void)loadInnerLink {
-    NSString *htmlName = [HttpUtils urlTofilename:self.chartUrlString suffix:@".html"][0];
+    NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
     if([FileUtils checkFileExist:htmlPath isDir:NO]) {
         NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
         [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
     }
+    else {
+        [self showLoading];
+    }
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         if([HttpUtils isNetworkAvailable]) {
-            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.chartUrlString assetsPath:self.assetsPath];
+            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
                 
                 [self showProgressHUD:@"loading..."];
                 
-                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.chartUrlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
+                
+                [APIHelper reportData:@"1" reportID:@"1"];
+                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
                 NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
                 [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
                 
@@ -147,8 +130,8 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
          BOOL isValid = (textField.text && textField.text.length > 0);
          if(!isValid) {
              [self showProgressHUD:@"需说些什么，好提交"];
-             _progressHUD.mode = MBProgressHUDModeText;
-             [_progressHUD hide:YES afterDelay:2.0];
+             self.progressHUD.mode = MBProgressHUDModeText;
+             [self.progressHUD hide:YES afterDelay:2.0];
          }
          
          return isValid;
@@ -160,7 +143,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
          [self showProgressHUD:@"提交中..."];
          
          
-         [_progressHUD hide:YES];
+         [self.progressHUD hide:YES];
          
      }];
     
@@ -169,11 +152,6 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 }
 
 #pragma mark - assistant methods
-- (void)showProgressHUD:(NSString *)text {
-    _progressHUD = [MBProgressHUD showHUDAddedTo:_browser animated:YES];
-    _progressHUD.labelText = text;
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
-}
 
 # pragma mark - 登录界面不支持旋转
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

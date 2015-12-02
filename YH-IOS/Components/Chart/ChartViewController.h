@@ -6,9 +6,9 @@
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 
-@interface ChartViewController : UIViewController<UIWebViewDelegate>
+@interface ChartViewController : BaseViewController
 
 @property (strong, nonatomic) NSString *bannerName;
 @property (strong, nonatomic) NSString *link;

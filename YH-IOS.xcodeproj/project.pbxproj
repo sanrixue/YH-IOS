@@ -28,6 +28,8 @@
 		C4771BB41C058C8400AAF44F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB31C058C8400AAF44F /* OpenGLES.framework */; };
 		C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB51C058C9000AAF44F /* CoreTelephony.framework */; };
 		C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A01C0ED9F600EB946D /* APIHelper.m */; settings = {ASSET_TAGS = (); }; };
+		C488E6A31C0F00A800EB946D /* Loading.zip in Resources */ = {isa = PBXBuildFile; fileRef = C488E6A21C0F00A800EB946D /* Loading.zip */; settings = {ASSET_TAGS = (); }; };
+		C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A51C0F03C800EB946D /* BaseViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
 		C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -96,6 +98,9 @@
 		C4771BB71C058D1700AAF44F /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
 		C488E69F1C0ED9F600EB946D /* APIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIHelper.h; sourceTree = "<group>"; };
 		C488E6A01C0ED9F600EB946D /* APIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIHelper.m; sourceTree = "<group>"; };
+		C488E6A21C0F00A800EB946D /* Loading.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Loading.zip; sourceTree = "<group>"; };
+		C488E6A41C0F03C800EB946D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		C488E6A51C0F03C800EB946D /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		C4C6283B1C0C1ED6000AD5D8 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
 		C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
 		C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
@@ -227,6 +232,8 @@
 		C4C628391C0C1ED6000AD5D8 /* BaseView */ = {
 			isa = PBXGroup;
 			children = (
+				C488E6A41C0F03C800EB946D /* BaseViewController.h */,
+				C488E6A51C0F03C800EB946D /* BaseViewController.m */,
 			);
 			path = BaseView;
 			sourceTree = "<group>";
@@ -376,6 +383,7 @@
 		C4DB7DC51C02EE6000DA534E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				C488E6A21C0F00A800EB946D /* Loading.zip */,
 				C4DB7DC61C02EE6000DA534E /* const.h */,
 			);
 			path = Shared;
@@ -544,6 +552,7 @@
 			files = (
 				C4771B9B1C05871400AAF44F /* .gitattributes in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
+				C488E6A31C0F00A800EB946D /* Loading.zip in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
 				C4771BA11C05871400AAF44F /* WebViewJavascriptBridge.js.txt in Resources */,
@@ -637,6 +646,7 @@
 				C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
+				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
 				C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */,
 				C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */,
 			);

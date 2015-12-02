@@ -84,22 +84,24 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
         [self showLoading];
     }
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
         if([HttpUtils isNetworkAvailable]) {
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-                
-                [self showProgressHUD:@"loading..."];
+
                 
                 
                 [APIHelper reportData:@"1" reportID:@"1"];
                 NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
                 NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
                 [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-                
-                [self.progressHUD hide:YES];
+
             }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+            });
         }
         else {
             SCLAlertView *alert = [[SCLAlertView alloc] init];

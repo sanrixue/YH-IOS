@@ -27,6 +27,7 @@
 		C4771BB21C058C7C00AAF44F /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB11C058C7C00AAF44F /* CoreMotion.framework */; };
 		C4771BB41C058C8400AAF44F /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB31C058C8400AAF44F /* OpenGLES.framework */; };
 		C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB51C058C9000AAF44F /* CoreTelephony.framework */; };
+		C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A01C0ED9F600EB946D /* APIHelper.m */; settings = {ASSET_TAGS = (); }; };
 		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
 		C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -93,6 +94,8 @@
 		C4771BB31C058C8400AAF44F /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		C4771BB51C058C9000AAF44F /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		C4771BB71C058D1700AAF44F /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
+		C488E69F1C0ED9F600EB946D /* APIHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APIHelper.h; sourceTree = "<group>"; };
+		C488E6A01C0ED9F600EB946D /* APIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIHelper.m; sourceTree = "<group>"; };
 		C4C6283B1C0C1ED6000AD5D8 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
 		C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
 		C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
@@ -199,6 +202,15 @@
 				C4771B9A1C05871400AAF44F /* WKWebViewJavascriptBridge.m */,
 			);
 			path = WebViewJavascriptBridge;
+			sourceTree = "<group>";
+		};
+		C488E69E1C0ED9D500EB946D /* APIUtils */ = {
+			isa = PBXGroup;
+			children = (
+				C488E69F1C0ED9F600EB946D /* APIHelper.h */,
+				C488E6A01C0ED9F600EB946D /* APIHelper.m */,
+			);
+			path = APIUtils;
 			sourceTree = "<group>";
 		};
 		C4C628381C0C1ED6000AD5D8 /* Components */ = {
@@ -324,6 +336,7 @@
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C488E69E1C0ED9D500EB946D /* APIUtils */,
 				C4DB7DB61C02EE3800DA534E /* DateUtils */,
 				C4DB7DB91C02EE3800DA534E /* ExtendNSLogFunctionality.h */,
 				C4DB7DBA1C02EE3800DA534E /* ExtendNSLogFunctionality.m */,
@@ -622,6 +635,7 @@
 				C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */,
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */,
+				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */,
 				C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */,

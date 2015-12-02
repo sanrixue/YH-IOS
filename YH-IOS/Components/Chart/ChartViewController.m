@@ -15,6 +15,7 @@
 #import "HttpResponse.h"
 #import <SCLAlertView.h>
 #import "DashboardViewController.h"
+#import "APIHelper.h"
 
 
 static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentifier";
@@ -52,6 +53,8 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     
 //    _browser.scrollView.scrollEnabled = NO;
 //    _browser.scrollView.bounces = NO;
+    
+    [APIHelper reportData:@"1" reportID:@"1"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

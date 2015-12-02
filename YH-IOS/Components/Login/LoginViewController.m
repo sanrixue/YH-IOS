@@ -81,6 +81,7 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     [super viewWillAppear:animated];
     
     [self loadHtml];
+    
 }
 
 - (void)didReceiveMemoryWarning {

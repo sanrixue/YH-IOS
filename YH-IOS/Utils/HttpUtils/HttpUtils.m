@@ -49,7 +49,7 @@
     NSURLResponse *response;
     httpResponse.received = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     httpResponse.response = (NSHTTPURLResponse*)response;
-    BOOL isOK   = NSErrorPrint(error, @"Http#get %@", urlString);
+    BOOL isOK   = NSErrorPrint(error, @"Http#get(%ds) %@", timeoutInterval, urlString);
     if(!isOK) {
         [httpResponse.errors addObject:(NSString *)psd([error localizedDescription], @"http get未知错误")];
     }
@@ -112,7 +112,7 @@
  *  @return 有网络则为true
  */
 + (BOOL)isNetworkAvailable {
-    return [self isNetworkAvailable:2.0];
+    return [self isNetworkAvailable:5.0];
 }
 
 + (BOOL)isNetworkAvailable:(NSTimeInterval)timeoutInterval {
@@ -163,28 +163,6 @@
     return _netWorkType;
 }
 
-+ (BOOL)isServerModified:(NSString *)urlString header:(NSDictionary *)header lastModifiedPath:(NSString *)lastModifiedPath{
-//    NSMutableDictionary *lastModifiedDict = [NSMutableDictionary dictionaryWithContentsOfFile:lastModifiedPath];
-//    if(!lastModifiedDict) {
-//        lastModifiedDict = [NSMutableDictionary dictionary];
-//    }
-//    
-//    NSString *localCachedHeader = lastModifiedDict[urlString];
-//    
-//    if(header && header[@"Last-Modified"]) {
-//        if(localCachedHeader && && localCachedHeader[@"ETag"] && [localLastModified isEqualToString:header[@"Last-Modified"]]) {
-//          return NO;
-//        }
-//        else {
-//            lastModifiedDict[urlString] = header;
-//            [lastModifiedDict writeToFile:lastModifiedPath atomically:YES];
-//            
-//            return YES;
-//        }
-//    }
-    
-    return YES;
-}
 
 /**
  *  http#get时header添加If-None-Match，避免表态文件重复加载

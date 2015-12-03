@@ -18,7 +18,9 @@
 @interface BaseViewController : UIViewController<UIWebViewDelegate>
 
 @property WebViewJavascriptBridge* bridge;
+@property (weak, nonatomic) IBOutlet UIView *bannerView;
 @property (weak, nonatomic) IBOutlet UIWebView *browser;
+@property (weak, nonatomic) UIColor *yhColor;
 @property (strong, nonatomic) MBProgressHUD *progressHUD;
 @property (strong, nonatomic) NSString *urlString;
 @property (strong, nonatomic) NSString *assetsPath;

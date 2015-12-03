@@ -38,7 +38,12 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": bannerName, @"link": link}];
     }];
     
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
+    NSLog(@"dashboard yhColor: %@", self.yhColor);
+    [[UITabBar appearance] setSelectedImageTintColor:self.yhColor];
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
 }
@@ -66,7 +71,6 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     else {
         [self showLoading];
     }
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
     
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -115,6 +119,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 #pragma mark - UITabBar delegate
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     [self tabBarClick:item.tag];
+    
 }
 
 - (void)tabBarClick:(NSInteger)index {

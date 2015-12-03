@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C41E4FA61C0FE00A00E1B514 /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */; settings = {ASSET_TAGS = (); }; };
+		C41E4FA71C0FE00A00E1B514 /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */; settings = {ASSET_TAGS = (); }; };
+		C41E4FAB1C0FEE1800E1B514 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */; settings = {ASSET_TAGS = (); }; };
 		C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4448C6B1C0AE3030053B431 /* HttpUtils.m */; settings = {ASSET_TAGS = (); }; };
 		C4771B9B1C05871400AAF44F /* .gitattributes in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8A1C05871400AAF44F /* .gitattributes */; settings = {ASSET_TAGS = (); }; };
 		C4771B9C1C05871400AAF44F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8B1C05871400AAF44F /* .gitignore */; settings = {ASSET_TAGS = (); }; };
@@ -69,6 +72,10 @@
 		016230E97585F60D9A2BE43F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1374D056885AF221F43AFB66 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		BA7C8A7FE878AF127C6E6870 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgySDK.framework; path = Frameworks/PgySDK.framework; sourceTree = "<group>"; };
+		C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgyUpdate.framework; path = Frameworks/PgyUpdate.framework; sourceTree = "<group>"; };
+		C41E4FA91C0FEE1800E1B514 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		C4448C6B1C0AE3030053B431 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
 		C4771B8A1C05871400AAF44F /* .gitattributes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitattributes; sourceTree = "<group>"; };
 		C4771B8B1C05871400AAF44F /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -141,10 +148,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */,
+				C41E4FA61C0FE00A00E1B514 /* PgySDK.framework in Frameworks */,
 				C4771BB41C058C8400AAF44F /* OpenGLES.framework in Frameworks */,
 				C4771BB21C058C7C00AAF44F /* CoreMotion.framework in Frameworks */,
 				C4771BB01C058C6F00AAF44F /* AudioToolbox.framework in Frameworks */,
 				C4771BAE1C058C6600AAF44F /* AVFoundation.framework in Frameworks */,
+				C41E4FA71C0FE00A00E1B514 /* PgyUpdate.framework in Frameworks */,
 				C4771BAC1C058C4400AAF44F /* SystemConfiguration.framework in Frameworks */,
 				C4771BA61C058A1800AAF44F /* libxml2.tbd in Frameworks */,
 				C4771BA91C058A7B00AAF44F /* PgySDK.framework in Frameworks */,
@@ -170,6 +179,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C41E4FA81C0FED4600E1B514 /* UIColor */ = {
+			isa = PBXGroup;
+			children = (
+				C41E4FA91C0FEE1800E1B514 /* UIColor+Hex.h */,
+				C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */,
+			);
+			path = UIColor;
+			sourceTree = "<group>";
+		};
 		C4771B881C05871300AAF44F /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,6 +361,7 @@
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C41E4FA81C0FED4600E1B514 /* UIColor */,
 				C488E69E1C0ED9D500EB946D /* APIUtils */,
 				C4DB7DB61C02EE3800DA534E /* DateUtils */,
 				C4DB7DB91C02EE3800DA534E /* ExtendNSLogFunctionality.h */,
@@ -428,6 +447,8 @@
 		E7359AA6518F9148E9F7A313 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */,
+				C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */,
 				C4771BB71C058D1700AAF44F /* libxml2.2.tbd */,
 				C4771BB51C058C9000AAF44F /* CoreTelephony.framework */,
 				C4771BB31C058C8400AAF44F /* OpenGLES.framework */,
@@ -635,6 +656,7 @@
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				C4771BA31C05871400AAF44F /* WebViewJavascriptBridgeBase.m in Sources */,
 				C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */,
+				C41E4FAB1C0FEE1800E1B514 /* UIColor+Hex.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
@@ -796,6 +818,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -821,6 +844,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

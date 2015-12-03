@@ -69,7 +69,7 @@
                                         <rect key="frame" x="242" y="15" width="116" height="40"/>
                                     </imageView>
                                 </subviews>
-                                <color key="backgroundColor" red="0.066666666666666666" green="0.66274509803921566" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.54101616649999995" green="0.71126197469999997" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="bpr-aA-rXK" firstAttribute="centerX" secondItem="omN-qS-kPz" secondAttribute="centerX" id="SBv-cB-kKb"/>
                                     <constraint firstAttribute="bottom" secondItem="bpr-aA-rXK" secondAttribute="bottom" id="cQk-83-Yrh"/>
@@ -83,10 +83,10 @@
                                     <constraint firstAttribute="height" constant="49" id="62o-Jg-nQJ"/>
                                 </constraints>
                                 <items>
-                                    <tabBarItem title="KPI" image="TabBar-KPI" selectedImage="TabBar-KPI-S" id="4rm-By-bTN"/>
-                                    <tabBarItem tag="1" title="分析" image="TabBar-分析" selectedImage="TabBar-分析-S" id="hND-6P-aMF"/>
-                                    <tabBarItem tag="2" title="应用" image="TabBar-应用" selectedImage="TabBar-应用-S" id="j7u-fF-ccm"/>
-                                    <tabBarItem tag="3" title="消息" image="TabBar-消息" selectedImage="TabBar-消息-S" id="jRv-Ww-nO5"/>
+                                    <tabBarItem title="KPI" image="TabBar-KPI" id="4rm-By-bTN"/>
+                                    <tabBarItem tag="1" title="分析" image="TabBar-分析" id="hND-6P-aMF"/>
+                                    <tabBarItem tag="2" title="应用" image="TabBar-应用" selectedImage="TabBar-应用-浅绿-S" id="j7u-fF-ccm"/>
+                                    <tabBarItem tag="3" title="消息" image="TabBar-消息" selectedImage="TabBar-消息-浅绿-S" id="jRv-Ww-nO5"/>
                                 </items>
                                 <connections>
                                     <outlet property="delegate" destination="0ms-0t-lsu" id="XPh-cO-LJg"/>
@@ -107,6 +107,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bannerView" destination="omN-qS-kPz" id="frl-bi-5wZ"/>
                         <outlet property="browser" destination="AM5-df-HXJ" id="y8S-Td-SGg"/>
                         <outlet property="tabBar" destination="7VJ-HQ-uj9" id="Mty-IE-lzt"/>
                         <segue destination="Fjl-vw-ucE" kind="presentation" identifier="DashboardToChartSegueIdentifier" id="IWr-vi-Gbg"/>
@@ -162,7 +163,7 @@
                                         </connections>
                                     </button>
                                 </subviews>
-                                <color key="backgroundColor" red="0.066666666666666666" green="0.66274509803921566" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.54101616649999995" green="0.71126197469999997" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="7p6-nc-AwX"/>
                                     <constraint firstItem="uTN-eu-x5r" firstAttribute="top" secondItem="YAH-2G-WR8" secondAttribute="top" id="Ctz-6n-a9l"/>
@@ -194,6 +195,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="bannerView" destination="jiD-n2-AKa" id="JKP-Ys-KZk"/>
                         <outlet property="browser" destination="UNg-xt-Kyh" id="pTZ-2h-Qep"/>
                         <outlet property="btnComment" destination="BFJ-Y4-EB1" id="c4z-x0-9Mb"/>
                         <outlet property="labelTheme" destination="uTN-eu-x5r" id="0Cg-29-M5G"/>
@@ -207,13 +209,11 @@
     <resources>
         <image name="Nav-Banner" width="84" height="25"/>
         <image name="TabBar-KPI" width="20" height="20"/>
-        <image name="TabBar-KPI-S" width="20" height="20"/>
         <image name="TabBar-分析" width="20" height="20"/>
-        <image name="TabBar-分析-S" width="20" height="20"/>
         <image name="TabBar-应用" width="22" height="22"/>
-        <image name="TabBar-应用-S" width="22" height="22"/>
+        <image name="TabBar-应用-浅绿-S" width="22" height="22"/>
         <image name="TabBar-消息" width="20" height="21"/>
-        <image name="TabBar-消息-S" width="20" height="21"/>
+        <image name="TabBar-消息-浅绿-S" width="20" height="21"/>
         <image name="iconBack" width="17" height="21"/>
         <image name="评论" width="21" height="21"/>
     </resources>

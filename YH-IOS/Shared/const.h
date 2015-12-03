@@ -19,6 +19,8 @@
 #define ANALYSE_PATH      @"/mobile/analyse"
 #define ANALYSE_DETAIL_PATH @"/mobile/analyse_detail"
 
+#define YH_COLOR          @"#53a93f"
+
 #define API_REPORT_DATA_PATH  @"/api/report_data/group/1/template/1/report/1/data"
 
 

@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "UIColor+Hex.h"
 
 @implementation BaseViewController
 
@@ -14,6 +15,13 @@
     [super viewDidLoad];
     
     self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
+    UIColor *color = [UIColor colorWithHexString:YH_COLOR];
+    self.yhColor    =  color;
+    NSLog(@"color:%@, yhColor:%@", color, self.yhColor);
+    
+    if(self.bannerView) {
+        self.bannerView.backgroundColor = self.yhColor;
+    }
 }
 - (void)showLoading {
     [self showLoading:NO];

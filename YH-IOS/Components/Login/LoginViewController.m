@@ -7,15 +7,8 @@
 //
 
 #import "LoginViewController.h"
-#import "FileUtils.h"
-#import "HttpUtils.h"
-#import "const.h"
-#import <MBProgressHUD.h>
-#import "WebViewJavascriptBridge.h"
-#import "HttpResponse.h"
-#import <SCLAlertView.h>
+#import "DashboardViewController.h"
 
-static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
 
 @interface LoginViewController ()
 
@@ -29,20 +22,23 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     
     self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
 
-    
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"ObjC received message from JS: %@", data);
         responseCallback(@"Response for message from ObjC");
     }];
     
+    
+    [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self clearHttpResponeHeader];
+        
+        [self loadHtml];
+    }];
+    
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
         
-//        NSString *username = data[@"username"];
-//        NSString *password = data[@"password"];
-        
         if([HttpUtils isNetworkAvailable]) {
-            [self performSegueWithIdentifier:kDashboardSegueIdentifier sender:nil];
+            [self jumpToDashboardView];
         }
         else {
             [self showProgressHUD:@"请确认网络环境."];
@@ -50,11 +46,6 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
             [self.progressHUD hide:YES afterDelay:2.0];
         }
     }];
-    
-    UITapGestureRecognizer *tagGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadHtml)];
-    tagGesture.numberOfTapsRequired = 3;
-    tagGesture.numberOfTouchesRequired = 1;
-    [self.browser addGestureRecognizer:tagGesture];
 
     self.browser.scrollView.scrollEnabled = NO;
     self.browser.scrollView.bounces = NO;
@@ -77,7 +68,6 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
     [self loadHtml];
 }
 
-
 - (void)dealloc {
     self.browser.delegate = nil;
     self.browser = nil;
@@ -91,25 +81,26 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
 }
 
 - (void)loadHtml {
+    [self clearBrowserCache];
+    
     NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
     if([FileUtils checkFileExist:htmlPath isDir:NO]) {
-        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+        NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
         [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
     }
     else {
         [self showLoading:YES];
     }
-    
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if([HttpUtils isNetworkAvailable]) {
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
                 
-                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
-                NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
                 [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
             }
             
@@ -118,19 +109,29 @@ static NSString *const kDashboardSegueIdentifier = @"DashboardSegueIdentifier";
             });
         }
     });
-        
-
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([segue.identifier isEqualToString:kDashboardSegueIdentifier]) {
-        
+- (void)jumpToDashboardView {
+    UIWindow *window = self.view.window;
+    LoginViewController *previousRootViewController = (LoginViewController *)window.rootViewController;
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+    window.rootViewController = dashboardViewController;
+    
+    // Nasty hack to fix http://stackoverflow.com/questions/26763020/leaking-views-when-changing-rootviewcontroller-inside-transitionwithview
+    // The presenting view controllers view doesn't get removed from the window as its currently transistioning and presenting a view controller
+    for (UIView *subview in window.subviews) {
+        if ([subview isKindOfClass:self.class]) {
+            [subview removeFromSuperview];
+        }
     }
-    else {
-        NSLog(@"unkown identifier: %@", segue.identifier);
-    }
+    // Allow the view controller to be deallocated
+    [previousRootViewController dismissViewControllerAnimated:NO completion:^{
+        // Remove the root view in case its still showing
+        [previousRootViewController.view removeFromSuperview];
+    }];
 }
-
 
 
 # pragma mark - 登录界面不支持旋转

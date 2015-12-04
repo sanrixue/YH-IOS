@@ -15,7 +15,6 @@
 #import <SSZipArchive.h>
 
 @interface AppDelegate ()
-
 @end
 
 @implementation AppDelegate
@@ -27,7 +26,7 @@
     //启动基本SDK
     [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
     [[PgyManager sharedPgyManager] setEnableFeedback:NO];
-    //启动更新检查SDK
+    //启动检测版本更新
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
     [[PgyUpdateManager sharedPgyManager] checkUpdate];
     

@@ -173,7 +173,7 @@
     NSFileManager *fileManage = [NSFileManager defaultManager];
     
     NSArray *files = [fileManage subpathsAtPath:dir];
-    return files;
+    return [NSMutableArray arrayWithArray:files];
 }
 
 /**

@@ -30,11 +30,15 @@
 
 #define CONFIG_DIRNAME    @"Configs"
 #define HTML_DIRNAME      @"HTML"
-#define ASSETS1_DIRNAME    @"Assets"
+#define ASSETS1_DIRNAME   @"Assets"
+
+#define CACHED_HEADER_FILENAME @"cachedHeader.plist"
 
 #define URL_WRITE_LOCAL   @"1"
 
 
 #define PGY_APP_ID @"7586e8c77ceadd3240c5e243e9d0c391"
+
+#define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]
 
 #endif /* const_h */

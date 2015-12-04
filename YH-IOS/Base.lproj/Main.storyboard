@@ -36,17 +36,16 @@
                     </view>
                     <connections>
                         <outlet property="browser" destination="bbP-90-Fl1" id="eWz-SD-cKB"/>
-                        <segue destination="0ms-0t-lsu" kind="presentation" identifier="DashboardSegueIdentifier" id="NDg-bf-ZRZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="263" y="429"/>
+            <point key="canvasLocation" x="190" y="429"/>
         </scene>
         <!--Dashboard View Controller-->
         <scene sceneID="9dX-d9-EdM">
             <objects>
-                <viewController id="0ms-0t-lsu" customClass="DashboardViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DashboardViewController" id="0ms-0t-lsu" customClass="DashboardViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y6F-fV-FdO"/>
                         <viewControllerLayoutGuide type="bottom" id="H0W-KM-1bH"/>

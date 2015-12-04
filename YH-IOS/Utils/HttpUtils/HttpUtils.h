@@ -73,7 +73,7 @@
  *
  *  @return html路径
  */ 
-+ (NSString *)urlConvertToLocal:(NSString *)urlString content:(NSString *)htmlContent assetsPath:(NSString *)assetsPath writeToLocal:(BOOL)isWriteToLocal;
++ (NSString *)urlConvertToLocal:(NSString *)urlString content:(NSString *)htmlContent assetsPath:(NSString *)assetsPath writeToLocal:(NSString *)writeToLocal;
 
 /**
  *  网页链接转换为合法文件名称

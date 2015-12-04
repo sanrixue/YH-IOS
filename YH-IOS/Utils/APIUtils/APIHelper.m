@@ -38,6 +38,5 @@
             }
         }
     }
-    NSLog(@"%@", httpResponse.to_s);
 }
 @end

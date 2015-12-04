@@ -7,7 +7,6 @@
 //
 
 #import "BaseViewController.h"
-#import "UIColor+Hex.h"
 
 @implementation BaseViewController
 
@@ -15,22 +14,47 @@
     [super viewDidLoad];
     
     self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
-    UIColor *color = [UIColor colorWithHexString:YH_COLOR];
-    self.yhColor    =  color;
-    NSLog(@"color:%@, yhColor:%@", color, self.yhColor);
+}
+
+#pragma  mark - assistant methods
+
+- (NSString *)stringWithContentsOfFile:(NSString *)htmlPath {
+    NSError *error = nil;
+    NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:&error];
+    if(error) {
+        NSLog(@"%@ - %@", error.description, htmlPath);
+    }
     
-    if(self.bannerView) {
-        self.bannerView.backgroundColor = self.yhColor;
+    NSString *from, *to, *timestamp = TimeStamp;
+    for(NSString *ext in @[@"js", @"css", @"png", @"gif"]) {
+        from = [NSString stringWithFormat:@".%@\"", ext];
+        to = [NSString stringWithFormat:@".%@?%@\"", ext, timestamp];
+        
+        htmlContent = [htmlContent stringByReplacingOccurrencesOfString:from withString:to options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlContent.length)];
+    }
+    
+    return htmlContent;
+}
+
+
+- (void)clearBrowserCache {
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    
+    NSString *domain = [[NSURL URLWithString:self.urlString] host];
+    for(NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        if([[cookie domain] isEqualToString:domain]) {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+        }
     }
 }
 - (void)showLoading {
     [self showLoading:NO];
 }
+
 - (void)showLoading:(BOOL)isLogin {
     NSString *loadingPath = [FileUtils loadingPath: isLogin];
     NSString *loadingContent = [NSString stringWithContentsOfFile:loadingPath encoding:NSUTF8StringEncoding error:nil];
     [self.browser loadHTMLString:loadingContent baseURL:[NSURL URLWithString:loadingPath]];
-    
     
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
@@ -43,15 +67,22 @@
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
 
+- (void)clearHttpResponeHeader {
+    NSString *cachedHeaderPath = [self.assetsPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
+    NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
+    if(cachedHeaderDict && cachedHeaderDict[self.urlString]) {
+        [cachedHeaderDict removeObjectForKey:self.urlString];
+        [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
+    }
+}
+#pragma mark - status bar settings
 - (BOOL)prefersStatusBarHidden {
     return NO;
 }
-#pragma mark - status bar settings
 
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -62,11 +93,4 @@
     [self.progressHUD hide:YES afterDelay:2.0];
 }
 
-- (void)dealloc {
-    self.browser.delegate = nil;
-    self.browser = nil;
-    [self.progressHUD hide:YES];
-    self.progressHUD = nil;
-    self.bridge = nil;
-}
 @end

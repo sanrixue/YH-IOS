@@ -49,7 +49,7 @@
     NSURLResponse *response;
     httpResponse.received = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     httpResponse.response = (NSHTTPURLResponse*)response;
-    BOOL isOK   = NSErrorPrint(error, @"Http#get(%ds) %@", timeoutInterval, urlString);
+    BOOL isOK   = NSErrorPrint(error, @"Http#get(%fs) %@", timeoutInterval, urlString);
     if(!isOK) {
         [httpResponse.errors addObject:(NSString *)psd([error localizedDescription], @"http get未知错误")];
     }
@@ -174,7 +174,7 @@
  */
 + (HttpResponse *)checkResponseHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath {
     urlString = [self urlCleaner:urlString];
-    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:@"cachedHeader.plist"];
+    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
     NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
     
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
@@ -234,7 +234,9 @@
  *
  *  @return html路径
  */
-+ (NSString *)urlConvertToLocal:(NSString *)urlString content:(NSString *)htmlContent assetsPath:(NSString *)assetsPath writeToLocal:(BOOL)isWriteToLocal {
++ (NSString *)urlConvertToLocal:(NSString *)urlString content:(NSString *)htmlContent assetsPath:(NSString *)assetsPath writeToLocal:(NSString *)writeToLocal {
+    
+    BOOL isWriteToLocal = [writeToLocal isEqualToString:@"1"];
     
     NSError *error = nil;
     NSString *filename = [self urlTofilename:urlString suffix:@".html"][0];

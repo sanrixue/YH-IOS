@@ -6,9 +6,10 @@
     <title>logining</title>
     <link href="assets/stylesheets/bootstrap.min.css" rel = "stylesheet">
     <style type="text/css">
-      img { width: 100%; }
       .row { margin-left:0px; margin-right:0px;}
       .container { padding-left:0px;padding-right:0px;}
+      #loading img, #logo img { width: 100%; background: transparent; }
+      #text a, #text { color: #e0e0e0; font-size:12px;}
     </style>
   </head>
   <body>
@@ -18,22 +19,69 @@
           <img src="assets/images/login_loading.gif">
         </div>
       </div>
+      <div id="text" class="row" style="width:100%;text-align:center;">
+        <div id="refreshBtn" class="col-xs-12" style="display:none;">
+          <a onclick="Loading.refresh();">重新加载</a>
+        </div>
+      </div>
       <div id="logo" class="row" style="position:absolute;bottom:0px;">
         <div class="col-xs-12">
           <img src="assets/images/login_logo.png">
         </div>
       </div>
     </div>
+
     <script type="text/javascript">
+      (function(){
+        window.Loading = {
+          countDownIndex: 0,
+          countDownTimer: null,
+          connectWebViewJavascriptBridge: function(callback) {
+            if(window.WebViewJavascriptBridge) {
+              callback(WebViewJavascriptBridge)
+            }
+            else {
+              document.addEventListener('WebViewJavascriptBridgeReady', function() {
+                callback(WebViewJavascriptBridge)
+              }, false)
+            }
+          },
+          refresh: function() {
+            Loading.connectWebViewJavascriptBridge(function(bridge){
+              bridge.callHandler('refreshBrowser', {}, function(response) {
+              });
+            })
+          },
+          countDownRecorder: function() {
+            Loading.countDownIndex += 1;
+            if(Loading.countDownIndex > 10) {
+              document.getElementById("refreshBtn").style.display = "block";
+              Loading.clearCountDownTimer();
+            }
+
+            console.log("timer: " + Loading.countDownIndex);
+          },
+          startCountDownTimer: function() {
+            Loading.countDownTimer = self.setInterval("Loading.countDownRecorder();", 1000); 
+          },
+          clearCountDownTimer: function() {
+            window.clearInterval(Loading.countDownTimer);
+          }
+        }
+      }).call(this);
+
       window.onload = function() {
         var logo = document.getElementById("logo");
         var loading = document.getElementById("loading");
-        // x = w.innerWidth || e.clientWidth || g.clientWidth;
-        // y = w.innerHeight || e.clientHeight;
+        var text = document.getElementById("text");
+
+        text.style.position = "absolute";
+        text.style.bottom = logo.clientHeight + "px";
+
         loading.style.position = "absolute";
-        loading.style.bottom = logo.clientHeight + "px";
-        console.log(loading.style)
-        console.log(logo.clientHeight)
+        loading.style.bottom = (logo.clientHeight + text.clientHeight) + "px";
+
+        Loading.startCountDownTimer();
       }
     </script>
 

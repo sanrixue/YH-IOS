@@ -14,7 +14,6 @@
 static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier";
 
 @interface DashboardViewController ()
-
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 @end
@@ -25,11 +24,20 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [WebViewJavascriptBridge enableLogging];
+    UIColor *color = [UIColor colorWithHexString:YH_COLOR];;
+    self.bannerView.backgroundColor = color;
+    [[UITabBar appearance] setTintColor:color];
     
+    [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"ObjC received message from JS: %@", data);
         responseCallback(@"Response for message from ObjC");
+    }];
+    
+    [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self clearHttpResponeHeader];
+        
+        [self loadHtml];
     }];
     
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -38,16 +46,9 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": bannerName, @"link": link}];
     }];
     
-}
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    NSLog(@"dashboard yhColor: %@", self.yhColor);
-    [[UITabBar appearance] setSelectedImageTintColor:self.yhColor];
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
 }
-
 
 - (void)dealloc {
     self.browser.delegate = nil;
@@ -55,35 +56,35 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     [self.progressHUD hide:YES];
     self.progressHUD = nil;
     self.bridge = nil;
+    self.tabBar.delegate = nil;
+    self.tabBar = nil;
 }
-
 
 #pragma mark - assistant methods
 - (void)loadHtml {
+    [self clearBrowserCache];
+    
     NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
 
     
     if([FileUtils checkFileExist:htmlPath isDir:NO]) {
-        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+        NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
         [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
     }
     else {
         [self showLoading];
     }
     
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
         if([HttpUtils isNetworkAvailable]) {
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-                
-                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
-                NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
                 [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
             }
-            
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
@@ -102,7 +103,6 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     NSLog(@"%@", error.description);
@@ -119,11 +119,9 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 #pragma mark - UITabBar delegate
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     [self tabBarClick:item.tag];
-    
 }
 
 - (void)tabBarClick:(NSInteger)index {
-    
     NSString *path = KPI_PATH;
     switch (index) {
         case 0: path = KPI_PATH; break;
@@ -134,7 +132,6 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     }
     
     self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
-    
     [self loadHtml];
 }
 

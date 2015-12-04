@@ -8,17 +8,15 @@
 
 
 #import "ChartViewController.h"
-
 #import "DashboardViewController.h"
 #import "APIHelper.h"
 
 static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentifier";
 
 @interface ChartViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *labelTheme;
 @property (assign, nonatomic) BOOL isInnerLink;
+@property (weak, nonatomic) IBOutlet UILabel *labelTheme;
 @property (weak, nonatomic) IBOutlet UIButton *btnComment;
-
 @end
 
 @implementation ChartViewController
@@ -27,27 +25,33 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
-
-    self.urlString = self.isInnerLink ? [NSString stringWithFormat:@"%@%@", BASE_URL, self.link] : self.link;
+    self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     
+    self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
+    self.urlString = self.isInnerLink ? [NSString stringWithFormat:@"%@%@", BASE_URL, self.link] : self.link;
     self.labelTheme.text = self.bannerName;
     
+    [WebViewJavascriptBridge enableLogging];
+    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"ObjC received message from JS: %@", data);
+        responseCallback(@"Response for message from ObjC");
+    }];
+    
+    [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self clearHttpResponeHeader];
+        
+        [self loadHtml];
+    }];
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     [self loadHtml];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-    
-    [self showProgressHUD:@"收到IOS系统，内存警告."];
-    self.progressHUD.mode = MBProgressHUDModeText;
-    [self.progressHUD hide:YES afterDelay:2.0];
 }
 
 - (void)dealloc {
@@ -57,6 +61,14 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     self.progressHUD = nil;
     self.bridge = nil;
 }
+
+#pragma mark - UIWebview pull down to refresh
+-(void)handleRefresh:(UIRefreshControl *)refresh {
+    // Reload my data
+    [self loadHtml];
+    [refresh endRefreshing];
+}
+
 #pragma mark - status bar settings
 -(BOOL)prefersStatusBarHidden{
     return NO;
@@ -67,6 +79,8 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 
 #pragma mark - assistant methods
 - (void)loadHtml {
+    [self clearBrowserCache];
+    
     self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
 }
 - (void)loadOuterLink {
@@ -77,7 +91,8 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
     
     if([FileUtils checkFileExist:htmlPath isDir:NO]) {
-        NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+        NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
+        
         [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
     }
     else {
@@ -85,18 +100,15 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     }
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
         if([HttpUtils isNetworkAvailable]) {
+            
+            [APIHelper reportData:@"1" reportID:@"1"];
+            
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-
-                
-                
-                [APIHelper reportData:@"1" reportID:@"1"];
-                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:[URL_WRITE_LOCAL isEqualToString:@"1"]];
-                NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
                 [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-
             }
             
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -105,7 +117,6 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
         }
         else {
             SCLAlertView *alert = [[SCLAlertView alloc] init];
-            
             [alert addButton:@"刷新" actionBlock:^(void) {
                 [self loadHtml];
             }];
@@ -117,15 +128,18 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.browser.delegate = nil;
+        self.browser = nil;
+        [self.progressHUD hide:YES];
+        self.progressHUD = nil;
+        self.bridge = nil;
+    }];
 }
 
 - (IBAction)actionWriteComment:(UIButton *)sender {
-    
     SCLAlertView *alert = [[SCLAlertView alloc] init];
     UITextField *textField = [alert addTextField:@"想说点什么呢~"];
-
-    
 
     [alert addButton:@"确认"
      validationBlock:^BOOL {
@@ -144,17 +158,12 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
          [textField resignFirstResponder];
          [self showProgressHUD:@"提交中..."];
          
-         
          [self.progressHUD hide:YES];
-         
      }];
     
     NSString *subTitle = [NSString stringWithFormat:@"对【%@】有什么看法?", self.bannerName];
     [alert showInfo:self title:@"发表评论" subTitle:subTitle closeButtonTitle:@"取消" duration:0.0f];
 }
-
-#pragma mark - assistant methods
-
 # pragma mark - 登录界面不支持旋转
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;

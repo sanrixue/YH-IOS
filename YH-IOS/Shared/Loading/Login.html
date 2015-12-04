@@ -71,15 +71,28 @@
       }).call(this);
 
       window.onload = function() {
+        var body = document.getElementsByTagName("body")[0];
         var logo = document.getElementById("logo");
         var loading = document.getElementById("loading");
         var text = document.getElementById("text");
 
-        text.style.position = "absolute";
-        text.style.bottom = logo.clientHeight + "px";
+        var body_height = body.clientHeight;
+        var logo_height = logo.clientHeight;
+        var loading_height = loading.clientHeight;
+        var text_height = text.clientHeight;
 
-        loading.style.position = "absolute";
-        loading.style.bottom = (logo.clientHeight + text.clientHeight) + "px";
+        var rest_height = body_height - (text_height + logo_height + loading_height);
+        
+        if(rest_height > 0) {
+          logo.style.position = "absolute";
+          logo.style.bottom = rest_height/2 + "px";
+
+          text.style.position = "absolute";
+          text.style.bottom = (logo_height + rest_height/2) + "px";
+
+          loading.style.position = "absolute";
+          loading.style.bottom = (logo_height + text_height + rest_height/2) + "px";
+        }
 
         Loading.startCountDownTimer();
       }

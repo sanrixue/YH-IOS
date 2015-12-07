@@ -21,7 +21,7 @@
 
 #define YH_COLOR          @"#53a93f"
 
-#define API_REPORT_DATA_PATH  @"/api/report_data/group/1/template/1/report/1/data"
+#define API_DATA_PATH  @"/api/data/group/%@/report/%@/attachment"
 
 
 #define FONTS_PATH        @"/mobile/assets/fonts.zip"

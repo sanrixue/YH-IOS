@@ -16,7 +16,8 @@
 
 
 + (void)reportData:(NSString *)groupID reportID:(NSString *)reportID {
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, API_REPORT_DATA_PATH];
+    NSString *dataPath = [NSString stringWithFormat:API_DATA_PATH, groupID, reportID];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, dataPath];
     
     NSString *userspacePath = [FileUtils userspace];
     NSString *assetsPath = [userspacePath stringByAppendingPathComponent:HTML_DIRNAME];

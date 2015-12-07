@@ -11,9 +11,6 @@
 		C41E4FA71C0FE00A00E1B514 /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */; settings = {ASSET_TAGS = (); }; };
 		C41E4FAB1C0FEE1800E1B514 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */; settings = {ASSET_TAGS = (); }; };
 		C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4448C6B1C0AE3030053B431 /* HttpUtils.m */; settings = {ASSET_TAGS = (); }; };
-		C4771B9B1C05871400AAF44F /* .gitattributes in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8A1C05871400AAF44F /* .gitattributes */; settings = {ASSET_TAGS = (); }; };
-		C4771B9C1C05871400AAF44F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8B1C05871400AAF44F /* .gitignore */; settings = {ASSET_TAGS = (); }; };
-		C4771B9D1C05871400AAF44F /* .travis.yml in Resources */ = {isa = PBXBuildFile; fileRef = C4771B8C1C05871400AAF44F /* .travis.yml */; settings = {ASSET_TAGS = (); }; };
 		C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B8E1C05871400AAF44F /* TFHpple.m */; settings = {ASSET_TAGS = (); }; };
 		C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B901C05871400AAF44F /* TFHppleElement.m */; settings = {ASSET_TAGS = (); }; };
 		C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B921C05871400AAF44F /* XPathQuery.m */; settings = {ASSET_TAGS = (); }; };
@@ -77,9 +74,6 @@
 		C41E4FA91C0FEE1800E1B514 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
 		C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		C4448C6B1C0AE3030053B431 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
-		C4771B8A1C05871400AAF44F /* .gitattributes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitattributes; sourceTree = "<group>"; };
-		C4771B8B1C05871400AAF44F /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		C4771B8C1C05871400AAF44F /* .travis.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .travis.yml; sourceTree = "<group>"; };
 		C4771B8D1C05871400AAF44F /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		C4771B8E1C05871400AAF44F /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		C4771B8F1C05871400AAF44F /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -200,9 +194,6 @@
 		C4771B891C05871400AAF44F /* hpple */ = {
 			isa = PBXGroup;
 			children = (
-				C4771B8A1C05871400AAF44F /* .gitattributes */,
-				C4771B8B1C05871400AAF44F /* .gitignore */,
-				C4771B8C1C05871400AAF44F /* .travis.yml */,
 				C4771B8D1C05871400AAF44F /* TFHpple.h */,
 				C4771B8E1C05871400AAF44F /* TFHpple.m */,
 				C4771B8F1C05871400AAF44F /* TFHppleElement.h */,
@@ -571,14 +562,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C4771B9B1C05871400AAF44F /* .gitattributes in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
 				C488E6A31C0F00A800EB946D /* Loading.zip in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
 				C4771BA11C05871400AAF44F /* WebViewJavascriptBridge.js.txt in Resources */,
-				C4771B9C1C05871400AAF44F /* .gitignore in Resources */,
-				C4771B9D1C05871400AAF44F /* .travis.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

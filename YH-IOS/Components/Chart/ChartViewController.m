@@ -87,29 +87,29 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
 }
 - (void)loadInnerLink {
-    NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
-    NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
-    
-    if([FileUtils checkFileExist:htmlPath isDir:NO]) {
-        NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-        
-        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-    }
-    else {
-        [self showLoading];
-    }
+    [self showLoading];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if([HttpUtils isNetworkAvailable]) {
-            
-            [APIHelper reportData:@"1" reportID:@"1"];
+
+            // format: /mobil/:report_id/report
+            NSArray *components = [self.link componentsSeparatedByString:@"/"];
+            NSString *reportID = components[2];
+            [APIHelper reportData:@"1" reportID:reportID];
             
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
+            
+            NSString *htmlPath, *htmlContent;
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
-                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+                htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
             }
+            else {
+                NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
+                htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
+            }
+            
+            htmlContent = [self stringWithContentsOfFile:htmlPath];
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];

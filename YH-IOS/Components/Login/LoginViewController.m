@@ -82,31 +82,36 @@
 
 - (void)loadHtml {
     [self clearBrowserCache];
-    
-    NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
-    NSString *htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
-    
-    if([FileUtils checkFileExist:htmlPath isDir:NO]) {
-        NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-    }
-    else {
-        [self showLoading:YES];
-    }
+    [self showLoading:YES];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if([HttpUtils isNetworkAvailable]) {
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
+
+            NSString *htmlPath, *htmlContent;
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-                
-                NSString *htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
-                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+                htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
             }
+            else {
+                NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
+                htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
+            }
+            
+            htmlContent = [self stringWithContentsOfFile:htmlPath];
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
             });
+        }
+        else {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            
+            [alert addButton:@"刷新" actionBlock:^(void) {
+                [self loadHtml];
+            }];
+            
+            [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
         }
     });
 }

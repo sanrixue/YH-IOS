@@ -46,6 +46,11 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": bannerName, @"link": link}];
     }];
     
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
+    
+    
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
 }
@@ -58,6 +63,13 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     self.bridge = nil;
     self.tabBar.delegate = nil;
     self.tabBar = nil;
+}
+
+#pragma mark - UIWebview pull down to refresh
+-(void)handleRefresh:(UIRefreshControl *)refresh {
+    // Reload my data
+    [self loadHtml];
+    [refresh endRefreshing];
 }
 
 #pragma mark - assistant methods

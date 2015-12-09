@@ -9,5 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface APIHelper : NSObject
++ (NSString *)reportDataUrlString:(NSString *)groupID reportID:(NSString *)reportID ;
 + (void)reportData:(NSString *)groupID reportID:(NSString *)reportID;
 @end

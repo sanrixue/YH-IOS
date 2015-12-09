@@ -88,7 +88,7 @@
         if([HttpUtils isNetworkAvailable]) {
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
 
-            NSString *htmlPath, *htmlContent;
+            __block NSString *htmlPath;
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
                 htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
             }
@@ -97,21 +97,21 @@
                 htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
             }
             
-            htmlContent = [self stringWithContentsOfFile:htmlPath];
-            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-            
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
             });
         }
         else {
-            SCLAlertView *alert = [[SCLAlertView alloc] init];
-            
-            [alert addButton:@"刷新" actionBlock:^(void) {
-                [self loadHtml];
-            }];
-            
-            [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                SCLAlertView *alert = [[SCLAlertView alloc] init];
+                
+                [alert addButton:@"刷新" actionBlock:^(void) {
+                    [self loadHtml];
+                }];
+                    
+                [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
+            });
         }
     });
 }

@@ -68,10 +68,13 @@
 }
 
 - (void)clearHttpResponeHeader {
+    [self clearHttpResponeHeader:self.urlString];
+}
+- (void)clearHttpResponeHeader:(NSString *)urlString {
     NSString *cachedHeaderPath = [self.assetsPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
     NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
-    if(cachedHeaderDict && cachedHeaderDict[self.urlString]) {
-        [cachedHeaderDict removeObjectForKey:self.urlString];
+    if(cachedHeaderDict && cachedHeaderDict[urlString]) {
+        [cachedHeaderDict removeObjectForKey:urlString];
         [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
     }
 }

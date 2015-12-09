@@ -14,10 +14,13 @@
 
 @implementation APIHelper
 
++ (NSString *)reportDataUrlString:(NSString *)groupID reportID:(NSString *)reportID  {
+    NSString *dataPath = [NSString stringWithFormat:API_DATA_PATH, groupID, reportID];
+    return [NSString stringWithFormat:@"%@%@", BASE_URL, dataPath];
+}
 
 + (void)reportData:(NSString *)groupID reportID:(NSString *)reportID {
-    NSString *dataPath = [NSString stringWithFormat:API_DATA_PATH, groupID, reportID];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, dataPath];
+    NSString *urlString = [self reportDataUrlString:groupID reportID:reportID];
     
     NSString *userspacePath = [FileUtils userspace];
     NSString *assetsPath = [userspacePath stringByAppendingPathComponent:HTML_DIRNAME];

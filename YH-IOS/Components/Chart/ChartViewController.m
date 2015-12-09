@@ -17,6 +17,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (weak, nonatomic) IBOutlet UILabel *labelTheme;
 @property (weak, nonatomic) IBOutlet UIButton *btnComment;
+@property (strong, nonatomic)  NSString *reportID;
 @end
 
 @implementation ChartViewController
@@ -64,7 +65,11 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 
 #pragma mark - UIWebview pull down to refresh
 -(void)handleRefresh:(UIRefreshControl *)refresh {
-    // Reload my data
+    if(self.isInnerLink) {
+        NSString *reportDataUrlString = [APIHelper reportDataUrlString:@"1" reportID:self.reportID];
+        [self clearHttpResponeHeader:reportDataUrlString];
+        [self clearHttpResponeHeader];
+    }
     [self loadHtml];
     [refresh endRefreshing];
 }
@@ -94,8 +99,8 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 
             // format: /mobil/:report_id/report
             NSArray *components = [self.link componentsSeparatedByString:@"/"];
-            NSString *reportID = components[2];
-            [APIHelper reportData:@"1" reportID:reportID];
+            self.reportID = components[2];
+            [APIHelper reportData:@"1" reportID:self.reportID];
             
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
             
@@ -116,12 +121,15 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
             });
         }
         else {
-            SCLAlertView *alert = [[SCLAlertView alloc] init];
-            [alert addButton:@"刷新" actionBlock:^(void) {
-                [self loadHtml];
-            }];
-            
-            [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                SCLAlertView *alert = [[SCLAlertView alloc] init];
+                
+                [alert addButton:@"刷新" actionBlock:^(void) {
+                    [self loadHtml];
+                }];
+                
+                [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
+            });
         }
     });
 }

@@ -91,6 +91,15 @@
 
 + (void)downloadAssetFile:(NSString *)urlString assetsPath:(NSString *)assetsPath;
 
+
+/**
+ *  清理header信息
+ *
+ *  @param urlString  链接
+ *  @param assetsPath 缓存位置
+ */
++ (void)clearHttpResponeHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath;
+
 /**
  *  http#get时header添加If-None-Match，避免表态文件重复加载
  *

@@ -163,7 +163,20 @@
     return _netWorkType;
 }
 
-
+/**
+ *  清理header信息
+ *
+ *  @param urlString  链接
+ *  @param assetsPath 缓存位置
+ */
++ (void)clearHttpResponeHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath {
+    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
+    NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
+    if(cachedHeaderDict && cachedHeaderDict[urlString]) {
+        [cachedHeaderDict removeObjectForKey:urlString];
+        [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
+    }
+}
 /**
  *  http#get时header添加If-None-Match，避免表态文件重复加载
  *
@@ -204,15 +217,15 @@
 }
 
 + (void)downloadAssetFile:(NSString *)urlString assetsPath:(NSString *)assetsPath {
+    NSString *filePath = [assetsPath stringByAppendingPathComponent:[urlString lastPathComponent]];
+    
+    if(![self checkFileExist:filePath isDir:NO]) {
+        [HttpUtils clearHttpResponeHeader:urlString assetsPath:assetsPath];
+    }
+
     HttpResponse *httpResponse = [self checkResponseHeader:urlString assetsPath:assetsPath];
     
-    NSString *filePath = [assetsPath stringByAppendingPathComponent:[urlString lastPathComponent]];
-
-    
-    if([httpResponse.statusCode isEqualToNumber:@(200)] ||
-       ([httpResponse.statusCode isEqualToNumber:@(304)] && ![self checkFileExist:filePath isDir:NO])) {
-        
-        
+    if([httpResponse.statusCode isEqualToNumber:@(200)]) {
         [self writeAssetFile:urlString filePath:filePath assetContent:nil];
         NSString *fileDir = [filePath stringByDeletingPathExtension];
         

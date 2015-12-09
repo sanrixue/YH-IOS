@@ -30,7 +30,7 @@
     
     
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self clearHttpResponeHeader];
+        [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
         
         [self loadHtml];
     }];

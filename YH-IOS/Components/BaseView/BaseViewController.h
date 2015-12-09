@@ -33,6 +33,4 @@
 
 - (void)showProgressHUD:(NSString *)text;
 
-- (void)clearHttpResponeHeader;
-- (void)clearHttpResponeHeader:(NSString *)urlString;
 @end

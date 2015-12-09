@@ -67,17 +67,7 @@
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
 
-- (void)clearHttpResponeHeader {
-    [self clearHttpResponeHeader:self.urlString];
-}
-- (void)clearHttpResponeHeader:(NSString *)urlString {
-    NSString *cachedHeaderPath = [self.assetsPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
-    NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
-    if(cachedHeaderDict && cachedHeaderDict[urlString]) {
-        [cachedHeaderDict removeObjectForKey:urlString];
-        [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
-    }
-}
+
 #pragma mark - status bar settings
 - (BOOL)prefersStatusBarHidden {
     return NO;

@@ -24,14 +24,19 @@
     
     NSString *userspacePath = [FileUtils userspace];
     NSString *assetsPath = [userspacePath stringByAppendingPathComponent:HTML_DIRNAME];
-    HttpResponse *httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:assetsPath];
     
     NSString *reportDataFileName = [NSString stringWithFormat:REPORT_DATA_FILENAME, groupID, reportID];
     NSString *reportDataFilePath = [assetsPath stringByAppendingPathComponent:reportDataFileName];
     
+    if(![FileUtils checkFileExist:reportDataFilePath isDir:NO]) {
+        [HttpUtils clearHttpResponeHeader:urlString assetsPath:assetsPath];
+    }
     
-    if([httpResponse.statusCode isEqualToNumber:@(200)] ||
-       ([httpResponse.statusCode isEqualToNumber:@(304)] && ![FileUtils checkFileExist:reportDataFilePath isDir:NO])) {
+    HttpResponse *httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:assetsPath];
+    
+    if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+       // || reponse body is empty when 304
+       //([httpResponse.statusCode isEqualToNumber:@(304)] && ![FileUtils checkFileExist:reportDataFilePath isDir:NO])) {
         
         if(httpResponse.string) {
             NSError *error = nil;

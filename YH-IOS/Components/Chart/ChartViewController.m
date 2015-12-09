@@ -39,7 +39,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
     }];
     
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self clearHttpResponeHeader];
+        [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
         
         [self loadHtml];
     }];
@@ -67,8 +67,9 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 -(void)handleRefresh:(UIRefreshControl *)refresh {
     if(self.isInnerLink) {
         NSString *reportDataUrlString = [APIHelper reportDataUrlString:@"1" reportID:self.reportID];
-        [self clearHttpResponeHeader:reportDataUrlString];
-        [self clearHttpResponeHeader];
+        
+        [HttpUtils clearHttpResponeHeader:reportDataUrlString assetsPath:self.assetsPath];
+        [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
     }
     [self loadHtml];
     [refresh endRefreshing];

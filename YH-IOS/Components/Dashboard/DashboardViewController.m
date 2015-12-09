@@ -35,7 +35,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     }];
     
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self clearHttpResponeHeader];
+        [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
         
         [self loadHtml];
     }];
@@ -67,7 +67,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 
 #pragma mark - UIWebview pull down to refresh
 -(void)handleRefresh:(UIRefreshControl *)refresh {
-    [self clearHttpResponeHeader];
+    [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
     [self loadHtml];
     [refresh endRefreshing];
 }

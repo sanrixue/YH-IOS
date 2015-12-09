@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "DashboardViewController.h"
+#import "APIHelper.h"
 
 
 @interface LoginViewController ()
@@ -38,7 +39,26 @@
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
         
         if([HttpUtils isNetworkAvailable]) {
-            [self jumpToDashboardView];
+            NSString *username = data[@"username"];
+            //NSString *password = data[@"password"];
+            
+            if(!username || [username stringByReplacingOccurrencesOfString:@"" withString:@" "].length == 0) {
+                [self showProgressHUD:@"请输入用户名"];
+                self.progressHUD.mode = MBProgressHUDModeText;
+                [self.progressHUD hide:YES afterDelay:2.0];
+            }
+            else {
+                NSString *msg = [APIHelper userAuthentication:username password:@"not-set"];
+                
+                if(msg.length == 0) {
+                    [self jumpToDashboardView];
+                }
+                else {
+                    [self showProgressHUD:msg];
+                    self.progressHUD.mode = MBProgressHUDModeText;
+                    [self.progressHUD hide:YES afterDelay:2.0];
+                }
+            }
         }
         else {
             [self showProgressHUD:@"请确认网络环境."];

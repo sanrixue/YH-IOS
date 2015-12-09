@@ -77,7 +77,6 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     [self clearBrowserCache];
     [self showLoading];
     
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
         if([HttpUtils isNetworkAvailable]) {
@@ -142,6 +141,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         default: path = KPI_PATH; break;
     }
     
+    path = [NSString stringWithFormat:path, self.user.roleID];
     self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
     [self loadHtml];
 }

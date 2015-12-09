@@ -9,25 +9,25 @@
 #ifndef const_h
 #define const_h
 
-#define BASE_URL          @"http://121.40.35.29:4567"
-#define BASE_URL2          @"http://localhost:4567"
-#define LOGIN_PATH        @"/mobile/login"
-#define KPI_PATH          @"/mobile/kpi"
-#define CHART_PATH        @"/mobile/chart"
-#define MESSAGE_PATH      @"/mobile/message"
-#define APPLICATION_PATH  @"/mobile/application"
-#define ANALYSE_PATH      @"/mobile/analyse"
-#define ANALYSE_DETAIL_PATH @"/mobile/analyse_detail"
-
 #define YH_COLOR          @"#53a93f"
 
-#define API_DATA_PATH  @"/api/data/group/%@/report/%@/attachment"
+#define BASE_URL          @"http://121.40.35.29:4567"
+#define BASE_URL2          @"http://localhost:4567"
 
+#define LOGIN_PATH        @"/mobile/login"
+#define API_USER_PATH     @"/api/v1/%@/%@/%@/authentication"
+#define API_DATA_PATH     @"/api/v1/group/%@/report/%@/attachment"
+
+#define KPI_PATH          @"/mobile/%@/kpi"
+#define MESSAGE_PATH      @"/mobile/%@/message"
+#define APPLICATION_PATH  @"/mobile/%@/app"
+#define ANALYSE_PATH      @"/mobile/%@/analyse"
 
 #define FONTS_PATH        @"/mobile/assets/fonts.zip"
 
 #define REPORT_DATA_FILENAME @"javascripts_template_data_group_%@_report_%@.js"
 
+#define USER_CONFIG_FILENAME @"user.plist"
 #define CONFIG_DIRNAME    @"Configs"
 #define HTML_DIRNAME      @"HTML"
 #define ASSETS1_DIRNAME   @"Assets"

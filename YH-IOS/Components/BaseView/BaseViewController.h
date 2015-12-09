@@ -15,6 +15,7 @@
 #import "HttpResponse.h"
 #import <SCLAlertView.h>
 #import "UIColor+Hex.h"
+#import "User.h"
 //#import <WebKit/WebKit.h>
 
 @interface BaseViewController : UIViewController<UIWebViewDelegate>
@@ -25,6 +26,7 @@
 @property (strong, nonatomic) MBProgressHUD *progressHUD;
 @property (strong, nonatomic) NSString *urlString;
 @property (strong, nonatomic) NSString *assetsPath;
+@property (strong, nonatomic) User *user;
 
 - (NSString *)stringWithContentsOfFile:(NSString *)htmlPath;
 - (void)clearBrowserCache;

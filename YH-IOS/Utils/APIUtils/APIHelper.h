@@ -11,4 +11,15 @@
 @interface APIHelper : NSObject
 + (NSString *)reportDataUrlString:(NSString *)groupID reportID:(NSString *)reportID ;
 + (void)reportData:(NSString *)groupID reportID:(NSString *)reportID;
+
+/**
+ *  登录验证
+ *
+ *  @param username <#username description#>
+ *  @param password <#password description#>
+ *
+ *  @return error msg when authentication failed
+ */
+
++ (NSString *)userAuthentication:(NSString *)username password:(NSString *)password;
 @end

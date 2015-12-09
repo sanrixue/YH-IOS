@@ -14,6 +14,7 @@
     [super viewDidLoad];
     
     self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
+    self.user = [[User alloc] init];
 }
 
 #pragma  mark - assistant methods

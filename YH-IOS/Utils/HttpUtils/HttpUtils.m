@@ -41,9 +41,7 @@
     HttpResponse *httpResponse = [[HttpResponse alloc] init];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:timeoutInterval];
     if(header) {
-        for(NSString *key in header) {
-            [request setValue:header[key] forHTTPHeaderField:key];
-        }
+        for(NSString *key in header) { [request setValue:header[key] forHTTPHeaderField:key]; }
     }
     NSError *error;
     NSURLResponse *response;

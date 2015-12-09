@@ -15,8 +15,8 @@
 @implementation APIHelper
 
 + (NSString *)reportDataUrlString:(NSString *)groupID reportID:(NSString *)reportID  {
-    NSString *dataPath = [NSString stringWithFormat:API_DATA_PATH, groupID, reportID];
-    return [NSString stringWithFormat:@"%@%@", BASE_URL, dataPath];
+    NSString *urlPath = [NSString stringWithFormat:API_DATA_PATH, groupID, reportID];
+    return [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
 }
 
 + (void)reportData:(NSString *)groupID reportID:(NSString *)reportID {
@@ -47,5 +47,31 @@
             }
         }
     }
+}
+
+/**
+ *  登录验证
+ *
+ *  @param username <#username description#>
+ *  @param password <#password description#>
+ *
+ *  @return error msg when authentication failed
+ */
+
++ (NSString *)userAuthentication:(NSString *)username password:(NSString *)password {
+    NSString *urlPath = [NSString stringWithFormat:API_USER_PATH, @"IOS", username, password];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    
+    NSString *alertMsg = @"";
+    
+    HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
+    if(httpResponse.statusCode && [httpResponse.statusCode isEqualToNumber:@(200)]) {
+        NSString *configPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+        [httpResponse.data writeToFile:configPath atomically:YES];
+    }
+    else {
+        alertMsg = [NSString stringWithFormat:@"%@", httpResponse.data[@"info"]];
+    }
+    return alertMsg;
 }
 @end

@@ -10,6 +10,7 @@
 		C41E4FA61C0FE00A00E1B514 /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */; settings = {ASSET_TAGS = (); }; };
 		C41E4FA71C0FE00A00E1B514 /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */; settings = {ASSET_TAGS = (); }; };
 		C41E4FAB1C0FEE1800E1B514 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */; settings = {ASSET_TAGS = (); }; };
+		C4379B571C18232D0058257A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C4379B561C18232D0058257A /* User.m */; settings = {ASSET_TAGS = (); }; };
 		C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4448C6B1C0AE3030053B431 /* HttpUtils.m */; settings = {ASSET_TAGS = (); }; };
 		C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B8E1C05871400AAF44F /* TFHpple.m */; settings = {ASSET_TAGS = (); }; };
 		C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B901C05871400AAF44F /* TFHppleElement.m */; settings = {ASSET_TAGS = (); }; };
@@ -73,6 +74,8 @@
 		C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgyUpdate.framework; path = Frameworks/PgyUpdate.framework; sourceTree = "<group>"; };
 		C41E4FA91C0FEE1800E1B514 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
 		C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		C4379B551C18232D0058257A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		C4379B561C18232D0058257A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		C4448C6B1C0AE3030053B431 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
 		C4771B8D1C05871400AAF44F /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		C4771B8E1C05871400AAF44F /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
@@ -180,6 +183,15 @@
 				C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */,
 			);
 			path = UIColor;
+			sourceTree = "<group>";
+		};
+		C4379B541C1823110058257A /* User */ = {
+			isa = PBXGroup;
+			children = (
+				C4379B551C18232D0058257A /* User.h */,
+				C4379B561C18232D0058257A /* User.m */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		C4771B881C05871300AAF44F /* Vendor */ = {
@@ -403,6 +415,7 @@
 			isa = PBXGroup;
 			children = (
 				C4DB7DC81C02EE8E00DA534E /* BaseModel */,
+				C4379B541C1823110058257A /* User */,
 				C4DB7DCB1C02EE8E00DA534E /* HttpResponse */,
 			);
 			path = Models;
@@ -647,6 +660,7 @@
 				C41E4FAB1C0FEE1800E1B514 /* UIColor+Hex.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
+				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,

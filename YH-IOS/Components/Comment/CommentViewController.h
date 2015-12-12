@@ -1,17 +1,15 @@
 //
-//  ChartViewController.h
+//  CommentViewController.h
 //  YH-IOS
 //
-//  Created by lijunjie on 15/11/25.
+//  Created by lijunjie on 15/12/11.
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
 
 #import "BaseViewController.h"
 
-@interface ChartViewController : BaseViewController
-
+@interface CommentViewController : BaseViewController
 @property (strong, nonatomic) NSString *bannerName;
-@property (strong, nonatomic) NSString *link;
 @property (assign, nonatomic) CommentObjectType commentObjectType;
 @property (strong, nonatomic) NSNumber *objectID;
 @end

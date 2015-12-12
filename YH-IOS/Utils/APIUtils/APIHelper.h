@@ -22,4 +22,17 @@
  */
 
 + (NSString *)userAuthentication:(NSString *)username password:(NSString *)password;
+
+
+/**
+ *  创建评论
+ *
+ *  @param userID     <#userID description#>
+ *  @param objectType <#objectType description#>
+ *  @param objectID   <#objectID description#>
+ *  @param params     <#params description#>
+ *
+ *  @return 是否创建成功
+ */
++ (BOOL)writeComment:(NSString *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params;
 @end

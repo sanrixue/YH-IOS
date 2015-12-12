@@ -22,6 +22,12 @@
 + (NSString *)userspace;
 + (NSString *)loadingPath:(BOOL)isLogin;
 /**
+ *  公共资源放在此目录下
+ *
+ *  @return 目录路径
+ */
++ (NSString *)sharedPath;
+/**
  *  传递目录名取得沙盒中的绝对路径(一级),不存在则创建，请慎用！
  *
  *  @param dirName  目录名称，不存在则创建

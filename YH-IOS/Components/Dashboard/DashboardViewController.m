@@ -12,9 +12,12 @@
 
 
 static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier";
+static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
 
 @interface DashboardViewController ()
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
+@property (assign, nonatomic) CommentObjectType commentObjectType;
+@property (assign, nonatomic) NSInteger objectID;
 
 @end
 
@@ -41,9 +44,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     }];
     
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString *bannerName = data[@"bannerName"];
-        NSString *link       = data[@"link"];
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": bannerName, @"link": link}];
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": data[@"bannerName"], @"link": data[@"link"], @"objectID": data[@"objectID"]}];
     }];
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -53,6 +54,17 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if([HttpUtils isNetworkAvailable]) {
+            NSString *fontsPath = [NSString stringWithFormat:@"%@%@", BASE_URL, FONTS_PATH];
+            [HttpUtils downloadAssetFile:fontsPath assetsPath:[FileUtils userspace]];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+        });
+    });
 }
 
 - (void)dealloc {
@@ -82,7 +94,7 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
         if([HttpUtils isNetworkAvailable]) {
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
             
-            NSString *htmlPath, *htmlContent;
+            __block NSString *htmlPath;
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
                 htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
             }
@@ -91,11 +103,9 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
                 htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
             }
             
-            htmlContent = [self stringWithContentsOfFile:htmlPath];
-            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-            
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
             });
         }
         else {
@@ -112,18 +122,25 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
     });
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-}
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    NSLog(@"%@", error.description);
+#pragma mark - action methods
+- (IBAction)actionPerformSettingView:(UIButton *)sender {
+    [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:kChartSegueIdentifier]) {
         ChartViewController *chartViewController = (ChartViewController *)segue.destinationViewController;
-        chartViewController.bannerName = sender[@"bannerName"];
-        chartViewController.link = sender[@"link"];
+        chartViewController.bannerName        = sender[@"bannerName"];
+        chartViewController.link              = sender[@"link"];
+        chartViewController.objectID          = sender[@"objectID"];
+        chartViewController.commentObjectType = self.commentObjectType;
     }
+}
+#pragma mark - UIWebview delegate
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    NSLog(@"%@", error.description);
 }
 
 #pragma mark - UITabBar delegate
@@ -134,11 +151,31 @@ static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier
 - (void)tabBarClick:(NSInteger)index {
     NSString *path = KPI_PATH;
     switch (index) {
-        case 0: path = KPI_PATH; break;
-        case 1: path = ANALYSE_PATH; break;
-        case 2: path = APPLICATION_PATH; break;
-        case 3: path = MESSAGE_PATH; break;
-        default: path = KPI_PATH; break;
+        case 0: {
+            path = KPI_PATH;
+            self.commentObjectType = ObjectTypeReport;
+            break;
+        }
+        case 1: {
+            path = ANALYSE_PATH;
+            self.commentObjectType = ObjectTypeAnalyse;
+            break;
+        }
+        case 2: {
+            path = APPLICATION_PATH;
+            self.commentObjectType = ObjectTypeApp;
+            break;
+        }
+        case 3: {
+            path = MESSAGE_PATH;
+            self.commentObjectType = ObjectTypeMessage;
+            break;
+        }
+        default: {
+            path = KPI_PATH;
+            self.commentObjectType = ObjectTypeReport;
+            break;
+        }
     }
     
     path = [NSString stringWithFormat:path, self.user.roleID];

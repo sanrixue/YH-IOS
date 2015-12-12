@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
+    self.assetsPath = [FileUtils sharedPath];
     self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
 
     [WebViewJavascriptBridge enableLogging];
@@ -70,16 +70,6 @@
     self.browser.scrollView.scrollEnabled = NO;
     self.browser.scrollView.bounces = NO;
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if([HttpUtils isNetworkAvailable]) {
-            NSString *fontsPath = [NSString stringWithFormat:@"%@%@", BASE_URL, FONTS_PATH];
-            [HttpUtils downloadAssetFile:fontsPath assetsPath:[FileUtils userspace]];
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
-        });
-    });
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -74,4 +74,22 @@
     }
     return alertMsg;
 }
+
+/**
+ *  创建评论
+ *
+ *  @param userID     <#userID description#>
+ *  @param objectType <#objectType description#>
+ *  @param objectID   <#objectID description#>
+ *  @param params     <#params description#>
+ *
+ *  @return 是否创建成功
+ */
++ (BOOL)writeComment:(NSString *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params {
+    NSString *urlPath = [NSString stringWithFormat:API_COMMENT_PATH, userID, objectID, objectType];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];
+    
+    return [httpResponse.statusCode isEqual:@(201)];
+}
 @end

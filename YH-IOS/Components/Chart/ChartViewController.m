@@ -8,14 +8,13 @@
 
 
 #import "ChartViewController.h"
-#import "DashboardViewController.h"
 #import "APIHelper.h"
+#import "CommentViewController.h"
 
-static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentifier";
+static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 
 @interface ChartViewController ()
 @property (assign, nonatomic) BOOL isInnerLink;
-@property (weak, nonatomic) IBOutlet UILabel *labelTheme;
 @property (weak, nonatomic) IBOutlet UIButton *btnComment;
 @property (strong, nonatomic)  NSString *reportID;
 @end
@@ -105,7 +104,7 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
             
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
             
-            NSString *htmlPath, *htmlContent;
+            __block NSString *htmlPath;
             if([httpResponse.statusCode isEqualToNumber:@(200)]) {
                 htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
             }
@@ -114,11 +113,10 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
                 htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
             }
             
-            htmlContent = [self stringWithContentsOfFile:htmlPath];
-            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
             });
         }
         else {
@@ -147,31 +145,16 @@ static NSString *const kDashbaordSegueIdentifer = @"ChartToDashboardSegueIdentif
 }
 
 - (IBAction)actionWriteComment:(UIButton *)sender {
-    SCLAlertView *alert = [[SCLAlertView alloc] init];
-    UITextField *textField = [alert addTextField:@"想说点什么呢~"];
+    [self performSegueWithIdentifier:kCommentSegueIdentifier sender:nil];
+}
 
-    [alert addButton:@"确认"
-     validationBlock:^BOOL {
-         BOOL isValid = (textField.text && textField.text.length > 0);
-         if(!isValid) {
-             [self showProgressHUD:@"需说些什么，好提交"];
-             self.progressHUD.mode = MBProgressHUDModeText;
-             [self.progressHUD hide:YES afterDelay:2.0];
-         }
-         
-         return isValid;
-     }
-     actionBlock:^(void) {
-         NSLog(@"%@", textField.text);
-         // 隐藏键盘
-         [textField resignFirstResponder];
-         [self showProgressHUD:@"提交中..."];
-         
-         [self.progressHUD hide:YES];
-     }];
-    
-    NSString *subTitle = [NSString stringWithFormat:@"对【%@】有什么看法?", self.bannerName];
-    [alert showInfo:self title:@"发表评论" subTitle:subTitle closeButtonTitle:@"取消" duration:0.0f];
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqualToString:kCommentSegueIdentifier]) {
+        CommentViewController *commentViewController = (CommentViewController *)segue.destinationViewController;
+        commentViewController.bannerName        = self.bannerName;
+        commentViewController.commentObjectType = self.commentObjectType;
+        commentViewController.objectID          = self.objectID;
+    }
 }
 # pragma mark - 登录界面不支持旋转
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

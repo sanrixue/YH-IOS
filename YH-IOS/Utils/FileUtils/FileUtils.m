@@ -12,6 +12,7 @@
 #import "const.h"
 #import "FileUtils.h"
 #import "ExtendNSLogFunctionality.h"
+#import "user.h"
 
 @interface FileUtils()
 @end
@@ -27,18 +28,26 @@
     //获取应用程序沙盒的Documents目录
     NSString *basePath = [FileUtils basePath];
     
-    NSDictionary *localVersionInfo =[[NSBundle mainBundle] infoDictionary];
-    NSString *currentVersion = localVersionInfo[@"CFBundleShortVersionString"];
-    NSString *namespace = [NSString stringWithFormat:@"namespace_%@", currentVersion];
+    NSString *configPath = [basePath stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:configPath];
+    NSString *namespace = [NSString stringWithFormat:@"user-%@", dict[@"user_id"]];
     NSString *userSpacePath = [basePath stringByAppendingPathComponent:namespace];
     
     return userSpacePath;
 }
 
+/**
+ *  公共资源放在此目录下
+ *
+ *  @return 目录路径
+ */
++ (NSString *)sharedPath {
+    return [[self basePath] stringByAppendingPathComponent:SHARED_DIRNAME];
+}
+
 + (NSString *)loadingPath:(BOOL)isLogin {
-    NSString *userspace = [FileUtils userspace];
     NSString *indexName = isLogin ? @"Loading/Login.html" : @"Loading/Load.html";
-    return  [userspace stringByAppendingPathComponent:indexName];
+    return  [[self sharedPath] stringByAppendingPathComponent:indexName];
 }
 /**
  *  传递目录名取得沙盒中的绝对路径(一级),不存在则创建，请慎用！

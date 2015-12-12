@@ -32,9 +32,16 @@
 		C488E6A31C0F00A800EB946D /* Loading.zip in Resources */ = {isa = PBXBuildFile; fileRef = C488E6A21C0F00A800EB946D /* Loading.zip */; settings = {ASSET_TAGS = (); }; };
 		C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A51C0F03C800EB946D /* BaseViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
+		C49E1AAC1C195DDE00CFFE3C /* GesturePasswordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AA51C195DDE00CFFE3C /* GesturePasswordButton.m */; settings = {ASSET_TAGS = (); }; };
+		C49E1AAD1C195DDE00CFFE3C /* GesturePasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AA71C195DDE00CFFE3C /* GesturePasswordView.m */; settings = {ASSET_TAGS = (); }; };
+		C49E1AAE1C195DDE00CFFE3C /* TentacleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AA91C195DDE00CFFE3C /* TentacleView.m */; settings = {ASSET_TAGS = (); }; };
+		C49E1AAF1C195DDE00CFFE3C /* GesturePasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AAB1C195DDE00CFFE3C /* GesturePasswordController.m */; settings = {ASSET_TAGS = (); }; };
+		C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB21C19632000CFFE3C /* SettingViewController.m */; settings = {ASSET_TAGS = (); }; };
+		C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB61C196B5400CFFE3C /* ViewUtils.m */; settings = {ASSET_TAGS = (); }; };
 		C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
+		C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CF3B571C1AC75C00F58E1E /* CommentViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7D781C02EC0500DA534E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D771C02EC0500DA534E /* main.m */; };
 		C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D7F1C02EC0500DA534E /* Main.storyboard */; };
 		C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D821C02EC0500DA534E /* Assets.xcassets */; };
@@ -105,12 +112,26 @@
 		C488E6A21C0F00A800EB946D /* Loading.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Loading.zip; sourceTree = "<group>"; };
 		C488E6A41C0F03C800EB946D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		C488E6A51C0F03C800EB946D /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		C49E1AA41C195DDE00CFFE3C /* GesturePasswordButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GesturePasswordButton.h; sourceTree = "<group>"; };
+		C49E1AA51C195DDE00CFFE3C /* GesturePasswordButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GesturePasswordButton.m; sourceTree = "<group>"; };
+		C49E1AA61C195DDE00CFFE3C /* GesturePasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GesturePasswordView.h; sourceTree = "<group>"; };
+		C49E1AA71C195DDE00CFFE3C /* GesturePasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GesturePasswordView.m; sourceTree = "<group>"; };
+		C49E1AA81C195DDE00CFFE3C /* TentacleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TentacleView.h; sourceTree = "<group>"; };
+		C49E1AA91C195DDE00CFFE3C /* TentacleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TentacleView.m; sourceTree = "<group>"; };
+		C49E1AAA1C195DDE00CFFE3C /* GesturePasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GesturePasswordController.h; sourceTree = "<group>"; };
+		C49E1AAB1C195DDE00CFFE3C /* GesturePasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GesturePasswordController.m; sourceTree = "<group>"; };
+		C49E1AB11C19632000CFFE3C /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		C49E1AB21C19632000CFFE3C /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		C49E1AB51C196B5400CFFE3C /* ViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewUtils.h; sourceTree = "<group>"; };
+		C49E1AB61C196B5400CFFE3C /* ViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewUtils.m; sourceTree = "<group>"; };
 		C4C6283B1C0C1ED6000AD5D8 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
 		C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
 		C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
 		C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DashboardViewController.m; sourceTree = "<group>"; };
 		C4C628411C0C1ED6000AD5D8 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		C4CF3B561C1AC75C00F58E1E /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
+		C4CF3B571C1AC75C00F58E1E /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		C4DB7D731C02EC0500DA534E /* YH-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YH-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DB7D771C02EC0500DA534E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C4DB7D801C02EC0500DA534E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -197,6 +218,7 @@
 		C4771B881C05871300AAF44F /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				C49E1AA21C195DDE00CFFE3C /* GesturePassword */,
 				C4771B891C05871400AAF44F /* hpple */,
 				C4771B931C05871400AAF44F /* WebViewJavascriptBridge */,
 			);
@@ -239,13 +261,56 @@
 			path = APIUtils;
 			sourceTree = "<group>";
 		};
+		C49E1AA21C195DDE00CFFE3C /* GesturePassword */ = {
+			isa = PBXGroup;
+			children = (
+				C49E1AA31C195DDE00CFFE3C /* GesturePassword */,
+				C49E1AAA1C195DDE00CFFE3C /* GesturePasswordController.h */,
+				C49E1AAB1C195DDE00CFFE3C /* GesturePasswordController.m */,
+			);
+			path = GesturePassword;
+			sourceTree = "<group>";
+		};
+		C49E1AA31C195DDE00CFFE3C /* GesturePassword */ = {
+			isa = PBXGroup;
+			children = (
+				C49E1AA41C195DDE00CFFE3C /* GesturePasswordButton.h */,
+				C49E1AA51C195DDE00CFFE3C /* GesturePasswordButton.m */,
+				C49E1AA61C195DDE00CFFE3C /* GesturePasswordView.h */,
+				C49E1AA71C195DDE00CFFE3C /* GesturePasswordView.m */,
+				C49E1AA81C195DDE00CFFE3C /* TentacleView.h */,
+				C49E1AA91C195DDE00CFFE3C /* TentacleView.m */,
+			);
+			path = GesturePassword;
+			sourceTree = "<group>";
+		};
+		C49E1AB01C1962F200CFFE3C /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				C49E1AB11C19632000CFFE3C /* SettingViewController.h */,
+				C49E1AB21C19632000CFFE3C /* SettingViewController.m */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		C49E1AB41C196B5400CFFE3C /* ViewUtils */ = {
+			isa = PBXGroup;
+			children = (
+				C49E1AB51C196B5400CFFE3C /* ViewUtils.h */,
+				C49E1AB61C196B5400CFFE3C /* ViewUtils.m */,
+			);
+			path = ViewUtils;
+			sourceTree = "<group>";
+		};
 		C4C628381C0C1ED6000AD5D8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				C4CF3B551C1AC73C00F58E1E /* Comment */,
 				C4C628391C0C1ED6000AD5D8 /* BaseView */,
 				C4C6283A1C0C1ED6000AD5D8 /* Chart */,
 				C4C6283D1C0C1ED6000AD5D8 /* Dashboard */,
 				C4C628401C0C1ED6000AD5D8 /* Login */,
+				C49E1AB01C1962F200CFFE3C /* Setting */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -284,6 +349,15 @@
 				C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */,
 			);
 			path = Login;
+			sourceTree = "<group>";
+		};
+		C4CF3B551C1AC73C00F58E1E /* Comment */ = {
+			isa = PBXGroup;
+			children = (
+				C4CF3B561C1AC75C00F58E1E /* CommentViewController.h */,
+				C4CF3B571C1AC75C00F58E1E /* CommentViewController.m */,
+			);
+			path = Comment;
 			sourceTree = "<group>";
 		};
 		C4DB7D6A1C02EC0500DA534E = {
@@ -364,6 +438,7 @@
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C49E1AB41C196B5400CFFE3C /* ViewUtils */,
 				C41E4FA81C0FED4600E1B514 /* UIColor */,
 				C488E69E1C0ED9D500EB946D /* APIUtils */,
 				C4DB7DB61C02EE3800DA534E /* DateUtils */,
@@ -652,19 +727,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C49E1AAC1C195DDE00CFFE3C /* GesturePasswordButton.m in Sources */,
 				C4DB7DC21C02EE3800DA534E /* ExtendNSLogFunctionality.m in Sources */,
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
+				C49E1AAE1C195DDE00CFFE3C /* TentacleView.m in Sources */,
 				C4771BA31C05871400AAF44F /* WebViewJavascriptBridgeBase.m in Sources */,
 				C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */,
 				C41E4FAB1C0FEE1800E1B514 /* UIColor+Hex.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
+				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4771BA21C05871400AAF44F /* WebViewJavascriptBridge.m in Sources */,
+				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
+				C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */,
 				C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */,
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */,
@@ -672,7 +752,9 @@
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
 				C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */,
+				C49E1AAD1C195DDE00CFFE3C /* GesturePasswordView.m in Sources */,
 				C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */,
+				C49E1AAF1C195DDE00CFFE3C /* GesturePasswordController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

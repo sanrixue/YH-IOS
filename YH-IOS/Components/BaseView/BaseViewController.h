@@ -23,6 +23,7 @@
 @property WebViewJavascriptBridge* bridge;
 @property (weak, nonatomic) IBOutlet UIView *bannerView;
 @property (weak, nonatomic) IBOutlet UIWebView *browser;
+@property (weak, nonatomic) IBOutlet UILabel *labelTheme;
 @property (strong, nonatomic) MBProgressHUD *progressHUD;
 @property (strong, nonatomic) NSString *urlString;
 @property (strong, nonatomic) NSString *assetsPath;

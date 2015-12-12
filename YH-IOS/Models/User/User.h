@@ -10,6 +10,7 @@
 
 @interface User : BaseModel
 @property (strong, nonatomic) NSString *userID;
+@property (strong, nonatomic) NSString *userName;
 @property (strong, nonatomic) NSString *roleID;
 @property (strong, nonatomic) NSArray *kpiIDs;
 @property (strong, nonatomic) NSArray *analyseIDs;

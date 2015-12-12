@@ -31,11 +31,11 @@
     [[PgyUpdateManager sharedPgyManager] checkUpdate];
     
     NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Loading.zip"];
-    NSString *userspace = [FileUtils userspace];
-    NSString *loadingPath = [userspace stringByAppendingPathComponent:@"Loading"];
+    NSString *sharedPath = [FileUtils sharedPath];
+    NSString *loadingPath = [sharedPath stringByAppendingPathComponent:@"Loading"];
     
     if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
-        [SSZipArchive unzipFileAtPath:zipPath toDestination:userspace];
+        [SSZipArchive unzipFileAtPath:zipPath toDestination:sharedPath];
     }
     
     return YES;

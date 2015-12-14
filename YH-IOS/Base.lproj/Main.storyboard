@@ -9,7 +9,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -219,14 +219,27 @@
                                     <constraint firstItem="mGI-mA-65P" firstAttribute="leading" secondItem="nGn-ld-zsJ" secondAttribute="leading" constant="20" id="ej6-Mk-rjF"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="owa-8a-CHd">
+                                <rect key="frame" x="20" y="544" width="560" height="36"/>
+                                <color key="backgroundColor" red="1" green="0.023279552039999998" blue="0.002520476383" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="登陆退出">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="actionLogout:" destination="IAN-Qx-0h6" eventType="touchUpInside" id="JVK-tX-z60"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="XX3-hn-AmV" firstAttribute="top" secondItem="owa-8a-CHd" secondAttribute="bottom" constant="20" id="0Pb-Vc-JUa"/>
+                            <constraint firstItem="owa-8a-CHd" firstAttribute="leading" secondItem="onS-hz-iXv" secondAttribute="leadingMargin" id="6QC-cp-cfR"/>
                             <constraint firstAttribute="trailingMargin" secondItem="nGn-ld-zsJ" secondAttribute="trailing" id="AOm-NH-zOJ"/>
                             <constraint firstItem="nGn-ld-zsJ" firstAttribute="top" secondItem="I7G-rp-af7" secondAttribute="bottom" constant="25" id="Dex-bC-XAy"/>
                             <constraint firstItem="nGn-ld-zsJ" firstAttribute="leading" secondItem="onS-hz-iXv" secondAttribute="leadingMargin" id="SqA-Xb-gPg"/>
                             <constraint firstItem="I7G-rp-af7" firstAttribute="leading" secondItem="onS-hz-iXv" secondAttribute="leadingMargin" constant="-20" id="Src-eI-qLX"/>
                             <constraint firstAttribute="trailingMargin" secondItem="I7G-rp-af7" secondAttribute="trailing" constant="-20" id="h0I-F7-Jkv"/>
+                            <constraint firstItem="owa-8a-CHd" firstAttribute="trailing" secondItem="onS-hz-iXv" secondAttribute="trailingMargin" id="kdf-Bj-lIC"/>
                             <constraint firstItem="I7G-rp-af7" firstAttribute="top" secondItem="onS-hz-iXv" secondAttribute="topMargin" id="zQq-Vy-Xau"/>
                         </constraints>
                     </view>

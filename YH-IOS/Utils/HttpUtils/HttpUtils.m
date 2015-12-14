@@ -376,7 +376,7 @@
 
 + (void)writeAssetFile:(NSString *)assetUrl filePath:(NSString *)filePath assetContent:(NSString *)assetContent {
     NSString *assetExt = [filePath pathExtension];
-    
+	    
     if([self include:@[@"js", @"css"] object:assetExt]) {
         
         assetContent = assetContent ?: [self httpGet:assetUrl].string;

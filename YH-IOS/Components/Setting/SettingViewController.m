@@ -8,6 +8,7 @@
 
 #import "SettingViewController.h"
 #import "ViewUtils.h"
+#import "LoginViewController.h"
 
 @interface SettingViewController ()
 @property (weak, nonatomic) IBOutlet UISwitch *switchGesturePassword;
@@ -59,13 +60,30 @@
     }
     else {
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-        NSDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];
-        NSMutableDictionary *settingsInfoEditor = [NSMutableDictionary dictionaryWithDictionary:settingsInfo];
-        settingsInfoEditor[@"use_gesture_password"] = @0;
-        [FileUtils writeJSON:settingsInfoEditor Into:settingsConfigPath];
+        NSMutableDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];
+        settingsInfo[@"use_gesture_password"] = @(0);
+        [settingsInfo writeToFile:settingsConfigPath atomically:YES];
         
         [ViewUtils showPopupView:self.view Info:@"禁用手势锁设置成功"];
     }
+}
+
+- (IBAction)actionLogout:(id)sender {
+    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+    NSMutableDictionary *settingsDict = [FileUtils readConfigFile:settingsConfigPath];
+    settingsDict[@"is_login"] = @(0);
+    [settingsDict writeToFile:settingsConfigPath atomically:YES];
+    
+    
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    userDict[@"is_login"] = @(0);
+    [userDict writeToFile:userConfigPath atomically:YES];
+    
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    self.view.window.rootViewController = loginViewController;
 }
 #pragma mark - <UITableViewDelegate, UITableViewDataSource>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -94,6 +112,20 @@
         default:
             break;
     }
+}
+
+#pragma mark - GesturePasswordControllerDelegate
+- (void)verifySucess {
+    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+    NSMutableDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];
+    if(![settingsInfo[@"use_gesture_password"] isEqualToNumber:@1]) {
+        settingsInfo[@"use_gesture_password"] = @1;
+        [settingsInfo writeToFile:settingsConfigPath atomically:YES];
+    }
+    
+    [_gesturePasswordController dismissViewControllerAnimated:YES completion:nil];
+    _gesturePasswordController.delegate = nil;
+    _gesturePasswordController = nil;
 }
 
 

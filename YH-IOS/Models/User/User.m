@@ -17,12 +17,13 @@
         if([FileUtils checkFileExist:configPath isDir:NO]) {
             NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:configPath];
             
-            self.userName = dict[@"user_name"];
-            self.userID = dict[@"user_id"];
-            self.roleID = dict[@"role_id"];
-            self.kpiIDs = dict[@"kpi_ids"];
+            self.userName   = dict[@"user_name"];
+            self.userID     = dict[@"user_id"];
+            self.roleID     = dict[@"role_id"];
+            self.groupID    = dict[@"group_id"];
+            self.kpiIDs     = dict[@"kpi_ids"];
             self.analyseIDs = dict[@"analyse_ids"];
-            self.appIDs = dict[@"app_ids"];
+            self.appIDs     = dict[@"app_ids"];
         }
     }
     

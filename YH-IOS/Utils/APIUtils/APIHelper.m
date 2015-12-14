@@ -66,8 +66,26 @@
     
     HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
     if(httpResponse.statusCode && [httpResponse.statusCode isEqualToNumber:@(200)]) {
-        NSString *configPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-        [httpResponse.data writeToFile:configPath atomically:YES];
+        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+        NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+
+        userDict[@"user_id"]   = httpResponse.data[@"user_id"];
+        userDict[@"user_name"] = httpResponse.data[@"user_name"];
+        userDict[@"group_id"]  = httpResponse.data[@"group_id"];
+        userDict[@"role_id"]   = httpResponse.data[@"role_id"];
+        userDict[@"kpi_ids"]   = httpResponse.data[@"kpi_ids"];
+        userDict[@"app_ids"]   = httpResponse.data[@"app_ids"];
+        userDict[@"analyse_ids"] = httpResponse.data[@"analyse_ids"];
+        userDict[@"is_login"]  = @(1);
+        [userDict writeToFile:userConfigPath atomically:YES];
+        
+        NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+        NSDictionary *settingsDict = [FileUtils readConfigFile:settingsConfigPath];
+        for(id key in settingsDict) {
+            userDict[key] = settingsDict[key];
+        }
+        userDict[@"is_login"]  = @(1);
+        [userDict writeToFile:settingsConfigPath atomically:YES];
     }
     else {
         alertMsg = [NSString stringWithFormat:@"%@", httpResponse.data[@"info"]];

@@ -11,8 +11,9 @@
 
 #define YH_COLOR          @"#53a93f" //53,A9,3F; 83, 169, 63
 
-#define BASE_URL2          @"http://121.40.35.29:4567"
-#define BASE_URL          @"http://localhost:4567"
+#define BASE_URL2         @"http://121.40.35.29:4567"
+#define BASE_URL1          @"http://localhost:4567"
+#define BASE_URL          @"http://yonghui.idata.mobi"
 
 #define LOGIN_PATH        @"/mobile/login"
 #define API_USER_PATH     @"/api/v1/%@/%@/%@/authentication"

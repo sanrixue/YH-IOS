@@ -27,6 +27,7 @@
 
 @interface GesturePasswordController : UIViewController <VerificationDelegate,ResetDelegate,GesturePasswordDelegate>
 @property (weak, nonatomic) id<GesturePasswordControllerDelegate> delegate;
+@property (assign, nonatomic) BOOL isLogin;
 
 - (void)clear;
 

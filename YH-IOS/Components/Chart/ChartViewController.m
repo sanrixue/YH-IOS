@@ -46,11 +46,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
-}
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
     [self loadHtml];
 }
 
@@ -65,7 +61,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 #pragma mark - UIWebview pull down to refresh
 -(void)handleRefresh:(UIRefreshControl *)refresh {
     if(self.isInnerLink) {
-        NSString *reportDataUrlString = [APIHelper reportDataUrlString:@"1" reportID:self.reportID];
+        NSString *reportDataUrlString = [APIHelper reportDataUrlString:self.user.groupID reportID:self.reportID];
         
         [HttpUtils clearHttpResponeHeader:reportDataUrlString assetsPath:self.assetsPath];
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
@@ -112,7 +108,6 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
                 NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
                 htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
             }
-            
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];

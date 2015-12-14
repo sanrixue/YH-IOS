@@ -149,36 +149,35 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (void)tabBarClick:(NSInteger)index {
-    NSString *path = KPI_PATH;
+    NSString *path;
     switch (index) {
         case 0: {
-            path = KPI_PATH;
+            path = [NSString stringWithFormat:KPI_PATH, self.user.roleID];
             self.commentObjectType = ObjectTypeReport;
             break;
         }
         case 1: {
-            path = ANALYSE_PATH;
+            path = [NSString stringWithFormat:ANALYSE_PATH, self.user.roleID];
             self.commentObjectType = ObjectTypeAnalyse;
             break;
         }
         case 2: {
-            path = APPLICATION_PATH;
+            path = [NSString stringWithFormat:APPLICATION_PATH, self.user.roleID];
             self.commentObjectType = ObjectTypeApp;
             break;
         }
         case 3: {
-            path = MESSAGE_PATH;
+            path = [NSString stringWithFormat:MESSAGE_PATH, self.user.userID];
             self.commentObjectType = ObjectTypeMessage;
             break;
         }
         default: {
-            path = KPI_PATH;
+            path = [NSString stringWithFormat:KPI_PATH, self.user.userID];
             self.commentObjectType = ObjectTypeReport;
             break;
         }
     }
     
-    path = [NSString stringWithFormat:path, self.user.roleID];
     self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
     [self loadHtml];
 }

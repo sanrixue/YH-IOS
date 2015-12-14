@@ -98,6 +98,12 @@
         [cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchDown];
         
         [self addSubview:cancelButton];
+        
+        UIGraphicsBeginImageContext(self.frame.size);
+        [[UIImage imageNamed:@"background"] drawInRect:self.bounds];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        self.backgroundColor = [UIColor colorWithPatternImage:image];
     }
     
     return self;
@@ -106,25 +112,25 @@
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    CGColorSpaceRef rgb = CGColorSpaceCreateDeviceRGB();
-
-    CGFloat colors[] =
-    {
-        125 / 255.0,  255 / 255.0, 95 / 255.0, 1.00,
-        83 / 255.0, 169 / 255.0, 63 / 255.0, 1.00,
-    };
-    CGGradientRef gradient = CGGradientCreateWithColorComponents
-    (rgb, colors, NULL, sizeof(colors)/(sizeof(colors[0])*4));
-    CGColorSpaceRelease(rgb);
-    CGContextDrawLinearGradient(context, gradient,CGPointMake
-                                (0.0,0.0) ,CGPointMake(0.0,self.frame.size.height),
-                                kCGGradientDrawsBeforeStartLocation);
-}
+//- (void)drawRect:(CGRect)rect
+//{
+//    // Drawing code
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    
+//    CGColorSpaceRef rgb = CGColorSpaceCreateDeviceRGB();
+//
+//    CGFloat colors[] =
+//    {
+//        125 / 255.0,  255 / 255.0, 95 / 255.0, 1.00,
+//        83 / 255.0, 169 / 255.0, 63 / 255.0, 1.00,
+//    };
+//    CGGradientRef gradient = CGGradientCreateWithColorComponents
+//    (rgb, colors, NULL, sizeof(colors)/(sizeof(colors[0])*4));
+//    CGColorSpaceRelease(rgb);
+//    CGContextDrawLinearGradient(context, gradient,CGPointMake
+//                                (0.0,0.0) ,CGPointMake(0.0,self.frame.size.height),
+//                                kCGGradientDrawsBeforeStartLocation);
+//}
 
 - (void)gestureTouchBegin {
     [self.state setText:@""];

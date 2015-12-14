@@ -18,8 +18,7 @@
 #import "HttpUtils.h"
 #import "const.h"
 #import <MBProgressHUD/MBProgressHUD.h>
-
-
+#import "DashBoardViewController.h"
 
 @interface GesturePasswordController ()
 
@@ -205,12 +204,11 @@
             [gesturePasswordView.state setTextColor:[UIColor colorWithRed:2/255.f green:174/255.f blue:240/255.f alpha:1]];
             [gesturePasswordView.state setText:@"已保存手势密码"];
             
-            NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-            NSDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];
-            NSMutableDictionary *settingsInfoEditor = [NSMutableDictionary dictionaryWithDictionary:settingsInfo];
-            settingsInfoEditor[@"use_gesture_password"] = @1;
-            settingsInfoEditor[@"gesture_password_is_synced"] = @0;
-            [FileUtils writeJSON:settingsInfoEditor Into:settingsConfigPath];
+            NSString *settingsConfigPath      = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+            NSMutableDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];
+            settingsInfo[@"use_gesture_password"]       = @1;
+            settingsInfo[@"gesture_password_is_synced"] = @0;
+            [settingsInfo writeToFile:settingsConfigPath atomically:YES];
             
             if([HttpUtils isNetworkAvailable]) {
                 //[DataHelper postGesturePassword];
@@ -237,7 +235,15 @@
 
 
 - (void)enterMainView {
-    [self dismissViewControllerAnimated:YES completion:nil];
+//    if(self.isLogin) {
+//        UIWindow *window = self.view.window;
+//        
+//        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+//        window.rootViewController = dashboardViewController;
+//    } else {
+        [self dismissViewControllerAnimated:YES completion:nil];
+//    }
 }
 
 - (void)showProgressHUD:(NSString *)msg {

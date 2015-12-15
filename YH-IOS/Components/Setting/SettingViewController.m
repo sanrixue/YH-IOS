@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelAppName;
 @property (weak, nonatomic) IBOutlet UILabel *labelAppVersion;
 @property (weak, nonatomic) IBOutlet UILabel *labelDeviceMode;
+@property (weak, nonatomic) IBOutlet UILabel *labelAPIDomain;
 
 @end
 
@@ -43,6 +44,8 @@
     self.labelAppName.text = version.appName;
     self.labelAppVersion.text = version.current;
     self.labelDeviceMode.text = [[Version machineHuman] componentsSeparatedByString:@" ("][0];
+    
+    self.labelAPIDomain.text = [BASE_URL componentsSeparatedByString:@"://"][1];
 
 }
 

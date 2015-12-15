@@ -247,6 +247,76 @@
  */
 + (NSString *)urlConvertToLocal:(NSString *)urlString content:(NSString *)htmlContent assetsPath:(NSString *)assetsPath writeToLocal:(NSString *)writeToLocal {
     
+    
+    NSError *error = nil;
+    NSString *filename = [self urlTofilename:urlString suffix:@".html"][0];
+    NSString *filepath = [assetsPath stringByAppendingPathComponent:filename];
+    
+    NSString *assetLocalPath;
+    NSData *htmlData = [htmlContent dataUsingEncoding:NSUTF8StringEncoding];
+    TFHpple *doc = [[TFHpple alloc] initWithHTMLData:htmlData];
+    
+    NSMutableDictionary *uniqDict = [NSMutableDictionary dictionary];
+    // <script src="../*.js"></script>
+    NSArray *elements = [doc searchWithXPathQuery:@"//script"];
+    for(TFHppleElement *element in elements) {
+        NSDictionary *dict = element.attributes;
+        if(dict && [dict[@"src"] length] > 0 && [dict[@"src"] hasPrefix:@"/javascripts"]) {
+            assetLocalPath = [NSString stringWithFormat:@"assets%@", dict[@"src"]];
+            uniqDict[dict[@"src"]] = assetLocalPath;
+        }
+    }
+    for(id key in uniqDict) {
+        htmlContent = [htmlContent stringByReplacingOccurrencesOfString:key withString:uniqDict[key]];
+    }
+    
+    [uniqDict removeAllObjects];
+    // <link href="../*.css">
+    elements = [doc searchWithXPathQuery:@"//link"];
+    for(TFHppleElement *element in elements) {
+        NSDictionary *dict = element.attributes;
+        if(dict && dict[@"href"] && [dict[@"href"] length] > 0 && [dict[@"href"] hasPrefix:@"/stylesheets"]) {
+            assetLocalPath = [NSString stringWithFormat:@"assets%@", dict[@"href"]];
+            uniqDict[dict[@"href"]] = assetLocalPath;
+        }
+    }
+    for(id key in uniqDict) {
+        htmlContent = [htmlContent stringByReplacingOccurrencesOfString:key withString:uniqDict[key]];
+    }
+    
+    [uniqDict removeAllObjects];
+    // <img src="../*.png">
+    elements = [doc searchWithXPathQuery:@"//img"];
+    for(TFHppleElement *element in elements) {
+        NSDictionary *dict = element.attributes;
+        if(dict && dict[@"src"] && [dict[@"src"] length] > 0 && [dict[@"src"] hasPrefix:@"/images"]) {
+            assetLocalPath = [NSString stringWithFormat:@"assets%@", dict[@"src"]];
+            uniqDict[dict[@"src"]] = assetLocalPath;
+        }
+    }
+    for(id key in uniqDict) {
+        htmlContent = [htmlContent stringByReplacingOccurrencesOfString:key withString:uniqDict[key]];
+    }
+    
+    
+    [htmlContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    
+    return filepath;
+}
+
+/**
+ *  网页链接转换成本地html
+ *
+ *  @param urlString    网页链接
+ *  @param assetsPath   本地存放位置
+ *  @param writeToLocal
+ *      YES: 所有js/css/img文件写到本地，html使用相对本地链接
+ *      NO:  所有js/css/img链接转换为绝对路径链接
+ *
+ *  @return html路径
+ */
++ (NSString *)urlConvertToLocal2:(NSString *)urlString content:(NSString *)htmlContent assetsPath:(NSString *)assetsPath writeToLocal:(NSString *)writeToLocal {
+    
     BOOL isWriteToLocal = [writeToLocal isEqualToString:@"1"];
     
     NSError *error = nil;

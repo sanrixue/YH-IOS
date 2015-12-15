@@ -42,7 +42,13 @@
  *  @return 目录路径
  */
 + (NSString *)sharedPath {
-    return [[self basePath] stringByAppendingPathComponent:SHARED_DIRNAME];
+    NSString *shardPath = [[self basePath] stringByAppendingPathComponent:SHARED_DIRNAME];
+    
+    if(![self checkFileExist:shardPath isDir:YES]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:shardPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    return shardPath;
 }
 
 + (NSString *)loadingPath:(BOOL)isLogin {

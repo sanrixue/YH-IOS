@@ -12,7 +12,9 @@
 @property (strong, nonatomic) NSNumber *userID;
 @property (strong, nonatomic) NSString *userName;
 @property (strong, nonatomic) NSNumber *groupID;
+@property (strong, nonatomic) NSNumber *groupName;
 @property (strong, nonatomic) NSNumber *roleID;
+@property (strong, nonatomic) NSNumber *roleName;
 @property (strong, nonatomic) NSArray *kpiIDs;
 @property (strong, nonatomic) NSArray *analyseIDs;
 @property (strong, nonatomic) NSArray *appIDs;

@@ -9,12 +9,19 @@
 #import "SettingViewController.h"
 #import "ViewUtils.h"
 #import "LoginViewController.h"
+#import "Version.h"
 
 @interface SettingViewController ()
 @property (weak, nonatomic) IBOutlet UISwitch *switchGesturePassword;
-@property (weak, nonatomic) IBOutlet UITableView *listView;
-@property (strong, nonatomic) NSMutableArray *listData;
 @property (strong, nonatomic) GesturePasswordController *gesturePasswordController;
+
+@property (weak, nonatomic) IBOutlet UIButton *btnLogout;
+@property (weak, nonatomic) IBOutlet UILabel *labelUserName;
+@property (weak, nonatomic) IBOutlet UILabel *labelUserRole;
+@property (weak, nonatomic) IBOutlet UILabel *labelUserGroup;
+@property (weak, nonatomic) IBOutlet UILabel *labelAppName;
+@property (weak, nonatomic) IBOutlet UILabel *labelAppVersion;
+@property (weak, nonatomic) IBOutlet UILabel *labelDeviceMode;
 
 @end
 
@@ -25,12 +32,18 @@
     // Do any additional setup after loading the view.
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
+    
+    [self.btnLogout.layer setCornerRadius:10.0];
 
-    self.listData = [NSMutableArray array];
-    [self.listData addObject:@"手势密码"];
-    [self.listData addObject:@"2"];
-    [self.listData addObject:@"3"];
-    [self.listData addObject:@"4"];
+    self.labelUserName.text = [NSString stringWithFormat:@"%@(%@)", self.user.userName, self.user.userID];
+    self.labelUserRole.text = [NSString stringWithFormat:@"%@(%@)", self.user.roleName, self.user.roleID];
+    self.labelUserGroup.text = [NSString stringWithFormat:@"%@(%@)", self.user.groupName, self.user.groupID];
+    
+    Version *version = [[Version alloc] init];
+    self.labelAppName.text = version.appName;
+    self.labelAppVersion.text = version.current;
+    self.labelDeviceMode.text = [[Version machineHuman] componentsSeparatedByString:@" ("][0];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -84,34 +97,6 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     self.view.window.rootViewController = loginViewController;
-}
-#pragma mark - <UITableViewDelegate, UITableViewDataSource>
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.listData count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"cellID";
-    UITableViewCell *cell = (UITableViewCell*)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if(!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier];
-    }
-    
-    cell.textLabel.text       = self.listData[indexPath.row];
-    
-    cell.accessoryType  = UITableViewCellAccessoryDisclosureIndicator;
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    switch (indexPath.row) {
-        case IndexGesturePassword:
-            
-            break;
-            
-        default:
-            break;
-    }
 }
 
 #pragma mark - GesturePasswordControllerDelegate

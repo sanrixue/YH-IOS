@@ -11,6 +11,7 @@
 		C41E4FA71C0FE00A00E1B514 /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */; settings = {ASSET_TAGS = (); }; };
 		C41E4FAB1C0FEE1800E1B514 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */; settings = {ASSET_TAGS = (); }; };
 		C4379B571C18232D0058257A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C4379B561C18232D0058257A /* User.m */; settings = {ASSET_TAGS = (); }; };
+		C43906DE1C1FAE1400E1E466 /* assets.zip in Resources */ = {isa = PBXBuildFile; fileRef = C43906DD1C1FAE1400E1E466 /* assets.zip */; settings = {ASSET_TAGS = (); }; };
 		C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4448C6B1C0AE3030053B431 /* HttpUtils.m */; settings = {ASSET_TAGS = (); }; };
 		C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B8E1C05871400AAF44F /* TFHpple.m */; settings = {ASSET_TAGS = (); }; };
 		C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B901C05871400AAF44F /* TFHppleElement.m */; settings = {ASSET_TAGS = (); }; };
@@ -31,6 +32,7 @@
 		C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A01C0ED9F600EB946D /* APIHelper.m */; settings = {ASSET_TAGS = (); }; };
 		C488E6A31C0F00A800EB946D /* Loading.zip in Resources */ = {isa = PBXBuildFile; fileRef = C488E6A21C0F00A800EB946D /* Loading.zip */; settings = {ASSET_TAGS = (); }; };
 		C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A51C0F03C800EB946D /* BaseViewController.m */; settings = {ASSET_TAGS = (); }; };
+		C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */ = {isa = PBXBuildFile; fileRef = C48DC6FC1C1E8FDD00CECB95 /* Version.m */; settings = {ASSET_TAGS = (); }; };
 		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
 		C49E1AAC1C195DDE00CFFE3C /* GesturePasswordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AA51C195DDE00CFFE3C /* GesturePasswordButton.m */; settings = {ASSET_TAGS = (); }; };
 		C49E1AAD1C195DDE00CFFE3C /* GesturePasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AA71C195DDE00CFFE3C /* GesturePasswordView.m */; settings = {ASSET_TAGS = (); }; };
@@ -83,6 +85,7 @@
 		C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		C4379B551C18232D0058257A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		C4379B561C18232D0058257A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		C43906DD1C1FAE1400E1E466 /* assets.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = assets.zip; sourceTree = "<group>"; };
 		C4448C6B1C0AE3030053B431 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
 		C4771B8D1C05871400AAF44F /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		C4771B8E1C05871400AAF44F /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
@@ -112,6 +115,8 @@
 		C488E6A21C0F00A800EB946D /* Loading.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = Loading.zip; sourceTree = "<group>"; };
 		C488E6A41C0F03C800EB946D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		C488E6A51C0F03C800EB946D /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		C48DC6FB1C1E8FDD00CECB95 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
+		C48DC6FC1C1E8FDD00CECB95 /* Version.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Version.m; sourceTree = "<group>"; };
 		C49E1AA41C195DDE00CFFE3C /* GesturePasswordButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GesturePasswordButton.h; sourceTree = "<group>"; };
 		C49E1AA51C195DDE00CFFE3C /* GesturePasswordButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GesturePasswordButton.m; sourceTree = "<group>"; };
 		C49E1AA61C195DDE00CFFE3C /* GesturePasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GesturePasswordView.h; sourceTree = "<group>"; };
@@ -259,6 +264,15 @@
 				C488E6A01C0ED9F600EB946D /* APIHelper.m */,
 			);
 			path = APIUtils;
+			sourceTree = "<group>";
+		};
+		C48DC6F61C1E8FDD00CECB95 /* Version */ = {
+			isa = PBXGroup;
+			children = (
+				C48DC6FB1C1E8FDD00CECB95 /* Version.h */,
+				C48DC6FC1C1E8FDD00CECB95 /* Version.m */,
+			);
+			path = Version;
 			sourceTree = "<group>";
 		};
 		C49E1AA21C195DDE00CFFE3C /* GesturePassword */ = {
@@ -480,6 +494,7 @@
 		C4DB7DC51C02EE6000DA534E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				C43906DD1C1FAE1400E1E466 /* assets.zip */,
 				C488E6A21C0F00A800EB946D /* Loading.zip */,
 				C4DB7DC61C02EE6000DA534E /* const.h */,
 			);
@@ -489,6 +504,7 @@
 		C4DB7DC71C02EE8E00DA534E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C48DC6F61C1E8FDD00CECB95 /* Version */,
 				C4DB7DC81C02EE8E00DA534E /* BaseModel */,
 				C4379B541C1823110058257A /* User */,
 				C4DB7DCB1C02EE8E00DA534E /* HttpResponse */,
@@ -650,6 +666,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C43906DE1C1FAE1400E1E466 /* assets.zip in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
 				C488E6A31C0F00A800EB946D /* Loading.zip in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
@@ -745,6 +762,7 @@
 				C4771BA21C05871400AAF44F /* WebViewJavascriptBridge.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
 				C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */,
+				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,
 				C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */,
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */,

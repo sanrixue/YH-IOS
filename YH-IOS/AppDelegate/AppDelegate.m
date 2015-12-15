@@ -34,15 +34,9 @@
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
     [[PgyUpdateManager sharedPgyManager] checkUpdate];
     
-    NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"Loading.zip"];
-    NSString *sharedPath = [FileUtils sharedPath];
-    NSString *loadingPath = [sharedPath stringByAppendingPathComponent:@"Loading"];
     
-    if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
-        [SSZipArchive unzipFileAtPath:zipPath toDestination:sharedPath];
-    }
-    
-    
+    [self checkAssets:@"Loading"];
+    [self checkAssets:@"assets"];
     [self checkUsedGesturePassword];
     
     return YES;
@@ -72,6 +66,17 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+#pragma mark - asisstant methods
+- (void)checkAssets:(NSString *)fileName {
+    NSString *zipName = [NSString stringWithFormat:@"%@.zip", fileName];
+    NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:zipName];
+    NSString *sharedPath = [FileUtils sharedPath];
+    NSString *loadingPath = [sharedPath stringByAppendingPathComponent:fileName];
+    
+    if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
+        [SSZipArchive unzipFileAtPath:zipPath toDestination:sharedPath];
+    }
+}
 - (void)checkUsedGesturePassword {
     NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
     NSDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];

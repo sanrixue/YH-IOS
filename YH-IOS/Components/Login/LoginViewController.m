@@ -40,15 +40,20 @@
         
         if([HttpUtils isNetworkAvailable]) {
             NSString *username = data[@"username"];
-            //NSString *password = data[@"password"];
+            NSString *password = data[@"password"];
             
-            if(!username || [username stringByReplacingOccurrencesOfString:@"" withString:@" "].length == 0) {
+            if(!username || [username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
                 [self showProgressHUD:@"请输入用户名"];
                 self.progressHUD.mode = MBProgressHUDModeText;
-                [self.progressHUD hide:YES afterDelay:2.0];
+                [self.progressHUD hide:YES afterDelay:1.5];
+            }
+            else if(!password || [password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
+                [self showProgressHUD:@"请输入密码"];
+                self.progressHUD.mode = MBProgressHUDModeText;
+                [self.progressHUD hide:YES afterDelay:1.5];
             }
             else {
-                NSString *msg = [APIHelper userAuthentication:username password:@"not-set"];
+                NSString *msg = [APIHelper userAuthentication:username password:password];
                 
                 if(msg.length == 0) {
                     [self jumpToDashboardView];

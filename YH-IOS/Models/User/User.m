@@ -20,7 +20,9 @@
             self.userName   = dict[@"user_name"];
             self.userID     = dict[@"user_id"];
             self.roleID     = dict[@"role_id"];
+            self.roleName   = dict[@"role_name"];
             self.groupID    = dict[@"group_id"];
+            self.groupName  = dict[@"group_name"];
             self.kpiIDs     = dict[@"kpi_ids"];
             self.analyseIDs = dict[@"analyse_ids"];
             self.appIDs     = dict[@"app_ids"];

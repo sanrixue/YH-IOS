@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface APIHelper : NSObject
-+ (NSString *)reportDataUrlString:(NSString *)groupID reportID:(NSString *)reportID ;
-+ (void)reportData:(NSString *)groupID reportID:(NSString *)reportID;
++ (NSString *)reportDataUrlString:(NSNumber *)groupID reportID:(NSString *)reportID ;
++ (void)reportData:(NSNumber *)groupID reportID:(NSString *)reportID;
 
 /**
  *  登录验证

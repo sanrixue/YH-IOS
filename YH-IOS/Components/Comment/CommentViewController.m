@@ -92,7 +92,7 @@
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSString  *htmlContent = [self stringWithContentsOfFile:htmlPath];
-                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:[FileUtils sharedPath]]];
             });
         }
         else {

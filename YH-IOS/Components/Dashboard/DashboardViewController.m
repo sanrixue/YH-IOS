@@ -105,7 +105,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:[FileUtils sharedPath]]];
             });
         }
         else {
@@ -152,7 +152,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSString *path;
     switch (index) {
         case 0: {
-            path = [NSString stringWithFormat:KPI_PATH, self.user.roleID];
+            path = [NSString stringWithFormat:KPI_PATH, self.user.roleID, self.user.groupID];
             self.commentObjectType = ObjectTypeReport;
             break;
         }
@@ -172,7 +172,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             break;
         }
         default: {
-            path = [NSString stringWithFormat:KPI_PATH, self.user.userID];
+            path = [NSString stringWithFormat:KPI_PATH, self.user.roleID, self.user.groupID];
             self.commentObjectType = ObjectTypeReport;
             break;
         }

@@ -28,7 +28,16 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
-    self.urlString = self.isInnerLink ? [NSString stringWithFormat:@"%@%@", BASE_URL, self.link] : self.link;
+    
+    self.urlString = self.link;
+    if(self.isInnerLink) {
+        /*
+           /mobil/report/:report_id/group/:group_id
+           eg: /mobile/repoprt/1/group/%@
+         */
+        NSString *urlPath = [NSString stringWithFormat:self.link, self.user.groupID];
+        self.urlString =[NSString stringWithFormat:@"%@%@", BASE_URL,urlPath];
+    }
     self.labelTheme.text = self.bannerName;
     
     [WebViewJavascriptBridge enableLogging];
@@ -85,6 +94,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
 }
 - (void)loadOuterLink {
+    NSLog(@"%@", self.urlString);
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
 }
 - (void)loadInnerLink {
@@ -93,10 +103,10 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if([HttpUtils isNetworkAvailable]) {
 
-            // format: /mobil/:report_id/report
+            // format: /mobil/report/:report_id/group/:group_id
             NSArray *components = [self.link componentsSeparatedByString:@"/"];
-            self.reportID = components[2];
-            [APIHelper reportData:@"1" reportID:self.reportID];
+            self.reportID = components[3];
+            [APIHelper reportData:self.user.groupID reportID:self.reportID];
             
             HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
             
@@ -111,7 +121,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:[FileUtils sharedPath]]];
             });
         }
         else {

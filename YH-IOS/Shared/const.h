@@ -11,16 +11,16 @@
 
 #define YH_COLOR          @"#53a93f" //53,A9,3F; 83, 169, 63
 
-#define BASE_URL2         @"http://121.40.35.29:4567"
-#define BASE_URL1          @"http://localhost:4567"
-#define BASE_URL          @"http://yonghui.idata.mobi"
+#define BASE_URL        @"http://121.40.35.29:4567"
+#define BASE_URL1         @"http://localhost:4567"
+#define BASE_URL2         @"http://yonghui.idata.mobi"
 
 #define LOGIN_PATH        @"/mobile/login"
 #define API_USER_PATH     @"/api/v1/%@/%@/%@/authentication"
 #define API_DATA_PATH     @"/api/v1/group/%@/report/%@/attachment"
 #define API_COMMENT_PATH  @"/api/v1/user/%@/id/%@/type/%@"
 
-#define KPI_PATH          @"/mobile/%@/kpi"
+#define KPI_PATH          @"/mobile/role/%@/group/%@/kpi"
 #define MESSAGE_PATH      @"/mobile/%@/message"
 #define APPLICATION_PATH  @"/mobile/%@/app"
 #define ANALYSE_PATH      @"/mobile/%@/analyse"
@@ -28,7 +28,7 @@
 
 #define FONTS_PATH        @"/mobile/assets/fonts.zip"
 
-#define REPORT_DATA_FILENAME @"javascripts_template_data_group_%@_report_%@.js"
+#define REPORT_DATA_FILENAME @"template_data_group_%@_report_%@.js"
 
 #define USER_CONFIG_FILENAME @"user.plist"
 #define CONFIG_DIRNAME    @"Configs"

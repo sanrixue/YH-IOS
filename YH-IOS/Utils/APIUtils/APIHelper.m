@@ -14,21 +14,22 @@
 
 @implementation APIHelper
 
-+ (NSString *)reportDataUrlString:(NSString *)groupID reportID:(NSString *)reportID  {
++ (NSString *)reportDataUrlString:(NSNumber *)groupID reportID:(NSString *)reportID  {
     NSString *urlPath = [NSString stringWithFormat:API_DATA_PATH, groupID, reportID];
     return [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
 }
 
-+ (void)reportData:(NSString *)groupID reportID:(NSString *)reportID {
++ (void)reportData:(NSNumber *)groupID reportID:(NSString *)reportID {
     NSString *urlString = [self reportDataUrlString:groupID reportID:reportID];
     
     NSString *userspacePath = [FileUtils userspace];
     NSString *assetsPath = [userspacePath stringByAppendingPathComponent:HTML_DIRNAME];
     
     NSString *reportDataFileName = [NSString stringWithFormat:REPORT_DATA_FILENAME, groupID, reportID];
-    NSString *reportDataFilePath = [assetsPath stringByAppendingPathComponent:reportDataFileName];
+    NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
+    javascriptPath = [javascriptPath stringByAppendingPathComponent:reportDataFileName];
     
-    if(![FileUtils checkFileExist:reportDataFilePath isDir:NO]) {
+    if(![FileUtils checkFileExist:javascriptPath isDir:NO]) {
         [HttpUtils clearHttpResponeHeader:urlString assetsPath:assetsPath];
     }
     
@@ -40,10 +41,10 @@
         
         if(httpResponse.string) {
             NSError *error = nil;
-            [httpResponse.string writeToFile:reportDataFilePath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+            [httpResponse.string writeToFile:javascriptPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
             
             if(error) {
-                NSLog(@"%@ - %@", error.description, reportDataFilePath);
+                NSLog(@"%@ - %@", error.description, javascriptPath);
             }
         }
     }
@@ -69,14 +70,16 @@
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
 
-        userDict[@"user_id"]   = httpResponse.data[@"user_id"];
-        userDict[@"user_name"] = httpResponse.data[@"user_name"];
-        userDict[@"group_id"]  = httpResponse.data[@"group_id"];
-        userDict[@"role_id"]   = httpResponse.data[@"role_id"];
-        userDict[@"kpi_ids"]   = httpResponse.data[@"kpi_ids"];
-        userDict[@"app_ids"]   = httpResponse.data[@"app_ids"];
+        userDict[@"user_id"]     = httpResponse.data[@"user_id"];
+        userDict[@"user_name"]   = httpResponse.data[@"user_name"];
+        userDict[@"group_id"]    = httpResponse.data[@"group_id"];
+        userDict[@"group_name"]  = httpResponse.data[@"group_name"];
+        userDict[@"role_id"]     = httpResponse.data[@"role_id"];
+        userDict[@"role_name"]   = httpResponse.data[@"role_name"];
+        userDict[@"kpi_ids"]     = httpResponse.data[@"kpi_ids"];
+        userDict[@"app_ids"]     = httpResponse.data[@"app_ids"];
         userDict[@"analyse_ids"] = httpResponse.data[@"analyse_ids"];
-        userDict[@"is_login"]  = @(1);
+        userDict[@"is_login"]   = @(1);
         [userDict writeToFile:userConfigPath atomically:YES];
         
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];

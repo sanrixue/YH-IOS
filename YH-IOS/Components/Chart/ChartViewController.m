@@ -94,6 +94,12 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
 }
 - (void)loadOuterLink {
+    if([self.urlString containsString:@"?"]) {
+        self.urlString = [self.urlString stringByReplacingOccurrencesOfString:@"?" withString:[NSString stringWithFormat:@"?userid=%@&", self.user.userID]];
+    }
+    else {
+        self.urlString = [NSString stringWithFormat:@"%@?userid=%@", self.urlString, self.user.userID];
+    }
     NSLog(@"%@", self.urlString);
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
 }

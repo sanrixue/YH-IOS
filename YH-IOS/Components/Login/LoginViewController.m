@@ -10,9 +10,7 @@
 #import "DashboardViewController.h"
 #import "APIHelper.h"
 
-
 @interface LoginViewController ()
-
 @end
 
 @implementation LoginViewController
@@ -75,6 +73,7 @@
     self.browser.scrollView.scrollEnabled = NO;
     self.browser.scrollView.bounces = NO;
     
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {

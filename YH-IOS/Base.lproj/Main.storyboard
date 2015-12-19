@@ -377,9 +377,9 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nGn-ld-zsJ">
-                                <rect key="frame" x="0.0" y="380" width="600" height="65"/>
+                                <rect key="frame" x="0.0" y="380" width="600" height="95"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="启用手势锁" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mGI-mA-65P">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="启用锁屏" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mGI-mA-65P">
                                         <rect key="frame" x="20" y="31" width="138" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -391,19 +391,26 @@
                                         <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z83-Yd-3pY">
-                                        <rect key="frame" x="0.0" y="64" width="600" height="1"/>
-                                        <color key="backgroundColor" red="0.91372549020000005" green="0.91372549020000005" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="9xr-0e-dk4"/>
-                                        </constraints>
-                                    </view>
                                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IhO-Ny-ux3">
                                         <rect key="frame" x="531" y="30" width="51" height="31"/>
                                         <connections>
                                             <action selector="actionWehtherUseGesturePassword:" destination="IAN-Qx-0h6" eventType="valueChanged" id="ciE-81-L2Y"/>
                                         </connections>
                                     </switch>
+                                    <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xu6-A3-r9W">
+                                        <rect key="frame" x="20" y="61" width="143" height="30"/>
+                                        <state key="normal" title="修改密码"/>
+                                        <connections>
+                                            <action selector="actionChangeGesturePassword:" destination="IAN-Qx-0h6" eventType="touchUpInside" id="Vhk-z8-c9A"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z83-Yd-3pY">
+                                        <rect key="frame" x="0.0" y="94" width="600" height="1"/>
+                                        <color key="backgroundColor" red="0.91372549020000005" green="0.91372549020000005" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="9xr-0e-dk4"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
@@ -414,7 +421,9 @@
                                     <constraint firstItem="IhO-Ny-ux3" firstAttribute="top" secondItem="nGn-ld-zsJ" secondAttribute="top" constant="30" id="D2E-iJ-qkI"/>
                                     <constraint firstItem="enw-GD-82d" firstAttribute="top" secondItem="nGn-ld-zsJ" secondAttribute="top" constant="5" id="Kc3-v8-4AH"/>
                                     <constraint firstAttribute="bottom" secondItem="Z83-Yd-3pY" secondAttribute="bottom" id="KoU-lx-iBr"/>
+                                    <constraint firstItem="Xu6-A3-r9W" firstAttribute="top" secondItem="mGI-mA-65P" secondAttribute="bottom" id="VxE-qw-Bko"/>
                                     <constraint firstItem="mGI-mA-65P" firstAttribute="top" secondItem="enw-GD-82d" secondAttribute="bottom" constant="5" id="XWB-aK-Qem"/>
+                                    <constraint firstItem="Xu6-A3-r9W" firstAttribute="leading" secondItem="mGI-mA-65P" secondAttribute="leading" id="eJo-7Q-GvQ"/>
                                     <constraint firstItem="mGI-mA-65P" firstAttribute="leading" secondItem="nGn-ld-zsJ" secondAttribute="leading" constant="20" id="ej6-Mk-rjF"/>
                                 </constraints>
                             </view>
@@ -455,6 +464,7 @@
                     <connections>
                         <outlet property="bannerView" destination="I7G-rp-af7" id="5zu-O5-4zp"/>
                         <outlet property="btnLogout" destination="owa-8a-CHd" id="pkO-rV-a3j"/>
+                        <outlet property="buttonChangeGesturePassword" destination="Xu6-A3-r9W" id="KPh-Ke-8Gp"/>
                         <outlet property="labelAPIDomain" destination="aF0-bA-Uh5" id="9sU-gy-4O9"/>
                         <outlet property="labelAppName" destination="y6u-fS-w1z" id="nUV-d5-Vw9"/>
                         <outlet property="labelAppVersion" destination="dUT-at-TFF" id="6Nd-UB-a49"/>

@@ -15,10 +15,8 @@
 #import <SSZipArchive.h>
 
 #import "DashboardViewController.h"
-#import "GesturePasswordController.h"
 
 @interface AppDelegate ()
-@property (nonatomic, nonatomic) GesturePasswordController *gesturePasswordController;
 @end
 
 @implementation AppDelegate
@@ -34,11 +32,28 @@
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
     [[PgyUpdateManager sharedPgyManager] checkUpdate];
     
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *initViewController = [storyBoard instantiateInitialViewController];
+    self.window.rootViewController = initViewController;
     
     [self checkAssets:@"Loading"];
     [self checkAssets:@"assets"];
-    [self checkUsedGesturePassword];
     
+    
+    [self.window makeKeyAndVisible];
+    
+    [LTHPasscodeViewController sharedUser].delegate = self;
+    [LTHPasscodeViewController useKeychain:NO];
+    
+    if ([LTHPasscodeViewController doesPasscodeExist] &&
+        [LTHPasscodeViewController didPasscodeTimerEnd]) {
+        
+        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
+                                                                 withLogout:NO
+                                                             andLogoutTitle:nil];
+    }
+
     return YES;
 }
 
@@ -59,7 +74,6 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    [self checkUsedGesturePassword];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -77,37 +91,26 @@
         [SSZipArchive unzipFileAtPath:zipPath toDestination:sharedPath];
     }
 }
-- (void)checkUsedGesturePassword {
-    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-    NSDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];
+
+- (void)passcodeWasEnteredSuccessfully {
+    NSLog(@"Passcode Was Entered Successfully");
     
-    if(settingsInfo
-       && [settingsInfo[@"is_login"] isEqualToNumber:@1]
-       && [settingsInfo[@"use_gesture_password"] isEqualToNumber:@1]) {
-        self.gesturePasswordController = [[GesturePasswordController alloc] init];
-        self.gesturePasswordController.delegate = self;
-        
-        [self.window.rootViewController presentViewController:self.gesturePasswordController animated:YES completion:nil];
-        //self.window.rootViewController = gesturePasswordController;
-    }
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+    self.window.rootViewController = dashboardViewController;
 }
-#pragma mark - GesturePasswordControllerDelegate
-- (void)verifySucess {
-    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-    NSMutableDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];
-    if(![settingsInfo[@"use_gesture_password"] isEqualToNumber:@1]) {
-        settingsInfo[@"use_gesture_password"] = @1;
-        [settingsInfo writeToFile:settingsConfigPath atomically:YES];
+
+
+- (BOOL)didPasscodeTimerEnd {
+    return YES;
+}
+- (NSString *)passcode {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    if([userDict[@"is_login"] boolValue] && [userDict[@"use_gesture_password"] boolValue]) {
+        return userDict[@"gesture_password"] ?: @"";
     }
-    
-    [self.gesturePasswordController dismissViewControllerAnimated:NO completion:^{
-        self.gesturePasswordController.delegate = nil;
-        self.gesturePasswordController = nil;
-        
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
-        self.window.rootViewController = dashboardViewController;
-    }];
+    return @"";
 }
 
 @end

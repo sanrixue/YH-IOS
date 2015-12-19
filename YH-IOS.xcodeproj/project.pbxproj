@@ -13,6 +13,8 @@
 		C4379B571C18232D0058257A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C4379B561C18232D0058257A /* User.m */; settings = {ASSET_TAGS = (); }; };
 		C43906DE1C1FAE1400E1E466 /* assets.zip in Resources */ = {isa = PBXBuildFile; fileRef = C43906DD1C1FAE1400E1E466 /* assets.zip */; settings = {ASSET_TAGS = (); }; };
 		C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4448C6B1C0AE3030053B431 /* HttpUtils.m */; settings = {ASSET_TAGS = (); }; };
+		C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = C45D270F1C23FC490087C6F2 /* OpenUDID.m */; settings = {ASSET_TAGS = (); }; };
+		C45D27121C23FC490087C6F2 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C45D27101C23FC490087C6F2 /* README.md */; settings = {ASSET_TAGS = (); }; };
 		C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B8E1C05871400AAF44F /* TFHpple.m */; settings = {ASSET_TAGS = (); }; };
 		C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B901C05871400AAF44F /* TFHppleElement.m */; settings = {ASSET_TAGS = (); }; };
 		C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C4771B921C05871400AAF44F /* XPathQuery.m */; settings = {ASSET_TAGS = (); }; };
@@ -34,10 +36,6 @@
 		C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A51C0F03C800EB946D /* BaseViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */ = {isa = PBXBuildFile; fileRef = C48DC6FC1C1E8FDD00CECB95 /* Version.m */; settings = {ASSET_TAGS = (); }; };
 		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
-		C49E1AAC1C195DDE00CFFE3C /* GesturePasswordButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AA51C195DDE00CFFE3C /* GesturePasswordButton.m */; settings = {ASSET_TAGS = (); }; };
-		C49E1AAD1C195DDE00CFFE3C /* GesturePasswordView.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AA71C195DDE00CFFE3C /* GesturePasswordView.m */; settings = {ASSET_TAGS = (); }; };
-		C49E1AAE1C195DDE00CFFE3C /* TentacleView.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AA91C195DDE00CFFE3C /* TentacleView.m */; settings = {ASSET_TAGS = (); }; };
-		C49E1AAF1C195DDE00CFFE3C /* GesturePasswordController.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AAB1C195DDE00CFFE3C /* GesturePasswordController.m */; settings = {ASSET_TAGS = (); }; };
 		C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB21C19632000CFFE3C /* SettingViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB61C196B5400CFFE3C /* ViewUtils.m */; settings = {ASSET_TAGS = (); }; };
 		C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
@@ -87,6 +85,9 @@
 		C4379B561C18232D0058257A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		C43906DD1C1FAE1400E1E466 /* assets.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = assets.zip; sourceTree = "<group>"; };
 		C4448C6B1C0AE3030053B431 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
+		C45D270E1C23FC490087C6F2 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
+		C45D270F1C23FC490087C6F2 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
+		C45D27101C23FC490087C6F2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C4771B8D1C05871400AAF44F /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		C4771B8E1C05871400AAF44F /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		C4771B8F1C05871400AAF44F /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -117,14 +118,6 @@
 		C488E6A51C0F03C800EB946D /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		C48DC6FB1C1E8FDD00CECB95 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		C48DC6FC1C1E8FDD00CECB95 /* Version.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Version.m; sourceTree = "<group>"; };
-		C49E1AA41C195DDE00CFFE3C /* GesturePasswordButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GesturePasswordButton.h; sourceTree = "<group>"; };
-		C49E1AA51C195DDE00CFFE3C /* GesturePasswordButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GesturePasswordButton.m; sourceTree = "<group>"; };
-		C49E1AA61C195DDE00CFFE3C /* GesturePasswordView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GesturePasswordView.h; sourceTree = "<group>"; };
-		C49E1AA71C195DDE00CFFE3C /* GesturePasswordView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GesturePasswordView.m; sourceTree = "<group>"; };
-		C49E1AA81C195DDE00CFFE3C /* TentacleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TentacleView.h; sourceTree = "<group>"; };
-		C49E1AA91C195DDE00CFFE3C /* TentacleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TentacleView.m; sourceTree = "<group>"; };
-		C49E1AAA1C195DDE00CFFE3C /* GesturePasswordController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GesturePasswordController.h; sourceTree = "<group>"; };
-		C49E1AAB1C195DDE00CFFE3C /* GesturePasswordController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GesturePasswordController.m; sourceTree = "<group>"; };
 		C49E1AB11C19632000CFFE3C /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		C49E1AB21C19632000CFFE3C /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		C49E1AB51C196B5400CFFE3C /* ViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewUtils.h; sourceTree = "<group>"; };
@@ -220,10 +213,20 @@
 			path = User;
 			sourceTree = "<group>";
 		};
+		C45D270D1C23FC490087C6F2 /* OpenUUID */ = {
+			isa = PBXGroup;
+			children = (
+				C45D270E1C23FC490087C6F2 /* OpenUDID.h */,
+				C45D270F1C23FC490087C6F2 /* OpenUDID.m */,
+				C45D27101C23FC490087C6F2 /* README.md */,
+			);
+			path = OpenUUID;
+			sourceTree = "<group>";
+		};
 		C4771B881C05871300AAF44F /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
-				C49E1AA21C195DDE00CFFE3C /* GesturePassword */,
+				C45D270D1C23FC490087C6F2 /* OpenUUID */,
 				C4771B891C05871400AAF44F /* hpple */,
 				C4771B931C05871400AAF44F /* WebViewJavascriptBridge */,
 			);
@@ -273,29 +276,6 @@
 				C48DC6FC1C1E8FDD00CECB95 /* Version.m */,
 			);
 			path = Version;
-			sourceTree = "<group>";
-		};
-		C49E1AA21C195DDE00CFFE3C /* GesturePassword */ = {
-			isa = PBXGroup;
-			children = (
-				C49E1AA31C195DDE00CFFE3C /* GesturePassword */,
-				C49E1AAA1C195DDE00CFFE3C /* GesturePasswordController.h */,
-				C49E1AAB1C195DDE00CFFE3C /* GesturePasswordController.m */,
-			);
-			path = GesturePassword;
-			sourceTree = "<group>";
-		};
-		C49E1AA31C195DDE00CFFE3C /* GesturePassword */ = {
-			isa = PBXGroup;
-			children = (
-				C49E1AA41C195DDE00CFFE3C /* GesturePasswordButton.h */,
-				C49E1AA51C195DDE00CFFE3C /* GesturePasswordButton.m */,
-				C49E1AA61C195DDE00CFFE3C /* GesturePasswordView.h */,
-				C49E1AA71C195DDE00CFFE3C /* GesturePasswordView.m */,
-				C49E1AA81C195DDE00CFFE3C /* TentacleView.h */,
-				C49E1AA91C195DDE00CFFE3C /* TentacleView.m */,
-			);
-			path = GesturePassword;
 			sourceTree = "<group>";
 		};
 		C49E1AB01C1962F200CFFE3C /* Setting */ = {
@@ -744,11 +724,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C49E1AAC1C195DDE00CFFE3C /* GesturePasswordButton.m in Sources */,
 				C4DB7DC21C02EE3800DA534E /* ExtendNSLogFunctionality.m in Sources */,
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
-				C49E1AAE1C195DDE00CFFE3C /* TentacleView.m in Sources */,
 				C4771BA31C05871400AAF44F /* WebViewJavascriptBridgeBase.m in Sources */,
 				C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */,
 				C41E4FAB1C0FEE1800E1B514 /* UIColor+Hex.m in Sources */,
@@ -761,18 +739,18 @@
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4771BA21C05871400AAF44F /* WebViewJavascriptBridge.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
+				C45D27121C23FC490087C6F2 /* README.md in Sources */,
 				C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */,
 				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,
 				C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */,
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
+				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
 				C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */,
-				C49E1AAD1C195DDE00CFFE3C /* GesturePasswordView.m in Sources */,
 				C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */,
-				C49E1AAF1C195DDE00CFFE3C /* GesturePasswordController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

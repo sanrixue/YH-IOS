@@ -7,8 +7,7 @@
 //
 
 #import "BaseViewController.h"
-#import "GesturePasswordController.h"
 
-@interface SettingViewController : BaseViewController <GesturePasswordControllerDelegate>
+@interface SettingViewController : BaseViewController
 
 @end

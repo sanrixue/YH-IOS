@@ -11,6 +11,8 @@
 #import "HttpUtils.h"
 #import "FileUtils.h"
 #import "HttpResponse.h"
+#import "Version.h"
+#import "OpenUDID.h"
 
 @implementation APIHelper
 
@@ -65,7 +67,12 @@
     
     NSString *alertMsg = @"";
     
-    HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
+    
+    NSMutableDictionary *deviceDict = [NSMutableDictionary dictionary];
+    deviceDict[@"platform"]    = @"ios";
+    deviceDict[@"os"]          = [Version machineHuman];
+    deviceDict[@"uuid"]        = [OpenUDID value];
+    HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:deviceDict];
     if(httpResponse.statusCode && [httpResponse.statusCode isEqualToNumber:@(200)]) {
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
@@ -79,15 +86,12 @@
         userDict[@"kpi_ids"]     = httpResponse.data[@"kpi_ids"];
         userDict[@"app_ids"]     = httpResponse.data[@"app_ids"];
         userDict[@"analyse_ids"] = httpResponse.data[@"analyse_ids"];
-        userDict[@"is_login"]   = @(1);
+        userDict[@"is_login"]    = @(YES);
+        userDict[@"device_uuid"]   = httpResponse.data[@"device_uuid"];
+        userDict[@"device_state"]  = httpResponse.data[@"device_state"];
         [userDict writeToFile:userConfigPath atomically:YES];
         
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-        NSDictionary *settingsDict = [FileUtils readConfigFile:settingsConfigPath];
-        for(id key in settingsDict) {
-            userDict[key] = settingsDict[key];
-        }
-        userDict[@"is_login"]  = @(1);
         [userDict writeToFile:settingsConfigPath atomically:YES];
     }
     else {

@@ -10,10 +10,10 @@
 #import "ViewUtils.h"
 #import "LoginViewController.h"
 #import "Version.h"
+#import "LTHPasscodeViewController.h"
 
-@interface SettingViewController ()
+@interface SettingViewController ()<LTHPasscodeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UISwitch *switchGesturePassword;
-@property (strong, nonatomic) GesturePasswordController *gesturePasswordController;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnLogout;
 @property (weak, nonatomic) IBOutlet UILabel *labelUserName;
@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelAppVersion;
 @property (weak, nonatomic) IBOutlet UILabel *labelDeviceMode;
 @property (weak, nonatomic) IBOutlet UILabel *labelAPIDomain;
+@property (weak, nonatomic) IBOutlet UIButton *buttonChangeGesturePassword;
 
 @end
 
@@ -46,16 +47,18 @@
     self.labelDeviceMode.text = [[Version machineHuman] componentsSeparatedByString:@" ("][0];
     
     self.labelAPIDomain.text = [BASE_URL componentsSeparatedByString:@"://"][1];
-
+    
+    [LTHPasscodeViewController sharedUser].delegate = self;
+    [LTHPasscodeViewController useKeychain:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
     
-    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-    NSDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];
-    self.switchGesturePassword.on = (settingsInfo && [settingsInfo[@"use_gesture_password"] isEqualToNumber:@1]);
+    BOOL isUseGesturePassword = [LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd];
+    self.switchGesturePassword.on = isUseGesturePassword;
+    self.buttonChangeGesturePassword.enabled = isUseGesturePassword;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,53 +71,109 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)actionChangeGesturePassword:(id)sender {
+    [self showLockViewForChangingPasscode];
+}
+
 - (IBAction)actionWehtherUseGesturePassword:(UISwitch *)sender {
     if([sender isOn]) {
-        _gesturePasswordController = [[GesturePasswordController alloc] init];
-        _gesturePasswordController.delegate = self;
-        [self presentViewController:_gesturePasswordController animated:YES completion:nil];
+        [self showLockViewForEnablingPasscode];
     }
     else {
+        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+        NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+        userDict[@"use_gesture_password"] = @(NO);
+        [userDict writeToFile:userConfigPath atomically:YES];
+
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-        NSMutableDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];
-        settingsInfo[@"use_gesture_password"] = @(0);
-        [settingsInfo writeToFile:settingsConfigPath atomically:YES];
+        [userDict writeToFile:settingsConfigPath atomically:YES];
+        
+        self.buttonChangeGesturePassword.enabled = NO;
         
         [ViewUtils showPopupView:self.view Info:@"禁用手势锁设置成功"];
     }
 }
 
 - (IBAction)actionLogout:(id)sender {
-    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-    NSMutableDictionary *settingsDict = [FileUtils readConfigFile:settingsConfigPath];
-    settingsDict[@"is_login"] = @(0);
-    [settingsDict writeToFile:settingsConfigPath atomically:YES];
-    
-    
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    userDict[@"is_login"] = @(0);
+    NSMutableDictionary *userDict = [NSMutableDictionary dictionary];
+    userDict[@"is_login"] = @(NO);
     [userDict writeToFile:userConfigPath atomically:YES];
-    
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     self.view.window.rootViewController = loginViewController;
 }
 
-#pragma mark - GesturePasswordControllerDelegate
-- (void)verifySucess {
-    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-    NSMutableDictionary *settingsInfo = [FileUtils readConfigFile:settingsConfigPath];
-    if(![settingsInfo[@"use_gesture_password"] isEqualToNumber:@1]) {
-        settingsInfo[@"use_gesture_password"] = @1;
-        [settingsInfo writeToFile:settingsConfigPath atomically:YES];
-    }
-    
-    [_gesturePasswordController dismissViewControllerAnimated:YES completion:nil];
-    _gesturePasswordController.delegate = nil;
-    _gesturePasswordController = nil;
+
+
+- (void)showLockViewForEnablingPasscode {
+    [[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController:self
+                                                                            asModal:YES];
 }
 
 
+- (void)showLockViewForTestingPasscode {
+    [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
+                                                             withLogout:NO
+                                                         andLogoutTitle:nil];
+}
+
+
+- (void)showLockViewForChangingPasscode {
+    [[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController:self asModal:YES];
+}
+
+
+- (void)showLockViewForTurningPasscodeOff {
+    [[LTHPasscodeViewController sharedUser] showForDisablingPasscodeInViewController:self
+                                                                             asModal:NO];
+}
+
+# pragma mark - LTHPasscodeViewController Delegates -
+
+- (void)passcodeViewControllerWillClose {
+    NSLog(@"Passcode View Controller Will Be Closed");
+    //[self _refreshUI];
+}
+
+- (void)maxNumberOfFailedAttemptsReached {
+    [LTHPasscodeViewController deletePasscodeAndClose];
+    NSLog(@"Max Number of Failed Attemps Reached");
+    
+    self.buttonChangeGesturePassword.enabled = NO;
+}
+
+- (void)passcodeWasEnteredSuccessfully {
+    NSLog(@"Passcode Was Entered Successfully");
+    
+    self.buttonChangeGesturePassword.enabled = YES;
+}
+
+- (void)logoutButtonWasPressed {
+    NSLog(@"Logout Button Was Pressed");
+}
+
+
+- (void)savePasscode:(NSString *)passcode {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    userDict[@"use_gesture_password"] = @(YES);
+    userDict[@"gesture_password"] = passcode;
+    [userDict writeToFile:userConfigPath atomically:YES];
+    
+    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+    [userDict writeToFile:settingsConfigPath atomically:YES];
+}
+
+- (BOOL)didPasscodeTimerEnd {
+    return YES;
+}
+- (NSString *)passcode {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    if([userDict[@"is_login"] boolValue] && [userDict[@"use_gesture_password"] boolValue]) {
+        return userDict[@"gesture_password"] ?: @"";
+    }
+    return @"";}
 @end

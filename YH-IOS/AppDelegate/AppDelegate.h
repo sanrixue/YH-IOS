@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "GesturePasswordController.h"
+#import "LTHPasscodeViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, GesturePasswordControllerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, LTHPasscodeViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

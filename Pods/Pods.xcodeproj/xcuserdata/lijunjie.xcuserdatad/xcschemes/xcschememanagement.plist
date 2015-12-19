@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>LTHPasscodeViewController.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -37,32 +42,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>15DF242A2D40FC5620CA383BDB8535DE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>17392667E38E4938ACA525E988BB433B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4D668FD361719655C82BAC7BBD46C094</key>
+		<key>30F32A7DBB5374F101DFA5F17F19BB72</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7AB30F02E343A486936F67EFF886153B</key>
+		<key>33CBADF017FBAAEE2C9ECB333CBDC135</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>A2400548C7FBE0D5209C1ECFA0CF0582</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FD5265A624082B6B1AD7C543F4A446B0</key>
+		<key>9057A5BD84AB9E39D09AED40B4D50C35</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>FE2F1D7B9D9FCEA148517E4657B243F4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FED53E01CFAF404BE86DB9ECB6634955</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -11,6 +11,7 @@
 #import "LoginViewController.h"
 #import "Version.h"
 #import "LTHPasscodeViewController.h"
+#import "APIHelper.h"
 
 @interface SettingViewController ()<LTHPasscodeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UISwitch *switchGesturePassword;
@@ -90,7 +91,13 @@
         
         self.buttonChangeGesturePassword.enabled = NO;
         
+        
         [ViewUtils showPopupView:self.view Info:@"禁用手势锁设置成功"];
+        
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [APIHelper screenLock:userDict[@"user_device_id"] passcode:userDict[@"gesture_password"] state:NO];
+        });
     }
 }
 
@@ -164,6 +171,10 @@
     
     NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
     [userDict writeToFile:settingsConfigPath atomically:YES];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [APIHelper screenLock:userDict[@"user_device_id"] passcode:passcode state:YES];
+    });
 }
 
 - (BOOL)didPasscodeTimerEnd {

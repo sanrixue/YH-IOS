@@ -87,8 +87,9 @@
         userDict[@"app_ids"]     = httpResponse.data[@"app_ids"];
         userDict[@"analyse_ids"] = httpResponse.data[@"analyse_ids"];
         userDict[@"is_login"]    = @(YES);
-        userDict[@"device_uuid"]   = httpResponse.data[@"device_uuid"];
-        userDict[@"device_state"]  = httpResponse.data[@"device_state"];
+        userDict[@"device_uuid"]     = httpResponse.data[@"device_uuid"];
+        userDict[@"device_state"]    = httpResponse.data[@"device_state"];
+        userDict[@"user_device_id"]  = httpResponse.data[@"user_device_id"];
         [userDict writeToFile:userConfigPath atomically:YES];
         
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
@@ -116,5 +117,47 @@
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];
     
     return [httpResponse.statusCode isEqual:@(201)];
+}
+
+/**
+ *  用户锁屏数据
+ *
+ *  @param userDeviceID 设备ID
+ *  @param passcode     锁屏信息
+ *  @param state        是否锁屏
+ */
++ (void)screenLock:(NSString *)userDeviceID passcode:(NSString *)passcode state:(BOOL)state {
+    NSString *urlPath = [NSString stringWithFormat:API_SCREEN_LOCK_PATH, userDeviceID];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"screen_lock_state"] = @(state);
+    params[@"screen_lock_type"]  = @"4位数字";
+    params[@"screen_lock"]       = passcode;
+    HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];
+    NSLog(@"%@", httpResponse.statusCode);
+}
+
+/**
+ *  检测设备是否在服务器端被禁用
+ *
+ *  @param userDeviceID 用户设备ID
+ *
+ *  @return 是否可用
+ */
++ (BOOL)deviceState:(NSString *)userDeviceID {
+    NSString *urlPath = [NSString stringWithFormat:API_DEVICE_STATE_PATH, userDeviceID];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
+    
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+
+    userDict[@"device_state"]  = httpResponse.data[@"device_state"];
+    [userDict writeToFile:userConfigPath atomically:YES];
+    
+    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+    [userDict writeToFile:settingsConfigPath atomically:YES];
+    
+    return [httpResponse.data[@"state"] boolValue];
 }
 @end

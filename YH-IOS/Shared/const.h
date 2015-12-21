@@ -19,6 +19,8 @@
 #define API_USER_PATH     @"/api/v1/%@/%@/%@/authentication"
 #define API_DATA_PATH     @"/api/v1/group/%@/report/%@/attachment"
 #define API_COMMENT_PATH  @"/api/v1/user/%@/id/%@/type/%@"
+#define API_SCREEN_LOCK_PATH  @"/api/v1/user_device/%@/screen_lock"
+#define API_DEVICE_STATE_PATH  @"/api/v1/user_device/%@/state"
 
 #define KPI_PATH          @"/mobile/role/%@/group/%@/kpi"
 #define MESSAGE_PATH      @"/mobile/%@/message"

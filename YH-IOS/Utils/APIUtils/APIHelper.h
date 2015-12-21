@@ -35,4 +35,22 @@
  *  @return 是否创建成功
  */
 + (BOOL)writeComment:(NSString *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params;
+
+/**
+ *  用户锁屏数据
+ *
+ *  @param userDeviceID 设备ID
+ *  @param passcode     锁屏信息
+ *  @param state        是否锁屏
+ */
++ (void)screenLock:(NSString *)userDeviceID passcode:(NSString *)passcode state:(BOOL)state;
+
+/**
+ *  检测设备是否在服务器端被禁用
+ *
+ *  @param userDeviceID 用户设备ID
+ *
+ *  @return 是否可用
+ */
++ (BOOL)deviceState:(NSString *)userDeviceID;
 @end

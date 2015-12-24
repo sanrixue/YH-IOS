@@ -43,7 +43,7 @@
           bridge.callHandler('pageTabIndex', {'action': 'restore', 'pageName': pageName}, function(response) {
             var tabIndex = response;
             var klass = ".tab-part-" + tabIndex;
-            $(".tab-content").addClass("hidden");
+            $(".tab-part").addClass("hidden");
             $(klass).removeClass("hidden");
 
             $(".day-container").removeClass("highlight");
@@ -53,7 +53,6 @@
                 $(this).addClass("highlight");
               }
             })
-
           });
         })
       }

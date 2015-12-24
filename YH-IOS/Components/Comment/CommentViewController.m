@@ -20,6 +20,7 @@
     // Do any additional setup after loading the view.
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
+    [self idColor];
     
     self.labelTheme.text = self.bannerName;
     NSString *urlPath = [NSString stringWithFormat:COMMENT_PATH, self.objectID, @(self.commentObjectType)];
@@ -40,9 +41,6 @@
         
         if(isCreatedSuccessfully) {
             [self loadHtml];
-        }
-        else {
-            
         }
     }];
 }
@@ -72,7 +70,35 @@
 - (IBAction)actionBack:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 - (void)loadHtml {
+    
+    if([HttpUtils isNetworkAvailable]) {
+        if([APIHelper deviceState]) {
+            [self _loadHtml];
+        }
+        else {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            [alert addButton:@"知道了" actionBlock:^(void) {
+                [self jumpToLogin];
+            }];
+            [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
+        }
+    }
+    else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            
+            [alert addButton:@"刷新" actionBlock:^(void) {
+                [self loadHtml];
+            }];
+            
+            [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
+        });
+    }
+}
+
+- (void)_loadHtml {
     [self showLoading];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

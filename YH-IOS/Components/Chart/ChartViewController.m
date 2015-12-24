@@ -26,6 +26,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     // Do any additional setup after loading the view.
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
+    [self idColor];
     
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     
@@ -51,6 +52,29 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
         
         [self loadHtml];
     }];
+    
+    [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *tabIndexConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:TABINDEX_CONFIG_FILENAME];
+        NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+        
+        NSString *action = data[@"action"], *pageName = data[@"pageName"];
+        NSNumber *tabIndex = data[@"tabIndex"];
+        
+        if([action isEqualToString:@"store"]) {
+            tabIndexDict[pageName] = tabIndex;
+            
+            [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
+        }
+        else if([action isEqualToString:@"restore"]) {
+            tabIndex = tabIndexDict[pageName] ?: @(0);
+            
+            responseCallback(tabIndex);
+        }
+        else {
+            NSLog(@"unkown action %@", action);
+        }
+    }];
+    
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
@@ -89,6 +113,33 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 
 #pragma mark - assistant methods
 - (void)loadHtml {
+    
+    if([HttpUtils isNetworkAvailable]) {
+        if([APIHelper deviceState]) {
+            [self _loadHtml];
+        }
+        else {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            [alert addButton:@"知道了" actionBlock:^(void) {
+                [self jumpToLogin];
+            }];
+            [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
+        }
+    }
+    else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            
+            [alert addButton:@"刷新" actionBlock:^(void) {
+                [self loadHtml];
+            }];
+            
+            [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
+        });
+    }
+}
+
+- (void)_loadHtml {
     [self clearBrowserCache];
     
     self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];

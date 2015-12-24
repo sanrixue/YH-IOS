@@ -1,0 +1,103 @@
+.page-body {
+   background: #EEE none repeat scroll 0% 0%;
+   padding: 1px 0px 24px;
+}
+h5.row-title, h6.row-title {
+    line-height: 17px;
+    margin: 10px 0px;
+    padding: 9px 10px 9px 14px;
+    display: inline-block;
+    color: #646464;
+    font-weight: 400;
+    position: relative;
+    background-clip: padding-box;
+    background-color: #EEE;
+    border-radius: 0px 0px 0px 0px;
+    box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+}
+h1.row-title::before, h2.row-title::before, h3.row-title::before, h4.row-title::before, h5.row-title::before, h6.row-title::before {
+    display: block;
+    content: "";
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 4px;
+    width: 4px;
+    max-width: 4px;
+    overflow: hidden;
+    background-color: #318bae;
+}
+.alert {
+  margin-bottom: 10px;
+  font-size: 16px;
+  color:#318bae;
+}
+.color-0 {
+    color: #FFF;
+    background: #accc03 none repeat scroll 0% 0%;
+}
+.color-1 {
+    color: #FFF;
+    background: #e75b8d none repeat scroll 0% 0%;
+}
+.color-2 {
+    color: #fff;
+    background: #fb6e52 none repeat scroll 0% 0%;
+}
+.color-3 {
+    color: #fff;
+    background: #318bae none repeat scroll 0% 0%;
+}
+.color-4 {
+    color: #fff;
+    background: #c55842 none repeat scroll 0% 0%;
+}
+.color-5 {
+    color: #fff;
+    background: #ffce55 none repeat scroll 0% 0%;
+}
+.color-6 {
+    color: #fff;
+    background: #d88816 none repeat scroll 0% 0%;
+}
+.next {
+    padding: 0px;
+    cursor: pointer;
+    background: transparent none repeat scroll 0px 0px;
+    border: 0px none;
+    top: 0px;
+    right: -5px;
+    color: #FFF;
+    float: right;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    text-shadow: 0px 1px 0px #FFF;
+    opacity: 0.5;
+}
+a.no-style:hover, a.no-style:link {text-decoration: none; color:white;}
+.dashboard-box .box-days .day-container {
+    background-color: lightgray;
+    border: 1px solid lightgray;
+    color: #fff
+}
+.dashboard-box .box-days .day-container.highlight,.dashboard-box .box-days .day-container.highlight:hover {
+    background-color: white;
+    border: 1px solid white;
+    color: darkgray
+}
+
+.water-mark { 
+    width: 600px;
+    height: 600px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -100px;
+    color: grey; 
+    font-size: 50px; 
+    zoom: 1; 
+    opacity: 0.4; 
+    filter: alpha(opacity=40);
+}

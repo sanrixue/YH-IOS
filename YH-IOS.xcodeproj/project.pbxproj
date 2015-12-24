@@ -42,6 +42,7 @@
 		C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CF3B571C1AC75C00F58E1E /* CommentViewController.m */; settings = {ASSET_TAGS = (); }; };
+		C4CFAFC71C2A97FD0027AB07 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CFAFC61C2A97FD0027AB07 /* NSData+MD5.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7D781C02EC0500DA534E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D771C02EC0500DA534E /* main.m */; };
 		C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D7F1C02EC0500DA534E /* Main.storyboard */; };
 		C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D821C02EC0500DA534E /* Assets.xcassets */; };
@@ -130,6 +131,8 @@
 		C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C4CF3B561C1AC75C00F58E1E /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		C4CF3B571C1AC75C00F58E1E /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
+		C4CFAFC51C2A97FD0027AB07 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
+		C4CFAFC61C2A97FD0027AB07 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
 		C4DB7D731C02EC0500DA534E /* YH-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YH-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DB7D771C02EC0500DA534E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C4DB7D801C02EC0500DA534E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -354,6 +357,15 @@
 			path = Comment;
 			sourceTree = "<group>";
 		};
+		C4CFAFC41C2A96DD0027AB07 /* NSData */ = {
+			isa = PBXGroup;
+			children = (
+				C4CFAFC51C2A97FD0027AB07 /* NSData+MD5.h */,
+				C4CFAFC61C2A97FD0027AB07 /* NSData+MD5.m */,
+			);
+			path = NSData;
+			sourceTree = "<group>";
+		};
 		C4DB7D6A1C02EC0500DA534E = {
 			isa = PBXGroup;
 			children = (
@@ -432,6 +444,7 @@
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C4CFAFC41C2A96DD0027AB07 /* NSData */,
 				C49E1AB41C196B5400CFFE3C /* ViewUtils */,
 				C41E4FA81C0FED4600E1B514 /* UIColor */,
 				C488E69E1C0ED9D500EB946D /* APIUtils */,
@@ -739,6 +752,7 @@
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4771BA21C05871400AAF44F /* WebViewJavascriptBridge.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
+				C4CFAFC71C2A97FD0027AB07 /* NSData+MD5.m in Sources */,
 				C45D27121C23FC490087C6F2 /* README.md in Sources */,
 				C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */,
 				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,

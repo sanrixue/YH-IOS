@@ -12,6 +12,7 @@
 #import <PgyUpdate/PgyUpdateManager.h>
 
 #import "FileUtils.h"
+#import "NSData+MD5.h"
 #import <SSZipArchive.h>
 
 #import "DashboardViewController.h"
@@ -82,13 +83,31 @@
 
 #pragma mark - asisstant methods
 - (void)checkAssets:(NSString *)fileName {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+
+    
     NSString *zipName = [NSString stringWithFormat:@"%@.zip", fileName];
     NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:zipName];
-    NSString *sharedPath = [FileUtils sharedPath];
-    NSString *loadingPath = [sharedPath stringByAppendingPathComponent:fileName];
+    NSString *keyName = [NSString stringWithFormat:@"%@_md5", fileName];
+    NSData *fileData = [NSData dataWithContentsOfFile:zipPath];
+    NSString *md5String = fileData.md5;
     
-    if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
+    if(userDict && userDict[keyName] && [userDict[keyName] isEqualToString:md5String]) {
+        return;
+    }
+    else {
+        NSString *sharedPath = [FileUtils sharedPath];
+        NSString *loadingPath = [sharedPath stringByAppendingPathComponent:fileName];
+        if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
+            [FileUtils removeFile:loadingPath];
+        }
+        
         [SSZipArchive unzipFileAtPath:zipPath toDestination:sharedPath];
+        
+        userDict[keyName] = md5String;
+        [userDict writeToFile:userConfigPath atomically:YES];
+        NSLog(@"unzipfile for %@, %@", fileName, md5String);
     }
 }
 

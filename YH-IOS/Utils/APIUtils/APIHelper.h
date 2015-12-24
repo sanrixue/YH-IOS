@@ -34,7 +34,7 @@
  *
  *  @return 是否创建成功
  */
-+ (BOOL)writeComment:(NSString *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params;
++ (BOOL)writeComment:(NSNumber *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params;
 
 /**
  *  用户锁屏数据
@@ -48,9 +48,8 @@
 /**
  *  检测设备是否在服务器端被禁用
  *
- *  @param userDeviceID 用户设备ID
  *
  *  @return 是否可用
  */
-+ (BOOL)deviceState:(NSString *)userDeviceID;
++ (BOOL)deviceState;
 @end

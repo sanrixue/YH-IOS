@@ -34,7 +34,8 @@
 
 #define USER_CONFIG_FILENAME @"user.plist"
 #define CONFIG_DIRNAME    @"Configs"
-#define SETTINGS_CONFIG_FILENAME   @"Setting.plist"
+#define SETTINGS_CONFIG_FILENAME    @"Setting.plist"
+#define TABINDEX_CONFIG_FILENAME    @"PageTabIndex.plist"
 #define GESTURE_PASSWORD_FILENAME   @"GesturePassword.plist"
 #define HTML_DIRNAME      @"HTML"
 #define ASSETS1_DIRNAME   @"Assets"

@@ -69,9 +69,14 @@
     
     
     NSMutableDictionary *deviceDict = [NSMutableDictionary dictionary];
-    deviceDict[@"platform"]    = @"ios";
-    deviceDict[@"os"]          = [Version machineHuman];
-    deviceDict[@"uuid"]        = [OpenUDID value];
+    deviceDict[@"device"] = @{
+            @"name": [[UIDevice currentDevice] name],
+            @"platform": @"ios",
+            @"os": [Version machineHuman],
+            @"os_version": [[UIDevice currentDevice] systemVersion],
+            @"uuid": [OpenUDID value]
+        };
+
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:deviceDict];
     if(httpResponse.statusCode && [httpResponse.statusCode isEqualToNumber:@(200)]) {
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
@@ -111,7 +116,7 @@
  *
  *  @return 是否创建成功
  */
-+ (BOOL)writeComment:(NSString *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params {
++ (BOOL)writeComment:(NSNumber *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params {
     NSString *urlPath = [NSString stringWithFormat:API_COMMENT_PATH, userID, objectID, objectType];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];
@@ -140,17 +145,17 @@
 /**
  *  检测设备是否在服务器端被禁用
  *
- *  @param userDeviceID 用户设备ID
  *
  *  @return 是否可用
  */
-+ (BOOL)deviceState:(NSString *)userDeviceID {
-    NSString *urlPath = [NSString stringWithFormat:API_DEVICE_STATE_PATH, userDeviceID];
++ (BOOL)deviceState{
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    
+    NSString *urlPath = [NSString stringWithFormat:API_DEVICE_STATE_PATH, userDict[@"user_device_id"]];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
     HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
     
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
 
     userDict[@"device_state"]  = httpResponse.data[@"device_state"];
     [userDict writeToFile:userConfigPath atomically:YES];
@@ -158,6 +163,6 @@
     NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
     [userDict writeToFile:settingsConfigPath atomically:YES];
     
-    return [httpResponse.data[@"state"] boolValue];
+    return [httpResponse.data[@"device_state"] boolValue];
 }
 @end

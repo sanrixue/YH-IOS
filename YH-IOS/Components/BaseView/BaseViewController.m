@@ -7,6 +7,7 @@
 //
 
 #import "BaseViewController.h"
+#import "LoginViewController.h"
 
 @implementation BaseViewController
 
@@ -20,7 +21,43 @@
 }
 
 #pragma  mark - assistant methods
+- (void)idColor {
+    NSArray *colors = @[@"ffffff", @"ffcd0a", @"fd9053", @"dd0929", @"016a43", @"9d203c", @"093db5", @"6a3906", @"192162", @"000000"];
+    NSArray *colorViews = @[self.idColor0, self.idColor1, self.idColor2, self.idColor3, self.idColor4];
+    NSString *userID = [NSString stringWithFormat:@"%@", self.user.userID];
+    
+    
+    NSString *color;
+    NSInteger userIDIndex, numDiff = colorViews.count - userID.length;
+    UIImageView *imageView;
+    
+    numDiff = numDiff < 0 ? 0 : numDiff;
+    for(NSInteger i = 0; i < colorViews.count; i++) {
+        if(i < numDiff) {
+            color = @"#ffffff";
+        }
+        else {
+            userIDIndex = [[NSString stringWithFormat:@"%c", [userID characterAtIndex:i-numDiff]] integerValue];
+            color = colors[userIDIndex];
+        }
+        imageView = colorViews[i];
+        imageView.image = [self imageWithColor:[UIColor colorWithHexString:color] size:CGSizeMake(5.0, 5.0)];
+        imageView.layer.cornerRadius = 2.5f;
+        imageView.layer.masksToBounds = YES;
+        imageView.hidden = NO;
+    }
+    
+}
 
+- (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    UIBezierPath* rPath = [UIBezierPath bezierPathWithRect:CGRectMake(0., 0., size.width, size.height)];
+    [color setFill];
+    [rPath fill];
+    UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
 - (NSString *)stringWithContentsOfFile:(NSString *)htmlPath {
     NSError *error = nil;
     NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:&error];
@@ -70,6 +107,17 @@
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
 
+
+- (void)jumpToLogin {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [NSMutableDictionary dictionary];
+    userDict[@"is_login"] = @(NO);
+    [userDict writeToFile:userConfigPath atomically:YES];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    self.view.window.rootViewController = loginViewController;
+}
 
 #pragma mark - status bar settings
 - (BOOL)prefersStatusBarHidden {

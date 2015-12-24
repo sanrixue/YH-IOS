@@ -102,17 +102,8 @@
 }
 
 - (IBAction)actionLogout:(id)sender {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [NSMutableDictionary dictionary];
-    userDict[@"is_login"] = @(NO);
-    [userDict writeToFile:userConfigPath atomically:YES];
-    
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    self.view.window.rootViewController = loginViewController;
+    [self jumpToLogin];
 }
-
-
 
 - (void)showLockViewForEnablingPasscode {
     [[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController:self

@@ -29,6 +29,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     UIColor *color = [UIColor colorWithHexString:YH_COLOR];;
     self.bannerView.backgroundColor = color;
+    [self idColor];
     [[UITabBar appearance] setTintColor:color];
     
     [WebViewJavascriptBridge enableLogging];
@@ -47,24 +48,45 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": data[@"bannerName"], @"link": data[@"link"], @"objectID": data[@"objectID"]}];
     }];
     
+    [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *tabIndexConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:TABINDEX_CONFIG_FILENAME];
+        NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+        
+        NSString *action = data[@"action"], *pageName = data[@"pageName"];
+        NSNumber *tabIndex = data[@"tabIndex"];
+        
+        if([action isEqualToString:@"store"]) {
+            tabIndexDict[pageName] = tabIndex;
+            
+            [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
+        }
+        else if([action isEqualToString:@"restore"]) {
+            tabIndex = tabIndexDict[pageName] ?: @(0);
+            
+            responseCallback(tabIndex);
+        }
+        else {
+            NSLog(@"unkown action %@", action);
+        }
+    }];
+    
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
     
-    
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if([HttpUtils isNetworkAvailable]) {
-            NSString *fontsPath = [NSString stringWithFormat:@"%@%@", BASE_URL, FONTS_PATH];
-            [HttpUtils downloadAssetFile:fontsPath assetsPath:[FileUtils userspace]];
-        }
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
-        });
-    });
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        if([HttpUtils isNetworkAvailable]) {
+//            NSString *fontsPath = [NSString stringWithFormat:@"%@%@", BASE_URL, FONTS_PATH];
+//            [HttpUtils downloadAssetFile:fontsPath assetsPath:[FileUtils userspace]];
+//        }
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+//        });
+//    });
 }
 
 - (void)dealloc {
@@ -86,39 +108,52 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - assistant methods
 - (void)loadHtml {
+    
+    if([HttpUtils isNetworkAvailable]) {
+        if([APIHelper deviceState]) {
+            [self _loadHtml];
+        }
+        else {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            [alert addButton:@"知道了" actionBlock:^(void) {
+                [self jumpToLogin];
+            }];
+            [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
+        }
+    }
+    else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            
+            [alert addButton:@"刷新" actionBlock:^(void) {
+                [self loadHtml];
+            }];
+            
+            [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
+        });
+    }
+}
+- (void)_loadHtml {
     [self clearBrowserCache];
     [self showLoading];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
-        if([HttpUtils isNetworkAvailable]) {
-            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
-            
-            __block NSString *htmlPath;
-            if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-                htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
-            }
-            else {
-                NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
-                htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:[FileUtils sharedPath]]];
-            });
+        HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
+        
+        __block NSString *htmlPath;
+        if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
         }
         else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                SCLAlertView *alert = [[SCLAlertView alloc] init];
-                
-                [alert addButton:@"刷新" actionBlock:^(void) {
-                    [self loadHtml];
-                }];
-                
-                [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
-            });
+            NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
+            htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
         }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:[FileUtils sharedPath]]];
+        });
     });
 }
 

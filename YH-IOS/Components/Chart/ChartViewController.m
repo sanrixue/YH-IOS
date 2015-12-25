@@ -197,7 +197,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
+    [super dismissViewControllerAnimated:YES completion:^{
         self.browser.delegate = nil;
         self.browser = nil;
         [self.progressHUD hide:YES];
@@ -227,5 +227,37 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     [self loadHtml];
 }
 
-
+#pragma mark - bug#fix
+/**
+ 
+     2015-12-25 10:08:20.848 YH-IOS[52214:1924885] http://izoom.mobi/demo/upload.html?userid=3026
+     2015-12-25 10:08:27.117 YH-IOS[52214:1924885] Passed in type public.item doesn't conform to either public.content or public.data. If you are exporting a new type, please ensure that it conforms to an appropriate parent type.
+     2015-12-25 10:08:27.189 YH-IOS[52214:1924885] the behavior of the UICollectionViewFlowLayout is not defined because:
+     2015-12-25 10:08:27.190 YH-IOS[52214:1924885] the item width must be less than the width of the UICollectionView minus the section insets left and right values, minus the content insets left and right values.
+     2015-12-25 10:08:27.191 YH-IOS[52214:1924885] The relevant UICollectionViewFlowLayout instance is <_UIAlertControllerCollectionViewFlowLayout: 0x7f857b98b6f0>, and it is attached to <UICollectionView: 0x7f8579898c00; frame = (0 44; 10 0); clipsToBounds = YES; gestureRecognizers = <NSArray: 0x7f857b98c250>; animations = { bounds.origin=<CASpringAnimation: 0x7f85797d1210>; bounds.size=<CASpringAnimation: 0x7f85797d1630>; position=<CASpringAnimation: 0x7f85797d1830>; }; layer = <CALayer: 0x7f8579402e90>; contentOffset: {0, 0}; contentSize: {0, 0}> collection view layout: <_UIAlertControllerCollectionViewFlowLayout: 0x7f857b98b6f0>.
+     2015-12-25 10:08:27.191 YH-IOS[52214:1924885] Make a symbolic breakpoint at UICollectionViewFlowLayoutBreakForInvalidSizes to catch this in the debugger.
+     2015-12-25 10:08:27.764 YH-IOS[52214:1924885] Unable to simultaneously satisfy constraints.
+        Probably at least one of the constraints in the following list is one you don't want. Try this: (1) look at each constraint and try to figure out which you don't expect; (2) find the code that added the unwanted constraint or constraints and fix it. (Note: If you're seeing NSAutoresizingMaskLayoutConstraints that you don't understand, refer to the documentation for the UIView property translatesAutoresizingMaskIntoConstraints)
+     (
+     "<NSLayoutConstraint:0x7f857b98e660 UILabel:0x7f857b98ad80.width == UIView:0x7f857ba246a0.width - 32>",
+     "<NSLayoutConstraint:0x7f857b98def0 UIView:0x7f857ba246a0.width == UIView:0x7f857b988ac0.width>",
+     "<NSLayoutConstraint:0x7f857b9996c0 H:[UIView:0x7f857b988ac0(30)]>"
+     )
+     
+     Will attempt to recover by breaking constraint
+     <NSLayoutConstraint:0x7f857b98e660 UILabel:0x7f857b98ad80.width == UIView:0x7f857ba246a0.width - 32>
+     
+     Make a symbolic breakpoint at UIViewAlertForUnsatisfiableConstraints to catch this in the debugger.
+     The methods in the UIConstraintBasedLayoutDebugging category on UIView listed in <UIKit/UIView.h> may also be helpful.
+     2015-12-25 10:08:30.497 YH-IOS[52214:1924885] Warning: Attempt to present <UIImagePickerController: 0x7f857a84b000> on <ChartViewController: 0x7f857b8daa60> whose view is not in the window hierarchy!
+ *
+ *  @return <#return value description#>
+ */
+-(void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion
+{
+    if(self.presentedViewController)
+    {
+        [super dismissViewControllerAnimated:flag completion:completion];
+    }
+}
 @end

@@ -90,6 +90,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (void)dealloc {
+    [self.browser cleanForDealloc];
     self.browser.delegate = nil;
     self.browser = nil;
     [self.progressHUD hide:YES];

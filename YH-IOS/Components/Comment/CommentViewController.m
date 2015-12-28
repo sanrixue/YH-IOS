@@ -68,7 +68,15 @@
 
 #pragma mark - action methods
 - (IBAction)actionBack:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.browser cleanForDealloc];
+        self.browser.delegate = nil;
+        self.browser = nil;
+        [self.progressHUD hide:YES];
+        self.progressHUD = nil;
+        self.bridge = nil;
+        self.labelTheme = nil;
+    }];
 }
 
 - (void)loadHtml {

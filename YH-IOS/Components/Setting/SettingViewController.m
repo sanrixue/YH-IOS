@@ -35,7 +35,7 @@
     // Do any additional setup after loading the view.
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
-    
+    [self idColor];
     [self.btnLogout.layer setCornerRadius:10.0];
 
     self.labelUserName.text = [NSString stringWithFormat:@"%@(%@)", self.user.userName, self.user.userID];

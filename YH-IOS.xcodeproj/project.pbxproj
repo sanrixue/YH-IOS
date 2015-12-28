@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		C41E4FA61C0FE00A00E1B514 /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */; settings = {ASSET_TAGS = (); }; };
 		C41E4FA71C0FE00A00E1B514 /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */; settings = {ASSET_TAGS = (); }; };
-		C41E4FAB1C0FEE1800E1B514 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */; settings = {ASSET_TAGS = (); }; };
 		C4379B571C18232D0058257A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C4379B561C18232D0058257A /* User.m */; settings = {ASSET_TAGS = (); }; };
 		C43906DE1C1FAE1400E1E466 /* assets.zip in Resources */ = {isa = PBXBuildFile; fileRef = C43906DD1C1FAE1400E1E466 /* assets.zip */; settings = {ASSET_TAGS = (); }; };
 		C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4448C6B1C0AE3030053B431 /* HttpUtils.m */; settings = {ASSET_TAGS = (); }; };
@@ -38,11 +37,13 @@
 		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
 		C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB21C19632000CFFE3C /* SettingViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB61C196B5400CFFE3C /* ViewUtils.m */; settings = {ASSET_TAGS = (); }; };
+		C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DC1C2CECC10067516F /* NSData+MD5.m */; settings = {ASSET_TAGS = (); }; };
+		C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DF1C2CECC10067516F /* UIColor+Hex.m */; settings = {ASSET_TAGS = (); }; };
+		C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564E21C2CECC10067516F /* UIWebView+Clean.m */; settings = {ASSET_TAGS = (); }; };
 		C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CF3B571C1AC75C00F58E1E /* CommentViewController.m */; settings = {ASSET_TAGS = (); }; };
-		C4CFAFC71C2A97FD0027AB07 /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CFAFC61C2A97FD0027AB07 /* NSData+MD5.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7D781C02EC0500DA534E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D771C02EC0500DA534E /* main.m */; };
 		C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D7F1C02EC0500DA534E /* Main.storyboard */; };
 		C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D821C02EC0500DA534E /* Assets.xcassets */; };
@@ -80,8 +81,6 @@
 		BA7C8A7FE878AF127C6E6870 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgySDK.framework; path = Frameworks/PgySDK.framework; sourceTree = "<group>"; };
 		C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgyUpdate.framework; path = Frameworks/PgyUpdate.framework; sourceTree = "<group>"; };
-		C41E4FA91C0FEE1800E1B514 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
-		C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		C4379B551C18232D0058257A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		C4379B561C18232D0058257A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		C43906DD1C1FAE1400E1E466 /* assets.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = assets.zip; sourceTree = "<group>"; };
@@ -123,6 +122,12 @@
 		C49E1AB21C19632000CFFE3C /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		C49E1AB51C196B5400CFFE3C /* ViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewUtils.h; sourceTree = "<group>"; };
 		C49E1AB61C196B5400CFFE3C /* ViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewUtils.m; sourceTree = "<group>"; };
+		C4A564DB1C2CECC10067516F /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
+		C4A564DC1C2CECC10067516F /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
+		C4A564DE1C2CECC10067516F /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Hex.h"; sourceTree = "<group>"; };
+		C4A564DF1C2CECC10067516F /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
+		C4A564E11C2CECC10067516F /* UIWebView+Clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+Clean.h"; sourceTree = "<group>"; };
+		C4A564E21C2CECC10067516F /* UIWebView+Clean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+Clean.m"; sourceTree = "<group>"; };
 		C4C6283B1C0C1ED6000AD5D8 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
 		C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
 		C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
@@ -131,8 +136,6 @@
 		C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		C4CF3B561C1AC75C00F58E1E /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		C4CF3B571C1AC75C00F58E1E /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
-		C4CFAFC51C2A97FD0027AB07 /* NSData+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+MD5.h"; sourceTree = "<group>"; };
-		C4CFAFC61C2A97FD0027AB07 /* NSData+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+MD5.m"; sourceTree = "<group>"; };
 		C4DB7D731C02EC0500DA534E /* YH-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YH-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DB7D771C02EC0500DA534E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C4DB7D801C02EC0500DA534E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -198,15 +201,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		C41E4FA81C0FED4600E1B514 /* UIColor */ = {
-			isa = PBXGroup;
-			children = (
-				C41E4FA91C0FEE1800E1B514 /* UIColor+Hex.h */,
-				C41E4FAA1C0FEE1800E1B514 /* UIColor+Hex.m */,
-			);
-			path = UIColor;
-			sourceTree = "<group>";
-		};
 		C4379B541C1823110058257A /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -299,11 +293,38 @@
 			path = ViewUtils;
 			sourceTree = "<group>";
 		};
+		C4A564DA1C2CECC10067516F /* NSData+MD5 */ = {
+			isa = PBXGroup;
+			children = (
+				C4A564DB1C2CECC10067516F /* NSData+MD5.h */,
+				C4A564DC1C2CECC10067516F /* NSData+MD5.m */,
+			);
+			path = "NSData+MD5";
+			sourceTree = "<group>";
+		};
+		C4A564DD1C2CECC10067516F /* UIColor+Hex */ = {
+			isa = PBXGroup;
+			children = (
+				C4A564DE1C2CECC10067516F /* UIColor+Hex.h */,
+				C4A564DF1C2CECC10067516F /* UIColor+Hex.m */,
+			);
+			path = "UIColor+Hex";
+			sourceTree = "<group>";
+		};
+		C4A564E01C2CECC10067516F /* UIWebView+Clean */ = {
+			isa = PBXGroup;
+			children = (
+				C4A564E11C2CECC10067516F /* UIWebView+Clean.h */,
+				C4A564E21C2CECC10067516F /* UIWebView+Clean.m */,
+			);
+			path = "UIWebView+Clean";
+			sourceTree = "<group>";
+		};
 		C4C628381C0C1ED6000AD5D8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				C4CF3B551C1AC73C00F58E1E /* Comment */,
 				C4C628391C0C1ED6000AD5D8 /* BaseView */,
+				C4CF3B551C1AC73C00F58E1E /* Comment */,
 				C4C6283A1C0C1ED6000AD5D8 /* Chart */,
 				C4C6283D1C0C1ED6000AD5D8 /* Dashboard */,
 				C4C628401C0C1ED6000AD5D8 /* Login */,
@@ -355,15 +376,6 @@
 				C4CF3B571C1AC75C00F58E1E /* CommentViewController.m */,
 			);
 			path = Comment;
-			sourceTree = "<group>";
-		};
-		C4CFAFC41C2A96DD0027AB07 /* NSData */ = {
-			isa = PBXGroup;
-			children = (
-				C4CFAFC51C2A97FD0027AB07 /* NSData+MD5.h */,
-				C4CFAFC61C2A97FD0027AB07 /* NSData+MD5.m */,
-			);
-			path = NSData;
 			sourceTree = "<group>";
 		};
 		C4DB7D6A1C02EC0500DA534E = {
@@ -444,9 +456,10 @@
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				C4CFAFC41C2A96DD0027AB07 /* NSData */,
+				C4A564DA1C2CECC10067516F /* NSData+MD5 */,
+				C4A564DD1C2CECC10067516F /* UIColor+Hex */,
+				C4A564E01C2CECC10067516F /* UIWebView+Clean */,
 				C49E1AB41C196B5400CFFE3C /* ViewUtils */,
-				C41E4FA81C0FED4600E1B514 /* UIColor */,
 				C488E69E1C0ED9D500EB946D /* APIUtils */,
 				C4DB7DB61C02EE3800DA534E /* DateUtils */,
 				C4DB7DB91C02EE3800DA534E /* ExtendNSLogFunctionality.h */,
@@ -738,21 +751,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4DB7DC21C02EE3800DA534E /* ExtendNSLogFunctionality.m in Sources */,
+				C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */,
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				C4771BA31C05871400AAF44F /* WebViewJavascriptBridgeBase.m in Sources */,
 				C4771B9E1C05871400AAF44F /* TFHpple.m in Sources */,
-				C41E4FAB1C0FEE1800E1B514 /* UIColor+Hex.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
+				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4771BA21C05871400AAF44F /* WebViewJavascriptBridge.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
-				C4CFAFC71C2A97FD0027AB07 /* NSData+MD5.m in Sources */,
 				C45D27121C23FC490087C6F2 /* README.md in Sources */,
 				C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */,
 				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,
@@ -763,6 +776,7 @@
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
+				C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */,
 				C4771BA01C05871400AAF44F /* XPathQuery.m in Sources */,
 				C4771B9F1C05871400AAF44F /* TFHppleElement.m in Sources */,
 			);

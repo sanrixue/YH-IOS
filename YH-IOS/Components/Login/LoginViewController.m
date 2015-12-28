@@ -138,6 +138,8 @@
     DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     window.rootViewController = dashboardViewController;
     
+    
+    
     // Nasty hack to fix http://stackoverflow.com/questions/26763020/leaking-views-when-changing-rootviewcontroller-inside-transitionwithview
     // The presenting view controllers view doesn't get removed from the window as its currently transistioning and presenting a view controller
     for (UIView *subview in window.subviews) {
@@ -150,6 +152,10 @@
         // Remove the root view in case its still showing
         [previousRootViewController.view removeFromSuperview];
     }];
+    
+    [self.browser cleanForDealloc];
+    self.browser = nil;
+    self.browser.delegate = nil;
 }
 
 

@@ -198,6 +198,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
     [super dismissViewControllerAnimated:YES completion:^{
+        [self.browser cleanForDealloc];
         self.browser.delegate = nil;
         self.browser = nil;
         [self.progressHUD hide:YES];

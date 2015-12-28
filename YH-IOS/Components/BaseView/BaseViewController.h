@@ -17,6 +17,7 @@
 #import <SCLAlertView.h>
 #import "UIColor+Hex.h"
 #import "User.h"
+#import "UIWebview+Clean.h"
 //#import <WebKit/WebKit.h>
 
 @interface BaseViewController : UIViewController<UIWebViewDelegate>
@@ -25,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet UIView *bannerView;
 @property (weak, nonatomic) IBOutlet UIWebView *browser;
 @property (weak, nonatomic) IBOutlet UILabel *labelTheme;
+@property (weak, nonatomic) IBOutlet UIView *idView;
 @property (weak, nonatomic) IBOutlet UIImageView *idColor0;
 @property (weak, nonatomic) IBOutlet UIImageView *idColor1;
 @property (weak, nonatomic) IBOutlet UIImageView *idColor2;

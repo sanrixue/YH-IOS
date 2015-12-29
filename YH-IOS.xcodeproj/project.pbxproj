@@ -34,6 +34,7 @@
 		C488E6A31C0F00A800EB946D /* Loading.zip in Resources */ = {isa = PBXBuildFile; fileRef = C488E6A21C0F00A800EB946D /* Loading.zip */; settings = {ASSET_TAGS = (); }; };
 		C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A51C0F03C800EB946D /* BaseViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */ = {isa = PBXBuildFile; fileRef = C48DC6FC1C1E8FDD00CECB95 /* Version.m */; settings = {ASSET_TAGS = (); }; };
+		C499E8A31C3262240033BF6C /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C499E8A21C3262240033BF6C /* ResetPasswordViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
 		C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB21C19632000CFFE3C /* SettingViewController.m */; settings = {ASSET_TAGS = (); }; };
 		C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB61C196B5400CFFE3C /* ViewUtils.m */; settings = {ASSET_TAGS = (); }; };
@@ -56,6 +57,7 @@
 		C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DBD1C02EE3800DA534E /* FileUtils.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DCA1C02EE8E00DA534E /* BaseModel.m */; settings = {ASSET_TAGS = (); }; };
 		C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */; settings = {ASSET_TAGS = (); }; };
+		C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = C4ECB27F1C3119E900F7947B /* NSString+MD5.m */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +120,8 @@
 		C488E6A51C0F03C800EB946D /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		C48DC6FB1C1E8FDD00CECB95 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		C48DC6FC1C1E8FDD00CECB95 /* Version.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Version.m; sourceTree = "<group>"; };
+		C499E8A11C3262240033BF6C /* ResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPasswordViewController.h; sourceTree = "<group>"; };
+		C499E8A21C3262240033BF6C /* ResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPasswordViewController.m; sourceTree = "<group>"; };
 		C49E1AB11C19632000CFFE3C /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		C49E1AB21C19632000CFFE3C /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		C49E1AB51C196B5400CFFE3C /* ViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewUtils.h; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 		C4DB7DCA1C02EE8E00DA534E /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		C4DB7DCC1C02EE8E00DA534E /* HttpResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpResponse.h; sourceTree = "<group>"; };
 		C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpResponse.m; sourceTree = "<group>"; };
+		C4ECB27E1C3119E900F7947B /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
+		C4ECB27F1C3119E900F7947B /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -275,9 +281,19 @@
 			path = Version;
 			sourceTree = "<group>";
 		};
+		C499E8A01C3262010033BF6C /* ResetPassword */ = {
+			isa = PBXGroup;
+			children = (
+				C499E8A11C3262240033BF6C /* ResetPasswordViewController.h */,
+				C499E8A21C3262240033BF6C /* ResetPasswordViewController.m */,
+			);
+			path = ResetPassword;
+			sourceTree = "<group>";
+		};
 		C49E1AB01C1962F200CFFE3C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				C499E8A01C3262010033BF6C /* ResetPassword */,
 				C49E1AB11C19632000CFFE3C /* SettingViewController.h */,
 				C49E1AB21C19632000CFFE3C /* SettingViewController.m */,
 			);
@@ -456,6 +472,7 @@
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C4ECB27D1C3119B200F7947B /* NSString+MD5 */,
 				C4A564DA1C2CECC10067516F /* NSData+MD5 */,
 				C4A564DD1C2CECC10067516F /* UIColor+Hex */,
 				C4A564E01C2CECC10067516F /* UIWebView+Clean */,
@@ -534,6 +551,15 @@
 				C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */,
 			);
 			path = HttpResponse;
+			sourceTree = "<group>";
+		};
+		C4ECB27D1C3119B200F7947B /* NSString+MD5 */ = {
+			isa = PBXGroup;
+			children = (
+				C4ECB27E1C3119E900F7947B /* NSString+MD5.h */,
+				C4ECB27F1C3119E900F7947B /* NSString+MD5.m */,
+			);
+			path = "NSString+MD5";
 			sourceTree = "<group>";
 		};
 		C604676B995213DD1045036A /* Pods */ = {
@@ -762,6 +788,7 @@
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
+				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4771BA21C05871400AAF44F /* WebViewJavascriptBridge.m in Sources */,
@@ -774,6 +801,7 @@
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,
+				C499E8A31C3262240033BF6C /* ResetPasswordViewController.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
 				C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */,

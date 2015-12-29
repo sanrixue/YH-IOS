@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "DashboardViewController.h"
 #import "APIHelper.h"
+#import "NSString+MD5.h"
 
 @interface LoginViewController ()
 @end
@@ -51,7 +52,7 @@
                 [self.progressHUD hide:YES afterDelay:1.5];
             }
             else {
-                NSString *msg = [APIHelper userAuthentication:username password:password];
+                NSString *msg = [APIHelper userAuthentication:username password:password.md5];
                 
                 if(msg.length == 0) {
                     [self jumpToDashboardView];

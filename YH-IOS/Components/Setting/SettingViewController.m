@@ -12,6 +12,10 @@
 #import "Version.h"
 #import "LTHPasscodeViewController.h"
 #import "APIHelper.h"
+#import "ResetPasswordViewController.h"
+
+
+static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
 
 @interface SettingViewController ()<LTHPasscodeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UISwitch *switchGesturePassword;
@@ -105,6 +109,18 @@
     [self jumpToLogin];
 }
 
+- (IBAction)actionResetPassword:(id)sender {
+    [self performSegueWithIdentifier:kResetPasswordSegueIdentifier sender:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([segue.identifier isEqualToString:kResetPasswordSegueIdentifier]) {
+        ResetPasswordViewController *resetPasswordViewController = (ResetPasswordViewController *)segue.destinationViewController;
+        resetPasswordViewController.bannerName = @"重置密码";
+        resetPasswordViewController.link       = RESET_PASSWORD_PATH;
+    }
+}
+#pragma mark - LTHPasscode delegate methods
 - (void)showLockViewForEnablingPasscode {
     [[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController:self
                                                                             asModal:YES];

@@ -75,7 +75,6 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
         }
     }];
     
-    
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.

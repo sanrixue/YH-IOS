@@ -11,6 +11,7 @@
 @interface User : BaseModel
 @property (strong, nonatomic) NSNumber *userID;
 @property (strong, nonatomic) NSString *userName;
+@property (strong, nonatomic) NSString *password;
 @property (strong, nonatomic) NSNumber *groupID;
 @property (strong, nonatomic) NSNumber *groupName;
 @property (strong, nonatomic) NSNumber *roleID;

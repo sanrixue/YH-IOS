@@ -1,0 +1,150 @@
+//
+//  ResetPasswordViewController.m
+//  YH-IOS
+//
+//  Created by lijunjie on 15/12/29.
+//  Copyright © 2015年 com.intfocus. All rights reserved.
+//
+
+#import "ResetPasswordViewController.h"
+#import "APIHelper.h"
+#import "HttpResponse.h"
+#import "NSString+MD5.h"
+#import "ViewUtils.h"
+
+@implementation ResetPasswordViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+    
+    self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
+    [self idColor];
+    
+    [WebViewJavascriptBridge enableLogging];
+    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"ObjC received message from JS: %@", data);
+        responseCallback(@"Response for message from ObjC");
+    }];
+    
+    [self.bridge registerHandler:@"ResetPassword" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *oldPassword = data[@"oldPassword"];
+        NSString *newPassword = data[@"newPassword"];
+        NSLog(@"%@,%@", oldPassword, newPassword);
+        
+        if([oldPassword.md5 isEqualToString:self.user.password]) {
+            
+            HttpResponse *response = [APIHelper resetPassword:self.user.userID newPassword:newPassword.md5];
+            NSString *message = [NSString stringWithFormat:@"%@", response.data[@"info"]];
+            
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            if(response.statusCode && [response.statusCode isEqualToNumber:@(200)]) {
+                [alert addButton:@"重新登录" actionBlock:^(void) {
+                    [self jumpToLogin];
+                }];
+                
+                [alert showSuccess:self title:@"温馨提示" subTitle:message closeButtonTitle:nil duration:0.0f];
+            }
+            else {
+                [alert addButton:@"好的" actionBlock:^(void) {
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        [self.browser cleanForDealloc];
+                        self.browser.delegate = nil;
+                        self.browser = nil;
+                        [self.progressHUD hide:YES];
+                        self.progressHUD = nil;
+                        self.bridge = nil;
+                    }];
+                }];
+                [alert showWarning:self title:@"温馨提示" subTitle:message closeButtonTitle:nil duration:0.0f];
+            }
+        }
+        else {
+            [ViewUtils showPopupView:self.view Info:@"原始密码输入有误"];
+            [self loadHtml];
+        }
+    }];
+    
+    self.labelTheme.text = self.bannerName;
+    self.urlString       = [NSString stringWithFormat:@"%@%@", BASE_URL, self.link];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    
+    [self loadHtml];
+}
+
+- (void)dealloc {
+    [self.browser cleanForDealloc];
+    self.browser.delegate = nil;
+    self.browser = nil;
+    [self.progressHUD hide:YES];
+    self.progressHUD = nil;
+    self.bridge = nil;
+}
+
+#pragma mark - assistant methods
+- (void)loadHtml {
+    
+    if([HttpUtils isNetworkAvailable]) {
+        if([APIHelper deviceState]) {
+            [self _loadHtml];
+        }
+        else {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            [alert addButton:@"知道了" actionBlock:^(void) {
+                [self jumpToLogin];
+            }];
+            [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
+        }
+    }
+    else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            
+            [alert addButton:@"刷新" actionBlock:^(void) {
+                [self loadHtml];
+            }];
+            
+            [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
+        });
+    }
+}
+- (void)_loadHtml {
+    [self clearBrowserCache];
+    [self showLoading];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
+        
+        __block NSString *htmlPath;
+        if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+        }
+        else {
+            NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
+            htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:[FileUtils sharedPath]]];
+        });
+    });
+}
+
+#pragma mark - ibaction block
+- (IBAction)actionBack:(id)sender {
+    [super dismissViewControllerAnimated:YES completion:^{
+        [self.browser cleanForDealloc];
+        self.browser.delegate = nil;
+        self.browser = nil;
+        [self.progressHUD hide:YES];
+        self.progressHUD = nil;
+        self.bridge = nil;
+    }];
+}
+@end

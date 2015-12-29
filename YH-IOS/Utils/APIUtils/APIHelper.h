@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HttpResponse.h"
 
 @interface APIHelper : NSObject
 + (NSString *)reportDataUrlString:(NSNumber *)groupID reportID:(NSString *)reportID ;
@@ -52,4 +53,14 @@
  *  @return 是否可用
  */
 + (BOOL)deviceState;
+
+/**
+ *  重置用户登陆密码
+ *
+ *  @param userID      用户ID
+ *  @param newPassword 新密码
+ *
+ *  @return 服务器响应
+ */
++ (HttpResponse *)resetPassword:(NSNumber *)userID newPassword:(NSString *)newPassword;
 @end

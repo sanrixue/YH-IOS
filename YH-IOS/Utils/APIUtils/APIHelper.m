@@ -10,7 +10,6 @@
 #import "const.h"
 #import "HttpUtils.h"
 #import "FileUtils.h"
-#import "HttpResponse.h"
 #import "Version.h"
 #import "OpenUDID.h"
 
@@ -95,6 +94,7 @@
         userDict[@"device_uuid"]     = httpResponse.data[@"device_uuid"];
         userDict[@"device_state"]    = httpResponse.data[@"device_state"];
         userDict[@"user_device_id"]  = httpResponse.data[@"user_device_id"];
+        userDict[@"user_md5"]        = password;
         [userDict writeToFile:userConfigPath atomically:YES];
         
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
@@ -164,5 +164,25 @@
     [userDict writeToFile:settingsConfigPath atomically:YES];
     
     return [httpResponse.data[@"device_state"] boolValue];
+}
+
+/**
+ *  重置用户登陆密码
+ *
+ *  @param userID      用户ID
+ *  @param newPassword 新密码
+ *
+ *  @return 服务器响应
+ */
++ (HttpResponse *)resetPassword:(NSNumber *)userID newPassword:(NSString *)newPassword {
+    NSString *urlPath = [NSString stringWithFormat:API_RESET_PASSWORD_PATH, userID];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"password"] = newPassword;
+    HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];
+    
+    return httpResponse;
 }
 @end

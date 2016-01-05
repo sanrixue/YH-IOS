@@ -161,7 +161,7 @@
                                     <constraint firstAttribute="height" constant="49" id="62o-Jg-nQJ"/>
                                 </constraints>
                                 <items>
-                                    <tabBarItem title="KPI" image="TabBar-KPI" id="4rm-By-bTN"/>
+                                    <tabBarItem title="仪表盘" image="TabBar-KPI" id="4rm-By-bTN"/>
                                     <tabBarItem tag="1" title="分析" image="TabBar-分析" id="hND-6P-aMF"/>
                                     <tabBarItem tag="2" title="应用" image="TabBar-应用" selectedImage="TabBar-应用-浅绿-S" id="j7u-fF-ccm"/>
                                     <tabBarItem tag="3" title="消息" image="TabBar-消息" selectedImage="TabBar-消息-浅绿-S" id="jRv-Ww-nO5"/>
@@ -373,7 +373,7 @@
                                         </connections>
                                     </button>
                                     <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DYJ-jQ-uwb">
-                                        <rect key="frame" x="0.0" y="15" width="600" height="1"/>
+                                        <rect key="frame" x="0.0" y="159" width="600" height="1"/>
                                         <color key="backgroundColor" red="0.91372549020000005" green="0.91372549020000005" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="LUC-qW-q4E"/>
@@ -387,7 +387,7 @@
                                     <constraint firstItem="N97-tk-aAc" firstAttribute="top" secondItem="i9p-TK-gkx" secondAttribute="top" constant="5" id="3vR-Pq-0J0"/>
                                     <constraint firstItem="lxf-tI-LFt" firstAttribute="leading" secondItem="i9p-TK-gkx" secondAttribute="leading" constant="20" id="5yw-LI-JOt"/>
                                     <constraint firstItem="lxf-tI-LFt" firstAttribute="top" secondItem="N97-tk-aAc" secondAttribute="bottom" constant="5" id="65F-I4-Jyb"/>
-                                    <constraint firstAttribute="bottom" secondItem="DYJ-jQ-uwb" secondAttribute="bottom" constant="144" id="7Av-dP-ATf"/>
+                                    <constraint firstAttribute="bottom" secondItem="DYJ-jQ-uwb" secondAttribute="bottom" id="7Av-dP-ATf"/>
                                     <constraint firstItem="13D-B1-0iI" firstAttribute="leading" secondItem="i9p-TK-gkx" secondAttribute="leading" constant="20" id="97w-TU-eJc"/>
                                     <constraint firstItem="mp4-29-ILx" firstAttribute="leading" secondItem="i9p-TK-gkx" secondAttribute="leading" constant="20" id="Av6-nR-id6"/>
                                     <constraint firstItem="6GY-fW-N4q" firstAttribute="width" secondItem="13D-B1-0iI" secondAttribute="width" id="C1F-gT-Zmn"/>
@@ -457,13 +457,6 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p8A-O8-mRu">
-                                        <rect key="frame" x="0.0" y="159" width="600" height="1"/>
-                                        <color key="backgroundColor" red="0.91372549020000005" green="0.91372549020000005" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="1" id="P2p-hk-yoa"/>
-                                        </constraints>
-                                    </view>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="设备型号" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yev-CQ-lcu">
                                         <rect key="frame" x="300" y="91" width="280" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -485,6 +478,13 @@
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p8A-O8-mRu">
+                                        <rect key="frame" x="0.0" y="159" width="600" height="1"/>
+                                        <color key="backgroundColor" red="0.91372549020000005" green="0.91372549020000005" blue="0.91372549020000005" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="P2p-hk-yoa"/>
+                                        </constraints>
+                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>

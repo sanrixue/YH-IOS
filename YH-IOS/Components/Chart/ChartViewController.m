@@ -144,12 +144,15 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
 }
 - (void)loadOuterLink {
+    NSString *appendParams = [NSString stringWithFormat:@"userid=%@&timestamp=%@", self.user.userID, TimeStamp];
+    
     if([self.urlString containsString:@"?"]) {
-        self.urlString = [self.urlString stringByReplacingOccurrencesOfString:@"?" withString:[NSString stringWithFormat:@"?userid=%@&", self.user.userID]];
+        self.urlString = [self.urlString stringByReplacingOccurrencesOfString:@"?" withString:[NSString stringWithFormat:@"?%@&", appendParams]];
     }
     else {
-        self.urlString = [NSString stringWithFormat:@"%@?userid=%@", self.urlString, self.user.userID];
+        self.urlString = [NSString stringWithFormat:@"%@?%@", self.urlString, appendParams];
     }
+    
     NSLog(@"%@", self.urlString);
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
 }

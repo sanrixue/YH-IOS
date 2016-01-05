@@ -203,7 +203,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             break;
         }
         case 3: {
-            path = [NSString stringWithFormat:MESSAGE_PATH, self.user.userID];
+            path = [NSString stringWithFormat:MESSAGE_PATH, self.user.roleID, self.user.userID];
             self.commentObjectType = ObjectTypeMessage;
             break;
         }

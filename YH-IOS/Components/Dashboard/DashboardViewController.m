@@ -189,7 +189,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     switch (index) {
         case 0: {
             path = [NSString stringWithFormat:KPI_PATH, self.user.roleID, self.user.groupID];
-            self.commentObjectType = ObjectTypeReport;
+            self.commentObjectType = ObjectTypeKpi;
             break;
         }
         case 1: {

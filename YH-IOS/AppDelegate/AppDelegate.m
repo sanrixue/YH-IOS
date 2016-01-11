@@ -45,7 +45,12 @@
      *  初始化移动端本地webview的avigator.userAgent
      *  HttpUtils内部使用时，只需要读取
      */
-    [HttpUtils webViewUserAgent];
+    NSString *userAgentPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_AGENT_FILENAME];
+    if(![FileUtils checkFileExist:userAgentPath isDir:NO]) {
+        UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        NSString *userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+        [userAgent writeToFile:userAgentPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
 
     [self.window makeKeyAndVisible];
     

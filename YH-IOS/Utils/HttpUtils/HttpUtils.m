@@ -614,11 +614,11 @@
     if([self checkFileExist:userAgentPath isDir:NO]) {
         userAgent = [NSString stringWithContentsOfFile:userAgentPath encoding:NSUTF8StringEncoding error:nil];
     }
-    else {
-        UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-        userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-        [userAgent writeToFile:userAgentPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    }
+//    else {
+//        UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+//        userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+//        [userAgent writeToFile:userAgentPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+//    }
     
     return userAgent;
 }

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>永辉报表</string>
+	<string>永辉生意人</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,15 +15,15 @@
 		<string>zh_CN</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>永辉报表</string>
+	<string>永辉生意人</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.2</string>
+	<string>1.0.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>62</string>
+	<string>66</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>Main storyboard file base name1</key>

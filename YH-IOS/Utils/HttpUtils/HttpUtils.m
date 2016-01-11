@@ -40,8 +40,12 @@
     NSURL *url = [NSURL URLWithString:urlString];
     HttpResponse *httpResponse = [[HttpResponse alloc] init];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:timeoutInterval];
+    [request setValue:[self webViewUserAgent] forHTTPHeaderField:@"User-Agent"];
+    
     if(header) {
-        for(NSString *key in header) { [request setValue:header[key] forHTTPHeaderField:key]; }
+        for(NSString *key in header) {
+            [request setValue:header[key] forHTTPHeaderField:key];
+        }
     }
     NSError *error;
     NSURLResponse *response;
@@ -87,6 +91,7 @@
                                                            timeoutInterval:3.0];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:[self webViewUserAgent] forHTTPHeaderField:@"User-Agent"];
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error: &error];
     NSMutableData *tempJsonData = [NSMutableData dataWithData:jsonData];
     [request setHTTPBody:tempJsonData];
@@ -559,5 +564,62 @@
     }
     
     return removed;
+}
+
++ (NSString *)basePath {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    return [paths objectAtIndex:0];
+}
+/**
+ *  读取配置档，有则读取。
+ *  默认为NSMutableDictionary，若读取后为空，则按JSON字符串转NSMutableDictionary处理。
+ *
+ *  @param pathname 配置档路径
+ *
+ *  @return 返回配置信息NSMutableDictionary
+ */
++ (NSMutableDictionary*)readConfigFile: (NSString*) pathName {
+    NSMutableDictionary *dict = [NSMutableDictionary alloc];
+    //NSLog(@"pathname: %@", pathname);
+    if([self checkFileExist:pathName isDir:false]) {
+        dict = [dict initWithContentsOfFile:pathName];
+        // 若为空，则为JSON字符串
+        if(!dict) {
+            NSError *error;
+            BOOL isSuccessfully;
+            NSString *descContent = [NSString stringWithContentsOfFile:pathName encoding:NSUTF8StringEncoding error:&error];
+            isSuccessfully = NSErrorPrint(error, @"read desc file: %@", pathName);
+            if(isSuccessfully) {
+                dict= [NSJSONSerialization JSONObjectWithData:[descContent dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingMutableContainers error:&error];
+                NSErrorPrint(error, @"convert string into json: \n%@", descContent);
+            }
+        }
+    }
+    else {
+        dict = [dict init];
+    }
+    return dict;
+}
+
+/**
+ *  Http模拟浏览器访问
+ *
+ *  @return header#user-agent
+ */
++ (NSString *)webViewUserAgent {
+    NSString *userAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 9_0 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A340 default-by-hand";
+    
+    NSString *userAgentPath = [[self basePath] stringByAppendingPathComponent:USER_AGENT_FILENAME];
+    
+    if([self checkFileExist:userAgentPath isDir:NO]) {
+        userAgent = [NSString stringWithContentsOfFile:userAgentPath encoding:NSUTF8StringEncoding error:nil];
+    }
+    else {
+        UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+        [userAgent writeToFile:userAgentPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+    
+    return userAgent;
 }
 @end

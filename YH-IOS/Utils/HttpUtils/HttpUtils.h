@@ -109,6 +109,12 @@
  *  @return HttpResponse
  */
 + (HttpResponse *)checkResponseHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath;
+/**
+ *  Http模拟浏览器访问
+ *
+ *  @return header#user-agent
+ */
++ (NSString *)webViewUserAgent;
 @end
 
 #endif

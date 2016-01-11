@@ -11,8 +11,8 @@
 
 #define YH_COLOR                @"#53a93f" //53,A9,3F; 83, 169, 63
 
-#define BASE_URL1               @"http://localhost:4567"
-#define BASE_URL                @"http://yonghui.idata.mobi"
+#define BASE_URL               @"http://localhost:4567"
+#define BASE_URL1                @"http://yonghui.idata.mobi"
 
 #define LOGIN_PATH              @"/mobile/login"
 #define API_USER_PATH           @"/api/v1/%@/%@/%@/authentication"
@@ -43,6 +43,8 @@
 #define SHARED_DIRNAME              @"Shared"
 
 #define CACHED_HEADER_FILENAME      @"cachedHeader.plist"
+
+#define USER_AGENT_FILENAME        @"webviewUserAgent.txt"
 
 #define URL_WRITE_LOCAL             @"1"
 

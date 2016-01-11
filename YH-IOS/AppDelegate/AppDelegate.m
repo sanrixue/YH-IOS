@@ -41,7 +41,12 @@
     [self checkAssets:@"Loading"];
     [self checkAssets:@"assets"];
     
-    
+    /**
+     *  初始化移动端本地webview的avigator.userAgent
+     *  HttpUtils内部使用时，只需要读取
+     */
+    [HttpUtils webViewUserAgent];
+
     [self.window makeKeyAndVisible];
     
     [LTHPasscodeViewController sharedUser].delegate = self;

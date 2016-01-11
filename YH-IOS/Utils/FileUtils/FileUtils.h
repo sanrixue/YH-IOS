@@ -156,6 +156,7 @@
  *  @param fileName 文件名称
  */
 + (NSDictionary *)shareData:(NSString *)fileName;
+
 @end
 
 

@@ -23,6 +23,7 @@
         
         NSDictionary *localVersionInfo =[[NSBundle mainBundle] infoDictionary];
         _current   = localVersionInfo[@"CFBundleShortVersionString"];
+        _build     = localVersionInfo[@"CFBundleVersion"];
         _appName   = localVersionInfo[@"CFBundleDisplayName"];
         _lang      = localVersionInfo[@"CFBundleDevelopmentRegion"];
         _suport    = localVersionInfo[@"MinimumOSVersion"];

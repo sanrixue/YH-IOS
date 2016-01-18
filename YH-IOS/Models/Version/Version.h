@@ -24,6 +24,7 @@
 @property (nonatomic, strong) NSString *changeLog;
 // local attribute
 @property (nonatomic, strong) NSString *current;
+@property (nonatomic, strong) NSString *build;
 @property (nonatomic, strong) NSString *appName;
 @property (nonatomic, strong) NSString *lang;
 @property (nonatomic, strong) NSString *suport;

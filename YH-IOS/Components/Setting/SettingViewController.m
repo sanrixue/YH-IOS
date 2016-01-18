@@ -48,11 +48,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.labelUserGroup.text = [NSString stringWithFormat:@"%@(%@)", self.user.groupName, self.user.groupID];
     
     Version *version = [[Version alloc] init];
-    self.labelAppName.text = version.appName;
-    self.labelAppVersion.text = version.current;
+    self.labelAppName.text    = version.appName;
+    self.labelAppVersion.text = [NSString stringWithFormat:@"%@(%@)", version.current, version.build];
     self.labelDeviceMode.text = [[Version machineHuman] componentsSeparatedByString:@" ("][0];
     
-    self.labelAPIDomain.text = [BASE_URL componentsSeparatedByString:@"://"][1];
+    self.labelAPIDomain.text  = [BASE_URL componentsSeparatedByString:@"://"][1];
     
     [LTHPasscodeViewController sharedUser].delegate = self;
     [LTHPasscodeViewController useKeychain:NO];
@@ -118,6 +118,20 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)appUpgradeMethod:(NSDictionary *)response {
     NSLog(@"%@", response);
+    if(response && response[@"downloadURL"]) {
+        
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        
+        [alert addButton:@"升级" actionBlock:^(void) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[@"downloadURL"]]];
+            [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
+        }];
+        
+        [alert showSuccess:self title:@"版本更新" subTitle:response[@"releaseNote"] closeButtonTitle:@"放弃" duration:0.0f];
+    }
+    else {
+        [ViewUtils showPopupView:self.view Info:@"已是最新版本"];
+    }
     
 }
 

@@ -117,7 +117,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (void)appUpgradeMethod:(NSDictionary *)response {
-    NSLog(@"%@", response);
     if(response && response[@"downloadURL"]) {
         
         SCLAlertView *alert = [[SCLAlertView alloc] init];

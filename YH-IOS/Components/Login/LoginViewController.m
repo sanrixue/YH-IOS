@@ -164,15 +164,16 @@
 
 #pragma mark - 缓存当前应用版本，每次检测，不一致时，有所动作
 - (void)checkVersionUpgrade:(NSString *)assetsPath {
-    NSDictionary *localVersionInfo =[[NSBundle mainBundle] infoDictionary];
-    NSString *currentVersion       = localVersionInfo[@"CFBundleShortVersionString"];
+    NSDictionary *bundleInfo       =[[NSBundle mainBundle] infoDictionary];
+    NSString *currentVersion       = bundleInfo[@"CFBundleShortVersionString"];
     NSString *versionConfigPath    = [NSString stringWithFormat:@"%@/%@", assetsPath, CURRENT_VERSION__FILENAME];
     
     BOOL isUpgrade = NO;
+    NSString *localVersion = @"no-exist";
     if([FileUtils checkFileExist:versionConfigPath isDir:NO]) {
-        NSString *localVersion = [NSString stringWithContentsOfFile:versionConfigPath encoding:NSUTF8StringEncoding error:nil];
+        localVersion = [NSString stringWithContentsOfFile:versionConfigPath encoding:NSUTF8StringEncoding error:nil];
         
-        if(localVersion && [localVersion isEqualToString:currentVersion]) {
+        if(localVersion && ![localVersion isEqualToString:currentVersion]) {
             isUpgrade = YES;
         }
     }
@@ -181,6 +182,7 @@
     }
     
     if(isUpgrade) {
+        NSLog(@"version modified: %@ => %@", localVersion, currentVersion);
         [self removeCachedHeader:assetsPath];
         [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }
@@ -189,6 +191,8 @@
 
 - (void)removeCachedHeader:(NSString *)assetsPath {
     NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", assetsPath, CACHED_HEADER_FILENAME];
+    NSLog(@"remove header: %@", cachedHeaderPath);
+    
     if([FileUtils checkFileExist:cachedHeaderPath isDir:NO]) {
         [FileUtils removeFile:cachedHeaderPath];
     }

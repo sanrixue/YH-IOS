@@ -55,6 +55,7 @@
                 NSString *msg = [APIHelper userAuthentication:username password:password.md5];
                 
                 if(msg.length == 0) {
+                    [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
                     [self jumpToDashboardView];
                 }
                 else {
@@ -74,7 +75,10 @@
     self.browser.scrollView.scrollEnabled = NO;
     self.browser.scrollView.bounces = NO;
     
-
+    /*
+     * 检测登录界面，版本是否升级
+     */
+    [self checkVersionUpgrade:[FileUtils sharedPath]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -140,7 +144,6 @@
     window.rootViewController = dashboardViewController;
     
     
-    
     // Nasty hack to fix http://stackoverflow.com/questions/26763020/leaking-views-when-changing-rootviewcontroller-inside-transitionwithview
     // The presenting view controllers view doesn't get removed from the window as its currently transistioning and presenting a view controller
     for (UIView *subview in window.subviews) {
@@ -159,6 +162,37 @@
     self.browser.delegate = nil;
 }
 
+#pragma mark - 缓存当前应用版本，每次检测，不一致时，有所动作
+- (void)checkVersionUpgrade:(NSString *)assetsPath {
+    NSDictionary *localVersionInfo =[[NSBundle mainBundle] infoDictionary];
+    NSString *currentVersion       = localVersionInfo[@"CFBundleShortVersionString"];
+    NSString *versionConfigPath    = [NSString stringWithFormat:@"%@/%@", assetsPath, CURRENT_VERSION__FILENAME];
+    
+    BOOL isUpgrade = NO;
+    if([FileUtils checkFileExist:versionConfigPath isDir:NO]) {
+        NSString *localVersion = [NSString stringWithContentsOfFile:versionConfigPath encoding:NSUTF8StringEncoding error:nil];
+        
+        if(localVersion && [localVersion isEqualToString:currentVersion]) {
+            isUpgrade = YES;
+        }
+    }
+    else {
+        isUpgrade = YES;
+    }
+    
+    if(isUpgrade) {
+        [self removeCachedHeader:assetsPath];
+        [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+    
+}
+
+- (void)removeCachedHeader:(NSString *)assetsPath {
+    NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", assetsPath, CACHED_HEADER_FILENAME];
+    if([FileUtils checkFileExist:cachedHeaderPath isDir:NO]) {
+        [FileUtils removeFile:cachedHeaderPath];
+    }
+}
 
 # pragma mark - 登录界面不支持旋转
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

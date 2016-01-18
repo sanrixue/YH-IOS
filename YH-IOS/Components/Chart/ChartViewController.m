@@ -33,8 +33,8 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     self.urlString = self.link;
     if(self.isInnerLink) {
         /*
-           /mobil/report/:report_id/group/:group_id
-           eg: /mobile/repoprt/1/group/%@
+         * /mobil/report/:report_id/group/:group_id
+         * eg: /mobile/repoprt/1/group/%@
          */
         NSString *urlPath = [NSString stringWithFormat:self.link, self.user.groupID];
         self.urlString =[NSString stringWithFormat:@"%@%@", BASE_URL,urlPath];
@@ -144,13 +144,13 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
 }
 - (void)loadOuterLink {
-    NSString *appendParams = [NSString stringWithFormat:@"userid=%@&timestamp=%@", self.user.userID, TimeStamp];
+    NSString *appendParams = [NSString stringWithFormat:@"?userid=%@&timestamp=%@", self.user.userID, TimeStamp];
     
     if([self.urlString containsString:@"?"]) {
-        self.urlString = [self.urlString stringByReplacingOccurrencesOfString:@"?" withString:[NSString stringWithFormat:@"?%@&", appendParams]];
+        self.urlString = [self.urlString stringByReplacingOccurrencesOfString:@"?" withString:appendParams];
     }
     else {
-        self.urlString = [NSString stringWithFormat:@"%@?%@", self.urlString, appendParams];
+        self.urlString = [NSString stringWithFormat:@"%@%@", self.urlString, appendParams];
     }
     
     NSLog(@"%@", self.urlString);

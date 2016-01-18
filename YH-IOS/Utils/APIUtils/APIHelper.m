@@ -20,6 +20,7 @@
     return [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
 }
 
+#pragma todo: pass assetsPath as parameter
 + (void)reportData:(NSNumber *)groupID reportID:(NSString *)reportID {
     NSString *urlString = [self reportDataUrlString:groupID reportID:reportID];
     

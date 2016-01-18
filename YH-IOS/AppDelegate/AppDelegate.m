@@ -38,6 +38,9 @@
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
     self.window.rootViewController = initViewController;
     
+    /**
+     *  解压表态资源
+     */
     [self checkAssets:@"Loading"];
     [self checkAssets:@"assets"];
     

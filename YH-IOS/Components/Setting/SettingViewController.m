@@ -13,6 +13,7 @@
 #import "LTHPasscodeViewController.h"
 #import "APIHelper.h"
 #import "ResetPasswordViewController.h"
+#import <PgyUpdate/PgyUpdateManager.h>
 
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
@@ -76,6 +77,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (IBAction)actionCheckUpgrade {
+    [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
+}
+
 - (IBAction)actionChangeGesturePassword:(id)sender {
     [self showLockViewForChangingPasscode];
 }
@@ -95,9 +100,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         
         self.buttonChangeGesturePassword.enabled = NO;
         
-        
         [ViewUtils showPopupView:self.view Info:@"禁用手势锁设置成功"];
-        
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [APIHelper screenLock:userDict[@"user_device_id"] passcode:userDict[@"gesture_password"] state:NO];
@@ -113,6 +116,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self performSegueWithIdentifier:kResetPasswordSegueIdentifier sender:nil];
 }
 
+- (void)appUpgradeMethod:(NSDictionary *)response {
+    NSLog(@"%@", response);
+    
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:kResetPasswordSegueIdentifier]) {
         ResetPasswordViewController *resetPasswordViewController = (ResetPasswordViewController *)segue.destinationViewController;
@@ -126,18 +134,15 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
                                                                             asModal:YES];
 }
 
-
 - (void)showLockViewForTestingPasscode {
     [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
                                                              withLogout:NO
                                                          andLogoutTitle:nil];
 }
 
-
 - (void)showLockViewForChangingPasscode {
     [[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController:self asModal:YES];
 }
-
 
 - (void)showLockViewForTurningPasscodeOff {
     [[LTHPasscodeViewController sharedUser] showForDisablingPasscodeInViewController:self

@@ -215,7 +215,17 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
     
     self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
+    
+    
+    [self tabBarState: NO];
     [self loadHtml];
+    [self tabBarState: YES];
+}
+
+- (void)tabBarState:(BOOL)state {
+    for(UITabBarItem *item in self.tabBar.items) {
+        item.enabled = state;
+    }
 }
 
 # pragma mark - 登录界面不支持旋转

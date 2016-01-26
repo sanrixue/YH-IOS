@@ -33,10 +33,8 @@
     
     numDiff = numDiff < 0 ? 0 : numDiff;
     for(NSInteger i = 0; i < colorViews.count; i++) {
-        if(i < numDiff) {
-            color = @"#ffffff";
-        }
-        else {
+        color = colors[0];
+        if(i >= numDiff) {
             userIDIndex = [[NSString stringWithFormat:@"%c", [userID characterAtIndex:i-numDiff]] integerValue];
             color = colors[userIDIndex];
         }

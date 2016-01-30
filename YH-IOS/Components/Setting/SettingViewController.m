@@ -94,6 +94,27 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
 }
 
+- (IBAction)actionCheckAssets:(id)sender {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    if([userDict.allKeys containsObject:@"assets_md5"]) {
+        [userDict removeObjectForKey:@"assets_md5"];
+    }
+    if([userDict.allKeys containsObject:@"loading_md5"]) {
+        [userDict removeObjectForKey:@"loading_md5"];
+    }
+    [userDict writeToFile:userConfigPath atomically:YES];
+    
+    NSString *headerPath = [[FileUtils sharedPath] stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
+    [FileUtils removeFile:headerPath];
+    
+    
+    [self checkAssets:@"loading"];
+    [self checkAssets:@"assets"];
+    
+    [ViewUtils showPopupView:self.view Info:@"校正完成"];
+}
+
 - (IBAction)actionChangeGesturePassword:(id)sender {
     [self showLockViewForChangingPasscode];
 }
@@ -167,23 +188,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
 }
 
-- (void)appUpgradeMethod:(NSDictionary *)response {
-    if(response && response[@"downloadURL"]) {
-        
-        SCLAlertView *alert = [[SCLAlertView alloc] init];
-        
-        [alert addButton:@"升级" actionBlock:^(void) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[@"downloadURL"]]];
-            [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
-        }];
-        
-        [alert showSuccess:self title:@"版本更新" subTitle:response[@"releaseNote"] closeButtonTitle:@"放弃" duration:0.0f];
-    }
-    else {
-        [ViewUtils showPopupView:self.view Info:@"已是最新版本"];
-    }
-    
-}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:kResetPasswordSegueIdentifier]) {
@@ -275,5 +279,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     if([userDict[@"is_login"] boolValue] && [userDict[@"use_gesture_password"] boolValue]) {
         return userDict[@"gesture_password"] ?: @"";
     }
-    return @"";}
+    return @"";
+}
+
+
+
 @end

@@ -29,9 +29,6 @@
     //启动基本SDK
     [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
     [[PgyManager sharedPgyManager] setEnableFeedback:NO];
-    //启动检测版本更新
-    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
-    [[PgyUpdateManager sharedPgyManager] checkUpdate];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -134,6 +131,7 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+    dashboardViewController.fromViewController = @"AppDelegate";
     self.window.rootViewController = dashboardViewController;
     
     /*

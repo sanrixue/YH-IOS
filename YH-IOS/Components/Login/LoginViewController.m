@@ -10,6 +10,7 @@
 #import "DashboardViewController.h"
 #import "APIHelper.h"
 #import "NSString+MD5.h"
+#import <PgyUpdate/PgyUpdateManager.h>
 
 @interface LoginViewController ()
 @end
@@ -98,6 +99,11 @@
     [super viewWillAppear:animated];
     
     [self loadHtml];
+    
+    //启动检测版本更新
+    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
+    //[[PgyUpdateManager sharedPgyManager] checkUpdate];
+    [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
 }
 
 - (void)dealloc {
@@ -154,6 +160,7 @@
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+    dashboardViewController.fromViewController = @"LoginViewController";
     window.rootViewController = dashboardViewController;
     
     
@@ -198,6 +205,23 @@
         NSLog(@"version modified: %@ => %@", localVersion, currentVersion);
         [self removeCachedHeader:assetsPath];
         [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        
+        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+        NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+        if([userDict.allKeys containsObject:@"assets_md5"]) {
+            [userDict removeObjectForKey:@"assets_md5"];
+        }
+        if([userDict.allKeys containsObject:@"loading_md5"]) {
+            [userDict removeObjectForKey:@"loading_md5"];
+        }
+        [userDict writeToFile:userConfigPath atomically:YES];
+        
+        NSString *headerPath = [[FileUtils sharedPath] stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
+        [FileUtils removeFile:headerPath];
+        
+        
+        [self checkAssets:@"loading"];
+        [self checkAssets:@"assets"];
     }
     
 }

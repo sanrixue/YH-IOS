@@ -44,5 +44,18 @@
 
 - (void)jumpToLogin;
 - (void)showProgressHUD:(NSString *)text;
+/*
+ *  内容检测版本升级，判断版本号是否为偶数。以便内测
+ *
+ *  @param response <#response description#>
+ */
+- (void)appUpgradeMethod:(NSDictionary *)response;
+
+/**
+ *  检测静态文件
+ *
+ *  @param fileName <#fileName description#>
+ */
+- (void)checkAssets:(NSString *)fileName;
 
 @end

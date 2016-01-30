@@ -9,6 +9,7 @@
 #import "DashboardViewController.h"
 #import "ChartViewController.h"
 #import <SCLAlertView.h>
+#import <PgyUpdate/PgyUpdateManager.h>
 
 
 static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier";
@@ -87,6 +88,20 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 //            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 //        });
 //    });
+    
+    if(self.fromViewController && [self.fromViewController isEqualToString:@"AppDelegate"]) {
+        self.fromViewController = @"AlreadyShow";
+        //启动检测版本更新
+        [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
+        //[[PgyUpdateManager sharedPgyManager] checkUpdate];
+        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+
 }
 
 - (void)dealloc {

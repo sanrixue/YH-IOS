@@ -8,6 +8,10 @@
 
 #import "BaseViewController.h"
 #import "LoginViewController.h"
+#import <PgyUpdate/PgyUpdateManager.h>
+#import "ViewUtils.h"
+#import "NSData+MD5.h"
+#import <SSZipArchive.h>
 
 @implementation BaseViewController
 
@@ -91,9 +95,10 @@
 }
 
 - (void)showLoading:(BOOL)isLogin {
-    NSString *loadingPath = [FileUtils loadingPath: isLogin];
+    NSString *loadingPath = [FileUtils loadingPath:isLogin];
     NSString *loadingContent = [NSString stringWithContentsOfFile:loadingPath encoding:NSUTF8StringEncoding error:nil];
-    [self.browser loadHTMLString:loadingContent baseURL:[NSURL URLWithString:loadingPath]];
+    
+    [self.browser loadHTMLString:loadingContent baseURL:[NSURL fileURLWithPath:[loadingPath stringByDeletingLastPathComponent]]];
     
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
@@ -148,4 +153,66 @@
     //self.progressHUD.mode = MBProgressHUDModeText;
     //[self.progressHUD hide:YES afterDelay:2.0];
 }
+
+/**
+ *  内容检测版本升级，判断版本号是否为偶数。以便内测
+ *
+ *  @param response <#response description#>
+ */
+- (void)appUpgradeMethod:(NSDictionary *)response {
+    
+    if(response && response[@"downloadURL"] && response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0) {
+        
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        
+        [alert addButton:@"升级" actionBlock:^(void) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[@"downloadURL"]]];
+            [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
+        }];
+        
+        [alert showSuccess:self title:@"版本更新" subTitle:response[@"releaseNote"] closeButtonTitle:@"放弃" duration:0.0f];
+    }
+    else {
+        [ViewUtils showPopupView:self.view Info:@"已是最新版本"];
+    }
+}
+
+/**
+ *  检测静态文件
+ *
+ *  @param fileName <#fileName description#>
+ */
+- (void)checkAssets:(NSString *)fileName {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    
+    NSString *zipName = [NSString stringWithFormat:@"%@.zip", fileName];
+    NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:zipName];
+    NSString *keyName = [NSString stringWithFormat:@"%@_md5", fileName];
+    NSData *fileData = [NSData dataWithContentsOfFile:zipPath];
+    NSString *md5String = fileData.md5;
+    
+    BOOL isShouldUnZip = YES;
+    
+    if([FileUtils checkFileExist:userConfigPath isDir:NO]) {
+        if([userDict.allKeys containsObject:keyName] && [userDict[keyName] isEqualToString:md5String]) {
+            isShouldUnZip = NO;
+        }
+    }
+    
+    if(isShouldUnZip) {
+        NSString *sharedPath = [FileUtils sharedPath];
+        NSString *loadingPath = [sharedPath stringByAppendingPathComponent:fileName];
+        if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
+            [FileUtils removeFile:loadingPath];
+        }
+        
+        [SSZipArchive unzipFileAtPath:zipPath toDestination:sharedPath];
+        
+        userDict[keyName] = md5String;
+        [userDict writeToFile:userConfigPath atomically:YES];
+        NSLog(@"unzipfile for %@, %@", fileName, md5String);
+    }
+}
+
 @end

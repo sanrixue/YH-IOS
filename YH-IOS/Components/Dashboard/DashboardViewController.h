@@ -9,4 +9,5 @@
 #import "BaseViewController.h"
 
 @interface DashboardViewController : BaseViewController<UITabBarDelegate>
+@property (strong, nonatomic) NSString *fromViewController;
 @end

@@ -18,7 +18,6 @@
 #import "UIColor+Hex.h"
 #import "User.h"
 #import "UIWebview+Clean.h"
-//#import <WebKit/WebKit.h>
 
 @interface BaseViewController : UIViewController<UIWebViewDelegate>
 

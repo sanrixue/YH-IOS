@@ -52,7 +52,7 @@
 }
 
 + (NSString *)loadingPath:(BOOL)isLogin {
-    NSString *indexName = isLogin ? @"Loading/Login.html" : @"Loading/Load.html";
+    NSString *indexName = isLogin ? @"loading/login.html" : @"loading/loading.html";
     return  [[self sharedPath] stringByAppendingPathComponent:indexName];
 }
 /**

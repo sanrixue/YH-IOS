@@ -41,7 +41,7 @@
     /**
      *  解压表态资源
      */
-    [self checkAssets:@"Loading"];
+    [self checkAssets:@"loading"];
     [self checkAssets:@"assets"];
     
     /**
@@ -57,16 +57,6 @@
 
     [self.window makeKeyAndVisible];
     
-    [LTHPasscodeViewController sharedUser].delegate = self;
-    [LTHPasscodeViewController useKeychain:NO];
-    
-    if ([LTHPasscodeViewController doesPasscodeExist] &&
-        [LTHPasscodeViewController didPasscodeTimerEnd]) {
-        
-        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
-                                                                 withLogout:NO
-                                                             andLogoutTitle:nil];
-    }
 
     return YES;
 }
@@ -88,6 +78,15 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
+    [LTHPasscodeViewController sharedUser].delegate = self;
+    [LTHPasscodeViewController useKeychain:NO];
+    if ([LTHPasscodeViewController doesPasscodeExist] &&
+        [LTHPasscodeViewController didPasscodeTimerEnd]) {
+        
+        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
+                                                                 withLogout:NO
+                                                             andLogoutTitle:nil];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -98,7 +97,6 @@
 - (void)checkAssets:(NSString *)fileName {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-
     
     NSString *zipName = [NSString stringWithFormat:@"%@.zip", fileName];
     NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:zipName];
@@ -106,10 +104,15 @@
     NSData *fileData = [NSData dataWithContentsOfFile:zipPath];
     NSString *md5String = fileData.md5;
     
-    if(userDict && userDict[keyName] && [userDict[keyName] isEqualToString:md5String]) {
-        return;
+    BOOL isShouldUnZip = YES;
+    
+    if([FileUtils checkFileExist:userConfigPath isDir:NO]) {
+        if([userDict.allKeys containsObject:keyName] && [userDict[keyName] isEqualToString:md5String]) {
+            isShouldUnZip = NO;
+        }
     }
-    else {
+    
+    if(isShouldUnZip) {
         NSString *sharedPath = [FileUtils sharedPath];
         NSString *loadingPath = [sharedPath stringByAppendingPathComponent:fileName];
         if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
@@ -124,12 +127,26 @@
     }
 }
 
+#pragma mark - LTHPasscodeViewControllerDelegate methods
+
 - (void)passcodeWasEnteredSuccessfully {
     NSLog(@"Passcode Was Entered Successfully");
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     self.window.rootViewController = dashboardViewController;
+    
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    @try {
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = @"解屏";
+        [APIHelper actionLog:logParams];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
 }
 
 

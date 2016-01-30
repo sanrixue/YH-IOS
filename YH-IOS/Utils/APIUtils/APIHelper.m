@@ -186,4 +186,30 @@
     
     return httpResponse;
 }
+
+/**
+ *  记录用户行为操作
+ *
+ *  @param params 用户行为操作
+ */
++ (void)actionLog:(NSMutableDictionary *)param {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    
+    param[@"user_id"] = userDict[@"user_id"];
+    param[@"user_name"] = userDict[@"user_name"];
+    param[@"user_device_id"] = userDict[@"user_device_id"];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"action_log"] = param;
+    
+    NSMutableDictionary *userParams = [NSMutableDictionary dictionary];
+    userParams[@"user_name"] = userDict[@"user_name"];
+    userParams[@"user_pass"] = userDict[@"user_md5"];
+    
+    params[@"user"] = userParams;
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, API_ACTION_LOG__PATH];
+    [HttpUtils httpPost:urlString Params:params];
+}
 @end

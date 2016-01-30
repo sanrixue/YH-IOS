@@ -11,8 +11,8 @@
 
 #define YH_COLOR                    @"#53a93f" //53,A9,3F; 83, 169, 63
 
-#define BASE_URL1                   @"http://localhost:4567"
-#define BASE_URL                    @"http://yonghui.idata.mobi"
+#define BASE_URL                   @"http://localhost:4567"
+#define BASE_URL1                    @"http://yonghui.idata.mobi"
 
 #define LOGIN_PATH                  @"/mobile/login"
 #define API_USER_PATH               @"/api/v1/%@/%@/%@/authentication"
@@ -21,6 +21,7 @@
 #define API_SCREEN_LOCK_PATH        @"/api/v1/user_device/%@/screen_lock"
 #define API_DEVICE_STATE_PATH       @"/api/v1/user_device/%@/state"
 #define API_RESET_PASSWORD_PATH     @"/api/v1/update/%@/password"
+#define API_ACTION_LOG__PATH        @"/api/v1/ios/logger"
 
 #define KPI_PATH                    @"/mobile/role/%@/group/%@/kpi"
 #define MESSAGE_PATH                @"/mobile/role/%@/user/%@/message"

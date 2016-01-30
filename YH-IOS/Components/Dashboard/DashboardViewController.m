@@ -105,6 +105,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
     [self loadHtml];
     [refresh endRefreshing];
+    
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+    logParams[@"action"] = @"刷新/主页面/浏览器";
+    [APIHelper actionLog:logParams];
 }
 
 #pragma mark - assistant methods
@@ -164,12 +171,32 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+    
     if([segue.identifier isEqualToString:kChartSegueIdentifier]) {
         ChartViewController *chartViewController = (ChartViewController *)segue.destinationViewController;
         chartViewController.bannerName        = sender[@"bannerName"];
         chartViewController.link              = sender[@"link"];
         chartViewController.objectID          = sender[@"objectID"];
         chartViewController.commentObjectType = self.commentObjectType;
+        
+        logParams[@"action"] = @"点击/主页面/浏览器";
+        logParams[@"obj_id"] = sender[@"objectID"];
+        logParams[@"obj_type"] = @(self.commentObjectType);
+        logParams[@"obj_title"] = sender[@"bannerName"];
+    }
+    else if([segue.identifier isEqualToString:kSettingSegueIdentifier]) {
+        logParams[@"action"] = @"点击/主页面/设置";
+    }
+    
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    @try {
+        [APIHelper actionLog:logParams];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
     }
 }
 #pragma mark - UIWebview delegate
@@ -220,6 +247,20 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self tabBarState: NO];
     [self loadHtml];
     [self tabBarState: YES];
+    
+    
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    @try {
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = @"点击/主页面/标签栏";
+        logParams[@"obj_type"] = @(self.commentObjectType);
+        [APIHelper actionLog:logParams];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
 }
 
 - (void)tabBarState:(BOOL)state {

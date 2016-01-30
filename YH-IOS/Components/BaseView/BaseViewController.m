@@ -131,9 +131,21 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     
-    [self showProgressHUD:@"收到IOS系统，内存警告."];
-    self.progressHUD.mode = MBProgressHUDModeText;
-    [self.progressHUD hide:YES afterDelay:2.0];
+    // [self showProgressHUD:@"收到IOS系统，内存警告."];
+    NSLog(@"收到IOS系统，内存警告.");
+    
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    @try {
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = @"警告/内存";
+        [APIHelper actionLog:logParams];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+    //self.progressHUD.mode = MBProgressHUDModeText;
+    //[self.progressHUD hide:YES afterDelay:2.0];
 }
-
 @end

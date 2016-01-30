@@ -57,6 +57,19 @@
                 if(msg.length == 0) {
                     [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
                     [self jumpToDashboardView];
+                    
+                    /*
+                     * 用户行为记录, 单独异常处理，不可影响用户体验
+                     */
+                    @try {
+                        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                        logParams[@"action"] = @"登录";
+                        [APIHelper actionLog:logParams];
+                    }
+                    @catch (NSException *exception) {
+                        NSLog(@"%@", exception);
+                    }
+
                 }
                 else {
                     [self showProgressHUD:msg];

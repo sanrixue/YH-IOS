@@ -63,4 +63,11 @@
  *  @return 服务器响应
  */
 + (HttpResponse *)resetPassword:(NSNumber *)userID newPassword:(NSString *)newPassword;
+
+/**
+ *  记录用户行为操作
+ *
+ *  @param params 用户行为操作
+ */
++ (void)actionLog:(NSMutableDictionary *)param;
 @end

@@ -78,7 +78,11 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
+}
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     [self loadHtml];
 }
 
@@ -100,6 +104,13 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     }
     [self loadHtml];
     [refresh endRefreshing];
+    
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+    logParams[@"action"] = @"刷新/主题页面/浏览器";
+    [APIHelper actionLog:logParams];
 }
 
 #pragma mark - status bar settings
@@ -206,6 +217,18 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
         [self.progressHUD hide:YES];
         self.progressHUD = nil;
         self.bridge = nil;
+        
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"返回/主题页面";
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
     }];
 }
 
@@ -219,6 +242,13 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
         commentViewController.bannerName        = self.bannerName;
         commentViewController.commentObjectType = self.commentObjectType;
         commentViewController.objectID          = self.objectID;
+        
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = @"点击/主题页面/评论";
+        [APIHelper actionLog:logParams];
     }
 }
 # pragma mark - 登录界面不支持旋转

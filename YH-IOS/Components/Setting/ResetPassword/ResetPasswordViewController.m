@@ -44,6 +44,19 @@
                 }];
                 
                 [alert showSuccess:self title:@"温馨提示" subTitle:message closeButtonTitle:nil duration:0.0f];
+                
+                /*
+                 * 用户行为记录, 单独异常处理，不可影响用户体验
+                 */
+                @try {
+                    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                    logParams[@"action"] = @"重置密码";
+                    [APIHelper actionLog:logParams];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"%@", exception);
+                }
+ 
             }
             else {
                 [alert addButton:@"好的" actionBlock:^(void) {

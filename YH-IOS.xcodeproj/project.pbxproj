@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C41E4FA61C0FE00A00E1B514 /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */; settings = {ASSET_TAGS = (); }; };
 		C41E4FA71C0FE00A00E1B514 /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */; settings = {ASSET_TAGS = (); }; };
+		C4272CC81C5C752B00E6971B /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C4272CC71C5C752A00E6971B /* README.md */; settings = {ASSET_TAGS = (); }; };
 		C4379B571C18232D0058257A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C4379B561C18232D0058257A /* User.m */; settings = {ASSET_TAGS = (); }; };
 		C43906DE1C1FAE1400E1E466 /* assets.zip in Resources */ = {isa = PBXBuildFile; fileRef = C43906DD1C1FAE1400E1E466 /* assets.zip */; settings = {ASSET_TAGS = (); }; };
 		C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4448C6B1C0AE3030053B431 /* HttpUtils.m */; settings = {ASSET_TAGS = (); }; };
@@ -83,6 +84,7 @@
 		BA7C8A7FE878AF127C6E6870 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgySDK.framework; path = Frameworks/PgySDK.framework; sourceTree = "<group>"; };
 		C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgyUpdate.framework; path = Frameworks/PgyUpdate.framework; sourceTree = "<group>"; };
+		C4272CC71C5C752A00E6971B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C4379B551C18232D0058257A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		C4379B561C18232D0058257A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		C43906DD1C1FAE1400E1E466 /* assets.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = assets.zip; sourceTree = "<group>"; };
@@ -403,6 +405,7 @@
 				C4DB7D741C02EC0500DA534E /* Products */,
 				C604676B995213DD1045036A /* Pods */,
 				E7359AA6518F9148E9F7A313 /* Frameworks */,
+				C4272CC71C5C752A00E6971B /* README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -798,6 +801,7 @@
 				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,
 				C4C628431C0C1ED6000AD5D8 /* ChartViewController.m in Sources */,
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
+				C4272CC81C5C752B00E6971B /* README.md in Sources */,
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				C4771BA41C05871400AAF44F /* WKWebViewJavascriptBridge.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,

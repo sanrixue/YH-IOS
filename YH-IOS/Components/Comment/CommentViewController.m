@@ -41,8 +41,26 @@
         
         if(isCreatedSuccessfully) {
             [self loadHtml];
+            
+            
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"] = @"发表/评论";
+                logParams[@"obj_title"] = self.bannerName;
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
         }
     }];
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -54,6 +72,20 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - UIWebview pull down to refresh
+-(void)handleRefresh:(UIRefreshControl *)refresh {
+    [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
+    [self loadHtml];
+    [refresh endRefreshing];
+    
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+    logParams[@"action"] = @"刷新/评论页面/浏览器";
+    [APIHelper actionLog:logParams];
 }
 
 - (void)dealloc {
@@ -76,6 +108,18 @@
         self.progressHUD = nil;
         self.bridge = nil;
         self.labelTheme = nil;
+        
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"返回/评论页面";
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
     }];
 }
 

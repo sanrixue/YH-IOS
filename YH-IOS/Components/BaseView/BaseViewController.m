@@ -19,6 +19,7 @@
     [super viewDidLoad];
     
     self.user = [[User alloc] init];
+    self.sharedPath = [FileUtils sharedPath];
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
     }
@@ -98,7 +99,7 @@
     NSString *loadingPath = [FileUtils loadingPath:isLogin];
     NSString *loadingContent = [NSString stringWithContentsOfFile:loadingPath encoding:NSUTF8StringEncoding error:nil];
     
-    [self.browser loadHTMLString:loadingContent baseURL:[NSURL fileURLWithPath:[loadingPath stringByDeletingLastPathComponent]]];
+    [self.browser loadHTMLString:loadingContent baseURL:[NSURL fileURLWithPath:loadingPath]];
     
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
@@ -201,13 +202,12 @@
     }
     
     if(isShouldUnZip) {
-        NSString *sharedPath = [FileUtils sharedPath];
-        NSString *loadingPath = [sharedPath stringByAppendingPathComponent:fileName];
+        NSString *loadingPath = [self.sharedPath stringByAppendingPathComponent:fileName];
         if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
             [FileUtils removeFile:loadingPath];
         }
         
-        [SSZipArchive unzipFileAtPath:zipPath toDestination:sharedPath];
+        [SSZipArchive unzipFileAtPath:zipPath toDestination:self.sharedPath];
         
         userDict[keyName] = md5String;
         [userDict writeToFile:userConfigPath atomically:YES];

@@ -160,6 +160,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self clearBrowserCache];
     [self showLoading];
     
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 
         HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
@@ -175,7 +176,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:[FileUtils sharedPath]]];
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
         });
     });
 }
@@ -218,7 +219,12 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    NSLog(@"%@", error.description);
+    /**
+     *  忽略 NSURLErrorDomain 错误 - 999
+     */
+    if([error code] == NSURLErrorCancelled) return;
+    
+    NSLog(@"dvc: %@", error.description);
 }
 
 #pragma mark - UITabBar delegate

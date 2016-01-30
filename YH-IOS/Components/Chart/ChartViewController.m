@@ -191,7 +191,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:[FileUtils sharedPath]]];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
             });
         }
         else {

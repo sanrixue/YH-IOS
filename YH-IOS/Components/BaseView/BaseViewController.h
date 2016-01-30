@@ -34,6 +34,7 @@
 @property (strong, nonatomic) MBProgressHUD *progressHUD;
 @property (strong, nonatomic) NSString *urlString;
 @property (strong, nonatomic) NSString *assetsPath;
+@property (strong, nonatomic) NSString *sharedPath;
 @property (strong, nonatomic) User *user;
 
 - (NSString *)stringWithContentsOfFile:(NSString *)htmlPath;

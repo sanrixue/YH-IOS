@@ -105,7 +105,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
     [userDict writeToFile:userConfigPath atomically:YES];
     
-    NSString *headerPath = [[FileUtils sharedPath] stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
+    NSString *headerPath = [self.sharedPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
     [FileUtils removeFile:headerPath];
     
     

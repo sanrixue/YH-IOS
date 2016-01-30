@@ -20,7 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    self.assetsPath = [FileUtils sharedPath];
     self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
 
     [WebViewJavascriptBridge enableLogging];
@@ -92,7 +91,7 @@
     /*
      * 检测登录界面，版本是否升级
      */
-    [self checkVersionUpgrade:[FileUtils sharedPath]];
+    [self checkVersionUpgrade:self.sharedPath];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -216,7 +215,7 @@
         }
         [userDict writeToFile:userConfigPath atomically:YES];
         
-        NSString *headerPath = [[FileUtils sharedPath] stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
+        NSString *headerPath = [self.sharedPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
         [FileUtils removeFile:headerPath];
         
         

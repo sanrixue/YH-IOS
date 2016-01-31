@@ -20,6 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    self.assetsPath = [FileUtils sharedPath];
     self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
 
     [WebViewJavascriptBridge enableLogging];
@@ -237,5 +238,25 @@
 # pragma mark - 登录界面不支持旋转
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return NO;
+}
+
+/**
+ *  内容检测版本升级，判断版本号是否为偶数。以便内测
+ *
+ *  @param response <#response description#>
+ */
+- (void)appUpgradeMethod:(NSDictionary *)response {
+    
+    if(response && response[@"downloadURL"] && response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0) {
+        
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        
+        [alert addButton:@"升级" actionBlock:^(void) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[@"downloadURL"]]];
+            [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
+        }];
+        
+        [alert showSuccess:self title:@"版本更新" subTitle:response[@"releaseNote"] closeButtonTitle:@"放弃" duration:0.0f];
+    }
 }
 @end

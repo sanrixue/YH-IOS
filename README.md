@@ -8,6 +8,15 @@
 
 ## 更新日志
 
+* 16/01/31
+
+	* Fixed: 人为码误
+	
+		头脑不清醒，傻傻分不清楚
+		
+			self.assetsPath 
+			self.sharedPath
+		
 * 16/01/30
 	
 	* Fixed: 解屏进入主界面，检测版本升级

@@ -64,9 +64,7 @@
 + (NSString *)userAuthentication:(NSString *)username password:(NSString *)password {
     NSString *urlPath = [NSString stringWithFormat:API_USER_PATH, @"IOS", username, password];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
-    
     NSString *alertMsg = @"";
-    
     
     NSMutableDictionary *deviceDict = [NSMutableDictionary dictionary];
     deviceDict[@"device"] = @{
@@ -78,7 +76,8 @@
         };
 
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:deviceDict];
-    if(httpResponse.statusCode && [httpResponse.statusCode isEqualToNumber:@(200)]) {
+    
+    if(httpResponse.data[@"code"] && [httpResponse.data[@"code"] isEqualToNumber:@(200)]) {
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
 
@@ -101,8 +100,16 @@
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
         [userDict writeToFile:settingsConfigPath atomically:YES];
     }
+    else if(httpResponse.data[@"code"] && ([httpResponse.data[@"code"] isEqualToNumber:@(400)] || [httpResponse.data[@"code"] isEqualToNumber:@(0)])) {
+        alertMsg = @"请确认网络环境.";
+    }
     else {
-        alertMsg = [NSString stringWithFormat:@"%@", httpResponse.data[@"info"]];
+        if(httpResponse.data[@"info"]) {
+            alertMsg = [NSString stringWithFormat:@"%@", httpResponse.data[@"info"]];
+        }
+        else {
+            alertMsg = [NSString stringWithFormat:@"未知错误: %@", httpResponse.statusCode];
+        }
     }
     return alertMsg;
 }
@@ -149,7 +156,7 @@
  *
  *  @return 是否可用
  */
-+ (BOOL)deviceState{
++ (DeviceState)deviceState {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
@@ -158,13 +165,19 @@
     HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
     
 
-    userDict[@"device_state"]  = httpResponse.data[@"device_state"];
-    [userDict writeToFile:userConfigPath atomically:YES];
+//    userDict[@"device_state"]  = httpResponse.data[@"device_state"];
+//    [userDict writeToFile:userConfigPath atomically:YES];
+//    
+//    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+//    [userDict writeToFile:settingsConfigPath atomically:YES];
     
-    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-    [userDict writeToFile:settingsConfigPath atomically:YES];
     
-    return [httpResponse.data[@"device_state"] boolValue];
+    DeviceState deviceState = [httpResponse.statusCode integerValue];
+    if(deviceState == StateOK) {
+        deviceState = [httpResponse.data[@"device_state"] boolValue] ? StateOK : StateForbid;
+    }
+    
+    return deviceState;
 }
 
 /**

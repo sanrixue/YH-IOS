@@ -51,52 +51,44 @@
     }];
     
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *username = data[@"username"];
+        NSString *password = data[@"password"];
         
-        if([HttpUtils isNetworkAvailable]) {
-            NSString *username = data[@"username"];
-            NSString *password = data[@"password"];
-            
-            if(!username || [username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
-                [self showProgressHUD:@"请输入用户名"];
-                self.progressHUD.mode = MBProgressHUDModeText;
-                [self.progressHUD hide:YES afterDelay:1.5];
-            }
-            else if(!password || [password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
-                [self showProgressHUD:@"请输入密码"];
-                self.progressHUD.mode = MBProgressHUDModeText;
-                [self.progressHUD hide:YES afterDelay:1.5];
-            }
-            else {
-                NSString *msg = [APIHelper userAuthentication:username password:password.md5];
-                
-                if(msg.length == 0) {
-                    [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
-                    [self jumpToDashboardView];
-                    
-                    /*
-                     * 用户行为记录, 单独异常处理，不可影响用户体验
-                     */
-                    @try {
-                        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                        logParams[@"action"] = @"登录";
-                        [APIHelper actionLog:logParams];
-                    }
-                    @catch (NSException *exception) {
-                        NSLog(@"%@", exception);
-                    }
-
-                }
-                else {
-                    [self showProgressHUD:msg];
-                    self.progressHUD.mode = MBProgressHUDModeText;
-                    [self.progressHUD hide:YES afterDelay:2.0];
-                }
-            }
+        if(!username || [username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
+            [self showProgressHUD:@"请输入用户名"];
+            self.progressHUD.mode = MBProgressHUDModeText;
+            [self.progressHUD hide:YES afterDelay:1.5];
+        }
+        else if(!password || [password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
+            [self showProgressHUD:@"请输入密码"];
+            self.progressHUD.mode = MBProgressHUDModeText;
+            [self.progressHUD hide:YES afterDelay:1.5];
         }
         else {
-            [self showProgressHUD:@"请确认网络环境."];
-            self.progressHUD.mode = MBProgressHUDModeText;
-            [self.progressHUD hide:YES afterDelay:2.0];
+            NSString *msg = [APIHelper userAuthentication:username password:password.md5];
+            
+            if(msg.length == 0) {
+                [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
+                [self jumpToDashboardView];
+                
+                /*
+                 * 用户行为记录, 单独异常处理，不可影响用户体验
+                 */
+                @try {
+                    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                    logParams[@"action"] = @"登录";
+                    [APIHelper actionLog:logParams];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"%@", exception);
+                }
+
+            }
+            else {
+                [self showProgressHUD:msg];
+                self.progressHUD.mode = MBProgressHUDModeText;
+                [self.progressHUD hide:YES afterDelay:2.0];
+            }
         }
     }];
 

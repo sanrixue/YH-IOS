@@ -64,4 +64,10 @@ typedef NS_ENUM(NSInteger, CommentObjectType) {
     ObjectTypeMessage = 5
 };
 
+typedef NS_ENUM(NSInteger, DeviceState) {
+    StateOK = 200,
+    StateForbid = 401,
+};
+
+
 #endif /* const_h */

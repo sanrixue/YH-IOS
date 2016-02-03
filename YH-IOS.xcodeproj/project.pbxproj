@@ -343,7 +343,7 @@
 			children = (
 				C4C628391C0C1ED6000AD5D8 /* BaseView */,
 				C4CF3B551C1AC73C00F58E1E /* Comment */,
-				C4C6283A1C0C1ED6000AD5D8 /* Chart */,
+				C4C6283A1C0C1ED6000AD5D8 /* Subject */,
 				C4C6283D1C0C1ED6000AD5D8 /* Dashboard */,
 				C4C628401C0C1ED6000AD5D8 /* Login */,
 				C49E1AB01C1962F200CFFE3C /* Setting */,
@@ -360,12 +360,13 @@
 			path = BaseView;
 			sourceTree = "<group>";
 		};
-		C4C6283A1C0C1ED6000AD5D8 /* Chart */ = {
+		C4C6283A1C0C1ED6000AD5D8 /* Subject */ = {
 			isa = PBXGroup;
 			children = (
 				C4C6283B1C0C1ED6000AD5D8 /* ChartViewController.h */,
 				C4C6283C1C0C1ED6000AD5D8 /* ChartViewController.m */,
 			);
+			name = Subject;
 			path = Chart;
 			sourceTree = "<group>";
 		};

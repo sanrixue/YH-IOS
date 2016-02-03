@@ -52,7 +52,7 @@
  *
  *  @return 是否可用
  */
-+ (BOOL)deviceState;
++ (DeviceState)deviceState;
 
 /**
  *  重置用户登陆密码

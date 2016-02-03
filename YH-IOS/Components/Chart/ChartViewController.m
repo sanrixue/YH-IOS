@@ -43,8 +43,25 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"ObjC received message from JS: %@", data);
-        responseCallback(@"Response for message from ObjC");
+        NSLog(@"ChartViewController - ObjC received message from JS: %@", data);
+        responseCallback(@"ChartViewController - Response for message from ObjC");
+    }];
+    
+    [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"JS异常";
+            logParams[@"obj_id"] = self.objectID;
+            logParams[@"obj_type"] = @(self.commentObjectType);
+            logParams[@"obj_title"] = [NSString stringWithFormat:@"主题页面/%@/%@", self.bannerName, data[@"ex"]];
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
     }];
     
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -108,9 +125,14 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     /*
      * 用户行为记录, 单独异常处理，不可影响用户体验
      */
-    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-    logParams[@"action"] = @"刷新/主题页面/浏览器";
-    [APIHelper actionLog:logParams];
+    @try {
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = @"刷新/主题页面/浏览器";
+        [APIHelper actionLog:logParams];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
 }
 
 #pragma mark - status bar settings

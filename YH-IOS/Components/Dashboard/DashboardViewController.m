@@ -35,8 +35,24 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"ObjC received message from JS: %@", data);
-        responseCallback(@"Response for message from ObjC");
+        NSLog(@"DashboardViewController - ObjC received message from JS: %@", data);
+        responseCallback(@"DashboardViewController - Response for message from ObjC");
+    }];
+    
+    [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"JS异常";
+            logParams[@"obj_type"] = @(self.commentObjectType);
+            logParams[@"obj_title"] = [NSString stringWithFormat:@"主页面/%@", data[@"ex"]];
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
     }];
     
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {

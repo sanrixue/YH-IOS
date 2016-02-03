@@ -32,6 +32,23 @@
         responseCallback(@"Response for message from ObjC");
     }];
     
+    [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"JS异常";
+            logParams[@"obj_id"] = self.objectID;
+            logParams[@"obj_type"] = @(self.commentObjectType);
+            logParams[@"obj_title"] = [NSString stringWithFormat:@"评论页面/%@/%@", self.bannerName, data[@"ex"]];
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    }];
+    
     [self.bridge registerHandler:@"writeComment" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         params[@"object_title"] = self.bannerName;

@@ -9,15 +9,16 @@
 #import "AppDelegate.h"
 #import "const.h"
 #import <PgySDK/PgyManager.h>
-#import <PgyUpdate/PgyUpdateManager.h>
 
 #import "FileUtils.h"
 #import "NSData+MD5.h"
 #import <SSZipArchive.h>
 
 #import "DashboardViewController.h"
+#import "LoginViewController.h"
+#import "LTHPasscodeViewController.h"
 
-@interface AppDelegate ()
+@interface AppDelegate ()<LTHPasscodeViewControllerDelegate>
 @end
 
 @implementation AppDelegate
@@ -57,6 +58,7 @@
     
     [LTHPasscodeViewController sharedUser].delegate = self;
     [LTHPasscodeViewController useKeychain:NO];
+    [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
     if ([LTHPasscodeViewController doesPasscodeExist] &&
         [LTHPasscodeViewController didPasscodeTimerEnd]) {
         
@@ -128,24 +130,41 @@
 #pragma mark - LTHPasscodeViewControllerDelegate methods
 
 - (void)passcodeWasEnteredSuccessfully {
-    NSLog(@"Passcode Was Entered Successfully");
+    NSLog(@"AppDelegate - Passcode Was Entered Successfully");
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     dashboardViewController.fromViewController = @"AppDelegate";
     self.window.rootViewController = dashboardViewController;
     
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    @try {
-        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"解屏";
-        [APIHelper actionLog:logParams];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"解屏";
+            [APIHelper actionLog:logParams];
+            
+            /**
+             *  解屏验证用户信息，更新用户权限
+             */
+            
+            NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+            NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+            if(userDict[@"user_num"]) {
+                NSString *msg = [APIHelper userAuthentication:userDict[@"user_num"] password:userDict[@"user_md5"]];
+                if(msg.length > 0) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self jumpToLogin];
+                    });
+                }
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
 }
 
 
@@ -161,4 +180,15 @@
     return @"";
 }
 
+
+- (void)jumpToLogin {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    userDict[@"is_login"] = @(NO);
+    [userDict writeToFile:userConfigPath atomically:YES];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    self.window.rootViewController = loginViewController;
+}
 @end

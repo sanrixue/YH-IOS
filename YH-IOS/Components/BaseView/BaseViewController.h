@@ -18,6 +18,7 @@
 #import "UIColor+Hex.h"
 #import "User.h"
 #import "UIWebview+Clean.h"
+#import "LTHPasscodeViewController.h"
 
 @interface BaseViewController : UIViewController<UIWebViewDelegate>
 
@@ -58,5 +59,11 @@
  *  @param fileName <#fileName description#>
  */
 - (void)checkAssets:(NSString *)fileName;
+
+#pragma mark - LTHPasscode delegate methods
+- (void)passcodeWasEnteredSuccessfully;
+- (BOOL)didPasscodeTimerEnd;
+- (NSString *)passcode;
+- (void)savePasscode:(NSString *)passcode;
 
 @end

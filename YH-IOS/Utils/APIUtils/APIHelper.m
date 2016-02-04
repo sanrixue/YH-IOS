@@ -83,6 +83,7 @@
 
         userDict[@"user_id"]     = httpResponse.data[@"user_id"];
         userDict[@"user_name"]   = httpResponse.data[@"user_name"];
+        userDict[@"user_num"]    = httpResponse.data[@"user_num"];
         userDict[@"group_id"]    = httpResponse.data[@"group_id"];
         userDict[@"group_name"]  = httpResponse.data[@"group_name"];
         userDict[@"role_id"]     = httpResponse.data[@"role_id"];

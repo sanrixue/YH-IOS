@@ -7,9 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "LTHPasscodeViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, LTHPasscodeViewControllerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

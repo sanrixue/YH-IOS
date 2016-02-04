@@ -82,6 +82,7 @@
  *  @return Http#Post 响应内容
  */
 + (HttpResponse *)httpPost:(NSString *)urlString Params:(NSMutableDictionary *)params {
+    NSLog(@"httpPost: %@", urlString);
     urlString  = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:urlString];
     //params     = [params stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];

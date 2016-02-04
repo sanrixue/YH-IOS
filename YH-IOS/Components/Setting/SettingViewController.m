@@ -10,7 +10,6 @@
 #import "ViewUtils.h"
 #import "LoginViewController.h"
 #import "Version.h"
-#import "LTHPasscodeViewController.h"
 #import "APIHelper.h"
 #import "ResetPasswordViewController.h"
 #import <PgyUpdate/PgyUpdateManager.h>
@@ -18,7 +17,7 @@
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
 
-@interface SettingViewController ()<LTHPasscodeViewControllerDelegate>
+@interface SettingViewController ()
 @property (weak, nonatomic) IBOutlet UISwitch *switchGesturePassword;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnLogout;
@@ -53,9 +52,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.labelDeviceMode.text = [[Version machineHuman] componentsSeparatedByString:@" ("][0];
     
     self.labelAPIDomain.text  = [BASE_URL componentsSeparatedByString:@"://"][1];
-    
-    [LTHPasscodeViewController sharedUser].delegate = self;
-    [LTHPasscodeViewController useKeychain:NO];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -201,87 +197,22 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController:self
                                                                             asModal:YES];
 }
-
-- (void)showLockViewForTestingPasscode {
-    [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
-                                                             withLogout:NO
-                                                         andLogoutTitle:nil];
-}
+//
+//- (void)showLockViewForTestingPasscode {
+//    [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
+//                                                             withLogout:NO
+//                                                         andLogoutTitle:nil];
+//}
 
 - (void)showLockViewForChangingPasscode {
     [[LTHPasscodeViewController sharedUser] showForChangingPasscodeInViewController:self asModal:YES];
 }
 
-- (void)showLockViewForTurningPasscodeOff {
-    [[LTHPasscodeViewController sharedUser] showForDisablingPasscodeInViewController:self
-                                                                             asModal:NO];
-}
-
-# pragma mark - LTHPasscodeViewController Delegates -
-
-- (void)passcodeViewControllerWillClose {
-    NSLog(@"Passcode View Controller Will Be Closed");
-    //[self _refreshUI];
-}
-
-- (void)maxNumberOfFailedAttemptsReached {
-    [LTHPasscodeViewController deletePasscodeAndClose];
-    NSLog(@"Max Number of Failed Attemps Reached");
-    
-    self.buttonChangeGesturePassword.enabled = NO;
-}
-
-- (void)passcodeWasEnteredSuccessfully {
-    NSLog(@"Passcode Was Entered Successfully");
-    
-    self.buttonChangeGesturePassword.enabled = YES;
-}
-
-- (void)logoutButtonWasPressed {
-    NSLog(@"Logout Button Was Pressed");
-}
-
-
-- (void)savePasscode:(NSString *)passcode {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    userDict[@"use_gesture_password"] = @(YES);
-    userDict[@"gesture_password"] = passcode;
-    [userDict writeToFile:userConfigPath atomically:YES];
-    
-    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
-    [userDict writeToFile:settingsConfigPath atomically:YES];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [APIHelper screenLock:userDict[@"user_device_id"] passcode:passcode state:YES];
-    });
-    
-    
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    @try {
-        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"设置锁屏";
-        [APIHelper actionLog:logParams];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
-}
-
-- (BOOL)didPasscodeTimerEnd {
-    return YES;
-}
-- (NSString *)passcode {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    if([userDict[@"is_login"] boolValue] && [userDict[@"use_gesture_password"] boolValue]) {
-        return userDict[@"gesture_password"] ?: @"";
-    }
-    return @"";
-}
-
+//- (void)showLockViewForTurningPasscodeOff {
+//    [[LTHPasscodeViewController sharedUser] showForDisablingPasscodeInViewController:self
+//                                                                             asModal:NO];
+//}
+//
 
 
 @end

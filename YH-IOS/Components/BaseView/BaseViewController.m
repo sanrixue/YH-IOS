@@ -13,6 +13,9 @@
 #import "NSData+MD5.h"
 #import <SSZipArchive.h>
 
+@interface BaseViewController ()<LTHPasscodeViewControllerDelegate>
+@end
+
 @implementation BaseViewController
 
 - (void)viewDidLoad {
@@ -23,6 +26,14 @@
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [LTHPasscodeViewController sharedUser].delegate = self;
+    [LTHPasscodeViewController useKeychain:NO];
+    [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
 }
 
 #pragma  mark - assistant methods
@@ -115,7 +126,7 @@
 
 - (void)jumpToLogin {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [NSMutableDictionary dictionary];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     userDict[@"is_login"] = @(NO);
     [userDict writeToFile:userConfigPath atomically:YES];
     
@@ -212,6 +223,82 @@
         userDict[keyName] = md5String;
         [userDict writeToFile:userConfigPath atomically:YES];
         NSLog(@"unzipfile for %@, %@", fileName, md5String);
+    }
+}
+
+
+#pragma mark - LTHPasscodeViewControllerDelegate methods
+
+- (void)passcodeWasEnteredSuccessfully {
+    NSLog(@"BaseViewController - Passcode Was Entered Successfully");
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"解屏";
+            [APIHelper actionLog:logParams];
+            
+            /**
+             *  解屏验证用户信息，更新用户权限
+             */
+            
+            NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+            NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+            if(userDict[@"user_num"]) {
+                NSString *msg = [APIHelper userAuthentication:userDict[@"user_num"] password:userDict[@"user_md5"]];
+                if(msg.length > 0) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self jumpToLogin];
+                    });
+                }
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });}
+
+
+- (BOOL)didPasscodeTimerEnd {
+    return YES;
+}
+- (NSString *)passcode {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    if([userDict[@"is_login"] boolValue] && [userDict[@"use_gesture_password"] boolValue]) {
+        return userDict[@"gesture_password"] ?: @"";
+    }
+    return @"";
+}
+
+- (void)savePasscode:(NSString *)passcode {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    userDict[@"use_gesture_password"] = @(YES);
+    userDict[@"gesture_password"] = passcode;
+    [userDict writeToFile:userConfigPath atomically:YES];
+    
+    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+    [userDict writeToFile:settingsConfigPath atomically:YES];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [APIHelper screenLock:userDict[@"user_device_id"] passcode:passcode state:YES];
+    });
+    
+    
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    @try {
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = @"设置锁屏";
+        [APIHelper actionLog:logParams];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
     }
 }
 

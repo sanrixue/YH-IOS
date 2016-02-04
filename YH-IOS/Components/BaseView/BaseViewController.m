@@ -151,17 +151,20 @@
     // [self showProgressHUD:@"收到IOS系统，内存警告."];
     NSLog(@"收到IOS系统，内存警告.");
     
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    @try {
-        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"警告/内存";
-        [APIHelper actionLog:logParams];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"警告/内存";
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
     //self.progressHUD.mode = MBProgressHUDModeText;
     //[self.progressHUD hide:YES afterDelay:2.0];
 }
@@ -244,7 +247,6 @@
             /**
              *  解屏验证用户信息，更新用户权限
              */
-            
             NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
             if(userDict[@"user_num"]) {
@@ -289,17 +291,19 @@
     });
     
     
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    @try {
-        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"设置锁屏";
-        [APIHelper actionLog:logParams];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"设置锁屏";
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
 }
 
 @end

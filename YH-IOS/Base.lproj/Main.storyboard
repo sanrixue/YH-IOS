@@ -302,7 +302,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.54101616649999995" green="0.71126197469999997" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstItem="PVL-tI-bBT" firstAttribute="top" secondItem="4ix-d1-cbF" secondAttribute="top" constant="5" id="EPF-6T-lha"/>
+                                    <constraint firstItem="PVL-tI-bBT" firstAttribute="top" secondItem="4ix-d1-cbF" secondAttribute="top" id="EPF-6T-lha"/>
                                     <constraint firstAttribute="bottom" secondItem="7xu-sJ-akx" secondAttribute="bottom" id="OgK-z4-FN0"/>
                                     <constraint firstAttribute="trailing" secondItem="PVL-tI-bBT" secondAttribute="trailing" id="XlY-F9-Kna"/>
                                     <constraint firstAttribute="bottom" secondItem="PVL-tI-bBT" secondAttribute="bottom" constant="9" id="dAz-ds-C4l"/>

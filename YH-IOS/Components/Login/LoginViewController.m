@@ -30,18 +30,21 @@
     }];
     
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        @try {
-            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"JS异常";
-            logParams[@"obj_title"] = [NSString stringWithFormat:@"登录页面/%@", data[@"ex"]];
-            [APIHelper actionLog:logParams];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"] = @"JS异常";
+                logParams[@"obj_title"] = [NSString stringWithFormat:@"登录页面/%@", data[@"ex"]];
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
     }];
     
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -69,19 +72,23 @@
             
             if(msg.length == 0) {
                 [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
+                [self.browser stopLoading];
                 [self jumpToDashboardView];
                 
-                /*
-                 * 用户行为记录, 单独异常处理，不可影响用户体验
-                 */
-                @try {
-                    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                    logParams[@"action"] = @"登录";
-                    [APIHelper actionLog:logParams];
-                }
-                @catch (NSException *exception) {
-                    NSLog(@"%@", exception);
-                }
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    /*
+                     * 用户行为记录, 单独异常处理，不可影响用户体验
+                     */
+                    @try {
+                        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                        logParams[@"action"] = @"登录";
+                        [APIHelper actionLog:logParams];
+                    }
+                    @catch (NSException *exception) {
+                        NSLog(@"%@", exception);
+                    }
+                });
 
             }
             else {

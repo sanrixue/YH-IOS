@@ -71,18 +71,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 #pragma mark - action methods
 - (IBAction)actionBack:(id)sender {
     [self dismissViewControllerAnimated:YES completion:^{
-        
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        @try {
-            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"返回/设置页面";
-            [APIHelper actionLog:logParams];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
     }];
 }
 
@@ -134,54 +122,58 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [APIHelper screenLock:userDict[@"user_device_id"] passcode:userDict[@"gesture_password"] state:NO];
+        
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"] = [NSString stringWithFormat:@"点击/设置页面/%@锁屏", sender.isOn ? @"开启" : @"禁用"];
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
         });
-        
-        
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        @try {
-            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = [NSString stringWithFormat:@"点击/设置页面/%@锁屏", sender.isOn ? @"开启" : @"禁用"];
-            [APIHelper actionLog:logParams];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
     }
 }
 
 - (IBAction)actionLogout:(id)sender {
     [self jumpToLogin];
     
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    @try {
-        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"退出登录";
-        [APIHelper actionLog:logParams];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"退出登录";
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
 }
 
 - (IBAction)actionResetPassword:(id)sender {
     [self performSegueWithIdentifier:kResetPasswordSegueIdentifier sender:nil];
     
     
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    @try {
-        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"点击/设置页面/修改密码";
-        [APIHelper actionLog:logParams];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"点击/设置页面/修改密码";
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
 }
 
 

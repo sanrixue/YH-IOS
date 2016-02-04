@@ -149,7 +149,6 @@
             /**
              *  解屏验证用户信息，更新用户权限
              */
-            
             NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
             if(userDict[@"user_num"]) {

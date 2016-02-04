@@ -28,18 +28,21 @@
     }];
     
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        @try {
-            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"JS异常";
-            logParams[@"obj_title"] = [NSString stringWithFormat:@"重置密码页面/%@", data[@"ex"]];
-            [APIHelper actionLog:logParams];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"] = @"JS异常";
+                logParams[@"obj_title"] = [NSString stringWithFormat:@"重置密码页面/%@", data[@"ex"]];
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
     }];
     
     [self.bridge registerHandler:@"ResetPassword" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -60,17 +63,20 @@
                 
                 [alert showSuccess:self title:@"温馨提示" subTitle:message closeButtonTitle:nil duration:0.0f];
                 
-                /*
-                 * 用户行为记录, 单独异常处理，不可影响用户体验
-                 */
-                @try {
-                    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                    logParams[@"action"] = @"重置密码";
-                    [APIHelper actionLog:logParams];
-                }
-                @catch (NSException *exception) {
-                    NSLog(@"%@", exception);
-                }
+                
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    /*
+                     * 用户行为记录, 单独异常处理，不可影响用户体验
+                     */
+                    @try {
+                        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                        logParams[@"action"] = @"重置密码";
+                        [APIHelper actionLog:logParams];
+                    }
+                    @catch (NSException *exception) {
+                        NSLog(@"%@", exception);
+                    }
+                });
  
             }
             else {
@@ -100,11 +106,11 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    
     [self loadHtml];
 }
 
 - (void)dealloc {
+    [self.browser stopLoading];
     [self.browser cleanForDealloc];
     self.browser.delegate = nil;
     self.browser = nil;
@@ -166,6 +172,7 @@
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
     [super dismissViewControllerAnimated:YES completion:^{
+        [self.browser stopLoading];
         [self.browser cleanForDealloc];
         self.browser.delegate = nil;
         self.browser = nil;

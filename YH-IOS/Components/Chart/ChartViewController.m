@@ -48,20 +48,23 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     }];
     
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        @try {
-            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"JS异常";
-            logParams[@"obj_id"] = self.objectID;
-            logParams[@"obj_type"] = @(self.commentObjectType);
-            logParams[@"obj_title"] = [NSString stringWithFormat:@"主题页面/%@/%@", self.bannerName, data[@"ex"]];
-            [APIHelper actionLog:logParams];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"] = @"JS异常";
+                logParams[@"obj_id"] = self.objectID;
+                logParams[@"obj_type"] = @(self.commentObjectType);
+                logParams[@"obj_title"] = [NSString stringWithFormat:@"主题页面/%@/%@", self.bannerName, data[@"ex"]];
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
     }];
     
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -95,15 +98,19 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
+    
+    [self loadHtml];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self loadHtml];
+    //[self loadHtml];
 }
 
 - (void)dealloc {
+    [self.browser cleanForDealloc];
+    [self.browser stopLoading];
     self.browser.delegate = nil;
     self.browser = nil;
     [self.progressHUD hide:YES];
@@ -122,17 +129,20 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     [self loadHtml];
     [refresh endRefreshing];
     
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    @try {
-        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"刷新/主题页面/浏览器";
-        [APIHelper actionLog:logParams];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"刷新/主题页面/浏览器";
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
 }
 
 #pragma mark - status bar settings
@@ -154,6 +164,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
         [alert addButton:@"知道了" actionBlock:^(void) {
             [self jumpToLogin];
         }];
+        
         [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
     }
     else {
@@ -217,24 +228,13 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
     [super dismissViewControllerAnimated:YES completion:^{
+        [self.browser stopLoading];
         [self.browser cleanForDealloc];
         self.browser.delegate = nil;
         self.browser = nil;
         [self.progressHUD hide:YES];
         self.progressHUD = nil;
         self.bridge = nil;
-        
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        @try {
-            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"返回/主题页面";
-            [APIHelper actionLog:logParams];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
     }];
 }
 
@@ -243,18 +243,26 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if(self.isInnerLink) {
+        [self loadHtml];
+        [self.browser stopLoading];
+    }
+    
     if([segue.identifier isEqualToString:kCommentSegueIdentifier]) {
         CommentViewController *commentViewController = (CommentViewController *)segue.destinationViewController;
         commentViewController.bannerName        = self.bannerName;
         commentViewController.commentObjectType = self.commentObjectType;
         commentViewController.objectID          = self.objectID;
         
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"点击/主题页面/评论";
-        [APIHelper actionLog:logParams];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"点击/主题页面/评论";
+            [APIHelper actionLog:logParams];
+        });
     }
 }
 # pragma mark - 登录界面不支持旋转

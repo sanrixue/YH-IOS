@@ -40,19 +40,22 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }];
     
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        @try {
-            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"JS异常";
-            logParams[@"obj_type"] = @(self.commentObjectType);
-            logParams[@"obj_title"] = [NSString stringWithFormat:@"主页面/%@", data[@"ex"]];
-            [APIHelper actionLog:logParams];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"] = @"JS异常";
+                logParams[@"obj_type"] = @(self.commentObjectType);
+                logParams[@"obj_title"] = [NSString stringWithFormat:@"主页面/%@", data[@"ex"]];
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
     }];
     
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -116,11 +119,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-
 }
 
 - (void)dealloc {
+    [self.browser stopLoading];
     [self.browser cleanForDealloc];
     self.browser.delegate = nil;
     self.browser = nil;
@@ -137,12 +139,15 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self loadHtml];
     [refresh endRefreshing];
     
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-    logParams[@"action"] = @"刷新/主页面/浏览器";
-    [APIHelper actionLog:logParams];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = @"刷新/主页面/浏览器";
+        [APIHelper actionLog:logParams];
+    });
 }
 
 #pragma mark - assistant methods
@@ -214,20 +219,25 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         logParams[@"obj_id"] = sender[@"objectID"];
         logParams[@"obj_type"] = @(self.commentObjectType);
         logParams[@"obj_title"] = sender[@"bannerName"];
+        
     }
     else if([segue.identifier isEqualToString:kSettingSegueIdentifier]) {
         logParams[@"action"] = @"点击/主页面/设置";
     }
     
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    @try {
-        [APIHelper actionLog:logParams];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
+    [self.browser stopLoading];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
 }
 #pragma mark - UIWebview delegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
@@ -283,19 +293,20 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self loadHtml];
     [self tabBarState: YES];
     
-    
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    @try {
-        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"点击/主页面/标签栏";
-        logParams[@"obj_type"] = @(self.commentObjectType);
-        [APIHelper actionLog:logParams];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"%@", exception);
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"点击/主页面/标签栏";
+            logParams[@"obj_type"] = @(self.commentObjectType);
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
 }
 
 - (void)tabBarState:(BOOL)state {

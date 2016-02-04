@@ -33,20 +33,23 @@
     }];
     
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        @try {
-            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"JS异常";
-            logParams[@"obj_id"] = self.objectID;
-            logParams[@"obj_type"] = @(self.commentObjectType);
-            logParams[@"obj_title"] = [NSString stringWithFormat:@"评论页面/%@/%@", self.bannerName, data[@"ex"]];
-            [APIHelper actionLog:logParams];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"] = @"JS异常";
+                logParams[@"obj_id"] = self.objectID;
+                logParams[@"obj_type"] = @(self.commentObjectType);
+                logParams[@"obj_title"] = [NSString stringWithFormat:@"评论页面/%@/%@", self.bannerName, data[@"ex"]];
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
     }];
     
     [self.bridge registerHandler:@"writeComment" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -59,19 +62,20 @@
         if(isCreatedSuccessfully) {
             [self loadHtml];
             
-            
-            /*
-             * 用户行为记录, 单独异常处理，不可影响用户体验
-             */
-            @try {
-                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                logParams[@"action"] = @"发表/评论";
-                logParams[@"obj_title"] = self.bannerName;
-                [APIHelper actionLog:logParams];
-            }
-            @catch (NSException *exception) {
-                NSLog(@"%@", exception);
-            }
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                /*
+                 * 用户行为记录, 单独异常处理，不可影响用户体验
+                 */
+                @try {
+                    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                    logParams[@"action"] = @"发表/评论";
+                    logParams[@"obj_title"] = self.bannerName;
+                    [APIHelper actionLog:logParams];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"%@", exception);
+                }
+            });
         }
     }];
     
@@ -97,12 +101,15 @@
     [self loadHtml];
     [refresh endRefreshing];
     
-    /*
-     * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
-    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-    logParams[@"action"] = @"刷新/评论页面/浏览器";
-    [APIHelper actionLog:logParams];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = @"刷新/评论页面/浏览器";
+        [APIHelper actionLog:logParams];
+    });
 }
 
 - (void)dealloc {
@@ -118,6 +125,7 @@
 #pragma mark - action methods
 - (IBAction)actionBack:(id)sender {
     [self dismissViewControllerAnimated:YES completion:^{
+        [self.browser stopLoading];
         [self.browser cleanForDealloc];
         self.browser.delegate = nil;
         self.browser = nil;
@@ -125,18 +133,6 @@
         self.progressHUD = nil;
         self.bridge = nil;
         self.labelTheme = nil;
-        
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        @try {
-            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"返回/评论页面";
-            [APIHelper actionLog:logParams];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
     }];
 }
 

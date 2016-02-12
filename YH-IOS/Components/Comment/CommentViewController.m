@@ -108,6 +108,7 @@
          */
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
         logParams[@"action"] = @"刷新/评论页面/浏览器";
+        logParams[@"obj_title"] = self.urlString;
         [APIHelper actionLog:logParams];
     });
 }
@@ -185,6 +186,11 @@
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
         });
     });
+}
+
+# pragma mark - 支持旋转
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return NO;
 }
 
 @end

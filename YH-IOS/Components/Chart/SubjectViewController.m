@@ -7,27 +7,33 @@
 //
 
 
-#import "ChartViewController.h"
+#import "SubjectViewController.h"
 #import "APIHelper.h"
 #import "CommentViewController.h"
 
 static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 
-@interface ChartViewController ()
+@interface SubjectViewController ()
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (weak, nonatomic) IBOutlet UIButton *btnComment;
-@property (strong, nonatomic)  NSString *reportID;
+@property (strong, nonatomic) NSString *reportID;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @end
 
-@implementation ChartViewController
+@implementation SubjectViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
+    /**
+     *  被始化页面样式
+     */
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
     
+    /**
+     *  服务器内链接需要做缓存、点击事件处理；
+     */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     
     self.urlString = self.link;
@@ -99,13 +105,31 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
     
+    
     [self loadHtml];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    //[self loadHtml];
+    /*
+     * 主题页面,允许横屏
+     */
+    [self setAppAllowRotation:YES];
+    
+    /**
+     *  横屏时，隐藏标题栏，增大可视区范围
+     */
+    [self checkInterfaceOrientation: [[UIApplication sharedApplication] statusBarOrientation]];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    /*
+     * 其他页面,禁用横屏
+     */
+    [self setAppAllowRotation:NO];
 }
 
 - (void)dealloc {
@@ -126,9 +150,9 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
         [HttpUtils clearHttpResponeHeader:reportDataUrlString assetsPath:self.assetsPath];
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
     }
+    
     [self loadHtml];
     [refresh endRefreshing];
-    
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
@@ -137,20 +161,13 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
             logParams[@"action"] = @"刷新/主题页面/浏览器";
+            logParams[@"obj_title"] = self.urlString;
             [APIHelper actionLog:logParams];
         }
         @catch (NSException *exception) {
             NSLog(@"%@", exception);
         }
     });
-}
-
-#pragma mark - status bar settings
--(BOOL)prefersStatusBarHidden{
-    return NO;
-}
--(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - assistant methods
@@ -185,6 +202,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     
     self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
 }
+
 - (void)loadOuterLink {
     NSString *appendParams = [NSString stringWithFormat:@"?userid=%@&timestamp=%@", self.user.userID, TimeStamp];
     
@@ -198,6 +216,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     NSLog(@"%@", self.urlString);
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
 }
+
 - (void)loadInnerLink {
     [self showLoading];
     
@@ -243,7 +262,6 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
     if(self.isInnerLink) {
         [self loadHtml];
         [self.browser stopLoading];
@@ -265,13 +283,38 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
         });
     }
 }
-# pragma mark - 登录界面不支持旋转
+
+# pragma mark - 支持旋转
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
+
 #pragma mark - 屏幕旋转 刷新页面
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    [self checkInterfaceOrientation:toInterfaceOrientation];
+
     [self loadHtml];
+}
+
+/**
+ *  横屏时，隐藏标题栏，增大可视区范围
+ *
+ *  @param interfaceOrientation 设备屏幕放置方向
+ */
+- (void)checkInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    BOOL isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation);
+    
+    //self.bannerView.hidden = isLandscape;
+    [[UIApplication sharedApplication] setStatusBarHidden:isLandscape withAnimation:NO];
+    
+    self.layoutConstraintBannerView.constant = (isLandscape ? -55 : 0);
+    [self.view layoutIfNeeded];
+    
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
 
 #pragma mark - bug#fix
@@ -300,10 +343,8 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
  *
  *  @return <#return value description#>
  */
--(void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion
-{
-    if(self.presentedViewController)
-    {
+-(void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion {
+    if(self.presentedViewController) {
         [super dismissViewControllerAnimated:flag completion:completion];
     }
 }

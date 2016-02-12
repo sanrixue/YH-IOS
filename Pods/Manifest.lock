@@ -8,7 +8,7 @@ PODS:
 
 DEPENDENCIES:
   - FXBlurView (~> 1.6.3)
-  - LTHPasscodeViewController (~> 3.7.1)
+  - LTHPasscodeViewController
   - MBProgressHUD (~> 0.9.1)
   - Reachability (~> 3.2)
   - SCLAlertView-Objective-C (~> 0.7.9)

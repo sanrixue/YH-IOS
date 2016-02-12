@@ -12,6 +12,7 @@
 #import "ViewUtils.h"
 #import "NSData+MD5.h"
 #import <SSZipArchive.h>
+#import "AppDelegate.h"
 
 @interface BaseViewController ()<LTHPasscodeViewControllerDelegate>
 @end
@@ -73,6 +74,7 @@
     UIGraphicsEndImageContext();
     return image;
 }
+
 - (NSString *)stringWithContentsOfFile:(NSString *)htmlPath {
     NSError *error = nil;
     NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:&error];
@@ -230,6 +232,16 @@
     }
 }
 
+/**
+ *  设置是否允许横屏
+ *
+ *  @param allowRotation 允许横屏
+ */
+- (void)setAppAllowRotation:(BOOL)allowRotation {
+    
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    appDelegate.allowRotation = allowRotation;
+}
 
 #pragma mark - LTHPasscodeViewControllerDelegate methods
 
@@ -290,7 +302,6 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [APIHelper screenLock:userDict[@"user_device_id"] passcode:passcode state:YES];
     });
-    
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*

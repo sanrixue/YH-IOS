@@ -7,7 +7,7 @@
 //
 
 #import "DashboardViewController.h"
-#import "ChartViewController.h"
+#import "SubjectViewController.h"
 #import <SCLAlertView.h>
 #import <PgyUpdate/PgyUpdateManager.h>
 
@@ -26,12 +26,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     UIColor *color = [UIColor colorWithHexString:YH_COLOR];;
     self.bannerView.backgroundColor = color;
-    [self idColor];
     [[UITabBar appearance] setTintColor:color];
+    [self idColor];
     
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -97,28 +96,16 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
     
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        if([HttpUtils isNetworkAvailable]) {
-//            NSString *fontsPath = [NSString stringWithFormat:@"%@%@", BASE_URL, FONTS_PATH];
-//            [HttpUtils downloadAssetFile:fontsPath assetsPath:[FileUtils userspace]];
-//        }
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
-//        });
-//    });
     
+    /*
+     * 解屏进入主页面，需检测版本更新
+     */
     if(self.fromViewController && [self.fromViewController isEqualToString:@"AppDelegate"]) {
         self.fromViewController = @"AlreadyShow";
         //启动检测版本更新
         [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
-        //[[PgyUpdateManager sharedPgyManager] checkUpdate];
         [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
     }
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
 }
 
 - (void)dealloc {
@@ -146,6 +133,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
          */
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
         logParams[@"action"] = @"刷新/主页面/浏览器";
+        logParams[@"obj_title"] = self.urlString;
         [APIHelper actionLog:logParams];
     });
 }
@@ -176,6 +164,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         });
     }
 }
+
 - (void)_loadHtml {
     [self clearBrowserCache];
     [self showLoading];
@@ -209,11 +198,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
     
     if([segue.identifier isEqualToString:kChartSegueIdentifier]) {
-        ChartViewController *chartViewController = (ChartViewController *)segue.destinationViewController;
-        chartViewController.bannerName        = sender[@"bannerName"];
-        chartViewController.link              = sender[@"link"];
-        chartViewController.objectID          = sender[@"objectID"];
-        chartViewController.commentObjectType = self.commentObjectType;
+        SubjectViewController *subjectViewController = (SubjectViewController *)segue.destinationViewController;
+        subjectViewController.bannerName        = sender[@"bannerName"];
+        subjectViewController.link              = sender[@"link"];
+        subjectViewController.objectID          = sender[@"objectID"];
+        subjectViewController.commentObjectType = self.commentObjectType;
         
         logParams[@"action"] = @"点击/主页面/浏览器";
         logParams[@"obj_id"] = sender[@"objectID"];
@@ -224,8 +213,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     else if([segue.identifier isEqualToString:kSettingSegueIdentifier]) {
         logParams[@"action"] = @"点击/主页面/设置";
     }
-    
-    [self.browser stopLoading];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
@@ -315,13 +302,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
 }
 
-# pragma mark - 登录界面不支持旋转
+# pragma mark - 不支持旋转
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-}
-#pragma mark - 屏幕旋转 刷新页面 
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [self loadHtml];
+    return NO;
 }
 /**
   *  内容检测版本升级，判断版本号是否为偶数。以便内测

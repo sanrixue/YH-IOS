@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface ChartViewController : BaseViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate>
+@interface SubjectViewController: BaseViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate>
 
 @property (strong, nonatomic) NSString *bannerName;
 @property (strong, nonatomic) NSString *link;

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -673,10 +673,10 @@
             </objects>
             <point key="canvasLocation" x="891" y="1154"/>
         </scene>
-        <!--Chart View Controller-->
+        <!--Subject View Controller-->
         <scene sceneID="35P-Vn-dtG">
             <objects>
-                <viewController id="Fjl-vw-ucE" customClass="ChartViewController" sceneMemberID="viewController">
+                <viewController id="Fjl-vw-ucE" customClass="SubjectViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vun-mM-hwh"/>
                         <viewControllerLayoutGuide type="bottom" id="M3L-6R-By8"/>
@@ -825,6 +825,7 @@
                         <outlet property="idColor4" destination="QHh-yx-WVq" id="Aw8-5F-m2G"/>
                         <outlet property="idView" destination="7Ow-LD-dlm" id="mld-qj-rxW"/>
                         <outlet property="labelTheme" destination="uTN-eu-x5r" id="0Cg-29-M5G"/>
+                        <outlet property="layoutConstraintBannerView" destination="Slp-WP-Eqf" id="M2b-Z4-Ir3"/>
                         <segue destination="tqU-Hb-P5H" kind="presentation" identifier="ToCommentSegueIdentifier" id="Ogb-tR-yEf"/>
                     </connections>
                 </viewController>

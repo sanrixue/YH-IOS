@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "const.h"
+#import "User.h"
 #import "FileUtils.h"
 #import "HttpUtils.h"
 #import "APIHelper.h"
@@ -16,7 +17,6 @@
 #import "HttpResponse.h"
 #import <SCLAlertView.h>
 #import "UIColor+Hex.h"
-#import "User.h"
 #import "UIWebview+Clean.h"
 #import "LTHPasscodeViewController.h"
 
@@ -59,6 +59,12 @@
  *  @param fileName <#fileName description#>
  */
 - (void)checkAssets:(NSString *)fileName;
+/**
+ *  设置是否允许横屏
+ *
+ *  @param allowRotation 允许横屏
+ */
+- (void)setAppAllowRotation:(BOOL)allowRotation;
 
 #pragma mark - LTHPasscode delegate methods
 - (void)passcodeWasEnteredSuccessfully;

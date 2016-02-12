@@ -63,7 +63,6 @@
                 
                 [alert showSuccess:self title:@"温馨提示" subTitle:message closeButtonTitle:nil duration:0.0f];
                 
-                
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     /*
                      * 用户行为记录, 单独异常处理，不可影响用户体验

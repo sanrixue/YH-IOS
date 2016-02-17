@@ -74,6 +74,7 @@
             @"os_version": [[UIDevice currentDevice] systemVersion],
             @"uuid": [OpenUDID value]
         };
+    deviceDict[@"app_version"] = [NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
 
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:deviceDict];
     
@@ -213,6 +214,8 @@
     param[@"user_id"] = userDict[@"user_id"];
     param[@"user_name"] = userDict[@"user_name"];
     param[@"user_device_id"] = userDict[@"user_device_id"];
+    param[@"app_version"] = [NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
+    
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"action_log"] = param;

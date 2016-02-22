@@ -60,7 +60,6 @@
  *
  *  @return error msg when authentication failed
  */
-
 + (NSString *)userAuthentication:(NSString *)username password:(NSString *)password {
     NSString *urlPath = [NSString stringWithFormat:API_USER_PATH, @"IOS", username, password];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
@@ -68,12 +67,12 @@
     
     NSMutableDictionary *deviceDict = [NSMutableDictionary dictionary];
     deviceDict[@"device"] = @{
-            @"name": [[UIDevice currentDevice] name],
-            @"platform": @"ios",
-            @"os": [Version machineHuman],
-            @"os_version": [[UIDevice currentDevice] systemVersion],
-            @"uuid": [OpenUDID value]
-        };
+        @"name": [[UIDevice currentDevice] name],
+        @"platform": @"ios",
+        @"os": [Version machineHuman],
+        @"os_version": [[UIDevice currentDevice] systemVersion],
+        @"uuid": [OpenUDID value]
+    };
     deviceDict[@"app_version"] = [NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
 
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:deviceDict];
@@ -93,10 +92,12 @@
         userDict[@"app_ids"]     = httpResponse.data[@"app_ids"];
         userDict[@"analyse_ids"] = httpResponse.data[@"analyse_ids"];
         userDict[@"is_login"]    = @(YES);
-        userDict[@"device_uuid"]     = httpResponse.data[@"device_uuid"];
-        userDict[@"device_state"]    = httpResponse.data[@"device_state"];
-        userDict[@"user_device_id"]  = httpResponse.data[@"user_device_id"];
-        userDict[@"user_md5"]        = password;
+        userDict[@"device_uuid"]       = httpResponse.data[@"device_uuid"];
+        userDict[@"device_state"]      = httpResponse.data[@"device_state"];
+        userDict[@"user_device_id"]    = httpResponse.data[@"user_device_id"];
+        userDict[@"assets_server_md5"] = httpResponse.data[@"assets_md5"];
+        userDict[@"user_md5"]          = password;
+        
         [userDict writeToFile:userConfigPath atomically:YES];
         
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
@@ -226,7 +227,7 @@
     
     params[@"user"] = userParams;
     
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, API_ACTION_LOG__PATH];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, API_ACTION_LOG_PATH];
     [HttpUtils httpPost:urlString Params:params];
 }
 @end

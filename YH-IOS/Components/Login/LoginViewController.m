@@ -219,6 +219,7 @@
         [self removeCachedHeader:assetsPath];
         [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
         
+        
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
         if([userDict.allKeys containsObject:@"assets_md5"]) {
@@ -236,7 +237,6 @@
         [self checkAssets:@"loading"];
         [self checkAssets:@"assets"];
     }
-    
 }
 
 - (void)removeCachedHeader:(NSString *)assetsPath {

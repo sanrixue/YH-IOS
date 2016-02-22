@@ -79,7 +79,7 @@
 /**
  *  打印沙盒目录列表, 相当于`tree ./`， 测试时可以用到
  */
-+ (void) printDir: (NSString *)dirName;
+//+ (void) printDir: (NSString *)dirName;
 
 /**
  *  物理删除文件，并返回是否删除成功的布尔值。

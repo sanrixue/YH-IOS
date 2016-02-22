@@ -172,16 +172,16 @@
 /**
  *  打印沙盒目录列表, 相当于`tree ./`， 测试时可以用到
  */
-+ (void) printDir: (NSString *)dirName {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-    if(dirName.length) documentsDirectory = [documentsDirectory stringByAppendingPathComponent:dirName];
-    
-    NSFileManager *fileManage = [NSFileManager defaultManager];
-    
-    NSArray *files = [fileManage subpathsAtPath: documentsDirectory];
-    NSLog(@"%@",files);
-}
+//+ (void) printDir: (NSString *)dirName {
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+//    if(dirName.length) documentsDirectory = [documentsDirectory stringByAppendingPathComponent:dirName];
+//    
+//    NSFileManager *fileManage = [NSFileManager defaultManager];
+//    
+//    NSArray *files = [fileManage subpathsAtPath: documentsDirectory];
+//    NSLog(@"%@",files);
+//}
 
 + (NSMutableArray *)subDirsAtPath:(NSString *)dir {
 

@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>FXBlurView.xcscheme</key>
+		<key>AFNetworking.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -42,12 +42,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>15DF242A2D40FC5620CA383BDB8535DE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>17392667E38E4938ACA525E988BB433B</key>
+		<key>2602F3D0DAC534568B6AD7EEA0DD1959</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -57,22 +52,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>33CBADF017FBAAEE2C9ECB333CBDC135</key>
+		<key>37F868924437BFBE6849E34835365F8F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9057A5BD84AB9E39D09AED40B4D50C35</key>
+		<key>457DB67A039E68D13BAD01E522BD8163</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>8CCDDD84EE6A25E9C08408D798FD0F80</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C6A181E56DFDDEB17CD4601FB4D2CFA3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>FE2F1D7B9D9FCEA148517E4657B243F4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FED53E01CFAF404BE86DB9ECB6634955</key>
 		<dict>
 			<key>primary</key>
 			<true/>

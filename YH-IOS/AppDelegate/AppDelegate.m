@@ -43,6 +43,18 @@
     [self checkAssets:@"assets"];
     
     /**
+     *  静态文件放在共享文件夹内,以便与服务器端检测、更新
+     *  刚升级过时，就不必须再更新，浪费用户流量
+     */
+    NSString *assetsFileName = @"assets.zip";
+    NSString *sharedPath = [FileUtils sharedPath];
+    NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:assetsFileName];
+    if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
+        NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:assetsFileName];
+        [[NSFileManager defaultManager]copyItemAtPath:zipPath toPath:sharedPath error:nil];
+    }
+    
+    /**
      *  初始化移动端本地webview的avigator.userAgent
      *  HttpUtils内部使用时，只需要读取
      */

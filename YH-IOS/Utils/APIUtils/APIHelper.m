@@ -195,7 +195,6 @@
     NSString *urlPath = [NSString stringWithFormat:API_RESET_PASSWORD_PATH, userID];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
     
-    
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"password"] = newPassword;
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];

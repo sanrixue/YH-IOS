@@ -31,8 +31,6 @@
 #define COMMENT_PATH                @"/mobile/id/%@/type/%@/comment"
 #define RESET_PASSWORD_PATH         @"/mobile/update_user_password"
 
-#define FONTS_PATH                  @"/mobile/assets/fonts.zip"
-
 #define REPORT_DATA_FILENAME        @"template_data_group_%@_report_%@.js"
 
 #define USER_CONFIG_FILENAME        @"user.plist"

@@ -10,9 +10,7 @@
 #import "const.h"
 #import <PgySDK/PgyManager.h>
 
-#import "FileUtils.h"
-#import "NSData+MD5.h"
-#import <SSZipArchive.h>
+#import "FileUtils+Assets.h"
 
 #import "DashboardViewController.h"
 #import "LoginViewController.h"
@@ -37,22 +35,28 @@
     self.window.rootViewController = initViewController;
     
     /**
-     *  解压表态资源
+     *  静态文件放在共享文件夹内,以便与服务器端检测、更新
+     *  刚升级过时，就不必须再更新，避免浪费用户流量
      */
-    [self checkAssets:@"loading"];
-    [self checkAssets:@"assets"];
+    NSString *sharedPath = [FileUtils sharedPath];
+    NSArray *assetsName = @[@"assets.zip", @"loading.zip"];
+    for(NSInteger i = 0, len = assetsName.count; i < len; i ++) {
+        NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:assetsName[i]];
+        if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
+            NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:assetsName[i]];
+            NSError *error;
+            [[NSFileManager defaultManager] copyItemAtPath:zipPath toPath:assetsZipPath error:&error];
+            if(error) {
+                NSLog(@"unZip: %@ failed for - %@", zipPath, [error localizedDescription]);
+            }
+        }
+    }
     
     /**
-     *  静态文件放在共享文件夹内,以便与服务器端检测、更新
-     *  刚升级过时，就不必须再更新，浪费用户流量
+     *  解压表态资源
      */
-    NSString *assetsFileName = @"assets.zip";
-    NSString *sharedPath = [FileUtils sharedPath];
-    NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:assetsFileName];
-    if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
-        NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:assetsFileName];
-        [[NSFileManager defaultManager]copyItemAtPath:zipPath toPath:sharedPath error:nil];
-    }
+    [FileUtils checkAssets:@"loading"];
+    [FileUtils checkAssets:@"assets"];
     
     /**
      *  初始化移动端本地webview的avigator.userAgent
@@ -110,41 +114,6 @@
         return UIInterfaceOrientationMaskAll;
     }
     return (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown);
-}
-
-
-#pragma mark - asisstant methods
-- (void)checkAssets:(NSString *)fileName {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    
-    NSString *zipName = [NSString stringWithFormat:@"%@.zip", fileName];
-    NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:zipName];
-    NSString *keyName = [NSString stringWithFormat:@"%@_md5", fileName];
-    NSData *fileData = [NSData dataWithContentsOfFile:zipPath];
-    NSString *md5String = fileData.md5;
-    
-    BOOL isShouldUnZip = YES;
-    
-    if([FileUtils checkFileExist:userConfigPath isDir:NO]) {
-        if([userDict.allKeys containsObject:keyName] && [userDict[keyName] isEqualToString:md5String]) {
-            isShouldUnZip = NO;
-        }
-    }
-    
-    if(isShouldUnZip) {
-        NSString *sharedPath = [FileUtils sharedPath];
-        NSString *loadingPath = [sharedPath stringByAppendingPathComponent:fileName];
-        if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
-            [FileUtils removeFile:loadingPath];
-        }
-        
-        [SSZipArchive unzipFileAtPath:zipPath toDestination:sharedPath];
-        
-        userDict[keyName] = md5String;
-        [userDict writeToFile:userConfigPath atomically:YES];
-        NSLog(@"unzipfile for %@, %@", fileName, md5String);
-    }
 }
 
 #pragma mark - LTHPasscodeViewControllerDelegate methods

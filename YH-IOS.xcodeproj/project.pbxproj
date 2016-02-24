@@ -42,6 +42,7 @@
 		C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DC1C2CECC10067516F /* NSData+MD5.m */; };
 		C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DF1C2CECC10067516F /* UIColor+Hex.m */; };
 		C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564E21C2CECC10067516F /* UIWebView+Clean.m */; };
+		C4BA6EA41C7DB24A0059F101 /* FileUtils+Assets.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */; };
 		C4C628431C0C1ED6000AD5D8 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* SubjectViewController.m */; };
 		C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */; };
 		C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */; };
@@ -134,6 +135,8 @@
 		C4A564DF1C2CECC10067516F /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		C4A564E11C2CECC10067516F /* UIWebView+Clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+Clean.h"; sourceTree = "<group>"; };
 		C4A564E21C2CECC10067516F /* UIWebView+Clean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+Clean.m"; sourceTree = "<group>"; };
+		C4BA6EA21C7DB24A0059F101 /* FileUtils+Assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FileUtils+Assets.h"; sourceTree = "<group>"; };
+		C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FileUtils+Assets.m"; sourceTree = "<group>"; };
 		C4C6283B1C0C1ED6000AD5D8 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectViewController.h; sourceTree = "<group>"; };
 		C4C6283C1C0C1ED6000AD5D8 /* SubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectViewController.m; sourceTree = "<group>"; };
 		C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
@@ -505,6 +508,8 @@
 			children = (
 				C4DB7DBC1C02EE3800DA534E /* FileUtils.h */,
 				C4DB7DBD1C02EE3800DA534E /* FileUtils.m */,
+				C4BA6EA21C7DB24A0059F101 /* FileUtils+Assets.h */,
+				C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */,
 			);
 			path = FileUtils;
 			sourceTree = "<group>";
@@ -800,6 +805,7 @@
 				C45D27121C23FC490087C6F2 /* README.md in Sources */,
 				C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */,
 				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,
+				C4BA6EA41C7DB24A0059F101 /* FileUtils+Assets.m in Sources */,
 				C4C628431C0C1ED6000AD5D8 /* SubjectViewController.m in Sources */,
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,

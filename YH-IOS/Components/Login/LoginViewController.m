@@ -222,11 +222,11 @@
         
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-        if([userDict.allKeys containsObject:@"assets_md5"]) {
-            [userDict removeObjectForKey:@"assets_md5"];
+        if([userDict.allKeys containsObject:@"local_assets_md5"]) {
+            [userDict removeObjectForKey:@"local_assets_md5"];
         }
-        if([userDict.allKeys containsObject:@"loading_md5"]) {
-            [userDict removeObjectForKey:@"loading_md5"];
+        if([userDict.allKeys containsObject:@"local_loading_md5"]) {
+            [userDict removeObjectForKey:@"local_loading_md5"];
         }
         [userDict writeToFile:userConfigPath atomically:YES];
         
@@ -234,8 +234,8 @@
         [FileUtils removeFile:headerPath];
         
         
-        [self checkAssets:@"loading"];
-        [self checkAssets:@"assets"];
+        [FileUtils checkAssets:@"loading"];
+        [FileUtils checkAssets:@"assets"];
     }
 }
 

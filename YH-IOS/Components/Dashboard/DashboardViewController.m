@@ -11,8 +11,6 @@
 #import <SCLAlertView.h>
 #import <PgyUpdate/PgyUpdateManager.h>
 #import "NSData+MD5.h"
-#import "AFNetworking.h"
-#import <SSZipArchive.h>
 
 
 static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier";
@@ -114,7 +112,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self checkAssetsUpdate];
+    [self checkAssetsUpdate: self.sharedPath];
 }
 
 - (void)dealloc {
@@ -333,71 +331,5 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         
         [alert showSuccess:self title:@"版本更新" subTitle:response[@"releaseNote"] closeButtonTitle:@"放弃" duration:0.0f];
     }
-}
-
-/**
- *  检测服务器端静态文件是否更新
- */
-- (void)checkAssetsUpdate {
-    BOOL isShouldUpdateAssets = NO;
-    
-    NSString *assetsZipPath = [self.sharedPath stringByAppendingPathComponent:@"assets.zip"];
-    if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
-        isShouldUpdateAssets = YES;
-    }
-    
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    if(!isShouldUpdateAssets && ![userDict[@"assets_server_md5"] isEqualToString:userDict[@"assets_md5"]]) {
-        isShouldUpdateAssets = YES;
-        NSLog(@"local: %@, server: %@", userDict[@"assets_server_md5"], userDict[@"assets_md5"]);
-    }
-    
-    if(!isShouldUpdateAssets) {
-        return;
-    }
-    
-    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.view];
-    [self.view addSubview:HUD];
-    HUD.tag=1000;
-    HUD.mode = MBProgressHUDModeDeterminate;
-    HUD.labelText = @"更新静态文件";
-    HUD.square = YES;
-    [HUD show:YES];
-    
-    // 初始化队列
-    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-    // 下载地址
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, API_ASSETS_PATH]];
-    // 保存路径
-    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:url]];
-    op.outputStream = [NSOutputStream outputStreamToFileAtPath:assetsZipPath append:NO];
-    // 根据下载量设置进度条的百分比
-    [op setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-        CGFloat precent = (CGFloat)totalBytesRead / totalBytesExpectedToRead;
-        HUD.progress = precent;
-    }];
-    
-    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *assetsFolderPath = [self.sharedPath stringByAppendingPathComponent:@"assets"];
-        if([FileUtils checkFileExist:assetsFolderPath isDir:YES]) {
-            [FileUtils removeFile:assetsFolderPath];
-        }
-        
-        BOOL isUnzipSuccess = [SSZipArchive unzipFileAtPath:assetsZipPath toDestination:self.sharedPath];
-        
-        NSLog(@"解压 %@", isUnzipSuccess ? @"成功" : @"失败");
-        [self loadHtml];
-        
-        userDict[@"assets_md5"] = userDict[@"assets_server_md5"];
-        [userDict writeToFile:userConfigPath atomically:YES];
-        
-        [HUD removeFromSuperview];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@" 下载失败 ");
-        [HUD removeFromSuperview];
-    }];
-    // 开始下载
-    [queue addOperation:op];
 }
 @end

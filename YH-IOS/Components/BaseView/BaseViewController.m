@@ -10,9 +10,9 @@
 #import "LoginViewController.h"
 #import <PgyUpdate/PgyUpdateManager.h>
 #import "ViewUtils.h"
-#import "NSData+MD5.h"
-#import <SSZipArchive.h>
 #import "AppDelegate.h"
+#import "AFNetworking.h"
+#import <SSZipArchive.h>
 
 @interface BaseViewController ()<LTHPasscodeViewControllerDelegate>
 @end
@@ -195,42 +195,6 @@
     }
 }
 
-/**
- *  检测静态文件
- *
- *  @param fileName <#fileName description#>
- */
-- (void)checkAssets:(NSString *)fileName {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    
-    NSString *zipName = [NSString stringWithFormat:@"%@.zip", fileName];
-    NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:zipName];
-    NSString *keyName = [NSString stringWithFormat:@"%@_md5", fileName];
-    NSData *fileData = [NSData dataWithContentsOfFile:zipPath];
-    NSString *md5String = fileData.md5;
-    
-    BOOL isShouldUnZip = YES;
-    
-    if([FileUtils checkFileExist:userConfigPath isDir:NO]) {
-        if([userDict.allKeys containsObject:keyName] && [userDict[keyName] isEqualToString:md5String]) {
-            isShouldUnZip = NO;
-        }
-    }
-    
-    if(isShouldUnZip) {
-        NSString *loadingPath = [self.sharedPath stringByAppendingPathComponent:fileName];
-        if(![FileUtils checkFileExist:loadingPath isDir:YES]) {
-            [FileUtils removeFile:loadingPath];
-        }
-        
-        [SSZipArchive unzipFileAtPath:zipPath toDestination:self.sharedPath];
-        
-        userDict[keyName] = md5String;
-        [userDict writeToFile:userConfigPath atomically:YES];
-        NSLog(@"unzipfile for %@, %@", fileName, md5String);
-    }
-}
 
 /**
  *  设置是否允许横屏
@@ -241,6 +205,75 @@
     
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.allowRotation = allowRotation;
+}
+
+
+/**
+ *  检测服务器端静态文件是否更新
+ */
+- (void)checkAssetsUpdate:(NSString *)sharedPath {
+    BOOL isShouldUpdateAssets = NO;
+    
+    NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:@"assets.zip"];
+    if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
+        isShouldUpdateAssets = YES;
+    }
+    
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    if(!isShouldUpdateAssets && ![userDict[@"assets_md5"] isEqualToString:userDict[@"local_assets_md5"]]) {
+        isShouldUpdateAssets = YES;
+        NSLog(@"local: %@, server: %@", userDict[@"local_assets_md5"], userDict[@"assets_md5"]);
+    }
+    
+    if(!isShouldUpdateAssets) {
+        return;
+    }
+    
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    HUD.tag       = 1000;
+    HUD.mode      = MBProgressHUDModeDeterminate;
+    HUD.labelText = @"更新静态文件";
+    HUD.square    = YES;
+    [HUD show:YES];
+    
+    // 初始化队列
+    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    // 下载地址
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, API_ASSETS_PATH]];
+    // 保存路径
+    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:url]];
+    op.outputStream = [NSOutputStream outputStreamToFileAtPath:assetsZipPath append:NO];
+    // 根据下载量设置进度条的百分比
+    [op setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        CGFloat precent = (CGFloat)totalBytesRead / totalBytesExpectedToRead;
+        HUD.progress = precent;
+    }];
+    
+    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *assetsFolderPath = [sharedPath stringByAppendingPathComponent:@"assets"];
+        if([FileUtils checkFileExist:assetsFolderPath isDir:YES]) {
+            [FileUtils removeFile:assetsFolderPath];
+        }
+        
+        BOOL isUnzipSuccess = [SSZipArchive unzipFileAtPath:assetsZipPath toDestination:sharedPath];
+        NSLog(@"解压 %@", isUnzipSuccess ? @"成功" : @"失败");
+        
+        userDict[@"local_assets_md5"] = userDict[@"assets_md5"];
+        [userDict writeToFile:userConfigPath atomically:YES];
+        
+//        if(self.browser) {
+//            [self.browser reload];
+//        }
+        
+        [HUD removeFromSuperview];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@" 下载失败 ");
+        [HUD removeFromSuperview];
+    }];
+    // 开始下载
+    [queue addOperation:op];
 }
 
 #pragma mark - LTHPasscodeViewControllerDelegate methods
@@ -274,7 +307,8 @@
         @catch (NSException *exception) {
             NSLog(@"%@", exception);
         }
-    });}
+    });
+}
 
 
 - (BOOL)didPasscodeTimerEnd {

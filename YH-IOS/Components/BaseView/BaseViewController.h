@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "const.h"
 #import "User.h"
-#import "FileUtils.h"
+#import "FileUtils+Assets.h"
 #import "HttpUtils.h"
 #import "APIHelper.h"
 #import <MBProgressHUD.h>
@@ -54,17 +54,15 @@
 - (void)appUpgradeMethod:(NSDictionary *)response;
 
 /**
- *  检测静态文件
- *
- *  @param fileName <#fileName description#>
- */
-- (void)checkAssets:(NSString *)fileName;
-/**
  *  设置是否允许横屏
  *
  *  @param allowRotation 允许横屏
  */
 - (void)setAppAllowRotation:(BOOL)allowRotation;
+/**
+ *  检测服务器端静态文件是否更新
+ */
+- (void)checkAssetsUpdate:(NSString *)sharedPath;
 
 #pragma mark - LTHPasscode delegate methods
 - (void)passcodeWasEnteredSuccessfully;

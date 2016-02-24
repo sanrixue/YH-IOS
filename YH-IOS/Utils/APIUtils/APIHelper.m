@@ -92,11 +92,11 @@
         userDict[@"app_ids"]     = httpResponse.data[@"app_ids"];
         userDict[@"analyse_ids"] = httpResponse.data[@"analyse_ids"];
         userDict[@"is_login"]    = @(YES);
-        userDict[@"device_uuid"]       = httpResponse.data[@"device_uuid"];
-        userDict[@"device_state"]      = httpResponse.data[@"device_state"];
-        userDict[@"user_device_id"]    = httpResponse.data[@"user_device_id"];
-        userDict[@"assets_server_md5"] = httpResponse.data[@"assets_md5"];
-        userDict[@"user_md5"]          = password;
+        userDict[@"device_uuid"]    = httpResponse.data[@"device_uuid"];
+        userDict[@"device_state"]   = httpResponse.data[@"device_state"];
+        userDict[@"user_device_id"] = httpResponse.data[@"user_device_id"];
+        userDict[@"assets_md5"]     = httpResponse.data[@"assets_md5"];
+        userDict[@"user_md5"]       = password;
         
         [userDict writeToFile:userConfigPath atomically:YES];
         

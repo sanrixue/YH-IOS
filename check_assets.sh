@@ -1,4 +1,14 @@
 #!/bin/bash
+#
+# check assets.zip with server
+# 2016-02-24 by jay
+# 
+
+if [[ "$(uname -s)" != "Darwin" ]]; then
+    echo "this script only run on Darwin"
+    exit
+fi
+
 current_assets_path="YH-IOS/Shared/assets.zip"
 server_assets_path="../../work/YH-Server/public/assets.zip"
 

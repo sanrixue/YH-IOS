@@ -22,7 +22,7 @@
 #define API_DEVICE_STATE_PATH       @"/api/v1/user_device/%@/state"
 #define API_RESET_PASSWORD_PATH     @"/api/v1/update/%@/password"
 #define API_ACTION_LOG_PATH         @"/api/v1/ios/logger"
-#define API_ASSETS_PATH             @"/api/v1/download/assets.zip"
+#define API_ASSETS_PATH             @"/api/v1/download/%@.zip"
 
 #define KPI_PATH                    @"/mobile/role/%@/group/%@/kpi"
 #define MESSAGE_PATH                @"/mobile/role/%@/user/%@/message"

@@ -39,16 +39,13 @@
      *  刚升级过时，就不必须再更新，避免浪费用户流量
      */
     NSString *sharedPath = [FileUtils sharedPath];
-    NSArray *assetsName = @[@"assets.zip", @"loading.zip"];
-    for(NSInteger i = 0, len = assetsName.count; i < len; i ++) {
-        NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:assetsName[i]];
-        if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
-            NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:assetsName[i]];
-            NSError *error;
-            [[NSFileManager defaultManager] copyItemAtPath:zipPath toPath:assetsZipPath error:&error];
-            if(error) {
-                NSLog(@"unZip: %@ failed for - %@", zipPath, [error localizedDescription]);
-            }
+    NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:@"loading.zip"];
+    if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
+        NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"loading.zip"];
+        NSError *error;
+        [[NSFileManager defaultManager] copyItemAtPath:zipPath toPath:assetsZipPath error:&error];
+        if(error) {
+            NSLog(@"unZip: %@ failed for - %@", zipPath, [error localizedDescription]);
         }
     }
     
@@ -56,7 +53,6 @@
      *  解压表态资源
      */
     [FileUtils checkAssets:@"loading"];
-    [FileUtils checkAssets:@"assets"];
     
     /**
      *  初始化移动端本地webview的avigator.userAgent

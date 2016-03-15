@@ -209,37 +209,46 @@
  *  检测服务器端静态文件是否更新
  */
 - (void)checkAssetsUpdate {
+    [self checkAssetUpdate:@"loading" info: @"加载库" isInAssets: NO];
+    [self checkAssetUpdate:@"fonts" info: @"字体" isInAssets: YES];
+    [self checkAssetUpdate:@"images" info: @"图片" isInAssets: YES];
+    [self checkAssetUpdate:@"stylesheets" info: @"样式库" isInAssets: YES];
+    [self checkAssetUpdate:@"javascripts" info: @"解析库" isInAssets: YES];
+}
+
+- (void)checkAssetUpdate:(NSString *)assetName info:(NSString *)info isInAssets:(BOOL)isInAssets {
     BOOL isShouldUpdateAssets = NO;
     NSString *sharedPath = [FileUtils sharedPath];
     
-    NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:@"assets.zip"];
+    NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", assetName]];
     if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
         isShouldUpdateAssets = YES;
     }
     
+    NSString *assetKey = [NSString stringWithFormat:@"%@_md5", assetName];
+    NSString *localAssetKey = [NSString stringWithFormat:@"local_%@_md5", assetName];
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    if(!isShouldUpdateAssets && ![userDict[@"assets_md5"] isEqualToString:userDict[@"local_assets_md5"]]) {
+    if(!isShouldUpdateAssets && ![userDict[assetKey] isEqualToString:userDict[localAssetKey]]) {
         isShouldUpdateAssets = YES;
-        NSLog(@"local: %@, server: %@", userDict[@"local_assets_md5"], userDict[@"assets_md5"]);
+        NSLog(@"local: %@, server: %@", userDict[localAssetKey], userDict[assetKey]);
     }
     
-    if(!isShouldUpdateAssets) {
-        return;
-    }
+    if(!isShouldUpdateAssets) { return; }
     
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
     HUD.tag       = 1000;
     HUD.mode      = MBProgressHUDModeDeterminate;
-    HUD.labelText = @"更新静态文件";
+    HUD.labelText = [NSString stringWithFormat:@"更新%@", info];
     HUD.square    = YES;
     [HUD show:YES];
     
     // 初始化队列
     NSOperationQueue *queue = [[NSOperationQueue alloc]init];
     // 下载地址
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, API_ASSETS_PATH]];
+    NSString *urlPath = [NSString stringWithFormat:API_ASSETS_PATH, assetName];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, urlPath]];
     // 保存路径
     AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:url]];
     op.outputStream = [NSOutputStream outputStreamToFileAtPath:assetsZipPath append:NO];
@@ -250,15 +259,19 @@
     }];
     
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *assetsFolderPath = [sharedPath stringByAppendingPathComponent:@"assets"];
+        NSString *assetsFolderPath = [sharedPath stringByAppendingPathComponent:assetName];
         if([FileUtils checkFileExist:assetsFolderPath isDir:YES]) {
             [FileUtils removeFile:assetsFolderPath];
         }
         
-        BOOL isUnzipSuccess = [SSZipArchive unzipFileAtPath:assetsZipPath toDestination:sharedPath];
+        NSString *assetsPath = sharedPath;
+        if(isInAssets) {
+            assetsPath = [sharedPath stringByAppendingPathComponent:@"assets"];
+        }
+        BOOL isUnzipSuccess = [SSZipArchive unzipFileAtPath:assetsZipPath toDestination:assetsPath];
         NSLog(@"解压 %@", isUnzipSuccess ? @"成功" : @"失败");
         
-        userDict[@"local_assets_md5"] = userDict[@"assets_md5"];
+        userDict[localAssetKey] = userDict[assetKey];
         [userDict writeToFile:userConfigPath atomically:YES];
         
 //        if(self.browser) {

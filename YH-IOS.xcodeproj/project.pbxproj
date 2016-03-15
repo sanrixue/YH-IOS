@@ -15,7 +15,6 @@
 		C4272CC81C5C752B00E6971B /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C4272CC71C5C752A00E6971B /* README.md */; };
 		C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */ = {isa = PBXBuildFile; fileRef = C4272CC91C5CBA4700E6971B /* loading.zip */; };
 		C4379B571C18232D0058257A /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = C4379B561C18232D0058257A /* User.m */; };
-		C43906DE1C1FAE1400E1E466 /* assets.zip in Resources */ = {isa = PBXBuildFile; fileRef = C43906DD1C1FAE1400E1E466 /* assets.zip */; };
 		C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4448C6B1C0AE3030053B431 /* HttpUtils.m */; };
 		C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = C45D270F1C23FC490087C6F2 /* OpenUDID.m */; };
 		C45D27121C23FC490087C6F2 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C45D27101C23FC490087C6F2 /* README.md */; };
@@ -95,7 +94,6 @@
 		C4272CC91C5CBA4700E6971B /* loading.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = loading.zip; sourceTree = "<group>"; };
 		C4379B551C18232D0058257A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		C4379B561C18232D0058257A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		C43906DD1C1FAE1400E1E466 /* assets.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = assets.zip; sourceTree = "<group>"; };
 		C4448C6B1C0AE3030053B431 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
 		C45D270E1C23FC490087C6F2 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		C45D270F1C23FC490087C6F2 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
@@ -527,7 +525,6 @@
 			isa = PBXGroup;
 			children = (
 				C4272CC91C5CBA4700E6971B /* loading.zip */,
-				C43906DD1C1FAE1400E1E466 /* assets.zip */,
 				C4DB7DC61C02EE6000DA534E /* const.h */,
 			);
 			path = Shared;
@@ -708,7 +705,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
-				C43906DE1C1FAE1400E1E466 /* assets.zip in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,

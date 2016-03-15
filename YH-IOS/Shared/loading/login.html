@@ -73,12 +73,12 @@
           }
         }
         window.onerror = function(e) {
-          if(Mobile.isIOS && MobileBridge.connectWebViewJavascriptBridge) {
+          if(Mobile.isIOS() && MobileBridge.connectWebViewJavascriptBridge) {
             MobileBridge.connectWebViewJavascriptBridge(function(bridge){
               bridge.callHandler('jsException', {'ex': e}, function(response) {});
             })
           }
-          else if(Mobile.isAndroid && window.AndroidJSBridge && window.AndroidJSBridge.jsException) {
+          else if(Mobile.isAndroid() && window.AndroidJSBridge && window.AndroidJSBridge.jsException) {
             window.AndroidJSBridge.jsException(e);
           }
           else {
@@ -107,13 +107,13 @@
             var password = document.getElementById("password").value.trim();
             //alert(username + " - " + password);
     
-            if(Mobile.isIOS) {
+            if(Mobile.isIOS()) {
               Login.connectWebViewJavascriptBridge(function(bridge){
                 bridge.callHandler('iosCallback', {'username': username, 'password': password}, function(response) {
                 });
               })
             }
-            else if(Mobile.isAndroid) {
+            else if(Mobile.isAndroid()) {
               window.AndroidJSBridge.login(username, password);
             }
           }

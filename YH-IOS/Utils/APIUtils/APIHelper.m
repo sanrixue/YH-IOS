@@ -95,8 +95,12 @@
         userDict[@"device_uuid"]    = httpResponse.data[@"device_uuid"];
         userDict[@"device_state"]   = httpResponse.data[@"device_state"];
         userDict[@"user_device_id"] = httpResponse.data[@"user_device_id"];
-        userDict[@"assets_md5"]     = httpResponse.data[@"assets_md5"];
-        userDict[@"user_md5"]       = password;
+        userDict[@"loading_md5"]     = httpResponse.data[@"loading_md5"];
+        userDict[@"fonts_md5"]       = httpResponse.data[@"assets"][@"fonts_md5"];
+        userDict[@"images_md5"]      = httpResponse.data[@"assets"][@"images_md5"];
+        userDict[@"stylesheets_md5"] = httpResponse.data[@"assets"][@"stylesheets_md5"];
+        userDict[@"javascripts_md5"] = httpResponse.data[@"assets"][@"javascripts_md5"];
+        userDict[@"user_md5"]        = password;
         
         [userDict writeToFile:userConfigPath atomically:YES];
         

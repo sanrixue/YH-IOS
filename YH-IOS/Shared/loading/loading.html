@@ -20,15 +20,6 @@
           <img src="assets/images/loading.gif" />
         </div>
       </div>
-      <div id="text" class="row" style="text-align:center;">
-        <div id="countDownIndex" class="col-xs-12">
-          0s
-        </div>
-
-        <div id="refreshBtn" class="col-xs-12" style="display:none;">
-          <a onclick="Loading.refresh();">重新加载</a>
-        </div>
-      </div>
     </div> 
 
     <script type="text/javascript">
@@ -42,8 +33,6 @@
           }
         }
         window.Loading = {
-          countDownIndex: 0,
-          countDownTimer: null,
           connectWebViewJavascriptBridge: function(callback) {
             if(window.WebViewJavascriptBridge) {
               callback(WebViewJavascriptBridge)
@@ -67,19 +56,6 @@
             else {
               alert("未知浏览器:" + navigator.userAgent);
             }
-          },
-          countDownRecorder: function() {
-            Loading.countDownIndex += 1;
-            document.getElementById("countDownIndex").innerHTML = Loading.countDownIndex + "s";
-            if(Loading.countDownIndex > 10) {
-              document.getElementById("refreshBtn").style.display = "block";
-            }
-          },
-          startCountDownTimer: function() {
-            Loading.countDownTimer = self.setInterval("Loading.countDownRecorder();", 1000); 
-          },
-          clearCountDownTimer: function() {
-            window.clearInterval(Loading.countDownTimer);
           }
         }
       }).call(this);
@@ -91,15 +67,10 @@
         var g = d.getElementsByTagName("body")[0];
         var x =  e.clientHeight || g.clientHeight;
         var loading = document.getElementById("loading");
-        var text = document.getElementById("text");
         var bottom = (x-loading.clientHeight)/2;
 
         loading.style.position = "absolute";
         loading.style.bottom = bottom + "px";
-        text.style.position = "absolute";
-        text.style.bottom = bottom + "px";
-
-        Loading.startCountDownTimer();
       };
     </script>
   </body>

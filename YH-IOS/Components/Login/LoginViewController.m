@@ -155,13 +155,7 @@
         }
         else {
             dispatch_async(dispatch_get_main_queue(), ^{
-                SCLAlertView *alert = [[SCLAlertView alloc] init];
-                
-                [alert addButton:@"刷新" actionBlock:^(void) {
-                    [self loadHtml];
-                }];
-                    
-                [alert showError:self title:@"温馨提示" subTitle:@"网络环境不稳定" closeButtonTitle:@"先这样" duration:0.0f];
+                [self showLoading:LoadingRefresh];
             });
         }
     });

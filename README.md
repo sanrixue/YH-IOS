@@ -8,6 +8,12 @@
 
 ## 更新日志
 
+
+* 16/03/15
+
+	* optimized: 静态资源分fonts/images/stylesheets/javascripts分别下载
+	* optimzied: 网络环境不好时，显示UI 重新加载
+
 * 16/02/22
 
 	* Add: assets.zip文件，服务器维护

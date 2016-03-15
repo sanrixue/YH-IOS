@@ -103,7 +103,7 @@
     httpResponse.response = (NSHTTPURLResponse *)response;
     BOOL isOK   = NSErrorPrint(error, @"Http#post %@", urlString);
     if(!isOK) {
-        [httpResponse.errors addObject:(NSString *)psd([error localizedDescription], @"http get未知错误")];
+        [httpResponse.errors addObject:(NSString *)psd([error localizedDescription], @"Http#post未知错误")];
     }
     
     return httpResponse;

@@ -71,7 +71,8 @@ typedef NS_ENUM(NSInteger, DeviceState) {
 typedef NS_ENUM(NSInteger, LoadingType) {
     LoadingLogin = 0,
     LoadingLoad = 1,
-    LoadingRefresh = 2
+    LoadingRefresh = 2,
+    LoadingLogining = 3 // deprecate
 };
 
 

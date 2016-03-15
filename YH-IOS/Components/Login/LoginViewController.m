@@ -134,31 +134,31 @@
 - (void)loadHtml {
     [self clearBrowserCache];
     [self showLoading:LoadingLogin];
-
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if([HttpUtils isNetworkAvailable]) {
-            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
-
-            __block NSString *htmlPath;
-            if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-                htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
-            }
-            else {
-                NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
-                htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-            });
-        }
-        else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self showLoading:LoadingRefresh];
-            });
-        }
-    });
+//
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        if([HttpUtils isNetworkAvailable]) {
+//            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
+//
+//            __block NSString *htmlPath;
+//            if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+//                htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+//            }
+//            else {
+//                NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
+//                htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
+//            }
+//            
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
+//                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
+//            });
+//        }
+//        else {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self showLoading:LoadingRefresh];
+//            });
+//        }
+//    });
 }
 
 - (void)jumpToDashboardView {

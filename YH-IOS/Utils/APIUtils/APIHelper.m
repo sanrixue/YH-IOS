@@ -103,8 +103,9 @@
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
         [userDict writeToFile:settingsConfigPath atomically:YES];
     }
-    else if(httpResponse.data[@"code"] && ([httpResponse.data[@"code"] isEqualToNumber:@(400)] || [httpResponse.data[@"code"] isEqualToNumber:@(0)])) {
-        alertMsg = @"请确认网络环境.";
+    // else if(httpResponse.data[@"code"] && ([httpResponse.data[@"code"] isEqualToNumber:@(400)] || [httpResponse.data[@"code"] isEqualToNumber:@(0)])) {
+    else if(httpResponse.errors.count) {
+        alertMsg = [httpResponse.errors componentsJoinedByString:@"\n"];
     }
     else {
         if(httpResponse.data[@"info"]) {

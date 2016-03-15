@@ -104,12 +104,9 @@
         }
     }
 }
-- (void)showLoading {
-    [self showLoading:NO];
-}
 
-- (void)showLoading:(BOOL)isLogin {
-    NSString *loadingPath = [FileUtils loadingPath:isLogin];
+- (void)showLoading:(LoadingType)loadingType {
+    NSString *loadingPath = [FileUtils loadingPath:loadingType];
     NSString *loadingContent = [NSString stringWithContentsOfFile:loadingPath encoding:NSUTF8StringEncoding error:nil];
     
     [self.browser loadHTMLString:loadingContent baseURL:[NSURL fileURLWithPath:loadingPath]];
@@ -211,8 +208,9 @@
 /**
  *  检测服务器端静态文件是否更新
  */
-- (void)checkAssetsUpdate:(NSString *)sharedPath {
+- (void)checkAssetsUpdate {
     BOOL isShouldUpdateAssets = NO;
+    NSString *sharedPath = [FileUtils sharedPath];
     
     NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:@"assets.zip"];
     if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
@@ -337,10 +335,10 @@
         [APIHelper screenLock:userDict[@"user_device_id"] passcode:passcode state:YES];
     });
     
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
             logParams[@"action"] = @"设置锁屏";

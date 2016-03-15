@@ -30,7 +30,6 @@
     }];
     
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -101,6 +100,7 @@
 
     self.browser.scrollView.scrollEnabled = NO;
     self.browser.scrollView.bounces = NO;
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
     
     /*
      * 检测登录界面，版本是否升级
@@ -133,7 +133,7 @@
 
 - (void)loadHtml {
     [self clearBrowserCache];
-    [self showLoading:YES];
+    [self showLoading:LoadingLogin];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if([HttpUtils isNetworkAvailable]) {

@@ -218,7 +218,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 }
 
 - (void)loadInnerLink {
-    [self showLoading];
+    [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // format: /mobil/report/:report_id/group/:group_id

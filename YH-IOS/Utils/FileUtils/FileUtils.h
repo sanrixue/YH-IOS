@@ -12,6 +12,7 @@
 #define iContent_FileUtils_h
 
 #import <UIKit/UIKit.h>
+#import "const.h"
 
 /**
  *  处理File相关的代码块合集
@@ -20,7 +21,7 @@
 
 + (NSString *)basePath;
 + (NSString *)userspace;
-+ (NSString *)loadingPath:(BOOL)isLogin;
++ (NSString *)loadingPath:(LoadingType)loadingType;
 /**
  *  公共资源放在此目录下
  *

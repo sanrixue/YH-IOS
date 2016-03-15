@@ -71,7 +71,6 @@
 
     [self.window makeKeyAndVisible];
     
-    
     [LTHPasscodeViewController sharedUser].delegate = self;
     [LTHPasscodeViewController useKeychain:NO];
     [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
@@ -137,17 +136,17 @@
             
             /**
              *  解屏验证用户信息，更新用户权限
+             *  若难失败，则在下次解屏检测时进入登录界面
              */
             NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-            if(userDict[@"user_num"]) {
-                NSString *msg = [APIHelper userAuthentication:userDict[@"user_num"] password:userDict[@"user_md5"]];
-                if(msg.length > 0) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self jumpToLogin];
-                    });
-                }
-            }
+            if(!userDict[@"user_num"]) return;
+            
+            NSString *msg = [APIHelper userAuthentication:userDict[@"user_num"] password:userDict[@"user_md5"]];
+            if(msg.length == 0) return;
+            
+            userDict[@"is_login"] = @(NO);
+            [userDict writeToFile:userConfigPath atomically:YES];
         }
         @catch (NSException *exception) {
             NSLog(@"%@", exception);
@@ -155,10 +154,10 @@
     });
 }
 
-
 - (BOOL)didPasscodeTimerEnd {
     return YES;
 }
+
 - (NSString *)passcode {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];

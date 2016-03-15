@@ -94,7 +94,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     [APIHelper userAuthentication:userDict[@"user_num"] password:userDict[@"user_md5"]];
     
-    [self checkAssetsUpdate:self.sharedPath];
+    [self checkAssetsUpdate];
     
     [FileUtils checkAssets:@"loading"];
     [FileUtils checkAssets:@"assets"];

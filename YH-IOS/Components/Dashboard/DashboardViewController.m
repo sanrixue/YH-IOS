@@ -108,11 +108,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
     }
 }
-
+- (void)viewWillAppear:(BOOL)animated {
+    
+}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self checkAssetsUpdate: self.sharedPath];
+    [self checkAssetsUpdate];
 }
 
 - (void)dealloc {
@@ -174,7 +176,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)_loadHtml {
     [self clearBrowserCache];
-    [self showLoading];
+    [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 

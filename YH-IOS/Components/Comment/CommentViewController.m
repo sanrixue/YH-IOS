@@ -165,7 +165,7 @@
 }
 
 - (void)_loadHtml {
-    [self showLoading];
+    [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             

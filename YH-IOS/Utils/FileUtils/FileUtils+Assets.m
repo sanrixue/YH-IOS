@@ -30,10 +30,8 @@
     
     BOOL isShouldUnZip = YES;
     
-    if([FileUtils checkFileExist:userConfigPath isDir:NO]) {
-        if([userDict.allKeys containsObject:keyName] && [userDict[keyName] isEqualToString:md5String]) {
-            isShouldUnZip = NO;
-        }
+    if([userDict.allKeys containsObject:keyName] && [userDict[keyName] isEqualToString:md5String]) {
+        isShouldUnZip = NO;
     }
     
     if(isShouldUnZip) {

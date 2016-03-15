@@ -40,8 +40,7 @@
 
 - (NSString *)stringWithContentsOfFile:(NSString *)htmlPath;
 - (void)clearBrowserCache;
-- (void)showLoading;
-- (void)showLoading:(BOOL)isLogin;
+- (void)showLoading:(LoadingType)loadingType;
 - (void)idColor;
 
 - (void)jumpToLogin;
@@ -62,7 +61,7 @@
 /**
  *  检测服务器端静态文件是否更新
  */
-- (void)checkAssetsUpdate:(NSString *)sharedPath;
+- (void)checkAssetsUpdate;
 
 #pragma mark - LTHPasscode delegate methods
 - (void)passcodeWasEnteredSuccessfully;

@@ -51,8 +51,21 @@
     return shardPath;
 }
 
-+ (NSString *)loadingPath:(BOOL)isLogin {
-    NSString *indexName = isLogin ? @"loading/login.html" : @"loading/loading.html";
++ (NSString *)loadingPath:(LoadingType)loadingType {
+    NSString *indexName = @"loading/login.html";
+    switch (loadingType) {
+        case LoadingLoad:
+            indexName = @"loading/loading.html";
+            break;
+        case LoadingLogin:
+            indexName = @"loading/login.html";
+            break;
+        case LoadingRefresh:
+            indexName = @"loading/network_400.html";
+            break;
+        default:
+            break;
+    }
     return  [[self sharedPath] stringByAppendingPathComponent:indexName];
 }
 /**

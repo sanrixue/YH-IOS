@@ -173,11 +173,10 @@
 
 #pragma mark - 缓存当前应用版本，每次检测，不一致时，有所动作
 /**
- *  应用版本更新后，检测assets.zip
+ *  应用版本更新后，拷贝静态资源至sharedPath/下
  *
- *  必要时: assets.zip不受服务器更新控件，发次新发布的assets.zip中会有最新的必要样式库
  *  注意: 需在 [FileUtils checkAssets:isInAssets:bundlePath:; 操作之前
- *  本次操作只拷贝覆盖assets.zip， 解压等操作由FileUtils来完成
+ *  本次操作只拷贝覆盖， 解压等操作由FileUtils来完成
  *
  *  @param assetsPath <#assetsPath description#>
  */
@@ -198,18 +197,17 @@
     }
     
     if(isUpgrade) {
-        NSString *bundleZipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"assets.zip"];
-        NSString *bundleZipMD5 = [NSData dataWithContentsOfFile:bundleZipPath].md5;
-        NSString *zipPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets.zip"];
-        NSString *zipMD5 = @"noexist";
-        if([FileUtils checkFileExist:zipPath isDir:NO]) {
-            zipMD5 = [NSData dataWithContentsOfFile:zipPath].md5;
-        }
-        
-        if(![bundleZipMD5 isEqualToString:zipMD5]) {
+        NSString *sharedPath = [FileUtils sharedPath], *bundleZipPath, *zipPath, *assetFileName;
+        for(NSString *assetName in @[@"assets", @"loading", @"fonts", @"images", @"stylesheets", @"javascripts"]) {
+            assetFileName = [NSString stringWithFormat:@"%@.zip", assetName];
+            bundleZipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:assetFileName];
+            zipPath = [sharedPath stringByAppendingPathComponent:assetFileName];
+            
+            NSLog(@"version updated: %@ => %@", bundleZipPath, zipPath);
             [[NSFileManager defaultManager] copyItemAtPath:bundleZipPath toPath:zipPath error:&error];
             if(error) { NSLog(@"%@", [error localizedDescription]); }
         }
+
         [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }
 }

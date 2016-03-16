@@ -265,28 +265,8 @@
     }];
     
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *assetsPath = sharedPath;
-        if(isInAssets) {
-            assetsPath = [sharedPath stringByAppendingPathComponent:@"assets"];
-        }
-        NSString *assetFolderPath = [assetsPath stringByAppendingPathComponent:assetName];
-        if([FileUtils checkFileExist:assetFolderPath isDir:YES]) {
-            [FileUtils removeFile:assetFolderPath];
-        }
-        
-        BOOL isUnzipSuccess = [SSZipArchive unzipFileAtPath:assetsZipPath toDestination:assetsPath];
-        NSLog(@"解压 %@", isUnzipSuccess ? @"成功" : @"失败");
-        
-        
-        // 异步执行，避免覆盖其他参数
-        userDict = [FileUtils readConfigFile:userConfigPath];
-        userDict[localAssetKey] = userDict[assetKey];
-        [userDict writeToFile:userConfigPath atomically:YES];
-        
-//        if(self.browser) {
-//            [self.browser reload];
-//        }
-        
+        [FileUtils checkAssets:assetName isInAssets:isInAssets bundlePath:[[NSBundle mainBundle] bundlePath]];
+                
         [HUD removeFromSuperview];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@" 下载失败 ");

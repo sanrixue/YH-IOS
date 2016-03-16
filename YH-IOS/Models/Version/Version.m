@@ -47,7 +47,7 @@
 
 
 - (NSString *)simpleDescription {
-    return [NSString stringWithFormat:@"<#%@ version: %@, dbVersion:%@, machine: %@(%@), sdkName: %@, lang: %@>", self.appName,self.current,self.dbVersion, [Version machine], [Version machineHuman], self.sdkName,self.lang];
+    return [NSString stringWithFormat:@"<#%@ version: %@, machine: %@(%@), sdkName: %@, lang: %@>", self.appName,self.current, [Version machine], [Version machineHuman], self.sdkName,self.lang];
 }
 
 + (NSString *)machine {

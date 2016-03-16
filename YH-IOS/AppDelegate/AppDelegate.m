@@ -10,7 +10,7 @@
 #import "const.h"
 #import "NSData+MD5.h"
 #import <PgySDK/PgyManager.h>
-
+#import "Version.h"
 #import "FileUtils+Assets.h"
 
 #import "DashboardViewController.h"
@@ -22,13 +22,43 @@
 
 @implementation AppDelegate
 
+void UncaughtExceptionHandler(NSException * exception) {
+    NSArray *arr     = [exception callStackSymbols];
+    NSString *reason = [exception reason];
+    NSString *name   = [exception name];
+    Version *version = [[Version alloc] init];
+    NSString *mailContent = [NSString stringWithFormat:@"mailto:jay_li@intfocus.com \
+                             ?subject=%@客户端bug报告                                 \
+                             &body=很抱歉%@应用出现故障,发送这封邮件可协助我们改善此应用<br> \
+                             感谢您的配合!<br><br>                                     \
+                             应用详情:<br>                                            \
+                             %@<br>                                                  \
+                             错误详情:<br>                                            \
+                             %@<br>                                                  \
+                             --------------------------<br>                          \
+                             %@<br>                                                  \
+                             --------------------------<br>                          \
+                             %@",
+                             version.appName, version.appName,
+                             [version simpleDescription],
+                             name,reason,[arr componentsJoinedByString:@"<br>"]];
+    
+    NSURL *url = [NSURL URLWithString:[mailContent stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [[UIApplication sharedApplication] openURL:url];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    //启动基本SDK
-    [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
-    [[PgyManager sharedPgyManager] setEnableFeedback:NO];
+    @try {
+        //启动基本SDK
+        [[PgyManager sharedPgyManager] setEnableFeedback:NO];
+        [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
+        NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
+    }
+    @catch (NSException *exception) {
+        NSLog(@"NSSetUncaughtExceptionHandler - %@", exception.name);
+    } @finally {}
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

@@ -52,9 +52,81 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
         NSLog(@"ChartViewController - ObjC received message from JS: %@", data);
         responseCallback(@"ChartViewController - Response for message from ObjC");
     }];
+    [self addWebViewJavascriptBridge];
     
-    [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
+    
+    
+    [self loadHtml];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    /*
+     * 主题页面,允许横屏
+     */
+    [self setAppAllowRotation:YES];
+    
+    /**
+     *  横屏时，隐藏标题栏，增大可视区范围
+     */
+    [self checkInterfaceOrientation: [[UIApplication sharedApplication] statusBarOrientation]];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    /*
+     * 其他页面,禁用横屏
+     */
+    [self setAppAllowRotation:NO];
+}
+
+- (void)dealloc {
+    [self.browser cleanForDealloc];
+    [self.browser stopLoading];
+    self.browser.delegate = nil;
+    self.browser = nil;
+    [self.progressHUD hide:YES];
+    self.progressHUD = nil;
+    self.bridge = nil;
+}
+
+#pragma mark - UIWebview pull down to refresh
+-(void)handleRefresh:(UIRefreshControl *)refresh {
+    [self addWebViewJavascriptBridge];
+    
+    if(self.isInnerLink) {
+        NSString *reportDataUrlString = [APIHelper reportDataUrlString:self.user.groupID reportID:self.reportID];
         
+        [HttpUtils clearHttpResponeHeader:reportDataUrlString assetsPath:self.assetsPath];
+        [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
+    }
+    
+    [self loadHtml];
+    [refresh endRefreshing];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[@"action"] = @"刷新/主题页面/浏览器";
+            logParams[@"obj_title"] = self.urlString;
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
+}
+
+- (void)addWebViewJavascriptBridge {
+    [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -100,74 +172,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
             NSLog(@"unkown action %@", action);
         }
     }];
-    
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
-    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
-    
-    
-    [self loadHtml];
-}
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    /*
-     * 主题页面,允许横屏
-     */
-    [self setAppAllowRotation:YES];
-    
-    /**
-     *  横屏时，隐藏标题栏，增大可视区范围
-     */
-    [self checkInterfaceOrientation: [[UIApplication sharedApplication] statusBarOrientation]];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    /*
-     * 其他页面,禁用横屏
-     */
-    [self setAppAllowRotation:NO];
-}
-
-- (void)dealloc {
-    [self.browser cleanForDealloc];
-    [self.browser stopLoading];
-    self.browser.delegate = nil;
-    self.browser = nil;
-    [self.progressHUD hide:YES];
-    self.progressHUD = nil;
-    self.bridge = nil;
-}
-
-#pragma mark - UIWebview pull down to refresh
--(void)handleRefresh:(UIRefreshControl *)refresh {
-    if(self.isInnerLink) {
-        NSString *reportDataUrlString = [APIHelper reportDataUrlString:self.user.groupID reportID:self.reportID];
-        
-        [HttpUtils clearHttpResponeHeader:reportDataUrlString assetsPath:self.assetsPath];
-        [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
-    }
-    
-    [self loadHtml];
-    [refresh endRefreshing];
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        @try {
-            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"刷新/主题页面/浏览器";
-            logParams[@"obj_title"] = self.urlString;
-            [APIHelper actionLog:logParams];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"%@", exception);
-        }
-    });
 }
 
 #pragma mark - assistant methods

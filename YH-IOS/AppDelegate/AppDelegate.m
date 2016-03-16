@@ -227,6 +227,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     }
     
     if(isUpgrade) {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *sharedPath = [FileUtils sharedPath], *bundleZipPath, *zipPath, *assetFileName;
         for(NSString *assetName in @[@"assets", @"loading", @"fonts", @"images", @"stylesheets", @"javascripts"]) {
             assetFileName = [NSString stringWithFormat:@"%@.zip", assetName];
@@ -234,7 +235,9 @@ void UncaughtExceptionHandler(NSException * exception) {
             zipPath = [sharedPath stringByAppendingPathComponent:assetFileName];
             
             NSLog(@"version updated: %@ => %@", bundleZipPath, zipPath);
-            [[NSFileManager defaultManager] copyItemAtPath:bundleZipPath toPath:zipPath error:&error];
+            [fileManager removeItemAtPath:zipPath error:&error];
+            if(error) { NSLog(@"%@", [error localizedDescription]); }
+            [fileManager copyItemAtPath:bundleZipPath toPath:zipPath error:&error];
             if(error) { NSLog(@"%@", [error localizedDescription]); }
         }
 

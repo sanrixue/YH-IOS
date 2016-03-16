@@ -33,14 +33,75 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [[UITabBar appearance] setTintColor:color];
     [self idColor];
     
+    
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"DashboardViewController - ObjC received message from JS: %@", data);
         responseCallback(@"DashboardViewController - Response for message from ObjC");
     }];
     
+    [self addWebViewJavascriptBridge];
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
+    
+    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
+    [self tabBarClick: 0];
+    
+    /*
+     * 解屏进入主页面，需检测版本更新
+     */
+    if(self.fromViewController && [self.fromViewController isEqualToString:@"AppDelegate"]) {
+        self.fromViewController = @"AlreadyShow";
+        //启动检测版本更新
+        [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
+        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
+    }
+}
+- (void)viewWillAppear:(BOOL)animated {
+    
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self checkAssetsUpdate];
+}
+
+- (void)dealloc {
+    [self.browser stopLoading];
+    [self.browser cleanForDealloc];
+    self.browser.delegate = nil;
+    self.browser = nil;
+    [self.progressHUD hide:YES];
+    self.progressHUD = nil;
+    self.bridge = nil;
+    self.tabBar.delegate = nil;
+    self.tabBar = nil;
+}
+
+#pragma mark - UIWebview pull down to refresh
+- (void)handleRefresh:(UIRefreshControl *)refresh {
+    [self addWebViewJavascriptBridge];
+    
+    [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
+    [self loadHtml];
+    [refresh endRefreshing];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = @"刷新/主页面/浏览器";
+        logParams[@"obj_title"] = self.urlString;
+        [APIHelper actionLog:logParams];
+    });
+}
+
+- (void)addWebViewJavascriptBridge {
+    
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -89,62 +150,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             NSLog(@"unkown action %@", action);
         }
     }];
-    
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
-    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
-    
-    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
-    [self tabBarClick: 0];
-    
-    
-    /*
-     * 解屏进入主页面，需检测版本更新
-     */
-    if(self.fromViewController && [self.fromViewController isEqualToString:@"AppDelegate"]) {
-        self.fromViewController = @"AlreadyShow";
-        //启动检测版本更新
-        [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
-        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
-    }
-}
-- (void)viewWillAppear:(BOOL)animated {
-    
-}
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    [self checkAssetsUpdate];
-}
-
-- (void)dealloc {
-    [self.browser stopLoading];
-    [self.browser cleanForDealloc];
-    self.browser.delegate = nil;
-    self.browser = nil;
-    [self.progressHUD hide:YES];
-    self.progressHUD = nil;
-    self.bridge = nil;
-    self.tabBar.delegate = nil;
-    self.tabBar = nil;
-}
-
-#pragma mark - UIWebview pull down to refresh
--(void)handleRefresh:(UIRefreshControl *)refresh {
-    [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
-    [self loadHtml];
-    [refresh endRefreshing];
-    
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
-        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"刷新/主页面/浏览器";
-        logParams[@"obj_title"] = self.urlString;
-        [APIHelper actionLog:logParams];
-    });
 }
 
 #pragma mark - assistant methods
@@ -281,7 +286,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     [self tabBarState: NO];
     [self loadHtml];
-    [self tabBarState: YES];
+    [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(enableTabBar) userInfo:nil repeats:NO];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
@@ -299,6 +304,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     });
 }
 
+- (void)enableTabBar {
+    [self tabBarState:YES];
+}
 - (void)tabBarState:(BOOL)state {
     for(UITabBarItem *item in self.tabBar.items) {
         item.enabled = state;

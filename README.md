@@ -6,8 +6,16 @@
 
 	![QR Code](http://static.pgyer.com/app/qrcode/yh-i)
 
+## TODO
+
+* [] pod 'WebViewJavascriptBridge', '~> 5.0'
+
+
 ## 更新日志
 
+* 16/03/16
+
+	* optimized: 静态资源 app<=>server 流程优化
 
 * 16/03/15
 

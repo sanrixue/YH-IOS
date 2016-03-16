@@ -209,32 +209,40 @@
  *  检测服务器端静态文件是否更新
  */
 - (void)checkAssetsUpdate {
-    [self checkAssetUpdate:@"loading" info: @"加载库" isInAssets: NO];
-    [self checkAssetUpdate:@"fonts" info: @"字体" isInAssets: YES];
-    [self checkAssetUpdate:@"images" info: @"图片" isInAssets: YES];
-    [self checkAssetUpdate:@"stylesheets" info: @"样式库" isInAssets: YES];
-    [self checkAssetUpdate:@"javascripts" info: @"解析库" isInAssets: YES];
+    // 初始化队列
+    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    AFHTTPRequestOperation *op;
+    op = [self checkAssetUpdate:@"loading" info: @"加载库" isInAssets: NO];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:@"fonts" info: @"字体" isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:@"images" info: @"图片" isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:@"stylesheets" info: @"样式库" isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:@"javascripts" info: @"解析库" isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
 }
 
-- (void)checkAssetUpdate:(NSString *)assetName info:(NSString *)info isInAssets:(BOOL)isInAssets {
+- (AFHTTPRequestOperation *)checkAssetUpdate:(NSString *)assetName info:(NSString *)info isInAssets:(BOOL)isInAssets {
     BOOL isShouldUpdateAssets = NO;
-    NSString *sharedPath = [FileUtils sharedPath];
+    __block NSString *sharedPath = [FileUtils sharedPath];
     
     NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", assetName]];
     if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
         isShouldUpdateAssets = YES;
     }
     
-    NSString *assetKey = [NSString stringWithFormat:@"%@_md5", assetName];
-    NSString *localAssetKey = [NSString stringWithFormat:@"local_%@_md5", assetName];
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    __block NSString *assetKey = [NSString stringWithFormat:@"%@_md5", assetName];
+    __block  NSString *localAssetKey = [NSString stringWithFormat:@"local_%@_md5", assetName];
+    __block NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    __block NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if(!isShouldUpdateAssets && ![userDict[assetKey] isEqualToString:userDict[localAssetKey]]) {
         isShouldUpdateAssets = YES;
         NSLog(@"local: %@, server: %@", userDict[localAssetKey], userDict[assetKey]);
     }
     
-    if(!isShouldUpdateAssets) { return; }
+    if(!isShouldUpdateAssets) { return nil; }
     
     MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.view];
     [self.view addSubview:HUD];
@@ -244,8 +252,6 @@
     HUD.square    = YES;
     [HUD show:YES];
     
-    // 初始化队列
-    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
     // 下载地址
     NSString *urlPath = [NSString stringWithFormat:API_ASSETS_PATH, assetName];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, urlPath]];
@@ -259,18 +265,21 @@
     }];
     
     [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *assetsFolderPath = [sharedPath stringByAppendingPathComponent:assetName];
-        if([FileUtils checkFileExist:assetsFolderPath isDir:YES]) {
-            [FileUtils removeFile:assetsFolderPath];
-        }
-        
         NSString *assetsPath = sharedPath;
         if(isInAssets) {
             assetsPath = [sharedPath stringByAppendingPathComponent:@"assets"];
         }
+        NSString *assetFolderPath = [assetsPath stringByAppendingPathComponent:assetName];
+        if([FileUtils checkFileExist:assetFolderPath isDir:YES]) {
+            [FileUtils removeFile:assetFolderPath];
+        }
+        
         BOOL isUnzipSuccess = [SSZipArchive unzipFileAtPath:assetsZipPath toDestination:assetsPath];
         NSLog(@"解压 %@", isUnzipSuccess ? @"成功" : @"失败");
         
+        
+        // 异步执行，避免覆盖其他参数
+        userDict = [FileUtils readConfigFile:userConfigPath];
         userDict[localAssetKey] = userDict[assetKey];
         [userDict writeToFile:userConfigPath atomically:YES];
         
@@ -283,8 +292,7 @@
         NSLog(@" 下载失败 ");
         [HUD removeFromSuperview];
     }];
-    // 开始下载
-    [queue addOperation:op];
+    return op;
 }
 
 #pragma mark - LTHPasscodeViewControllerDelegate methods

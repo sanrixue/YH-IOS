@@ -25,7 +25,7 @@
 #define API_ASSETS_PATH             @"/api/v1/download/%@.zip"
 
 #define KPI_PATH                    @"/mobile/role/%@/group/%@/kpi"
-#define MESSAGE_PATH                @"/mobile/role/%@/user/%@/message"
+#define MESSAGE_PATH                @"/mobile/role/%@/group/%@/user/%@/message"
 #define APPLICATION_PATH            @"/mobile/role/%@/app"
 #define ANALYSE_PATH                @"/mobile/role/%@/analyse"
 #define COMMENT_PATH                @"/mobile/id/%@/type/%@/comment"

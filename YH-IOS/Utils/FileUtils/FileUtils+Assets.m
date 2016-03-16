@@ -13,17 +13,32 @@
 @implementation FileUtils (Assets)
 
 /**
- *  bundle 资源拷贝至sharedPath
+ *  静态资源处理
+ *
+ *  assets.zip, loading.zip解压至shredPath/ (选择文件夹压缩)
+ *  loading.zip, loading.zip解压至shredPath/ (选择文件夹压缩)
+ *  fonts.zip 解压至 assets/fonts/ (选择文件压缩)
+ *  images.zip 解压至 assets/images/ (选择文件压缩)
+ *  stylesheets.zip 解压至 assets/stylesheets/ (选择文件压缩)
+ *  javascripts.zip 解压至 assets/javascripts/ (选择文件压缩)
  *
  *  @param fileName bundle资源文件名称
  */
-+ (void)checkAssets:(NSString *)fileName {
++ (void)checkAssets:(NSString *)fileName isInAssets:(BOOL)isInAssets bundlePath:(NSString *)bundlePath {
     NSString *sharedPath = [FileUtils sharedPath];
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
+    NSError *error;
     NSString *zipName = [NSString stringWithFormat:@"%@.zip", fileName];
     NSString *zipPath = [sharedPath stringByAppendingPathComponent:zipName];
+    if(![FileUtils checkFileExist:zipPath isDir:NO]) {
+        NSString *bundleZipPath = [bundlePath stringByAppendingPathComponent:zipName];
+        [[NSFileManager defaultManager] copyItemAtPath:bundleZipPath toPath:zipPath error:&error];
+        if(error) { NSLog(@"unZip: %@ failed for - %@", zipPath, [error localizedDescription]); }
+    }
+    
+    
     NSString *keyName = [NSString stringWithFormat:@"local_%@_md5", fileName];
     NSData *fileData = [NSData dataWithContentsOfFile:zipPath];
     NSString *md5String = fileData.md5;
@@ -35,12 +50,19 @@
     }
     
     if(isShouldUnZip) {
-        NSString *assetsFolderPath = [sharedPath stringByAppendingPathComponent:fileName];
-        if([FileUtils checkFileExist:assetsFolderPath isDir:YES]) {
-            [FileUtils removeFile:assetsFolderPath];
+        NSString *assetsPath = sharedPath;
+        if(isInAssets) {
+            assetsPath = [sharedPath stringByAppendingPathComponent:@"assets"];
+            assetsPath = [assetsPath stringByAppendingPathComponent:fileName];
+        }
+        else {
+            NSString *assetFolderPath = [assetsPath stringByAppendingPathComponent:fileName];
+            if([FileUtils checkFileExist:assetFolderPath isDir:YES]) {
+                [FileUtils removeFile:assetFolderPath];
+            }
         }
         
-        [SSZipArchive unzipFileAtPath:zipPath toDestination:sharedPath];
+        [SSZipArchive unzipFileAtPath:zipPath toDestination:assetsPath];
         
         userDict[keyName] = md5String;
         [userDict writeToFile:userConfigPath atomically:YES];

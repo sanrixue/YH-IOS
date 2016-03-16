@@ -18,6 +18,7 @@
             NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:configPath];
             
             self.userName   = dict[@"user_name"];
+            self.userNum    = dict[@"user_num"];
             self.password   = dict[@"user_md5"];
             self.userID     = dict[@"user_id"];
             self.roleID     = dict[@"role_id"];

@@ -53,10 +53,10 @@
     }];
     
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString *username = data[@"username"];
+        NSString *usernum  = data[@"username"];
         NSString *password = data[@"password"];
         
-        if(!username || [username stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
+        if(!usernum || [usernum stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
             [self showProgressHUD:@"请输入用户名"];
             self.progressHUD.mode = MBProgressHUDModeText;
             [self.progressHUD hide:YES afterDelay:1.5];
@@ -67,7 +67,7 @@
             [self.progressHUD hide:YES afterDelay:1.5];
         }
         else {
-            NSString *msg = [APIHelper userAuthentication:username password:password.md5];
+            NSString *msg = [APIHelper userAuthentication:usernum password:password.md5];
             
             if(msg.length == 0) {
                 [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
@@ -195,50 +195,26 @@
     NSString *currentVersion       = bundleInfo[@"CFBundleShortVersionString"];
     NSString *versionConfigPath    = [NSString stringWithFormat:@"%@/%@", assetsPath, CURRENT_VERSION__FILENAME];
     
-    BOOL isUpgrade = NO;
+    BOOL isUpgrade = YES;
     NSString *localVersion = @"no-exist";
     if([FileUtils checkFileExist:versionConfigPath isDir:NO]) {
         localVersion = [NSString stringWithContentsOfFile:versionConfigPath encoding:NSUTF8StringEncoding error:nil];
         
-        if(localVersion && ![localVersion isEqualToString:currentVersion]) {
-            isUpgrade = YES;
+        if(localVersion && [localVersion isEqualToString:currentVersion]) {
+            isUpgrade = NO;
         }
-    }
-    else {
-        isUpgrade = YES;
     }
     
     if(isUpgrade) {
         NSLog(@"version modified: %@ => %@", localVersion, currentVersion);
-        [self removeCachedHeader:assetsPath];
+        NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", assetsPath, CACHED_HEADER_FILENAME];
+        NSLog(@"remove header: %@", cachedHeaderPath);
+        
+        if([FileUtils checkFileExist:cachedHeaderPath isDir:NO]) {
+            [FileUtils removeFile:cachedHeaderPath];
+        }
+        
         [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        
-        
-        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-        NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-        if([userDict.allKeys containsObject:@"local_assets_md5"]) {
-            [userDict removeObjectForKey:@"local_assets_md5"];
-        }
-        if([userDict.allKeys containsObject:@"local_loading_md5"]) {
-            [userDict removeObjectForKey:@"local_loading_md5"];
-        }
-        [userDict writeToFile:userConfigPath atomically:YES];
-        
-        NSString *headerPath = [self.sharedPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
-        [FileUtils removeFile:headerPath];
-        
-        
-        [FileUtils checkAssets:@"loading"];
-        [FileUtils checkAssets:@"assets"];
-    }
-}
-
-- (void)removeCachedHeader:(NSString *)assetsPath {
-    NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", assetsPath, CACHED_HEADER_FILENAME];
-    NSLog(@"remove header: %@", cachedHeaderPath);
-    
-    if([FileUtils checkFileExist:cachedHeaderPath isDir:NO]) {
-        [FileUtils removeFile:cachedHeaderPath];
     }
 }
 

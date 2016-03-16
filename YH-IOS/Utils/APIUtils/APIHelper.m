@@ -60,8 +60,8 @@
  *
  *  @return error msg when authentication failed
  */
-+ (NSString *)userAuthentication:(NSString *)username password:(NSString *)password {
-    NSString *urlPath = [NSString stringWithFormat:API_USER_PATH, @"IOS", username, password];
++ (NSString *)userAuthentication:(NSString *)usernum password:(NSString *)password {
+    NSString *urlPath = [NSString stringWithFormat:API_USER_PATH, @"IOS", usernum, password];
     NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
     NSString *alertMsg = @"";
     
@@ -75,31 +75,32 @@
     };
     deviceDict[@"app_version"] = [NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
 
-    HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:deviceDict];
+    HttpResponse *response = [HttpUtils httpPost:urlString Params:deviceDict];
     
-    if(httpResponse.data[@"code"] && [httpResponse.data[@"code"] isEqualToNumber:@(200)]) {
+    if(response.data[@"code"] && [response.data[@"code"] isEqualToNumber:@(200)]) {
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
 
-        userDict[@"user_id"]     = httpResponse.data[@"user_id"];
-        userDict[@"user_name"]   = httpResponse.data[@"user_name"];
-        userDict[@"user_num"]    = httpResponse.data[@"user_num"];
-        userDict[@"group_id"]    = httpResponse.data[@"group_id"];
-        userDict[@"group_name"]  = httpResponse.data[@"group_name"];
-        userDict[@"role_id"]     = httpResponse.data[@"role_id"];
-        userDict[@"role_name"]   = httpResponse.data[@"role_name"];
-        userDict[@"kpi_ids"]     = httpResponse.data[@"kpi_ids"];
-        userDict[@"app_ids"]     = httpResponse.data[@"app_ids"];
-        userDict[@"analyse_ids"] = httpResponse.data[@"analyse_ids"];
+        userDict[@"user_id"]     = response.data[@"user_id"];
+        userDict[@"user_name"]   = response.data[@"user_name"];
+        userDict[@"user_num"]    = response.data[@"user_num"];
+        userDict[@"group_id"]    = response.data[@"group_id"];
+        userDict[@"group_name"]  = response.data[@"group_name"];
+        userDict[@"role_id"]     = response.data[@"role_id"];
+        userDict[@"role_name"]   = response.data[@"role_name"];
+        userDict[@"kpi_ids"]     = response.data[@"kpi_ids"];
+        userDict[@"app_ids"]     = response.data[@"app_ids"];
+        userDict[@"analyse_ids"] = response.data[@"analyse_ids"];
         userDict[@"is_login"]    = @(YES);
-        userDict[@"device_uuid"]    = httpResponse.data[@"device_uuid"];
-        userDict[@"device_state"]   = httpResponse.data[@"device_state"];
-        userDict[@"user_device_id"] = httpResponse.data[@"user_device_id"];
-        userDict[@"loading_md5"]     = httpResponse.data[@"loading_md5"];
-        userDict[@"fonts_md5"]       = httpResponse.data[@"assets"][@"fonts_md5"];
-        userDict[@"images_md5"]      = httpResponse.data[@"assets"][@"images_md5"];
-        userDict[@"stylesheets_md5"] = httpResponse.data[@"assets"][@"stylesheets_md5"];
-        userDict[@"javascripts_md5"] = httpResponse.data[@"assets"][@"javascripts_md5"];
+        userDict[@"device_uuid"]    = response.data[@"device_uuid"];
+        userDict[@"device_state"]   = response.data[@"device_state"];
+        userDict[@"user_device_id"] = response.data[@"user_device_id"];
+        userDict[@"assets_md5"]      = response.data[@"assets_md5"];
+        userDict[@"loading_md5"]     = response.data[@"loading_md5"];
+        userDict[@"fonts_md5"]       = response.data[@"assets"][@"fonts_md5"];
+        userDict[@"images_md5"]      = response.data[@"assets"][@"images_md5"];
+        userDict[@"stylesheets_md5"] = response.data[@"assets"][@"stylesheets_md5"];
+        userDict[@"javascripts_md5"] = response.data[@"assets"][@"javascripts_md5"];
         userDict[@"user_md5"]        = password;
         
         [userDict writeToFile:userConfigPath atomically:YES];
@@ -107,17 +108,15 @@
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
         [userDict writeToFile:settingsConfigPath atomically:YES];
     }
+    else if(response.data && response.data[@"info"]) {
+        alertMsg = [NSString stringWithFormat:@"%@", response.data[@"info"]];
+    }
     // else if(httpResponse.data[@"code"] && ([httpResponse.data[@"code"] isEqualToNumber:@(400)] || [httpResponse.data[@"code"] isEqualToNumber:@(0)])) {
-    else if(httpResponse.errors.count) {
-        alertMsg = [httpResponse.errors componentsJoinedByString:@"\n"];
+    else if(response.errors.count) {
+        alertMsg = [response.errors componentsJoinedByString:@"\n"];
     }
     else {
-        if(httpResponse.data[@"info"]) {
-            alertMsg = [NSString stringWithFormat:@"%@", httpResponse.data[@"info"]];
-        }
-        else {
-            alertMsg = [NSString stringWithFormat:@"未知错误: %@", httpResponse.statusCode];
-        }
+        alertMsg = [NSString stringWithFormat:@"未知错误: %@", response.statusCode];
     }
     return alertMsg;
 }
@@ -213,6 +212,10 @@
  *  @param params 用户行为操作
  */
 + (void)actionLog:(NSMutableDictionary *)param {
+    // TODO: 避免服务器压力
+    if(![param[@"action"] isEqualToString:@"登录"] && ![param[@"action"] isEqualToString:@"解屏"]) {
+        return;
+    }
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     

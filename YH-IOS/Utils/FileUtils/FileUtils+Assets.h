@@ -15,5 +15,5 @@
  *
  *  @param fileName bundle资源文件名称
  */
-+ (void)checkAssets:(NSString *)fileName;
++ (void)checkAssets:(NSString *)fileName isInAssets:(BOOL)isInAssets bundlePath:(NSString *)bundlePath;
 @end

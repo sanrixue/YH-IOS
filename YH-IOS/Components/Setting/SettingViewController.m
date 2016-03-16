@@ -79,25 +79,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (IBAction)actionCheckAssets:(id)sender {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    if([userDict.allKeys containsObject:@"local_assets_md5"]) {
-        [userDict removeObjectForKey:@"local_assets_md5"];
-    }
-    if([userDict.allKeys containsObject:@"local_loading_md5"]) {
-        [userDict removeObjectForKey:@"local_loading_md5"];
-    }
-    [userDict writeToFile:userConfigPath atomically:YES];
-    
     NSString *headerPath = [self.sharedPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
     [FileUtils removeFile:headerPath];
     
-    [APIHelper userAuthentication:userDict[@"user_num"] password:userDict[@"user_md5"]];
+    [APIHelper userAuthentication:self.user.userNum password:self.user.password];
     
     [self checkAssetsUpdate];
-    
-    [FileUtils checkAssets:@"loading"];
-    [FileUtils checkAssets:@"assets"];
     
     [ViewUtils showPopupView:self.view Info:@"校正完成"];
 }

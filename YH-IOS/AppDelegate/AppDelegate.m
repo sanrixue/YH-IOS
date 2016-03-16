@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "const.h"
+#import "NSData+MD5.h"
 #import <PgySDK/PgyManager.h>
 
 #import "FileUtils+Assets.h"
@@ -36,23 +37,19 @@
     
     /**
      *  静态文件放在共享文件夹内,以便与服务器端检测、更新
-     *  刚升级过时，就不必须再更新，避免浪费用户流量
-     */
-    NSString *sharedPath = [FileUtils sharedPath];
-    NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:@"loading.zip"];
-    if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
-        NSString *zipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"loading.zip"];
-        NSError *error;
-        [[NSFileManager defaultManager] copyItemAtPath:zipPath toPath:assetsZipPath error:&error];
-        if(error) {
-            NSLog(@"unZip: %@ failed for - %@", zipPath, [error localizedDescription]);
-        }
-    }
-    
-    /**
+     *  assets.zip不受服务器更新控制，但可以更新fonts/images/stylesheets/javascripts文件夹下内容
+     *
      *  解压表态资源
      */
-    [FileUtils checkAssets:@"loading"];
+    [self checkVersionUpgrade];
+    
+    NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+    [FileUtils checkAssets:@"assets" isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:@"loading" isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:@"fonts" isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:@"images" isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:@"javascripts" isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:@"stylesheets" isInAssets:YES bundlePath:bundlePath];
     
     /**
      *  初始化移动端本地webview的avigator.userAgent
@@ -112,7 +109,6 @@
 }
 
 #pragma mark - LTHPasscodeViewControllerDelegate methods
-
 - (void)passcodeWasEnteredSuccessfully {
     NSLog(@"AppDelegate - Passcode Was Entered Successfully");
     
@@ -173,5 +169,48 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     self.window.rootViewController = loginViewController;
+}
+
+#pragma mark - 缓存当前应用版本，每次检测，不一致时，有所动作
+/**
+ *  应用版本更新后，检测assets.zip
+ *
+ *  必要时: assets.zip不受服务器更新控件，发次新发布的assets.zip中会有最新的必要样式库
+ *  注意: 需在 [FileUtils checkAssets:isInAssets:bundlePath:; 操作之前
+ *  本次操作只拷贝覆盖assets.zip， 解压等操作由FileUtils来完成
+ *
+ *  @param assetsPath <#assetsPath description#>
+ */
+- (void)checkVersionUpgrade {
+    NSError *error;
+    NSDictionary *bundleInfo       =[[NSBundle mainBundle] infoDictionary];
+    NSString *currentVersion       = bundleInfo[@"CFBundleShortVersionString"];
+    NSString *versionConfigPath    = [NSString stringWithFormat:@"%@/%@", [FileUtils basePath], CURRENT_VERSION__FILENAME];
+    
+    BOOL isUpgrade = YES;
+    NSString *localVersion = @"noexist";
+    if([FileUtils checkFileExist:versionConfigPath isDir:NO]) {
+        localVersion = [NSString stringWithContentsOfFile:versionConfigPath encoding:NSUTF8StringEncoding error:nil];
+        
+        if(localVersion && [localVersion isEqualToString:currentVersion]) {
+            isUpgrade = NO;
+        }
+    }
+    
+    if(isUpgrade) {
+        NSString *bundleZipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"assets.zip"];
+        NSString *bundleZipMD5 = [NSData dataWithContentsOfFile:bundleZipPath].md5;
+        NSString *zipPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets.zip"];
+        NSString *zipMD5 = @"noexist";
+        if([FileUtils checkFileExist:zipPath isDir:NO]) {
+            zipMD5 = [NSData dataWithContentsOfFile:zipPath].md5;
+        }
+        
+        if(![bundleZipMD5 isEqualToString:zipMD5]) {
+            [[NSFileManager defaultManager] copyItemAtPath:bundleZipPath toPath:zipPath error:&error];
+            if(error) { NSLog(@"%@", [error localizedDescription]); }
+        }
+        [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
 }
 @end

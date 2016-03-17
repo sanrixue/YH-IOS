@@ -115,9 +115,12 @@
 }
 
 - (void)showProgressHUD:(NSString *)text {
+    [self showProgressHUD:text mode:MBProgressHUDModeIndeterminate];
+}
+- (void)showProgressHUD:(NSString *)text mode:(MBProgressHUDMode)mode {
     self.progressHUD = [MBProgressHUD showHUDAddedTo:self.browser animated:YES];
     self.progressHUD.labelText = text;
-    self.progressHUD.mode = MBProgressHUDModeIndeterminate;
+    self.progressHUD.mode = mode;
     
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }

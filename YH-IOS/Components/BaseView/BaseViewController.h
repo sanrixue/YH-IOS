@@ -45,6 +45,7 @@
 
 - (void)jumpToLogin;
 - (void)showProgressHUD:(NSString *)text;
+- (void)showProgressHUD:(NSString *)text mode:(MBProgressHUDMode)mode;
 /*
  *  内容检测版本升级，判断版本号是否为偶数。以便内测
  *

@@ -57,19 +57,21 @@
         NSString *password = data[@"password"];
         
         if(!usernum || [usernum stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
-            [self showProgressHUD:@"请输入用户名"];
-            self.progressHUD.mode = MBProgressHUDModeText;
+            [self showProgressHUD:@"请输入用户名" mode: MBProgressHUDModeText];
             [self.progressHUD hide:YES afterDelay:1.5];
         }
         else if(!password || [password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
-            [self showProgressHUD:@"请输入密码"];
-            self.progressHUD.mode = MBProgressHUDModeText;
+            [self showProgressHUD:@"请输入密码" mode: MBProgressHUDModeText];
             [self.progressHUD hide:YES afterDelay:1.5];
         }
         else {
+            [self showProgressHUD:@"验证中..."];
+            
             NSString *msg = [APIHelper userAuthentication:usernum password:password.md5];
             
             if(msg.length == 0) {
+                [self.progressHUD hide:YES];
+                [self showProgressHUD:@"跳转中..."];
                 [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
                 [self.browser stopLoading];
                 [self jumpToDashboardView];
@@ -169,6 +171,7 @@
     DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     dashboardViewController.fromViewController = @"LoginViewController";
     window.rootViewController = dashboardViewController;
+    [self.progressHUD hide:YES];
     
     
     // Nasty hack to fix http://stackoverflow.com/questions/26763020/leaking-views-when-changing-rootviewcontroller-inside-transitionwithview

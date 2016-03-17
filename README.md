@@ -8,11 +8,19 @@
 
 ## TODO
 
-* [] pod 'WebViewJavascriptBridge', '~> 5.0'
+* [] upgrade WebViewJavascriptBridge(pod 'WebViewJavascriptBridge', '~> 5.0')
+* [] upgrade [MBProgressHUD](https://github.com/jdg/MBProgressHUD) to 0.9.2
 
 
 ## 更新日志
 
+* 16/03/17
+
+	* optimized: 网络信号不好时，js<=>oc交互失败
+	
+		原因: 网络信号差，服务器访问慢，用户会误以为没反应而连续点击，导致UIWebView Multi Lock错误
+		解决: 点击后，禁用按钮，加载完成后，再解禁按钮
+		
 * 16/03/16
 
 	* optimized: 静态资源 app<=>server 流程优化

@@ -193,6 +193,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         dispatch_async(dispatch_get_main_queue(), ^{
             NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+            
+            [NSTimer scheduledTimerWithTimeInterval:.2 target:self selector:@selector(enableTabBar) userInfo:nil repeats:NO];
         });
     });
 }
@@ -286,7 +288,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     [self tabBarState: NO];
     [self loadHtml];
-    [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(enableTabBar) userInfo:nil repeats:NO];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*

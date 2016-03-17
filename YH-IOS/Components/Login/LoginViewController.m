@@ -68,9 +68,9 @@
             [self showProgressHUD:@"验证中..."];
             
             NSString *msg = [APIHelper userAuthentication:usernum password:password.md5];
+            [self.progressHUD hide:YES];
             
             if(msg.length == 0) {
-                [self.progressHUD hide:YES];
                 [self showProgressHUD:@"跳转中..."];
                 [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
                 [self.browser stopLoading];
@@ -93,8 +93,7 @@
 
             }
             else {
-                [self showProgressHUD:msg];
-                self.progressHUD.mode = MBProgressHUDModeText;
+                [self showProgressHUD:msg mode: MBProgressHUDModeText];
                 [self.progressHUD hide:YES afterDelay:2.0];
             }
         }

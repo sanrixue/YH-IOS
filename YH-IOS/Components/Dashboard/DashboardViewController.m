@@ -57,11 +57,37 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         //启动检测版本更新
         [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
         [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"] = @"解屏";
+                [APIHelper actionLog:logParams];
+                
+                /**
+                 *  解屏验证用户信息，更新用户权限
+                 *  若难失败，则在下次解屏检测时进入登录界面
+                 */
+                NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+                NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+                if(!userDict[@"user_num"]) return;
+                
+                NSString *msg = [APIHelper userAuthentication:userDict[@"user_num"] password:userDict[@"user_md5"]];
+                if(msg.length == 0) return;
+                
+                userDict[@"is_login"] = @(NO);
+                [userDict writeToFile:userConfigPath atomically:YES];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
     }
 }
-- (void)viewWillAppear:(BOOL)animated {
-    
-}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -100,7 +126,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (void)addWebViewJavascriptBridge {
-    
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*

@@ -35,8 +35,9 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
      *  服务器内链接需要做缓存、点击事件处理；
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
-    
     self.urlString = self.link;
+
+
     if(self.isInnerLink) {
         /*
          * /mobil/report/:report_id/group/:group_id
@@ -44,6 +45,13 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
          */
         NSString *urlPath = [NSString stringWithFormat:self.link, self.user.groupID];
         self.urlString =[NSString stringWithFormat:@"%@%@", BASE_URL,urlPath];
+    }
+    else {
+        /*
+         *  外部链接，支持手势放大缩小
+         */
+        self.browser.scalesPageToFit = YES;
+        self.browser.contentMode = UIViewContentModeScaleAspectFit;
     }
     self.labelTheme.text = self.bannerName;
     

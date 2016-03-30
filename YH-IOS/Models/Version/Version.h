@@ -30,6 +30,7 @@
 @property (nonatomic, strong) NSString *suport;
 @property (nonatomic, strong) NSString *platform;
 @property (nonatomic, strong) NSString *sdkName;
+@property (nonatomic, strong) NSString *bundleID;
 
 // backup
 @property (nonatomic, strong) NSString *path; // config path

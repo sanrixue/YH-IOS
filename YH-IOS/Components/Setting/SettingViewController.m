@@ -28,6 +28,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (weak, nonatomic) IBOutlet UILabel *labelAppVersion;
 @property (weak, nonatomic) IBOutlet UILabel *labelDeviceMode;
 @property (weak, nonatomic) IBOutlet UILabel *labelAPIDomain;
+@property (weak, nonatomic) IBOutlet UILabel *labelBundleID;
 @property (weak, nonatomic) IBOutlet UIButton *buttonChangeGesturePassword;
 
 @end
@@ -50,6 +51,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.labelAppName.text    = version.appName;
     self.labelAppVersion.text = [NSString stringWithFormat:@"%@(%@)", version.current, version.build];
     self.labelDeviceMode.text = [[Version machineHuman] componentsSeparatedByString:@" ("][0];
+    self.labelBundleID.text   = version.bundleID;
     
     self.labelAPIDomain.text  = [BASE_URL componentsSeparatedByString:@"://"][1];
 }

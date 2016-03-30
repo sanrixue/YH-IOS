@@ -29,6 +29,7 @@
 		C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB51C058C9000AAF44F /* CoreTelephony.framework */; };
 		C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A01C0ED9F600EB946D /* APIHelper.m */; };
 		C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A51C0F03C800EB946D /* BaseViewController.m */; };
+		C48C03CA1CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C48C03C81CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a */; };
 		C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */ = {isa = PBXBuildFile; fileRef = C48DC6FC1C1E8FDD00CECB95 /* Version.m */; };
 		C499E8A31C3262240033BF6C /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C499E8A21C3262240033BF6C /* ResetPasswordViewController.m */; };
 		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
@@ -117,6 +118,8 @@
 		C488E6A01C0ED9F600EB946D /* APIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIHelper.m; sourceTree = "<group>"; };
 		C488E6A41C0F03C800EB946D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		C488E6A51C0F03C800EB946D /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		C48C03C81CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
+		C48C03C91CABB27B000D9D22 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		C48DC6FB1C1E8FDD00CECB95 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		C48DC6FC1C1E8FDD00CECB95 /* Version.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Version.m; sourceTree = "<group>"; };
 		C499E8A11C3262240033BF6C /* ResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPasswordViewController.h; sourceTree = "<group>"; };
@@ -190,6 +193,7 @@
 			files = (
 				C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */,
 				C41E4FA61C0FE00A00E1B514 /* PgySDK.framework in Frameworks */,
+				C48C03CA1CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a in Frameworks */,
 				C4771BB41C058C8400AAF44F /* OpenGLES.framework in Frameworks */,
 				C4771BB21C058C7C00AAF44F /* CoreMotion.framework in Frameworks */,
 				C4771BB01C058C6F00AAF44F /* AudioToolbox.framework in Frameworks */,
@@ -269,6 +273,16 @@
 				C488E6A01C0ED9F600EB946D /* APIHelper.m */,
 			);
 			path = APIUtils;
+			sourceTree = "<group>";
+		};
+		C48C03C71CABB27B000D9D22 /* UMessage_Sdk_1.2.6 */ = {
+			isa = PBXGroup;
+			children = (
+				C48C03C81CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a */,
+				C48C03C91CABB27B000D9D22 /* UMessage.h */,
+			);
+			name = UMessage_Sdk_1.2.6;
+			path = Frameworks/UMessage_Sdk_1.2.6;
 			sourceTree = "<group>";
 		};
 		C48DC6F61C1E8FDD00CECB95 /* Version */ = {
@@ -595,6 +609,7 @@
 		E7359AA6518F9148E9F7A313 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C48C03C71CABB27B000D9D22 /* UMessage_Sdk_1.2.6 */,
 				C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */,
 				C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */,
 				C4771BB71C058D1700AAF44F /* libxml2.2.tbd */,
@@ -975,8 +990,8 @@
 			baseConfigurationReference = 1374D056885AF221F43AFB66 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -990,9 +1005,14 @@
 				INFOPLIST_FILE = "YH-IOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/UMessage_Sdk_1.2.6",
+					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.shengyiplus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0d0b468e-a761-4d17-ad1b-da63768ba1d5";
 			};
 			name = Debug;
 		};
@@ -1001,8 +1021,8 @@
 			baseConfigurationReference = BA7C8A7FE878AF127C6E6870 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1016,9 +1036,14 @@
 				INFOPLIST_FILE = "YH-IOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/UMessage_Sdk_1.2.6",
+					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.shengyiplus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "0d0b468e-a761-4d17-ad1b-da63768ba1d5";
 			};
 			name = Release;
 		};

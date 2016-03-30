@@ -29,6 +29,7 @@
         _suport    = localVersionInfo[@"MinimumOSVersion"];
         _sdkName   = localVersionInfo[@"DTSDKName"];
         _platform  = localVersionInfo[@"DTPlatformName"];
+        _bundleID  = localVersionInfo[@"CFBundleIdentifier"];
         _dbVersion = (NSString *)psd(localVersionInfo[@"Database Version"], @"NotSet");
         
         NSFileManager *fm = [NSFileManager defaultManager];

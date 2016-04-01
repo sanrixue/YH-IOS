@@ -57,7 +57,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     @try {
         // 启动PGYER SDK
         [[PgyManager sharedPgyManager] setEnableFeedback:NO];
-        [[PgyManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
+        [[PgyManager sharedPgyManager] startManagerWithAppId:PGYER_APP_ID];
         NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
     }
     @catch (NSException *exception) {
@@ -66,7 +66,8 @@ void UncaughtExceptionHandler(NSException * exception) {
     
     
     // 启动 UMeng SDK
-    [UMessage startWithAppkey:UMENG_APP_ID_SHENGYIPLUS launchOptions:launchOptions];
+    [UMessage startWithAppkey:UMENG_APP_ID launchOptions:launchOptions];
+    // [UMessage setChannel:@"App Store"];
     
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
     if(UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))

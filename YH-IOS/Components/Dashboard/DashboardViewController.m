@@ -55,7 +55,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     if(self.fromViewController && [self.fromViewController isEqualToString:@"AppDelegate"]) {
         self.fromViewController = @"AlreadyShow";
         //启动检测版本更新
-        [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
+        [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGYER_APP_ID];
         [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

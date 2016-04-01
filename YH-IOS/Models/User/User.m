@@ -38,4 +38,36 @@
     return [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
 }
 
+/**
+ *  消息推送，当前设备的标签
+ *
+ *  @return 标签组
+ */
++ (NSArray *)APNsTags {
+    NSString *configPath = [User configPath];
+    NSArray *tags = @[];
+    if([FileUtils checkFileExist:configPath isDir:NO]) {
+        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:configPath];
+        
+        tags = @[dict[@"role_name"], dict[@"group_name"]];
+    }
+    
+    return tags;
+}
+/**
+ *  消息推送，当前设备的别名
+ *
+ *  @return 别名组
+ */
++ (NSString *)APNsAlias {
+    NSString *configPath = [User configPath];
+    NSString *alias = @"";
+    if([FileUtils checkFileExist:configPath isDir:NO]) {
+        NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:configPath];
+        
+        alias = [NSString stringWithFormat:@"%@@%@", dict[@"user_name"], dict[@"user_num"]];
+    }
+    
+    return alias;
+}
 @end

@@ -22,4 +22,16 @@
 @property (strong, nonatomic) NSArray *appIDs;
 
 + (NSString *)configPath;
+/**
+ *  消息推送，当前设备的标签
+ *
+ *  @return 标签组
+ */
++ (NSArray *)APNsTags;
+/**
+ *  消息推送，当前设备的别名
+ *
+ *  @return 别名组
+ */
++ (NSString *)APNsAlias;
 @end

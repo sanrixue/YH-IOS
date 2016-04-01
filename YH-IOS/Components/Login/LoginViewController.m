@@ -11,6 +11,7 @@
 #import "APIHelper.h"
 #import "NSString+MD5.h"
 #import <PgyUpdate/PgyUpdateManager.h>
+#import "UMessage.h"
 
 @interface LoginViewController ()
 @end
@@ -72,12 +73,32 @@
             
             if(msg.length == 0) {
                 [self showProgressHUD:@"跳转中..."];
+
+                
+                
                 [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
                 [self.browser stopLoading];
                 [self jumpToDashboardView];
                 
                 
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    
+                    @try {
+                        // 友盟消息推送-标签设置（先删除，再添加）
+                        [UMessage removeAllTags:^(id responseObject, NSInteger remain, NSError *error) {
+                            NSLog(@"response: %@\nerror: %@", responseObject, error);
+                        }];
+                        [UMessage addTag:[User APNsTags] response:^(id responseObject, NSInteger remain, NSError *error) {
+                            NSLog(@"addTag response: %@\nerror: %@", responseObject, error);
+                        }];
+                        [UMessage setAlias:[User APNsAlias] type:kUMessageAliasTypeSina response:^(id responseObject, NSError *error) {
+                            NSLog(@"setAlias response: %@\nerror: %@", responseObject, error);
+                        }];
+                    }
+                    @catch (NSException *exception) {
+                        NSLog(@"umeng - %@", exception);
+                    }
+                    
                     /*
                      * 用户行为记录, 单独异常处理，不可影响用户体验
                      */
@@ -115,7 +136,7 @@
     [self loadHtml];
     
     //启动检测版本更新
-    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGY_APP_ID];
+    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGYER_APP_ID];
     //[[PgyUpdateManager sharedPgyManager] checkUpdate];
     [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
 }

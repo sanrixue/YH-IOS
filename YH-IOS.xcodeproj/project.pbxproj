@@ -1012,7 +1012,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.shengyiplus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0d0b468e-a761-4d17-ad1b-da63768ba1d5";
+				PROVISIONING_PROFILE = "73b18fa1-bfb4-4ccb-83d0-30021d58caa5";
 			};
 			name = Debug;
 		};
@@ -1043,7 +1043,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.shengyiplus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0d0b468e-a761-4d17-ad1b-da63768ba1d5";
+				PROVISIONING_PROFILE = "73b18fa1-bfb4-4ccb-83d0-30021d58caa5";
 			};
 			name = Release;
 		};

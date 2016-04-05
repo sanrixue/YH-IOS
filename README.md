@@ -14,6 +14,10 @@
 
 ## 更新日志
 
+* 16/04/05
+
+	* optimized: support pdf scale and mobile ui v2
+
 * 16/03/17
 
 	* optimized: 网络信号不好时，js<=>oc交互失败

@@ -131,6 +131,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (IBAction)actionLogout:(id)sender {
+    [self clearBrowserCache];
     [self jumpToLogin];
     
     

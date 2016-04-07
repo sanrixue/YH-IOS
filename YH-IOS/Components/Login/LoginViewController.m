@@ -78,6 +78,7 @@
                 
                 [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
                 [self.browser stopLoading];
+                [self clearBrowserCache];
                 [self jumpToDashboardView];
                 
                 
@@ -154,7 +155,7 @@
 }
 
 - (void)loadHtml {
-    [self clearBrowserCache];
+    // [self clearBrowserCache];
     [self showLoading:LoadingLogin];
 //
 //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

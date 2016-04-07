@@ -44,7 +44,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
          * eg: /mobile/repoprt/1/group/%@
          */
         NSString *urlPath = [NSString stringWithFormat:self.link, self.user.groupID];
-        self.urlString =[NSString stringWithFormat:@"%@%@", BASE_URL,urlPath];
+        self.urlString =[NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
     }
     else {
         /*
@@ -205,13 +205,13 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 }
 
 - (void)_loadHtml {
-    [self clearBrowserCache];
+    // [self clearBrowserCache];
     
     self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
 }
 
 - (void)loadOuterLink {
-    NSString *appendParams = [NSString stringWithFormat:@"?userid=%@&timestamp=%@", self.user.userID, TimeStamp];
+    NSString *appendParams = [NSString stringWithFormat:@"?user_num=%@&timestamp=%@", self.user.userNum, TimeStamp];
     
     if([self.urlString containsString:@"?"]) {
         self.urlString = [self.urlString stringByReplacingOccurrencesOfString:@"?" withString:appendParams];

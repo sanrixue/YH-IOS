@@ -1,7 +1,9 @@
 # Xcode
 #
+*.yaml
+*.yml
 pgyer.sh
-const.h
+constant.h
 build/
 *.pbxuser
 !default.pbxuser

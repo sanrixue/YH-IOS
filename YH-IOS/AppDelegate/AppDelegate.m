@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "UMessage.h"
-#import "const.h"
+#import "constant.h"
 #import "NSData+MD5.h"
 #import <PgySDK/PgyManager.h>
 #import "Version.h"

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #include "sys/stat.h"
-#import "const.h"
+#import "constant.h"
 #import "FileUtils.h"
 #import "ExtendNSLogFunctionality.h"
 #import "user.h"

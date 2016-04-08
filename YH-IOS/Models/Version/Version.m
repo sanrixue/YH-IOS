@@ -9,8 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "sys/utsname.h"
 #import "Version.h"
-
-#import "const.h"
+#import "constant.h"
 #import "FileUtils.h"
 #import "DateUtils.h"
 #import "ExtendNSLogFunctionality.h"

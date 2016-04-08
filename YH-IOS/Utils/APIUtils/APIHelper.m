@@ -7,7 +7,7 @@
 //
 
 #import "APIHelper.h"
-#import "const.h"
+#import "constant.h"
 #import "HttpUtils.h"
 #import "FileUtils.h"
 #import "Version.h"

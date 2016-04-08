@@ -1,9 +1,10 @@
 # Xcode
 #
+*.lock
 *.yaml
 *.yml
-pgyer.sh
-constant.h
+.pgyer_upload.sh
+constant_private.h
 build/
 *.pbxuser
 !default.pbxuser

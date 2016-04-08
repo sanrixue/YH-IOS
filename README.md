@@ -5,6 +5,20 @@
 * 扫码安装
 
 	![QR Code](http://static.pgyer.com/app/qrcode/yh-i)
+	
+* 应用切换
+
+	```
+	bundle install
+	echo 'yonghui' > .current_app
+	bundle exec ruby app_keeper.rb
+	```
+* 上传ipa至蒲公英
+
+	```	
+	bundle install
+	bundle exec ruby pgyer_upload.rb
+	```
 
 ## TODO
 
@@ -13,6 +27,10 @@
 
 
 ## 更新日志
+
+* 16/04/08
+
+	* add: ruby script to automatic modifiy configure when switch app
 
 * 16/04/05
 

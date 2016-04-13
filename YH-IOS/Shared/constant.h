@@ -21,6 +21,7 @@
 #define API_DEVICE_STATE_PATH       @"/api/v1/user_device/%@/state"
 #define API_RESET_PASSWORD_PATH     @"/api/v1/update/%@/password"
 #define API_ACTION_LOG_PATH         @"/api/v1/ios/logger"
+#define API_PUSH_DEVICE_TOKEN_PATH  @"/api/v1/device/%@/push_token/%@"
 #define API_ASSETS_PATH             @"/api/v1/download/%@.zip"
 
 #define KPI_PATH                    @"/mobile/v2/role/%@/group/%@/kpi"
@@ -33,6 +34,7 @@
 #define REPORT_DATA_FILENAME        @"template_data_group_%@_report_%@.js"
 
 #define USER_CONFIG_FILENAME        @"user.plist"
+#define PUSH_CONFIG_FILENAME        @"push_message.plist"
 #define CONFIG_DIRNAME              @"Configs"
 #define SETTINGS_CONFIG_FILENAME    @"Setting.plist"
 #define TABINDEX_CONFIG_FILENAME    @"page_tab_index.plist"

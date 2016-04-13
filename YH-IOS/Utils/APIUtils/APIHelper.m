@@ -107,6 +107,17 @@
         
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
         [userDict writeToFile:settingsConfigPath atomically:YES];
+
+        // 第三方消息推送，设备标识
+        NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
+        NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
+  
+        if(![pushDict[@"push_valid"] boolValue] && pushDict[@"push_device_token"] && [pushDict[@"push_device_token"] length] == 64) {
+            if([APIHelper pushDeviceToken:response.data[@"device_uuid"] deviceToken:pushDict[@"push_device_token"]]) {
+                pushDict[@"push_valid"] = @(YES);
+                [pushDict writeToFile:pushConfigPath atomically:YES];
+            }
+        }
     }
     else if(response.data && response.data[@"info"]) {
         alertMsg = [NSString stringWithFormat:@"%@", response.data[@"info"]];
@@ -137,6 +148,22 @@
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];
     
     return [httpResponse.statusCode isEqual:@(201)];
+}
+
+/**
+ *  消息推送， 设备标识
+ *
+ *  @param deviceUUID  设备ID
+ *  @param deviceToken 第三方消息推送注册的设备标识
+ *
+ *  @return 服务器是否更新成功
+ */
++ (BOOL)pushDeviceToken:(NSString *)deviceUUID deviceToken:(NSString *)deviceToken {
+    NSString *urlPath = [NSString stringWithFormat:API_PUSH_DEVICE_TOKEN_PATH, deviceUUID, deviceToken];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:[NSMutableDictionary dictionary]];
+    
+    return httpResponse.data[@"valid"] && [httpResponse.data[@"valid"] boolValue];
 }
 
 /**

@@ -38,6 +38,16 @@
 + (BOOL)writeComment:(NSNumber *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params;
 
 /**
+ *  消息推送， 设备标识
+ *
+ *  @param deviceUUID  设备ID
+ *  @param deviceToken 第三方消息推送注册的设备标识
+ *
+ *  @return 服务器是否更新成功
+ */
++ (BOOL)pushDeviceToken:(NSString *)deviceUUID deviceToken:(NSString *)deviceToken;
+
+/**
  *  用户锁屏数据
  *
  *  @param userDeviceID 设备ID

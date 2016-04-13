@@ -161,10 +161,21 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [UMessage registerDeviceToken:deviceToken];
-    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
-                  stringByReplacingOccurrencesOfString: @">" withString: @""]
-                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+    NSString *pushToken = [[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                           stringByReplacingOccurrencesOfString: @">" withString: @""]
+                          stringByReplacingOccurrencesOfString: @" " withString: @""];
     
+    NSLog(@"%@",pushToken);
+    
+    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
+    NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
+    if(pushToken.length != 64 || (pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue])) {
+        return;
+    }
+    
+    pushDict[@"push_device_token"] = pushToken;
+    pushDict[@"push_valid"] = @(NO);
+    [pushDict writeToFile:pushConfigPath atomically:YES];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {

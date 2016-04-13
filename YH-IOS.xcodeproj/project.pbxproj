@@ -1016,9 +1016,9 @@
 					"$(PROJECT_DIR)/UMessage_Sdk_1.2.6",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.shengyiplus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0100e9b2-1849-4ddb-bb4c-0358343a8961";
+				PROVISIONING_PROFILE = "0d0b468e-a761-4d17-ad1b-da63768ba1d5";
 			};
 			name = Debug;
 		};
@@ -1047,9 +1047,9 @@
 					"$(PROJECT_DIR)/UMessage_Sdk_1.2.6",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.shengyiplus;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0100e9b2-1849-4ddb-bb4c-0358343a8961";
+				PROVISIONING_PROFILE = "0d0b468e-a761-4d17-ad1b-da63768ba1d5";
 			};
 			name = Release;
 		};

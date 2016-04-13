@@ -28,6 +28,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (weak, nonatomic) IBOutlet UILabel *labelAppVersion;
 @property (weak, nonatomic) IBOutlet UILabel *labelDeviceMode;
 @property (weak, nonatomic) IBOutlet UILabel *labelAPIDomain;
+@property (weak, nonatomic) IBOutlet UILabel *labelPushState;
 @property (weak, nonatomic) IBOutlet UILabel *labelBundleID;
 @property (weak, nonatomic) IBOutlet UIButton *buttonChangeGesturePassword;
 
@@ -54,6 +55,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.labelBundleID.text   = version.bundleID;
     
     self.labelAPIDomain.text  = [BASE_URL componentsSeparatedByString:@"://"][1];
+    
+    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
+    NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
+    self.labelPushState.text = pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -87,6 +92,22 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [APIHelper userAuthentication:self.user.userNum password:self.user.password];
     
     [self checkAssetsUpdate];
+    
+    // 第三方消息推送，设备标识
+    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
+    NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
+    
+    if(pushDict[@"push_device_token"] && [pushDict[@"push_device_token"] length] == 64) {
+        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+        NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+        if([APIHelper pushDeviceToken:userDict[@"device_uuid"] deviceToken:pushDict[@"push_device_token"]]) {
+            pushDict[@"push_valid"] = @(YES);
+            [pushDict writeToFile:pushConfigPath atomically:YES];
+            
+            self.labelPushState.text = @"开启";
+        }
+        
+    }
     
     [ViewUtils showPopupView:self.view Info:@"校正完成"];
 }

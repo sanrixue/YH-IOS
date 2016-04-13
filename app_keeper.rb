@@ -7,7 +7,7 @@ def file_path(file_name)
   %(YH-IOS/Shared/#{file_name})
 end
 
-CURRENT_APP = File.read('.current_app').strip.freeze
+CURRENT_APP = File.read('.current-app').strip.freeze
 unless %w(yonghui shengyiplus).include?(CURRENT_APP)
   puts %(#{CURRENT_APP} not in [yonghui, shengyiplus])
   exit

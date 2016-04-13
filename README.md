@@ -11,7 +11,7 @@
 	```
 	bundle install
 	echo 'yonghui' > .current_app
-	bundle exec ruby app_keeper.rb
+	bundle exec ruby app_keeper.rb {yonghui|shengyiplus}
 	```
 * 上传ipa至蒲公英
 

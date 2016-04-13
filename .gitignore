@@ -1,5 +1,6 @@
 # Xcode
 #
+.current-app
 *.lock
 *.y[a]ml
 .pgyer_upload.sh

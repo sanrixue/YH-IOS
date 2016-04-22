@@ -29,10 +29,10 @@
     
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            /*
-             * 用户行为记录, 单独异常处理，不可影响用户体验
-             */
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
                 logParams[@"action"] = @"JS异常";
@@ -99,7 +99,7 @@
     }];
     
     self.labelTheme.text = self.bannerName;
-    self.urlString       = [NSString stringWithFormat:@"%@%@", BASE_URL, self.link];
+    self.urlString = [NSString stringWithFormat:RESET_PASSWORD_PATH, BASE_URL, [self currentUIVersion]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

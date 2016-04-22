@@ -23,8 +23,7 @@
     [self idColor];
     
     self.labelTheme.text = self.bannerName;
-    NSString *urlPath = [NSString stringWithFormat:COMMENT_PATH, self.objectID, @(self.commentObjectType)];
-    self.urlString =  [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    self.urlString = [NSString stringWithFormat:COMMENT_PATH, BASE_URL, [self currentUIVersion], self.objectID, @(self.commentObjectType)];
     
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -34,10 +33,10 @@
     
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            /*
-             * 用户行为记录, 单独异常处理，不可影响用户体验
-             */
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
                 logParams[@"action"] = @"JS异常";

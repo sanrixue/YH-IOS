@@ -116,6 +116,7 @@
 - (void)showProgressHUD:(NSString *)text {
     [self showProgressHUD:text mode:MBProgressHUDModeIndeterminate];
 }
+
 - (void)showProgressHUD:(NSString *)text mode:(MBProgressHUDMode)mode {
     self.progressHUD = [MBProgressHUD showHUDAddedTo:self.browser animated:YES];
     self.progressHUD.labelText = text;
@@ -123,7 +124,6 @@
     
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
-
 
 - (void)jumpToLogin {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
@@ -194,7 +194,6 @@
     }
 }
 
-
 /**
  *  设置是否允许横屏
  *
@@ -205,7 +204,6 @@
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.allowRotation = allowRotation;
 }
-
 
 /**
  *  检测服务器端静态文件是否更新
@@ -351,6 +349,12 @@
             NSLog(@"%@", exception);
         }
     });
+}
+
+- (NSString *)currentUIVersion {
+    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:BETA_CONFIG_FILENAME];
+    NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
+    return betaDict[@"new_ui"] && [betaDict[@"new_ui"] boolValue] ? @"v2" : @"v1";
 }
 
 @end

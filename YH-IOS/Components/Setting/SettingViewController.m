@@ -19,6 +19,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 @interface SettingViewController ()
 @property (weak, nonatomic) IBOutlet UISwitch *switchGesturePassword;
+@property (weak, nonatomic) IBOutlet UISwitch *switchNewUI;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnLogout;
 @property (weak, nonatomic) IBOutlet UILabel *labelUserName;
@@ -59,6 +60,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     self.labelPushState.text = pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭";
+    
+    self.switchNewUI.on = [[self currentUIVersion] isEqualToString:@"v2"];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -77,8 +80,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 #pragma mark - action methods
 - (IBAction)actionBack:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-    }];
+    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 - (IBAction)actionCheckUpgrade {
@@ -86,8 +88,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (IBAction)actionCheckAssets:(id)sender {
-    NSString *headerPath = [self.sharedPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
-    [FileUtils removeFile:headerPath];
+    NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", self.sharedPath, CACHED_HEADER_FILENAME];
+    [FileUtils removeFile:cachedHeaderPath];
+    cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:HTML_DIRNAME], CACHED_HEADER_FILENAME];
+    [FileUtils removeFile:cachedHeaderPath];
     
     [APIHelper userAuthentication:self.user.userNum password:self.user.password];
     
@@ -149,6 +153,13 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             }
         });
     }
+}
+
+- (IBAction)actionSwitchToNewUI:(UISwitch *)sender {
+    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:BETA_CONFIG_FILENAME];
+    NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
+    betaDict[@"new_ui"] = @(sender.isOn);
+    [betaDict writeToFile:settingsConfigPath atomically:YES];
 }
 
 - (IBAction)actionLogout:(id)sender {

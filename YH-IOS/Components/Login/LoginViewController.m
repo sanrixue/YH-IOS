@@ -74,16 +74,12 @@
             if(msg.length == 0) {
                 [self showProgressHUD:@"跳转中..."];
 
-                
-                
                 [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
                 [self.browser stopLoading];
                 [self clearBrowserCache];
                 [self jumpToDashboardView];
                 
-                
                 dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    
                     @try {
                         // 友盟消息推送-标签设置（先删除，再添加）
                         [UMessage removeAllTags:^(id responseObject, NSInteger remain, NSError *error) {
@@ -112,7 +108,6 @@
                         NSLog(@"%@", exception);
                     }
                 });
-
             }
             else {
                 [self showProgressHUD:msg mode: MBProgressHUDModeText];
@@ -232,11 +227,8 @@
     if(isUpgrade) {
         NSLog(@"version modified: %@ => %@", localVersion, currentVersion);
         NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", assetsPath, CACHED_HEADER_FILENAME];
+        [FileUtils removeFile:cachedHeaderPath];
         NSLog(@"remove header: %@", cachedHeaderPath);
-        
-        if([FileUtils checkFileExist:cachedHeaderPath isDir:NO]) {
-            [FileUtils removeFile:cachedHeaderPath];
-        }
         
         [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }

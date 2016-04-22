@@ -24,12 +24,12 @@
 #define API_PUSH_DEVICE_TOKEN_PATH  @"/api/v1/device/%@/push_token/%@"
 #define API_ASSETS_PATH             @"/api/v1/download/%@.zip"
 
-#define KPI_PATH                    @"/mobile/v2/role/%@/group/%@/kpi"
-#define MESSAGE_PATH                @"/mobile/v2/role/%@/group/%@/user/%@/message"
-#define APPLICATION_PATH            @"/mobile/v2/role/%@/app"
-#define ANALYSE_PATH                @"/mobile/v2/role/%@/analyse"
-#define COMMENT_PATH                @"/mobile/v2/id/%@/type/%@/comment"
-#define RESET_PASSWORD_PATH         @"/mobile/v2/update_user_password"
+#define KPI_PATH                    @"%@/mobile/%@/role/%@/group/%@/kpi"
+#define MESSAGE_PATH                @"%@/mobile/%@/role/%@/group/%@/user/%@/message"
+#define APPLICATION_PATH            @"%@/mobile/%@/role/%@/app"
+#define ANALYSE_PATH                @"%@/mobile/%@/role/%@/analyse"
+#define COMMENT_PATH                @"%@/mobile/%@/id/%@/type/%@/comment"
+#define RESET_PASSWORD_PATH         @"%@/mobile/%@/update_user_password"
 
 #define REPORT_DATA_FILENAME        @"template_data_group_%@_report_%@.js"
 
@@ -46,6 +46,7 @@
 #define CACHED_HEADER_FILENAME      @"cached_header.plist"
 #define USER_AGENT_FILENAME         @"webview_user_agent.txt"
 #define CURRENT_VERSION__FILENAME   @"current_version.txt"
+#define BETA_CONFIG_FILENAME        @"Beta.plist"
 
 #define URL_WRITE_LOCAL @"1"
 #define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]

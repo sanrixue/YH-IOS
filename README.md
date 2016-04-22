@@ -28,6 +28,11 @@
 
 ## 更新日志
 
+* 16/04/22
+
+	* add: switch ui version with setting
+	* optimized: clean all cache header file when click setting check
+	
 * 16/04/08
 
 	* add: ruby script to automatic modifiy configure when switch app

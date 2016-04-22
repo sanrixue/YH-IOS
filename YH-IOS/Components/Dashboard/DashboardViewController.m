@@ -279,36 +279,35 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (void)tabBarClick:(NSInteger)index {
-    NSString *path;
+    NSString *uiVersion = [self currentUIVersion];
+    
     switch (index) {
         case 0: {
-            path = [NSString stringWithFormat:KPI_PATH, self.user.roleID, self.user.groupID];
+            self.urlString = [NSString stringWithFormat:KPI_PATH, BASE_URL, uiVersion, self.user.roleID, self.user.groupID];
             self.commentObjectType = ObjectTypeKpi;
             break;
         }
         case 1: {
-            path = [NSString stringWithFormat:ANALYSE_PATH, self.user.roleID];
+            self.urlString = [NSString stringWithFormat:ANALYSE_PATH, BASE_URL, uiVersion, self.user.roleID];
             self.commentObjectType = ObjectTypeAnalyse;
             break;
         }
-        case 2: {
-            path = [NSString stringWithFormat:APPLICATION_PATH, self.user.roleID];
+        case 2: {BASE_URL,
+            self.urlString = [NSString stringWithFormat:APPLICATION_PATH, BASE_URL, uiVersion, self.user.roleID];
             self.commentObjectType = ObjectTypeApp;
             break;
         }
         case 3: {
-            path = [NSString stringWithFormat:MESSAGE_PATH, self.user.roleID, self.user.groupID, self.user.userID];
+            self.urlString = [NSString stringWithFormat:MESSAGE_PATH, BASE_URL, uiVersion, self.user.roleID, self.user.groupID, self.user.userID];
             self.commentObjectType = ObjectTypeMessage;
             break;
         }
         default: {
-            path = [NSString stringWithFormat:KPI_PATH, self.user.roleID, self.user.groupID];
+            self.urlString = [NSString stringWithFormat:KPI_PATH, BASE_URL, uiVersion, self.user.roleID, self.user.groupID];
             self.commentObjectType = ObjectTypeReport;
             break;
         }
     }
-    
-    self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, path];
     
     
     [self tabBarState: NO];

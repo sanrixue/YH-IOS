@@ -69,5 +69,6 @@
 - (BOOL)didPasscodeTimerEnd;
 - (NSString *)passcode;
 - (void)savePasscode:(NSString *)passcode;
+- (NSString *)currentUIVersion;
 
 @end

@@ -103,9 +103,33 @@
         userDict[@"javascripts_md5"] = response.data[@"assets"][@"javascripts_md5"];
         userDict[@"user_md5"]        = password;
         
+        /**
+         *  rewrite screen lock info into
+         */
         [userDict writeToFile:userConfigPath atomically:YES];
         
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+        if([FileUtils checkFileExist:settingsConfigPath isDir:NO]) {
+            NSMutableDictionary *settingsDict = [FileUtils readConfigFile: settingsConfigPath];
+            if(settingsDict[@"use_gesture_password"]) {
+                userDict[@"use_gesture_password"] = settingsDict[@"use_gesture_password"];
+            }
+            else {
+                userDict[@"use_gesture_password"] = @(NO);
+            }
+            
+            if(settingsDict[@"gesture_password"]) {
+                userDict[@"gesture_password"] = settingsDict[@"gesture_password"];
+            }
+            else {
+                userDict[@"gesture_password"] = @"";
+            }
+        }
+        else {
+            userDict[@"use_gesture_password"] = @(NO);
+            userDict[@"gesture_password"] = @"";
+        }
+        [userDict writeToFile:userConfigPath atomically:YES];
         [userDict writeToFile:settingsConfigPath atomically:YES];
 
         // 第三方消息推送，设备标识

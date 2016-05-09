@@ -17,6 +17,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (weak, nonatomic) IBOutlet UIButton *btnComment;
 @property (strong, nonatomic) NSString *reportID;
+@property (strong, nonatomic) NSString *templateID;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @end
 
@@ -108,7 +109,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     [self addWebViewJavascriptBridge];
     
     if(self.isInnerLink) {
-        NSString *reportDataUrlString = [APIHelper reportDataUrlString:self.user.groupID reportID:self.reportID];
+        NSString *reportDataUrlString = [APIHelper reportDataUrlString:self.user.groupID templateID:self.templateID reportID:self.reportID];
         
         [HttpUtils clearHttpResponeHeader:reportDataUrlString assetsPath:self.assetsPath];
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
@@ -228,10 +229,13 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // format: /mobil/report/:report_id/group/:group_id
+        // format: /mobile/v1/group/:group_id/template/:template_id/report/:report_id
+        // deprecated
+        // format: /mobile/report/:report_id/group/:group_id
         NSArray *components = [self.link componentsSeparatedByString:@"/"];
-        self.reportID = components[3];
-        [APIHelper reportData:self.user.groupID reportID:self.reportID];
+        self.templateID = components[6];
+        self.reportID = components[8];
+        [APIHelper reportData:self.user.groupID templateID:self.templateID reportID:self.reportID];
         
         HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
         

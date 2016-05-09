@@ -283,7 +283,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     switch (index) {
         case 0: {
-            self.urlString = [NSString stringWithFormat:KPI_PATH, BASE_URL, uiVersion, self.user.roleID, self.user.groupID];
+            self.urlString = [NSString stringWithFormat:KPI_PATH, BASE_URL, uiVersion, self.user.groupID, self.user.roleID];
             self.commentObjectType = ObjectTypeKpi;
             break;
         }

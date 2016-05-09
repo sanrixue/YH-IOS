@@ -15,19 +15,19 @@
 
 @implementation APIHelper
 
-+ (NSString *)reportDataUrlString:(NSNumber *)groupID reportID:(NSString *)reportID  {
-    NSString *urlPath = [NSString stringWithFormat:API_DATA_PATH, groupID, reportID];
++ (NSString *)reportDataUrlString:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID  {
+    NSString *urlPath = [NSString stringWithFormat:API_DATA_PATH, groupID, templateID, reportID];
     return [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
 }
 
 #pragma todo: pass assetsPath as parameter
-+ (void)reportData:(NSNumber *)groupID reportID:(NSString *)reportID {
-    NSString *urlString = [self reportDataUrlString:groupID reportID:reportID];
++ (void)reportData:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID {
+    NSString *urlString = [self reportDataUrlString:groupID templateID:templateID reportID:reportID];
     
     NSString *userspacePath = [FileUtils userspace];
     NSString *assetsPath = [userspacePath stringByAppendingPathComponent:HTML_DIRNAME];
     
-    NSString *reportDataFileName = [NSString stringWithFormat:REPORT_DATA_FILENAME, groupID, reportID];
+    NSString *reportDataFileName = [NSString stringWithFormat:REPORT_DATA_FILENAME, groupID, templateID, reportID];
     NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
     javascriptPath = [javascriptPath stringByAppendingPathComponent:reportDataFileName];
     

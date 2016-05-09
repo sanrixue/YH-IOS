@@ -10,8 +10,8 @@
 #import "HttpResponse.h"
 
 @interface APIHelper : NSObject
-+ (NSString *)reportDataUrlString:(NSNumber *)groupID reportID:(NSString *)reportID ;
-+ (void)reportData:(NSNumber *)groupID reportID:(NSString *)reportID;
++ (NSString *)reportDataUrlString:(NSNumber *)groupID templateID:(NSString *)tempalteID reportID:(NSString *)reportID ;
++ (void)reportData:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID;
 
 /**
  *  登录验证

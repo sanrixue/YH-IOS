@@ -188,7 +188,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 - (void)loadHtml {
     DeviceState deviceState = [APIHelper deviceState];
     if(deviceState == StateOK) {
-        [self _loadHtml];
+        self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
     }
     else if(deviceState == StateForbid) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
@@ -203,12 +203,6 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
             [self showLoading:LoadingRefresh];
         });
     }
-}
-
-- (void)_loadHtml {
-    // [self clearBrowserCache];
-    
-    self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
 }
 
 - (void)loadOuterLink {
@@ -226,6 +220,10 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 }
 
 - (void)loadInnerLink {
+    /**
+     *  only inner link clean browser cache
+     */
+    [self clearBrowserCache];
     [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

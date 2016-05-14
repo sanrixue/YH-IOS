@@ -206,7 +206,8 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 }
 
 - (void)loadOuterLink {
-    NSString *appendParams = [NSString stringWithFormat:@"?user_num=%@&timestamp=%@", self.user.userNum, TimeStamp];
+    NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
+    NSString *appendParams = [NSString stringWithFormat:@"?user_num=%@&timestamp=%@", self.user.userNum, timestamp];
     
     if([self.urlString containsString:@"?"]) {
         self.urlString = [self.urlString stringByReplacingOccurrencesOfString:@"?" withString:appendParams];

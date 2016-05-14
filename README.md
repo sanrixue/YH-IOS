@@ -28,6 +28,19 @@
 
 ## 更新日志
 
+* 16/05/14
+
+    * fix:
+    
+        ```
+        //bug
+        #define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]
+        ```
+
+        TimeStamp assigned when compile, will not change on runtime period.
+
+        avoid UIWebView cache js/css/img, update url?timestamp when load local html file.
+
 * 16/04/22
 
 	* add: switch ui version with setting

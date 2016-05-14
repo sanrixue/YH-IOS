@@ -266,16 +266,11 @@
     NSArray *elements = [doc searchWithXPathQuery:@"//script"];
     for(TFHppleElement *element in elements) {
         NSDictionary *dict = element.attributes;
-        if(dict && [dict[@"src"] length] > 0 && [dict[@"src"] hasPrefix:@"/javascripts"]) {
+        if(dict && dict[@"src"] && [dict[@"src"] length] > 0 && [dict[@"src"] hasPrefix:@"/javascripts"]) {
             assetLocalPath = [NSString stringWithFormat:@"assets%@", dict[@"src"]];
             uniqDict[dict[@"src"]] = assetLocalPath;
         }
     }
-    for(id key in uniqDict) {
-        htmlContent = [htmlContent stringByReplacingOccurrencesOfString:key withString:uniqDict[key]];
-    }
-    
-    [uniqDict removeAllObjects];
     // <link href="../*.css">
     elements = [doc searchWithXPathQuery:@"//link"];
     for(TFHppleElement *element in elements) {
@@ -285,11 +280,6 @@
             uniqDict[dict[@"href"]] = assetLocalPath;
         }
     }
-    for(id key in uniqDict) {
-        htmlContent = [htmlContent stringByReplacingOccurrencesOfString:key withString:uniqDict[key]];
-    }
-    
-    [uniqDict removeAllObjects];
     // <img src="../*.png">
     elements = [doc searchWithXPathQuery:@"//img"];
     for(TFHppleElement *element in elements) {
@@ -302,7 +292,6 @@
     for(id key in uniqDict) {
         htmlContent = [htmlContent stringByReplacingOccurrencesOfString:key withString:uniqDict[key]];
     }
-    
     
     [htmlContent writeToFile:filepath atomically:YES encoding:NSUTF8StringEncoding error:&error];
     
@@ -528,6 +517,11 @@
     }
     
     return result;
+}
+
++ (NSString *)htmlWithContentsOfFile:(NSString *)htmlPath {
+    NSString *htmlContent;
+    return htmlContent;
 }
 
 + (NSString *)urlConcatHyplink:(NSString *)urlString path:(NSString *)path {

@@ -93,7 +93,8 @@ void UncaughtExceptionHandler(NSException * exception) {
                                                                                      categories:[NSSet setWithObject:categorys]];
         [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
         
-    } else{
+    }
+    else {
         //register remoteNotification types (iOS 8.0以下)
         [UMessage registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge
          |UIRemoteNotificationTypeSound
@@ -107,8 +108,9 @@ void UncaughtExceptionHandler(NSException * exception) {
      |UIRemoteNotificationTypeAlert];
     
 #endif
-    //for log
+
     [UMessage setLogEnabled:YES];
+    [UMessage setBadgeClear:NO];
     
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -185,8 +187,8 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    //关闭友盟自带的弹出框
-    //  [UMessage setAutoAlert:NO];
+    // 关闭友盟自带的弹出框
+    // [UMessage setAutoAlert:NO];
     
     [UMessage didReceiveRemoteNotification:userInfo];
     

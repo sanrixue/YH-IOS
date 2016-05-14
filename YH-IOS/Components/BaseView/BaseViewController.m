@@ -13,6 +13,7 @@
 #import "AppDelegate.h"
 #import "AFNetworking.h"
 #import <SSZipArchive.h>
+#import "TFHpple.h"
 
 @interface BaseViewController ()<LTHPasscodeViewControllerDelegate>
 @end
@@ -77,17 +78,44 @@
 
 - (NSString *)stringWithContentsOfFile:(NSString *)htmlPath {
     NSError *error = nil;
-    NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:&error];
+    NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:&error],
+             *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     if(error) {
         NSLog(@"%@ - %@", error.description, htmlPath);
     }
     
-    NSString *from, *to, *timestamp = TimeStamp;
-    for(NSString *ext in @[@"js", @"css", @"png", @"gif"]) {
-        from = [NSString stringWithFormat:@".%@\"", ext];
-        to = [NSString stringWithFormat:@".%@?%@\"", ext, timestamp];
-        
-        htmlContent = [htmlContent stringByReplacingOccurrencesOfString:from withString:to options:NSCaseInsensitiveSearch range:NSMakeRange(0, htmlContent.length)];
+    
+    NSData *htmlData = [htmlContent dataUsingEncoding:NSUTF8StringEncoding];
+    TFHpple *doc = [[TFHpple alloc] initWithHTMLData:htmlData];
+    
+    NSMutableDictionary *uniqDict = [NSMutableDictionary dictionary];
+    
+    // <script src="../*.js"></script>
+    NSArray *elements = [doc searchWithXPathQuery:@"//script"];
+    for(TFHppleElement *element in elements) {
+        NSDictionary *dict = element.attributes;
+        if(dict && dict[@"src"] && [dict[@"src"] length] > 0 && [dict[@"src"] hasPrefix:@"assets/"]) {
+            uniqDict[dict[@"src"]] = [NSString stringWithFormat:@"%@?%@", [dict[@"src"] componentsSeparatedByString:@"?"][0], timestamp];
+        }
+    }
+    // <link href="../*.css">
+    elements = [doc searchWithXPathQuery:@"//link"];
+    for(TFHppleElement *element in elements) {
+        NSDictionary *dict = element.attributes;
+        if(dict && dict[@"href"] && [dict[@"href"] length] > 0 && [dict[@"href"] hasPrefix:@"assets/"]) {
+            uniqDict[dict[@"href"]] = [NSString stringWithFormat:@"%@?%@", [dict[@"href"] componentsSeparatedByString:@"?"][0], timestamp];
+        }
+    }
+    // <img src="../*.png">
+    elements = [doc searchWithXPathQuery:@"//img"];
+    for(TFHppleElement *element in elements) {
+        NSDictionary *dict = element.attributes;
+        if(dict && dict[@"src"] && [dict[@"src"] length] > 0 && [dict[@"src"] hasPrefix:@"assets/"]) {
+            uniqDict[dict[@"src"]] = [NSString stringWithFormat:@"%@?%@", [dict[@"src"] componentsSeparatedByString:@"?"][0], timestamp];
+        }
+    }
+    for(id key in uniqDict) {
+        htmlContent = [htmlContent stringByReplacingOccurrencesOfString:key withString:uniqDict[key]];
     }
     
     return htmlContent;

@@ -15,7 +15,7 @@
 
 #define LOGIN_PATH                  @"/mobile/login"
 #define API_USER_PATH               @"/api/v1/%@/%@/%@/authentication"
-#define API_DATA_DEPRECATED_PATH     @"/api/v1/group/%@/report/%@/attachment"
+#define API_DATA_DEPRECATED_PATH    @"/api/v1/group/%@/report/%@/attachment"
 #define API_DATA_PATH               @"/api/v1/group/%@/template/%@/report/%@/attachment"
 #define API_COMMENT_PATH            @"/api/v1/user/%@/id/%@/type/%@"
 #define API_SCREEN_LOCK_PATH        @"/api/v1/user_device/%@/screen_lock"
@@ -34,7 +34,7 @@
 #define RESET_PASSWORD_PATH         @"%@/mobile/%@/update_user_password"
 
 #define REPORT_DATA_FILENAME_DEPRECATED @"template_data_group_%@_report_%@.js"
-#define REPORT_DATA_FILENAME        @"group_%@_template_%@_report_%@.js"
+#define REPORT_DATA_FILENAME            @"group_%@_template_%@_report_%@.js"
 
 #define USER_CONFIG_FILENAME        @"user.plist"
 #define PUSH_CONFIG_FILENAME        @"push_message.plist"
@@ -52,7 +52,7 @@
 #define BETA_CONFIG_FILENAME        @"Beta.plist"
 
 #define URL_WRITE_LOCAL @"1"
-#define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]
+// #define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]
 
 
 

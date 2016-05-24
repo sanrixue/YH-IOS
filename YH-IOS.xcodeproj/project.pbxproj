@@ -38,7 +38,6 @@
 		C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DC1C2CECC10067516F /* NSData+MD5.m */; };
 		C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DF1C2CECC10067516F /* UIColor+Hex.m */; };
 		C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564E21C2CECC10067516F /* UIWebView+Clean.m */; };
-		C4A57AA51CB757C8004F9C3D /* config.yaml in Resources */ = {isa = PBXBuildFile; fileRef = C4A57AA41CB757C8004F9C3D /* config.yaml */; };
 		C4BA6EA41C7DB24A0059F101 /* FileUtils+Assets.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */; };
 		C4C628431C0C1ED6000AD5D8 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* SubjectViewController.m */; };
 		C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */; };
@@ -135,7 +134,6 @@
 		C4A564DF1C2CECC10067516F /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		C4A564E11C2CECC10067516F /* UIWebView+Clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+Clean.h"; sourceTree = "<group>"; };
 		C4A564E21C2CECC10067516F /* UIWebView+Clean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+Clean.m"; sourceTree = "<group>"; };
-		C4A57AA41CB757C8004F9C3D /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		C4A57AA61CB7859E004F9C3D /* constant_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constant_private.h; sourceTree = "<group>"; };
 		C4BA6EA21C7DB24A0059F101 /* FileUtils+Assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FileUtils+Assets.h"; sourceTree = "<group>"; };
 		C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FileUtils+Assets.m"; sourceTree = "<group>"; };
@@ -538,7 +536,6 @@
 			isa = PBXGroup;
 			children = (
 				C4A57AA61CB7859E004F9C3D /* constant_private.h */,
-				C4A57AA41CB757C8004F9C3D /* config.yaml */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
 				C4EFE4AB1C98F60A0009411A /* stylesheets.zip */,
 				C4EFE4AC1C98F60A0009411A /* javascripts.zip */,
@@ -747,7 +744,6 @@
 				C4EFE4B31C98F60A0009411A /* assets.zip in Resources */,
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
-				C4A57AA51CB757C8004F9C3D /* config.yaml in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
 			);

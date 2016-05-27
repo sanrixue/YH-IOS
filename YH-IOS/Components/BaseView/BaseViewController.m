@@ -14,6 +14,7 @@
 #import "AFNetworking.h"
 #import <SSZipArchive.h>
 #import "TFHpple.h"
+#import "Version.h"
 
 @interface BaseViewController ()<LTHPasscodeViewControllerDelegate>
 @end
@@ -169,7 +170,7 @@
 //    return NO;
 //}
 
--(UIStatusBarStyle)preferredStatusBarStyle{
+-(UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
 
@@ -206,19 +207,24 @@
 - (void)appUpgradeMethod:(NSDictionary *)response {
     NSLog(@"%@", response);
     
-    if(response && response[@"downloadURL"] && response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0) {
+    if(!response || !response[@"downloadURL"]) return;
+    
+    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
+    [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
+    
+    Version *version = [[Version alloc] init];
+    if(response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0 &&
+       ![version.current isEqualToString:response[@"versionName"]] && ![version.build isEqualToString:response[@"versionCode"]]) {
         
         SCLAlertView *alert = [[SCLAlertView alloc] init];
-        
         [alert addButton:@"升级" actionBlock:^(void) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[@"downloadURL"]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
         }];
-        
         [alert showSuccess:self title:@"版本更新" subTitle:response[@"releaseNote"] closeButtonTitle:@"放弃" duration:0.0f];
     }
     else {
-        [ViewUtils showPopupView:self.view Info:@"已是最新版本"];
+        [ViewUtils showPopupView:self.view Info:[NSString stringWithFormat:@"有发布测试版本%@(%@)", response[@"versionName"], response[@"versionCode"]]];
     }
 }
 

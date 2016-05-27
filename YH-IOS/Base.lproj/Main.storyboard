@@ -530,7 +530,10 @@
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="J7R-uC-bih">
-                                                <rect key="frame" x="20" y="227" width="560" height="28"/>
+                                                <rect key="frame" x="20" y="227" width="280" height="28"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="280" id="SpS-By-ke3"/>
+                                                </constraints>
                                                 <state key="normal" title="检测版本更新"/>
                                                 <connections>
                                                     <action selector="actionCheckUpgrade" destination="IAN-Qx-0h6" eventType="touchUpInside" id="u2g-FE-O1g"/>
@@ -567,6 +570,17 @@
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h3e-ro-OKW">
+                                                <rect key="frame" x="300" y="226" width="280" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="280" id="Tp8-YE-CDm"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <state key="normal" title="已是最新版本"/>
+                                                <connections>
+                                                    <action selector="actionOpenLink:" destination="IAN-Qx-0h6" eventType="touchUpInside" id="wnB-Bf-ZQf"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -578,6 +592,7 @@
                                             <constraint firstItem="aF0-bA-Uh5" firstAttribute="leading" secondItem="Vyd-1X-GJf" secondAttribute="trailing" id="7Cf-4Y-BG9"/>
                                             <constraint firstItem="O6m-d4-C0t" firstAttribute="width" secondItem="EAy-wD-diQ" secondAttribute="width" id="7D9-Kd-DmP"/>
                                             <constraint firstAttribute="trailing" secondItem="aF0-bA-Uh5" secondAttribute="trailing" constant="20" id="9r2-Tr-hL7"/>
+                                            <constraint firstAttribute="trailing" secondItem="h3e-ro-OKW" secondAttribute="trailing" constant="20" id="9uU-1d-vYK"/>
                                             <constraint firstItem="g39-5F-Mpp" firstAttribute="width" secondItem="LxJ-sN-gzN" secondAttribute="width" id="A2j-52-SzI"/>
                                             <constraint firstAttribute="trailing" secondItem="Yev-CQ-lcu" secondAttribute="trailing" constant="20" id="Ba7-4W-MrE"/>
                                             <constraint firstItem="jyy-bF-XfZ" firstAttribute="leading" secondItem="7aw-ZO-bgl" secondAttribute="leading" constant="20" id="CJ6-Yo-ssk"/>
@@ -605,6 +620,7 @@
                                             <constraint firstItem="J7R-uC-bih" firstAttribute="leading" secondItem="7aw-ZO-bgl" secondAttribute="leading" constant="20" id="bh5-I4-L7p"/>
                                             <constraint firstItem="dUT-at-TFF" firstAttribute="leading" secondItem="lkF-s9-Thx" secondAttribute="trailing" id="dAB-Bu-aOW"/>
                                             <constraint firstItem="Vyd-1X-GJf" firstAttribute="top" secondItem="b3p-vS-me8" secondAttribute="bottom" id="fQn-uR-sps"/>
+                                            <constraint firstItem="h3e-ro-OKW" firstAttribute="top" secondItem="J7R-uC-bih" secondAttribute="top" id="g5b-LF-pDF"/>
                                             <constraint firstItem="ONw-gg-YhP" firstAttribute="leading" secondItem="7aw-ZO-bgl" secondAttribute="leading" constant="10" id="gOX-Bc-y5q"/>
                                             <constraint firstItem="bc9-dQ-hwm" firstAttribute="top" secondItem="ONw-gg-YhP" secondAttribute="bottom" constant="5" id="k9T-zL-fFN"/>
                                             <constraint firstItem="bc9-dQ-hwm" firstAttribute="leading" secondItem="7aw-ZO-bgl" secondAttribute="leading" constant="20" id="kPv-88-AIq"/>
@@ -619,6 +635,7 @@
                                             <constraint firstItem="PPh-l6-RFJ" firstAttribute="leading" secondItem="jyy-bF-XfZ" secondAttribute="trailing" id="y1h-I0-1BA"/>
                                             <constraint firstItem="J7R-uC-bih" firstAttribute="top" secondItem="EAy-wD-diQ" secondAttribute="bottom" id="yuy-bh-uCb"/>
                                             <constraint firstItem="b3p-vS-me8" firstAttribute="top" secondItem="lkF-s9-Thx" secondAttribute="bottom" id="zuc-Oz-yWs"/>
+                                            <constraint firstItem="h3e-ro-OKW" firstAttribute="leading" secondItem="J7R-uC-bih" secondAttribute="trailing" id="zxb-Q7-2hE"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="top" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="nGn-ld-zsJ">

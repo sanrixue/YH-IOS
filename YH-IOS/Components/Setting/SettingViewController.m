@@ -87,6 +87,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
 }
 
+- (IBAction)actionOpenLink:(id)sender {
+    NSURL *url = [NSURL URLWithString:[PGYER_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    [[UIApplication sharedApplication] openURL:url];
+}
+
 - (IBAction)actionCheckAssets:(id)sender {
     NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", self.sharedPath, CACHED_HEADER_FILENAME];
     [FileUtils removeFile:cachedHeaderPath];

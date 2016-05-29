@@ -4,13 +4,16 @@ require 'settingslogic'
 require 'active_support/core_ext/string'
 require 'plist'
 
-def file_path(file_name)
-  %(YH-IOS/Shared/#{file_name})
-end
+bundle_display_hash = {
+  yonghui: '永辉生意人',
+  shengyiplus: '生意+',
+  qiyoutong: '企邮通'
+}
+bundle_display_names = bundle_display_hash.keys.map(&:to_s)
 
 current_app = ARGV.shift || 'null' #File.read('.current-app').strip.freeze
-unless %w(yonghui shengyiplus).include?(current_app)
-  puts %(appname should in {yonghui|shengyiplus}, but #{current_app})
+unless bundle_display_names.include?(current_app)
+  puts %(appname should in #{bundle_display_names}, but #{current_app})
   exit
 end
 
@@ -19,7 +22,7 @@ puts %(#{'-' * 25}\ncurrent app: #{current_app}\n#{'-' * 25}\n\n)
 
 NAME_SPACE = current_app # TODO: namespace(variable_instance)
 class Settings < Settingslogic
-  source file_path('config.yaml')
+  source 'config/config.yaml'
   namespace NAME_SPACE
 end
 
@@ -27,20 +30,25 @@ end
 # reset bundle display name
 #
 plist_path = "YH-IOS/Info.plist"
-bundle_display_names = {
-  yonghui: '永辉生意人',
-  shengyiplus: '生意+'
-}
 plist_hash = Plist::parse_xml(plist_path)
-plist_hash['CFBundleDisplayName'] = bundle_display_names[current_app.to_sym]
-plist_hash['CFBundleName'] = bundle_display_names[current_app.to_sym]
+plist_hash['CFBundleDisplayName'] = bundle_display_hash[current_app.to_sym]
+plist_hash['CFBundleName'] = bundle_display_hash[current_app.to_sym]
 File.open(plist_path, 'w:utf-8') { |file| file.puts(plist_hash.to_plist) }
-puts %(bundle display name: #{bundle_display_names[current_app.to_sym]})
+puts %(bundle display name: #{bundle_display_hash[current_app.to_sym]})
+
+#
+# reset assets.xcassets
+#
+
+`rm -fr YH-IOS/Assets.xcassets/AppIcon.appiconset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.appiconset YH-IOS/Assets.xcassets/AppIcon.appiconset`
+`rm -fr YH-IOS/Assets.xcassets/AppIcon.imageset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.imageset YH-IOS/Assets.xcassets/AppIcon.imageset`
+`rm -fr YH-IOS/Assets.xcassets/Nav-Banner.imageset && cp -rf config/Assets.xcassets/Nav-Banner-#{current_app}.imageset YH-IOS/Assets.xcassets/Nav-Banner.imageset`
+`rm -fr YH-IOS/Assets.xcassets/background.imageset && cp -rf config/Assets.xcassets/background-#{current_app}.imageset YH-IOS/Assets.xcassets/background.imageset`
 
 #
 # rewrite private setting
 # 
-constant_path = file_path('constant_private.h')
+constant_path = 'YH-IOS/Shared/constant_private.h'
 File.open(constant_path, 'w:utf-8') do |file|
   file.puts <<-EOF.strip_heredoc
   //  constant_private.h
@@ -58,8 +66,8 @@ File.open(constant_path, 'w:utf-8') do |file|
   #define constant_private_h
 
   #define BASE_URL @"#{Settings.server}"
-  #define PGYER_APP_ID @"#{Settings.pgyer_app_id}"
-  #define UMENG_APP_ID @"#{Settings.umeng_app_id}"
+  #define PGYER_APP_ID @"#{Settings.pgyer.ios}"
+  #define UMENG_APP_ID @"#{Settings.umeng.ios}"
 
   #endif /* constant_private_h */
   EOF

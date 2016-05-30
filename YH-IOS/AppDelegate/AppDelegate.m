@@ -58,16 +58,15 @@ void UncaughtExceptionHandler(NSException * exception) {
         // 启动PGYER SDK
         [[PgyManager sharedPgyManager] setEnableFeedback:NO];
         [[PgyManager sharedPgyManager] startManagerWithAppId:PGYER_APP_ID];
+        // 启动 UMeng SDK
+        [UMessage startWithAppkey:UMENG_APP_ID launchOptions:launchOptions];
+        // [UMessage setChannel:@"App Store"];
         NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
     }
     @catch (NSException *exception) {
         NSLog(@"NSSetUncaughtExceptionHandler - %@", exception.name);
-    } @finally {}
-    
-    
-    // 启动 UMeng SDK
-    [UMessage startWithAppkey:UMENG_APP_ID launchOptions:launchOptions];
-    // [UMessage setChannel:@"App Store"];
+    }
+    @finally {}
     
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
     if(UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
@@ -150,12 +149,8 @@ void UncaughtExceptionHandler(NSException * exception) {
     [LTHPasscodeViewController sharedUser].delegate = self;
     [LTHPasscodeViewController useKeychain:NO];
     [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
-    if ([LTHPasscodeViewController doesPasscodeExist] &&
-        [LTHPasscodeViewController didPasscodeTimerEnd]) {
-        
-        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES
-                                                                 withLogout:NO
-                                                             andLogoutTitle:nil];
+    if ([LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd]) {
+        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES withLogout:NO andLogoutTitle:nil];
     }
     
     return YES;

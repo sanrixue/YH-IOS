@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge" http-equiv="X-UA-Compatible">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <title>网络环境较差</title>
+    <link href="assets/stylesheets/bootstrap.min.css" rel = "stylesheet">
+    <style type="text/css">
+      .row { margin-left:0px; margin-right:0px;}
+      .container { padding-left:0px;padding-right:0px; padding-top:100px;}
+      #wifi_bad img { width: 100%; background: transparent; opacity: 0.4; }
+      #text a, #text { color: #e0e0e0; font-size:12px;}
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div id="wifi_bad" class="col-xs-6 col-xs-offset-3">
+          <img src="assets/images/network_400.png">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-6 col-xs-offset-3" style="text-align:center">
+          <p class="text-muted" style="font-size: 10px;">
+            当前网络环境较差请重新加载
+          </p>
+        </div>
+      </div>
+      <div id="text" class="row" style="text-align:center;">
+        <div id="refreshBtn" class="col-xs-12">
+          <a class="btn btn-primary" onclick="Refresh.do();">重新加载</a>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      (function(){
+        window.Mobile = {
+          isIOS: function() {
+            return navigator.userAgent.match(/iPhone|iPad/i);
+          },
+          isAndroid: function() {
+            return navigator.userAgent.match(/Android/i);
+          }
+        }
+        window.Refresh = {
+          connectWebViewJavascriptBridge: function(callback) {
+            if(window.WebViewJavascriptBridge) {
+              callback(WebViewJavascriptBridge)
+            }
+            else {
+              document.addEventListener('WebViewJavascriptBridgeReady', function() {
+                callback(WebViewJavascriptBridge)
+              }, false)
+            }
+          },
+          do: function() {
+            if(Mobile.isIOS()) {
+              Refresh.connectWebViewJavascriptBridge(function(bridge){
+                bridge.callHandler('refreshBrowser', {}, function(response) {
+                });
+              });
+            }
+            else if(Mobile.isAndroid()) {
+              window.AndroidJSBridge.refreshBrowser();
+            }
+            else {
+              alert("未知浏览器:" + navigator.userAgent);
+            }
+          }
+        }
+      }).call(this);
+    </script>
+
+  </body>
+</html>

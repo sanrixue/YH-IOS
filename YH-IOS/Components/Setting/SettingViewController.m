@@ -32,6 +32,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (weak, nonatomic) IBOutlet UILabel *labelPushState;
 @property (weak, nonatomic) IBOutlet UILabel *labelBundleID;
 @property (weak, nonatomic) IBOutlet UIButton *buttonChangeGesturePassword;
+@property (weak, nonatomic) IBOutlet UIButton *buttonPgyerLink;
 
 @end
 
@@ -62,6 +63,17 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.labelPushState.text = pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭";
     
     self.switchNewUI.on = [[self currentUIVersion] isEqualToString:@"v2"];
+    
+    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
+    if([FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
+        NSMutableDictionary *pgyerVersionDict = [FileUtils readConfigFile:pgyerVersionPath];
+        BOOL isPgyerLatest = [version.current isEqualToString:pgyerVersionDict[@"versionName"]] && [version.build isEqualToString:pgyerVersionDict[@"versionCode"]];
+        NSString *pgyerVersionState = isPgyerLatest ? @"已是最新版本" : [NSString stringWithFormat:@"有发布测试版本:%@(%@)", pgyerVersionDict[@"versionName"], pgyerVersionDict[@"versionCode"] ];
+        [self.buttonPgyerLink setTitle:pgyerVersionState forState:UIControlStateNormal];
+        UIColor *buttonColor = isPgyerLatest ? [UIColor darkGrayColor] : [UIColor blueColor];
+        [self.buttonPgyerLink setTitleColor:buttonColor forState:UIControlStateNormal];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

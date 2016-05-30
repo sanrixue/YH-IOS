@@ -205,7 +205,7 @@
  *  @param response <#response description#>
  */
 - (void)appUpgradeMethod:(NSDictionary *)response {
-    NSLog(@"%@", response);
+    NSLog(@"appUpgradeMethod: %@", response);
     
     if(!response || !response[@"downloadURL"]) return;
     
@@ -213,8 +213,10 @@
     [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
     
     Version *version = [[Version alloc] init];
-    if(response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0 &&
-       ![version.current isEqualToString:response[@"versionName"]] && ![version.build isEqualToString:response[@"versionCode"]]) {
+    if([version.current isEqualToString:response[@"versionName"]] && [version.build isEqualToString:response[@"versionCode"]]) {
+        [ViewUtils showPopupView:self.view Info:@"已是最新版本"];
+    }
+    else if(response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0) {
         
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         [alert addButton:@"升级" actionBlock:^(void) {

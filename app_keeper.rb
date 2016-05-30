@@ -66,6 +66,7 @@ File.open(constant_path, 'w:utf-8') do |file|
   #define constant_private_h
 
   #define BASE_URL @"#{Settings.server}"
+  #define BASE_URL1 @"http://localhost:4567"
   #define PGYER_APP_ID @"#{Settings.pgyer.ios}"
   #define UMENG_APP_ID @"#{Settings.umeng.ios}"
 

@@ -3,12 +3,8 @@
 require 'settingslogic'
 require 'active_support/core_ext/string'
 
-def file_path(file_name)
-  %(YH-IOS/Shared/#{file_name})
-end
-
 class Settings < Settingslogic
-  source file_path('config.yaml')
+  source 'config/config.yaml'
 end
 
 File.open('.pgyer_upload.sh', 'w:utf-8') do |file|
@@ -19,8 +15,8 @@ File.open('.pgyer_upload.sh', 'w:utf-8') do |file|
   project_name=YH-IOS
   ipa_path=$(find ${desktop_path} -name "${project_name}.ipa" | sort | tail -n 1)
 
-  pgyer_user_key="#{Settings.pgyer_user_key}"
-  pgyer_api_key="#{Settings.pgyer_api_key}"
+  pgyer_user_key="#{Settings.pgyer.user_key}"
+  pgyer_api_key="#{Settings.pgyer.api_key}"
 
   if test -f "${ipa_path}"
   then

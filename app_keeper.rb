@@ -44,6 +44,7 @@ puts %(bundle display name: #{bundle_display_hash[current_app.to_sym]})
 `rm -fr YH-IOS/Assets.xcassets/AppIcon.imageset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.imageset YH-IOS/Assets.xcassets/AppIcon.imageset`
 `rm -fr YH-IOS/Assets.xcassets/Nav-Banner.imageset && cp -rf config/Assets.xcassets/Nav-Banner-#{current_app}.imageset YH-IOS/Assets.xcassets/Nav-Banner.imageset`
 `rm -fr YH-IOS/Assets.xcassets/background.imageset && cp -rf config/Assets.xcassets/background-#{current_app}.imageset YH-IOS/Assets.xcassets/background.imageset`
+`rm -f YH-IOS/Shared/loading.zip && cp -f config/Assets/loading-#{current_app}.zip YH-IOS/Shared/loading.zip`
 
 #
 # rewrite private setting

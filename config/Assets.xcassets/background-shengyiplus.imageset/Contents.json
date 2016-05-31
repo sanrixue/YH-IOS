@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "banner-logo.png",
+      "filename" : "images_mobile-login-background.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "banner-logo@2x.png",
       "scale" : "2x"
     },
     {

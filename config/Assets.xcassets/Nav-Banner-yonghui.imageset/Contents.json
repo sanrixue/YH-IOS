@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "yonghuilogo.png",
+      "filename" : "banner-logo.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "yonghuilogo@2x.png",
+      "filename" : "banner-logo@2x.png",
       "scale" : "2x"
     },
     {

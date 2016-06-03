@@ -13,12 +13,12 @@ bundle_display_names = bundle_display_hash.keys.map(&:to_s)
 
 current_app = ARGV.shift || 'null' #File.read('.current-app').strip.freeze
 unless bundle_display_names.include?(current_app)
-  puts %(appname should in #{bundle_display_names}, but #{current_app})
+  puts %(Abort: app name should in #{bundle_display_names}, but #{current_app})
   exit
 end
 
 `echo '#{current_app}' > .current-app`
-puts %(#{'-' * 25}\ncurrent app: #{current_app}\n#{'-' * 25}\n\n)
+puts %(# current app: #{current_app}\n\n)
 
 NAME_SPACE = current_app # TODO: namespace(variable_instance)
 class Settings < Settingslogic
@@ -29,17 +29,17 @@ end
 #
 # reset bundle display name
 #
+puts %(- done: bundle display name: #{bundle_display_hash[current_app.to_sym]})
 plist_path = "YH-IOS/Info.plist"
 plist_hash = Plist::parse_xml(plist_path)
 plist_hash['CFBundleDisplayName'] = bundle_display_hash[current_app.to_sym]
 plist_hash['CFBundleName'] = bundle_display_hash[current_app.to_sym]
 File.open(plist_path, 'w:utf-8') { |file| file.puts(plist_hash.to_plist) }
-puts %(bundle display name: #{bundle_display_hash[current_app.to_sym]})
 
 #
 # reset assets.xcassets
 #
-
+puts %(- done: updated appiconset, imageset, loading.zip)
 `rm -fr YH-IOS/Assets.xcassets/AppIcon.appiconset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.appiconset YH-IOS/Assets.xcassets/AppIcon.appiconset`
 `rm -fr YH-IOS/Assets.xcassets/AppIcon.imageset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.imageset YH-IOS/Assets.xcassets/AppIcon.imageset`
 `rm -fr YH-IOS/Assets.xcassets/Nav-Banner.imageset && cp -rf config/Assets.xcassets/Nav-Banner-#{current_app}.imageset YH-IOS/Assets.xcassets/Nav-Banner.imageset`
@@ -49,6 +49,7 @@ puts %(bundle display name: #{bundle_display_hash[current_app.to_sym]})
 #
 # rewrite private setting
 # 
+puts %(- done: write YH-IOS/Shared/constant_private.h)
 constant_path = 'YH-IOS/Shared/constant_private.h'
 File.open(constant_path, 'w:utf-8') do |file|
   file.puts <<-EOF.strip_heredoc
@@ -69,10 +70,9 @@ File.open(constant_path, 'w:utf-8') do |file|
   #define BASE_URL @"#{Settings.server}"
   #define BASE_URL1 @"http://localhost:4567"
   #define PGYER_APP_ID @"#{Settings.pgyer.ios}"
-  #define UMENG_APP_ID @"#{Settings.umeng.ios}"
+  #define UMENG_APP_ID @"#{Settings.umeng.ios.app_key}"
 
   #endif /* constant_private_h */
   EOF
 end
-puts %(rewrite private setting done.)
 

@@ -10,6 +10,9 @@ case "$1" in
   yonghui|shengyiplus|qiyoutong)
     bundle exec ruby config/app_keeper.rb "$1"
   ;;
+  pgyer)
+    bundle exec ruby config/pgyer_upload.rb
+  ;;
   all)
     echo 'TODO'
   ;;

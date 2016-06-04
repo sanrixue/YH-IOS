@@ -1,10 +1,12 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
+#
 require 'json'
 require 'settingslogic'
 require 'active_support'
 require 'active_support/core_ext/hash'
 require 'active_support/core_ext/string'
+require 'active_support/core_ext/numeric'
 
 current_app = ''
 unless File.exist?('.current-app')
@@ -19,7 +21,7 @@ unless File.exist?(ipa_path)
   exit
 end
 
-puts %(- done: generate apk(#{File.size(ipa_path)}) - #{ipa_path})
+puts %(- done: generate apk(#{File.size(ipa_path).to_s(:human_size)}) - #{ipa_path})
 current_app = IO.read('.current-app').strip
 NAME_SPACE = current_app # TODO: namespace(variable_instance)
 class Settings < Settingslogic
@@ -30,4 +32,4 @@ end
 response = `curl --silent -F "file=@#{ipa_path}" -F "uKey=#{Settings.pgyer.user_key}" -F "_api_key=#{Settings.pgyer.api_key}" http://www.pgyer.com/apiv1/app/upload`
 
 hash = JSON.parse(response).deep_symbolize_keys[:data]
-puts %(- done: upload apk to #pgyer#\n\t#{hash[:appName]}\n\t#{hash[:appIdentifier]}\n\t#{hash[:appVersion]}(#{hash[:appVersionNo]})\n\t#{hash[:appQRCodeURL]})
+puts %(- done: upload ipa(#{hash[:appFileSize].to_i.to_s(:human_size)}) to #pgyer#\n\t#{hash[:appName]}\n\t#{hash[:appIdentifier]}\n\t#{hash[:appVersion]}(#{hash[:appVersionNo]})\n\t#{hash[:appQRCodeURL]})

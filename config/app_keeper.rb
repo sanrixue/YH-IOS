@@ -1,8 +1,14 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
+#
+# ## 调整事项:
+# 1. 应用图标、loading.zip
+# 2. Info.plist应用名称
+# 5. constant_private.h 服务器域名、友盟、蒲公英配置
+#
+require 'plist'
 require 'settingslogic'
 require 'active_support/core_ext/string'
-require 'plist'
 
 bundle_display_hash = {
   yonghui: '永辉生意人',

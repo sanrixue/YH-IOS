@@ -4,20 +4,50 @@
 # ## 调整事项:
 # 1. 应用图标、loading.zip
 # 2. Info.plist应用名称
-# 5. constant_private.h 服务器域名、友盟、蒲公英配置
-#
+# 3. constant_private.h 服务器域名、友盟、蒲公英配置
+# 
+# $ bundle exec ruby config/app_keeper.rb -h
+# usage: config/app_keeper.rb [options]
+#     -a, --app       current app
+#     -p, --plist     Info.plist
+#     -e, --assets    assets.xassets
+#     -c, --constant  constant_private.h
+#     -u, --pgyer     upload ipa to pgyer
+#     -v, --version   print the version
+#     -h, --help      print help info
+#     
+require 'slop'
+require 'json'
 require 'plist'
 require 'settingslogic'
+require 'active_support'
+require 'active_support/core_ext/hash'
 require 'active_support/core_ext/string'
+require 'active_support/core_ext/numeric'
 
+slop_opts = Slop.parse do |o|
+  o.string '-a', '--app', 'current app', default: 'yonghui'
+  o.bool '-p', '--plist', 'Info.plist', default: false
+  o.bool '-e', '--assets', 'assets.xassets', default: false
+  o.bool '-c', '--constant', 'constant_private.h', default: false
+  o.bool '-u', '--pgyer', 'upload ipa to pgyer', default: false
+  o.on '-v', '--version', 'print the version' do
+    puts Slop::VERSION
+    exit
+  end
+  o.on '-h', '--help', 'print help info' do
+    puts o
+    exit
+  end
+end
+
+current_app = slop_opts[:app]
 bundle_display_hash = {
   yonghui: '永辉生意人',
   shengyiplus: '生意+',
   qiyoutong: '企邮通'
 }
 bundle_display_names = bundle_display_hash.keys.map(&:to_s)
-
-current_app = ARGV.shift || 'null' #File.read('.current-app').strip.freeze
 unless bundle_display_names.include?(current_app)
   puts %(Abort: app name should in #{bundle_display_names}, but #{current_app})
   exit
@@ -35,50 +65,72 @@ end
 #
 # reset bundle display name
 #
-puts %(- done: bundle display name: #{bundle_display_hash[current_app.to_sym]})
-plist_path = "YH-IOS/Info.plist"
-plist_hash = Plist::parse_xml(plist_path)
-plist_hash['CFBundleDisplayName'] = bundle_display_hash[current_app.to_sym]
-plist_hash['CFBundleName'] = bundle_display_hash[current_app.to_sym]
-File.open(plist_path, 'w:utf-8') { |file| file.puts(plist_hash.to_plist) }
+if slop_opts[:plist]
+  puts %(- done: bundle display name: #{bundle_display_hash[current_app.to_sym]})
+  plist_path = "YH-IOS/Info.plist"
+  plist_hash = Plist::parse_xml(plist_path)
+  plist_hash['CFBundleDisplayName'] = bundle_display_hash[current_app.to_sym]
+  plist_hash['CFBundleName'] = bundle_display_hash[current_app.to_sym]
+  File.open(plist_path, 'w:utf-8') { |file| file.puts(plist_hash.to_plist) }
+end
 
 #
 # reset assets.xcassets
 #
-puts %(- done: updated appiconset, imageset, loading.zip)
-`rm -fr YH-IOS/Assets.xcassets/AppIcon.appiconset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.appiconset YH-IOS/Assets.xcassets/AppIcon.appiconset`
-`rm -fr YH-IOS/Assets.xcassets/AppIcon.imageset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.imageset YH-IOS/Assets.xcassets/AppIcon.imageset`
-`rm -fr YH-IOS/Assets.xcassets/Nav-Banner.imageset && cp -rf config/Assets.xcassets/Nav-Banner-#{current_app}.imageset YH-IOS/Assets.xcassets/Nav-Banner.imageset`
-`rm -fr YH-IOS/Assets.xcassets/background.imageset && cp -rf config/Assets.xcassets/background-#{current_app}.imageset YH-IOS/Assets.xcassets/background.imageset`
-`rm -f YH-IOS/Shared/loading.zip && cp -f config/Assets/loading-#{current_app}.zip YH-IOS/Shared/loading.zip`
+if slop_opts[:assets]
+  puts %(- done: updated appiconset, imageset, loading.zip)
+  `rm -fr YH-IOS/Assets.xcassets/AppIcon.appiconset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.appiconset YH-IOS/Assets.xcassets/AppIcon.appiconset`
+  `rm -fr YH-IOS/Assets.xcassets/AppIcon.imageset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.imageset YH-IOS/Assets.xcassets/AppIcon.imageset`
+  `rm -fr YH-IOS/Assets.xcassets/Nav-Banner.imageset && cp -rf config/Assets.xcassets/Nav-Banner-#{current_app}.imageset YH-IOS/Assets.xcassets/Nav-Banner.imageset`
+  `rm -fr YH-IOS/Assets.xcassets/background.imageset && cp -rf config/Assets.xcassets/background-#{current_app}.imageset YH-IOS/Assets.xcassets/background.imageset`
+  `rm -f YH-IOS/Shared/loading.zip && cp -f config/Assets/loading-#{current_app}.zip YH-IOS/Shared/loading.zip`
+end
 
 #
 # rewrite private setting
-# 
-puts %(- done: write YH-IOS/Shared/constant_private.h)
-constant_path = 'YH-IOS/Shared/constant_private.h'
-File.open(constant_path, 'w:utf-8') do |file|
-  file.puts <<-EOF.strip_heredoc
-  //  constant_private.h
-  //  
-  //  `bundle install`
-  //  `bundle exec ruby app_kepper.rb`
-  //
-  //  Created by lijunjie on 16/04/08.
-  //  Copyright © 2016年 com.intfocus. All rights reserved.
-  //
+#
+if slop_opts[:constant]
+  puts %(- done: write YH-IOS/Shared/constant_private.h)
+  constant_path = 'YH-IOS/Shared/constant_private.h'
+  File.open(constant_path, 'w:utf-8') do |file|
+    file.puts <<-EOF.strip_heredoc
+    //  constant_private.h
+    //  
+    //  `bundle install`
+    //  `bundle exec ruby app_kepper.rb`
+    //
+    //  Created by lijunjie on 16/04/08.
+    //  Copyright © 2016年 com.intfocus. All rights reserved.
+    //
 
-  // current app: [#{current_app}]
-  // automatic generated by app_keeper.rb
-  #ifndef constant_private_h
-  #define constant_private_h
+    // current app: [#{current_app}]
+    // automatic generated by app_keeper.rb
+    #ifndef constant_private_h
+    #define constant_private_h
 
-  #define BASE_URL @"#{Settings.server}"
-  #define BASE_URL1 @"http://localhost:4567"
-  #define PGYER_APP_ID @"#{Settings.pgyer.ios}"
-  #define UMENG_APP_ID @"#{Settings.umeng.ios.app_key}"
+    #define BASE_URL @"#{Settings.server}"
+    #define BASE_URL1 @"http://localhost:4567"
+    #define PGYER_APP_ID @"#{Settings.pgyer.ios}"
+    #define UMENG_APP_ID @"#{Settings.umeng.ios.app_key}"
 
-  #endif /* constant_private_h */
-  EOF
+    #endif /* constant_private_h */
+    EOF
+  end
 end
 
+#
+# upload ipa to pgyer
+#
+if slop_opts[:pgyer]
+  ipa_path = `find ~/Desktop -name "YH-IOS.ipa" | sort | tail -n 1`.strip
+  unless File.exist?(ipa_path)
+    puts %(Abort: ipa not found - #{ipa_path})
+    exit
+  end
+
+  puts %(- done: generate apk(#{File.size(ipa_path).to_s(:human_size)}) - #{ipa_path})
+  response = `curl --silent -F "file=@#{ipa_path}" -F "uKey=#{Settings.pgyer.user_key}" -F "_api_key=#{Settings.pgyer.api_key}" http://www.pgyer.com/apiv1/app/upload`
+
+  hash = JSON.parse(response).deep_symbolize_keys[:data]
+  puts %(- done: upload ipa(#{hash[:appFileSize].to_i.to_s(:human_size)}) to #pgyer#\n\t#{hash[:appName]}\n\t#{hash[:appIdentifier]}\n\t#{hash[:appVersion]}(#{hash[:appVersionNo]})\n\t#{hash[:appQRCodeURL]})
+end

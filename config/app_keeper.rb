@@ -25,6 +25,12 @@ require 'active_support/core_ext/hash'
 require 'active_support/core_ext/string'
 require 'active_support/core_ext/numeric'
 
+def exit_when condition, &block
+  return unless condition
+  yield
+  exit
+end
+
 slop_opts = Slop.parse do |o|
   o.string '-a', '--app', 'current app', default: 'yonghui'
   o.bool '-p', '--plist', 'Info.plist', default: false
@@ -48,9 +54,8 @@ bundle_display_hash = {
   qiyoutong: '企邮通'
 }
 bundle_display_names = bundle_display_hash.keys.map(&:to_s)
-unless bundle_display_names.include?(current_app)
+exit_when !bundle_display_names.include?(current_app) do
   puts %(Abort: app name should in #{bundle_display_names}, but #{current_app})
-  exit
 end
 
 `echo '#{current_app}' > .current-app`
@@ -123,9 +128,8 @@ end
 #
 if slop_opts[:pgyer]
   ipa_path = `find ~/Desktop -name "YH-IOS.ipa" | sort | tail -n 1`.strip
-  unless File.exist?(ipa_path)
+  exit_when !File.exist?(ipa_path) do
     puts %(Abort: ipa not found - #{ipa_path})
-    exit
   end
 
   puts %(- done: generate apk(#{File.size(ipa_path).to_s(:human_size)}) - #{ipa_path})

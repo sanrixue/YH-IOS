@@ -2,12 +2,12 @@
 
 ##############################################################################
 ##
-##  Ruby switch YH-IOS apps for UN*X
+##  Script switch YH-IOS apps for UN*X
 ##
 ##############################################################################
 
 case "$1" in
-  yonghui|shengyiplus|qiyoutong)
+  yonghui|shengyiplus|qiyoutong|test)
     # bundle exec ruby config/app_keeper.rb --plist --assets --constant
     bundle exec ruby config/app_keeper.rb --app="$1" --plist --assets --constant
   ;;

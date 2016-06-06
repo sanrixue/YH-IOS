@@ -12,7 +12,6 @@
 #import <PgyUpdate/PgyUpdateManager.h>
 #import "NSData+MD5.h"
 
-
 static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
 
@@ -226,8 +225,31 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - action methods
 - (IBAction)actionPerformSettingView:(UIButton *)sender {
-    [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
+    // [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
+    
+    if ([QRCodeReader supportsMetadataObjectTypes:@[AVMetadataObjectTypeUPCECode, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode39Mod43Code,
+                                                    AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeCode128Code,
+                                                    AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeAztecCode]]) {
+        static QRCodeReaderViewController *reader = nil;
+        static dispatch_once_t onceToken;
+        
+        dispatch_once(&onceToken, ^{
+            reader = [[QRCodeReaderViewController alloc] initWithCancelButtonTitle:@"关闭"];
+            reader.modalPresentationStyle = UIModalPresentationFormSheet;
+        });
+        reader.delegate = self;
+        
+        [self presentViewController:reader animated:YES completion:NULL];
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Reader not supported by the current device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        
+        [alert show];
+    }
+
 }
+
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
@@ -261,7 +283,22 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         }
     });
 }
+
+#pragma mark - QRCodeReader Delegate Methods
+
+- (void)reader:(QRCodeReaderViewController *)reader didScanResult:(NSString *)result {
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSLog(@"%@", result);
+        [[[UIAlertView alloc] initWithTitle:@"扫码" message:result delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+    }];
+}
+
+- (void)readerDidCancel:(QRCodeReaderViewController *)reader {
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
 #pragma mark - UIWebview delegate
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
@@ -274,6 +311,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 #pragma mark - UITabBar delegate
+
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     [self tabBarClick:item.tag];
 }
@@ -339,6 +377,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 # pragma mark - 不支持旋转
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return NO;
 }
@@ -348,7 +387,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
   *  @param response <#response description#>
   */
 - (void)appUpgradeMethod:(NSDictionary *)response {
-    
     if(response && response[@"downloadURL"] && response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0) {
         
         SCLAlertView *alert = [[SCLAlertView alloc] init];

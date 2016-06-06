@@ -7,7 +7,8 @@
 //
 
 #import "BaseViewController.h"
+#import "QRCodeReaderViewController.h"
 
-@interface DashboardViewController : BaseViewController<UITabBarDelegate>
+@interface DashboardViewController : BaseViewController<UITabBarDelegate, QRCodeReaderDelegate>
 @property (strong, nonatomic) NSString *fromViewController;
 @end

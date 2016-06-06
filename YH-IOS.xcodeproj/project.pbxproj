@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E9EEC1875A034202F52C155 /* libPods-YH-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A867606F7216FABE6624278 /* libPods-YH-IOS.a */; };
 		C40D06B21C917BF80029D142 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C40D06AD1C917BF80029D142 /* TFHpple.m */; };
 		C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C40D06AF1C917BF80029D142 /* TFHppleElement.m */; };
 		C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C40D06B11C917BF80029D142 /* XPathQuery.m */; };
@@ -32,7 +33,6 @@
 		C48C03CA1CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C48C03C81CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a */; };
 		C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */ = {isa = PBXBuildFile; fileRef = C48DC6FC1C1E8FDD00CECB95 /* Version.m */; };
 		C499E8A31C3262240033BF6C /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C499E8A21C3262240033BF6C /* ResetPasswordViewController.m */; };
-		C49A02A08C99679205CD6255 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 016230E97585F60D9A2BE43F /* libPods.a */; };
 		C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB21C19632000CFFE3C /* SettingViewController.m */; };
 		C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB61C196B5400CFFE3C /* ViewUtils.m */; };
 		C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DC1C2CECC10067516F /* NSData+MD5.m */; };
@@ -85,9 +85,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		016230E97585F60D9A2BE43F /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		1374D056885AF221F43AFB66 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
-		BA7C8A7FE878AF127C6E6870 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.release.xcconfig"; sourceTree = "<group>"; };
+		6A867606F7216FABE6624278 /* libPods-YH-IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.debug.xcconfig"; sourceTree = "<group>"; };
 		C40D06AC1C917BF80029D142 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		C40D06AD1C917BF80029D142 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		C40D06AE1C917BF80029D142 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -204,7 +204,7 @@
 				C4771BA61C058A1800AAF44F /* libxml2.tbd in Frameworks */,
 				C4771BA91C058A7B00AAF44F /* PgySDK.framework in Frameworks */,
 				C4771BAA1C058A7B00AAF44F /* PgyUpdate.framework in Frameworks */,
-				C49A02A08C99679205CD6255 /* libPods.a in Frameworks */,
+				9E9EEC1875A034202F52C155 /* libPods-YH-IOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +225,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B174869F4F001C543623475 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */,
+				12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		C40D06AB1C917BF80029D142 /* hpple */ = {
 			isa = PBXGroup;
 			children = (
@@ -416,9 +425,9 @@
 				C4DB7D8F1C02EC0600DA534E /* YH-IOSTests */,
 				C4DB7D9A1C02EC0600DA534E /* YH-IOSUITests */,
 				C4DB7D741C02EC0500DA534E /* Products */,
-				C604676B995213DD1045036A /* Pods */,
 				E7359AA6518F9148E9F7A313 /* Frameworks */,
 				C4272CC71C5C752A00E6971B /* README.md */,
+				6B174869F4F001C543623475 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -599,15 +608,6 @@
 			path = WebViewJavascriptBridge;
 			sourceTree = "<group>";
 		};
-		C604676B995213DD1045036A /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				1374D056885AF221F43AFB66 /* Pods.debug.xcconfig */,
-				BA7C8A7FE878AF127C6E6870 /* Pods.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		E7359AA6518F9148E9F7A313 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -624,7 +624,7 @@
 				C4771BA71C058A7B00AAF44F /* PgySDK.framework */,
 				C4771BA81C058A7B00AAF44F /* PgyUpdate.framework */,
 				C4771BA51C058A1800AAF44F /* libxml2.tbd */,
-				016230E97585F60D9A2BE43F /* libPods.a */,
+				6A867606F7216FABE6624278 /* libPods-YH-IOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -636,12 +636,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C4DB7DA01C02EC0600DA534E /* Build configuration list for PBXNativeTarget "YH-IOS" */;
 			buildPhases = (
-				5ACEE108C06FBF81E8AD744C /* Check Pods Manifest.lock */,
+				6458DD0A1FE328C89B4914BC /* [CP] Check Pods Manifest.lock */,
 				C4DB7D6F1C02EC0500DA534E /* Sources */,
 				C4DB7D701C02EC0500DA534E /* Frameworks */,
 				C4DB7D711C02EC0500DA534E /* Resources */,
-				780388A8C3010E11B01424CC /* Embed Pods Frameworks */,
-				BD9D6A8DA6111F487AF75CFC /* Copy Pods Resources */,
+				E32AEDE46CFB22176110AA88 /* [CP] Embed Pods Frameworks */,
+				6C1B698DDFC5C340B1595665 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -766,14 +766,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5ACEE108C06FBF81E8AD744C /* Check Pods Manifest.lock */ = {
+		6458DD0A1FE328C89B4914BC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -781,34 +781,34 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		780388A8C3010E11B01424CC /* Embed Pods Frameworks */ = {
+		6C1B698DDFC5C340B1595665 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BD9D6A8DA6111F487AF75CFC /* Copy Pods Resources */ = {
+		E32AEDE46CFB22176110AA88 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -989,11 +989,11 @@
 		};
 		C4DB7DA11C02EC0600DA534E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1374D056885AF221F43AFB66 /* Pods.debug.xcconfig */;
+			baseConfigurationReference = 766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1012,7 +1012,7 @@
 					"$(PROJECT_DIR)/UMessage_Sdk_1.2.6",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.qiyoutong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -1020,11 +1020,11 @@
 		};
 		C4DB7DA21C02EC0600DA534E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BA7C8A7FE878AF127C6E6870 /* Pods.release.xcconfig */;
+			baseConfigurationReference = 12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1043,7 +1043,7 @@
 					"$(PROJECT_DIR)/UMessage_Sdk_1.2.6",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.qiyoutong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

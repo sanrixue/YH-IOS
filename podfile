@@ -1,12 +1,17 @@
+# source 'https://github.com/CocoaPods/Specs.git'
+
 platform :ios, '8.0'
 
-pod 'Reachability', '~> 3.2'
-pod 'MBProgressHUD', '~> 0.9.1'
-# pod 'FXBlurView', '~> 1.6.3'
-pod 'SSZipArchive', '~> 0.3.2'
-pod 'SCLAlertView-Objective-C', '~> 0.7.9'
-pod 'LTHPasscodeViewController', '~> 3.7.1'
-pod 'AFNetworking', '~>2.5.4'
-# pod 'WebViewJavascriptBridge', '~> 5.0'
-# pod 'Pgyer'
-# pod 'PgyUpdate'
+target 'YH-IOS' do
+    pod 'Reachability', '~> 3.2'
+    pod 'MBProgressHUD', '~> 0.9.1'
+    pod 'SSZipArchive', '~> 0.3.2'
+    pod 'SCLAlertView-Objective-C', '~> 0.7.9'
+    pod 'LTHPasscodeViewController', '~> 3.7.1'
+    pod 'AFNetworking', '~>2.5.4'
+    pod 'QRCodeReaderViewController', '~> 4.0.1'
+    # pod 'FXBlurView', '~> 1.6.3'
+    # pod 'WebViewJavascriptBridge', '~> 5.0'
+    # pod 'Pgyer'
+    # pod 'PgyUpdate'
+end

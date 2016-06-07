@@ -39,7 +39,7 @@
 #define USER_CONFIG_FILENAME        @"user.plist"
 #define PUSH_CONFIG_FILENAME        @"push_message.plist"
 #define CONFIG_DIRNAME              @"Configs"
-#define SETTINGS_CONFIG_FILENAME    @"Setting.plist"
+#define SETTINGS_CONFIG_FILENAME    @"setting.plist"
 #define TABINDEX_CONFIG_FILENAME    @"page_tab_index.plist"
 #define GESTURE_PASSWORD_FILENAME   @"gesture_password.plist"
 #define HTML_DIRNAME                @"HTML"
@@ -50,7 +50,7 @@
 #define USER_AGENT_FILENAME         @"webview_user_agent.txt"
 #define CURRENT_VERSION__FILENAME   @"current_version.txt"
 #define PGYER_VERSION_FILENAME      @"pgyer_version.plist"
-#define BETA_CONFIG_FILENAME        @"Beta.plist"
+#define BETA_CONFIG_FILENAME        @"beta.plist"
 
 #define URL_WRITE_LOCAL             @"1"
 #define PGYER_URL                   @"http://www.pgyer.com/yh-i"

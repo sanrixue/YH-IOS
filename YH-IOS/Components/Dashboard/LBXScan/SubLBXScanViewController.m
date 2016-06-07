@@ -11,6 +11,7 @@
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
 #import <SCLAlertView.h>
+#import "ScanResultViewController.h"
 
 @interface SubLBXScanViewController ()
 @end
@@ -83,20 +84,20 @@
     [self.view addSubview:_bottomItemsView];
     
     CGSize size = CGSizeMake(65, 87);
-    self.btnFlash = [[UIButton alloc]init];
+    self.btnFlash = [[UIButton alloc] init];
     _btnFlash.bounds = CGRectMake(0, 0, size.width, size.height);
     _btnFlash.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame)/2, CGRectGetHeight(_bottomItemsView.frame)/2);
      [_btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_nor"] forState:UIControlStateNormal];
     [_btnFlash addTarget:self action:@selector(openOrCloseFlash) forControlEvents:UIControlEventTouchUpInside];
     
-    self.btnPhoto = [[UIButton alloc]init];
+    self.btnPhoto = [[UIButton alloc] init];
     _btnPhoto.bounds = _btnFlash.bounds;
     _btnPhoto.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame)/4, CGRectGetHeight(_bottomItemsView.frame)/2);
     [_btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_nor"] forState:UIControlStateNormal];
     [_btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_down"] forState:UIControlStateHighlighted];
     [_btnPhoto addTarget:self action:@selector(openPhoto) forControlEvents:UIControlEventTouchUpInside];
     
-    self.btnMyQR = [[UIButton alloc]init];
+    self.btnMyQR = [[UIButton alloc] init];
     _btnMyQR.bounds = _btnFlash.bounds;
     _btnMyQR.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame) * 3/4, CGRectGetHeight(_bottomItemsView.frame)/2);
     [_btnMyQR setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_myqrcode_nor"] forState:UIControlStateNormal];
@@ -126,9 +127,7 @@
     }
     
     LBXScanResult *scanResult = array[0];
-    
     NSString *strResult = scanResult.strScanned;
-    
     self.scanImage = scanResult.imgScanned;
     
     if (!strResult) {
@@ -142,8 +141,11 @@
     // 声音提醒
     [LBXScanWrapper systemSound];
     
-    NSString *message = [NSString stringWithFormat:@"info: %@\ntype: %@", scanResult.strScanned, scanResult.strBarCodeType];
-    [[[UIAlertView alloc] initWithTitle:@"扫描结果" message:message delegate:nil cancelButtonTitle:@"晓得了" otherButtonTitles:nil] show];
+    // NSString *message = [NSString stringWithFormat:@"info: %@\ntype: %@", scanResult.strScanned, scanResult.strBarCodeType];
+    // [[[UIAlertView alloc] initWithTitle:@"扫描结果" message:message delegate:nil cancelButtonTitle:@"晓得了" otherButtonTitles:nil] show];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ScanResultViewController *scanResultVC = (ScanResultViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ScanResultViewController"];
+    [self presentViewController:scanResultVC animated:YES completion:nil];
 }
 
 - (void)popAlertMsgWithScanResult:(NSString*)strResult {

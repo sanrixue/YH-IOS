@@ -36,7 +36,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [[UITabBar appearance] setTintColor:color];
     [self idColor];
     
-    
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"DashboardViewController - ObjC received message from JS: %@", data);
@@ -229,15 +228,16 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - action methods
 - (IBAction)actionPerformSettingView:(UIButton *)sender {
-    // [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
-    
+    [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
+}
+
+- (IBAction)actionBarCodeScanView:(UIButton *)sender {
     if (![self cameraPemission]) {
         [[[UIAlertView alloc] initWithTitle:@"提示" message:@"没有摄像机权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
         return;
     }
     [self qqStyle];
 }
-
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
@@ -295,7 +295,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     return isHavePemission;
 }
-
 
 #pragma mark -模仿qq界面
 

@@ -42,6 +42,8 @@
 		C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DF1C2CECC10067516F /* UIColor+Hex.m */; };
 		C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564E21C2CECC10067516F /* UIWebView+Clean.m */; };
 		C4BA6EA41C7DB24A0059F101 /* FileUtils+Assets.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */; };
+		C4C284E31D06BACF009458E6 /* bar_code_scan_result.html in Resources */ = {isa = PBXBuildFile; fileRef = C4C284E21D06BACF009458E6 /* bar_code_scan_result.html */; };
+		C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C284E41D06BB1A009458E6 /* ScanResultViewController.m */; };
 		C4C628431C0C1ED6000AD5D8 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* SubjectViewController.m */; };
 		C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */; };
 		C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */; };
@@ -145,6 +147,9 @@
 		C4A57AA61CB7859E004F9C3D /* constant_private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = constant_private.h; sourceTree = "<group>"; };
 		C4BA6EA21C7DB24A0059F101 /* FileUtils+Assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FileUtils+Assets.h"; sourceTree = "<group>"; };
 		C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FileUtils+Assets.m"; sourceTree = "<group>"; };
+		C4C284E21D06BACF009458E6 /* bar_code_scan_result.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = bar_code_scan_result.html; sourceTree = "<group>"; };
+		C4C284E41D06BB1A009458E6 /* ScanResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanResultViewController.m; sourceTree = "<group>"; };
+		C4C284E51D06BB1A009458E6 /* ScanResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanResultViewController.h; sourceTree = "<group>"; };
 		C4C6283B1C0C1ED6000AD5D8 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectViewController.h; sourceTree = "<group>"; };
 		C4C6283C1C0C1ED6000AD5D8 /* SubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectViewController.m; sourceTree = "<group>"; };
 		C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DashboardViewController.h; sourceTree = "<group>"; };
@@ -274,14 +279,17 @@
 			path = OpenUUID;
 			sourceTree = "<group>";
 		};
-		C46F6A931D0671C900C561CE /* LBXScan */ = {
+		C46F6A931D0671C900C561CE /* BarCodeScan */ = {
 			isa = PBXGroup;
 			children = (
+				C4C284E51D06BB1A009458E6 /* ScanResultViewController.h */,
+				C4C284E41D06BB1A009458E6 /* ScanResultViewController.m */,
 				C46F6A991D0673AB00C561CE /* MyQRViewController.h */,
 				C46F6A9A1D0673AB00C561CE /* MyQRViewController.m */,
 				C46F6A941D0671C900C561CE /* SubLBXScanViewController.h */,
 				C46F6A951D0671C900C561CE /* SubLBXScanViewController.m */,
 			);
+			name = BarCodeScan;
 			path = LBXScan;
 			sourceTree = "<group>";
 		};
@@ -414,7 +422,7 @@
 		C4C6283D1C0C1ED6000AD5D8 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
-				C46F6A931D0671C900C561CE /* LBXScan */,
+				C46F6A931D0671C900C561CE /* BarCodeScan */,
 				C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */,
 				C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */,
 			);
@@ -565,6 +573,7 @@
 		C4DB7DC51C02EE6000DA534E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				C4C284E21D06BACF009458E6 /* bar_code_scan_result.html */,
 				C4A57AA61CB7859E004F9C3D /* constant_private.h */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
 				C4EFE4AB1C98F60A0009411A /* stylesheets.zip */,
@@ -761,6 +770,7 @@
 				C4EFE4B21C98F60A0009411A /* images.zip in Resources */,
 				C4EFE4B01C98F60A0009411A /* stylesheets.zip in Resources */,
 				C4EFE4AF1C98F60A0009411A /* fonts.zip in Resources */,
+				C4C284E31D06BACF009458E6 /* bar_code_scan_result.html in Resources */,
 				C46F6A981D06720A00C561CE /* CodeScan.bundle in Resources */,
 				C4EFE4B11C98F60A0009411A /* javascripts.zip in Resources */,
 				C4EFE4B31C98F60A0009411A /* assets.zip in Resources */,
@@ -868,6 +878,7 @@
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,
 				C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */,
+				C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */,
 				C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */,
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,

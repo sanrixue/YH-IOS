@@ -20,6 +20,7 @@
 @property (strong, nonatomic) NSArray *kpiIDs;
 @property (strong, nonatomic) NSArray *analyseIDs;
 @property (strong, nonatomic) NSArray *appIDs;
+@property (strong, nonatomic) NSString *deviceID;
 
 + (NSString *)configPath;
 /**

@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "constant.h"
 #import "User.h"
-#import "FileUtils+Assets.h"
 #import "HttpUtils.h"
 #import "APIHelper.h"
+#import "FileUtils+Assets.h"
 #import <MBProgressHUD.h>
 #import "WebViewJavascriptBridge.h"
 #import "HttpResponse.h"

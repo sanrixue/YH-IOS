@@ -9,6 +9,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>LBXAlertAction.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>LBXScan.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>LTHPasscodeViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -44,15 +54,20 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>ZXingObjC.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>ZYCornerRadius.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>05EADC013951EEBF1A2DB236C0A895BE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>207797158E96A721CF63E7D3C7E96A29</key>
+		<key>228A1890D914D757B3477DB081287AEB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -67,22 +82,47 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>34D215E06CCECD87846A3533C30A170C</key>
+		<key>408669D2F040543BBF7959700CCDFCDE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8005C1F4A0FD0149176285AFE3FAECC2</key>
+		<key>4C92304D7238AFB97C1D3B7A76C26609</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8784D1BB4064625CD3850891AAF00D14</key>
+		<key>622A1AC198C1950738113DEA8F8C4647</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7BD50638919A2C54A578A8ABCB42F3D6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>82561D370644F4C142EDE6253F0D01F7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D53E4849A405C96B131F44AA0E21D672</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F94358D3F300D35E92102117A01DE029</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>FE2F1D7B9D9FCEA148517E4657B243F4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FE83EF077736BF2D6CDEA8C14F09E6F4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

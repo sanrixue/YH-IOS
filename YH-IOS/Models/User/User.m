@@ -28,6 +28,7 @@
             self.kpiIDs     = dict[@"kpi_ids"];
             self.analyseIDs = dict[@"analyse_ids"];
             self.appIDs     = dict[@"app_ids"];
+            self.deviceID   = dict[@"user_device_id"];
         }
     }
     
@@ -70,4 +71,5 @@
     
     return alias;
 }
+
 @end

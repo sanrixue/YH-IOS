@@ -8,9 +8,13 @@
 
 #import "DashboardViewController.h"
 #import "SubjectViewController.h"
+#import "NSData+MD5.h"
 #import <SCLAlertView.h>
 #import <PgyUpdate/PgyUpdateManager.h>
-#import "NSData+MD5.h"
+#import "LBXScanView.h"
+#import "LBXScanResult.h"
+#import "LBXScanWrapper.h"
+#import "SubLBXScanViewController.h"
 
 static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
@@ -227,28 +231,12 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (IBAction)actionPerformSettingView:(UIButton *)sender {
     // [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
     
-    if ([QRCodeReader supportsMetadataObjectTypes:@[AVMetadataObjectTypeUPCECode, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode39Mod43Code,
-                                                    AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeCode128Code,
-                                                    AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeAztecCode]]) {
-        static QRCodeReaderViewController *reader = nil;
-        static dispatch_once_t onceToken;
-        
-        dispatch_once(&onceToken, ^{
-            reader = [[QRCodeReaderViewController alloc] initWithCancelButtonTitle:@"关闭"];
-            reader.modalPresentationStyle = UIModalPresentationFormSheet;
-        });
-        reader.delegate = self;
-        
-        [self presentViewController:reader animated:YES completion:NULL];
+    if (![self cameraPemission]) {
+        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"没有摄像机权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        return;
     }
-    else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Reader not supported by the current device" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        
-        [alert show];
-    }
-
+    [self qqStyle];
 }
-
 
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -284,18 +272,70 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     });
 }
 
-#pragma mark - QRCodeReader Delegate Methods
+#pragma mark - LBXScan Delegate Methods
 
-- (void)reader:(QRCodeReaderViewController *)reader didScanResult:(NSString *)result {
-    [self dismissViewControllerAnimated:YES completion:^{
-        NSLog(@"%@", result);
-        [[[UIAlertView alloc] initWithTitle:@"扫码" message:result delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
-    }];
+- (BOOL)cameraPemission {
+    BOOL isHavePemission = NO;
+    if ([AVCaptureDevice respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
+        AVAuthorizationStatus permission =
+        [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        
+        switch (permission) {
+            case AVAuthorizationStatusAuthorized:
+                isHavePemission = YES;
+                break;
+            case AVAuthorizationStatusDenied:
+            case AVAuthorizationStatusRestricted:
+                break;
+            case AVAuthorizationStatusNotDetermined:
+                isHavePemission = YES;
+                break;
+        }
+    }
+    
+    return isHavePemission;
 }
 
-- (void)readerDidCancel:(QRCodeReaderViewController *)reader {
-    [self dismissViewControllerAnimated:YES completion:NULL];
+
+#pragma mark -模仿qq界面
+
+- (void)qqStyle {
+    //设置扫码区域参数设置
+    
+    //创建参数对象
+    LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
+    
+    //矩形区域中心上移，默认中心点为屏幕中心点
+    style.centerUpOffset = 44;
+    
+    //扫码框周围4个角的类型,设置为外挂式
+    style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
+    
+    //扫码框周围4个角绘制的线条宽度
+    style.photoframeLineW = 6;
+    
+    //扫码框周围4个角的宽度
+    style.photoframeAngleW = 24;
+    
+    //扫码框周围4个角的高度
+    style.photoframeAngleH = 24;
+    
+    //扫码框内 动画类型 --线条上下移动
+    style.anmiationStyle = LBXScanViewAnimationStyle_LineMove;
+    
+    //线条上下移动图片
+    style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_light_green"];
+    
+    //SubLBXScanViewController继承自LBXScanViewController
+    //添加一些扫码或相册结果处理
+    SubLBXScanViewController *vc = [SubLBXScanViewController new];
+    vc.style = style;
+    
+    vc.isQQSimulator = YES;
+    vc.isVideoZoom = YES;
+    [self presentViewController:vc animated:YES completion:nil];
 }
+
 
 #pragma mark - UIWebview delegate
 

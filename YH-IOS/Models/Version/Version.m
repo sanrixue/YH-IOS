@@ -35,8 +35,6 @@
         NSDictionary *fattributes = [fm attributesOfFileSystemForPath:NSHomeDirectory() error:nil];
         _fileSystemSize     = [fattributes objectForKey:NSFileSystemSize];
         _fileSystemFreeSize = [fattributes objectForKey:NSFileSystemFreeSize];
-        
-
     }
     return self;
 }
@@ -44,7 +42,6 @@
 - (BOOL)isUpgrade {
     return self.latest && ![self.latest isEqualToString:self.current];
 }
-
 
 - (NSString *)simpleDescription {
     return [NSString stringWithFormat:@"<#%@ version: %@, machine: %@(%@), sdkName: %@, lang: %@>", self.appName,self.current, [Version machine], [Version machineHuman], self.sdkName,self.lang];

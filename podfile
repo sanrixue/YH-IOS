@@ -1,4 +1,4 @@
-# source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '8.0'
 
@@ -10,6 +10,10 @@ target 'YH-IOS' do
     pod 'LTHPasscodeViewController', '~> 3.7.1'
     pod 'AFNetworking', '~>2.5.4'
     pod 'QRCodeReaderViewController', '~> 4.0.1'
+    # pod 'ZXingObjC', '~> 3.0'
+    pod 'LBXScan', git:'https://github.com/MxABC/LBXScan.git'
+    pod 'LBXAlertAction', '~>1.0.3'
+    pod 'ZYCornerRadius', git:'https://github.com/liuzhiyi1992/ZYCornerRadius.git',tag:'0.9.1'
     # pod 'FXBlurView', '~> 1.6.3'
     # pod 'WebViewJavascriptBridge', '~> 5.0'
     # pod 'Pgyer'

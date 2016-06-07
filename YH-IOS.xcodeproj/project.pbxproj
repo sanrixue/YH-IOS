@@ -19,6 +19,9 @@
 		C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4448C6B1C0AE3030053B431 /* HttpUtils.m */; };
 		C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = C45D270F1C23FC490087C6F2 /* OpenUDID.m */; };
 		C45D27121C23FC490087C6F2 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C45D27101C23FC490087C6F2 /* README.md */; };
+		C46F6A961D0671C900C561CE /* SubLBXScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C46F6A951D0671C900C561CE /* SubLBXScanViewController.m */; };
+		C46F6A981D06720A00C561CE /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C46F6A971D06720A00C561CE /* CodeScan.bundle */; };
+		C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C46F6A9A1D0673AB00C561CE /* MyQRViewController.m */; };
 		C4771BA61C058A1800AAF44F /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BA51C058A1800AAF44F /* libxml2.tbd */; };
 		C4771BA91C058A7B00AAF44F /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BA71C058A7B00AAF44F /* PgySDK.framework */; };
 		C4771BAA1C058A7B00AAF44F /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BA81C058A7B00AAF44F /* PgyUpdate.framework */; };
@@ -104,6 +107,11 @@
 		C45D270E1C23FC490087C6F2 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		C45D270F1C23FC490087C6F2 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		C45D27101C23FC490087C6F2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C46F6A941D0671C900C561CE /* SubLBXScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubLBXScanViewController.h; sourceTree = "<group>"; };
+		C46F6A951D0671C900C561CE /* SubLBXScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubLBXScanViewController.m; sourceTree = "<group>"; };
+		C46F6A971D06720A00C561CE /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
+		C46F6A991D0673AB00C561CE /* MyQRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQRViewController.h; sourceTree = "<group>"; };
+		C46F6A9A1D0673AB00C561CE /* MyQRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyQRViewController.m; sourceTree = "<group>"; };
 		C4771BA51C058A1800AAF44F /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
 		C4771BA71C058A7B00AAF44F /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PgySDK.framework; sourceTree = "<group>"; };
 		C4771BA81C058A7B00AAF44F /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PgyUpdate.framework; sourceTree = "<group>"; };
@@ -266,9 +274,21 @@
 			path = OpenUUID;
 			sourceTree = "<group>";
 		};
+		C46F6A931D0671C900C561CE /* LBXScan */ = {
+			isa = PBXGroup;
+			children = (
+				C46F6A991D0673AB00C561CE /* MyQRViewController.h */,
+				C46F6A9A1D0673AB00C561CE /* MyQRViewController.m */,
+				C46F6A941D0671C900C561CE /* SubLBXScanViewController.h */,
+				C46F6A951D0671C900C561CE /* SubLBXScanViewController.m */,
+			);
+			path = LBXScan;
+			sourceTree = "<group>";
+		};
 		C4771B881C05871300AAF44F /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				C46F6A971D06720A00C561CE /* CodeScan.bundle */,
 				C4EFE4B41C99812B0009411A /* WebViewJavascriptBridge */,
 				C40D06AB1C917BF80029D142 /* hpple */,
 				C45D270D1C23FC490087C6F2 /* OpenUUID */,
@@ -394,6 +414,7 @@
 		C4C6283D1C0C1ED6000AD5D8 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				C46F6A931D0671C900C561CE /* LBXScan */,
 				C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */,
 				C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */,
 			);
@@ -740,6 +761,7 @@
 				C4EFE4B21C98F60A0009411A /* images.zip in Resources */,
 				C4EFE4B01C98F60A0009411A /* stylesheets.zip in Resources */,
 				C4EFE4AF1C98F60A0009411A /* fonts.zip in Resources */,
+				C46F6A981D06720A00C561CE /* CodeScan.bundle in Resources */,
 				C4EFE4B11C98F60A0009411A /* javascripts.zip in Resources */,
 				C4EFE4B31C98F60A0009411A /* assets.zip in Resources */,
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
@@ -821,6 +843,7 @@
 				C4DB7DC21C02EE3800DA534E /* ExtendNSLogFunctionality.m in Sources */,
 				C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */,
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
+				C46F6A961D0671C900C561CE /* SubLBXScanViewController.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
@@ -844,6 +867,7 @@
 				C4C628431C0C1ED6000AD5D8 /* SubjectViewController.m in Sources */,
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,
+				C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */,
 				C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */,
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,

@@ -16,8 +16,7 @@
 @implementation APIHelper
 
 + (NSString *)reportDataUrlString:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID  {
-    NSString *urlPath = [NSString stringWithFormat:API_DATA_PATH, groupID, templateID, reportID];
-    return [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    return[NSString stringWithFormat:API_DATA_PATH, BASE_URL, groupID, templateID, reportID];
 }
 
 #pragma todo: pass assetsPath as parameter
@@ -61,8 +60,7 @@
  *  @return error msg when authentication failed
  */
 + (NSString *)userAuthentication:(NSString *)usernum password:(NSString *)password {
-    NSString *urlPath = [NSString stringWithFormat:API_USER_PATH, @"IOS", usernum, password];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    NSString *urlString = [NSString stringWithFormat:API_USER_PATH, BASE_URL, @"IOS", usernum, password];
     NSString *alertMsg = @"";
     
     NSMutableDictionary *deviceDict = [NSMutableDictionary dictionary];
@@ -167,8 +165,7 @@
  *  @return 是否创建成功
  */
 + (BOOL)writeComment:(NSNumber *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params {
-    NSString *urlPath = [NSString stringWithFormat:API_COMMENT_PATH, userID, objectID, objectType];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    NSString *urlString = [NSString stringWithFormat:API_COMMENT_PATH, BASE_URL, userID, objectID, objectType];
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];
     
     return [httpResponse.statusCode isEqual:@(201)];
@@ -183,8 +180,7 @@
  *  @return 服务器是否更新成功
  */
 + (BOOL)pushDeviceToken:(NSString *)deviceUUID deviceToken:(NSString *)deviceToken {
-    NSString *urlPath = [NSString stringWithFormat:API_PUSH_DEVICE_TOKEN_PATH, deviceUUID, deviceToken];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    NSString *urlString = [NSString stringWithFormat:API_PUSH_DEVICE_TOKEN_PATH, BASE_URL, deviceUUID, deviceToken];
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:[NSMutableDictionary dictionary]];
     
     return httpResponse.data[@"valid"] && [httpResponse.data[@"valid"] boolValue];
@@ -198,8 +194,7 @@
  *  @param state        是否锁屏
  */
 + (void)screenLock:(NSString *)userDeviceID passcode:(NSString *)passcode state:(BOOL)state {
-    NSString *urlPath = [NSString stringWithFormat:API_SCREEN_LOCK_PATH, userDeviceID];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    NSString *urlString = [NSString stringWithFormat:API_SCREEN_LOCK_PATH, BASE_URL, userDeviceID];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"screen_lock_state"] = @(state);
     params[@"screen_lock_type"]  = @"4位数字";
@@ -218,8 +213,7 @@
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
-    NSString *urlPath = [NSString stringWithFormat:API_DEVICE_STATE_PATH, userDict[@"user_device_id"]];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    NSString *urlString = [NSString stringWithFormat:API_DEVICE_STATE_PATH, BASE_URL, userDict[@"user_device_id"]];
     HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
     
 
@@ -247,8 +241,7 @@
  *  @return 服务器响应
  */
 + (HttpResponse *)resetPassword:(NSNumber *)userID newPassword:(NSString *)newPassword {
-    NSString *urlPath = [NSString stringWithFormat:API_RESET_PASSWORD_PATH, userID];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+    NSString *urlString = [NSString stringWithFormat:API_RESET_PASSWORD_PATH, BASE_URL, userID];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"password"] = newPassword;
@@ -285,7 +278,37 @@
     
     params[@"user"] = userParams;
     
-    NSString *urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, API_ACTION_LOG_PATH];
+    NSString *urlString = [NSString stringWithFormat:API_ACTION_LOG_PATH, BASE_URL];
     [HttpUtils httpPost:urlString Params:params];
+}
+
+/**
+ *  二维码扫描
+ *
+ *  @param urlString  api url
+ *  @param codeString 条形码信息
+ *  @param codeType   条形码或二维码
+ */
++ (void)barCodeScan:(NSNumber *)userID code:(NSString *)codeInfo type:(NSString *)codeType {
+    NSString *urlString = [NSString stringWithFormat:API_BAR_CODE_SCAN_PATH, BASE_URL, userID];
+    
+    NSMutableDictionary *codeDict = [NSMutableDictionary dictionaryWithDictionary:@{ @"code_info": codeInfo, @"code_type": codeType }];
+    HttpResponse *response = [HttpUtils httpPost:urlString Params:codeDict];
+    
+    NSMutableArray *resultArray = [NSMutableArray array];
+    NSArray *allKeys = response.data.allKeys;
+    for(NSInteger i = 0, len = allKeys.count; i < len; i ++) {
+        if([allKeys[i] isEqualToString: @"code"]) continue;
+        
+        [resultArray addObject:[NSString stringWithFormat:@"<tr><td>%@</td><td>%@</td></tr>", allKeys[i], [response.data objectForKey:allKeys[i]]]];
+    }
+    NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
+    javascriptPath = [javascriptPath stringByAppendingPathComponent:@"bar_code_scan_result.js"];
+    NSString *javascriptContent = [NSString stringWithFormat:@"\
+                                   (function(){                \
+                                     document.getElementById('result').innerHTML = '%@'; \
+                                   }).call(this);", [resultArray componentsJoinedByString:@""]];
+    NSLog(@"%@", javascriptContent);
+    [javascriptContent writeToFile:javascriptPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 @end

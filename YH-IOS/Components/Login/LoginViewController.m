@@ -22,7 +22,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
     self.assetsPath = [FileUtils sharedPath];
-    self.urlString = [NSString stringWithFormat:@"%@%@", BASE_URL, LOGIN_PATH];
 
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {

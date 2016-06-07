@@ -13,17 +13,16 @@
 
 #define YH_COLOR                    @"#53a93f" //53,A9,3F; 83, 169, 63
 
-#define LOGIN_PATH                  @"/mobile/login"
-#define API_USER_PATH               @"/api/v1/%@/%@/%@/authentication"
-#define API_DATA_DEPRECATED_PATH    @"/api/v1/group/%@/report/%@/attachment"
-#define API_DATA_PATH               @"/api/v1/group/%@/template/%@/report/%@/attachment"
-#define API_COMMENT_PATH            @"/api/v1/user/%@/id/%@/type/%@"
-#define API_SCREEN_LOCK_PATH        @"/api/v1/user_device/%@/screen_lock"
-#define API_DEVICE_STATE_PATH       @"/api/v1/user_device/%@/state"
-#define API_RESET_PASSWORD_PATH     @"/api/v1/update/%@/password"
-#define API_ACTION_LOG_PATH         @"/api/v1/ios/logger"
-#define API_PUSH_DEVICE_TOKEN_PATH  @"/api/v1/device/%@/push_token/%@"
-#define API_ASSETS_PATH             @"/api/v1/download/%@.zip"
+#define API_USER_PATH               @"%@/api/v1/%@/%@/%@/authentication"
+#define API_DATA_PATH               @"%@/api/v1/group/%@/template/%@/report/%@/attachment"
+#define API_COMMENT_PATH            @"%@/api/v1/user/%@/id/%@/type/%@"
+#define API_SCREEN_LOCK_PATH        @"%@/api/v1/user_device/%@/screen_lock"
+#define API_DEVICE_STATE_PATH       @"%@/api/v1/user_device/%@/state"
+#define API_RESET_PASSWORD_PATH     @"%@/api/v1/update/%@/password"
+#define API_ACTION_LOG_PATH         @"%@/api/v1/ios/logger"
+#define API_PUSH_DEVICE_TOKEN_PATH  @"%@/api/v1/device/%@/push_token/%@"
+#define API_BAR_CODE_SCAN_PATH      @"%@/api/v1/user/%@/bar_code_scan"
+#define API_ASSETS_PATH             @"%@/api/v1/download/%@.zip"
 
 #define KPI_DEPRECATED_PATH         @"%@/mobile/%@/role/%@/group/%@/kpi"
 #define KPI_PATH                    @"%@/mobile/%@/group/%@/role/%@/kpi"

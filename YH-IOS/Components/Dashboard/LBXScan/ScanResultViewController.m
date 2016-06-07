@@ -24,28 +24,15 @@
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
     
-    [WebViewJavascriptBridge enableLogging];
-    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"ChartViewController - ObjC received message from JS: %@", data);
-        responseCallback(@"ChartViewController - Response for message from ObjC");
-    }];
-    [self addWebViewJavascriptBridge];
-    
     [self loadHtml];
 }
 
 - (void)dealloc {
-    [self.browser cleanForDealloc];
-    [self.browser stopLoading];
     self.browser.delegate = nil;
     self.browser = nil;
     [self.progressHUD hide:YES];
     self.progressHUD = nil;
     self.bridge = nil;
-}
-
-- (void)addWebViewJavascriptBridge {
-
 }
 
 #pragma mark - assistant methods
@@ -77,6 +64,8 @@
     [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [APIHelper barCodeScan:self.user.userID code:self.codeInfo type:self.codeType];
+        
         NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"bar_code_scan_result" ofType:@"html"];
         NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
         [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];

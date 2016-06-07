@@ -289,8 +289,7 @@
     [HUD show:YES];
     
     // 下载地址
-    NSString *urlPath = [NSString stringWithFormat:API_ASSETS_PATH, assetName];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", BASE_URL, urlPath]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:API_ASSETS_PATH, BASE_URL, assetName]];
     // 保存路径
     AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:url]];
     op.outputStream = [NSOutputStream outputStreamToFileAtPath:assetsZipPath append:NO];

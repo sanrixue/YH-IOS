@@ -80,4 +80,13 @@
  *  @param params 用户行为操作
  */
 + (void)actionLog:(NSMutableDictionary *)param;
+
+/**
+ *  二维码扫描
+ *
+ *  @param urlString  api url
+ *  @param codeString 条形码信息
+ *  @param codeType   条形码或二维码
+ */
++ (void)barCodeScan:(NSNumber *)urlString code:(NSString *)codeInfo type:(NSString *)codeType;
 @end

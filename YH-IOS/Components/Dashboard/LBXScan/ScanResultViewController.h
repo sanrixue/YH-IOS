@@ -9,4 +9,6 @@
 #import "BaseViewController.h"
 
 @interface ScanResultViewController: BaseViewController
+@property (strong, nonatomic) NSString *codeInfo;
+@property (strong, nonatomic) NSString *codeType;
 @end

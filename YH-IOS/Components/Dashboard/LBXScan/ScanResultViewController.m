@@ -64,7 +64,7 @@
     [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [APIHelper barCodeScan:self.user.userID code:self.codeInfo type:self.codeType];
+        [APIHelper barCodeScan:self.user.userNum code:self.codeInfo type:self.codeType];
         
         NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"bar_code_scan_result" ofType:@"html"];
         NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];

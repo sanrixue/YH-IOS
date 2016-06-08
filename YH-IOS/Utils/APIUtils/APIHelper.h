@@ -88,5 +88,5 @@
  *  @param codeString 条形码信息
  *  @param codeType   条形码或二维码
  */
-+ (void)barCodeScan:(NSNumber *)urlString code:(NSString *)codeInfo type:(NSString *)codeType;
++ (void)barCodeScan:(NSString *)urlString code:(NSString *)codeInfo type:(NSString *)codeType;
 @end

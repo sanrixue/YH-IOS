@@ -285,29 +285,28 @@
 /**
  *  二维码扫描
  *
- *  @param urlString  api url
+ *  @param userNum    用户编号
  *  @param codeString 条形码信息
  *  @param codeType   条形码或二维码
  */
-+ (void)barCodeScan:(NSNumber *)userID code:(NSString *)codeInfo type:(NSString *)codeType {
++ (void)barCodeScan:(NSString *)userID code:(NSString *)codeInfo type:(NSString *)codeType {
     NSString *urlString = [NSString stringWithFormat:API_BAR_CODE_SCAN_PATH, BASE_URL, userID];
     
     NSMutableDictionary *codeDict = [NSMutableDictionary dictionaryWithDictionary:@{ @"code_info": codeInfo, @"code_type": codeType }];
     HttpResponse *response = [HttpUtils httpPost:urlString Params:codeDict];
     
-    NSMutableArray *resultArray = [NSMutableArray array];
-    NSArray *allKeys = response.data.allKeys;
-    for(NSInteger i = 0, len = allKeys.count; i < len; i ++) {
-        if([allKeys[i] isEqualToString: @"code"]) continue;
-        
-        [resultArray addObject:[NSString stringWithFormat:@"<tr><td>%@</td><td>%@</td></tr>", allKeys[i], [response.data objectForKey:allKeys[i]]]];
-    }
     NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
     javascriptPath = [javascriptPath stringByAppendingPathComponent:@"bar_code_scan_result.js"];
     NSString *javascriptContent = [NSString stringWithFormat:@"\
-                                   (function(){                \
-                                     document.getElementById('result').innerHTML = '%@'; \
-                                   }).call(this);", [resultArray componentsJoinedByString:@""]];
+                                    (function(){ \n\
+                                     var response = %@, array = [], key, value; \n\
+                                     for(key in response) { \n\
+                                       if(key === 'code') continue; \n\n\
+                                       value = response[key]; \n\
+                                       array.push('<tr><td>' + key + '</td><td>' + value + '</td></tr>') \n\
+                                     } \n\
+                                     document.getElementById('result').innerHTML = array.join(''); \n\
+                                    }).call(this);", response.string];
     NSLog(@"%@", javascriptContent);
     [javascriptContent writeToFile:javascriptPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }

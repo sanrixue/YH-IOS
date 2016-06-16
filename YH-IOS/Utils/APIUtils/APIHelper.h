@@ -41,11 +41,10 @@
  *  消息推送， 设备标识
  *
  *  @param deviceUUID  设备ID
- *  @param deviceToken 第三方消息推送注册的设备标识
  *
  *  @return 服务器是否更新成功
  */
-+ (BOOL)pushDeviceToken:(NSString *)deviceUUID deviceToken:(NSString *)deviceToken;
++ (BOOL)pushDeviceToken:(NSString *)deviceUUID;
 
 /**
  *  用户锁屏数据
@@ -84,9 +83,11 @@
 /**
  *  二维码扫描
  *
- *  @param urlString  api url
+ *  @param userNum    用户编号
+ *  @param groupID    群组ID
+ *  @param roleID     角色ID
  *  @param codeString 条形码信息
  *  @param codeType   条形码或二维码
  */
-+ (void)barCodeScan:(NSString *)urlString code:(NSString *)codeInfo type:(NSString *)codeType;
++ (void)barCodeScan:(NSString *)userID group:(NSNumber *)groupID role:(NSNumber *)roleID code:(NSString *)codeInfo type:(NSString *)codeType;
 @end

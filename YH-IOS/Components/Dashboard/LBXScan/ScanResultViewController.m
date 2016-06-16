@@ -64,9 +64,9 @@
     [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [APIHelper barCodeScan:self.user.userNum code:self.codeInfo type:self.codeType];
+        [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID code:self.codeInfo type:self.codeType];
         
-        NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"bar_code_scan_result" ofType:@"html"];
+        NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"barcode_scan_result" ofType:@"html"];
         NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
         [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
     });

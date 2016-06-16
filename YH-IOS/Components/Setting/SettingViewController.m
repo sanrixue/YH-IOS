@@ -55,13 +55,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.labelAppVersion.text = [NSString stringWithFormat:@"%@(%@)", version.current, version.build];
     self.labelDeviceMode.text = [[Version machineHuman] componentsSeparatedByString:@" ("][0];
     self.labelBundleID.text   = version.bundleID;
-    
     self.labelAPIDomain.text  = [BASE_URL componentsSeparatedByString:@"://"][1];
     
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     self.labelPushState.text = pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭";
-    
     self.switchNewUI.on = [[self currentUIVersion] isEqualToString:@"v2"];
     
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
@@ -78,7 +76,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     
     BOOL isUseGesturePassword = [LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd];
     self.switchGesturePassword.on = isUseGesturePassword;
@@ -115,20 +112,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self checkAssetsUpdate];
     
     // 第三方消息推送，设备标识
-    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
-    NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
-    
-    if(pushDict[@"push_device_token"] && [pushDict[@"push_device_token"] length] == 64) {
-        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-        NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-        if([APIHelper pushDeviceToken:userDict[@"device_uuid"] deviceToken:pushDict[@"push_device_token"]]) {
-            pushDict[@"push_valid"] = @(YES);
-            [pushDict writeToFile:pushConfigPath atomically:YES];
-            
-            self.labelPushState.text = @"开启";
-        }
-        
-    }
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    BOOL isSuccess = [APIHelper pushDeviceToken:userDict[@"device_uuid"]];
+    self.labelPushState.text = isSuccess ? @"开启" : @"关闭";
     
     [ViewUtils showPopupView:self.view Info:@"校正完成"];
 }

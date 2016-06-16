@@ -111,19 +111,16 @@
             NSMutableDictionary *settingsDict = [FileUtils readConfigFile: settingsConfigPath];
             if(settingsDict[@"use_gesture_password"]) {
                 userDict[@"use_gesture_password"] = settingsDict[@"use_gesture_password"];
-            }
-            else {
+            } else {
                 userDict[@"use_gesture_password"] = @(NO);
             }
             
             if(settingsDict[@"gesture_password"]) {
                 userDict[@"gesture_password"] = settingsDict[@"gesture_password"];
-            }
-            else {
+            } else {
                 userDict[@"gesture_password"] = @"";
             }
-        }
-        else {
+        } else {
             userDict[@"use_gesture_password"] = @(NO);
             userDict[@"gesture_password"] = @"";
         }
@@ -131,26 +128,16 @@
         [userDict writeToFile:settingsConfigPath atomically:YES];
 
         // 第三方消息推送，设备标识
-        NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
-        NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
-  
-        if(![pushDict[@"push_valid"] boolValue] && pushDict[@"push_device_token"] && [pushDict[@"push_device_token"] length] == 64) {
-            if([APIHelper pushDeviceToken:response.data[@"device_uuid"] deviceToken:pushDict[@"push_device_token"]]) {
-                pushDict[@"push_valid"] = @(YES);
-                [pushDict writeToFile:pushConfigPath atomically:YES];
-            }
-        }
-    }
-    else if(response.data && response.data[@"info"]) {
+        [APIHelper pushDeviceToken: userDict[@"device_uuid"]];
+
+    } else if(response.data && response.data[@"info"]) {
         alertMsg = [NSString stringWithFormat:@"%@", response.data[@"info"]];
-    }
-    // else if(httpResponse.data[@"code"] && ([httpResponse.data[@"code"] isEqualToNumber:@(400)] || [httpResponse.data[@"code"] isEqualToNumber:@(0)])) {
-    else if(response.errors.count) {
+    } else if(response.errors.count) {
         alertMsg = [response.errors componentsJoinedByString:@"\n"];
-    }
-    else {
+    } else {
         alertMsg = [NSString stringWithFormat:@"未知错误: %@", response.statusCode];
     }
+
     return alertMsg;
 }
 
@@ -175,15 +162,23 @@
  *  消息推送， 设备标识
  *
  *  @param deviceUUID  设备ID
- *  @param deviceToken 第三方消息推送注册的设备标识
  *
  *  @return 服务器是否更新成功
  */
-+ (BOOL)pushDeviceToken:(NSString *)deviceUUID deviceToken:(NSString *)deviceToken {
-    NSString *urlString = [NSString stringWithFormat:API_PUSH_DEVICE_TOKEN_PATH, BASE_URL, deviceUUID, deviceToken];
-    HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:[NSMutableDictionary dictionary]];
++ (BOOL)pushDeviceToken:(NSString *)deviceUUID {
+    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
+    NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     
-    return httpResponse.data[@"valid"] && [httpResponse.data[@"valid"] boolValue];
+    if([pushDict[@"push_valid"] boolValue] && pushDict[@"push_device_token"] && [pushDict[@"push_device_token"] length] == 64) return YES;
+    if(!pushDict[@"push_device_token"] || [pushDict[@"push_device_token"] length] != 64) return NO;
+    
+    NSString *urlString = [NSString stringWithFormat:API_PUSH_DEVICE_TOKEN_PATH, BASE_URL, deviceUUID, pushDict[@"push_device_token"]];
+    HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:[NSMutableDictionary dictionary]];
+
+    pushDict[@"push_valid"] = @(httpResponse.data[@"valid"] && [httpResponse.data[@"valid"] boolValue]);
+    [pushDict writeToFile:pushConfigPath atomically:YES];
+    
+    return [pushDict[@"push_valid"] boolValue];
 }
 
 /**
@@ -216,13 +211,11 @@
     NSString *urlString = [NSString stringWithFormat:API_DEVICE_STATE_PATH, BASE_URL, userDict[@"user_device_id"]];
     HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
     
-
 //    userDict[@"device_state"]  = httpResponse.data[@"device_state"];
 //    [userDict writeToFile:userConfigPath atomically:YES];
 //    
 //    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
 //    [userDict writeToFile:settingsConfigPath atomically:YES];
-    
     
     DeviceState deviceState = [httpResponse.statusCode integerValue];
     if(deviceState == StateOK) {
@@ -286,27 +279,37 @@
  *  二维码扫描
  *
  *  @param userNum    用户编号
+ *  @param groupID    群组ID
+ *  @param roleID     角色ID
  *  @param codeString 条形码信息
  *  @param codeType   条形码或二维码
  */
-+ (void)barCodeScan:(NSString *)userID code:(NSString *)codeInfo type:(NSString *)codeType {
-    NSString *urlString = [NSString stringWithFormat:API_BAR_CODE_SCAN_PATH, BASE_URL, userID];
++ (void)barCodeScan:(NSString *)userNum group:(NSNumber *)groupID role:(NSNumber *)roleID code:(NSString *)codeInfo type:(NSString *)codeType {
+    NSString *urlString = [NSString stringWithFormat:API_BARCODE_SCAN_PATH, BASE_URL, groupID, roleID, userNum];
     
     NSMutableDictionary *codeDict = [NSMutableDictionary dictionaryWithDictionary:@{ @"code_info": codeInfo, @"code_type": codeType }];
     HttpResponse *response = [HttpUtils httpPost:urlString Params:codeDict];
+    NSString *responseString = response.string;
+    
+    if(!response.data[@"code"] || ![response.data[@"code"] isEqualToNumber:@(200)]) {
+        responseString = [NSString stringWithFormat:@"{'商品编号': '%@', '编号类型': '%@', '服务器报错': '%@'}", codeInfo, codeType, responseString];
+    }
     
     NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
-    javascriptPath = [javascriptPath stringByAppendingPathComponent:@"bar_code_scan_result.js"];
+    javascriptPath = [javascriptPath stringByAppendingPathComponent:@"barcode_scan_result.js"];
     NSString *javascriptContent = [NSString stringWithFormat:@"\
                                     (function(){ \n\
-                                     var response = %@, array = [], key, value; \n\
-                                     for(key in response) { \n\
-                                       if(key === 'code') continue; \n\n\
+                                     var response = %@, \n\
+                                         order_keys = response.order_keys, \n\
+                                         array = [], \n\
+                                         key, value, i; \n\
+                                     for(i = 0; i < order_keys.length; i ++) { \n\
+                                       key = order_keys[i]; \n\
                                        value = response[key]; \n\
                                        array.push('<tr><td>' + key + '</td><td>' + value + '</td></tr>') \n\
                                      } \n\
                                      document.getElementById('result').innerHTML = array.join(''); \n\
-                                    }).call(this);", response.string];
+                                    }).call(this);", responseString];
     NSLog(@"%@", javascriptContent);
     [javascriptContent writeToFile:javascriptPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }

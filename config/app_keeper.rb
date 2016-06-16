@@ -117,6 +117,7 @@ if slop_opts[:constant]
     #define BASE_URL1 @"http://localhost:4567"
     #define PGYER_APP_ID @"#{Settings.pgyer.ios}"
     #define UMENG_APP_ID @"#{Settings.umeng.ios.app_key}"
+    #define PGYER_URL    @"http://www.pgyer.com/#{Settings.key_store.alias}-i"
 
     #endif /* constant_private_h */
     EOF

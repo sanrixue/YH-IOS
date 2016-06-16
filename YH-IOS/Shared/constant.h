@@ -52,7 +52,6 @@
 #define BETA_CONFIG_FILENAME        @"beta.plist"
 
 #define URL_WRITE_LOCAL             @"1"
-#define PGYER_URL                   @"http://www.pgyer.com/yh-i"
 // #define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]
 
 

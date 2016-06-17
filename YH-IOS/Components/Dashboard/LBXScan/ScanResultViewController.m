@@ -11,6 +11,7 @@
 
 @interface ScanResultViewController ()
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
+@property (strong, nonatomic) NSString *htmlContent;
 @end
 
 @implementation ScanResultViewController
@@ -23,6 +24,9 @@
      */
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
+    
+    NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"barcode_scan_result" ofType:@"html"];
+    self.htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
     
     [self loadHtml];
 }
@@ -57,19 +61,25 @@
 }
 
 - (void)_loadHtml {
-    /**
-     *  only inner link clean browser cache
-     */
     [self clearBrowserCache];
-    [self showLoading:LoadingLoad];
+    [FileUtils barcodeScanResult:[NSString stringWithFormat:@"{\"商品编号\": \"%@\", \"状态\": \"处理中...\", \"order_keys\": [\"商品编号\", \"状态\"]}", self.codeInfo]];
+    
+    [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.sharedPath]];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID code:self.codeInfo type:self.codeType];
         
-        NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"barcode_scan_result" ofType:@"html"];
-        NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-        [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+        [self clearBrowserCache];
+        [self showLoading:LoadingLoad];
+        [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.sharedPath]];
     });
+}
+
+- (NSString *)htmlContentWithTimestamp {
+    NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000 + arc4random()];
+    NSString *newHtmlContent = [self.htmlContent stringByReplacingOccurrencesOfString:@"TIMESTAMP" withString:timestamp];
+
+    return newHtmlContent;
 }
 
 #pragma mark - ibaction block

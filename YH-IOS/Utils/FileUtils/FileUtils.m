@@ -373,4 +373,36 @@
     fileName = [NSString stringWithFormat:@"data-%@.share", fileName];
     return [FileUtils readConfigFile:[FileUtils dirPath:CONFIG_DIRNAME FileName:fileName]];
 }
+
+/**
+ *  @return 商品条形码 javascript 文件路径
+ */
++ (NSString *)barcodeScanResultPath {
+    NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
+    return [javascriptPath stringByAppendingPathComponent:@"barcode_scan_result.js"];
+}
+
+/**
+ *  服务器信息写入 javascript 文件
+ *
+ *  @param responseString 服务器响应 JSON 内容
+ */
++ (void)barcodeScanResult:(NSString *)responseString {
+    NSString *javascriptPath = [FileUtils barcodeScanResultPath];
+    NSString *javascriptContent = [NSString stringWithFormat:@"\
+       (function(){ \n\
+           var response = %@, \n\
+               order_keys = response.order_keys, \n\
+               array = [], \n\
+               key, value, i; \n\
+           for(i = 0; i < order_keys.length; i ++) { \n\
+               key = order_keys[i]; \n\
+               value = response[key]; \n\
+               array.push('<tr><td>' + key + '</td><td>' + value + '</td></tr>') \n\
+           } \n\
+           document.getElementById('result').innerHTML = array.join(''); \n\
+       }).call(this);", responseString];
+    NSLog(@"%@", javascriptContent);
+    [javascriptContent writeToFile:javascriptPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+}
 @end

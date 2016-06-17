@@ -292,25 +292,9 @@
     NSString *responseString = response.string;
     
     if(!response.data[@"code"] || ![response.data[@"code"] isEqualToNumber:@(200)]) {
-        responseString = [NSString stringWithFormat:@"{'商品编号': '%@', '编号类型': '%@', '服务器报错': '%@'}", codeInfo, codeType, responseString];
+        responseString = [NSString stringWithFormat:@"{\"商品编号\": \"%@\", \"状态\": \"%@\", \"order_keys\": [\"商品编号\", \"状态\"]}",codeInfo, responseString];
     }
-    
-    NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
-    javascriptPath = [javascriptPath stringByAppendingPathComponent:@"barcode_scan_result.js"];
-    NSString *javascriptContent = [NSString stringWithFormat:@"\
-                                    (function(){ \n\
-                                     var response = %@, \n\
-                                         order_keys = response.order_keys, \n\
-                                         array = [], \n\
-                                         key, value, i; \n\
-                                     for(i = 0; i < order_keys.length; i ++) { \n\
-                                       key = order_keys[i]; \n\
-                                       value = response[key]; \n\
-                                       array.push('<tr><td>' + key + '</td><td>' + value + '</td></tr>') \n\
-                                     } \n\
-                                     document.getElementById('result').innerHTML = array.join(''); \n\
-                                    }).call(this);", responseString];
-    NSLog(@"%@", javascriptContent);
-    [javascriptContent writeToFile:javascriptPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+   
+    [FileUtils barcodeScanResult:responseString];
 }
 @end

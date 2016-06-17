@@ -158,6 +158,18 @@
  */
 + (NSDictionary *)shareData:(NSString *)fileName;
 
+/**
+ *  @return 商品条形码 javascript 文件路径
+ */
++ (NSString *)barcodeScanResultPath;
+
+/**
+ *  服务器信息写入 javascript 文件
+ *
+ *  @param responseString 服务器响应 JSON 内容
+ */
++ (void)barcodeScanResult:(NSString *)responseString;
+
 @end
 
 

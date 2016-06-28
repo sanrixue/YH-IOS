@@ -472,6 +472,7 @@
 + (NSString *)urlCleaner:(NSString *)urlString {
     return [urlString componentsSeparatedByString:@"?"][0];
 }
+
 /**
  *  网页链接转换为合法文件名称
  *
@@ -504,6 +505,7 @@
     for(NSString *str in blackList) {
         url = [url stringByReplacingOccurrencesOfString:str withString:@"_"];
     }
+    
     if(![url hasSuffix:suffix]) {
         url = [NSString stringWithFormat:@"%@%@", url, suffix];
     }

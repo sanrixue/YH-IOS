@@ -1,23 +1,18 @@
 
-## 蒲公英
+## 部署
 
-* [安装链接](http://www.pgyer.com/yh-i)
-* 扫码安装
-
-	![QR Code](http://static.pgyer.com/app/qrcode/yh-i)
-	
 * 应用切换
 
 	```
-	bundle install
-	echo 'yonghui' > .current_app
-	bundle exec ruby app_keeper.rb {yonghui|shengyiplus}
+	$ gem sources --add https://gems.ruby-china.org/ --remove https://rubygems.org/
+	$ bundle config mirror.https://rubygems.org https://gems.ruby-china.org
+	$ bundle install
+	$ ./appkeeper.sh {yonghui|shengyiplus|qiyoutong}
 	```
-* 上传ipa至蒲公英
+上传 **ipa 文件**至蒲公英
 
 	```	
-	bundle install
-	bundle exec ruby pgyer_upload.rb
+	$ ./appkeeper.sh pgyer
 	```
 
 ## TODO

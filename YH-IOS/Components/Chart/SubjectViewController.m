@@ -29,6 +29,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     /**
      *  被始化页面样式
      */
+    self.browser.delegate = self;
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
     
@@ -37,7 +38,6 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     self.urlString = self.link;
-
 
     if(self.isInnerLink) {
         /*
@@ -271,6 +271,31 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     [self performSegueWithIdentifier:kCommentSegueIdentifier sender:nil];
 }
 
+- (IBAction)actionWebviewScreenShot:(id)sender {
+    UIWebView *webView = self.browser;
+    
+    // Setup the Image context. Special handling for retina.
+    if ([UIScreen instancesRespondToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2.0f) {
+        UIGraphicsBeginImageContextWithOptions(webView.frame.size, NO, 2.0f);
+    }
+    else {
+        UIGraphicsBeginImageContext(webView.frame.size);
+    }
+    
+    // Render the web view
+    [webView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    
+    // Get the image
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // End the graphics context
+    UIGraphicsEndImageContext();
+    
+    NSData *pngData = UIImagePNGRepresentation(image);
+    NSString *filePath = [[FileUtils basePath] stringByAppendingPathComponent:@"screen_shot.png"]; //Add the file name
+    [pngData writeToFile:filePath atomically:YES]; //Write the file
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if(self.isInnerLink) {
         [self loadHtml];
@@ -292,6 +317,20 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
             [APIHelper actionLog:logParams];
         });
     }
+}
+
+#pragma mark - UIWebview delegate
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    /**
+     *  忽略 NSURLErrorDomain 错误 - 999
+     */
+    if([error code] == NSURLErrorCancelled) return;
+    
+    NSLog(@"dvc: %@", error.description);
 }
 
 # pragma mark - 支持旋转

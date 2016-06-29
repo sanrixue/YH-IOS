@@ -45,7 +45,6 @@
     NSArray *colorViews = @[self.idColor0, self.idColor1, self.idColor2, self.idColor3, self.idColor4];
     NSString *userID = [NSString stringWithFormat:@"%@", self.user.userID];
     
-    
     NSString *color;
     NSInteger userIDIndex, numDiff = colorViews.count - userID.length;
     UIImageView *imageView;

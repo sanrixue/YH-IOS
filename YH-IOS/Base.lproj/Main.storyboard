@@ -932,12 +932,12 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BFJ-Y4-EB1">
-                                        <rect key="frame" x="540" y="0.0" width="55" height="55"/>
+                                        <rect key="frame" x="555" y="0.0" width="40" height="55"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="55" id="JxS-MN-0Wy"/>
+                                            <constraint firstAttribute="width" constant="40" id="JxS-MN-0Wy"/>
                                             <constraint firstAttribute="height" constant="55" id="uqE-7K-9Oi"/>
                                         </constraints>
-                                        <inset key="contentEdgeInsets" minX="17" minY="15" maxX="0.0" maxY="0.0"/>
+                                        <inset key="contentEdgeInsets" minX="8" minY="15" maxX="0.0" maxY="0.0"/>
                                         <state key="normal" image="Banner-评论">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -945,10 +945,23 @@
                                             <action selector="actionWriteComment:" destination="Fjl-vw-ucE" eventType="touchUpInside" id="XWd-ss-zt9"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g0b-dJ-4W2">
+                                        <rect key="frame" x="515" y="0.0" width="40" height="55"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="oDL-HZ-bmU"/>
+                                            <constraint firstAttribute="height" constant="55" id="x16-FY-vmY"/>
+                                        </constraints>
+                                        <inset key="contentEdgeInsets" minX="8" minY="15" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" image="Banner-评论">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.54101616649999995" green="0.71126197469999997" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstItem="BFJ-Y4-EB1" firstAttribute="top" secondItem="jiD-n2-AKa" secondAttribute="top" id="2WM-e8-bfh"/>
+                                    <constraint firstItem="BFJ-Y4-EB1" firstAttribute="leading" secondItem="g0b-dJ-4W2" secondAttribute="trailing" id="53R-pQ-zDf"/>
+                                    <constraint firstAttribute="bottom" secondItem="g0b-dJ-4W2" secondAttribute="bottom" id="7BZ-V4-hsP"/>
                                     <constraint firstAttribute="height" constant="55" id="7p6-nc-AwX"/>
                                     <constraint firstAttribute="bottom" secondItem="7Ow-LD-dlm" secondAttribute="bottom" id="AAd-Mh-zW3"/>
                                     <constraint firstAttribute="trailing" secondItem="BFJ-Y4-EB1" secondAttribute="trailing" constant="5" id="IcT-uV-gk8"/>
@@ -959,6 +972,7 @@
                                     <constraint firstItem="YAH-2G-WR8" firstAttribute="top" secondItem="jiD-n2-AKa" secondAttribute="top" id="m8F-uD-eLc"/>
                                     <constraint firstItem="uTN-eu-x5r" firstAttribute="top" secondItem="jiD-n2-AKa" secondAttribute="top" constant="25" id="n4k-RT-2LW"/>
                                     <constraint firstAttribute="trailing" secondItem="uTN-eu-x5r" secondAttribute="trailing" id="pS0-tu-EPX"/>
+                                    <constraint firstItem="g0b-dJ-4W2" firstAttribute="top" secondItem="jiD-n2-AKa" secondAttribute="top" id="rVm-6I-GpP"/>
                                     <constraint firstAttribute="bottom" secondItem="BFJ-Y4-EB1" secondAttribute="bottom" id="vJC-Ub-ijC"/>
                                 </constraints>
                             </view>

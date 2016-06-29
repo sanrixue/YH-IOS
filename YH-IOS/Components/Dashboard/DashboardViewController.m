@@ -335,11 +335,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self presentViewController:vc animated:YES completion:nil];
 }
 
-
 #pragma mark - UIWebview delegate
-
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
 }
+
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     /**
      *  忽略 NSURLErrorDomain 错误 - 999
@@ -350,7 +349,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 #pragma mark - UITabBar delegate
-
 - (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
     [self tabBarClick:item.tag];
 }

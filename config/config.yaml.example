@@ -1,45 +1,81 @@
-pgyer:
-  user_key: ''
-  api_key: ''
+pgyer: &pgyer
+  user_key: '-'
+  api_key: '-'
 yonghui:
+  application_id: 'com.intfocus.-'
+  display_status:
+    kpi: 1
+    analyse: 1
+    app: 1
+    message: 1
+    comment: 1
   key_store:
-    path: 'key-store/app-name.jks'
-    password: ''
-    alias: 'app-name'
-    alias_password: ''
-  server: ''
+    path: 'key-store/yh.jks'
+    password: '-'
+    alias: '-'
+    alias_password: '-'
+  server: 'http://yonghui.idata.mobi'
   pgyer:
-    ios: ''
-    android: ''
+    ios: '-'
+    android: '-'
     <<: *pgyer
   umeng: 
-    ios: ''
-    android: ''
+    ios: 
+      app_key: '-'
+      app_master_secret: '-'
+    android: 
+      app_key: '-'
+      umeng_message_secret: '-'
+      app_master_secret: '-'
 shengyiplus:
+  application_id: 'com.intfocus.-'
+  display_status:
+    kpi: 1
+    analyse: 1
+    app: 1
+    message: 1
+    comment: 1
   key_store:
-    path: 'key-store/app-name.jks'
-    password: ''
-    alias: 'app-name'
-    alias_password: ''
-  server: ''
+    path: 'key-store/-.jks'
+    password: '123456'
+    alias: '-'
+    alias_password: '-'
+  server: 'http://-.com'
   pgyer:
-    ios: ''
-    android: ''
+    ios: '-'
+    android: '-'
     <<: *pgyer
   umeng: 
-    ios: ''
-    android: ''
+    ios: 
+      app_key: '-'
+      app_master_secret: '-'
+    android: 
+      app_key: '-'
+      umeng_message_secret: '-'
+      app_master_secret: '-'
 qiyoutong:
+  application_id: 'com.intfocus.-'
+  display_status:
+    kpi: 1
+    analyse: 1
+    app: 0
+    message: 0
+    comment: 0
   key_store:
-    path: 'key-store/app-name.jks'
-    password: ''
-    alias: 'app-name'
-    alias_password: ''
-  server: ''
+    path: 'key-store/qiyoutong.jks'
+    password: '-'
+    alias: '-'
+    alias_password: '-'
+  server: 'http://qiyoutong.shengyiplus.com'
   pgyer:
-    ios: ''
-    android: ''
+    ios: '-'
+    android: '-'
     <<: *pgyer
   umeng: 
-    ios: ''
-    android: ''
+    ios: 
+      app_key: '-'
+      app_master_secret: '-'
+    android: 
+      app_key: '-'
+      umeng_message_secret: '-'
+      app_master_secret: '-'

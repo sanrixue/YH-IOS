@@ -16,6 +16,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 @interface SubjectViewController ()
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (weak, nonatomic) IBOutlet UIButton *btnComment;
+@property (weak, nonatomic) IBOutlet UIButton *btnShare;
 @property (strong, nonatomic) NSString *reportID;
 @property (strong, nonatomic) NSString *templateID;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
@@ -32,6 +33,9 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     self.browser.delegate = self;
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
+    
+    self.btnShare.hidden = YES;
+    self.btnComment.hidden = !kSubjectDisplayComment;
     
     /**
      *  服务器内链接需要做缓存、点击事件处理；

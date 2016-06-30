@@ -1002,6 +1002,7 @@
                         <outlet property="bannerView" destination="jiD-n2-AKa" id="JKP-Ys-KZk"/>
                         <outlet property="browser" destination="UNg-xt-Kyh" id="pTZ-2h-Qep"/>
                         <outlet property="btnComment" destination="BFJ-Y4-EB1" id="c4z-x0-9Mb"/>
+                        <outlet property="btnShare" destination="g0b-dJ-4W2" id="vuZ-Ed-YEj"/>
                         <outlet property="idColor0" destination="L62-w8-wJH" id="YQN-Ht-PDT"/>
                         <outlet property="idColor1" destination="xLY-ps-8ks" id="3wq-t9-XJr"/>
                         <outlet property="idColor2" destination="h64-rz-hIL" id="Ncc-Ob-Yz0"/>

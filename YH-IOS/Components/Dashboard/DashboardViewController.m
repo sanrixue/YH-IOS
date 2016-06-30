@@ -48,6 +48,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
     
+    [self setTabBarItems];
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
     self.tabBar.items = @[self.tabBar.items[0], self.tabBar.items[1]];
@@ -130,8 +131,23 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 
 - (void)setTabBarItems {
-    kDashboardTabBarHideApp
-    self.tabBar.items = @[self.tabBar.items[0], self.tabBar.items[1]];
+    NSArray *allItems = self.tabBar.items;
+    NSMutableArray *displayItems = [NSMutableArray array];
+    
+    if(kDashboardTabBarDisplayKPI) {
+        [displayItems addObject:allItems[0]];
+    }
+    if(kDashboardTabBarDisplayAnalyse) {
+        [displayItems addObject:allItems[1]];
+    }
+    if(kDashboardTabBarDisplayApp) {
+        [displayItems addObject:allItems[2]];
+    }
+    if(kDashboardTabBarDisplayMessage) {
+        [displayItems addObject:allItems[3]];
+    }
+    
+    self.tabBar.items = displayItems;
 }
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {

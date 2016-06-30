@@ -119,6 +119,18 @@ if slop_opts[:constant]
     #define UMENG_APP_ID @"#{Settings.umeng.ios.app_key}"
     #define PGYER_URL    @"http://www.pgyer.com/#{Settings.key_store.alias}-i"
 
+    extern const BOOL kDashboardTabBarDisplayKPI;
+    extern const BOOL kDashboardTabBarDisplayAnalyse;
+    extern const BOOL kDashboardTabBarDisplayApp;
+    extern const BOOL kDashboardTabBarMessage;
+    extern const BOOL kSubjectDisplayComment;
+
+    BOOL const kDashboardTabBarDisplayKPI = #{Settings.display_status.kpi == 1 ? 'YES' : 'NO'};
+    BOOL const kDashboardTabBarDisplayAnalyse = #{Settings.display_status.analyse == 1 ? 'YES' : 'NO'};
+    BOOL const kDashboardTabBarDisplayApp = #{Settings.display_status.app == 1 ? 'YES' : 'NO'};
+    BOOL const kDashboardTabBarDisplayMessage = #{Settings.display_status.message == 1 ? 'YES' : 'NO'};
+    BOOL const kSubjectDisplayComment = #{Settings.display_status.comment == 1 ? 'YES' : 'NO'};
+
     #endif /* constant_private_h */
     EOF
   end

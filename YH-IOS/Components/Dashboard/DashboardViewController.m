@@ -21,6 +21,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 @interface DashboardViewController ()
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
+@property (weak, nonatomic) IBOutlet UIButton *btnScanCode;
 @property (assign, nonatomic) CommentObjectType commentObjectType;
 @property (assign, nonatomic) NSInteger objectID;
 
@@ -48,10 +49,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
     
+    self.btnScanCode.hidden = !kDashboardDisplayScanCode;
     [self setTabBarItems];
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
-    self.tabBar.items = @[self.tabBar.items[0], self.tabBar.items[1]];
     
     /*
      * 解屏进入主页面，需检测版本更新

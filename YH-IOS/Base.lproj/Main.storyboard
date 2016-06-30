@@ -213,6 +213,7 @@
                     <connections>
                         <outlet property="bannerView" destination="omN-qS-kPz" id="frl-bi-5wZ"/>
                         <outlet property="browser" destination="AM5-df-HXJ" id="y8S-Td-SGg"/>
+                        <outlet property="btnScanCode" destination="yRn-r4-8OD" id="Qrx-Ho-lpH"/>
                         <outlet property="idColor0" destination="DUb-Ih-laT" id="75t-Ag-k1X"/>
                         <outlet property="idColor1" destination="ELs-jj-2C0" id="gcN-KC-Snp"/>
                         <outlet property="idColor2" destination="Ea1-qA-CBX" id="dDj-I5-KxB"/>

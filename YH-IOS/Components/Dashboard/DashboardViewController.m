@@ -50,6 +50,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
+    self.tabBar.items = @[self.tabBar.items[0], self.tabBar.items[1]];
     
     /*
      * 解屏进入主页面，需检测版本更新
@@ -127,6 +128,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     });
 }
 
+
+- (void)setTabBarItems {
+    kDashboardTabBarHideApp
+    self.tabBar.items = @[self.tabBar.items[0], self.tabBar.items[1]];
+}
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -296,7 +302,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     return isHavePemission;
 }
 
-#pragma mark -模仿qq界面
+#pragma mark - 扫描商品二维码（模仿qq界面）
 
 - (void)qqStyle {
     //设置扫码区域参数设置

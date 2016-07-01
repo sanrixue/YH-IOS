@@ -86,7 +86,8 @@ if slop_opts[:assets]
   puts %(- done: updated appiconset, imageset, loading.zip)
   `rm -fr YH-IOS/Assets.xcassets/AppIcon.appiconset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.appiconset YH-IOS/Assets.xcassets/AppIcon.appiconset`
   `rm -fr YH-IOS/Assets.xcassets/AppIcon.imageset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.imageset YH-IOS/Assets.xcassets/AppIcon.imageset`
-  `rm -fr YH-IOS/Assets.xcassets/Nav-Banner.imageset && cp -rf config/Assets.xcassets/Nav-Banner-#{current_app}.imageset YH-IOS/Assets.xcassets/Nav-Banner.imageset`
+  `rm -fr YH-IOS/Assets.xcassets/Banner-Logo.imageset && cp -rf config/Assets.xcassets/Banner-Logo-#{current_app}.imageset YH-IOS/Assets.xcassets/Banner-Logo.imageset`
+  `rm -fr YH-IOS/Assets.xcassets/Banner-设置.imageset && cp -rf config/Assets.xcassets/Banner-设置-#{current_app}.imageset YH-IOS/Assets.xcassets/Banner-设置.imageset`
   `rm -fr YH-IOS/Assets.xcassets/background.imageset && cp -rf config/Assets.xcassets/background-#{current_app}.imageset YH-IOS/Assets.xcassets/background.imageset`
   `rm -f YH-IOS/Shared/loading.zip && cp -f config/Assets/loading-#{current_app}.zip YH-IOS/Shared/loading.zip`
 end

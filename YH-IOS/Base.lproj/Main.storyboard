@@ -130,7 +130,7 @@
                                             <constraint firstAttribute="height" constant="5" id="wDg-eR-5Kq"/>
                                         </constraints>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Nav-Banner" translatesAutoresizingMaskIntoConstraints="NO" id="bpr-aA-rXK">
+                                    <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Banner-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="bpr-aA-rXK">
                                         <rect key="frame" x="242" y="10" width="116" height="40"/>
                                     </imageView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ghl-sP-CIC">
@@ -1461,11 +1461,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="Banner-Logo" width="84" height="25"/>
         <image name="Banner-分享" width="21" height="21"/>
         <image name="Banner-扫一扫" width="30" height="30"/>
         <image name="Banner-设置" width="20" height="20"/>
         <image name="Banner-评论" width="21" height="21"/>
-        <image name="Nav-Banner" width="84" height="25"/>
         <image name="TabBar-KPI" width="20" height="20"/>
         <image name="TabBar-分析" width="20" height="20"/>
         <image name="TabBar-应用" width="22" height="22"/>

@@ -6,7 +6,7 @@
 //  Copyright © 2015年 us.solife. All rights reserved.
 //
 
-#import "constant_private.h"
+#import "PrivateConstants.h"
 
 #ifndef constant_h
 #define constant_h

@@ -14,7 +14,7 @@
 #import <Foundation/Foundation.h>
 #import "DateUtils.h"
 #import "HttpUtils.h"
-#import "constant.h"
+#import "Constants.h"
 
 #ifdef DEBUG
 #define NSLog(args...) ExtendNSLog(__FILE__,__LINE__,__PRETTY_FUNCTION__,args);

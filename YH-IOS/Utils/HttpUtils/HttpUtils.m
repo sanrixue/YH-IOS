@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "sys/utsname.h"
 #import "HttpUtils.h"
-#import "constant.h"
+#import "Constants.h"
 #import "HttpResponse.h"
 #import <UIKit/UIKit.h>
 #import "ExtendNSLogFunctionality.h"

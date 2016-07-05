@@ -9,7 +9,7 @@
 #ifndef iSearch_BaseModel_h
 #define iSearch_BaseModel_h
 #import <UIKit/UIKit.h>
-#import "constant.h"
+#import "Constants.h"
 
 @interface BaseModel : NSObject
 

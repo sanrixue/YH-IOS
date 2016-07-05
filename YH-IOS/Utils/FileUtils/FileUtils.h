@@ -12,7 +12,7 @@
 #define iContent_FileUtils_h
 
 #import <UIKit/UIKit.h>
-#import "constant.h"
+#import "Constants.h"
 
 /**
  *  处理File相关的代码块合集

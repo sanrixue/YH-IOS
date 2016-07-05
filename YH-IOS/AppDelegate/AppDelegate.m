@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "UMessage.h"
-#import "constant.h"
+#import "Constants.h"
 #import "NSData+MD5.h"
 #import <PgySDK/PgyManager.h>
 #import "Version.h"
@@ -52,8 +52,6 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-    
     @try {
         // 启动PGYER SDK
         [[PgyManager sharedPgyManager] setEnableFeedback:NO];

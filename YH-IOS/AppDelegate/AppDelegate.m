@@ -240,7 +240,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 #pragma mark - initialized SDK
 - (void)initPgyer {
     [[PgyManager sharedPgyManager] setEnableFeedback:NO];
-    [[PgyManager sharedPgyManager] startManagerWithAppId:PGYER_APP_ID];
+    [[PgyManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
 }
 
 - (void)initUMessage:(NSDictionary *)launchOptions {
@@ -278,6 +278,6 @@ void UncaughtExceptionHandler(NSException * exception) {
     // 如果你要支持不同的屏幕方向，需要这样设置，否则在iPhone只支持一个竖屏方向
     [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
     //设置微信AppId，设置分享url，默认使用友盟的网址
-    [UMSocialWechatHandler setWXAppId:kWXAppId appSecret:kWXAppSecret url:BASE_URL];
+    [UMSocialWechatHandler setWXAppId:kWXAppId appSecret:kWXAppSecret url:kBaseUrl];
 }
 @end

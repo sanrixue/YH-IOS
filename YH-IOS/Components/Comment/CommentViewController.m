@@ -23,7 +23,7 @@
     [self idColor];
     
     self.labelTheme.text = self.bannerName;
-    self.urlString = [NSString stringWithFormat:COMMENT_PATH, BASE_URL, [self currentUIVersion], self.objectID, @(self.commentObjectType)];
+    self.urlString = [NSString stringWithFormat:COMMENT_PATH, kBaseUrl, [self currentUIVersion], self.objectID, @(self.commentObjectType)];
     
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {

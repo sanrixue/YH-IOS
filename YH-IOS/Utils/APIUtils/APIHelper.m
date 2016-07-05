@@ -16,7 +16,7 @@
 @implementation APIHelper
 
 + (NSString *)reportDataUrlString:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID  {
-    return[NSString stringWithFormat:API_DATA_PATH, BASE_URL, groupID, templateID, reportID];
+    return[NSString stringWithFormat:API_DATA_PATH, kBaseUrl, groupID, templateID, reportID];
 }
 
 #pragma todo: pass assetsPath as parameter
@@ -60,7 +60,7 @@
  *  @return error msg when authentication failed
  */
 + (NSString *)userAuthentication:(NSString *)usernum password:(NSString *)password {
-    NSString *urlString = [NSString stringWithFormat:API_USER_PATH, BASE_URL, @"IOS", usernum, password];
+    NSString *urlString = [NSString stringWithFormat:API_USER_PATH, kBaseUrl, @"IOS", usernum, password];
     NSString *alertMsg = @"";
     
     NSMutableDictionary *deviceDict = [NSMutableDictionary dictionary];
@@ -152,7 +152,7 @@
  *  @return 是否创建成功
  */
 + (BOOL)writeComment:(NSNumber *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params {
-    NSString *urlString = [NSString stringWithFormat:API_COMMENT_PATH, BASE_URL, userID, objectID, objectType];
+    NSString *urlString = [NSString stringWithFormat:API_COMMENT_PATH, kBaseUrl, userID, objectID, objectType];
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];
     
     return [httpResponse.statusCode isEqual:@(201)];
@@ -172,7 +172,7 @@
     if([pushDict[@"push_valid"] boolValue] && pushDict[@"push_device_token"] && [pushDict[@"push_device_token"] length] == 64) return YES;
     if(!pushDict[@"push_device_token"] || [pushDict[@"push_device_token"] length] != 64) return NO;
     
-    NSString *urlString = [NSString stringWithFormat:API_PUSH_DEVICE_TOKEN_PATH, BASE_URL, deviceUUID, pushDict[@"push_device_token"]];
+    NSString *urlString = [NSString stringWithFormat:API_PUSH_DEVICE_TOKEN_PATH, kBaseUrl, deviceUUID, pushDict[@"push_device_token"]];
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:[NSMutableDictionary dictionary]];
 
     pushDict[@"push_valid"] = @(httpResponse.data[@"valid"] && [httpResponse.data[@"valid"] boolValue]);
@@ -189,7 +189,7 @@
  *  @param state        是否锁屏
  */
 + (void)screenLock:(NSString *)userDeviceID passcode:(NSString *)passcode state:(BOOL)state {
-    NSString *urlString = [NSString stringWithFormat:API_SCREEN_LOCK_PATH, BASE_URL, userDeviceID];
+    NSString *urlString = [NSString stringWithFormat:API_SCREEN_LOCK_PATH, kBaseUrl, userDeviceID];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"screen_lock_state"] = @(state);
     params[@"screen_lock_type"]  = @"4位数字";
@@ -208,7 +208,7 @@
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
-    NSString *urlString = [NSString stringWithFormat:API_DEVICE_STATE_PATH, BASE_URL, userDict[@"user_device_id"]];
+    NSString *urlString = [NSString stringWithFormat:API_DEVICE_STATE_PATH, kBaseUrl, userDict[@"user_device_id"]];
     HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
     
 //    userDict[@"device_state"]  = httpResponse.data[@"device_state"];
@@ -234,7 +234,7 @@
  *  @return 服务器响应
  */
 + (HttpResponse *)resetPassword:(NSNumber *)userID newPassword:(NSString *)newPassword {
-    NSString *urlString = [NSString stringWithFormat:API_RESET_PASSWORD_PATH, BASE_URL, userID];
+    NSString *urlString = [NSString stringWithFormat:API_RESET_PASSWORD_PATH, kBaseUrl, userID];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"password"] = newPassword;
@@ -271,7 +271,7 @@
     
     params[@"user"] = userParams;
     
-    NSString *urlString = [NSString stringWithFormat:API_ACTION_LOG_PATH, BASE_URL];
+    NSString *urlString = [NSString stringWithFormat:API_ACTION_LOG_PATH, kBaseUrl];
     [HttpUtils httpPost:urlString Params:params];
 }
 
@@ -285,7 +285,7 @@
  *  @param codeType   条形码或二维码
  */
 + (void)barCodeScan:(NSString *)userNum group:(NSNumber *)groupID role:(NSNumber *)roleID code:(NSString *)codeInfo type:(NSString *)codeType {
-    NSString *urlString = [NSString stringWithFormat:API_BARCODE_SCAN_PATH, BASE_URL, groupID, roleID, userNum];
+    NSString *urlString = [NSString stringWithFormat:API_BARCODE_SCAN_PATH, kBaseUrl, groupID, roleID, userNum];
     
     NSMutableDictionary *codeDict = [NSMutableDictionary dictionaryWithDictionary:@{ @"code_info": codeInfo, @"code_type": codeType }];
     HttpResponse *response = [HttpUtils httpPost:urlString Params:codeDict];

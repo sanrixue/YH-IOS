@@ -99,7 +99,7 @@
     }];
     
     self.labelTheme.text = self.bannerName;
-    self.urlString = [NSString stringWithFormat:RESET_PASSWORD_PATH, BASE_URL, [self currentUIVersion]];
+    self.urlString = [NSString stringWithFormat:RESET_PASSWORD_PATH, kBaseUrl, [self currentUIVersion]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

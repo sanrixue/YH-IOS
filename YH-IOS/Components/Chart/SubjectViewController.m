@@ -35,7 +35,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
     
-    // self.btnShare.hidden = YES;
+    self.btnShare.hidden = !kSubjectDisplayShare;
     self.btnComment.hidden = !kSubjectDisplayComment;
     
     /**
@@ -50,7 +50,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
          * eg: /mobile/repoprt/1/group/%@
          */
         NSString *urlPath = [NSString stringWithFormat:self.link, self.user.groupID];
-        self.urlString =[NSString stringWithFormat:@"%@%@", BASE_URL, urlPath];
+        self.urlString =[NSString stringWithFormat:@"%@%@", kBaseUrl, urlPath];
     }
     else {
         /*

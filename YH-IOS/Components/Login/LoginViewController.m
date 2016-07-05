@@ -131,7 +131,7 @@
     [self loadHtml];
     
     //启动检测版本更新
-    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGYER_APP_ID];
+    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
     //[[PgyUpdateManager sharedPgyManager] checkUpdate];
     [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
 }

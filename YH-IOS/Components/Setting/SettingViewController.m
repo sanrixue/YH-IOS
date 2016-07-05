@@ -55,7 +55,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.labelAppVersion.text = [NSString stringWithFormat:@"%@(%@)", version.current, version.build];
     self.labelDeviceMode.text = [[Version machineHuman] componentsSeparatedByString:@" ("][0];
     self.labelBundleID.text   = version.bundleID;
-    self.labelAPIDomain.text  = [BASE_URL componentsSeparatedByString:@"://"][1];
+    self.labelAPIDomain.text  = [kBaseUrl componentsSeparatedByString:@"://"][1];
     
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
@@ -97,7 +97,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (IBAction)actionOpenLink:(id)sender {
-    NSURL *url = [NSURL URLWithString:[PGYER_URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    NSURL *url = [NSURL URLWithString:[kPgyerUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     [[UIApplication sharedApplication] openURL:url];
 }
 

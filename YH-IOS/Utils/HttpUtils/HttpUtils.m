@@ -120,7 +120,7 @@
 
 + (BOOL)isNetworkAvailable:(NSTimeInterval)timeoutInterval {
     // @"http://www.apple.com"
-    HttpResponse *httpResponse = [HttpUtils httpGet:BASE_URL header:nil timeoutInterval:timeoutInterval];
+    HttpResponse *httpResponse = [HttpUtils httpGet:kBaseUrl header:nil timeoutInterval:timeoutInterval];
     
     return (httpResponse.statusCode && ([httpResponse.statusCode intValue] == 200));
 }
@@ -484,7 +484,7 @@
 + (NSArray *)urlTofilename:(NSString *)url suffix:(NSString *)suffix {
     NSArray *blackList = @[@".", @":", @"/", @"?"];
     
-    url = [url stringByReplacingOccurrencesOfString:BASE_URL withString:@""];
+    url = [url stringByReplacingOccurrencesOfString:kBaseUrl withString:@""];
     NSArray *parts = [url componentsSeparatedByString:@"?"];
     
     NSString *timestamp = nil;

@@ -60,7 +60,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     if(self.fromViewController && [self.fromViewController isEqualToString:@"AppDelegate"]) {
         self.fromViewController = @"AlreadyShow";
         //启动检测版本更新
-        [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:PGYER_APP_ID];
+        [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
         [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -381,27 +381,27 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     switch (index) {
         case 0: {
-            self.urlString = [NSString stringWithFormat:KPI_PATH, BASE_URL, uiVersion, self.user.groupID, self.user.roleID];
+            self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID];
             self.commentObjectType = ObjectTypeKpi;
             break;
         }
         case 1: {
-            self.urlString = [NSString stringWithFormat:ANALYSE_PATH, BASE_URL, uiVersion, self.user.roleID];
+            self.urlString = [NSString stringWithFormat:ANALYSE_PATH, kBaseUrl, uiVersion, self.user.roleID];
             self.commentObjectType = ObjectTypeAnalyse;
             break;
         }
-        case 2: {BASE_URL,
-            self.urlString = [NSString stringWithFormat:APPLICATION_PATH, BASE_URL, uiVersion, self.user.roleID];
+        case 2: {
+            self.urlString = [NSString stringWithFormat:APPLICATION_PATH, kBaseUrl, uiVersion, self.user.roleID];
             self.commentObjectType = ObjectTypeApp;
             break;
         }
         case 3: {
-            self.urlString = [NSString stringWithFormat:MESSAGE_PATH, BASE_URL, uiVersion, self.user.roleID, self.user.groupID, self.user.userID];
+            self.urlString = [NSString stringWithFormat:MESSAGE_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID, self.user.userID];
             self.commentObjectType = ObjectTypeMessage;
             break;
         }
         default: {
-            self.urlString = [NSString stringWithFormat:KPI_PATH, BASE_URL, uiVersion, self.user.roleID, self.user.groupID];
+            self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID];
             self.commentObjectType = ObjectTypeReport;
             break;
         }

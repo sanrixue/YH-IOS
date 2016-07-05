@@ -54,111 +54,21 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    @try {
-        // 启动 PGYER SDK
-        [[PgyManager sharedPgyManager] setEnableFeedback:NO];
-        [[PgyManager sharedPgyManager] startManagerWithAppId:PGYER_APP_ID];
-        // 启动 UMeng/UMSocial SDK
-        [UMessage startWithAppkey:kUMAppId launchOptions:launchOptions];
-        [UMSocialData setAppKey:kUMAppId];
-        [UMSocialData openLog:YES];
-        // 如果你要支持不同的屏幕方向，需要这样设置，否则在iPhone只支持一个竖屏方向
-        [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
-        //设置微信AppId，设置分享url，默认使用友盟的网址
-        [UMSocialWechatHandler setWXAppId:kWXAppId appSecret:kWXAppSecret url:BASE_URL];
-        // [UMessage setChannel:@"App Store"];
-        NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
-    }
-    @catch (NSException *exception) {
-        NSLog(@"NSSetUncaughtExceptionHandler - %@", exception.name);
-    }
-    @finally {}
-    
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
-    if(UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
-    {
-        //register remoteNotification types （iOS 8.0及其以上版本）
-        UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
-        action1.identifier = @"action1_identifier";
-        action1.title=@"Accept";
-        action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
-        
-        UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
-        action2.identifier = @"action2_identifier";
-        action2.title=@"Reject";
-        action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
-        action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
-        action2.destructive = YES;
-        
-        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
-        categorys.identifier = @"category1";//这组动作的唯一标示
-        [categorys setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
-        
-        UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
-                                                                                     categories:[NSSet setWithObject:categorys]];
-        [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
-        
-    }
-    else {
-        //register remoteNotification types (iOS 8.0以下)
-        [UMessage registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge
-         |UIRemoteNotificationTypeSound
-         |UIRemoteNotificationTypeAlert];
-    }
-#else
-    
-    //register remoteNotification types (iOS 8.0以下)
-    [UMessage registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge
-     |UIRemoteNotificationTypeSound
-     |UIRemoteNotificationTypeAlert];
-    
-#endif
-
-    [UMessage setLogEnabled:YES];
-    [UMessage setBadgeClear:NO];
-    
-    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
-    self.window.rootViewController = initViewController;
-    
-    /**
-     *  静态文件放在共享文件夹内,以便与服务器端检测、更新
-     *  assets.zip不受服务器更新控制，但可以更新fonts/images/stylesheets/javascripts文件夹下内容
-     *
-     *  解压表态资源
-     */
-    [self checkVersionUpgrade];
-    
-    NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
-    [FileUtils checkAssets:@"assets" isInAssets:NO bundlePath:bundlePath];
-    [FileUtils checkAssets:@"loading" isInAssets:NO bundlePath:bundlePath];
-    [FileUtils checkAssets:@"fonts" isInAssets:YES bundlePath:bundlePath];
-    [FileUtils checkAssets:@"images" isInAssets:YES bundlePath:bundlePath];
-    [FileUtils checkAssets:@"javascripts" isInAssets:YES bundlePath:bundlePath];
-    [FileUtils checkAssets:@"stylesheets" isInAssets:YES bundlePath:bundlePath];
-    
-    /**
-     *  初始化移动端本地webview的avigator.userAgent
-     *  HttpUtils内部使用时，只需要读取
-     */
-    NSString *userAgentPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_AGENT_FILENAME];
-    if(![FileUtils checkFileExist:userAgentPath isDir:NO]) {
-        UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
-        NSString *userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
-        [userAgent writeToFile:userAgentPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    }
-
+    [self.window setRootViewController:initViewController];
     [self.window makeKeyAndVisible];
     
-    [LTHPasscodeViewController sharedUser].delegate = self;
-    [LTHPasscodeViewController useKeychain:NO];
-    [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
-    if ([LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd]) {
-        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES withLogout:NO andLogoutTitle:nil];
-    }
-    
+    [self initPgyer];
+    [self initUMessage:launchOptions];
+    [self initUMSocial];
+    [self checkVersionUpgrade];
+    [self checkAssets];
+    [self initWebViewUserAgent];
+    [self initScreenLock];
+    NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
+
     return YES;
 }
 
@@ -168,13 +78,9 @@ void UncaughtExceptionHandler(NSException * exception) {
                            stringByReplacingOccurrencesOfString: @">" withString: @""]
                           stringByReplacingOccurrencesOfString: @" " withString: @""];
     
-    NSLog(@"%@",pushToken);
-    
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
-    if(pushToken.length != 64 || (pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue])) {
-        return;
-    }
+    if(pushToken.length != 64 || (pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue])) return;
     
     pushDict[@"push_device_token"] = pushToken;
     pushDict[@"push_valid"] = @(NO);
@@ -192,20 +98,6 @@ void UncaughtExceptionHandler(NSException * exception) {
     // [UMessage setAutoAlert:NO];
     
     [UMessage didReceiveRemoteNotification:userInfo];
-    
-    //    self.userInfo = userInfo;
-    //    //定制自定的的弹出框
-    //    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
-    //    {
-    //        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"标题"
-    //                                                            message:@"Test On ApplicationStateActive"
-    //                                                           delegate:self
-    //                                                  cancelButtonTitle:@"确定"
-    //                                                  otherButtonTitles:nil];
-    //
-    //        [alertView show];
-    //        
-    //    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -315,5 +207,77 @@ void UncaughtExceptionHandler(NSException * exception) {
 
         [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }
+}
+
+- (void)checkAssets {
+    NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+    [FileUtils checkAssets:@"assets" isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:@"loading" isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:@"fonts" isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:@"images" isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:@"javascripts" isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:@"stylesheets" isInAssets:YES bundlePath:bundlePath];
+}
+
+- (void)initWebViewUserAgent {
+    NSString *userAgentPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_AGENT_FILENAME];
+    if(![FileUtils checkFileExist:userAgentPath isDir:NO]) {
+        UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
+        NSString *userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+        [userAgent writeToFile:userAgentPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+}
+
+- (void)initScreenLock {
+    [LTHPasscodeViewController sharedUser].delegate = self;
+    [LTHPasscodeViewController useKeychain:NO];
+    [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
+    if ([LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd]) {
+        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES withLogout:NO andLogoutTitle:nil];
+    }
+}
+
+#pragma mark - initialized SDK
+- (void)initPgyer {
+    [[PgyManager sharedPgyManager] setEnableFeedback:NO];
+    [[PgyManager sharedPgyManager] startManagerWithAppId:PGYER_APP_ID];
+}
+
+- (void)initUMessage:(NSDictionary *)launchOptions {
+    [UMessage startWithAppkey:kUMAppId launchOptions:launchOptions];
+    // [UMessage setChannel:@"App Store"];
+    
+    //register remoteNotification types （iOS 8.0及其以上版本）
+    UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
+    action1.identifier = @"action1_identifier";
+    action1.title=@"Accept";
+    action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
+    
+    UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
+    action2.identifier = @"action2_identifier";
+    action2.title=@"Reject";
+    action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
+    action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
+    action2.destructive = YES;
+    
+    UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
+    categorys.identifier = @"category1";//这组动作的唯一标示
+    [categorys setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
+    
+    UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
+                                                                                 categories:[NSSet setWithObject:categorys]];
+    [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
+    
+    [UMessage setLogEnabled:YES];
+    [UMessage setBadgeClear:NO];
+}
+
+- (void)initUMSocial {
+    [UMSocialData setAppKey:kUMAppId];
+    [UMSocialData openLog:YES];
+    // 如果你要支持不同的屏幕方向，需要这样设置，否则在iPhone只支持一个竖屏方向
+    [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
+    //设置微信AppId，设置分享url，默认使用友盟的网址
+    [UMSocialWechatHandler setWXAppId:kWXAppId appSecret:kWXAppSecret url:BASE_URL];
 }
 @end

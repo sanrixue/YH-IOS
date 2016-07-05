@@ -9,23 +9,55 @@
 //
 //  [Quick Tip: Customize NSLog for Easier Debugging](http://code.tutsplus.com/tutorials/quick-tip-customize-nslog-for-easier-debugging--mobile-19066)
 
-#ifndef iSearch_ExtendNSLogFunctionality__h
-#define iSearch_ExtendNSLogFunctionality__h
+#ifndef ExtendNSLogFunctionality__h
+#define ExtendNSLogFunctionality__h
+
+#pragma mark - AppDelegate.h
+#import "AppDelegate.h"
+#define kAppDelegate ((AppDelegate *)([UIApplication sharedApplication].delegate))
+
+#pragma mark - 屏幕相关
+#define IS_SCREEN_5_5_INCH	([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size) : NO)
+#define IS_SCREEN_4_7_INCH	([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size) : NO)
+#define IS_SCREEN_4_INCH	([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+#define IS_SCREEN_3_5_INCH	([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
+
+#define kScreenHeight ([[UIScreen mainScreen] bounds].size.height)
+#define kScreenWidth ([[UIScreen mainScreen] bounds].size.width)
+// 相对宽度为320屏幕的屏幕倍率
+#define kScreenWidthRate (kScreenWidth/320.0)
+
+#pragma mark - 系统版本相关
+#define iOSVersion                        [[[UIDevice currentDevice] systemVersion] floatValue]
+#define iOS7Later                         (iOSVersion >= 7.0)
+#define iOS8Later                         (iOSVersion >= 8.0)
+
+#pragma mark - weakSelf
+#define WS(weakSelf)   __weak __typeof(&*self)weakSelf = self;
+
+#pragma mark - Log
+#define XCODE_COLORS_ESCAPE @"\033["
+#define Color(R, G, B, A) [UIColor colorWithRed:R/255.0 green:G/255.0 blue:B/255.0 alpha:A]
+
+#define XCODE_COLORS_RESET_FG  XCODE_COLORS_ESCAPE @"fg;" // Clear any foreground color
+#define XCODE_COLORS_RESET_BG  XCODE_COLORS_ESCAPE @"bg;" // Clear any background color
+#define XCODE_COLORS_RESET     XCODE_COLORS_ESCAPE @";"   // Clear any foreground or background color
+
 #import <Foundation/Foundation.h>
 #import "DateUtils.h"
 #import "HttpUtils.h"
 #import "Constants.h"
 
 #ifdef DEBUG
-#define NSLog(args...) ExtendNSLog(__FILE__,__LINE__,__PRETTY_FUNCTION__,args);
+#  define NSLog(args...) ExtendNSLog(__FILE__,__LINE__,__PRETTY_FUNCTION__,args);
 #else
-#define NSLog(x...)
+#  define NSLog(x...)
 #endif
 
 #ifdef DEBUG_ERROR
-#define NSErrorPrint(error, args...) ExtendNSLogPrintError(__FILE__,__LINE__,__PRETTY_FUNCTION__, true, error, args);
+#  define NSErrorPrint(error, args...) ExtendNSLogPrintError(__FILE__,__LINE__,__PRETTY_FUNCTION__, true, error, args);
 #else
-#define NSErrorPrint(error, args...) ExtendNSLogPrintError(__FILE__,__LINE__,__PRETTY_FUNCTION__, false, error, args);
+#  define NSErrorPrint(error, args...) ExtendNSLogPrintError(__FILE__,__LINE__,__PRETTY_FUNCTION__, false, error, args);
 #endif
 
 
@@ -35,14 +67,5 @@ void ExtendNSLog(const char *file, int lineNumber, const char *functionName, NSS
 BOOL ExtendNSLogPrintError(const char *file, int lineNumber, const char *functionName,BOOL isPrintSuccessfully, NSError *error, NSString *format, ...);
 void actionLogPost(const char *sourceFile, int lineNumber, const char *functionName, NSString *actionName, NSString *actionResult);
 NSObject* propertyDefault(NSObject *propertyValue, NSObject *defaultVlaue);
-BOOL isNil(NSObject *propertyValue);
 
-
-
-//#define ActionLogRecordLogin(actionResult) RecordLoginWithFunInfo(__FILE__, __LINE__, __PRETTY_FUNCTION__, @"登录", @"", actionResult);
-//#define ActionLogRecordNavigate(actionResult) RecordLoginWithFunInfo(__FILE__, __LINE__, __PRETTY_FUNCTION__, @"主界面左侧导航栏按钮点击", @"", actionResult);
-
-NSString* i18n(NSString *key, NSString *comment);
-NSString* t(NSString *key);
-//#define t(key) i18n(key, key);
 #endif

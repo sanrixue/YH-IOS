@@ -73,20 +73,13 @@ BOOL ExtendNSLogPrintError(const char *file, int lineNumber, const char *functio
     }
 }
 
-BOOL isNil(NSObject *propertyValue) {
+BOOL isNull(NSObject *propertyValue) {
     return (!propertyValue || propertyValue == [NSNull null] || propertyValue == NULL);
 }
+
 NSObject* propertyDefault(NSObject *propertyValue, NSObject *defaultVlaue) {
-    if(isNil(propertyValue)) {
+    if(isNull(propertyValue)) {
         propertyValue = defaultVlaue;
     }
     return propertyValue;
-}
-
-
-NSString* i18n(NSString *key, NSString *comment) {
-    return NSLocalizedString(key, comment);
-}
-NSString* t(NSString *key) {
-    return NSLocalizedString(key, key);
 }

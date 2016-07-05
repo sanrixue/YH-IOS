@@ -9,6 +9,7 @@ yonghui:
     app: 1
     message: 1
     comment: 1
+    share: 1
   key_store:
     path: 'key-store/yh.jks'
     password: '-'
@@ -27,6 +28,13 @@ yonghui:
       app_key: '-'
       umeng_message_secret: '-'
       app_master_secret: '-'
+  umeng_weixin:
+    ios:
+      app_id: '-'
+      app_secret: '-'
+    android:
+      app_id: '-'
+      app_secret: '-'
 shengyiplus:
   application_id: 'com.intfocus.-'
   display_status:
@@ -35,6 +43,7 @@ shengyiplus:
     app: 1
     message: 1
     comment: 1
+    share: 1
   key_store:
     path: 'key-store/-.jks'
     password: '123456'
@@ -53,6 +62,13 @@ shengyiplus:
       app_key: '-'
       umeng_message_secret: '-'
       app_master_secret: '-'
+  umeng_weixin:
+    ios:
+      app_id: '-'
+      app_secret: '-'
+    android:
+      app_id: '-'
+      app_secret: '-'
 qiyoutong:
   application_id: 'com.intfocus.-'
   display_status:
@@ -61,6 +77,7 @@ qiyoutong:
     app: 0
     message: 0
     comment: 0
+    share: 1
   key_store:
     path: 'key-store/qiyoutong.jks'
     password: '-'
@@ -79,3 +96,10 @@ qiyoutong:
       app_key: '-'
       umeng_message_secret: '-'
       app_master_secret: '-'
+  umeng_weixin:
+    ios:
+      app_id: '-'
+      app_secret: '-'
+    android:
+      app_id: '-'
+      app_secret: '-'

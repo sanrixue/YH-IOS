@@ -9,6 +9,7 @@
 	$ bundle install
 	$ ./appkeeper.sh {yonghui|shengyiplus|qiyoutong}
 	```
+	
 上传 **ipa 文件**至蒲公英
 
 	```	
@@ -23,18 +24,22 @@
 
 ## 更新日志
 
+* 16/07/05
+
+	* feat: share image to weixin with umeng
+
 * 16/05/14
 
-    * fix:
-    
-        ```
-        //bug
-        #define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]
-        ```
+  * fix:
+  
+      ```
+      //bug
+      #define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]
+      ```
 
-        TimeStamp assigned when compile, will not change on runtime period.
+      TimeStamp assigned when compile, will not change on runtime period.
 
-        avoid UIWebView cache js/css/img, update url?timestamp when load local html file.
+      avoid UIWebView cache js/css/img, update url?timestamp when load local html file.
 
 * 16/04/22
 

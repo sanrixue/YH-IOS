@@ -12,11 +12,13 @@
 #ifndef constant_private_h
 #define constant_private_h
 
-#define BASE_URL @"http://yonghui.idata.mobi"
-#define BASE_URL1 @"http://localhost:4567"
+#define BASE_URL     @"http://yonghui.idata.mobi"
+#define BASE_URL1    @"http://localhost:4567"
 #define PGYER_APP_ID @"7586e8c77ceadd3240c5e243e9d0c391"
-#define UMENG_APP_ID @"56f9ebad67e58eb4990012c8"
 #define PGYER_URL    @"http://www.pgyer.com/yh-i"
+#define kUMAppId     @"56f9ebad67e58eb4990012c8"
+#define kWXAppId     @"wx9173274e2ea0d365"
+#define kWXAppSecret @"22a92f9b55da6357e02e25f069ad7883"
 
 
 #define kDashboardTabBarDisplayKPI @(YES)

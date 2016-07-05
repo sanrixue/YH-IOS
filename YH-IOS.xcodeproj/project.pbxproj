@@ -11,6 +11,12 @@
 		C40D06B21C917BF80029D142 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C40D06AD1C917BF80029D142 /* TFHpple.m */; };
 		C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C40D06AF1C917BF80029D142 /* TFHppleElement.m */; };
 		C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C40D06B11C917BF80029D142 /* XPathQuery.m */; };
+		C41D78981D2B83E400D0B8F4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41D78971D2B83E400D0B8F4 /* Security.framework */; };
+		C41D789A1D2B83ED00D0B8F4 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C41D78991D2B83ED00D0B8F4 /* libiconv.tbd */; };
+		C41D789C1D2B840000D0B8F4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41D789B1D2B840000D0B8F4 /* CoreGraphics.framework */; };
+		C41D789E1D2B841200D0B8F4 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C41D789D1D2B841200D0B8F4 /* libsqlite3.tbd */; };
+		C41D78A01D2B842800D0B8F4 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C41D789F1D2B842800D0B8F4 /* libstdc++.tbd */; };
+		C41D78A21D2B843300D0B8F4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = C41D78A11D2B843300D0B8F4 /* libz.tbd */; };
 		C41E4FA61C0FE00A00E1B514 /* PgySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */; };
 		C41E4FA71C0FE00A00E1B514 /* PgyUpdate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */; };
 		C4272CC81C5C752B00E6971B /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C4272CC71C5C752A00E6971B /* README.md */; };
@@ -99,6 +105,12 @@
 		C40D06AF1C917BF80029D142 /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
 		C40D06B01C917BF80029D142 /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
 		C40D06B11C917BF80029D142 /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
+		C41D78971D2B83E400D0B8F4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		C41D78991D2B83ED00D0B8F4 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		C41D789B1D2B840000D0B8F4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C41D789D1D2B841200D0B8F4 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		C41D789F1D2B842800D0B8F4 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
+		C41D78A11D2B843300D0B8F4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgySDK.framework; path = Frameworks/PgySDK.framework; sourceTree = "<group>"; };
 		C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgyUpdate.framework; path = Frameworks/PgyUpdate.framework; sourceTree = "<group>"; };
 		C4272CC71C5C752A00E6971B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -205,7 +217,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C41D78A21D2B843300D0B8F4 /* libz.tbd in Frameworks */,
+				C41D78A01D2B842800D0B8F4 /* libstdc++.tbd in Frameworks */,
 				C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */,
+				C41D789E1D2B841200D0B8F4 /* libsqlite3.tbd in Frameworks */,
+				C41D789C1D2B840000D0B8F4 /* CoreGraphics.framework in Frameworks */,
+				C41D789A1D2B83ED00D0B8F4 /* libiconv.tbd in Frameworks */,
+				C41D78981D2B83E400D0B8F4 /* Security.framework in Frameworks */,
 				C41E4FA61C0FE00A00E1B514 /* PgySDK.framework in Frameworks */,
 				C48C03CA1CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a in Frameworks */,
 				C4771BB41C058C8400AAF44F /* OpenGLES.framework in Frameworks */,
@@ -641,6 +659,12 @@
 		E7359AA6518F9148E9F7A313 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C41D78A11D2B843300D0B8F4 /* libz.tbd */,
+				C41D789F1D2B842800D0B8F4 /* libstdc++.tbd */,
+				C41D789D1D2B841200D0B8F4 /* libsqlite3.tbd */,
+				C41D789B1D2B840000D0B8F4 /* CoreGraphics.framework */,
+				C41D78991D2B83ED00D0B8F4 /* libiconv.tbd */,
+				C41D78971D2B83E400D0B8F4 /* Security.framework */,
 				C48C03C71CABB27B000D9D22 /* UMessage_Sdk_1.2.6 */,
 				C41E4FA41C0FE00A00E1B514 /* PgySDK.framework */,
 				C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */,
@@ -1046,9 +1070,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.qiyoutong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "06dacc48-18b1-4f70-917c-4795546b5914";
+				PROVISIONING_PROFILE = "4a4cc14f-cbca-48c3-b8b5-cf68a5ef7bf2";
 			};
 			name = Debug;
 		};
@@ -1076,9 +1100,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.qiyoutong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "06dacc48-18b1-4f70-917c-4795546b5914";
+				PROVISIONING_PROFILE = "4a4cc14f-cbca-48c3-b8b5-cf68a5ef7bf2";
 			};
 			name = Release;
 		};

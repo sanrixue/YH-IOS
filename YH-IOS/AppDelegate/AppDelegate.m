@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import "UMessage.h"
+#import "UMSocial.h"
+#import "UMSocialWechatHandler.h"
 #import "Constants.h"
 #import "NSData+MD5.h"
 #import <PgySDK/PgyManager.h>
@@ -53,11 +55,17 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     @try {
-        // 启动PGYER SDK
+        // 启动 PGYER SDK
         [[PgyManager sharedPgyManager] setEnableFeedback:NO];
         [[PgyManager sharedPgyManager] startManagerWithAppId:PGYER_APP_ID];
-        // 启动 UMeng SDK
-        [UMessage startWithAppkey:UMENG_APP_ID launchOptions:launchOptions];
+        // 启动 UMeng/UMSocial SDK
+        [UMessage startWithAppkey:kUMAppId launchOptions:launchOptions];
+        [UMSocialData setAppKey:kUMAppId];
+        [UMSocialData openLog:YES];
+        // 如果你要支持不同的屏幕方向，需要这样设置，否则在iPhone只支持一个竖屏方向
+        [UMSocialConfig setSupportedInterfaceOrientations:UIInterfaceOrientationMaskAll];
+        //设置微信AppId，设置分享url，默认使用友盟的网址
+        [UMSocialWechatHandler setWXAppId:kWXAppId appSecret:kWXAppSecret url:BASE_URL];
         // [UMessage setChannel:@"App Store"];
         NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
     }

@@ -17,5 +17,5 @@ target 'YH-IOS' do
     # pod 'WebViewJavascriptBridge', '~> 5.0'
     # pod 'Pgyer'
     # pod 'PgyUpdate'
-    # pod 'UMengSocialCOM', '~> 5.2.1'
+    pod 'UMengSocialCOM', '~> 5.2.1'
 end

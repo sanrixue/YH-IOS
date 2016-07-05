@@ -8,6 +8,7 @@
 
 
 #import "SubjectViewController.h"
+#import "UMSocial.h"
 #import "APIHelper.h"
 #import "CommentViewController.h"
 
@@ -34,7 +35,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
     
-    self.btnShare.hidden = YES;
+    // self.btnShare.hidden = YES;
     self.btnComment.hidden = !kSubjectDisplayComment;
     
     /**
@@ -298,6 +299,16 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     NSData *pngData = UIImagePNGRepresentation(image);
     NSString *filePath = [[FileUtils basePath] stringByAppendingPathComponent:@"screen_shot.png"]; //Add the file name
     [pngData writeToFile:filePath atomically:YES]; //Write the file
+    
+    [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
+    [UMSocialData defaultData].extConfig.title = @"分享的title";
+    [UMSocialData defaultData].extConfig.qqData.url = @"http://baidu.com";
+    [UMSocialSnsService presentSnsIconSheetView:self
+                                         appKey:@"53290df956240b6b4a0084b3"
+                                      shareText:@"友盟社会化分享让您快速实现分享等社会化功能，http://umeng.com/social"
+                                     shareImage:image
+                                shareToSnsNames:@[UMShareToWechatSession]
+                                       delegate:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

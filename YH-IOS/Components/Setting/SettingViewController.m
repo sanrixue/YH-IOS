@@ -213,6 +213,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         resetPasswordViewController.link       = RESET_PASSWORD_PATH;
     }
 }
+
 #pragma mark - LTHPasscode delegate methods
 - (void)showLockViewForEnablingPasscode {
     [[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController:self
@@ -233,7 +234,4 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 //    [[LTHPasscodeViewController sharedUser] showForDisablingPasscodeInViewController:self
 //                                                                             asModal:NO];
 //}
-//
-
-
 @end

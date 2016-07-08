@@ -24,9 +24,29 @@
 
 ## 更新日志
 
+* 16/07/06
+
+    * fix(nginx): http redirect to https when meet the following conditions
+    
+        ```
+        set $redirect_to_https 1;
+        if ($scheme = http) {
+            set $redirect_to_https "${redirect_to_https}2";
+        }
+        if ($request_method = GET) {
+            set $redirect_to_https "${redirect_to_https}3";
+        }
+        if ($request_uri ~* \.(js|css|jpg|jpeg|gif|png|zip|woff|woff2)$) {
+            set $redirect_to_https "${redirect_to_https}4";
+        }
+        if ($redirect_to_https = "123") {
+            return 301 https://$server_name$request_uri;
+        }
+        ```
+    
 * 16/07/05
 
-	* feat: share image to weixin with umeng
+	* feat(share): share image to weixin with umeng
 
 * 16/05/14
 

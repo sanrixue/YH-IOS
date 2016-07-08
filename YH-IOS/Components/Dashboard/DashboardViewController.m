@@ -447,6 +447,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
   *  @param response <#response description#>
   */
 - (void)appUpgradeMethod:(NSDictionary *)response {
+    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
+    [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
+    
     if(response && response[@"downloadURL"] && response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0) {
         
         SCLAlertView *alert = [[SCLAlertView alloc] init];

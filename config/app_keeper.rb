@@ -120,8 +120,10 @@ if slop_opts[:constant]
 
     #define kBaseUrl     @"#{Settings.server}"
     #define kBaseUrl1    @"http://localhost:4567"
+
     #define kPgyerAppId  @"#{Settings.pgyer.ios}"
     #define kPgyerUrl    @"http://www.pgyer.com/#{Settings.key_store.alias}-i"
+    
     #define kUMAppId     @"#{Settings.umeng.ios.app_key}"
     #define kWXAppId     @"#{Settings.umeng_weixin.ios.app_id}"
     #define kWXAppSecret @"#{Settings.umeng_weixin.ios.app_secret}"

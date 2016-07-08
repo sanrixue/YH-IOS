@@ -14,8 +14,10 @@
 
 #define kBaseUrl     @"http://yonghui.idata.mobi"
 #define kBaseUrl1    @"http://localhost:4567"
+
 #define kPgyerAppId  @"7586e8c77ceadd3240c5e243e9d0c391"
 #define kPgyerUrl    @"http://www.pgyer.com/yh-i"
+
 #define kUMAppId     @"56f9ebad67e58eb4990012c8"
 #define kWXAppId     @"wx9173274e2ea0d365"
 #define kWXAppSecret @"22a92f9b55da6357e02e25f069ad7883"

@@ -194,12 +194,10 @@
             NSLog(@"%@", exception);
         }
     });
-    //self.progressHUD.mode = MBProgressHUDModeText;
-    //[self.progressHUD hide:YES afterDelay:2.0];
 }
 
 /**
- *  内容检测版本升级，判断版本号是否为偶数。以便内测
+ *  检测版本升级，判断版本号是否为偶数。以便内测
  *
  *  @param response <#response description#>
  */

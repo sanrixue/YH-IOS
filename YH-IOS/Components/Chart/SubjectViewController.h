@@ -7,8 +7,9 @@
 //
 
 #import "BaseViewController.h"
+#import "UMSocialControllerService.h"
 
-@interface SubjectViewController: BaseViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate>
+@interface SubjectViewController: BaseViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UMSocialUIDelegate>
 
 @property (strong, nonatomic) NSString *bannerName;
 @property (strong, nonatomic) NSString *link;

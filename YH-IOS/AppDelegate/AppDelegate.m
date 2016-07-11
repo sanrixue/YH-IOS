@@ -280,4 +280,9 @@ void UncaughtExceptionHandler(NSException * exception) {
     //设置微信AppId，设置分享url，默认使用友盟的网址
     [UMSocialWechatHandler setWXAppId:kWXAppId appSecret:kWXAppSecret url:kBaseUrl];
 }
+
+#pragma mark - UMeng Social Callback
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [UMSocialSnsService handleOpenURL:url wxApiDelegate:nil];
+}
 @end

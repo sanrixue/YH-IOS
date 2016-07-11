@@ -250,7 +250,9 @@
  */
 + (void)actionLog:(NSMutableDictionary *)param {
     // TODO: 避免服务器压力
-    if(![param[@"action"] isEqualToString:@"登录"] && ![param[@"action"] isEqualToString:@"解屏"]) {
+    NSString *action = param[@"action"];
+    // NSArray *whiteList = @[@"登录", @"解屏", @"微信分享"];
+    if(![action isEqualToString:@"登录"] && ![param[@"action"] isEqualToString:@"解屏"] && ![action containsString:@"微信分享"]) {
         return;
     }
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
@@ -270,7 +272,6 @@
     userParams[@"user_pass"] = userDict[@"user_md5"];
     
     params[@"user"] = userParams;
-    
     NSString *urlString = [NSString stringWithFormat:API_ACTION_LOG_PATH, kBaseUrl];
     [HttpUtils httpPost:urlString Params:params];
 }

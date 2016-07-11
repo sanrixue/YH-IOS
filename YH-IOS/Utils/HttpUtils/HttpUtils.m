@@ -36,7 +36,9 @@
  *  @return Http#Get HttpResponse
  */
 + (HttpResponse *)httpGet:(NSString *)urlString header:(NSDictionary *)header timeoutInterval:(NSTimeInterval)timeoutInterval {
-    NSLog(@"%@", urlString);
+    urlString  = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    LogGreen(@"\nPOST:\n%@\n", urlString);
+    
     NSURL *url = [NSURL URLWithString:urlString];
     HttpResponse *httpResponse = [[HttpResponse alloc] init];
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:timeoutInterval];
@@ -46,7 +48,10 @@
         for(NSString *key in header) {
             [request setValue:header[key] forHTTPHeaderField:key];
         }
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:header options:NSJSONWritingPrettyPrinted error:nil];
+        LogGreen(@"\nParams:\n%@\n", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
     }
+    
     NSError *error;
     NSURLResponse *response;
     httpResponse.received = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
@@ -55,6 +60,7 @@
     if(!isOK) {
         [httpResponse.errors addObject:(NSString *)psd([error localizedDescription], @"http get未知错误")];
     }
+    LogGreen(@"\nResponse:\n%@\n", httpResponse.string);
     
     return httpResponse;
 }
@@ -82,7 +88,6 @@
  *  @return Http#Post 响应内容
  */
 + (HttpResponse *)httpPost:(NSString *)urlString Params:(NSMutableDictionary *)params {
-    NSLog(@"httpPost: %@", urlString);
     urlString  = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURL *url = [NSURL URLWithString:urlString];
     //params     = [params stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -101,10 +106,14 @@
     HttpResponse *httpResponse = [[HttpResponse alloc] init];
     httpResponse.received = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     httpResponse.response = (NSHTTPURLResponse *)response;
-    BOOL isOK   = NSErrorPrint(error, @"Http#post %@", urlString);
+    BOOL isOK = NSErrorPrint(error, @"Http#post %@", urlString);
     if(!isOK) {
         [httpResponse.errors addObject:(NSString *)psd([error localizedDescription], @"Http#post未知错误")];
     }
+    
+    LogGreen(@"\nPOST:\n%@\n", urlString);
+    LogGreen(@"\nParams:\n%@\n", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
+    LogGreen(@"\nResponse:\n%@\n", httpResponse.string);
     
     return httpResponse;
 }

@@ -296,19 +296,15 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     // End the graphics context
     UIGraphicsEndImageContext();
     
-    NSData *pngData = UIImagePNGRepresentation(image);
-    NSString *filePath = [[FileUtils basePath] stringByAppendingPathComponent:@"screen_shot.png"]; //Add the file name
-    [pngData writeToFile:filePath atomically:YES]; //Write the file
-    
     [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
-    [UMSocialData defaultData].extConfig.title = @"分享的title";
-    [UMSocialData defaultData].extConfig.qqData.url = @"http://baidu.com";
+    [UMSocialData defaultData].extConfig.title = @"图表截图分享";
+    [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
     [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:@"53290df956240b6b4a0084b3"
-                                      shareText:@"友盟社会化分享让您快速实现分享等社会化功能，http://umeng.com/social"
+                                         appKey:kUMAppId
+                                      shareText:self.bannerName
                                      shareImage:image
                                 shareToSnsNames:@[UMShareToWechatSession]
-                                       delegate:nil];
+                                       delegate:self];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -348,7 +344,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     NSLog(@"dvc: %@", error.description);
 }
 
-# pragma mark - 支持旋转
+# pragma mark - 支持旋转 屏幕旋转 刷新页面
 - (BOOL)shouldAutorotate {
     return YES;
 }
@@ -357,7 +353,6 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     return YES;
 }
 
-#pragma mark - 屏幕旋转 刷新页面
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self checkInterfaceOrientation:toInterfaceOrientation];
 
@@ -410,5 +405,50 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
     }
     
     return YES;
+}
+
+#pragma mark - UMSocialUIDelegate
+-(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    @try {
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = [NSString stringWithFormat:@"微信分享(%d)", fromViewControllerType];
+        logParams[@"obj_id"] = self.objectID;
+        logParams[@"obj_type"] = @(self.commentObjectType);
+        logParams[@"obj_title"] = self.bannerName;
+        [APIHelper actionLog:logParams];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+}
+
+// 下面得到分享完成的回调
+// {
+//    data = {
+//        wxsession = "";
+//    };
+//    responseCode = 200;
+//    responseType = 5;
+//    thirdPlatformResponse = "<SendMessageToWXResp: 0x136479db0>";
+//    viewControllerType = 3;
+// }
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response {
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    @try {
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = [NSString stringWithFormat:@"微信分享完成(%d)", response.viewControllerType];
+        logParams[@"obj_id"] = self.objectID;
+        logParams[@"obj_type"] = @(self.commentObjectType);
+        logParams[@"obj_title"] = self.bannerName;
+        [APIHelper actionLog:logParams];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
 }
 @end

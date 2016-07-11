@@ -67,8 +67,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         NSMutableDictionary *pgyerVersionDict = [FileUtils readConfigFile:pgyerVersionPath];
         BOOL isPgyerLatest = [version.current isEqualToString:pgyerVersionDict[@"versionName"]] && [version.build isEqualToString:pgyerVersionDict[@"versionCode"]];
         NSString *pgyerVersionState = isPgyerLatest ? @"已是最新版本" : [NSString stringWithFormat:@"有发布测试版本:%@(%@)", pgyerVersionDict[@"versionName"], pgyerVersionDict[@"versionCode"] ];
+        UIColor *buttonColor = isPgyerLatest ? [UIColor darkGrayColor] : [self.buttonChangeGesturePassword.titleLabel textColor];
         [self.buttonPgyerLink setTitle:pgyerVersionState forState:UIControlStateNormal];
-        UIColor *buttonColor = isPgyerLatest ? [UIColor darkGrayColor] : [UIColor blueColor];
         [self.buttonPgyerLink setTitleColor:buttonColor forState:UIControlStateNormal];
     }
     

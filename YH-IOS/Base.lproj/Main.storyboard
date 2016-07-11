@@ -808,6 +808,7 @@
                         <outlet property="bannerView" destination="I7G-rp-af7" id="5zu-O5-4zp"/>
                         <outlet property="btnLogout" destination="owa-8a-CHd" id="pkO-rV-a3j"/>
                         <outlet property="buttonChangeGesturePassword" destination="Xu6-A3-r9W" id="KPh-Ke-8Gp"/>
+                        <outlet property="buttonPgyerLink" destination="h3e-ro-OKW" id="99M-qd-8T0"/>
                         <outlet property="idColor0" destination="vHv-K2-aSg" id="Xvj-Rq-cdF"/>
                         <outlet property="idColor1" destination="AE0-2E-Cbm" id="KzK-0K-CfT"/>
                         <outlet property="idColor2" destination="Cco-uh-BDm" id="4V6-K3-58m"/>

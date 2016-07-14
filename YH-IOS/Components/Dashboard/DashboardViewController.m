@@ -132,6 +132,20 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 
 - (void)setTabBarItems {
+    if(!kDashboardTabBarDisplay) {
+        NSLayoutConstraint *heightConstraint;
+        for (NSLayoutConstraint *constraint in self.tabBar.constraints) {
+            if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+                heightConstraint = constraint;
+                break;
+            }
+        }
+        heightConstraint.constant = 0;
+        self.tabBar.hidden = !kDashboardTabBarDisplay;
+        
+        return;
+    }
+    
     NSArray *allItems = self.tabBar.items;
     NSMutableArray *displayItems = [NSMutableArray array];
     

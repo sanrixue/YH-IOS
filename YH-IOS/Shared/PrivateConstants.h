@@ -22,6 +22,7 @@
 #define kWXAppId     @"wx9173274e2ea0d365"
 #define kWXAppSecret @"22a92f9b55da6357e02e25f069ad7883"
 
+#define kDashboardTabBarDisplay        YES
 #define kDashboardTabBarDisplayKPI     YES
 #define kDashboardTabBarDisplayAnalyse YES
 #define kDashboardTabBarDisplayApp     YES

@@ -128,6 +128,7 @@ if slop_opts[:constant]
     #define kWXAppId     @"#{Settings.umeng_weixin.ios.app_id}"
     #define kWXAppSecret @"#{Settings.umeng_weixin.ios.app_secret}"
 
+    #define kDashboardTabBarDisplay        #{Settings.display_status.tab_bar == 1 ? 'YES' : 'NO'}
     #define kDashboardTabBarDisplayKPI     #{Settings.display_status.kpi == 1 ? 'YES' : 'NO'}
     #define kDashboardTabBarDisplayAnalyse #{Settings.display_status.analyse == 1 ? 'YES' : 'NO'}
     #define kDashboardTabBarDisplayApp     #{Settings.display_status.app == 1 ? 'YES' : 'NO'}

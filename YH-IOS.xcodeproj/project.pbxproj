@@ -66,6 +66,7 @@
 		C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DBD1C02EE3800DA534E /* FileUtils.m */; };
 		C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DCA1C02EE8E00DA534E /* BaseModel.m */; };
 		C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */; };
+		C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4E93F0E1D38C01D00DBEC90 /* ReportSelectorViewController.m */; };
 		C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = C4ECB27F1C3119E900F7947B /* NSString+MD5.m */; };
 		C4EFE4AF1C98F60A0009411A /* fonts.zip in Resources */ = {isa = PBXBuildFile; fileRef = C4EFE4AA1C98F60A0009411A /* fonts.zip */; };
 		C4EFE4B01C98F60A0009411A /* stylesheets.zip in Resources */ = {isa = PBXBuildFile; fileRef = C4EFE4AB1C98F60A0009411A /* stylesheets.zip */; };
@@ -196,6 +197,8 @@
 		C4DB7DCA1C02EE8E00DA534E /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		C4DB7DCC1C02EE8E00DA534E /* HttpResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpResponse.h; sourceTree = "<group>"; };
 		C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpResponse.m; sourceTree = "<group>"; };
+		C4E93F0D1D38C01D00DBEC90 /* ReportSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportSelectorViewController.h; sourceTree = "<group>"; };
+		C4E93F0E1D38C01D00DBEC90 /* ReportSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportSelectorViewController.m; sourceTree = "<group>"; };
 		C4ECB27E1C3119E900F7947B /* NSString+MD5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MD5.h"; sourceTree = "<group>"; };
 		C4ECB27F1C3119E900F7947B /* NSString+MD5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MD5.m"; sourceTree = "<group>"; };
 		C4EFE4AA1C98F60A0009411A /* fonts.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = fonts.zip; sourceTree = "<group>"; };
@@ -430,6 +433,7 @@
 		C4C6283A1C0C1ED6000AD5D8 /* Subject */ = {
 			isa = PBXGroup;
 			children = (
+				C4E93F0C1D38BFC000DBEC90 /* ReportSelector */,
 				C4C6283B1C0C1ED6000AD5D8 /* SubjectViewController.h */,
 				C4C6283C1C0C1ED6000AD5D8 /* SubjectViewController.m */,
 			);
@@ -631,6 +635,15 @@
 				C4DB7DCD1C02EE8E00DA534E /* HttpResponse.m */,
 			);
 			path = HttpResponse;
+			sourceTree = "<group>";
+		};
+		C4E93F0C1D38BFC000DBEC90 /* ReportSelector */ = {
+			isa = PBXGroup;
+			children = (
+				C4E93F0D1D38C01D00DBEC90 /* ReportSelectorViewController.h */,
+				C4E93F0E1D38C01D00DBEC90 /* ReportSelectorViewController.m */,
+			);
+			path = ReportSelector;
 			sourceTree = "<group>";
 		};
 		C4ECB27D1C3119B200F7947B /* NSString+MD5 */ = {
@@ -888,6 +901,7 @@
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
+				C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */,
 				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
 				C40D06B21C917BF80029D142 /* TFHpple.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
@@ -1070,9 +1084,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.qiyoutong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6e11d2f5-64fb-43e2-8089-ca4999df2634";
+				PROVISIONING_PROFILE = "0100e9b2-1849-4ddb-bb4c-0358343a8961";
 			};
 			name = Debug;
 		};
@@ -1100,9 +1114,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.qiyoutong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "6e11d2f5-64fb-43e2-8089-ca4999df2634";
+				PROVISIONING_PROFILE = "0100e9b2-1849-4ddb-bb4c-0358343a8961";
 			};
 			name = Release;
 		};

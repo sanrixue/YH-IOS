@@ -4,6 +4,7 @@ pgyer: &pgyer
 yonghui:
   application_id: 'com.intfocus.-'
   display_status:
+    tab_bar: 1
     kpi: 1
     analyse: 1
     app: 1
@@ -38,6 +39,7 @@ yonghui:
 shengyiplus:
   application_id: 'com.intfocus.-'
   display_status:
+    tab_bar: 1
     kpi: 1
     analyse: 1
     app: 1
@@ -72,8 +74,9 @@ shengyiplus:
 qiyoutong:
   application_id: 'com.intfocus.-'
   display_status:
+    tab_bar: 0
     kpi: 1
-    analyse: 1
+    analyse: 0
     app: 0
     message: 0
     comment: 0

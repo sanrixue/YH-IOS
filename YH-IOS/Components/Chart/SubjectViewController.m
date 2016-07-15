@@ -13,6 +13,7 @@
 #import "CommentViewController.h"
 
 static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
+static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
 @interface SubjectViewController ()
 @property (assign, nonatomic) BOOL isInnerLink;
@@ -273,7 +274,7 @@ static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 }
 
 - (IBAction)actionWriteComment:(UIButton *)sender {
-    [self performSegueWithIdentifier:kCommentSegueIdentifier sender:nil];
+    [self performSegueWithIdentifier:kReportSelectorSegueIdentifier sender:nil];
 }
 
 - (IBAction)actionWebviewScreenShot:(id)sender {

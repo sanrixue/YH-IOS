@@ -15,4 +15,6 @@
 @property (strong, nonatomic) NSString *link;
 @property (assign, nonatomic) CommentObjectType commentObjectType;
 @property (strong, nonatomic) NSNumber *objectID;
+// 内部报表具胡筛选功能时，用户点击的选项
+@property (strong, nonatomic) NSString *selectedItem;
 @end

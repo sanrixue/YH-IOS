@@ -10,5 +10,8 @@
 #import "BaseViewController.h"
 
 @interface ReportSelectorViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>
-
+@property (strong, nonatomic) NSString *bannerName;
+@property (strong, nonatomic) NSNumber *groupID;
+@property (strong, nonatomic) NSString *reportID;
+@property (strong, nonatomic) NSString *templateID;
 @end

@@ -6,10 +6,13 @@
 //  Copyright © 2016年 com.intfocus. All rights reserved.
 //
 
+#import "FileUtils+Report.h"
 #import "ReportSelectorViewController.h"
 
 @interface ReportSelectorViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *searchItems;
+@property (strong, nonatomic) NSString *selectedItem;
 @end
 
 @implementation ReportSelectorViewController
@@ -18,6 +21,12 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self idColor];
+
+    self.searchItems = [FileUtils reportSearchItems:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    self.selectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    
+    self.labelTheme.text = self.bannerName;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
 }
@@ -27,6 +36,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - ibaction block
+- (IBAction)actionBack:(id)sender {
+    [super dismissViewControllerAnimated:YES completion:^{
+        [self.progressHUD hide:YES];
+        self.progressHUD = nil;
+    }];
+}
 
 #pragma mark - UITableViewDataSource
 
@@ -35,31 +51,45 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 11;
+    return self.searchItems.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIndentifier = @"Contact";
+    static NSString *CellIndentifier = @"CellIndentifier";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIndentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIndentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
     }
-    cell.textLabel.text = @"hello";
     
+    //[tableView setSeparatorColor:[UIColor blueColor]];
+    NSString *currentItem = self.searchItems[indexPath.row];
+    cell.textLabel.text = currentItem;
+    UIView *bgColorView = [[UIView alloc] init];
+    bgColorView.backgroundColor = (self.selectedItem && [self.selectedItem isEqualToString:currentItem])  ? [UIColor greenColor] : [UIColor whiteColor];
+    cell.backgroundView = bgColorView;
+
+//    
+//    cell.separatorInset = UIEdgeInsetsZero;
+//    if ([cell respondsToSelector:@selector(preservesSuperviewLayoutMargins)]){
+//        cell.layoutMargins = UIEdgeInsetsZero;
+//        cell.preservesSuperviewLayoutMargins = false;
+//    }
     return cell;
 }
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 120.0;
+    return 30.0;
 }
 
-- (void)didSelectInfoButtonOfCell:(UITableViewCell *)cell {
-    [self performSegueWithIdentifier:@"Hello" sender:nil];
-}
-
-- (void)didSelectActionButtonOfCell:(UITableViewCell *)cell {
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *selectedItem = self.searchItems[indexPath.row];
+    
+    NSString *selectedItemPath = [NSString stringWithFormat:@"%@.selected_item", [FileUtils reportJavaScriptDataPath:self.user.groupID templateID:self.templateID reportID:self.reportID]];
+    [selectedItem writeToFile:selectedItemPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    
+    [self actionBack:nil];
 }
 
 @end

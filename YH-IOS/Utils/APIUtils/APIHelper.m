@@ -36,17 +36,14 @@
     
     HttpResponse *httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:assetsPath];
     
-    if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-       // || reponse body is empty when 304
-       //([httpResponse.statusCode isEqualToNumber:@(304)] && ![FileUtils checkFileExist:reportDataFilePath isDir:NO])) {
+    if([httpResponse.statusCode isEqualToNumber:@(200)] && httpResponse.string) {
+        NSError *error = nil;
+        [httpResponse.string writeToFile:javascriptPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
+        if(error) { NSLog(@"%@ - %@", error.description, javascriptPath); }
         
-        if(httpResponse.string) {
-            NSError *error = nil;
-            [httpResponse.string writeToFile:javascriptPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
-            
-            if(error) {
-                NSLog(@"%@ - %@", error.description, javascriptPath);
-            }
+        NSString *searchItemsPath = [NSString stringWithFormat:@"%@.search_items", javascriptPath];
+        if([FileUtils checkFileExist:searchItemsPath isDir:NO]) {
+            [FileUtils removeFile:searchItemsPath];
         }
     }
 }

@@ -10,7 +10,9 @@
 #import "SubjectViewController.h"
 #import "UMSocial.h"
 #import "APIHelper.h"
+#import "FileUtils+Report.h"
 #import "CommentViewController.h"
+#import "ReportSelectorViewController.h"
 
 static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
@@ -21,6 +23,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (weak, nonatomic) IBOutlet UIButton *btnShare;
 @property (strong, nonatomic) NSString *reportID;
 @property (strong, nonatomic) NSString *templateID;
+@property (strong, nonatomic) NSString *javascriptPath;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @end
 
@@ -73,8 +76,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
     
-    
-    [self loadHtml];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -89,6 +90,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      *  横屏时，隐藏标题栏，增大可视区范围
      */
     [self checkInterfaceOrientation: [[UIApplication sharedApplication] statusBarOrientation]];
+    
+    [self loadHtml];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -187,6 +190,26 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             NSLog(@"unkown action %@", action);
         }
     }];
+    
+    [self.bridge registerHandler:@"searchItems" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *reportDataFileName = [NSString stringWithFormat:REPORT_DATA_FILENAME, self.user.groupID, self.templateID, self.reportID];
+        NSString *javascriptFolder = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
+        self.javascriptPath = [javascriptFolder stringByAppendingPathComponent:reportDataFileName];
+        NSString *searchItemsPath = [NSString stringWithFormat:@"%@.search_items", self.javascriptPath];
+        
+        if(![FileUtils checkFileExist:searchItemsPath isDir:NO]) {
+            [data[@"items"] writeToFile:searchItemsPath atomically:YES];
+        }
+    }];
+    
+    [self.bridge registerHandler:@"selectedItem" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *selectedItemPath = [NSString stringWithFormat:@"%@.selected_item", self.javascriptPath];
+        NSString *selectedItem = NULL;
+        if([FileUtils checkFileExist:selectedItemPath isDir:NO]) {
+            selectedItem = [NSString stringWithContentsOfFile:selectedItemPath encoding:NSUTF8StringEncoding error:nil];
+        }
+        responseCallback(selectedItem);
+    }];
 
 }
 
@@ -233,6 +256,14 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self clearBrowserCache];
     [self showLoading:LoadingLoad];
     
+    /**
+     * 内部报表具胡筛选功能时，如果用户已设置筛选项，则 banner 显示该信息
+     */
+    NSString *reportSelectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    if(reportSelectedItem) {
+        self.labelTheme.text = reportSelectedItem;
+    }
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // format: /mobile/v1/group/:group_id/template/:template_id/report/:report_id
         // deprecated
@@ -274,6 +305,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (IBAction)actionWriteComment:(UIButton *)sender {
+    [self performSegueWithIdentifier:kCommentSegueIdentifier sender:nil];
+}
+
+- (IBAction)actionDisplaySearchItems:(id)sender {
     [self performSegueWithIdentifier:kReportSelectorSegueIdentifier sender:nil];
 }
 
@@ -315,10 +350,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     
     if([segue.identifier isEqualToString:kCommentSegueIdentifier]) {
-        CommentViewController *commentViewController = (CommentViewController *)segue.destinationViewController;
-        commentViewController.bannerName        = self.bannerName;
-        commentViewController.commentObjectType = self.commentObjectType;
-        commentViewController.objectID          = self.objectID;
+        CommentViewController *viewController = (CommentViewController *)segue.destinationViewController;
+        viewController.bannerName        = self.bannerName;
+        viewController.commentObjectType = self.commentObjectType;
+        viewController.objectID          = self.objectID;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
@@ -328,6 +363,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             logParams[@"action"] = @"点击/主题页面/评论";
             [APIHelper actionLog:logParams];
         });
+    }
+    else if([segue.identifier isEqualToString:kReportSelectorSegueIdentifier]) {
+        ReportSelectorViewController *viewController = (ReportSelectorViewController *)segue.destinationViewController;
+        viewController.bannerName  = self.bannerName;
+        viewController.groupID     = self.user.groupID;
+        viewController.reportID    = self.reportID;
+        viewController.templateID  = self.templateID;
     }
 }
 

@@ -24,7 +24,20 @@
     [self idColor];
 
     self.searchItems = [FileUtils reportSearchItems:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    
+    /**
+     *  - 如果用户已设置筛选项，则 banner 显示该信息
+     *  - 未设置时，默认显示第一个
+     */
     self.selectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    if((self.selectedItem == NULL || [self.selectedItem length] == 0) && [self.searchItems count] > 0) {
+        self.selectedItem = [self.searchItems firstObject];
+    }
+    
+    /**
+     *  筛选项列表按字母排序，以便于用户查找
+     */
+    self.searchItems = [self.searchItems sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
     self.labelTheme.text = self.bannerName;
     self.tableView.dataSource = self;

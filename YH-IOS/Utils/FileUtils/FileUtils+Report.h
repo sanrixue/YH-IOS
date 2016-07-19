@@ -11,6 +11,17 @@
 @interface FileUtils (Report)
 
 /**
+ *  内部报表是否支持筛选功能
+ *
+ *  @param groupID    群组ID
+ *  @param templateID 模板ID
+ *  @param reportID   报表ID
+ *
+ *  @return 是否支持筛选功能
+ */
++ (BOOL)reportIsSupportSearch:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID;
+
+/**
  *  内部报表 JavaScript 文件路径
  *
  *  @param groupID    群组ID

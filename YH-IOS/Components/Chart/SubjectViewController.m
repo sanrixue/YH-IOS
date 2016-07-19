@@ -19,6 +19,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 @interface SubjectViewController ()
 @property (assign, nonatomic) BOOL isInnerLink;
+@property (assign, nonatomic) BOOL isSupportSearch;
+@property (weak, nonatomic) IBOutlet UIButton *btnSearch;
 @property (weak, nonatomic) IBOutlet UIButton *btnComment;
 @property (weak, nonatomic) IBOutlet UIButton *btnShare;
 @property (strong, nonatomic) NSString *reportID;
@@ -41,6 +43,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     self.btnShare.hidden = !kSubjectDisplayShare;
     self.btnComment.hidden = !kSubjectDisplayComment;
+    self.btnSearch.hidden = YES;
     
     /**
      *  服务器内链接需要做缓存、点击事件处理；
@@ -75,7 +78,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -256,21 +258,37 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self clearBrowserCache];
     [self showLoading:LoadingLoad];
     
-    /**
-     * 内部报表具胡筛选功能时，如果用户已设置筛选项，则 banner 显示该信息
+    /*
+     * format: /mobile/v1/group/:group_id/template/:template_id/report/:report_id
+     * deprecated
+     * format: /mobile/report/:report_id/group/:group_id
      */
-    NSString *reportSelectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
-    if(reportSelectedItem) {
+    NSArray *components = [self.link componentsSeparatedByString:@"/"];
+    self.templateID = components[6];
+    self.reportID = components[8];
+    self.isSupportSearch = [FileUtils reportIsSupportSearch:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    
+    /**
+     * 内部报表具有筛选功能时
+     *   - 如果用户已设置筛选项，则 banner 显示该信息
+     *   - 未设置时，默认显示第一个
+     */
+    if(self.isSupportSearch) {
+        self.btnSearch.hidden = NO;
+        NSString *reportSelectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
+        if(reportSelectedItem == NULL || [reportSelectedItem length] == 0) {
+            NSArray *reportSearchItems = [FileUtils reportSearchItems:self.user.groupID templateID:self.templateID reportID:self.reportID];
+            if([reportSearchItems count] > 0) {
+                reportSelectedItem = [reportSearchItems firstObject];
+            }
+            else {
+                reportSelectedItem = [NSString stringWithFormat:@"%@(NONE)", self.labelTheme.text];
+            }
+        }
         self.labelTheme.text = reportSelectedItem;
     }
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // format: /mobile/v1/group/:group_id/template/:template_id/report/:report_id
-        // deprecated
-        // format: /mobile/report/:report_id/group/:group_id
-        NSArray *components = [self.link componentsSeparatedByString:@"/"];
-        self.templateID = components[6];
-        self.reportID = components[8];
         [APIHelper reportData:self.user.groupID templateID:self.templateID reportID:self.reportID];
         
         HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];

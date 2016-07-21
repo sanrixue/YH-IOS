@@ -73,12 +73,12 @@ BOOL ExtendNSLogPrintError(const char *file, int lineNumber, const char *functio
     }
 }
 
-BOOL isNull(NSObject *propertyValue) {
+BOOL isNULL(NSObject *propertyValue) {
     return (!propertyValue || propertyValue == [NSNull null] || propertyValue == NULL);
 }
 
 NSObject* propertyDefault(NSObject *propertyValue, NSObject *defaultVlaue) {
-    if(isNull(propertyValue)) {
+    if(isNULL(propertyValue)) {
         propertyValue = defaultVlaue;
     }
     return propertyValue;

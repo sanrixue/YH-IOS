@@ -201,6 +201,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         
         if(![FileUtils checkFileExist:searchItemsPath isDir:NO]) {
             [data[@"items"] writeToFile:searchItemsPath atomically:YES];
+            
+            [self displayBannerTitleAndSearchIcon];
         }
     }];
     
@@ -274,18 +276,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      *   - 未设置时，默认显示第一个
      */
     if(self.isSupportSearch) {
-        self.btnSearch.hidden = NO;
-        NSString *reportSelectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
-        if(reportSelectedItem == NULL || [reportSelectedItem length] == 0) {
-            NSArray *reportSearchItems = [FileUtils reportSearchItems:self.user.groupID templateID:self.templateID reportID:self.reportID];
-            if([reportSearchItems count] > 0) {
-                reportSelectedItem = [reportSearchItems firstObject];
-            }
-            else {
-                reportSelectedItem = [NSString stringWithFormat:@"%@(NONE)", self.labelTheme.text];
-            }
-        }
-        self.labelTheme.text = reportSelectedItem;
+        [self displayBannerTitleAndSearchIcon];
     }
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -307,6 +298,21 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
         });
     });
+}
+
+- (void)displayBannerTitleAndSearchIcon {
+    self.btnSearch.hidden = NO;
+    NSString *reportSelectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    if(reportSelectedItem == NULL || [reportSelectedItem length] == 0) {
+        NSArray *reportSearchItems = [FileUtils reportSearchItems:self.user.groupID templateID:self.templateID reportID:self.reportID];
+        if([reportSearchItems count] > 0) {
+            reportSelectedItem = [reportSearchItems firstObject];
+        }
+        else {
+            reportSelectedItem = [NSString stringWithFormat:@"%@(NONE)", self.labelTheme.text];
+        }
+    }
+    self.labelTheme.text = reportSelectedItem;
 }
 
 #pragma mark - ibaction block

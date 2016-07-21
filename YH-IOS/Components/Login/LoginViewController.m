@@ -12,6 +12,7 @@
 #import "NSString+MD5.h"
 #import <PgyUpdate/PgyUpdateManager.h>
 #import "UMessage.h"
+#import "Version.h"
 
 @interface LoginViewController ()
 @end
@@ -49,7 +50,7 @@
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
         
-        [self loadHtml];
+        [self showLoading:LoadingLogin];
     }];
     
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -123,12 +124,23 @@
      * 检测登录界面，版本是否升级
      */
     [self checkVersionUpgrade:self.sharedPath];
+    
+    /**
+     *  检查本地静态资源是否解压
+     */
+    NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
+    [FileUtils checkAssets:@"assets" isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:@"loading" isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:@"fonts" isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:@"images" isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:@"javascripts" isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:@"stylesheets" isInAssets:YES bundlePath:bundlePath];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self loadHtml];
+    [self showLoading:LoadingLogin];
     
     //启动检测版本更新
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
@@ -146,36 +158,6 @@
 
 - (BOOL)prefersStatusBarHidden {
     return YES;
-}
-
-- (void)loadHtml {
-    // [self clearBrowserCache];
-    [self showLoading:LoadingLogin];
-//
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        if([HttpUtils isNetworkAvailable]) {
-//            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
-//
-//            __block NSString *htmlPath;
-//            if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-//                htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
-//            }
-//            else {
-//                NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
-//                htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
-//            }
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
-//                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:htmlPath]];
-//            });
-//        }
-//        else {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self showLoading:LoadingRefresh];
-//            });
-//        }
-//    });
 }
 
 - (void)jumpToDashboardView {
@@ -247,8 +229,11 @@
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
     [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
     
-    if(response && response[@"downloadURL"] && response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0) {
-        
+    if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) return;
+    
+    Version *version = [[Version alloc] init];
+    BOOL isPgyerLatest = [version.current isEqualToString:response[@"versionName"]] && [version.build isEqualToString:response[@"versionCode"]];
+    if(!isPgyerLatest && [response[@"versionCode"] integerValue] % 2 == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         
         [alert addButton:@"升级" actionBlock:^(void) {
@@ -256,7 +241,8 @@
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
         }];
         
-        [alert showSuccess:self title:@"版本更新" subTitle:response[@"releaseNote"] closeButtonTitle:@"放弃" duration:0.0f];
+        NSString *subTitle = [NSString stringWithFormat:@"更新到版本: %@(%@)", response[@"versionName"], response[@"versionCode"]];
+        [alert showSuccess:self title:@"版本更新" subTitle:subTitle closeButtonTitle:@"放弃" duration:0.0f];
     }
 }
 @end

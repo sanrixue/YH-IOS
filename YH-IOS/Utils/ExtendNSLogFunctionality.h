@@ -85,6 +85,7 @@
 
 #define psd(pValue, dValue) propertyDefault(pValue, dValue)
 
+BOOL isNULL(NSObject *propertyValue);
 void ExtendNSLog(const char *file, int lineNumber, const char *functionName, NSString *format, ...);
 BOOL ExtendNSLogPrintError(const char *file, int lineNumber, const char *functionName,BOOL isPrintSuccessfully, NSError *error, NSString *format, ...);
 void actionLogPost(const char *sourceFile, int lineNumber, const char *functionName, NSString *actionName, NSString *actionResult);

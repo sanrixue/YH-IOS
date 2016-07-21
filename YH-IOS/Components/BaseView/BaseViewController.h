@@ -19,6 +19,7 @@
 #import "UIColor+Hex.h"
 #import "UIWebview+Clean.h"
 #import "LTHPasscodeViewController.h"
+#import "ExtendNSLogFunctionality.h"
 
 @interface BaseViewController : UIViewController<UIWebViewDelegate>
 
@@ -46,6 +47,7 @@
 - (void)jumpToLogin;
 - (void)showProgressHUD:(NSString *)text;
 - (void)showProgressHUD:(NSString *)text mode:(MBProgressHUDMode)mode;
+
 /*
  *  内容检测版本升级，判断版本号是否为偶数。以便内测
  *
@@ -59,6 +61,7 @@
  *  @param allowRotation 允许横屏
  */
 - (void)setAppAllowRotation:(BOOL)allowRotation;
+
 /**
  *  检测服务器端静态文件是否更新
  */

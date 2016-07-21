@@ -8,6 +8,7 @@
 
 #import "DashboardViewController.h"
 #import "SubjectViewController.h"
+#import "Version.h"
 #import "NSData+MD5.h"
 #import <SCLAlertView.h>
 #import <PgyUpdate/PgyUpdateManager.h>
@@ -464,8 +465,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
     [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
     
-    if(response && response[@"downloadURL"] && response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0) {
-        
+    if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) return;
+    
+    Version *version = [[Version alloc] init];
+    BOOL isPgyerLatest = [version.current isEqualToString:response[@"versionName"]] && [version.build isEqualToString:response[@"versionCode"]];
+    if(!isPgyerLatest && [response[@"versionCode"] integerValue] % 2 == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         
         [alert addButton:@"升级" actionBlock:^(void) {
@@ -473,7 +477,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
         }];
         
-        [alert showSuccess:self title:@"版本更新" subTitle:response[@"releaseNote"] closeButtonTitle:@"放弃" duration:0.0f];
+        NSString *subTitle = [NSString stringWithFormat:@"更新到版本: %@(%@)", response[@"versionName"], response[@"versionCode"]];
+        [alert showSuccess:self title:@"版本更新" subTitle:subTitle closeButtonTitle:@"放弃" duration:0.0f];
     }
 }
 @end

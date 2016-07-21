@@ -197,37 +197,6 @@
 }
 
 /**
- *  检测版本升级，判断版本号是否为偶数。以便内测
- *
- *  @param response <#response description#>
- */
-- (void)appUpgradeMethod:(NSDictionary *)response {
-    NSLog(@"appUpgradeMethod: %@", response);
-    
-    if(!response || !response[@"downloadURL"]) return;
-    
-    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
-    [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
-    
-    Version *version = [[Version alloc] init];
-    if([version.current isEqualToString:response[@"versionName"]] && [version.build isEqualToString:response[@"versionCode"]]) {
-        [ViewUtils showPopupView:self.view Info:@"已是最新版本"];
-    }
-    else if(response[@"versionCode"] && [response[@"versionCode"] integerValue] % 2 == 0) {
-        
-        SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert addButton:@"升级" actionBlock:^(void) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[@"downloadURL"]]];
-            [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
-        }];
-        [alert showSuccess:self title:@"版本更新" subTitle:response[@"releaseNote"] closeButtonTitle:@"放弃" duration:0.0f];
-    }
-    else {
-        [ViewUtils showPopupView:self.view Info:[NSString stringWithFormat:@"有发布测试版本%@(%@)", response[@"versionName"], response[@"versionCode"]]];
-    }
-}
-
-/**
  *  设置是否允许横屏
  *
  *  @param allowRotation 允许横屏

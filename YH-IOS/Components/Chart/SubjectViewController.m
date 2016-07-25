@@ -202,7 +202,14 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         if(![FileUtils checkFileExist:searchItemsPath isDir:NO]) {
             [data[@"items"] writeToFile:searchItemsPath atomically:YES];
             
-            [self displayBannerTitleAndSearchIcon];
+            /**
+             *  判断筛选的条件: data[@"items"] 数组不为空
+             *  报表第一次加载时，此处为判断筛选功能的关键点
+             */
+            self.isSupportSearch = [FileUtils reportIsSupportSearch:self.user.groupID templateID:self.templateID reportID:self.reportID];
+            if(self.isSupportSearch) {
+                [self displayBannerTitleAndSearchIcon];
+            }
         }
     }];
     
@@ -268,13 +275,16 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     NSArray *components = [self.link componentsSeparatedByString:@"/"];
     self.templateID = components[6];
     self.reportID = components[8];
-    self.isSupportSearch = [FileUtils reportIsSupportSearch:self.user.groupID templateID:self.templateID reportID:self.reportID];
     
     /**
      * 内部报表具有筛选功能时
-     *   - 如果用户已设置筛选项，则 banner 显示该信息
-     *   - 未设置时，默认显示第一个
+     *   - 如果用户已选择，则 banner 显示该选项名称
+     *   - 未设置时，默认显示筛选项列表中第一个
+     *
+     *  初次加载时，判断筛选功能的条件还未生效
+     *  此处仅在第二次及以后才会生效
      */
+    self.isSupportSearch = [FileUtils reportIsSupportSearch:self.user.groupID templateID:self.templateID reportID:self.reportID];
     if(self.isSupportSearch) {
         [self displayBannerTitleAndSearchIcon];
     }

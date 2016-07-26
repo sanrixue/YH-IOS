@@ -11,6 +11,8 @@
 
 @interface ReportSelectorViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UITextField *textFieldSearch;
+@property (strong, nonatomic) NSArray *dataList;
 @property (strong, nonatomic) NSArray *searchItems;
 @property (strong, nonatomic) NSString *selectedItem;
 @end
@@ -22,6 +24,7 @@
     // Do any additional setup after loading the view.
     
     [self idColor];
+    self.dataList = [NSArray array];
     
     /**
      *  - 如果用户已设置筛选项，则 banner 显示该信息
@@ -35,17 +38,50 @@
     
     /**
      *  筛选项列表按字母排序，以便于用户查找
+     *  self.searchItems 不做任何修改，列表源使用变量 self.dataList
      */
     self.searchItems = [self.searchItems sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
+    
+    self.dataList = [self.searchItems copy];
     self.labelTheme.text = self.bannerName;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    
+    /**
+     *  搜索框内容改变时，实时搜索并展示
+     */
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SearchValueChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    [self.textFieldSearch addTarget:self action:@selector(SearchValueChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+/**
+ *  监听输入框内容变化
+ *
+ *  @param notifice notifice
+ */
+- (void)SearchValueChanged:(NSNotification *)notifice {
+    UITextField *field = [notifice object];
+    NSString *searchText = [field.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    
+    if([searchText length] > 0) {
+        NSString *predicateStr = [NSString stringWithFormat:@"(SELF CONTAINS \"%@\")", searchText];
+        
+        NSPredicate *sPredicate = [NSPredicate predicateWithFormat:predicateStr];
+        NSMutableArray *array = [NSMutableArray arrayWithArray:self.searchItems];
+        [array filterUsingPredicate:sPredicate];
+        self.dataList = [NSArray arrayWithArray:array];
+    }
+    else {
+        self.dataList = [self.searchItems copy];
+    }
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - ibaction block
@@ -63,7 +99,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.searchItems.count;
+    return self.dataList.count;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -74,7 +110,7 @@
     }
     
     //[tableView setSeparatorColor:[UIColor blueColor]];
-    NSString *currentItem = self.searchItems[indexPath.row];
+    NSString *currentItem = self.dataList[indexPath.row];
     cell.textLabel.text = currentItem;
     UIView *bgColorView = [[UIView alloc] init];
     bgColorView.backgroundColor = (self.selectedItem && [self.selectedItem isEqualToString:currentItem])  ? [UIColor greenColor] : [UIColor whiteColor];
@@ -96,7 +132,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *selectedItem = self.searchItems[indexPath.row];
+    NSString *selectedItem = self.dataList[indexPath.row];
     
     NSString *selectedItemPath = [NSString stringWithFormat:@"%@.selected_item", [FileUtils reportJavaScriptDataPath:self.user.groupID templateID:self.templateID reportID:self.reportID]];
     [selectedItem writeToFile:selectedItemPath atomically:YES encoding:NSUTF8StringEncoding error:nil];

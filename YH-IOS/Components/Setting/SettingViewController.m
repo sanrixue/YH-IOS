@@ -114,10 +114,27 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
  *  @param response <#response description#>
  */
 - (void)appUpgradeMethod:(NSDictionary *)response {
+    if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) {
+        [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
+        return;
+    }
+    
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
+    
+    NSInteger currentVersionCode = 0;
+    if([FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
+        NSDictionary *currentResponse = [FileUtils readConfigFile:pgyerVersionPath];
+        if(currentResponse[@"versionCode"]) {
+            currentVersionCode = [currentResponse[@"versionCode"] integerValue];
+        }
+    }
+    
     [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
     
-    if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) return;
+    // 对比 build 值，只准正向安装提示
+    if([response[@"versionCode"] integerValue] <= currentVersionCode) {
+        return;
+    }
     
     Version *version = [[Version alloc] init];
     BOOL isPgyerLatest = [version.current isEqualToString:response[@"versionName"]] && [version.build isEqualToString:response[@"versionCode"]];

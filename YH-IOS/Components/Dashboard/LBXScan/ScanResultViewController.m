@@ -8,10 +8,15 @@
 
 #import "ScanResultViewController.h"
 #import "APIHelper.h"
+#import "SelectStoreViewController.h"
 
-@interface ScanResultViewController ()
+static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
+
+@interface ScanResultViewController() <UINavigationBarDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @property (strong, nonatomic) NSString *htmlContent;
+@property (strong, nonatomic) NSString *barCodePath;
+@property (weak, nonatomic) IBOutlet UIButton *SelectBtn;
 @end
 
 @implementation ScanResultViewController
@@ -25,8 +30,15 @@
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
     
-    NSString *htmlPath = [[NSBundle mainBundle] pathForResource:@"barcode_scan_result" ofType:@"html"];
+    self.barCodePath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"BarCodeScan"];
+    NSString *htmlPath = [self.barCodePath stringByAppendingPathComponent:@"scan_bar_code.html"];
     self.htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+
+    [self.SelectBtn addTarget:self action:@selector(actionJumpToSelectStoreViewController) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
     
     [self loadHtml];
 }
@@ -62,17 +74,39 @@
 
 - (void)_loadHtml {
     [self clearBrowserCache];
-    [FileUtils barcodeScanResult:[NSString stringWithFormat:@"{\"商品编号\": \"%@\", \"状态\": \"处理中...\", \"order_keys\": [\"商品编号\", \"状态\"]}", self.codeInfo]];
     
-    [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+    [FileUtils barcodeScanResult:@"{\"chart\": \"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\", \"tabs\": [{ title: \"提示\", table: { length: 1, \"1\": \"加载中...\"}}]}"];
+    [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.barCodePath]];
+    
+    NSString *cachedPath = [FileUtils dirPath:@"Cached"];
+    NSString *cacheJsonPath = [cachedPath stringByAppendingPathComponent:@"barcode.json"];
+    NSMutableDictionary *cacheDict = [FileUtils readConfigFile:cacheJsonPath];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    
+    NSString *storeID = @"-1";
+    if ((!cacheDict[@"store"] || !cacheDict[@"store"][@"id"]) &&
+        userDict[@"store_ids"] && [userDict[@"store_ids"] count] > 0) {
+        
+        cacheDict[@"store"] = userDict[@"store_ids"][0];
+        [FileUtils writeJSON:cacheDict Into:cachedPath];
+    }
+    
+    storeID = cacheDict[@"store"][@"id"];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID code:self.codeInfo type:self.codeType];
+        [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];
         
         [self clearBrowserCache];
         [self showLoading:LoadingLoad];
-        [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+        [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.barCodePath]];
     });
+}
+
+- (void)actionJumpToSelectStoreViewController {
+    SelectStoreViewController *select = [[SelectStoreViewController alloc] init];
+    [self presentViewController:select animated:YES completion:nil];
+    
 }
 
 - (NSString *)htmlContentWithTimestamp {

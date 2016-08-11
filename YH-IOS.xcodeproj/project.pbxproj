@@ -25,6 +25,8 @@
 		C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C4448C6B1C0AE3030053B431 /* HttpUtils.m */; };
 		C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */ = {isa = PBXBuildFile; fileRef = C45D270F1C23FC490087C6F2 /* OpenUDID.m */; };
 		C45D27121C23FC490087C6F2 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = C45D27101C23FC490087C6F2 /* README.md */; };
+		C46903941D5CC75F00233D05 /* BarCodeScan.zip in Resources */ = {isa = PBXBuildFile; fileRef = C46903931D5CC75F00233D05 /* BarCodeScan.zip */; };
+		C46903971D5CC81A00233D05 /* SelectStoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C46903961D5CC81A00233D05 /* SelectStoreViewController.m */; };
 		C46F6A961D0671C900C561CE /* SubLBXScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C46F6A951D0671C900C561CE /* SubLBXScanViewController.m */; };
 		C46F6A981D06720A00C561CE /* CodeScan.bundle in Resources */ = {isa = PBXBuildFile; fileRef = C46F6A971D06720A00C561CE /* CodeScan.bundle */; };
 		C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C46F6A9A1D0673AB00C561CE /* MyQRViewController.m */; };
@@ -123,6 +125,9 @@
 		C45D270E1C23FC490087C6F2 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		C45D270F1C23FC490087C6F2 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		C45D27101C23FC490087C6F2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		C46903931D5CC75F00233D05 /* BarCodeScan.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = BarCodeScan.zip; sourceTree = "<group>"; };
+		C46903951D5CC81A00233D05 /* SelectStoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectStoreViewController.h; sourceTree = "<group>"; };
+		C46903961D5CC81A00233D05 /* SelectStoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectStoreViewController.m; sourceTree = "<group>"; };
 		C46F6A941D0671C900C561CE /* SubLBXScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubLBXScanViewController.h; sourceTree = "<group>"; };
 		C46F6A951D0671C900C561CE /* SubLBXScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubLBXScanViewController.m; sourceTree = "<group>"; };
 		C46F6A971D06720A00C561CE /* CodeScan.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = CodeScan.bundle; sourceTree = "<group>"; };
@@ -306,6 +311,8 @@
 		C46F6A931D0671C900C561CE /* BarCodeScan */ = {
 			isa = PBXGroup;
 			children = (
+				C46903951D5CC81A00233D05 /* SelectStoreViewController.h */,
+				C46903961D5CC81A00233D05 /* SelectStoreViewController.m */,
 				C4C284E51D06BB1A009458E6 /* ScanResultViewController.h */,
 				C4C284E41D06BB1A009458E6 /* ScanResultViewController.m */,
 				C46F6A991D0673AB00C561CE /* MyQRViewController.h */,
@@ -600,6 +607,7 @@
 		C4DB7DC51C02EE6000DA534E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				C46903931D5CC75F00233D05 /* BarCodeScan.zip */,
 				C4C284E21D06BACF009458E6 /* barcode_scan_result.html */,
 				C4A57AA61CB7859E004F9C3D /* PrivateConstants.h */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
@@ -810,6 +818,7 @@
 			files = (
 				C4EFE4BC1C99812B0009411A /* WebViewJavascriptBridge.js.txt in Resources */,
 				C4EFE4B21C98F60A0009411A /* images.zip in Resources */,
+				C46903941D5CC75F00233D05 /* BarCodeScan.zip in Resources */,
 				C4EFE4B01C98F60A0009411A /* stylesheets.zip in Resources */,
 				C4EFE4AF1C98F60A0009411A /* fonts.zip in Resources */,
 				C4C284E31D06BACF009458E6 /* barcode_scan_result.html in Resources */,
@@ -921,6 +930,7 @@
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				C4DEBB5A1D3CD22D00EEBC29 /* FileUtils+Report.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,
+				C46903971D5CC81A00233D05 /* SelectStoreViewController.m in Sources */,
 				C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */,
 				C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */,
 				C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */,
@@ -1092,7 +1102,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0100e9b2-1849-4ddb-bb4c-0358343a8961";
+				PROVISIONING_PROFILE = "4a4cc14f-cbca-48c3-b8b5-cf68a5ef7bf2";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1123,7 +1133,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "0100e9b2-1849-4ddb-bb4c-0358343a8961";
+				PROVISIONING_PROFILE = "4a4cc14f-cbca-48c3-b8b5-cf68a5ef7bf2";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

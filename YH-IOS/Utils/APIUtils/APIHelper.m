@@ -86,6 +86,7 @@
         userDict[@"kpi_ids"]     = response.data[@"kpi_ids"];
         userDict[@"app_ids"]     = response.data[@"app_ids"];
         userDict[@"analyse_ids"] = response.data[@"analyse_ids"];
+        userDict[@"store_ids"]   = response.data[@"store_ids"];
         userDict[@"is_login"]    = @(YES);
         userDict[@"device_uuid"]    = response.data[@"device_uuid"];
         userDict[@"device_state"]   = response.data[@"device_state"];
@@ -293,6 +294,28 @@
         responseString = [NSString stringWithFormat:@"{\"商品编号\": \"%@\", \"状态\": \"%@\", \"order_keys\": [\"商品编号\", \"状态\"]}",codeInfo, responseString];
     }
    
+    [FileUtils barcodeScanResult:responseString];
+}
+
+/**
+ *  二维码扫描
+ *
+ *  @param userNum    用户编号
+ *  @param groupID    群组ID
+ *  @param roleID     角色ID
+ *  @param storeID    门店ID
+ *  @param codeString 条形码信息
+ *  @param codeType   条形码或二维码
+ */
++ (void)barCodeScan:(NSString *)userNum group:(NSNumber *)groupID  role:(NSNumber *)roleID store:(NSString *)storeID code:(NSString *)codeInfo type:(NSString *)codeType {
+    
+    NSString * urlstring = [NSString stringWithFormat:API_BARCODE_SCAN_PATH, kBaseUrl, groupID, roleID, userNum, storeID, codeInfo, codeType];
+    
+    HttpResponse *response = [HttpUtils httpGet:urlstring];
+    NSString *responseString = response.string;
+    if(!response.data[@"code"] || ![response.data[@"code"] isEqualToNumber:@(200)]) {
+        responseString = @"{\"chart\": \"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\", \"tabs\": [{ title: \"提示\", table: { length: 1, \"1\": \"获取数据失败！\"}}]}";
+    }
     [FileUtils barcodeScanResult:responseString];
 }
 @end

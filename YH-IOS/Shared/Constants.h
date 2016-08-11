@@ -21,7 +21,7 @@
 #define API_RESET_PASSWORD_PATH     @"%@/api/v1/update/%@/password"
 #define API_ACTION_LOG_PATH         @"%@/api/v1/ios/logger"
 #define API_PUSH_DEVICE_TOKEN_PATH  @"%@/api/v1/device/%@/push_token/%@"
-#define API_BARCODE_SCAN_PATH       @"%@/api/v1/group/%@/role/%@/user/%@/barcode_scan"
+#define API_BARCODE_SCAN_PATH       @"%@/api/v1/group/%@/role/%@/user/%@/store/%@/barcode_scan?code_info=%@&code_type=%@"
 #define API_ASSETS_PATH             @"%@/api/v1/download/%@.zip"
 
 #define KPI_DEPRECATED_PATH         @"%@/mobile/%@/role/%@/group/%@/kpi"

@@ -314,7 +314,7 @@
     HttpResponse *response = [HttpUtils httpGet:urlstring];
     NSString *responseString = response.string;
     if(!response.data[@"code"] || ![response.data[@"code"] isEqualToNumber:@(200)]) {
-        responseString = @"{\"chart\": \"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\", \"tabs\": [{ title: \"提示\", table: { length: 1, \"1\": \"获取数据失败！\"}}]}";
+        responseString = @"{\"chart\": \"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\", \"tabs\": [{ title: \"提示\", table: { length: 1, \"1\": [\"获取数据失败！\"]}}]}";
     }
     [FileUtils barcodeScanResult:responseString];
 }

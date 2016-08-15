@@ -75,7 +75,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)_loadHtml {
     [self clearBrowserCache];
     
-    [FileUtils barcodeScanResult:@"{\"chart\": \"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\", \"tabs\": [{ title: \"提示\", table: { length: 1, \"1\": \"加载中...\"}}]}"];
+    [FileUtils barcodeScanResult:@"{\"chart\": \"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\", \"tabs\": [{ title: \"提示\", table: { length: 1, \"1\": [\"加载中...\"]}}]}"];
     [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.barCodePath]];
     
     NSString *cachedPath = [FileUtils dirPath:@"Cached"];

@@ -25,7 +25,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 @property (weak, nonatomic) IBOutlet UIButton *btnScanCode;
 @property (assign, nonatomic) CommentObjectType commentObjectType;
 @property (assign, nonatomic) NSInteger objectID;
-
 @end
 
 @implementation DashboardViewController
@@ -270,10 +269,18 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (IBAction)actionBarCodeScanView:(UIButton *)sender {
-    if (![self cameraPemission]) {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    if(!userDict[@"store_ids"] || [userDict[@"store_ids"] count] == 0) {
+        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您无门店权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        return;
+    }
+    
+    if(![self cameraPemission]) {
         [[[UIAlertView alloc] initWithTitle:@"提示" message:@"没有摄像机权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
         return;
     }
+    
     [self qqStyle];
 }
 

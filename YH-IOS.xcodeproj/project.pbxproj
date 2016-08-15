@@ -1100,9 +1100,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.qiyoutong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4a4cc14f-cbca-48c3-b8b5-cf68a5ef7bf2";
+				PROVISIONING_PROFILE = "06dacc48-18b1-4f70-917c-4795546b5914";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1131,9 +1131,9 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.qiyoutong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "4a4cc14f-cbca-48c3-b8b5-cf68a5ef7bf2";
+				PROVISIONING_PROFILE = "06dacc48-18b1-4f70-917c-4795546b5914";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

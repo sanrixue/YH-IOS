@@ -45,6 +45,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     self.btnComment.hidden = !kSubjectDisplayComment;
     self.btnSearch.hidden = YES;
     
+    if(!kSubjectDisplayShare && !kSubjectDisplayComment) {
+        
+    }
+    
     /**
      *  服务器内链接需要做缓存、点击事件处理；
      */
@@ -311,7 +315,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)displayBannerTitleAndSearchIcon {
+    if(!kSubjectDisplayComment && !kSubjectDisplayShare) {
+        self.btnSearch.frame = CGRectMake(CGRectGetMaxX(self.btnSearch.frame) + 30, 0, 30, 55);
+    }
     self.btnSearch.hidden = NO;
+    
     NSString *reportSelectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
     if(reportSelectedItem == NULL || [reportSelectedItem length] == 0) {
         NSArray *reportSearchItems = [FileUtils reportSearchItems:self.user.groupID templateID:self.templateID reportID:self.reportID];

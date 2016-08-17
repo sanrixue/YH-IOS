@@ -1,10 +1,12 @@
 //
-//  ViewController.m
+//  NewLoginViewController.m
 //  YH-IOS
 //
-//  Created by lijunjie on 15/11/23.
-//  Copyright © 2015年 com.intfocus. All rights reserved.
+//  Created by li hao on 16/8/4.
+//  Copyright © 2016年 com.intfocus. All rights reserved.
 //
+
+#define SLOGEN_TEXT @"融合共享，成于至善"
 
 #import "LoginViewController.h"
 #import "DashboardViewController.h"
@@ -14,152 +16,148 @@
 #import "UMessage.h"
 #import "Version.h"
 
-@interface LoginViewController ()
+@interface LoginViewController () <UITextFieldDelegate>
+
+@property (nonatomic, strong) UIImageView *bgView;
+@property (nonatomic, strong) UIImageView *logoView;
+@property (nonatomic, strong) UILabel *sloganLabel;
+@property (nonatomic, strong) UIImageView *loginUserImage;
+@property (nonatomic, strong) UITextField *userNameText;
+@property (nonatomic, strong) UIView *seperateView1;
+@property (nonatomic, strong) UIImageView *loginPasswordImage;
+@property (nonatomic, strong) UITextField *userPasswordText;
+@property (nonatomic, strong) UIView *seperateView2;
+@property (nonatomic, strong) UIButton *loginButton;
+@property (nonatomic, assign) int sideblank;
+@property (nonatomic, strong) MBProgressHUD *progressHUD;
+
 @end
 
 @implementation LoginViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    self.assetsPath = [FileUtils sharedPath];
-
-    [WebViewJavascriptBridge enableLogging];
-    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"LoginViewController - ObjC received message from JS: %@", data);
-        responseCallback(@"LoginViewController - Response for message from ObjC");
-    }];
+    self.bgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    self.bgView.image = [UIImage imageNamed:@"background"];
+    [self.view addSubview:self.bgView];
+    self.bgView.userInteractionEnabled = YES;
     
-    [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            /*
-             * 用户行为记录, 单独异常处理，不可影响用户体验
-             */
-            @try {
-                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                logParams[@"action"] = @"JS异常";
-                logParams[@"obj_title"] = [NSString stringWithFormat:@"登录页面/%@", data[@"ex"]];
-                [APIHelper actionLog:logParams];
-            }
-            @catch (NSException *exception) {
-                NSLog(@"%@", exception);
-            }
-        });
-    }];
+    // logoView
+    self.logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Logo"]];
+    self.logoView.contentMode = UIViewContentModeScaleToFill;
+    [self.bgView addSubview:self.logoView];
     
-    [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
-        
-        [self showLoading:LoadingLogin];
-    }];
+    // sloganLabel
+    self.sloganLabel = [[UILabel alloc] init];
+    self.sloganLabel.text = SLOGEN_TEXT;
+    [self.bgView addSubview:self.sloganLabel];
+    [self.sloganLabel setTextColor:[UIColor whiteColor]];
+    self.sloganLabel.textAlignment = NSTextAlignmentCenter;
     
-    [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString *usernum  = data[@"username"];
-        NSString *password = data[@"password"];
-        
-        if(!usernum || [usernum stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
-            [self showProgressHUD:@"请输入用户名" mode: MBProgressHUDModeText];
-            [self.progressHUD hide:YES afterDelay:1.5];
-        }
-        else if(!password || [password stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length == 0) {
-            [self showProgressHUD:@"请输入密码" mode: MBProgressHUDModeText];
-            [self.progressHUD hide:YES afterDelay:1.5];
-        }
-        else {
-            [self showProgressHUD:@"验证中..."];
-            
-            NSString *msg = [APIHelper userAuthentication:usernum password:password.md5];
-            [self.progressHUD hide:YES];
-            
-            if(msg.length == 0) {
-                [self showProgressHUD:@"跳转中..."];
-
-                [self checkVersionUpgrade:[FileUtils dirPath:HTML_DIRNAME]];
-                [self.browser stopLoading];
-                [self clearBrowserCache];
-                [self jumpToDashboardView];
-                
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    @try {
-                        // 友盟消息推送-标签设置（先删除，再添加）
-                        [UMessage removeAllTags:^(id responseObject, NSInteger remain, NSError *error) {
-                            NSLog(@"response: %@\nerror: %@", responseObject, error);
-                        }];
-                        [UMessage addTag:[User APNsTags] response:^(id responseObject, NSInteger remain, NSError *error) {
-                            NSLog(@"addTag response: %@\nerror: %@", responseObject, error);
-                        }];
-                        [UMessage setAlias:[User APNsAlias] type:kUMessageAliasTypeSina response:^(id responseObject, NSError *error) {
-                            NSLog(@"setAlias response: %@\nerror: %@", responseObject, error);
-                        }];
-                    }
-                    @catch (NSException *exception) {
-                        NSLog(@"umeng - %@", exception);
-                    }
-                    
-                    /*
-                     * 用户行为记录, 单独异常处理，不可影响用户体验
-                     */
-                    @try {
-                        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                        logParams[@"action"] = @"登录";
-                        [APIHelper actionLog:logParams];
-                    }
-                    @catch (NSException *exception) {
-                        NSLog(@"%@", exception);
-                    }
-                });
-            }
-            else {
-                [self showProgressHUD:msg mode: MBProgressHUDModeText];
-                [self.progressHUD hide:YES afterDelay:2.0];
-            }
-        }
-    }];
-
-    self.browser.scrollView.scrollEnabled = NO;
-    self.browser.scrollView.bounces = NO;
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
+    // userName
+    self.loginUserImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Username"]];
+    [self.bgView addSubview:self.loginUserImage];
+    self.userNameText = [[UITextField alloc]init];
+    UIColor *placeHoderColor = [UIColor whiteColor];
+    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入用户名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
+    self.userNameText.borderStyle = UITextBorderStyleNone;
+    self.userNameText.delegate = self;
+    self.userNameText.textColor = [UIColor whiteColor];
+    self.userNameText.userInteractionEnabled = YES;
+    self.userNameText.returnKeyType = UIReturnKeyDone;
+    [self.userNameText becomeFirstResponder];
+    [self.bgView addSubview:self.userNameText];
     
-    /*
-     * 检测登录界面，版本是否升级
-     */
-    [self checkVersionUpgrade:self.sharedPath];
+    self.seperateView1 = [[UIView alloc]init];
+    self.seperateView1.backgroundColor = [UIColor whiteColor];
+    [self.bgView addSubview:self.seperateView1];
     
-    /**
-     *  检查本地静态资源是否解压
-     */
-    NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
-    [FileUtils checkAssets:@"assets" isInAssets:NO bundlePath:bundlePath];
-    [FileUtils checkAssets:@"loading" isInAssets:NO bundlePath:bundlePath];
-    [FileUtils checkAssets:@"fonts" isInAssets:YES bundlePath:bundlePath];
-    [FileUtils checkAssets:@"images" isInAssets:YES bundlePath:bundlePath];
-    [FileUtils checkAssets:@"javascripts" isInAssets:YES bundlePath:bundlePath];
-    [FileUtils checkAssets:@"stylesheets" isInAssets:YES bundlePath:bundlePath];
+    // userPassword
+    self.loginPasswordImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Password"]];
+    [self.bgView addSubview:self.loginPasswordImage];
+    self.userPasswordText = [[UITextField alloc] init];
+    self.userPasswordText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入密码" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
+    self.userPasswordText.secureTextEntry = YES;
+    self.userPasswordText.delegate = self;
+    [self.userPasswordText setTextColor:[UIColor whiteColor]];
+    self.userPasswordText.returnKeyType = UIReturnKeyDone;
+    self.userPasswordText.userInteractionEnabled = YES;
+    self.userPasswordText.borderStyle = UITextBorderStyleNone;
+    self.userPasswordText.clearButtonMode = UITextFieldViewModeAlways;
+    [self.bgView addSubview:self.userPasswordText];
+    
+    self.seperateView2 = [[UIView alloc] init];
+    self.seperateView2.backgroundColor = [UIColor whiteColor];
+    [self.bgView addSubview:self.seperateView2];
+    
+    // loginButton
+    self.loginButton = [[UIButton alloc] init];
+    [self.loginButton setTitle:@"登录" forState:UIControlStateNormal];
+    [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.loginButton.layer.borderWidth = 2;
+    self.loginButton.layer.cornerRadius = 6;
+    self.loginButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+    [self.loginButton addTarget:self action:@selector(loginBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bgView addSubview:self.loginButton];
+    
+    [self layoutView];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+//布局视图
+- (void)layoutView {
+    for (UIView *view in [self.bgView subviews]) {
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+    }
+    self.sideblank = (self.view.frame.size.width - 40) / 2;
     
-    [self showLoading:LoadingLogin];
-    
-    //启动检测版本更新
-    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
-    //[[PgyUpdateManager sharedPgyManager] checkUpdate];
-    [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
+    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText);
+    // [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_logoView]-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bgView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-80-[_logoView(42)]-20-[_sloganLabel(20)]-80-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-50-[_loginButton(40)]-(>=80)-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-80-[_sloganLabel]-80-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView1]-40-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView2]-40-|" options:0 metrics:nil views:ViewDict]];
+    //[_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-200-[_logoView(50)]-20-[_sloganLabel]-80-[_loginUserView]-1-[_seperateView1(2)]-20-[_loginPassword]-1-[_seperateView2(2)]-16-[_LoginButton]-200-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginUserImage(30)]-10-[_userNameText]-40-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginPasswordImage(30)]-10-[_userPasswordText]-40-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginButton]-40-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
 }
 
-- (void)dealloc {
-    self.browser.delegate = nil;
-    self.browser = nil;
+//add: 登录按钮事件
+- (void)loginBtnClick {
+    if (self.userNameText.text.length == 0) {
+        [self showProgressHUD:@"请输入用户名" mode:MBProgressHUDModeText];
+        [self.progressHUD hide:YES afterDelay:1.5];
+        return;
+    }
+    if (self.userPasswordText.text.length == 0) {
+        [self showProgressHUD:@"请输入密码" mode:MBProgressHUDModeText];
+        [self.progressHUD hide:YES afterDelay:1.5];
+        return;
+    }
+    [self showProgressHUD:@"验证中"];
+    NSString *msg = [APIHelper userAuthentication:self.userNameText.text password:self.userPasswordText.text.md5];
     [self.progressHUD hide:YES];
-    self.progressHUD = nil;
-    self.bridge = nil;
+    if (!(msg.length == 0)) {
+        [self showProgressHUD:msg mode:MBProgressHUDModeText];
+        [self.progressHUD hide:YES afterDelay:2.0];
+        return;
+    }
+    [self showProgressHUD:@"跳转中"];
+    [self jumpToDashboardView];
 }
 
-- (BOOL)prefersStatusBarHidden {
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    [textField resignFirstResponder];
     return YES;
 }
 
+//跳转到仪表盘页面
 - (void)jumpToDashboardView {
     UIWindow *window = self.view.window;
     LoginViewController *previousRootViewController = (LoginViewController *)window.rootViewController;
@@ -168,9 +166,6 @@
     DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     dashboardViewController.fromViewController = @"LoginViewController";
     window.rootViewController = dashboardViewController;
-    [self.progressHUD hide:YES];
-    
-    
     // Nasty hack to fix http://stackoverflow.com/questions/26763020/leaking-views-when-changing-rootviewcontroller-inside-transitionwithview
     // The presenting view controllers view doesn't get removed from the window as its currently transistioning and presenting a view controller
     for (UIView *subview in window.subviews) {
@@ -183,10 +178,18 @@
         // Remove the root view in case its still showing
         [previousRootViewController.view removeFromSuperview];
     }];
+}
+
+- (void)showProgressHUD:(NSString *)text {
+    [self showProgressHUD:text mode:MBProgressHUDModeIndeterminate];
+}
+
+- (void)showProgressHUD:(NSString *)text mode:(MBProgressHUDMode)mode {
+    self.progressHUD = [MBProgressHUD showHUDAddedTo:self.bgView animated:YES];
+    self.progressHUD.labelText = text;
+    self.progressHUD.mode = mode;
     
-    [self.browser cleanForDealloc];
-    self.browser = nil;
-    self.browser.delegate = nil;
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
 
 #pragma mark - 缓存当前应用版本，每次检测，不一致时，有所动作
@@ -262,4 +265,9 @@
         [alert showSuccess:self title:@"版本更新" subTitle:subTitle closeButtonTitle:@"放弃" duration:0.0f];
     }
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
+
 @end

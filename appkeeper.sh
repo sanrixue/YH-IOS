@@ -7,7 +7,7 @@
 ##############################################################################
 
 case "$1" in
-  yonghui|shengyiplus|qiyoutong|test)
+  yonghui|shengyiplus|qiyoutong|yonghuitest|test)
     # bundle exec ruby config/app_keeper.rb --plist --assets --constant
     bundle exec ruby config/app_keeper.rb --app="$1" --plist --assets --constant
   ;;

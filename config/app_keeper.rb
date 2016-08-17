@@ -32,7 +32,7 @@ def exit_when condition, &block
 end
 
 slop_opts = Slop.parse do |o|
-  o.string '-a', '--app', 'current app', default: 'yonghui'
+  o.string '-a', '--app', 'current app'
   o.bool '-p', '--plist', 'Info.plist', default: false
   o.bool '-e', '--assets', 'assets.xassets', default: false
   o.bool '-c', '--constant', 'constant_private.h', default: false
@@ -47,12 +47,10 @@ slop_opts = Slop.parse do |o|
   end
 end
 
-puts slop_opts[:app]
-puts slop_opts[:plist]
-puts slop_opts[:assets]
-current_app = slop_opts[:app]
+current_app = slop_opts[:app] || `cat .current-app`.strip
 bundle_display_hash = {
   yonghui: '永辉生意人',
+  yonghuitest: '永辉应用(测试)',
   shengyiplus: '生意+',
   qiyoutong: '企邮通'
 }

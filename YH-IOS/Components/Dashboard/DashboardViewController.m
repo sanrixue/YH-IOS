@@ -10,21 +10,29 @@
 #import "SubjectViewController.h"
 #import "Version.h"
 #import "NSData+MD5.h"
+#import "ViewUtils.h"
 #import <SCLAlertView.h>
 #import <PgyUpdate/PgyUpdateManager.h>
 #import "LBXScanView.h"
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
+#import "DropTableViewCell.h"
 #import "SubLBXScanViewController.h"
 
 static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
 
-@interface DashboardViewController ()
+@interface DashboardViewController () <UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationBarDelegate> {
+    UIViewController *contentView;
+}
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 @property (weak, nonatomic) IBOutlet UIButton *btnScanCode;
 @property (assign, nonatomic) CommentObjectType commentObjectType;
 @property (assign, nonatomic) NSInteger objectID;
+// 设置按钮点击下拉菜单
+@property (nonatomic, strong) NSArray *titleArray;
+@property (nonatomic, strong) NSArray *imageArray;
+@property (nonatomic, strong) UITableView *popTable;
 @end
 
 @implementation DashboardViewController
@@ -37,23 +45,38 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [[UITabBar appearance] setTintColor:color];
     [self idColor];
     
-    [WebViewJavascriptBridge enableLogging];
-    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"DashboardViewController - ObjC received message from JS: %@", data);
-        responseCallback(@"DashboardViewController - Response for message from ObjC");
-    }];
-    
-    [self addWebViewJavascriptBridge];
-    
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
-    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
+    [self initDropMenu];
+    [self loadWebView];
     
     self.btnScanCode.hidden = !kDashboardDisplayScanCode;
     [self setTabBarItems];
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
     
+    [self checkFromViewController];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self checkAssetsUpdate];
+}
+
+- (void)dealloc {
+    [self.browser stopLoading];
+    [self.browser cleanForDealloc];
+    self.browser.delegate = nil;
+    self.browser = nil;
+    [self.progressHUD hide:YES];
+    self.progressHUD = nil;
+    self.bridge = nil;
+    self.tabBar.delegate = nil;
+    self.tabBar = nil;
+}
+
+#pragma mark - init controls
+
+- (void)checkFromViewController {
     /*
      * 解屏进入主页面，需检测版本更新
      */
@@ -92,23 +115,23 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         });
     }
 }
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)loadWebView {
+    [WebViewJavascriptBridge enableLogging];
+    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"DashboardViewController - ObjC received message from JS: %@", data);
+        responseCallback(@"DashboardViewController - Response for message from ObjC");
+    }];
     
-    [self checkAssetsUpdate];
+    [self addWebViewJavascriptBridge];
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
 }
 
-- (void)dealloc {
-    [self.browser stopLoading];
-    [self.browser cleanForDealloc];
-    self.browser.delegate = nil;
-    self.browser = nil;
-    [self.progressHUD hide:YES];
-    self.progressHUD = nil;
-    self.bridge = nil;
-    self.tabBar.delegate = nil;
-    self.tabBar = nil;
+- (void)initDropMenu {
+    _titleArray = @[@"扫一扫", @"语音播报", @"搜索", @"个人信息"];
+    _imageArray = @[@"DropMenu-BarCodeScan", @"DropMenu-Voice", @"DropMenu-Search", @"DropMenu-UserInfo"];
 }
 
 #pragma mark - UIWebview pull down to refresh
@@ -264,8 +287,42 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 #pragma mark - action methods
+
+/**
+ *  标题栏设置按钮点击显示下拉菜单
+ *
+ *  @param sender <#sender description#>
+ */
+-(void)dropTableView:(UIButton *)sender {
+    contentView=[[UIViewController alloc]init];
+    //contentView.view.frame = CGRectMake(self.view.frame.size.width - 150, 40, 150, 200);
+    contentView.modalPresentationStyle = UIModalPresentationPopover;
+    [contentView setPreferredContentSize:CGSizeMake(self.view.frame.size.width/2.5, 180)];
+    _popTable = [[UITableView alloc] initWithFrame:contentView.view.frame style:UITableViewStylePlain];
+    _popTable.dataSource = self;
+    _popTable.delegate = self;
+    _popTable.scrollEnabled = NO;
+    _popTable.backgroundColor = [UIColor clearColor];
+    _popTable.separatorColor = [UIColor whiteColor];
+    _popTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    _popTable.layoutMargins = UIEdgeInsetsZero;
+    _popTable.separatorInset = UIEdgeInsetsZero;
+    // contentView.view.backgroundColor = [UIColor colorWithHexString:@"31809f"];
+    
+    [contentView.view addSubview:_popTable];
+    UIPopoverPresentationController *popover = [contentView popoverPresentationController];
+    popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    popover.delegate = self;
+    [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
+    //popover.barButtonItem=self.navigationItem.rightBarButtonItem;
+    [popover setSourceView:self.view];
+    popover.backgroundColor = [UIColor colorWithHexString:@"31809f"];
+    [self presentViewController:contentView animated:YES completion:nil];
+    
+}
+
 - (IBAction)actionPerformSettingView:(UIButton *)sender {
-    [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
+    [self dropTableView:sender];
 }
 
 - (IBAction)actionBarCodeScanView:(UIButton *)sender {
@@ -452,6 +509,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)enableTabBar {
     [self tabBarState:YES];
 }
+
 - (void)tabBarState:(BOOL)state {
     for(UITabBarItem *item in self.tabBar.items) {
         item.enabled = state;
@@ -459,10 +517,63 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 # pragma mark - 不支持旋转
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return NO;
 }
+
+# pragma mark - UITableView Delgate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 4;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
+    if (!cell) {
+        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    }
+    cell.tittleLabel.text = self.titleArray[indexPath.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.imageArray[indexPath.row]];
+    
+    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
+    cellBackView.backgroundColor = [UIColor darkGrayColor];
+    cell.selectedBackgroundView = cellBackView;
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 180/4;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    [self dismissViewControllerAnimated:YES completion:^{
+        switch (indexPath.row) {
+            case 0:
+                [self actionBarCodeScanView:nil];
+                break;
+            case 1:
+            case 2:
+                [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+                break;
+            case 3:
+                [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
+            default:
+                break;
+        }
+    }];
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
+}
+
+
+# pragma mark - assitant methods
 /**
   *  内容检测版本升级，判断版本号是否为偶数。以便内测
   *

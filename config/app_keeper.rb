@@ -86,11 +86,12 @@ end
 #
 if slop_opts[:assets]
   puts %(- done: updated appiconset, imageset, loading.zip)
-  `rm -fr YH-IOS/Assets.xcassets/AppIcon.appiconset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.appiconset YH-IOS/Assets.xcassets/AppIcon.appiconset`
-  `rm -fr YH-IOS/Assets.xcassets/AppIcon.imageset && cp -rf config/Assets.xcassets/AppIcon-#{current_app}.imageset YH-IOS/Assets.xcassets/AppIcon.imageset`
-  `rm -fr YH-IOS/Assets.xcassets/Banner-Logo.imageset && cp -rf config/Assets.xcassets/Banner-Logo-#{current_app}.imageset YH-IOS/Assets.xcassets/Banner-Logo.imageset`
-  `rm -fr YH-IOS/Assets.xcassets/Banner-设置.imageset && cp -rf config/Assets.xcassets/Banner-设置-#{current_app}.imageset YH-IOS/Assets.xcassets/Banner-设置.imageset`
-  `rm -fr YH-IOS/Assets.xcassets/background.imageset && cp -rf config/Assets.xcassets/background-#{current_app}.imageset YH-IOS/Assets.xcassets/background.imageset`
+  `rm -fr YH-IOS/Assets.xcassets/AppIcon.appiconset && cp -rf config/Assets.xcassets/#{current_app}/AppIcon.appiconset YH-IOS/Assets.xcassets/`
+  `rm -fr YH-IOS/Assets.xcassets/AppIcon.imageset && cp -rf config/Assets.xcassets/#{current_app}/AppIcon.imageset YH-IOS/Assets.xcassets/`
+  `rm -fr YH-IOS/Assets.xcassets/Banner-Logo.imageset && cp -rf config/Assets.xcassets/#{current_app}/Banner-Logo.imageset YH-IOS/Assets.xcassets/`
+  `rm -fr YH-IOS/Assets.xcassets/Banner-Setting.imageset && cp -rf config/Assets.xcassets/#{current_app}/Banner-Setting.imageset YH-IOS/Assets.xcassets/`
+  `rm -fr YH-IOS/Assets.xcassets/Background.imageset && cp -rf config/Assets.xcassets/#{current_app}/Background.imageset YH-IOS/Assets.xcassets/`
+  `rm -fr YH-IOS/Assets.xcassets/Login-Logo.imageset && cp -rf config/Assets.xcassets/#{current_app}/Login-Logo.imageset YH-IOS/Assets.xcassets/`
   `rm -f YH-IOS/Shared/loading.zip && cp -f config/Assets/loading-#{current_app}.zip YH-IOS/Shared/loading.zip`
 end
 
@@ -119,6 +120,8 @@ if slop_opts[:constant]
     #define kBaseUrl     @"#{Settings.server}"
     #define kBaseUrl1    @"http://localhost:4567"
 
+    #define kLoginSlogan @"#{Settings.slogan_text}"
+
     #define kPgyerAppId  @"#{Settings.pgyer.ios}"
     #define kPgyerUrl    @"http://www.pgyer.com/#{Settings.key_store.alias}-i"
     
@@ -126,14 +129,19 @@ if slop_opts[:constant]
     #define kWXAppId     @"#{Settings.umeng_weixin.ios.app_id}"
     #define kWXAppSecret @"#{Settings.umeng_weixin.ios.app_secret}"
 
-    #define kDashboardTabBarDisplay        #{Settings.display_status.tab_bar == 1 ? 'YES' : 'NO'}
-    #define kDashboardTabBarDisplayKPI     #{Settings.display_status.kpi == 1 ? 'YES' : 'NO'}
-    #define kDashboardTabBarDisplayAnalyse #{Settings.display_status.analyse == 1 ? 'YES' : 'NO'}
-    #define kDashboardTabBarDisplayApp     #{Settings.display_status.app == 1 ? 'YES' : 'NO'}
-    #define kDashboardTabBarDisplayMessage #{Settings.display_status.message == 1 ? 'YES' : 'NO'}
-    #define kDashboardDisplayScanCode      #{Settings.display_status.scan_code == 1 ? 'YES' : 'NO'}
-    #define kSubjectDisplayComment         #{Settings.display_status.comment == 1 ? 'YES' : 'NO'}
-    #define kSubjectDisplayShare           #{Settings.display_status.share == 1 ? 'YES' : 'NO'}
+    #define kDropMenuScan     #{Settings.display_status.drop_menu_scan == 1 ? 'YES' : 'NO'}
+    #define kDropMenuVoice    #{Settings.display_status.drop_menu_voice == 1 ? 'YES' : 'NO'}
+    #define kDropMenuSearch   #{Settings.display_status.drop_menu_search == 1 ? 'YES' : 'NO'}
+    #define kDropMenuUserInfo #{Settings.display_status.drop_menu_user_info == 1 ? 'YES' : 'NO'}
+
+    #define kTabBar        #{Settings.display_status.tab_bar == 1 ? 'YES' : 'NO'}
+    #define kTabBarKPI     #{Settings.display_status.tab_bar_kpi == 1 ? 'YES' : 'NO'}
+    #define kTabBarAnalyse #{Settings.display_status.tab_bar_analyse == 1 ? 'YES' : 'NO'}
+    #define kTabBarApp     #{Settings.display_status.tab_bar_app == 1 ? 'YES' : 'NO'}
+    #define kTabBarMessage #{Settings.display_status.tab_bar_message == 1 ? 'YES' : 'NO'}
+
+    #define kSubjectComment #{Settings.display_status.subject_comment == 1 ? 'YES' : 'NO'}
+    #define kSubjectShare   #{Settings.display_status.subject_share == 1 ? 'YES' : 'NO'}
 
     #endif /* PrivateConstants_h */
     EOF

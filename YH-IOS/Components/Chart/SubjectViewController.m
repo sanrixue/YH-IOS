@@ -37,24 +37,16 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     /**
      *  被始化页面样式
      */
-    self.browser.delegate = self;
-    self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
-    
-    self.btnShare.hidden = !kSubjectDisplayShare;
-    self.btnComment.hidden = !kSubjectDisplayComment;
-    self.btnSearch.hidden = YES;
-    
-    if(!kSubjectDisplayShare && !kSubjectDisplayComment) {
-        
-    }
+    self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     
     /**
      *  服务器内链接需要做缓存、点击事件处理；
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     self.urlString = self.link;
-
+    
+    self.browser.delegate = self;
     if(self.isInnerLink) {
         /*
          * /mobil/report/:report_id/group/:group_id
@@ -78,10 +70,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         responseCallback(@"ChartViewController - Response for message from ObjC");
     }];
     [self addWebViewJavascriptBridge];
-    
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
-    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -97,6 +85,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     [self checkInterfaceOrientation: [[UIApplication sharedApplication] statusBarOrientation]];
     
+    [self displayBannerViewButtonsOrNot];
     [self loadHtml];
 }
 
@@ -120,6 +109,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 #pragma mark - UIWebview pull down to refresh
+
 -(void)handleRefresh:(UIRefreshControl *)refresh {
     [self addWebViewJavascriptBridge];
     
@@ -149,6 +139,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     });
 }
 
+- (void)displayBannerViewButtonsOrNot {
+    self.btnShare.hidden = !kSubjectShare;
+    self.btnComment.hidden = !kSubjectComment;
+    self.btnSearch.hidden = YES;
+    
+    if(!kSubjectComment && !kSubjectShare) {
+        self.btnSearch.frame = self.btnComment.frame; // CGRectMake(CGRectGetMaxX(self.btnSearch.frame) + 30, 0, 30, 55);
+    }
+}
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -225,7 +224,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         }
         responseCallback(selectedItem);
     }];
-
+    
+    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
 }
 
 #pragma mark - assistant methods
@@ -315,9 +317,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)displayBannerTitleAndSearchIcon {
-    if(!kSubjectDisplayComment && !kSubjectDisplayShare) {
-        self.btnSearch.frame = CGRectMake(CGRectGetMaxX(self.btnSearch.frame) + 30, 0, 30, 55);
-    }
     self.btnSearch.hidden = NO;
     
     NSString *reportSelectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];

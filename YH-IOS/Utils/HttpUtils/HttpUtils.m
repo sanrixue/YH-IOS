@@ -189,8 +189,9 @@
         [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
     }
 }
+
 /**
- *  http#get时header添加If-None-Match，避免表态文件重复加载
+ *  http#get 时 header  添加If-None-Match，避免静态文件重复加载
  *
  *  @param urlString  链接
  *  @param assetsPath 缓存位置
@@ -204,7 +205,6 @@
     
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
     if(cachedHeaderDict[urlString]) {
-        
         if(cachedHeaderDict[urlString][@"Etag"]) {
             header[@"IF-None-Match"] = cachedHeaderDict[urlString][@"Etag"];
         }
@@ -220,6 +220,7 @@
         if(!cachedHeaderDict) {
             cachedHeaderDict = [NSMutableDictionary dictionary];
         }
+        
         cachedHeaderDict[urlString] = httpResponse.response.allHeaderFields;
         [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
     }

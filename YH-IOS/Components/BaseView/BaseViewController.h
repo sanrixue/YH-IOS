@@ -48,13 +48,6 @@
 - (void)showProgressHUD:(NSString *)text;
 - (void)showProgressHUD:(NSString *)text mode:(MBProgressHUDMode)mode;
 
-/*
- *  内容检测版本升级，判断版本号是否为偶数。以便内测
- *
- *  @param response <#response description#>
- */
-- (void)appUpgradeMethod:(NSDictionary *)response;
-
 /**
  *  设置是否允许横屏
  *

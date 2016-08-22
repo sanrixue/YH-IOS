@@ -81,18 +81,6 @@
 + (void)actionLog:(NSMutableDictionary *)param;
 
 /**
- *  DEPRECATED
- *  二维码扫描
- *
- *  @param userNum    用户编号
- *  @param groupID    群组ID
- *  @param roleID     角色ID
- *  @param codeString 条形码信息
- *  @param codeType   条形码或二维码
- */
-+ (void)barCodeScan:(NSString *)userID group:(NSNumber *)groupID role:(NSNumber *)roleID code:(NSString *)codeInfo type:(NSString *)codeType;
-
-/**
  *  二维码扫描
  *
  *  @param userNum    用户编号

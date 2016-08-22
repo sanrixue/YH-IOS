@@ -18,8 +18,15 @@
 #import "LBXScanWrapper.h"
 #import "DropTableViewCell.h"
 #import "SubLBXScanViewController.h"
+#import "UITabBar+Badge.h"
+#import "UIButton+Badge.h"
+#import "UILabel+Badge.h"
 
-static NSString *const kChartSegueIdentifier = @"DashboardToChartSegueIdentifier";
+static NSString *const kDropMentScanText     = @"扫一扫";
+static NSString *const kDropMentVoiceText    = @"语音播报";
+static NSString *const kDropMentSearchText   = @"搜索";
+static NSString *const kDropMentUserInfoText = @"个人信息";
+static NSString *const kChartSegueIdentifier   = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
 
 @interface DashboardViewController () <UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationBarDelegate> {
@@ -29,10 +36,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 @property (weak, nonatomic) IBOutlet UIButton *btnScanCode;
 @property (assign, nonatomic) CommentObjectType commentObjectType;
 @property (assign, nonatomic) NSInteger objectID;
+@property (strong, nonatomic) NSArray *tabBarItemNames;
+// 本地通知
+@property (nonatomic, strong) NSMutableArray *urlStrings;
+@property (strong, nonatomic) NSString *noticeFilePath;
 // 设置按钮点击下拉菜单
-@property (nonatomic, strong) NSArray *titleArray;
-@property (nonatomic, strong) NSArray *imageArray;
-@property (nonatomic, strong) UITableView *popTable;
+@property (nonatomic, strong) NSArray *dropMenuTitles;
+@property (nonatomic, strong) NSArray *dropMenuIcons;
+@property (nonatomic, strong) UITableView *dropMenu;
 @end
 
 @implementation DashboardViewController
@@ -42,16 +53,20 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     UIColor *color = [UIColor colorWithHexString:YH_COLOR];;
     self.bannerView.backgroundColor = color;
+    self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
     [[UITabBar appearance] setTintColor:color];
     [self idColor];
     
+    [self initUrlStrings];
+    [self initLocalNotifications];
     [self initDropMenu];
     [self loadWebView];
     
-    self.btnScanCode.hidden = !kDashboardDisplayScanCode;
+    self.btnScanCode.hidden = !kDropMenuScan;
     [self setTabBarItems];
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     [self tabBarClick: 0];
+    [self setNotificationBadgeTimer];
     
     [self checkFromViewController];
 }
@@ -76,10 +91,47 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - init controls
 
+- (void)initUrlStrings {
+    self.urlStrings = [NSMutableArray array];
+    
+    NSString *uiVersion = [self currentUIVersion];
+    [self.urlStrings addObject:[NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID]];
+    [self.urlStrings addObject:[NSString stringWithFormat:ANALYSE_PATH, kBaseUrl, uiVersion, self.user.roleID]];
+    [self.urlStrings addObject:[NSString stringWithFormat:APPLICATION_PATH, kBaseUrl, uiVersion, self.user.roleID]];
+    [self.urlStrings addObject:[NSString stringWithFormat:MESSAGE_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID, self.user.userID]];
+}
+
+/**
+ *  初始化本地通知
+ */
+- (void)initLocalNotifications {
+    self.noticeFilePath = [FileUtils dirPath:@"Cached" FileName:@"local_notifition.json"];
+    if([FileUtils checkFileExist:self.noticeFilePath isDir:NO]) {
+        return;
+    }
+    
+    NSDictionary *noticeDict = @{
+        @"app": @(-1),
+        @"tab_kpi_last": @(-1),
+        @"tab_kpi": @(-1),
+        @"tab_analyse_last": @(-1),
+        @"tab_analyse": @(-1),
+        @"tab_app_last": @(-1),
+        @"tab_app": @(-1),
+        @"tab_message_last": @(-1),
+        @"tab_message": @(-1),
+        @"setting": @(-1),
+        @"setting_pgyer": @(-1),
+        @"setting_password": @(-1)
+    };
+    NSMutableDictionary *noticeCachedDict = [[NSMutableDictionary alloc] initWithDictionary:noticeDict];
+    [FileUtils writeJSON:noticeCachedDict Into:self.noticeFilePath];
+}
+
+/*
+ * 解屏进入主页面，需检测版本更新
+ */
 - (void)checkFromViewController {
-    /*
-     * 解屏进入主页面，需检测版本更新
-     */
     if(self.fromViewController && [self.fromViewController isEqualToString:@"AppDelegate"]) {
         self.fromViewController = @"AlreadyShow";
         //启动检测版本更新
@@ -115,6 +167,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         });
     }
 }
+
 - (void)loadWebView {
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -130,8 +183,31 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (void)initDropMenu {
-    _titleArray = @[@"扫一扫", @"语音播报", @"搜索", @"个人信息"];
-    _imageArray = @[@"DropMenu-BarCodeScan", @"DropMenu-Voice", @"DropMenu-Search", @"DropMenu-UserInfo"];
+    NSMutableArray *tmpTitles = [NSMutableArray array];
+    NSMutableArray *tmpIcons = [NSMutableArray array];
+    
+    if(kDropMenuScan) {
+        [tmpTitles addObject:kDropMentScanText];
+        [tmpIcons addObject:@"DropMenu-Scan"];
+    }
+    
+    if(kDropMenuVoice) {
+        [tmpTitles addObject:kDropMentVoiceText];
+        [tmpIcons addObject:@"DropMenu-Voice"];
+    }
+    
+    if(kDropMenuSearch) {
+        [tmpTitles addObject:kDropMentSearchText];
+        [tmpIcons addObject:@"DropMenu-Search"];
+    }
+    
+    if(kDropMenuUserInfo) {
+        [tmpTitles addObject:kDropMentUserInfoText];
+        [tmpIcons addObject:@"DropMenu-UserInfo"];
+    }
+    
+    self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
+    self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
 
 #pragma mark - UIWebview pull down to refresh
@@ -153,9 +229,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     });
 }
 
-
+/**
+ *  标签栏及标签项显示隐藏设置
+ */
 - (void)setTabBarItems {
-    if(!kDashboardTabBarDisplay) {
+    if(!kTabBar) {
         NSLayoutConstraint *heightConstraint;
         for (NSLayoutConstraint *constraint in self.tabBar.constraints) {
             if (constraint.firstAttribute == NSLayoutAttributeHeight) {
@@ -163,8 +241,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
                 break;
             }
         }
+        
         heightConstraint.constant = 0;
-        self.tabBar.hidden = !kDashboardTabBarDisplay;
+        self.tabBar.hidden = !kTabBar;
         
         return;
     }
@@ -172,21 +251,25 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSArray *allItems = self.tabBar.items;
     NSMutableArray *displayItems = [NSMutableArray array];
     
-    if(kDashboardTabBarDisplayKPI) {
+    if(kTabBarKPI) {
         [displayItems addObject:allItems[0]];
     }
-    if(kDashboardTabBarDisplayAnalyse) {
+    
+    if(kTabBarAnalyse) {
         [displayItems addObject:allItems[1]];
     }
-    if(kDashboardTabBarDisplayApp) {
+    
+    if(kTabBarApp) {
         [displayItems addObject:allItems[2]];
     }
-    if(kDashboardTabBarDisplayMessage) {
+    
+    if(kTabBarMessage) {
         [displayItems addObject:allItems[3]];
     }
     
     self.tabBar.items = displayItems;
 }
+
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -216,6 +299,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": data[@"bannerName"], @"link": data[@"link"], @"objectID": data[@"objectID"]}];
     }];
     
+    [self.bridge registerHandler:@"dashboardDataCount" handler:^(id data, WVJBResponseCallback responseCallback) {
+        // NSString *tabType = data[@"tabType"];
+        // NSNumber *dataCount = data[@"dataCount"];
+    }];
+    
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSString *tabIndexConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:TABINDEX_CONFIG_FILENAME];
         NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
@@ -240,6 +328,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 #pragma mark - assistant methods
+
 - (void)loadHtml {
     DeviceState deviceState = [APIHelper deviceState];
     if(deviceState == StateOK) {
@@ -297,19 +386,19 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     contentView=[[UIViewController alloc]init];
     //contentView.view.frame = CGRectMake(self.view.frame.size.width - 150, 40, 150, 200);
     contentView.modalPresentationStyle = UIModalPresentationPopover;
-    [contentView setPreferredContentSize:CGSizeMake(self.view.frame.size.width/2.5, 180)];
-    _popTable = [[UITableView alloc] initWithFrame:contentView.view.frame style:UITableViewStylePlain];
-    _popTable.dataSource = self;
-    _popTable.delegate = self;
-    _popTable.scrollEnabled = NO;
-    _popTable.backgroundColor = [UIColor clearColor];
-    _popTable.separatorColor = [UIColor whiteColor];
-    _popTable.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    _popTable.layoutMargins = UIEdgeInsetsZero;
-    _popTable.separatorInset = UIEdgeInsetsZero;
+    [contentView setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 2.5, 180 / 4 * self.dropMenuTitles.count)];
+    self.dropMenu = [[UITableView alloc] initWithFrame:contentView.view.frame style:UITableViewStylePlain];
+    self.dropMenu.dataSource = self;
+    self.dropMenu.delegate = self;
+    self.dropMenu.scrollEnabled = NO;
+    self.dropMenu.backgroundColor = [UIColor clearColor];
+    self.dropMenu.separatorColor = [UIColor whiteColor];
+    self.dropMenu.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.dropMenu.layoutMargins = UIEdgeInsetsZero;
+    self.dropMenu.separatorInset = UIEdgeInsetsZero;
     // contentView.view.backgroundColor = [UIColor colorWithHexString:@"31809f"];
     
-    [contentView.view addSubview:_popTable];
+    [contentView.view addSubview:self.dropMenu];
     UIPopoverPresentationController *popover = [contentView popoverPresentationController];
     popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
     popover.delegate = self;
@@ -318,7 +407,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [popover setSourceView:self.view];
     popover.backgroundColor = [UIColor colorWithHexString:@"31809f"];
     [self presentViewController:contentView animated:YES completion:nil];
-    
 }
 
 - (IBAction)actionPerformSettingView:(UIButton *)sender {
@@ -330,11 +418,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if(!userDict[@"store_ids"] || [userDict[@"store_ids"] count] == 0) {
         [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您无门店权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        
         return;
     }
     
     if(![self cameraPemission]) {
         [[[UIAlertView alloc] initWithTitle:@"提示" message:@"没有摄像机权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        
         return;
     }
     
@@ -402,38 +492,30 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)qqStyle {
     //设置扫码区域参数设置
-    
     //创建参数对象
     LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
     
     //矩形区域中心上移，默认中心点为屏幕中心点
     style.centerUpOffset = 44;
-    
     //扫码框周围4个角的类型,设置为外挂式
     style.photoframeAngleStyle = LBXScanViewPhotoframeAngleStyle_Outer;
-    
     //扫码框周围4个角绘制的线条宽度
     style.photoframeLineW = 6;
-    
     //扫码框周围4个角的宽度
     style.photoframeAngleW = 24;
-    
     //扫码框周围4个角的高度
     style.photoframeAngleH = 24;
-    
     //扫码框内 动画类型 --线条上下移动
     style.anmiationStyle = LBXScanViewAnimationStyle_LineMove;
-    
     //线条上下移动图片
     style.animationImage = [UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_light_green"];
-    
     //SubLBXScanViewController继承自LBXScanViewController
     //添加一些扫码或相册结果处理
     SubLBXScanViewController *vc = [SubLBXScanViewController new];
     vc.style = style;
-    
     vc.isQQSimulator = YES;
     vc.isVideoZoom = YES;
+    
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -445,7 +527,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     /**
      *  忽略 NSURLErrorDomain 错误 - 999
      */
-    if([error code] == NSURLErrorCancelled) return;
+    if([error code] == NSURLErrorCancelled) {
+        return;
+    }
     
     NSLog(@"dvc: %@", error.description);
 }
@@ -485,7 +569,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             break;
         }
     }
-    
     
     [self tabBarState: NO];
     [self loadHtml];
@@ -528,7 +611,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 4;
+    return self.dropMenuTitles.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -536,8 +619,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     if (!cell) {
         cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
     }
-    cell.tittleLabel.text = self.titleArray[indexPath.row];
-    cell.iconImageView.image = [UIImage imageNamed:self.imageArray[indexPath.row]];
+    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
     
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
@@ -552,18 +635,19 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     [self dismissViewControllerAnimated:YES completion:^{
-        switch (indexPath.row) {
-            case 0:
-                [self actionBarCodeScanView:nil];
-                break;
-            case 1:
-            case 2:
-                [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
-                break;
-            case 3:
-                [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
-            default:
-                break;
+        NSString *itemName = self.dropMenuTitles[indexPath.row];
+
+        if([itemName isEqualToString:kDropMentScanText]) {
+            [self actionBarCodeScanView:nil];
+        }
+        else if([itemName isEqualToString:kDropMentVoiceText]) {
+            [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+        }
+        else if([itemName isEqualToString:kDropMentSearchText]) {
+            [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+        }
+        else if([itemName isEqualToString:kDropMentUserInfoText]) {
+            [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
         }
     }];
 }
@@ -571,7 +655,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
     return UIModalPresentationNone;
 }
-
 
 # pragma mark - assitant methods
 /**
@@ -612,4 +695,114 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [alert showSuccess:self title:@"版本更新" subTitle:subTitle closeButtonTitle:@"放弃" duration:0.0f];
     }
 }
+
+#pragma mark - 本地通知，样式加载
+- (void)setNotificationBadgeTimer {
+//    NSTimeInterval period = 10.0;
+//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+//    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, period * NSEC_PER_SEC, 0);
+//    dispatch_source_set_event_handler(timer, ^{
+//        [self extractDataCountFromUrlStrings];
+//    });
+//    
+//    dispatch_resume(timer);
+    
+    [NSTimer scheduledTimerWithTimeInterval:60 * 15 target:self selector:@selector(extractDataCountFromUrlStrings) userInfo:nil repeats:YES];
+}
+
+- (void)extractDataCountFromUrlStrings {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *urlString;
+        HttpResponse *httpResponse;
+        for (NSInteger index = 0, len = self.urlStrings.count; index < len; index ++) {
+            urlString = self.urlStrings[index];
+            httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:self.assetsPath];
+            
+            if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
+                [HttpUtils urlConvertToLocal:urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+                [self extractDataCountFromHtmlContent:httpResponse.string Index:index];
+            }
+        }
+        
+        [self setLocalNotifications];
+    });
+}
+
+- (void)extractDataCountFromHtmlContent:(NSString *)htmlContent Index:(NSInteger)index {
+    NSString *scriptContent;
+    NSRange range = [htmlContent rangeOfString:@"<script>[\\s\\S]+<\\/script>" options:NSRegularExpressionSearch];
+    if (range.location == NSNotFound) {
+        return;
+    }
+    
+    scriptContent = [htmlContent substringWithRange:range];
+    NSRange range2 = [scriptContent rangeOfString:@"\\bMobileBridge.setDashboardDataCount.+" options:NSRegularExpressionSearch];
+    if (range2.location == NSNotFound) {
+        return;
+    }
+    
+    NSRange range3 = [[scriptContent substringWithRange:range2] rangeOfString:@"\\(.+\\)" options:NSRegularExpressionSearch];
+    NSArray  *noticeArray = [[[scriptContent substringWithRange:range2] substringWithRange:range3] componentsSeparatedByString:@","];
+    NSString *keyString1 = [noticeArray[0] substringFromIndex:2];
+    NSString *keyString = [keyString1 substringToIndex:keyString1.length - 1];
+    NSString *valueString = [noticeArray[1] substringToIndex:[noticeArray[1] length] - 1];
+    NSLog(@"得出的结果字符串为 %@ %@",keyString, valueString);
+    if (valueString == nil || [valueString integerValue] < 0) {
+        return;
+    }
+    
+    /**
+     *  - 如果 `tab_*_last = -1` 时，表示第一次加载， `tab_*_last = dataCount; tab_* = 0`
+     *  - 如果 `tab_*_last > 0 && tab_*_last != dataCount`
+     *      - 显示通知样式
+     *      - `tab_* = abs(dataCount - tab_*_last); tab_*_last = dataCount`
+     */
+    NSInteger dataCount = [valueString integerValue];
+    NSString *keyWord = [NSString stringWithFormat:@"tab_%@", self.tabBarItemNames[index]];
+    NSString *lastKeyWord = [NSString stringWithFormat:@"%@_last", keyWord];
+    
+    NSMutableDictionary *noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
+    if ([noticeDict[lastKeyWord] integerValue] == -1) {
+        noticeDict[keyWord] = @(0);
+    }
+    else if ([noticeDict[lastKeyWord] integerValue] > 0 && [noticeDict[lastKeyWord] integerValue] != [noticeDict[keyWord] integerValue]) {
+        noticeDict[keyWord] = @(labs([noticeDict[keyWord] integerValue] - [noticeDict[lastKeyWord] integerValue]));
+    }
+    noticeDict[lastKeyWord] = @(dataCount);
+    
+    [FileUtils writeJSON:noticeDict Into:self.noticeFilePath];
+}
+
+- (void)setLocalNotifications {
+    NSMutableDictionary *noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
+    
+    if ([noticeDict[@"app"] intValue] > 0) {
+        UIApplication *application = [UIApplication sharedApplication];
+        application.applicationIconBadgeNumber = [noticeDict[@"app"] integerValue];
+    }
+    
+    NSString *keyWord, *lastKeyWord;
+    NSInteger dataCount = 0;
+    for (NSInteger index = 0, len = self.tabBarItemNames.count; index < len; index ++) {
+        keyWord = [NSString stringWithFormat:@"tab_%@", self.tabBarItemNames[index]];
+        lastKeyWord = [NSString stringWithFormat:@"%@_last", keyWord];
+        dataCount = [noticeDict[keyWord] integerValue];
+        
+        if (dataCount <= 0) {
+            continue;
+        }
+  
+        BOOL isCurrentSelectedItem = self.tabBar.selectedItem.tag == index;
+        [self displayTabBarBadgeOnItemIndex:index orNot:isCurrentSelectedItem];
+        // [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
+    }
+}
+
+- (void)displayTabBarBadgeOnItemIndex:(NSInteger)index orNot:(BOOL)isOrNot {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.tabBar displayBadgeOnItemIndex:index orNot:isOrNot];
+    });
+}
+
 @end

@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "分析选中.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "分析选中@2x.png",
+      "filename" : "KLoginLogo.png",
       "scale" : "2x"
     },
     {

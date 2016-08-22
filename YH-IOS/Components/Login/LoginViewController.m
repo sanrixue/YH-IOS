@@ -6,8 +6,6 @@
 //  Copyright © 2016年 com.intfocus. All rights reserved.
 //
 
-#define SLOGEN_TEXT @"融合共享，成于至善"
-
 #import "LoginViewController.h"
 #import "DashboardViewController.h"
 #import "APIHelper.h"
@@ -29,7 +27,6 @@
 @property (nonatomic, strong) UIView *seperateView2;
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, assign) int sideblank;
-@property (nonatomic, strong) MBProgressHUD *progressHUD;
 
 @end
 
@@ -38,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.bgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.bgView.image = [UIImage imageNamed:@"background"];
+    self.bgView.image = [UIImage imageNamed:@"Background"];
     [self.view addSubview:self.bgView];
     self.bgView.userInteractionEnabled = YES;
     
@@ -49,7 +46,7 @@
     
     // sloganLabel
     self.sloganLabel = [[UILabel alloc] init];
-    self.sloganLabel.text = SLOGEN_TEXT;
+    self.sloganLabel.text = kLoginSlogan;
     [self.bgView addSubview:self.sloganLabel];
     [self.sloganLabel setTextColor:[UIColor whiteColor]];
     self.sloganLabel.textAlignment = NSTextAlignmentCenter;
@@ -130,27 +127,28 @@
 //add: 登录按钮事件
 - (void)loginBtnClick {
     if (self.userNameText.text.length == 0) {
-        [self showProgressHUD:@"请输入用户名" mode:MBProgressHUDModeText];
+        [self showProgressHUD:@"请输入用户名 " mode: MBProgressHUDModeText];
         [self.progressHUD hide:YES afterDelay:1.5];
         return;
     }
     if (self.userPasswordText.text.length == 0) {
-        [self showProgressHUD:@"请输入密码" mode:MBProgressHUDModeText];
+        [self showProgressHUD:@"请输入密码 " mode: MBProgressHUDModeText];
         [self.progressHUD hide:YES afterDelay:1.5];
         return;
     }
     [self showProgressHUD:@"验证中"];
     NSString *msg = [APIHelper userAuthentication:self.userNameText.text password:self.userPasswordText.text.md5];
     [self.progressHUD hide:YES];
+    
     if (!(msg.length == 0)) {
         [self showProgressHUD:msg mode:MBProgressHUDModeText];
         [self.progressHUD hide:YES afterDelay:2.0];
         return;
     }
+    
     [self showProgressHUD:@"跳转中"];
     [self jumpToDashboardView];
 }
-
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];

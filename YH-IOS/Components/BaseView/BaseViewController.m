@@ -202,7 +202,6 @@
  *  @param allowRotation 允许横屏
  */
 - (void)setAppAllowRotation:(BOOL)allowRotation {
-    
     AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     appDelegate.allowRotation = allowRotation;
 }

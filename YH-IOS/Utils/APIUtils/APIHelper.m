@@ -280,29 +280,6 @@
  *  @param userNum    用户编号
  *  @param groupID    群组ID
  *  @param roleID     角色ID
- *  @param codeString 条形码信息
- *  @param codeType   条形码或二维码
- */
-+ (void)barCodeScan:(NSString *)userNum group:(NSNumber *)groupID role:(NSNumber *)roleID code:(NSString *)codeInfo type:(NSString *)codeType {
-    NSString *urlString = [NSString stringWithFormat:API_BARCODE_SCAN_PATH, kBaseUrl, groupID, roleID, userNum];
-    
-    NSMutableDictionary *codeDict = [NSMutableDictionary dictionaryWithDictionary:@{ @"code_info": codeInfo, @"code_type": codeType }];
-    HttpResponse *response = [HttpUtils httpPost:urlString Params:codeDict];
-    NSString *responseString = response.string;
-    
-    if(!response.data[@"code"] || ![response.data[@"code"] isEqualToNumber:@(200)]) {
-        responseString = [NSString stringWithFormat:@"{\"商品编号\": \"%@\", \"状态\": \"%@\", \"order_keys\": [\"商品编号\", \"状态\"]}",codeInfo, responseString];
-    }
-   
-    [FileUtils barcodeScanResult:responseString];
-}
-
-/**
- *  二维码扫描
- *
- *  @param userNum    用户编号
- *  @param groupID    群组ID
- *  @param roleID     角色ID
  *  @param storeID    门店ID
  *  @param codeString 条形码信息
  *  @param codeType   条形码或二维码

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		9E9EEC1875A034202F52C155 /* libPods-YH-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A867606F7216FABE6624278 /* libPods-YH-IOS.a */; };
+		C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343371D6ADEAB00625D53 /* UIButton+Badge.m */; };
+		C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343391D6ADEAB00625D53 /* UILabel+Badge.m */; };
+		C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C403433B1D6ADEAB00625D53 /* UITabBar+Badge.m */; };
 		C40D06B21C917BF80029D142 /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = C40D06AD1C917BF80029D142 /* TFHpple.m */; };
 		C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = C40D06AF1C917BF80029D142 /* TFHppleElement.m */; };
 		C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = C40D06B11C917BF80029D142 /* XPathQuery.m */; };
@@ -104,6 +107,12 @@
 		12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.release.xcconfig"; sourceTree = "<group>"; };
 		6A867606F7216FABE6624278 /* libPods-YH-IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.debug.xcconfig"; sourceTree = "<group>"; };
+		C40343361D6ADEAB00625D53 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
+		C40343371D6ADEAB00625D53 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
+		C40343381D6ADEAB00625D53 /* UILabel+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Badge.h"; sourceTree = "<group>"; };
+		C40343391D6ADEAB00625D53 /* UILabel+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Badge.m"; sourceTree = "<group>"; };
+		C403433A1D6ADEAB00625D53 /* UITabBar+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+Badge.h"; sourceTree = "<group>"; };
+		C403433B1D6ADEAB00625D53 /* UITabBar+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Badge.m"; sourceTree = "<group>"; };
 		C40D06AC1C917BF80029D142 /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
 		C40D06AD1C917BF80029D142 /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
 		C40D06AE1C917BF80029D142 /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
@@ -277,6 +286,19 @@
 				12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C40343351D6ADEAB00625D53 /* ViewBadge */ = {
+			isa = PBXGroup;
+			children = (
+				C40343361D6ADEAB00625D53 /* UIButton+Badge.h */,
+				C40343371D6ADEAB00625D53 /* UIButton+Badge.m */,
+				C40343381D6ADEAB00625D53 /* UILabel+Badge.h */,
+				C40343391D6ADEAB00625D53 /* UILabel+Badge.m */,
+				C403433A1D6ADEAB00625D53 /* UITabBar+Badge.h */,
+				C403433B1D6ADEAB00625D53 /* UITabBar+Badge.m */,
+			);
+			path = ViewBadge;
 			sourceTree = "<group>";
 		};
 		C40D06AB1C917BF80029D142 /* hpple */ = {
@@ -571,6 +593,7 @@
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				C40343351D6ADEAB00625D53 /* ViewBadge */,
 				C4ECB27D1C3119B200F7947B /* NSString+MD5 */,
 				C4A564DA1C2CECC10067516F /* NSData+MD5 */,
 				C4A564DD1C2CECC10067516F /* UIColor+Hex */,
@@ -918,6 +941,7 @@
 				C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */,
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
 				C46F6A961D0671C900C561CE /* SubLBXScanViewController.m in Sources */,
+				C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
@@ -927,6 +951,8 @@
 				C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
+				C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */,
+				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */,
 				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
@@ -1095,7 +1121,7 @@
 			baseConfigurationReference = 766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1126,7 +1152,7 @@
 			baseConfigurationReference = 12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

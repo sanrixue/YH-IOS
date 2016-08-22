@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "kpi.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "kpi@2x.png",
+      "filename" : "KLoginLogo.png",
       "scale" : "2x"
     },
     {

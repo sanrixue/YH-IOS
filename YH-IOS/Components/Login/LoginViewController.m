@@ -35,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.bgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    self.bgView.image = [UIImage imageNamed:@"Background"];
+    self.bgView.image = [UIImage imageNamed:@"background"];
     [self.view addSubview:self.bgView];
     self.bgView.userInteractionEnabled = YES;
     

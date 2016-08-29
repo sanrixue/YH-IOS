@@ -51,7 +51,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self newPushReceive];
     UIColor *color = [UIColor colorWithHexString:YH_COLOR];;
     self.bannerView.backgroundColor = color;
     self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
@@ -65,8 +65,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     self.btnScanCode.hidden = !kDropMenuScan;
     [self setTabBarItems];
-    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
-    [self tabBarClick: 0];
+    [self initTabClick];
     [self setNotificationBadgeTimer];
     
     /*
@@ -83,8 +82,49 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *type = [app.pushMessageDict objectForKey:@"type"];
+    if ([type isEqualToString:@"report"]) {
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":app.pushMessageDict[@"link"]}];
+        app.pushMessageDict[@"type"] = NULL;
+    }
+    app.pushMessageDict[@"link"] = NULL;
     [self checkAssetsUpdate];
+    [self checkAssetsUpdate];
+}
+
+- (void)initTabClick{
+    if (self.clickTab) {
+        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:self.clickTab]];
+        [self tabBarClick:self.clickTab];
+    }
+    else {
+        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
+        [self tabBarClick: 0];
+    }
+}
+
+#pragma mark - 通知处理
+- (void)newPushReceive {
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *type = [app.pushMessageDict objectForKey:@"type"];
+    if ([type isEqualToString:@"analyse"]) {
+        self.clickTab = 1;
+        // [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:1]];
+    }
+    else if ([type isEqualToString:@"app"]) {
+        self.clickTab = 2;
+    }
+    else if ([type isEqualToString:@"message"]) {
+        self.clickTab = 3;
+    }
+    else if([type isEqualToString:@"report"]){
+        self.clickTab = 0;
+        
+    }
+    else {
+        self.clickTab = 0;
+    }
 }
 
 - (void)dealloc {
@@ -571,6 +611,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     switch (index) {
         case 0: {
             self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID];
+            
             self.commentObjectType = ObjectTypeKpi;
             break;
         }

@@ -21,6 +21,7 @@
 #import "UITabBar+Badge.h"
 #import "UIButton+Badge.h"
 #import "UILabel+Badge.h"
+#import "NSString+MD5.h"
 
 static NSString *const kDropMentScanText     = @"扫一扫";
 static NSString *const kDropMentVoiceText    = @"语音播报";
@@ -68,7 +69,16 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self tabBarClick: 0];
     [self setNotificationBadgeTimer];
     
+    /*
+     * 解屏进入主页面，需检测版本更新
+     */
     [self checkFromViewController];
+    
+    /**
+     *  登录或解屏后，密码为初始值时提示:
+     *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
+     */
+    [self checkUserModifiedInitPassword];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -136,7 +146,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         self.fromViewController = @"AlreadyShow";
         //启动检测版本更新
         [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
-        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
+        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethodInDashboard:)];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
@@ -153,10 +163,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
                  */
                 NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
                 NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-                if(!userDict[@"user_num"]) return;
+                if(!userDict[@"user_num"]) {
+                    return;
+                }
                 
                 NSString *msg = [APIHelper userAuthentication:userDict[@"user_num"] password:userDict[@"user_md5"]];
-                if(msg.length == 0) return;
+                if(msg.length == 0) {
+                    return;
+                }
                 
                 userDict[@"is_login"] = @(NO);
                 [userDict writeToFile:userConfigPath atomically:YES];
@@ -166,6 +180,18 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             }
         });
     }
+}
+
+/**
+ *  登录或解屏后，密码为初始值时提示:
+ *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
+ */
+- (void)checkUserModifiedInitPassword {
+    if(![self.user.password isEqualToString:@"123456".md5]) {
+        return;
+    }
+   
+    [ViewUtils simpleAlertView:self Title:@"温馨提示" Message:@"初始化密码未修改，安全起见，请在\n【设置】-【个人信息】-【修改密码】页面修改密码" ButtonTitle:@"知道了"];
 }
 
 - (void)loadWebView {
@@ -662,7 +688,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
   *
   *  @param response <#response description#>
   */
-- (void)appUpgradeMethod:(NSDictionary *)response {
+- (void)appUpgradeMethodInDashboard:(NSDictionary *)response {
     if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) return;
     
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];

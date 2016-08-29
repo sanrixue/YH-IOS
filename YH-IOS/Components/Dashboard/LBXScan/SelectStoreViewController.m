@@ -51,7 +51,7 @@
     [self.view addSubview:topView];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 70, 40)];
-    UIImage *imageback = [UIImage imageNamed:@"iconBack"];
+    UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
     UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 15, 25)];
     bakImage.image = imageback;
     [bakImage setContentMode:UIViewContentModeScaleAspectFit];

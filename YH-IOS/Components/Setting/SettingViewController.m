@@ -19,7 +19,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 @interface SettingViewController ()
 @property (weak, nonatomic) IBOutlet UISwitch *switchGesturePassword;
-@property (weak, nonatomic) IBOutlet UISwitch *switchNewUI;
+@property (weak, nonatomic) IBOutlet UISwitch *switchOldUI;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnLogout;
 @property (weak, nonatomic) IBOutlet UILabel *labelUserName;
@@ -60,7 +60,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     self.labelPushState.text = pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭";
-    self.switchNewUI.on = [[self currentUIVersion] isEqualToString:@"v2"];
+    self.switchOldUI.on = [[self currentUIVersion] isEqualToString:@"v1"];
     
     [self checkPgyerVersionLabel:version];
 }
@@ -99,6 +99,15 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
 }
 
+#pragma mark - action methods
+- (IBAction)actionBack:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^{}];
+}
+
+- (IBAction)actionCheckUpgrade {
+    [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethodInSetting:)];
+}
+
 /**
  *  检测版本升级，判断版本号是否为偶数。以便内测
  response = @{
@@ -113,7 +122,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
  *
  *  @param response <#response description#>
  */
-- (void)appUpgradeMethod:(NSDictionary *)response {
+- (void)appUpgradeMethodInSetting:(NSDictionary *)response {
     if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) {
         [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
         return;
@@ -151,14 +160,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
 }
 
-#pragma mark - action methods
-- (IBAction)actionBack:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{}];
-}
-
-- (IBAction)actionCheckUpgrade {
-    [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
-}
 
 - (IBAction)actionOpenLink:(id)sender {
     NSURL *url = [NSURL URLWithString:[kPgyerUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -226,7 +227,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (IBAction)actionSwitchToNewUI:(UISwitch *)sender {
     NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:BETA_CONFIG_FILENAME];
     NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
-    betaDict[@"new_ui"] = @(sender.isOn);
+    betaDict[@"old_ui"] = @(sender.isOn);
     [betaDict writeToFile:settingsConfigPath atomically:YES];
 }
 

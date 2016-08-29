@@ -354,7 +354,7 @@
 - (NSString *)currentUIVersion {
     NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:BETA_CONFIG_FILENAME];
     NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
-    return betaDict[@"new_ui"] && [betaDict[@"new_ui"] boolValue] ? @"v2" : @"v1";
+    return betaDict[@"old_ui"] && [betaDict[@"old_ui"] boolValue] ? @"v1" : @"v2";
 }
 
 @end

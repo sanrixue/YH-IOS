@@ -249,8 +249,12 @@
 + (void)actionLog:(NSMutableDictionary *)param {
     // TODO: 避免服务器压力
     NSString *action = param[@"action"];
-    // NSArray *whiteList = @[@"登录", @"解屏", @"微信分享"];
-    if(![action isEqualToString:@"登录"] && ![param[@"action"] isEqualToString:@"解屏"] && ![action containsString:@"微信分享"]) {
+    
+    if(action == nil) {
+        return;
+    }
+    if(![action isEqualToString:@"登录"] && ![action isEqualToString:@"解屏"] &&
+       ![action containsString:@"微信分享"] && ![action isEqualToString:@"点击/主页面/浏览器"]) {
         return;
     }
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];

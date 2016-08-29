@@ -36,6 +36,6 @@
 #define kTabBarMessage YES
 
 #define kSubjectComment YES
-#define kSubjectShare   NO
+#define kSubjectShare   YES
 
 #endif /* PrivateConstants_h */

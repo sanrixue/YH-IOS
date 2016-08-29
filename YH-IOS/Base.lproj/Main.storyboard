@@ -695,19 +695,19 @@
                                     <view contentMode="top" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2xa-dr-rxT">
                                         <rect key="frame" x="0.0" y="488" width="600" height="70"/>
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="测试功能" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSO-fe-6da">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="配色主题" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mSO-fe-6da">
                                                 <rect key="frame" x="10" y="5" width="99" height="21"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                 <color key="textColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="新版UI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wIq-gh-vuz">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="旧版UI" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wIq-gh-vuz">
                                                 <rect key="frame" x="20" y="31" width="138" height="28"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <switch opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PW9-kq-HgA">
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="PW9-kq-HgA">
                                                 <rect key="frame" x="531" y="30" width="51" height="31"/>
                                                 <connections>
                                                     <action selector="actionSwitchToNewUI:" destination="IAN-Qx-0h6" eventType="touchUpInside" id="Pdi-od-nGL"/>
@@ -804,7 +804,7 @@
                         <outlet property="labelUserName" destination="TpX-TE-x2U" id="LSq-hy-4Qz"/>
                         <outlet property="labelUserRole" destination="6GY-fW-N4q" id="F4H-iC-orY"/>
                         <outlet property="switchGesturePassword" destination="IhO-Ny-ux3" id="Sy3-ZN-eDI"/>
-                        <outlet property="switchNewUI" destination="PW9-kq-HgA" id="dJP-8o-xov"/>
+                        <outlet property="switchOldUI" destination="PW9-kq-HgA" id="jlZ-vU-hFU"/>
                         <segue destination="45z-Bc-IOa" kind="presentation" identifier="ResetPasswordSegueIdentifier" id="KeE-JB-IYg"/>
                     </connections>
                 </viewController>
@@ -1135,7 +1135,7 @@
                                 <rect key="frame" x="0.0" y="85" width="600" height="515"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="sectionIndexColor" patternImage="3F2C170E-E691-4C4C-92A6-8F1BF9638FAF" colorSpace="pattern"/>
+                                <color key="sectionIndexColor" patternImage="532D4637-1C92-4602-BF05-729A592D1EC3" colorSpace="pattern"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <sections/>
                             </tableView>
@@ -1262,7 +1262,7 @@
                                             <constraint firstAttribute="width" constant="70" id="JsQ-cu-hMa"/>
                                         </constraints>
                                         <inset key="contentEdgeInsets" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
-                                        <state key="normal" title="返回" image="iconBack">
+                                        <state key="normal" title="返回" image="Banner-Back">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -1280,7 +1280,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="36" id="M5Z-Ux-LXQ"/>
                                         </constraints>
-                                        <state key="normal" image="Banner-筛选"/>
+                                        <state key="normal" image="Subject-Search"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.54101616649999995" green="0.71126197469999997" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1626,7 +1626,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="3F2C170E-E691-4C4C-92A6-8F1BF9638FAF" width="320" height="460">
+        <image name="532D4637-1C92-4602-BF05-729A592D1EC3" width="320" height="460">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPj9YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQsLzI4O1UkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
@@ -11516,7 +11516,6 @@ AAAAAAAAAAAJCvs
         <image name="Banner-Back" width="17" height="21"/>
         <image name="Banner-Logo" width="84" height="25"/>
         <image name="Banner-Setting" width="20" height="20"/>
-        <image name="Banner-筛选" width="21" height="21"/>
         <image name="Subject-Comment" width="21" height="21"/>
         <image name="Subject-Search" width="21" height="21"/>
         <image name="Subject-Share" width="21" height="21"/>
@@ -11528,6 +11527,5 @@ AAAAAAAAAAAJCvs
         <image name="TabBar-KPI-Selected" width="20" height="20"/>
         <image name="TabBar-Message" width="20" height="21"/>
         <image name="TabBar-Message-Selected" width="20" height="21"/>
-        <image name="iconBack" width="17" height="21"/>
     </resources>
 </document>

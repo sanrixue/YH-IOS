@@ -5,6 +5,7 @@
 //  Created by lijunjie on 15/11/25.
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
+#define mADVIEWHEIGHT self.view.frame.size.height / 4.5
 
 #import "DashboardViewController.h"
 #import "SubjectViewController.h"
@@ -89,7 +90,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     [self checkPushMessageAction];
     [self checkAssetsUpdate];
 }
@@ -145,7 +145,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - 添加广告视图
 - (void)addAdvertWebView {
-    self.advertWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), self.view.frame.size.width, 180)];
+    self.advertWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), self.view.frame.size.width, mADVIEWHEIGHT)];
     self.advertWebView.tag = 1234;
     self.advertWebView.delegate = self;
     self.advertWebView.scalesPageToFit = YES;
@@ -153,7 +153,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self.view addSubview:self.advertWebView];
     [self loadAdvertView];
     
-    self.browser.frame = CGRectMake(0, self.advertWebView.frame.origin.y + 180, self.view.frame.size.width, self.view.frame.size.height - 284);
+    self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame) + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - 104 - mADVIEWHEIGHT);
 }
 
 #pragma mark - 隐藏广告视图
@@ -165,11 +165,15 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - loadAdvertisement
 - (void)loadAdvertView {
-    NSString *advertise = [[FileUtils sharedPath]stringByAppendingPathComponent:@"advertisement"];
+    NSString *advertise = [[FileUtils sharedPath] stringByAppendingPathComponent:@"advertisement"];
     NSString *advetisePath = [advertise stringByAppendingPathComponent:@"index_ios.html"];
     if ([FileUtils checkFileExist:advetisePath isDir:YES]) {
         NSString *advertiseContent = [NSString stringWithContentsOfFile:advetisePath encoding:NSUTF8StringEncoding error:nil];
         [self.advertWebView loadHTMLString:advertiseContent baseURL:[NSURL URLWithString:advetisePath]];
+    }
+    else
+    {
+        [self hideAdertWebView];
     }
 }
 
@@ -221,12 +225,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:3]];
     }
     else if ([openType isEqualToString:@"report"]) {
-                [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":@"/mobile/v2/group/182/template/1/report/8"}];
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":@"/mobile/v2/group/%@/template/1/report/8"}];
     }
     else {
-        NSLog(@"请注意这些事情");
+        NSLog(@"暂时没有处理");
     }
-    
 }
 
 - (void)dealloc {

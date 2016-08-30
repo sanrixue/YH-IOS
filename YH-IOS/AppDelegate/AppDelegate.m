@@ -161,7 +161,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (BOOL)isLogin {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    if ([userDict[@"is_login"]  isEqualToValue: @(YES)]) {
+    if (userDict[@"is_login" ]) {
         return true;
     }
     else {
@@ -283,7 +283,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     if(isUpgrade) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *sharedPath = [FileUtils sharedPath], *bundleZipPath, *zipPath, *assetFileName;
-        for(NSString *assetName in @[@"assets", @"loading", @"fonts", @"images", @"stylesheets", @"javascripts"]) {
+        for(NSString *assetName in @[@"assets", @"loading", @"fonts", @"images", @"stylesheets", @"javascripts",@"advertisement"]) {
             assetFileName = [NSString stringWithFormat:@"%@.zip", assetName];
             bundleZipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:assetFileName];
             zipPath = [sharedPath stringByAppendingPathComponent:assetFileName];
@@ -308,6 +308,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     [FileUtils checkAssets:@"javascripts" isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:@"stylesheets" isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:@"BarCodeScan" isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:@"advertisement" isInAssets:NO bundlePath:bundlePath];
 }
 
 - (void)initWebViewUserAgent {

@@ -13,8 +13,8 @@
 @property (strong, nonatomic) UIWindow *window;
 /***  是否允许横屏的标记 */
 @property (nonatomic,assign) BOOL allowRotation;
-@property(nonatomic,strong)NSMutableDictionary *pushMessageDict;
-@property(nonatomic,assign)int clickTab;
+@property (nonatomic,strong) NSMutableDictionary *pushMessageDict;
+@property (nonatomic,assign) int clickTab;
 
 @end
 

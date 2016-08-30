@@ -10,5 +10,7 @@
 
 @interface DashboardViewController : BaseViewController<UITabBarDelegate, UIImagePickerControllerDelegate>
 @property (strong, nonatomic) NSString *fromViewController;
+
+/***  消息推送点击后操作 */
 @property (assign, nonatomic) int clickTab;
 @end

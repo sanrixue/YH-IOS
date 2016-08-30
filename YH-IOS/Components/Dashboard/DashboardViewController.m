@@ -5,6 +5,7 @@
 //  Created by lijunjie on 15/11/25.
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
+#define mADVIEWHEIGHT self.view.frame.size.height / 4.5
 
 #import "DashboardViewController.h"
 #import "SubjectViewController.h"
@@ -22,6 +23,7 @@
 #import "UIButton+Badge.h"
 #import "UILabel+Badge.h"
 #import "NSString+MD5.h"
+#import "WebViewJavascriptBridge.h"
 
 static NSString *const kDropMentScanText     = @"扫一扫";
 static NSString *const kDropMentVoiceText    = @"语音播报";
@@ -45,6 +47,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 @property (nonatomic, strong) NSArray *dropMenuTitles;
 @property (nonatomic, strong) NSArray *dropMenuIcons;
 @property (nonatomic, strong) UITableView *dropMenu;
+// 广告栏
+@property (strong, nonatomic) UIWebView *advertWebView;
+@property WebViewJavascriptBridge *adBridge;
 @end
 
 @implementation DashboardViewController
@@ -69,6 +74,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self receivePushMessageParams];
     [self initTabClick];
     [self setNotificationBadgeTimer];
+    [self clickAdvertisement];
     
     /*
      * 解屏进入主页面，需检测版本更新
@@ -84,7 +90,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     [self checkPushMessageAction];
     [self checkAssetsUpdate];
 }
@@ -103,6 +108,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":app.pushMessageDict[@"link"]}];
     }
     app.pushMessageDict = [NSMutableDictionary dictionary];
+
 }
 
 - (void)initTabClick{
@@ -134,6 +140,95 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
     else {
         self.clickTab = 0;
+    }
+}
+
+#pragma mark - 添加广告视图
+- (void)addAdvertWebView {
+    self.advertWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), self.view.frame.size.width, mADVIEWHEIGHT)];
+    self.advertWebView.tag = 1234;
+    self.advertWebView.delegate = self;
+    self.advertWebView.scalesPageToFit = YES;
+    self.advertWebView.scrollView.scrollEnabled = NO;
+    [self.view addSubview:self.advertWebView];
+    [self loadAdvertView];
+    
+    self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame) + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - 104 - mADVIEWHEIGHT);
+}
+
+#pragma mark - 隐藏广告视图
+- (void)hideAdertWebView {
+    UIWebView *subViews = [self.view viewWithTag:1234];
+    [subViews removeFromSuperview];
+    self.browser.frame = CGRectMake(0, 55, self.view.frame.size.width, self.view.frame.size.height - 104);
+}
+
+#pragma mark - loadAdvertisement
+- (void)loadAdvertView {
+    NSString *advertise = [[FileUtils sharedPath] stringByAppendingPathComponent:@"advertisement"];
+    NSString *advetisePath = [advertise stringByAppendingPathComponent:@"index_ios.html"];
+    if ([FileUtils checkFileExist:advetisePath isDir:YES]) {
+        NSString *advertiseContent = [NSString stringWithContentsOfFile:advetisePath encoding:NSUTF8StringEncoding error:nil];
+        [self.advertWebView loadHTMLString:advertiseContent baseURL:[NSURL URLWithString:advetisePath]];
+    }
+    else
+    {
+        [self hideAdertWebView];
+    }
+}
+
+#pragma mark - clickAdvertisment
+- (void)clickAdvertisement {
+    self.adBridge = [WebViewJavascriptBridge bridgeForWebView:self.advertWebView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"DashboardViewController - ObjC received message from JS: %@", data);
+        responseCallback(@"DashboardViewController - Response for message from ObjC");
+    }];
+    [self.adBridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"] = @"JS异常";
+                logParams[@"obj_type"] = @(self.commentObjectType);
+                logParams[@"obj_title"] = [NSString stringWithFormat:@"主页面/%@", data[@"ex"]];
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
+    }];
+    [self.adBridge registerHandler:@"adLink" handler:^(id data, WVJBResponseCallback responseCallback) {
+       // [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
+        [self openAdClickLink:data[@"openType"] WithLink:data[@"openLink"]];
+    }];
+}
+
+
+#pragma mark - openAdclickLink 
+- (void) openAdClickLink:(NSString *)openType WithLink:(NSString *)urlLink {
+    if ([openType isEqualToString:@"browser"]) {
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlLink]];
+    }
+    else if ([openType isEqualToString:@"tab_kpi"]) {
+        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
+    }
+    else if ([openType isEqualToString:@"tab_analyse"]) {
+        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:1]];
+    }
+    else if ([openType isEqualToString:@"tab_app"]) {
+        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:2]];
+    }
+    else if ([openType isEqualToString:@"tab_message"]) {
+        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:3]];
+    }
+    else if ([openType isEqualToString:@"report"]) {
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":@"/mobile/v2/group/%@/template/1/report/8"}];
+    }
+    else {
+        NSLog(@"暂时没有处理");
     }
 }
 
@@ -620,27 +715,31 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     switch (index) {
         case 0: {
             self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID];
-            
+            [self addAdvertWebView];
             self.commentObjectType = ObjectTypeKpi;
             break;
         }
         case 1: {
             self.urlString = [NSString stringWithFormat:ANALYSE_PATH, kBaseUrl, uiVersion, self.user.roleID];
+            [self hideAdertWebView];
             self.commentObjectType = ObjectTypeAnalyse;
             break;
         }
         case 2: {
             self.urlString = [NSString stringWithFormat:APPLICATION_PATH, kBaseUrl, uiVersion, self.user.roleID];
+            [self hideAdertWebView];
             self.commentObjectType = ObjectTypeApp;
             break;
         }
         case 3: {
             self.urlString = [NSString stringWithFormat:MESSAGE_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID, self.user.userID];
+            [self hideAdertWebView];
             self.commentObjectType = ObjectTypeMessage;
             break;
         }
         default: {
             self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID];
+            [self hideAdertWebView];
             self.commentObjectType = ObjectTypeReport;
             break;
         }

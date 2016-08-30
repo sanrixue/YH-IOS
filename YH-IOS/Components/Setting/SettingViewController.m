@@ -34,6 +34,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (weak, nonatomic) IBOutlet UIButton *buttonChangeGesturePassword;
 @property (weak, nonatomic) IBOutlet UIButton *buttonPgyerLink;
 
+
 @end
 
 @implementation SettingViewController
@@ -41,7 +42,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
     [self.btnLogout.layer setCornerRadius:10.0];
@@ -67,7 +67,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     BOOL isUseGesturePassword = [LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd];
     self.switchGesturePassword.on = isUseGesturePassword;
     self.buttonChangeGesturePassword.enabled = isUseGesturePassword;

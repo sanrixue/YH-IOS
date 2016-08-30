@@ -84,6 +84,7 @@
 		C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B71C99812B0009411A /* WebViewJavascriptBridge.m */; };
 		C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */; };
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
+		F608FEBD1D752BD20040C16F /* advertisement.zip in Resources */ = {isa = PBXBuildFile; fileRef = F608FEBC1D752BD20040C16F /* advertisement.zip */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,6 +234,7 @@
 		C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
 		C4EFE4BA1C99812B0009411A /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		F608FEBC1D752BD20040C16F /* advertisement.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = advertisement.zip; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -646,6 +648,7 @@
 				C46903931D5CC75F00233D05 /* BarCodeScan.zip */,
 				C4C284E21D06BACF009458E6 /* barcode_scan_result.html */,
 				C4A57AA61CB7859E004F9C3D /* PrivateConstants.h */,
+				F608FEBC1D752BD20040C16F /* advertisement.zip */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
 				C4EFE4AB1C98F60A0009411A /* stylesheets.zip */,
 				C4EFE4AC1C98F60A0009411A /* javascripts.zip */,
@@ -855,6 +858,7 @@
 				C4EFE4BC1C99812B0009411A /* WebViewJavascriptBridge.js.txt in Resources */,
 				C4EFE4B21C98F60A0009411A /* images.zip in Resources */,
 				C46903941D5CC75F00233D05 /* BarCodeScan.zip in Resources */,
+				F608FEBD1D752BD20040C16F /* advertisement.zip in Resources */,
 				C4EFE4B01C98F60A0009411A /* stylesheets.zip in Resources */,
 				C4EFE4AF1C98F60A0009411A /* fonts.zip in Resources */,
 				C4C284E31D06BACF009458E6 /* barcode_scan_result.html in Resources */,

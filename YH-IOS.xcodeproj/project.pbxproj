@@ -54,7 +54,6 @@
 		C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DF1C2CECC10067516F /* UIColor+Hex.m */; };
 		C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564E21C2CECC10067516F /* UIWebView+Clean.m */; };
 		C4BA6EA41C7DB24A0059F101 /* FileUtils+Assets.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */; };
-		C4C284E31D06BACF009458E6 /* barcode_scan_result.html in Resources */ = {isa = PBXBuildFile; fileRef = C4C284E21D06BACF009458E6 /* barcode_scan_result.html */; };
 		C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C284E41D06BB1A009458E6 /* ScanResultViewController.m */; };
 		C4C628431C0C1ED6000AD5D8 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* SubjectViewController.m */; };
 		C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */; };
@@ -179,7 +178,6 @@
 		C4A57AA61CB7859E004F9C3D /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
 		C4BA6EA21C7DB24A0059F101 /* FileUtils+Assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FileUtils+Assets.h"; sourceTree = "<group>"; };
 		C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FileUtils+Assets.m"; sourceTree = "<group>"; };
-		C4C284E21D06BACF009458E6 /* barcode_scan_result.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = barcode_scan_result.html; sourceTree = "<group>"; };
 		C4C284E41D06BB1A009458E6 /* ScanResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanResultViewController.m; sourceTree = "<group>"; };
 		C4C284E51D06BB1A009458E6 /* ScanResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanResultViewController.h; sourceTree = "<group>"; };
 		C4C6283B1C0C1ED6000AD5D8 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectViewController.h; sourceTree = "<group>"; };
@@ -646,7 +644,6 @@
 			isa = PBXGroup;
 			children = (
 				C46903931D5CC75F00233D05 /* BarCodeScan.zip */,
-				C4C284E21D06BACF009458E6 /* barcode_scan_result.html */,
 				C4A57AA61CB7859E004F9C3D /* PrivateConstants.h */,
 				F608FEBC1D752BD20040C16F /* advertisement.zip */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
@@ -861,7 +858,6 @@
 				F608FEBD1D752BD20040C16F /* advertisement.zip in Resources */,
 				C4EFE4B01C98F60A0009411A /* stylesheets.zip in Resources */,
 				C4EFE4AF1C98F60A0009411A /* fonts.zip in Resources */,
-				C4C284E31D06BACF009458E6 /* barcode_scan_result.html in Resources */,
 				C46F6A981D06720A00C561CE /* CodeScan.bundle in Resources */,
 				C4EFE4B11C98F60A0009411A /* javascripts.zip in Resources */,
 				C4EFE4B31C98F60A0009411A /* assets.zip in Resources */,
@@ -1146,7 +1142,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb4eb413-d8d1-4286-8c65-5e72144f9026";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1177,7 +1173,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb4eb413-d8d1-4286-8c65-5e72144f9026";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

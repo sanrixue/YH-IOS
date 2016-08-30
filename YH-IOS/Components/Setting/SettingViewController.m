@@ -34,7 +34,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (weak, nonatomic) IBOutlet UIButton *buttonChangeGesturePassword;
 @property (weak, nonatomic) IBOutlet UIButton *buttonPgyerLink;
 
-
 @end
 
 @implementation SettingViewController

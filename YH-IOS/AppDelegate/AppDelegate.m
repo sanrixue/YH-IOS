@@ -34,7 +34,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     NSString *name   = [exception name];
     Version *version = [[Version alloc] init];
     NSString *mailContent = [NSString stringWithFormat:@"mailto:jay_li@intfocus.com \
-                             ?subject=%@客户端bug报告                                 \
+                             ?subject=%@客户端 BUG 报告                                 \
                              &body=很抱歉%@应用出现故障,发送这封邮件可协助我们改善此应用<br> \
                              感谢您的配合!<br><br>                                     \
                              应用详情:<br>                                            \
@@ -80,7 +80,9 @@ void UncaughtExceptionHandler(NSException * exception) {
     
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
-    if(pushToken.length != 64 || (pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue])) return;
+    if(pushToken.length != 64 || (pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue])) {
+        return;
+    }
     
     pushDict[@"push_device_token"] = pushToken;
     pushDict[@"push_valid"] = @(NO);
@@ -108,29 +110,26 @@ void UncaughtExceptionHandler(NSException * exception) {
         [alertView show];
     }
     else {
-        if (![self isLogin]) {
-           LoginViewController *loginView = [[LoginViewController alloc]init];
-            UIViewController *view = (UIViewController *)self.window.rootViewController;
-            [view presentViewController:loginView animated:YES completion:nil];
-        }
-        else {
-            [self jumpToDashboardView];
-        }
+        [self checkIsLoginThenJump];
     }
 }
 
 #pragma mark - 程序在运行时候接收到通知
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-        if (![self isLogin]) {
-            NSLog(@"为登录 跳转至登录界面");
-           LoginViewController *loginView = [[LoginViewController alloc]init];
-            UIViewController *view = (UIViewController *)self.window.rootViewController;
-            [view presentViewController:loginView animated:YES completion:nil];
-        }
-        else {
-            [self jumpToDashboardView];
-        }
+        [self checkIsLoginThenJump];
+    }
+}
+
+- (void)checkIsLoginThenJump {
+    if (![self isLogin]) {
+        NSLog(@"为登录 跳转至登录界面");
+        LoginViewController *loginView = [[LoginViewController alloc]init];
+        UIViewController *view = (UIViewController *)self.window.rootViewController;
+        [view presentViewController:loginView animated:YES completion:nil];
+    }
+    else {
+        [self jumpToDashboardView];
     }
 }
 
@@ -161,12 +160,8 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (BOOL)isLogin {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    if (userDict[@"is_login" ]) {
-        return true;
-    }
-    else {
-        return false;
-    }
+    
+    return [userDict[@"is_login"] isEqualToValue: @(YES)];
 }
 
 #pragma mark -new Push event
@@ -188,6 +183,8 @@ void UncaughtExceptionHandler(NSException * exception) {
     else {
         self.clickTab = 0;
     }
+
+
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -342,12 +339,12 @@ void UncaughtExceptionHandler(NSException * exception) {
     //register remoteNotification types （iOS 8.0及其以上版本）
     UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
     action1.identifier = @"action1_identifier";
-    action1.title=@"Accept";
+    action1.title= @"Accept";
     action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
     
     UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
     action2.identifier = @"action2_identifier";
-    action2.title=@"Reject";
+    action2.title= @"Reject";
     action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
     action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
     action2.destructive = YES;

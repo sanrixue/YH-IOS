@@ -1,5 +1,6 @@
 # Xcode
 #
+#
 .current-app
 *.lock
 *.y[a]ml
@@ -25,7 +26,7 @@ DerivedData
 project.xcworkspace
 xcuserdata
 UserInterfaceState.xcuserstate
-project.xcworkspace/
+*.xcworkspace/
 xcuserdata/
 UserInterface.xcuserstate 
 # CocoaPods

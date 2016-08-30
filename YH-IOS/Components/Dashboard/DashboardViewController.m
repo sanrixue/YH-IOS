@@ -55,7 +55,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self newPushReceive];
+    
     UIColor *color = [UIColor colorWithHexString:YH_COLOR];;
     self.bannerView.backgroundColor = color;
     self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
@@ -69,6 +69,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     self.btnScanCode.hidden = !kDropMenuScan;
     [self setTabBarItems];
+    
+    [self receivePushMessageParams];
     [self initTabClick];
     [self setNotificationBadgeTimer];
     [self clickAdvertisement];
@@ -87,34 +89,45 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    NSString *type = [app.pushMessageDict objectForKey:@"type"];
-    if ([type isEqualToString:@"report"]) {
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":app.pushMessageDict[@"link"]}];
-         app.pushMessageDict[@"type"] = NULL;
-    }
-    app.pushMessageDict[@"link"] = NULL;
+    
+    [self checkPushMessageAction];
     [self checkAssetsUpdate];
 }
 
+/**
+ *  消息推送点击后操作
+ */
+- (void)checkPushMessageAction {
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if([app.pushMessageDict allKeys].count == 0) {
+        return;
+    }
+    
+    NSString *type = [app.pushMessageDict objectForKey:@"type"];
+    if ([type isEqualToString:@"report"]) {
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":app.pushMessageDict[@"link"]}];
+    }
+    app.pushMessageDict = [NSMutableDictionary dictionary];
+
+}
+
 - (void)initTabClick{
-    if (self.clickTab) {
-        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:self.clickTab]];
-        [self tabBarClick:self.clickTab];
-    }
-    else {
-        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
-        [self tabBarClick: 0];
-    }
+    NSInteger tabIndex = self.clickTab > 0 ? self.clickTab : 0;
+    [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
+    [self tabBarClick: tabIndex];
 }
 
 #pragma mark - 通知处理
-- (void)newPushReceive {
+- (void)receivePushMessageParams {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    if([app.pushMessageDict allKeys].count == 0) {
+        self.clickTab = -1;
+        return;
+    }
+    
     NSString *type = [app.pushMessageDict objectForKey:@"type"];
     if ([type isEqualToString:@"analyse"]) {
         self.clickTab = 1;
-        // [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:1]];
     }
     else if ([type isEqualToString:@"app"]) {
         self.clickTab = 2;
@@ -124,7 +137,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
     else if([type isEqualToString:@"report"]){
         self.clickTab = 0;
-        
     }
     else {
         self.clickTab = 0;
@@ -510,7 +522,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-
         HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
         
         __block NSString *htmlPath;

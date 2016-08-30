@@ -18,6 +18,5 @@
 @property (nonatomic, strong) NSMutableDictionary *pushMessageDict;
 @property (nonatomic, assign) int clickTab;
 
-
 @end
 

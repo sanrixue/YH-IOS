@@ -160,31 +160,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (BOOL)isLogin {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    
     return [userDict[@"is_login"] isEqualToValue: @(YES)];
-}
-
-#pragma mark -new Push event
-- (void)newPushReceive {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    NSString *type = [app.pushMessageDict objectForKey:@"type"];
-    if ([type isEqualToString:@"analyse"]) {
-        self.clickTab = 1;
-    }
-    else if ([type isEqualToString:@"app"]) {
-        self.clickTab = 2;
-    }
-    else if ([type isEqualToString:@"message"]) {
-        self.clickTab = 3;
-    }
-    else if([type isEqualToString:@"report"]){
-        self.clickTab = 0;
-    }
-    else {
-        self.clickTab = 0;
-    }
-
-
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

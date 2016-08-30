@@ -95,9 +95,99 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     // 关闭友盟自带的弹出框
-    // [UMessage setAutoAlert:NO];
-    
+    [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
+    _pushMessageDict = [[NSMutableDictionary alloc]init];
+    self.pushMessageDict[@"link"] = userInfo[@"link"];
+    self.pushMessageDict[@"type"] = userInfo[@"type"];
+    NSString *pushConfigPath= [[FileUtils basePath] stringByAppendingPathComponent:@"push_message.plist"];
+    [FileUtils writeJSON:_pushMessageDict Into:pushConfigPath];
+    if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
+        [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"提示" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"立即查看", nil];
+        [alertView show];
+    }
+    else {
+        if (![self isLogin]) {
+           LoginViewController *loginView = [[LoginViewController alloc]init];
+            UIViewController *view = (UIViewController *)self.window.rootViewController;
+            [view presentViewController:loginView animated:YES completion:nil];
+        }
+        else {
+            [self jumpToDashboardView];
+        }
+    }
+}
+
+#pragma mark - 程序在运行时候接收到通知
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        if (![self isLogin]) {
+            NSLog(@"为登录 跳转至登录界面");
+           LoginViewController *loginView = [[LoginViewController alloc]init];
+            UIViewController *view = (UIViewController *)self.window.rootViewController;
+            [view presentViewController:loginView animated:YES completion:nil];
+        }
+        else {
+            [self jumpToDashboardView];
+        }
+    }
+}
+
+#pragma mark - 跳转至仪表盘
+- (void)jumpToDashboardView {
+    LoginViewController *previousRootViewController = (LoginViewController *)_window.rootViewController;
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+    // dashboardViewController.clickTab = self.clickTab;
+    dashboardViewController.fromViewController = @"LoginViewController";
+    _window.rootViewController = dashboardViewController;
+    // Nasty hack to fix http://stackoverflow.com/questions/26763020/leaking-views-when-changing-rootviewcontroller-inside-transitionwithview
+    // The presenting view controllers view doesn't get removed from the window as its currently transistioning and presenting a view controller
+    for (UIView *subview in _window.subviews) {
+        if ([subview isKindOfClass:self.class]) {
+            [subview removeFromSuperview];
+        }
+    }
+    // Allow the view controller to be deallocated
+    [previousRootViewController dismissViewControllerAnimated:NO completion:^{
+        // Remove the root view in case its still showing
+        [previousRootViewController.view removeFromSuperview];
+    }];
+}
+
+#pragma mark - 判断用户是否登录
+- (BOOL)isLogin {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    if ([userDict[@"is_login"]  isEqualToValue: @(YES)]) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+#pragma mark -new Push event
+- (void)newPushReceive {
+    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
+    NSString *type = [app.pushMessageDict objectForKey:@"type"];
+    if ([type isEqualToString:@"analyse"]) {
+        self.clickTab = 1;
+    }
+    else if ([type isEqualToString:@"app"]) {
+        self.clickTab = 2;
+    }
+    else if ([type isEqualToString:@"message"]) {
+        self.clickTab = 3;
+    }
+    else if([type isEqualToString:@"report"]){
+        self.clickTab = 0;
+    }
+    else {
+        self.clickTab = 0;
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

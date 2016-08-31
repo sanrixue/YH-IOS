@@ -20,9 +20,9 @@
 #define kPgyerAppId  @"1d835e3e87539d37790403d1e5f26ef6"
 #define kPgyerUrl    @"http://www.pgyer.com/yh-test-i"
 
-#define kUMAppId     @"56f9ebad67e58eb4990012c8"
-#define kWXAppId     @"wx9173274e2ea0d365"
-#define kWXAppSecret @"22a92f9b55da6357e02e25f069ad7883"
+#define kUMAppId     @"57b522fee0f55a7ba8001606"
+#define kWXAppId     @"wxc48d00458356ccb6"
+#define kWXAppSecret @"2ee0c11d37b992dc882c7fe967469fa7"
 
 #define kDropMenuScan     YES
 #define kDropMenuVoice    YES

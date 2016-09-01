@@ -93,6 +93,8 @@
         userDict[@"user_device_id"] = response.data[@"user_device_id"];
         userDict[@"assets_md5"]      = response.data[@"assets_md5"];
         userDict[@"loading_md5"]     = response.data[@"loading_md5"];
+        userDict[@"BarCodeScan_md5"] = response.data[@"barcodescan_md5"];
+        userDict[@"advertisement_md5"] = response.data[@"advertisement_md5"];
         userDict[@"fonts_md5"]       = response.data[@"assets"][@"fonts_md5"];
         userDict[@"images_md5"]      = response.data[@"assets"][@"images_md5"];
         userDict[@"stylesheets_md5"] = response.data[@"assets"][@"stylesheets_md5"];
@@ -247,16 +249,13 @@
  *  @param params 用户行为操作
  */
 + (void)actionLog:(NSMutableDictionary *)param {
-    // TODO: 避免服务器压力
+    // TODO: 避免服务器压力，过滤操作由服务器来处理
     NSString *action = param[@"action"];
     
     if(action == nil) {
         return;
     }
-    if(![action isEqualToString:@"登录"] && ![action isEqualToString:@"解屏"] &&
-       ![action containsString:@"微信分享"] && ![action isEqualToString:@"点击/主页面/浏览器"]) {
-        return;
-    }
+
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     

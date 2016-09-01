@@ -215,15 +215,17 @@
     AFHTTPRequestOperation *op;
     op = [self checkAssetUpdate:@"loading" info: @"加载库" isInAssets: NO];
     if(op) { [queue addOperation:op]; }
-    op = [self checkAssetUpdate:@"fonts" info: @"字体" isInAssets: YES];
+    op = [self checkAssetUpdate:@"fonts" info: @"字体库" isInAssets: YES];
     if(op) { [queue addOperation:op]; }
-    op = [self checkAssetUpdate:@"images" info: @"图片" isInAssets: YES];
+    op = [self checkAssetUpdate:@"images" info: @"图库" isInAssets: YES];
     if(op) { [queue addOperation:op]; }
     op = [self checkAssetUpdate:@"stylesheets" info: @"样式库" isInAssets: YES];
     if(op) { [queue addOperation:op]; }
     op = [self checkAssetUpdate:@"javascripts" info: @"解析库" isInAssets: YES];
     if(op) { [queue addOperation:op]; }
-    op = [self checkAssetUpdate:@"advertisement" info: @"加载库" isInAssets: NO];
+    op = [self checkAssetUpdate:@"BarCodeScan" info: @"扫码样式库" isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:@"advertisement" info: @"广告样式库" isInAssets: NO];
     if(op) { [queue addOperation:op]; }
 }
 

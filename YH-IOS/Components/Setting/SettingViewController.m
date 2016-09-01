@@ -34,7 +34,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (weak, nonatomic) IBOutlet UIButton *buttonChangeGesturePassword;
 @property (weak, nonatomic) IBOutlet UIButton *buttonPgyerLink;
 
-
 @end
 
 @implementation SettingViewController
@@ -79,23 +78,27 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)checkPgyerVersionLabel:(Version *)version {
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
-    if([FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
-        NSMutableDictionary *pgyerVersionDict = [FileUtils readConfigFile:pgyerVersionPath];
-        BOOL isPgyerLatest = [version.current isEqualToString:pgyerVersionDict[@"versionName"]] && [version.build isEqualToString:pgyerVersionDict[@"versionCode"]];
-        NSString *pgyerVersionState = @"已是最新版本";
-        UIColor *buttonColor = [UIColor darkGrayColor];
-        if(isNULL(pgyerVersionDict[@"versionCode"])) {
-            pgyerVersionState = @"蒲公英链接";
-            buttonColor = [self.buttonChangeGesturePassword.titleLabel textColor];
-        }
-        else if(!isPgyerLatest) {
-            NSString *betaName = (pgyerVersionDict[@"versionCode"] && [pgyerVersionDict[@"versionCode"] integerValue] % 2 == 0) ? @"" : @"测试";
-            pgyerVersionState = [NSString stringWithFormat:@"更新到%@版本:%@(%@)", betaName, pgyerVersionDict[@"versionName"], pgyerVersionDict[@"versionCode"]];
-            buttonColor = [self.buttonChangeGesturePassword.titleLabel textColor];
-        }
-        [self.buttonPgyerLink setTitle:pgyerVersionState forState:UIControlStateNormal];
-        [self.buttonPgyerLink setTitleColor:buttonColor forState:UIControlStateNormal];
+    if(![FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
+        return;
     }
+    
+    NSMutableDictionary *pgyerVersionDict = [FileUtils readConfigFile:pgyerVersionPath];
+    BOOL isPgyerLatest = [version.current isEqualToString:pgyerVersionDict[@"versionName"]] && [version.build isEqualToString:pgyerVersionDict[@"versionCode"]];
+    NSString *pgyerVersionState = @"已是最新版本";
+    UIColor *buttonColor = [UIColor darkGrayColor];
+    
+    if(isNULL(pgyerVersionDict[@"versionCode"])) {
+        pgyerVersionState = @"蒲公英链接";
+        buttonColor = [self.buttonChangeGesturePassword.titleLabel textColor];
+    }
+    else if(!isPgyerLatest) {
+        NSString *betaName = (pgyerVersionDict[@"versionCode"] && [pgyerVersionDict[@"versionCode"] integerValue] % 2 == 0) ? @"" : @"测试";
+        pgyerVersionState = [NSString stringWithFormat:@"%@版本:%@(%@)", betaName, pgyerVersionDict[@"versionName"], pgyerVersionDict[@"versionCode"]];
+        buttonColor = [self.buttonChangeGesturePassword.titleLabel textColor];
+    }
+    
+    [self.buttonPgyerLink setTitle:pgyerVersionState forState:UIControlStateNormal];
+    [self.buttonPgyerLink setTitleColor:buttonColor forState:UIControlStateNormal];
 }
 
 #pragma mark - action methods
@@ -103,25 +106,29 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
-- (IBAction)actionCheckUpgrade {
-    [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethodInSetting:)];
+/**
+ * 检测版本更新
+ */
+- (IBAction)actionCheckUpgrade:(id)sender {
+    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
+    [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
 }
 
 /**
  *  检测版本升级，判断版本号是否为偶数。以便内测
- response = @{
- @"appUrl": @"http://www.pgyer.com/yh-i",
- @"build": @118,
- @"downloadURL": @"itms-services://?action=download-manifest&url=https://www.pgyer.com/app/plist/93bb21bdb7f10bdf0a84ad51045bd70e",
- @"lastBuild": @118,
- @"releaseNote": @"asdfasdfc: 1.3.87(build118)",
- @"versionCode": @188,
- @"versionName ": @"1.4.0"
- };
+     response = @{
+         @"appUrl": @"http://www.pgyer.com/yh-i",
+         @"build": @118,
+         @"downloadURL": @"itms-services://?action=download-manifest&url=https://www.pgyer.com/app/plist/93bb21bdb7f10bdf0a84ad51045bd70e",
+         @"lastBuild": @118,
+         @"releaseNote": @"asdfasdfc: 1.3.87(build118)",
+         @"versionCode": @188,
+         @"versionName ": @"1.4.0"
+     };
  *
  *  @param response <#response description#>
  */
-- (void)appUpgradeMethodInSetting:(NSDictionary *)response {
+- (void)appUpgradeMethod:(NSDictionary *)response {
     if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) {
         [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
         return;
@@ -141,10 +148,16 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     // 对比 build 值，只准正向安装提示
     if([response[@"versionCode"] integerValue] <= currentVersionCode) {
+        [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
         return;
     }
     
+    /**
+     * 更新按钮右侧提示文字
+     */
     Version *version = [[Version alloc] init];
+    [self checkPgyerVersionLabel:version];
+    
     BOOL isPgyerLatest = [version.current isEqualToString:response[@"versionName"]] && [version.build isEqualToString:response[@"versionCode"]];
     if(!isPgyerLatest && [response[@"versionCode"] integerValue] % 2 == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
@@ -157,6 +170,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         NSString *subTitle = [NSString stringWithFormat:@"更新到版本: %@(%@)", response[@"versionName"], response[@"versionCode"]];
         [alert showSuccess:self title:@"版本更新" subTitle:subTitle closeButtonTitle:@"放弃" duration:0.0f];
     }
+    else {
+        [ViewUtils showPopupView:self.view Info:@"有测试版本发布，请手工安装。"];
+    }
+    
+    [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
 }
 
 

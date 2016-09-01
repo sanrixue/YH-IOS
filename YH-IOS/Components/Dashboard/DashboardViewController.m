@@ -172,8 +172,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         NSString *advertiseContent = [NSString stringWithContentsOfFile:advetisePath encoding:NSUTF8StringEncoding error:nil];
         [self.advertWebView loadHTMLString:advertiseContent baseURL:[NSURL URLWithString:advetisePath]];
     }
-    else
-    {
+    else {
         [self hideAdertWebView];
     }
 }
@@ -184,6 +183,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         NSLog(@"DashboardViewController - ObjC received message from JS: %@", data);
         responseCallback(@"DashboardViewController - Response for message from ObjC");
     }];
+    
     [self.adBridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
@@ -201,8 +201,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             }
         });
     }];
+    
     [self.adBridge registerHandler:@"adLink" handler:^(id data, WVJBResponseCallback responseCallback) {
-       // [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
         [self openAdClickLink:data[@"openType"] WithLink:data[@"openLink"]];
     }];
 }
@@ -210,6 +210,19 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - openAdclickLink 
 - (void) openAdClickLink:(NSString *)openType WithLink:(NSString *)urlLink {
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    @try {
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[@"action"] = @"点击广告";
+        logParams[@"obj_title"] = [NSString stringWithFormat:@"%@;%@", openType, urlLink];
+        [APIHelper actionLog:logParams];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+    
     if ([openType isEqualToString:@"browser"]) {
         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlLink]];
     }
@@ -290,9 +303,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)checkFromViewController {
     if(self.fromViewController && [self.fromViewController isEqualToString:@"AppDelegate"]) {
         self.fromViewController = @"AlreadyShow";
-        //启动检测版本更新
+        // 检测版本更新
         [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
-        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethodInDashboard:)];
+        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
@@ -841,8 +854,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
   *
   *  @param response <#response description#>
   */
-- (void)appUpgradeMethodInDashboard:(NSDictionary *)response {
-    if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) return;
+- (void)appUpgradeMethod:(NSDictionary *)response {
+    if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) {
+        [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
+        return;
+    }
     
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
     NSInteger currentVersionCode = 0;
@@ -873,6 +889,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         NSString *subTitle = [NSString stringWithFormat:@"更新到版本: %@(%@)", response[@"versionName"], response[@"versionCode"]];
         [alert showSuccess:self title:@"版本更新" subTitle:subTitle closeButtonTitle:@"放弃" duration:0.0f];
     }
+    
+    [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
 }
 
 #pragma mark - 本地通知，样式加载

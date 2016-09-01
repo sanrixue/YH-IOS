@@ -85,6 +85,7 @@
 		C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */; };
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
 		F608FEBD1D752BD20040C16F /* advertisement.zip in Resources */ = {isa = PBXBuildFile; fileRef = F608FEBC1D752BD20040C16F /* advertisement.zip */; };
+		F608FEC01D7575AF0040C16F /* NewSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEBF1D7575AF0040C16F /* NewSettingViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -235,6 +236,8 @@
 		C4EFE4BA1C99812B0009411A /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		F608FEBC1D752BD20040C16F /* advertisement.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = advertisement.zip; sourceTree = "<group>"; };
+		F608FEBE1D7575AF0040C16F /* NewSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewSettingViewController.h; sourceTree = "<group>"; };
+		F608FEBF1D7575AF0040C16F /* NewSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewSettingViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -414,6 +417,8 @@
 				C499E8A01C3262010033BF6C /* ResetPassword */,
 				C49E1AB11C19632000CFFE3C /* SettingViewController.h */,
 				C49E1AB21C19632000CFFE3C /* SettingViewController.m */,
+				F608FEBE1D7575AF0040C16F /* NewSettingViewController.h */,
+				F608FEBF1D7575AF0040C16F /* NewSettingViewController.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -973,6 +978,7 @@
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				C4DEBB5A1D3CD22D00EEBC29 /* FileUtils+Report.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,
+				F608FEC01D7575AF0040C16F /* NewSettingViewController.m in Sources */,
 				C46903971D5CC81A00233D05 /* SelectStoreViewController.m in Sources */,
 				C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */,
 				C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */,

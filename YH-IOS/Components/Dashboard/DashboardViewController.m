@@ -24,6 +24,7 @@
 #import "UILabel+Badge.h"
 #import "NSString+MD5.h"
 #import "WebViewJavascriptBridge.h"
+#import "NewSettingViewController.h"
 
 static NSString *const kDropMentScanText     = @"扫一扫";
 static NSString *const kDropMentVoiceText    = @"语音播报";
@@ -816,7 +817,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             [self actionBarCodeScanView:nil];
         }
         else if([itemName isEqualToString:kDropMentVoiceText]) {
-            [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+            //[ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+            NewSettingViewController *sett = [[NewSettingViewController alloc]init];
+            [self.navigationController pushViewController:sett animated:YES];
+            
         }
         else if([itemName isEqualToString:kDropMentSearchText]) {
             [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];

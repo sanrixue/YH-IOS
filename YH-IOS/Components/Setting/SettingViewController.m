@@ -41,7 +41,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    // Do any additional setup after loading the view. 
     self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
     [self idColor];
     [self.btnLogout.layer setCornerRadius:10.0];

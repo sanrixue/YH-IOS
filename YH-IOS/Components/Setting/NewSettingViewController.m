@@ -58,7 +58,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)initLabelInfoDict {
     self.userInfoArray = @[@"名称",@"角色",@"群组",@"修改登录密码"];
     self.appInfoArray = @[@"名称",@"版本号",@"设备型号",@"数据接口",@"应用标识",@"消息推送",@"校正",@"检测更新"];
-    self.headInfoArray = @[@"用户信息",@"ying",@"安全策略",@"测试功能"];
+    self.headInfoArray = @[@"用户信息",@"应用信息",@"安全策略",@"测试功能"];
     [self initLabelMessageDict];
 }
 

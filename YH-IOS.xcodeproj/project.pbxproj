@@ -1139,7 +1139,7 @@
 			baseConfigurationReference = 766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1160,7 +1160,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb4eb413-d8d1-4286-8c65-5e72144f9026";
+				PROVISIONING_PROFILE = "902c543b-8b76-42a8-b172-e4a981192439";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1170,7 +1170,7 @@
 			baseConfigurationReference = 12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1191,7 +1191,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb4eb413-d8d1-4286-8c65-5e72144f9026";
+				PROVISIONING_PROFILE = "902c543b-8b76-42a8-b172-e4a981192439";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -830,10 +830,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             [self actionBarCodeScanView:nil];
         }
         else if([itemName isEqualToString:kDropMentVoiceText]) {
-            //[ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
-            NewSettingViewController *sett = [[NewSettingViewController alloc]init];
-            [self.navigationController pushViewController:sett animated:YES];
-            
+            [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
         }
         else if([itemName isEqualToString:kDropMentSearchText]) {
             [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];

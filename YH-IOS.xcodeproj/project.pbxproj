@@ -84,6 +84,9 @@
 		C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */; };
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
 		F608FEBD1D752BD20040C16F /* advertisement.zip in Resources */ = {isa = PBXBuildFile; fileRef = F608FEBC1D752BD20040C16F /* advertisement.zip */; };
+		F608FEC01D7575AF0040C16F /* NewSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEBF1D7575AF0040C16F /* NewSettingViewController.m */; };
+		F608FEC31D77D7F00040C16F /* SwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */; };
+		F608FEC61D77FABF0040C16F /* PgyUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -233,6 +236,12 @@
 		C4EFE4BA1C99812B0009411A /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		F608FEBC1D752BD20040C16F /* advertisement.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = advertisement.zip; sourceTree = "<group>"; };
+		F608FEBE1D7575AF0040C16F /* NewSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewSettingViewController.h; sourceTree = "<group>"; };
+		F608FEBF1D7575AF0040C16F /* NewSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewSettingViewController.m; sourceTree = "<group>"; };
+		F608FEC11D77D7F00040C16F /* SwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchTableViewCell.h; sourceTree = "<group>"; };
+		F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchTableViewCell.m; sourceTree = "<group>"; };
+		F608FEC41D77FABF0040C16F /* PgyUpdateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PgyUpdateTableViewCell.h; sourceTree = "<group>"; };
+		F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PgyUpdateTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +421,12 @@
 				C499E8A01C3262010033BF6C /* ResetPassword */,
 				C49E1AB11C19632000CFFE3C /* SettingViewController.h */,
 				C49E1AB21C19632000CFFE3C /* SettingViewController.m */,
+				F608FEBE1D7575AF0040C16F /* NewSettingViewController.h */,
+				F608FEBF1D7575AF0040C16F /* NewSettingViewController.m */,
+				F608FEC41D77FABF0040C16F /* PgyUpdateTableViewCell.h */,
+				F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */,
+				F608FEC11D77D7F00040C16F /* SwitchTableViewCell.h */,
+				F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -952,6 +967,7 @@
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
 				C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */,
+				F608FEC61D77FABF0040C16F /* PgyUpdateTableViewCell.m in Sources */,
 				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */,
@@ -969,6 +985,7 @@
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				C4DEBB5A1D3CD22D00EEBC29 /* FileUtils+Report.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,
+				F608FEC01D7575AF0040C16F /* NewSettingViewController.m in Sources */,
 				C46903971D5CC81A00233D05 /* SelectStoreViewController.m in Sources */,
 				C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */,
 				C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */,
@@ -976,6 +993,7 @@
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,
 				C499E8A31C3262240033BF6C /* ResetPasswordViewController.m in Sources */,
+				F608FEC31D77D7F00040C16F /* SwitchTableViewCell.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
 				C42ECED41D66EE8E00C5F762 /* DropTableViewCell.m in Sources */,
@@ -1121,7 +1139,7 @@
 			baseConfigurationReference = 766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1142,7 +1160,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb4eb413-d8d1-4286-8c65-5e72144f9026";
+				PROVISIONING_PROFILE = "902c543b-8b76-42a8-b172-e4a981192439";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1152,7 +1170,7 @@
 			baseConfigurationReference = 12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1173,7 +1191,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb4eb413-d8d1-4286-8c65-5e72144f9026";
+				PROVISIONING_PROFILE = "902c543b-8b76-42a8-b172-e4a981192439";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

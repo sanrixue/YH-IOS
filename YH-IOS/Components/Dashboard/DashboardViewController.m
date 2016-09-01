@@ -24,7 +24,6 @@
 #import "UILabel+Badge.h"
 #import "NSString+MD5.h"
 #import "WebViewJavascriptBridge.h"
-#import "NewSettingViewController.h"
 
 static NSString *const kDropMentScanText     = @"扫一扫";
 static NSString *const kDropMentVoiceText    = @"语音播报";

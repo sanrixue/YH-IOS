@@ -87,6 +87,8 @@
 		F608FEC01D7575AF0040C16F /* NewSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEBF1D7575AF0040C16F /* NewSettingViewController.m */; };
 		F608FEC31D77D7F00040C16F /* SwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */; };
 		F608FEC61D77FABF0040C16F /* PgyUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */; };
+		F69A3CFD1D792580009E6BD8 /* UserHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFC1D792580009E6BD8 /* UserHeadView.m */; };
+		F69A3D001D794006009E6BD8 /* GestureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -242,6 +244,10 @@
 		F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchTableViewCell.m; sourceTree = "<group>"; };
 		F608FEC41D77FABF0040C16F /* PgyUpdateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PgyUpdateTableViewCell.h; sourceTree = "<group>"; };
 		F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PgyUpdateTableViewCell.m; sourceTree = "<group>"; };
+		F69A3CFB1D792580009E6BD8 /* UserHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHeadView.h; sourceTree = "<group>"; };
+		F69A3CFC1D792580009E6BD8 /* UserHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeadView.m; sourceTree = "<group>"; };
+		F69A3CFE1D794006009E6BD8 /* GestureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureTableViewCell.h; sourceTree = "<group>"; };
+		F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -423,10 +429,14 @@
 				C49E1AB21C19632000CFFE3C /* SettingViewController.m */,
 				F608FEBE1D7575AF0040C16F /* NewSettingViewController.h */,
 				F608FEBF1D7575AF0040C16F /* NewSettingViewController.m */,
+				F69A3CFB1D792580009E6BD8 /* UserHeadView.h */,
+				F69A3CFC1D792580009E6BD8 /* UserHeadView.m */,
 				F608FEC41D77FABF0040C16F /* PgyUpdateTableViewCell.h */,
 				F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */,
 				F608FEC11D77D7F00040C16F /* SwitchTableViewCell.h */,
 				F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */,
+				F69A3CFE1D794006009E6BD8 /* GestureTableViewCell.h */,
+				F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -971,10 +981,12 @@
 				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */,
+				F69A3D001D794006009E6BD8 /* GestureTableViewCell.m in Sources */,
 				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
 				C40D06B21C917BF80029D142 /* TFHpple.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
 				C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */,
+				F69A3CFD1D792580009E6BD8 /* UserHeadView.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
 				C45D27121C23FC490087C6F2 /* README.md in Sources */,

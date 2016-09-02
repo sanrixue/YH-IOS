@@ -14,6 +14,8 @@
 #import "ViewUtils.h"
 #import "PgyUpdateTableViewCell.h"
 #import "ResetPasswordViewController.h"
+#import "UserHeadView.h"
+#import "GestureTableViewCell.h"
 #import <PgyUpdate/PgyUpdateManager.h>
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
@@ -95,7 +97,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             numInSection = self.appInfoArray.count;
             break;
         case 2:
-            numInSection = 2;
+            numInSection = 1;
             break;
         case 3:
             numInSection = 1;
@@ -139,16 +141,20 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             BOOL isUseGesturePassword = [LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd];
-            SwitchTableViewCell * cell = [[SwitchTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
+            GestureTableViewCell * cell = [[GestureTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
             cell.messageLabel.text = @"启用锁屏";
             cell.changStatusBtn.on = isUseGesturePassword;
-            self.isChangeLochPassword = isUseGesturePassword;
+            [cell.changeGestureBtn setTitle:@"修改锁屏密码" forState:UIControlStateNormal];
+            [cell.changeGestureBtn addTarget:self action:@selector(actionChangeGesturePassword) forControlEvents:UIControlEventTouchUpInside];
+            if (isUseGesturePassword) {
+                [cell.changeGestureBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+                cell.changeGestureBtn.userInteractionEnabled = YES;
+            }
+            else {
+                [cell.changeGestureBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+                cell.changeGestureBtn.userInteractionEnabled = NO;
+            }
             [cell.changStatusBtn addTarget:self action:@selector(actionWehtherUseGesturePassword:) forControlEvents:UIControlEventValueChanged];
-            return cell;
-        }
-        else if (indexPath.row == 1){
-            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
-            cell.textLabel.text = @"修改锁屏密码";
             return cell;
         }
         else {
@@ -189,10 +195,17 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
+    if (indexPath.section == 2) {
+        return 70;
+    }
+    else {
+        return 44;
+    
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+
     return 30;
 }
 
@@ -205,12 +218,18 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         UITableViewCell *cell =  [tableView cellForRowAtIndexPath:indexPath];
         cell.detailTextLabel.text = self.isSuccess ? @"开启":@"关闭";
     }
-    if ((indexPath.section == 2) && (indexPath.row == 1)) {
-        if (self.isChangeLochPassword) {
-            [self actionChangeGesturePassword];
-        }
+}
+
+/*- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section == 1) {
+        UserHeadView *userHead = [[UserHeadView alloc]init];
+        return userHead;
+    }
+    else {
+        return nil;
     }
 }
+*/
 
 #pragma mark - action methods
 - (IBAction)actionBack:(id)sender {
@@ -400,6 +419,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             }
         });
     }
+    [self.settingTableView reloadData];
 }
 
 - (void)actionLogout{

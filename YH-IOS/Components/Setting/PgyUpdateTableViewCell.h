@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#define mSCREEN [[UIScreen mainScreen]bounds]
+#define mWIDTH  mSCREEN.size.width
 @interface PgyUpdateTableViewCell : UITableViewCell
 @property (nonatomic,strong) UIButton *messageButton;
 @property (nonatomic,strong) UIButton *openOutLink;
+@property (nonatomic,strong) UILabel *outLinkLabel;
 @end

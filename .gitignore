@@ -1,6 +1,7 @@
 # Xcode
 #
 #
+.DS_Store
 .current-app
 *.lock
 *.y[a]ml

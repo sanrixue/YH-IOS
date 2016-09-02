@@ -15,11 +15,13 @@
 #import "PgyUpdateTableViewCell.h"
 #import "ResetPasswordViewController.h"
 #import "UserHeadView.h"
+#import "UILabel+Badge.h"
 #import "GestureTableViewCell.h"
+#import "OneButtonTableViewCell.h"
 #import <PgyUpdate/PgyUpdateManager.h>
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
-@interface NewSettingViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface NewSettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) UITableView *settingTableView;
 @property (strong, nonatomic) NSArray *userInfoArray;
 @property (strong, nonatomic) NSArray *appInfoArray;
@@ -29,6 +31,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (assign, nonatomic) BOOL isSuccess;
 @property (assign, nonatomic) BOOL isChangeLochPassword;
 @property (strong, nonatomic) NSArray *headInfoArray;
+@property (strong,nonatomic) UIImage *userIconImage;
+@property (strong, nonatomic)NSDictionary *settingDict;
 
 @end
 
@@ -36,20 +40,27 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
-    [self idColor];
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 55, self.view.frame.size.width, self.view.frame.size.height - 105) style:UITableViewStyleGrouped];
+    [self getUserIcon];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
+    self.view.backgroundColor = [UIColor clearColor];
+    self.settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height ) style:UITableViewStyleGrouped];
     [self.view addSubview:self.settingTableView];
     self.settingTableView.delegate = self;
     self.settingTableView.dataSource = self;
-    self.logoutBtn = [[UIButton alloc] initWithFrame:CGRectMake(40, self.view.frame.size.height - 46, self.view.frame.size.width - 80, 42)];
-    self.logoutBtn.layer.cornerRadius = 5.0f;
-    [self.logoutBtn setTitle:@"退出登录" forState:UIControlStateNormal];
-    [self.logoutBtn setBackgroundColor:[UIColor redColor]];
-    [self.logoutBtn addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.logoutBtn];
     [self initLabelInfoDict];
+    
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 70, 40)];
+    UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 15, 25)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addSubview:bakImage];
+    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 50, 25)];
+    backLabel.text = @"返回";
+    backLabel.textColor = [UIColor whiteColor];
+    [backBtn addSubview:backLabel];
+    [self.settingTableView addSubview:backBtn];
+    [backBtn addTarget:self action:@selector(actionBack:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -58,10 +69,14 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 #pragma mark - init need-show message
 - (void)initLabelInfoDict {
-    self.userInfoArray = @[@"名称",@"角色",@"群组",@"修改登录密码"];
-    self.appInfoArray = @[@"名称",@"版本号",@"设备型号",@"数据接口",@"应用标识",@"消息推送",@"校正",@"检测更新"];
-    self.headInfoArray = @[@"用户信息",@"应用信息",@"安全策略",@"测试功能"];
+    self.appInfoArray = @[@"名称",@"版本号",@"设备型号",@"数据接口",@"应用标识",@"消息推送",@"校正",@"检测版本更新"];
+    self.headInfoArray = @[@"应用信息",@"安全策略",@"配色主题"];
     [self initLabelMessageDict];
+}
+
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 #pragma mark - init need-show message info
@@ -80,50 +95,65 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     NSString *pushState = pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭";
-    self.MessageDict = @{self.userInfoArray[0]:userName,self.userInfoArray[1]:userRole,self.userInfoArray[2]:userGroup,self.appInfoArray[0]:appName,self.appInfoArray[1]:appVersion,self.appInfoArray[2]:deviceMode,self.appInfoArray[3]:apiDomain,self.appInfoArray[4]:bundleID,self.appInfoArray[5]:pushState};
+    self.MessageDict = @{@"userName":userName,@"userRole":userRole,@"userGroup":userGroup};
+    self.settingDict = @{self.appInfoArray[0]:appName,self.appInfoArray[1]:appVersion,self.appInfoArray[2]:deviceMode,self.appInfoArray[3]:apiDomain,self.appInfoArray[4]:bundleID,self.appInfoArray[5]:pushState};
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 4;
+    
+    return 5;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger numInSection;
-    switch (section) {
-        case 0:
-            numInSection = self.userInfoArray.count;
-            break;
-        case 1:
-            numInSection = self.appInfoArray.count;
-            break;
-        case 2:
-            numInSection = 1;
-            break;
-        case 3:
-            numInSection = 1;
-            break;
-            
-        default:
-            break;
+    if (section == 0) {
+        return 1;
     }
-    return numInSection;
+    if (section == 1) {
+        return 8;
+    }
+    if (section == 2) {
+        return 2;
+    }
+    if (section == 3) {
+        return 1;
+    }
+    if (section == 4) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+
 }
 
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat )tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.001;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return 0.001;
+    }
+    else {
+        return 30;
+    }
+}
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
-        cell.textLabel.text = self.userInfoArray[indexPath.row];
-        cell.detailTextLabel.text = self.MessageDict[self.userInfoArray[indexPath.row]];
-        cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
-        if (indexPath.row > 2) {
-            cell.textLabel.textColor = [UIColor blueColor];
+        UserHeadView *cell = [[UserHeadView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"userId"];
+        [cell.userIcon addTarget:self action:@selector(addUserIcon) forControlEvents:UIControlEventTouchUpInside];
+        self.settingTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        cell.userName.text = self.MessageDict[@"userName"];
+        cell.userRole.text = [NSString stringWithFormat:@"%@ | %@",self.MessageDict[@"userRole"],self.MessageDict[@"userGroup"]];
+        if (self.userIconImage) {
+            [cell.userIcon setBackgroundImage:self.userIconImage forState:UIControlStateNormal];
         }
         return cell;
     }
     if (indexPath.section == 1) {
-        UITableViewCell* cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
         cell.textLabel.text = self.appInfoArray[indexPath.row];
-        cell.detailTextLabel.text = self.MessageDict[self.appInfoArray[indexPath.row]];
+        cell.detailTextLabel.text = self.settingDict[self.appInfoArray[indexPath.row ]];
         if (indexPath.row == 6) {
             cell.detailTextLabel.text = @"若发现界面显示异常，请校正";
             cell.textLabel.textColor = [UIColor blueColor];
@@ -141,7 +171,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             BOOL isUseGesturePassword = [LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd];
-            GestureTableViewCell * cell = [[GestureTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
+            GestureTableViewCell *cell = [[GestureTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
             cell.messageLabel.text = @"启用锁屏";
             cell.changStatusBtn.on = isUseGesturePassword;
             [cell.changeGestureBtn setTitle:@"修改锁屏密码" forState:UIControlStateNormal];
@@ -157,15 +187,28 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             [cell.changStatusBtn addTarget:self action:@selector(actionWehtherUseGesturePassword:) forControlEvents:UIControlEventValueChanged];
             return cell;
         }
+        if (indexPath.row == 1) {
+            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
+            cell.textLabel.text = @"修改登录密码";
+            cell.textLabel.textColor = [UIColor blueColor];
+            return cell;
+        }
         else {
             return nil;
         }
     }
     if (indexPath.section == 3) {
-        SwitchTableViewCell* cell = [[SwitchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
+        SwitchTableViewCell *cell = [[SwitchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
         cell.messageLabel.text = @"旧版UI";
         cell.changStatusBtn.on = [[self currentUIVersion] isEqualToString:@"v1"];
         [cell.changStatusBtn addTarget:self action:@selector(actionSwitchToNewUI:) forControlEvents:UIControlEventValueChanged];
+        return cell;
+    }
+    if (indexPath.section == 4) {
+        OneButtonTableViewCell *cell = [[OneButtonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"threesection"];
+        [cell.actionBtn addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
+        [cell.actionBtn setTitle:@"退出登录" forState:UIControlStateNormal];
+        [cell.actionBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         return cell;
     }
     else {
@@ -173,20 +216,19 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
 }
 
--(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     NSString *headString;
     switch (section) {
         case 0:
-            headString = self.headInfoArray[section];
             break;
         case 1:
-            headString = self.headInfoArray[section];
+            headString = self.headInfoArray[section -1];
             break;
         case 2:
-            headString = self.headInfoArray[section];
+            headString = self.headInfoArray[section - 1];
             break;
         case 3:
-            headString = self.headInfoArray[section];
+            headString = self.headInfoArray[section - 1];
             break;
         default:
             break;
@@ -194,23 +236,25 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     return headString;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        return 150;
+    }
     if (indexPath.section == 2) {
-        return 70;
+        if (indexPath.row == 0) {
+            return 70;
+        }
+        else {
+            return 44;
+        }
     }
     else {
         return 44;
-    
     }
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-
-    return 30;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ((indexPath.section == 0)&&(indexPath.row == 3)) {
+    if ((indexPath.section == 2)&&(indexPath.row == 1)) {
         [self ResetPassword];
     }
     if ((indexPath.section == 1) && (indexPath.row == 6)) {
@@ -220,19 +264,51 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
 }
 
-/*- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (section == 1) {
-        UserHeadView *userHead = [[UserHeadView alloc]init];
-        return userHead;
+#pragma mark - click userIcon to get a new image
+- (void)addUserIcon {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:0];
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = YES;
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"从相册选取" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        [self presentViewController:imagePickerController animated:YES completion:^{}];
+    }];
+    UIAlertAction *photoAction = [UIAlertAction actionWithTitle:@"拍照" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:imagePickerController animated:YES completion:^{}];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *action){}];
+    [self presentViewController:alertController animated:YES completion:nil];
+    [alertController addAction:okAction];
+    [alertController addAction:cancelAction];
+    [alertController addAction:photoAction];
+}
+
+#pragma mark - after get the picture which you want,the things you will do
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+    self.userIconImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    NSString *userPath = [FileUtils userspace];
+    NSString *userIconPath = [userPath stringByAppendingPathComponent:@"userIcon"];
+    NSData *imageData = UIImageJPEGRepresentation(self.userIconImage, 0.5);
+    [imageData writeToFile:userIconPath atomically:YES];
+    [self.settingTableView reloadData];
+}
+
+#pragma mark - get user Icon
+- (void)getUserIcon {
+    NSString *userIconString = [[FileUtils userspace] stringByAppendingPathComponent:@"userIcon"];
+    if (userIconString) {
+        self.userIconImage = [UIImage imageWithContentsOfFile:userIconString];
     }
     else {
-        return nil;
+        self.userIconImage = [UIImage imageNamed:@"xiaojv.jpg"];
     }
 }
-*/
 
 #pragma mark - action methods
-- (IBAction)actionBack:(id)sender {
+- (void)actionBack:(id)sender {
     [self dismissViewControllerAnimated:YES completion:^{}];
 }
 

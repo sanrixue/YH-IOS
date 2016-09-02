@@ -89,6 +89,8 @@
 		F608FEC61D77FABF0040C16F /* PgyUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */; };
 		F69A3CFD1D792580009E6BD8 /* UserHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFC1D792580009E6BD8 /* UserHeadView.m */; };
 		F69A3D001D794006009E6BD8 /* GestureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */; };
+		F69A3D021D795D61009E6BD8 /* xiaojv.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F69A3D011D795D61009E6BD8 /* xiaojv.jpg */; };
+		F69A3D071D796ED4009E6BD8 /* OneButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -248,6 +250,9 @@
 		F69A3CFC1D792580009E6BD8 /* UserHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeadView.m; sourceTree = "<group>"; };
 		F69A3CFE1D794006009E6BD8 /* GestureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureTableViewCell.h; sourceTree = "<group>"; };
 		F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureTableViewCell.m; sourceTree = "<group>"; };
+		F69A3D011D795D61009E6BD8 /* xiaojv.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = xiaojv.jpg; sourceTree = "<group>"; };
+		F69A3D051D796ED4009E6BD8 /* OneButtonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneButtonTableViewCell.h; sourceTree = "<group>"; };
+		F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneButtonTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -437,6 +442,8 @@
 				F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */,
 				F69A3CFE1D794006009E6BD8 /* GestureTableViewCell.h */,
 				F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */,
+				F69A3D051D796ED4009E6BD8 /* OneButtonTableViewCell.h */,
+				F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -573,6 +580,7 @@
 				C4DB7DAC1C02EC3D00DA534E /* AppDelegate */,
 				C4DB7D7F1C02EC0500DA534E /* Main.storyboard */,
 				C4DB7D821C02EC0500DA534E /* Assets.xcassets */,
+				F69A3D011D795D61009E6BD8 /* xiaojv.jpg */,
 				C4DB7D841C02EC0500DA534E /* LaunchScreen.storyboard */,
 				C4DB7D761C02EC0500DA534E /* Supporting Files */,
 			);
@@ -889,6 +897,7 @@
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
+				F69A3D021D795D61009E6BD8 /* xiaojv.jpg in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1008,6 +1017,7 @@
 				F608FEC31D77D7F00040C16F /* SwitchTableViewCell.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
+				F69A3D071D796ED4009E6BD8 /* OneButtonTableViewCell.m in Sources */,
 				C42ECED41D66EE8E00C5F762 /* DropTableViewCell.m in Sources */,
 				C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */,
 			);
@@ -1152,7 +1162,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1172,7 +1182,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "902c543b-8b76-42a8-b172-e4a981192439";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1183,7 +1193,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1203,7 +1213,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "902c543b-8b76-42a8-b172-e4a981192439";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

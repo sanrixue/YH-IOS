@@ -10,32 +10,41 @@
 
 @implementation UserHeadView
 
--(instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithReuseIdentifier:reuseIdentifier];
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+{
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self initWithSubview];
     }
     return self;
 }
 
-
 - (void)initWithSubview {
+    UIImageView *backImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, mWIDTH, 150)];
+    //backImage.backgroundColor = [UIColor grayColor];
+    backImage.image = [UIImage imageNamed:@"xiaojv.jpg"];
+    backImage.contentMode = UIViewContentModeScaleToFill;
+    backImage.alpha = 0.5;
+    backImage.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    backImage.userInteractionEnabled = YES;
+    [self.contentView addSubview:backImage];
+    self.userIcon = [[UIButton alloc] initWithFrame:CGRectMake(mWIDTH / 2 - 30, 20, 60, 60)];
+    self.userIcon.layer.cornerRadius = 30;
+    self.userIcon.backgroundColor = [UIColor whiteColor];
+    [self.userIcon.layer setMasksToBounds:YES];
+    [self addSubview:self.userIcon];
     
-    UIImageView  *backImage = [[UIImageView alloc]initWithFrame:self.frame];
-    backImage.backgroundColor = [UIColor redColor];
-    [self addSubview:backImage];
-    self.userIcon = [[UIButton alloc]initWithFrame:CGRectMake(self.frame.size.width / 2 - 40, 40, 80, 80)];
-    self.userIcon.layer.cornerRadius = 40;
-    [backImage addSubview:self.userIcon];
+    self.userName  = [[UILabel alloc] initWithFrame:CGRectMake(mWIDTH / 2 - 40,CGRectGetMaxY(self.userIcon.frame) + 10,80,20)];
+    self.userName.textColor = [UIColor whiteColor];
+    self.userName.adjustsFontSizeToFitWidth = YES;
+    [self addSubview:self.userName];
     
-    self.userName  = [[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width / 2 - 40,CGRectGetMaxY(self.userIcon.frame)+10,80,40)];
-    self.userName.backgroundColor = [UIColor clearColor];
-    [backImage addSubview:self.userName];
-    
-    self.userRole = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.userName.frame), self.frame.size.width, 30)];
+    self.userRole = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.userName.frame) + 5,mWIDTH - 20 , 20)];
     self.userRole.textAlignment = NSTextAlignmentCenter;
-    [backImage addSubview:self.userName];
-
+    self.userRole.textColor = [UIColor whiteColor];
+    self.userRole.font = [UIFont systemFontOfSize:12];
+    self.userRole.adjustsFontSizeToFitWidth = YES;
+    [self addSubview:self.userRole];
 }
 
 @end

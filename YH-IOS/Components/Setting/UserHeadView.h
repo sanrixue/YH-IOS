@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UserHeadView : UITableViewHeaderFooterView
+#define mSCREEN [[UIScreen mainScreen]bounds]
+#define mWIDTH  mSCREEN.size.width
 
+@interface UserHeadView : UITableViewCell
 @property (strong, nonatomic)UIButton *userIcon;
 @property (strong, nonatomic)UILabel *userName;
 @property (strong, nonatomic)UILabel *userRole;
-
 @end

@@ -639,10 +639,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         logParams[@"action"] = @"点击/主页面/设置";
     }
     
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        /*
-         * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
         @try {
             [APIHelper actionLog:logParams];
         }

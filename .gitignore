@@ -23,11 +23,9 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-*.xcuserstate
 project.xcworkspace
 xcuserdata
 UserInterfaceState.xcuserstate
-*.xcodeproj
 *.xcworkspace/
 xcuserdata/
 UserInterface.xcuserstate 

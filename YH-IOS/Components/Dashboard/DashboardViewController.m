@@ -74,7 +74,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self receivePushMessageParams];
     [self initTabClick];
     [self setNotificationBadgeTimer];
-    [self clickAdvertisement];
     
     /*
      * 解屏进入主页面，需检测版本更新
@@ -90,6 +89,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     [self checkPushMessageAction];
     [self checkAssetsUpdate];
 }
@@ -152,8 +152,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.advertWebView.scrollView.scrollEnabled = NO;
     [self.view addSubview:self.advertWebView];
     [self loadAdvertView];
+    [self clickAdvertisement];
     
     self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame) + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - 104 - mADVIEWHEIGHT);
+    
+    
 }
 
 #pragma mark - 隐藏广告视图
@@ -169,6 +172,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSString *advetisePath = [advertise stringByAppendingPathComponent:@"index_ios.html"];
     if ([FileUtils checkFileExist:advetisePath isDir:YES]) {
         NSString *advertiseContent = [NSString stringWithContentsOfFile:advetisePath encoding:NSUTF8StringEncoding error:nil];
+        NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000 + arc4random()];
+        advertiseContent = [advertiseContent stringByReplacingOccurrencesOfString:@"TIMESTAMP" withString:timestamp];
         [self.advertWebView loadHTMLString:advertiseContent baseURL:[NSURL URLWithString:advetisePath]];
     }
     else {
@@ -202,46 +207,83 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }];
     
     [self.adBridge registerHandler:@"adLink" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self openAdClickLink:data[@"openType"] WithLink:data[@"openLink"]];
+        if(![self checkAdParams:data containName:@"openType"]) {
+            return;
+        }
+        [self openAdClickLink:data[@"openType"] data:data];
     }];
 }
 
 
 #pragma mark - openAdclickLink 
-- (void) openAdClickLink:(NSString *)openType WithLink:(NSString *)urlLink {
+/**
+ *  javascript:
+ *  jbridge.callHandler('adLink', {'openType': openType, 'openLink': openLink, 'objectID': objectID, 'objectType': objectType, 'objectTitle': objectTitle},
+ *    function(response) {});
+ *
+ *  @param openType <#openType description#>
+ *  @param urlLink  <#urlLink description#>
+ */
+- (BOOL) checkAdParams:(NSDictionary *)data containName:(NSString *)paramName {
+    BOOL isContain = [data.allKeys containsObject:paramName];
+    if(!isContain) {
+        [ViewUtils showPopupView:self.view Info:[NSString stringWithFormat:@"错误: 未提供参数 `%@`", paramName]];
+    }
+
+    return isContain;
+}
+- (void) openAdClickLink:(NSString *)openType data:(NSDictionary *)data {
+    NSString *actionLogTitle = @"";
+    NSDictionary *tabIndexDict = @{@"tab_kpi": @0, @"tab_analyse": @1, @"tab_app": @2, @"tab_message": @3};
+    
+    if ([openType isEqualToString:@"browser"]) {
+        if(![self checkAdParams:data containName:@"openLink"]) {
+            return;
+        }
+        
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:data[@"openLink"]]];
+        actionLogTitle = data[@"openLink"];
+    }
+    else if ([tabIndexDict.allKeys containsObject:openType]) {
+        NSInteger tabIndex = [tabIndexDict[openType] integerValue];
+        
+        [self tabBarClick: tabIndex];
+        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
+    }
+    else if ([openType isEqualToString:@"report"]) {
+        if(![self checkAdParams:data containName:@"openLink"]) {
+            return;
+        }
+        if(![self checkAdParams:data containName:@"objectID"]) {
+            return;
+        }
+        if(![self checkAdParams:data containName:@"objectType"]) {
+            return;
+        }
+        if(![self checkAdParams:data containName:@"objectTitle"]) {
+            return;
+        }
+        
+        NSDictionary *params = @{@"bannerName": data[@"objectTitle"], @"link": data[@"openLink"], @"objectID": data[@"objectID"]};
+        self.commentObjectType = [data[@"objectType"] integerValue];
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:params];
+        actionLogTitle = data[@"objectTitle"];
+    }
+    else {
+        [ViewUtils showPopupView:self.view Info:[NSString stringWithFormat:@"错误: 未知openType: `%@`", openType]];
+    }
+    
     /*
      * 用户行为记录, 单独异常处理，不可影响用户体验
      */
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"点击广告";
-        logParams[@"obj_title"] = [NSString stringWithFormat:@"%@;%@", openType, urlLink];
+        logParams[@"action"] = [NSString stringWithFormat:@"点击广告#%@", openType];
+        logParams[@"obj_title"] = actionLogTitle;
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
         NSLog(@"%@", exception);
-    }
-    
-    if ([openType isEqualToString:@"browser"]) {
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlLink]];
-    }
-    else if ([openType isEqualToString:@"tab_kpi"]) {
-        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
-    }
-    else if ([openType isEqualToString:@"tab_analyse"]) {
-        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:1]];
-    }
-    else if ([openType isEqualToString:@"tab_app"]) {
-        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:2]];
-    }
-    else if ([openType isEqualToString:@"tab_message"]) {
-        [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:3]];
-    }
-    else if ([openType isEqualToString:@"report"]) {
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":@"/mobile/v2/group/%@/template/1/report/8"}];
-    }
-    else {
-        NSLog(@"暂时没有处理");
     }
 }
 
@@ -728,6 +770,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     switch (index) {
         case 0: {
             self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID];
+            
             [self addAdvertWebView];
             self.commentObjectType = ObjectTypeKpi;
             break;

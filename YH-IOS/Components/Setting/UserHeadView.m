@@ -10,8 +10,7 @@
 
 @implementation UserHeadView
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self initWithSubview];
@@ -22,9 +21,10 @@
 - (void)initWithSubview {
     UIImageView *backImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, mWIDTH, 150)];
     //backImage.backgroundColor = [UIColor grayColor];
-    backImage.image = [UIImage imageNamed:@"xiaojv.jpg"];
-    backImage.contentMode = UIViewContentModeScaleToFill;
-    backImage.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    backImage.image = [UIImage imageNamed:@"Setting-Background"];
+   // backImage.contentMode = UIViewContentModeScaleToFill;
+    backImage.alpha = 0.5;
+    backImage.backgroundColor = [UIColor colorWithRed:100 green:100 blue:100 alpha:0.5];
     backImage.userInteractionEnabled = YES;
     UIView *backView = [[UIView alloc]initWithFrame:CGRectMake( self.frame.origin.x,self.frame.origin.y,mWIDTH,150)];
     backView.backgroundColor = [UIColor clearColor];

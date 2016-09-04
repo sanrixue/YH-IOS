@@ -1,11 +1,12 @@
 //
-//  SettingViewController.h
+//  NewSettingViewController.h
 //  YH-IOS
 //
-//  Created by lijunjie on 15/12/10.
-//  Copyright © 2015年 com.intfocus. All rights reserved.
+//  Created by li hao on 16/8/30.
+//  Copyright © 2016年 com.intfocus. All rights reserved.
 //
 
+#import <UIKit/UIKit.h>
 #import "BaseViewController.h"
 
 @interface SettingViewController : BaseViewController

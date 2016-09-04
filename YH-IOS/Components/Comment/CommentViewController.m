@@ -19,7 +19,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.bannerView.backgroundColor = [UIColor colorWithHexString:YH_COLOR];
+    self.bannerView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     [self idColor];
     
     self.labelTheme.text = self.bannerName;

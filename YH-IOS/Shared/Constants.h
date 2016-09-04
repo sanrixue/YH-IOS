@@ -11,7 +11,7 @@
 #ifndef constant_h
 #define constant_h
 
-#define YH_COLOR                    @"#31809f" //53,A9,3F; 83, 169, 63
+#define kThemeColor                 @"#31809f" //53,A9,3F; 83, 169, 63
 
 #define API_USER_PATH               @"%@/api/v1/%@/%@/%@/authentication"
 #define API_DATA_PATH               @"%@/api/v1/group/%@/template/%@/report/%@/attachment"

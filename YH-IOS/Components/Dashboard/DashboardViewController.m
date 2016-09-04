@@ -61,7 +61,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIColor *color = [UIColor colorWithHexString:YH_COLOR];;
+    UIColor *color = [UIColor colorWithHexString:kThemeColor];;
     self.bannerView.backgroundColor = color;
     self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
     [[UITabBar appearance] setTintColor:color];

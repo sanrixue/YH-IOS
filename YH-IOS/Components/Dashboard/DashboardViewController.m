@@ -40,9 +40,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 @property (assign, nonatomic) CommentObjectType commentObjectType;
 @property (assign, nonatomic) NSInteger objectID;
 @property (strong, nonatomic) NSArray *tabBarItemNames;
+@property (weak, nonatomic) IBOutlet UIButton *setting;
 // 本地通知
 @property (nonatomic, strong) NSMutableArray *urlStrings;
 @property (strong, nonatomic) NSString *noticeFilePath;
+@property (strong , nonatomic) NSMutableDictionary *noticeDict;
+@property (nonatomic) BOOL isNeedUpgrade;
+@property (assign, nonatomic)BOOL isShowUserInfoNotice;
 // 设置按钮点击下拉菜单
 @property (nonatomic, strong) NSArray *dropMenuTitles;
 @property (nonatomic, strong) NSArray *dropMenuIcons;
@@ -86,6 +90,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
      */
     [self checkUserModifiedInitPassword];
+    [self showUserInfoRedIcon];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -569,7 +574,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     contentView=[[UIViewController alloc]init];
     //contentView.view.frame = CGRectMake(self.view.frame.size.width - 150, 40, 150, 200);
     contentView.modalPresentationStyle = UIModalPresentationPopover;
-    [contentView setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 2.5, 180 / 4 * self.dropMenuTitles.count)];
+    [contentView setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count)];
     self.dropMenu = [[UITableView alloc] initWithFrame:contentView.view.frame style:UITableViewStylePlain];
     self.dropMenu.dataSource = self;
     self.dropMenu.delegate = self;
@@ -813,12 +818,15 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
+    if (indexPath.row == 3 && self.isShowUserInfoNotice) {
+        [cell.textLabel showRedIcon];
+    }
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 180/4;
+    return 150/4;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -844,6 +852,33 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     return UIModalPresentationNone;
 }
 
+#pragma mark - show userInfoNotification
+- (BOOL ) showUserInfoRedIcon {
+    self.noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    NSString *virgiPassword = @"123456";
+    if ([userDict[@"user_md5"] isEqualToString:virgiPassword.md5]) {
+        self.noticeDict[@"password"] = @"1";
+        self.noticeDict[@"setting"] = @"1";
+        [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
+    }
+    if (self.isNeedUpgrade) {
+        self.noticeDict[@"needupgrade"] = @"1";
+        self.noticeDict[@"setting"] = @"1";
+    }
+    [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
+    if (self.isNeedUpgrade || [userDict[@"user_md5"] isEqualToString:virgiPassword.md5] ) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.setting showRedIcon];
+        });
+        return YES;
+    }
+    else {
+        return NO;
+    }
+}
+
 # pragma mark - assitant methods
 /**
   *  内容检测版本升级，判断版本号是否为偶数。以便内测
@@ -853,6 +888,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)appUpgradeMethod:(NSDictionary *)response {
     if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) {
         [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
+        self.isNeedUpgrade = false;
         return;
     }
     
@@ -869,6 +905,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     // 对比 build 值，只准正向安装提示
     if([response[@"versionCode"] integerValue] <= currentVersionCode) {
+        self.isNeedUpgrade = true;
         return;
     }
     

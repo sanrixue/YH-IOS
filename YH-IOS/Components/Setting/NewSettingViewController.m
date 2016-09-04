@@ -18,6 +18,7 @@
 #import "UILabel+Badge.h"
 #import "GestureTableViewCell.h"
 #import "OneButtonTableViewCell.h"
+#import "UIButton+Badge.h"
 #import <PgyUpdate/PgyUpdateManager.h>
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
@@ -33,6 +34,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (strong, nonatomic) NSArray *headInfoArray;
 @property (strong,nonatomic) UIImage *userIconImage;
 @property (strong, nonatomic)NSDictionary *settingDict;
+@property (assign, nonatomic)BOOL isNeedChangePwd;
+@property (assign, nonatomic)BOOL isNeedUpgrade;
 
 @end
 
@@ -157,10 +160,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         if (indexPath.row == 6) {
             cell.detailTextLabel.text = @"若发现界面显示异常，请校正";
             cell.textLabel.textColor = [UIColor blueColor];
+            [cell.textLabel showRedIcon];
         }
         else if(indexPath.row == 7) {
             PgyUpdateTableViewCell *cell = [[PgyUpdateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
             [cell.messageButton setTitle:self.appInfoArray[7] forState:UIControlStateNormal];
+            [cell.messageButton showRedIcon];
             [cell.messageButton addTarget:self action:@selector(actionCheckUpgrade) forControlEvents:UIControlEventTouchUpInside];
             [cell.openOutLink setTitle:self.pgyLinkString forState:UIControlStateNormal];
             [cell.openOutLink addTarget:self action:@selector(actionOpenLink) forControlEvents:UIControlEventTouchUpInside];
@@ -191,6 +196,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
             cell.textLabel.text = @"修改登录密码";
             cell.textLabel.textColor = [UIColor blueColor];
+            [cell.textLabel showRedIcon];
             return cell;
         }
         else {
@@ -251,6 +257,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     else {
         return 44;
     }
+}
+
+- (void)getNotice {
+    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

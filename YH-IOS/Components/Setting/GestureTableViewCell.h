@@ -15,4 +15,5 @@
 @property (nonatomic,strong) UILabel *messageLabel;
 @property (nonatomic,strong) UISwitch *changStatusBtn;
 @property (nonatomic,strong) UIButton *changeGestureBtn;
+@property (nonatomic,strong) UIButton *changePasswordBtn;
 @end

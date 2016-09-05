@@ -208,6 +208,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
              if (self.isNeedChangepwd) {
                 cell.detailLabel.text = @"请修改初始密码";
                 [cell.titleLabel showRedIcon];
+                 cell.detailLabel.text = @"请修改初始密码";
              }
              else {
                  [cell.titleLabel hideRedIcon];

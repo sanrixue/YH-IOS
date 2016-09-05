@@ -56,7 +56,8 @@
             NSString *message = [NSString stringWithFormat:@"%@", response.data[@"info"]];
             
             SCLAlertView *alert = [[SCLAlertView alloc] init];
-            if(response.statusCode && [response.statusCode isEqualToNumber:@(200)]) {
+            if(response.statusCode && [response.statusCode isEqualToNumber:@(201)]) {
+                [self changLocalPwd:newPassword];
                 [alert addButton:@"重新登录" actionBlock:^(void) {
                     [self jumpToLogin];
                 }];
@@ -79,6 +80,7 @@
  
             }
             else {
+               // [self changLocalPwd:newPassword];
                 [alert addButton:@"好的" actionBlock:^(void) {
                     [self dismissViewControllerAnimated:YES completion:^{
                         [self.browser cleanForDealloc];
@@ -106,6 +108,18 @@
     [super viewWillAppear:animated];
     
     [self loadHtml];
+}
+
+- (void)changLocalPwd:(NSString *)newPassword {
+    NSString  *noticeFilePath = [FileUtils dirPath:@"Cached" FileName:@"local_notifition.json"];
+    NSMutableDictionary *noticeDict = [FileUtils readConfigFile:noticeFilePath];
+    noticeDict[@"setting_password"] = @(-1);
+    noticeDict[@"setting"] = @(0);
+    [FileUtils writeJSON:noticeDict Into:noticeFilePath];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    userDict[@"user_md5"] = newPassword.md5;
+    [FileUtils writeJSON:userDict Into:userConfigPath];
 }
 
 - (void)dealloc {

@@ -1,23 +1,23 @@
 //
-//  UIButton+Badge.m
+//  UIButton+SettingBadge.m
 //  YH-IOS
 //
-//  Created by li hao on 16/8/3.
+//  Created by li hao on 16/9/4.
 //  Copyright © 2016年 com.intfocus. All rights reserved.
 //
 
-#import "UIButton+Badge.h"
+#import "UIButton+SettingBadge.h"
 
-@implementation UIButton (Badge)
+@implementation UIButton (SettingBadge)
 
 - (void)showRedIcon {
     UIView *icon = [[UIView alloc] init];
     icon.backgroundColor = [UIColor redColor];
-    int x = 0 - 6;
-    int y = 6;
-    icon.layer.cornerRadius = 3;
+    int x = 45;
+    int y = 20;
+    icon.layer.cornerRadius = 3.5;
     icon.tag = 888;
-    icon.frame = CGRectMake(x, y, 6, 6);
+    icon.frame = CGRectMake(x, y, 7, 7);
     [self addSubview:icon];
 }
 

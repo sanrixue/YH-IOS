@@ -161,12 +161,14 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         if (indexPath.row == 6) {
             cell.detailTextLabel.text = @"若发现界面显示异常，请校正";
             cell.textLabel.textColor = [UIColor colorWithHexString:kThemeColor];
+            return cell;
         }
         else if(indexPath.row == 7) {
             PgyUpdateTableViewCell *cell = [[PgyUpdateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
             [cell.messageButton setTitle:textTitle forState:UIControlStateNormal];
             [cell.messageButton addTarget:self action:@selector(actionCheckUpgrade) forControlEvents:UIControlEventTouchUpInside];
             [cell.openOutLink setTitle:self.pgyLinkString forState:UIControlStateNormal];
+            [cell.openOutLink setTitleColor:[UIColor colorWithHexString:kThemeColor] forState:UIControlStateNormal];
             [cell.openOutLink addTarget:self action:@selector(actionOpenLink) forControlEvents:UIControlEventTouchUpInside];
             if ([self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)]) {
                 [cell.messageButton showRedIcon];
@@ -174,6 +176,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             else {
                 [cell.messageButton hideRedIcon];
             }
+            return cell;
         }
         return cell;
     }
@@ -272,8 +275,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
     if ((indexPath.section == 1) && (indexPath.row == 6)) {
         [self actionCheckAssets];
-        UITableViewCell *cell =  [tableView cellForRowAtIndexPath:indexPath];
-        cell.detailTextLabel.text = self.isSuccess ? @"开启":@"关闭";
     }
 }
 

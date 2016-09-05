@@ -13,8 +13,8 @@
 - (void)showRedIcon {
     UIView  *icon = [[UIView alloc]init];
     icon.backgroundColor = [UIColor redColor];
-    int x = self.frame.origin.x - 6;
-    int y = 6;
+    int x = - 6;
+    int y = 8;
     icon.tag = 888;
     icon.layer.cornerRadius = 3;
     icon.frame = CGRectMake(x, y, 6, 6);

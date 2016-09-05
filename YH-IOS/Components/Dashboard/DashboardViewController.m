@@ -982,7 +982,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 //    
 //    dispatch_resume(timer);
     
-    [NSTimer scheduledTimerWithTimeInterval:60 * 15  target:self selector:@selector(extractDataCountFromUrlStrings) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:60 * 15 target:self selector:@selector(extractDataCountFromUrlStrings) userInfo:nil repeats:YES];
 }
 
 - (void)extractDataCountFromUrlStrings {

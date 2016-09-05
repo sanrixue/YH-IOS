@@ -19,6 +19,7 @@
 #import "UIButton+Badge.h"
 #import "GestureTableViewCell.h"
 #import "OneButtonTableViewCell.h"
+#import "SettingDefaultTableViewCell.h"
 #import <PgyUpdate/PgyUpdateManager.h>
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
@@ -152,15 +153,15 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
     
     if (indexPath.section == 1) {
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
+        SettingDefaultTableViewCell *cell = [[SettingDefaultTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
         
         NSString *textTitle = self.appInfoArray[indexPath.row];
-        cell.textLabel.text = textTitle;
-        cell.detailTextLabel.text = self.settingDict[textTitle];
+        cell.titleLabel.text = textTitle;
+        cell.detailLabel.text = self.settingDict[textTitle];
         
         if (indexPath.row == 6) {
-            cell.detailTextLabel.text = @"若发现界面显示异常，请校正";
-            cell.textLabel.textColor = [UIColor colorWithHexString:kThemeColor];
+            cell.detailLabel.text = @"若发现界面显示异常，请校正";
+            cell.titleLabel.textColor = [UIColor colorWithHexString:kThemeColor];
             return cell;
         }
         else if(indexPath.row == 7) {
@@ -201,14 +202,14 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             return cell;
         }
         if (indexPath.row == 1) {
-            UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
-            cell.textLabel.text = @"修改登录密码";
-            cell.textLabel.textColor = [UIColor colorWithHexString:kThemeColor];
+            SettingDefaultTableViewCell *cell = [[SettingDefaultTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
+            cell.titleLabel.text = @"修改登录密码";
+            cell.titleLabel.textColor = [UIColor colorWithHexString:kThemeColor];
              if (self.isNeedChangepwd) {
-                [cell.textLabel showRedIcon];
+                [cell.titleLabel showRedIcon];
              }
              else {
-                 [cell.textLabel hideRedIcon];
+                 [cell.titleLabel hideRedIcon];
              }
             return cell;
         }

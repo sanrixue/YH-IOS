@@ -21,14 +21,14 @@
 #pragma mark 初始化视图
 - (void)initWithSubview {
     self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 5, 120 , self.frame.size.height / 2)];
-    [self.contentView addSubview:self.messageLabel];
+    [self addSubview:self.messageLabel];
     self.changStatusBtn = [[UISwitch alloc] initWithFrame:CGRectMake(mWIDTH - 70, 5, 50, self.frame.size.height / 2)];
-    [self.contentView addSubview:self.changStatusBtn];
+    [self addSubview:self.changStatusBtn];
     
     self.changeGestureBtn = [[UIButton alloc] initWithFrame:CGRectMake(18, self.frame.size.height / 2 + 20, 100, self.frame.size.height / 2 - 10)];
     self.changeGestureBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     self.changeGestureBtn.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self.contentView addSubview:self.changeGestureBtn];
+    [self addSubview:self.changeGestureBtn];
 }
 
 @end

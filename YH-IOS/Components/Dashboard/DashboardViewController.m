@@ -934,7 +934,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)appUpgradeMethod:(NSDictionary *)response {
     if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) {
         [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
-        self.isNeedUpgrade = false;
+        self.isNeedUpgrade = NO;
         return;
     }
     

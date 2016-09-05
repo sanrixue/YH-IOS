@@ -47,7 +47,7 @@
     self.dataList = [self.dataList sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
     
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
-    topView.backgroundColor=[UIColor colorWithHexString:kThemeColor];
+    topView.backgroundColor=[UIColor colorWithHexString:kBannerBgColor];
     [self.view addSubview:topView];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 70, 40)];

@@ -38,7 +38,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      *  被始化页面样式
      */
     [self idColor];
-    self.bannerView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     
     /**
      *  服务器内链接需要做缓存、点击事件处理；

@@ -41,7 +41,7 @@
 
 #pragma  mark - assistant methods
 - (void)idColor {
-    NSArray *colors = @[@"ffffff", @"ffcd0a", @"fd9053", @"dd0929", @"016a43", @"9d203c", @"093db5", @"6a3906", @"192162", @"000000"];
+    NSArray *colors = @[@"00ffff", @"ffcd0a", @"fd9053", @"dd0929", @"016a43", @"9d203c", @"093db5", @"6a3906", @"192162", @"000000"];
     NSArray *colorViews = @[self.idColor0, self.idColor1, self.idColor2, self.idColor3, self.idColor4];
     NSString *userID = [NSString stringWithFormat:@"%@", self.user.userID];
     
@@ -225,8 +225,8 @@
     if(op) { [queue addOperation:op]; }
     op = [self checkAssetUpdate:@"BarCodeScan" info: @"扫码样式库" isInAssets: YES];
     if(op) { [queue addOperation:op]; }
-    op = [self checkAssetUpdate:@"advertisement" info: @"广告样式库" isInAssets: NO];
-    if(op) { [queue addOperation:op]; }
+    // op = [self checkAssetUpdate:@"advertisement" info: @"广告样式库" isInAssets: NO];
+    // if(op) { [queue addOperation:op]; }
 }
 
 - (AFHTTPRequestOperation *)checkAssetUpdate:(NSString *)assetName info:(NSString *)info isInAssets:(BOOL)isInAssets {

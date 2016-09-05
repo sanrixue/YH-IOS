@@ -12,6 +12,7 @@
 #define constant_h
 
 #define kThemeColor                 @"#31809f" //53,A9,3F; 83, 169, 63
+#define kBannerBgColor              @"#ffffff"
 
 #define API_USER_PATH               @"%@/api/v1/%@/%@/%@/authentication"
 #define API_DATA_PATH               @"%@/api/v1/group/%@/template/%@/report/%@/attachment"

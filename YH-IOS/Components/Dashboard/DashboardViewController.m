@@ -57,10 +57,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    UIColor *color = [UIColor colorWithHexString:kThemeColor];;
-    self.bannerView.backgroundColor = color;
+    self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
-    [[UITabBar appearance] setTintColor:color];
+    [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
+    self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), self.view.frame.size.width, self.view.frame.size.height - 104);
     [self idColor];
     
     [self initUrlStrings];
@@ -154,9 +154,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self loadAdvertView];
     [self clickAdvertisement];
     
-    self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame) + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - 104 - mADVIEWHEIGHT);
-    
-    
+    self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame) + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - 104);
 }
 
 #pragma mark - 隐藏广告视图
@@ -765,37 +763,32 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (void)tabBarClick:(NSInteger)index {
-    NSString *uiVersion = [self currentUIVersion];
+    // index == 0 ? [self addAdvertWebView] : [self hideAdertWebView];
     
+    NSString *uiVersion = [self currentUIVersion];
     switch (index) {
         case 0: {
             self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID];
-            
-            [self addAdvertWebView];
             self.commentObjectType = ObjectTypeKpi;
             break;
         }
         case 1: {
             self.urlString = [NSString stringWithFormat:ANALYSE_PATH, kBaseUrl, uiVersion, self.user.roleID];
-            [self hideAdertWebView];
             self.commentObjectType = ObjectTypeAnalyse;
             break;
         }
         case 2: {
             self.urlString = [NSString stringWithFormat:APPLICATION_PATH, kBaseUrl, uiVersion, self.user.roleID];
-            [self hideAdertWebView];
             self.commentObjectType = ObjectTypeApp;
             break;
         }
         case 3: {
             self.urlString = [NSString stringWithFormat:MESSAGE_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID, self.user.userID];
-            [self hideAdertWebView];
             self.commentObjectType = ObjectTypeMessage;
             break;
         }
         default: {
             self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID];
-            [self hideAdertWebView];
             self.commentObjectType = ObjectTypeReport;
             break;
         }
@@ -895,7 +888,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
   */
 - (void)appUpgradeMethod:(NSDictionary *)response {
     if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) {
-        [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
+        // [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
         return;
     }
     

@@ -58,7 +58,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self initLabelInfoDict];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 70, 40)];
-    UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
+    UIImage *imageback = [UIImage imageNamed:@"Banner-Back-White"];
     UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 15, 25)];
     bakImage.image = imageback;
     [bakImage setContentMode:UIViewContentModeScaleAspectFit];

@@ -90,7 +90,7 @@ if slop_opts[:assets]
   `rm -fr YH-IOS/Assets.xcassets/AppIcon.imageset && cp -rf config/Assets.xcassets/#{current_app}/AppIcon.imageset YH-IOS/Assets.xcassets/`
   `rm -fr YH-IOS/Assets.xcassets/Banner-Logo.imageset && cp -rf config/Assets.xcassets/#{current_app}/Banner-Logo.imageset YH-IOS/Assets.xcassets/`
   `rm -fr YH-IOS/Assets.xcassets/Banner-Setting.imageset && cp -rf config/Assets.xcassets/#{current_app}/Banner-Setting.imageset YH-IOS/Assets.xcassets/`
-  `rm -fr YH-IOS/Assets.xcassets/Background.imageset && cp -rf config/Assets.xcassets/#{current_app}/Background.imageset YH-IOS/Assets.xcassets/`
+  `rm -fr YH-IOS/Assets.xcassets/background.imageset && cp -rf config/Assets.xcassets/#{current_app}/background.imageset YH-IOS/Assets.xcassets/`
   `rm -fr YH-IOS/Assets.xcassets/Login-Logo.imageset && cp -rf config/Assets.xcassets/#{current_app}/Login-Logo.imageset YH-IOS/Assets.xcassets/`
   `rm -f YH-IOS/Shared/loading.zip && cp -f config/Assets/loading-#{current_app}.zip YH-IOS/Shared/loading.zip`
 end

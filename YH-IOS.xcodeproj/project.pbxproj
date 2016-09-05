@@ -88,6 +88,7 @@
 		F69A3CFD1D792580009E6BD8 /* UserHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFC1D792580009E6BD8 /* UserHeadView.m */; };
 		F69A3D001D794006009E6BD8 /* GestureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */; };
 		F69A3D071D796ED4009E6BD8 /* OneButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */; };
+		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +247,8 @@
 		F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureTableViewCell.m; sourceTree = "<group>"; };
 		F69A3D051D796ED4009E6BD8 /* OneButtonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneButtonTableViewCell.h; sourceTree = "<group>"; };
 		F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneButtonTableViewCell.m; sourceTree = "<group>"; };
+		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
+		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -310,6 +313,8 @@
 				C40343391D6ADEAB00625D53 /* UILabel+Badge.m */,
 				C403433A1D6ADEAB00625D53 /* UITabBar+Badge.h */,
 				C403433B1D6ADEAB00625D53 /* UITabBar+Badge.m */,
+				F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */,
+				F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */,
 			);
 			path = ViewBadge;
 			sourceTree = "<group>";
@@ -981,6 +986,7 @@
 				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
 				C40D06B21C917BF80029D142 /* TFHpple.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
+				F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */,
 				C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */,
 				F69A3CFD1D792580009E6BD8 /* UserHeadView.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,

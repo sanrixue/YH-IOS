@@ -168,7 +168,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             [cell.messageButton setTitle:textTitle forState:UIControlStateNormal];
             [cell.messageButton addTarget:self action:@selector(actionCheckUpgrade) forControlEvents:UIControlEventTouchUpInside];
             [cell.openOutLink setTitle:self.pgyLinkString forState:UIControlStateNormal];
-            [cell.openOutLink setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+            [cell.openOutLink setTitleColor:[UIColor colorWithHexString:kThemeColor] forState:UIControlStateNormal];
             [cell.openOutLink addTarget:self action:@selector(actionOpenLink) forControlEvents:UIControlEventTouchUpInside];
             if ([self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)]) {
                 [cell.messageButton showRedIcon];

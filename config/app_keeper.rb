@@ -159,7 +159,12 @@ if slop_opts[:pgyer]
 
   puts %(- done: generate apk(#{File.size(ipa_path).to_s(:human_size)}) - #{ipa_path})
   response = `curl --silent -F "file=@#{ipa_path}" -F "uKey=#{Settings.pgyer.user_key}" -F "_api_key=#{Settings.pgyer.api_key}" http://www.pgyer.com/apiv1/app/upload`
-
-  hash = JSON.parse(response).deep_symbolize_keys[:data]
-  puts %(- done: upload ipa(#{hash[:appFileSize].to_i.to_s(:human_size)}) to #pgyer#\n\t#{hash[:appName]}\n\t#{hash[:appIdentifier]}\n\t#{hash[:appVersion]}(#{hash[:appVersionNo]})\n\t#{hash[:appQRCodeURL]})
+  begin
+    hash = JSON.parse(response).deep_symbolize_keys[:data]
+    puts %(- done: upload ipa(#{hash[:appFileSize].to_i.to_s(:human_size)}) to #pgyer#\n\t#{hash[:appName]}\n\t#{hash[:appIdentifier]}\n\t#{hash[:appVersion]}(#{hash[:appVersionNo]})\n\t#{hash[:appQRCodeURL]})
+  rescue => e
+    puts %(- error: cannot parse pgyer response)
+    puts response.inspect
+    puts e.message
+  end
 end

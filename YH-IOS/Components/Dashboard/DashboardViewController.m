@@ -877,6 +877,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         });
         return YES;
     }
+    else {
+        return NO;
+    }
 }
 
 # pragma mark - assitant methods

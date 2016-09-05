@@ -207,6 +207,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             cell.titleLabel.textColor = [UIColor colorWithHexString:kThemeColor];
              if (self.isNeedChangepwd) {
                 [cell.titleLabel showRedIcon];
+                 cell.detailLabel.text = @"请修改初始密码";
              }
              else {
                  [cell.titleLabel hideRedIcon];

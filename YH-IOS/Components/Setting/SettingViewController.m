@@ -16,6 +16,7 @@
 #import "ResetPasswordViewController.h"
 #import "UserHeadView.h"
 #import "UILabel+Badge.h"
+#import "UIButton+Badge.h"
 #import "GestureTableViewCell.h"
 #import "OneButtonTableViewCell.h"
 #import <PgyUpdate/PgyUpdateManager.h>
@@ -33,7 +34,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (strong, nonatomic) NSArray *headInfoArray;
 @property (strong, nonatomic) UIImage *userIconImage;
 @property (strong, nonatomic) NSDictionary *settingDict;
+@property (assign, nonatomic) BOOL isNeedChangepwd;
+@property (assign, nonatomic) BOOL isNeedUpgrade;
 @property (strong, nonatomic) Version *version;
+@property (strong, nonatomic) NSMutableDictionary *noticeDict;
 
 @end
 
@@ -43,6 +47,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [super viewDidLoad];
     
     [self getUserIcon];
+    [self showNoticeRedIcon];
     self.version = [[Version alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
     self.view.backgroundColor = [UIColor clearColor];
@@ -85,19 +90,31 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         self.appInfoArray[4]: self.version.bundleID,
         self.appInfoArray[5]: pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭"
     };
-
-    
     [self initLabelMessageDict];
 }
 
--(BOOL)prefersStatusBarHidden {
+- (BOOL)prefersStatusBarHidden {
     return YES;
 }
 
 #pragma mark - init need-show message info
--(void)initLabelMessageDict {
+- (void)initLabelMessageDict {
     [self checkPgyerVersionLabel:self.version];
     self.isChangeLochPassword = NO;
+}
+
+
+- (void)showNoticeRedIcon {
+    self.isNeedChangepwd = NO;
+    self.isNeedUpgrade = NO;
+    NSString  *noticeFilePath = [FileUtils dirPath:@"Cached" FileName:@"local_notifition.json"];
+    NSMutableDictionary *noticeDict = [FileUtils readConfigFile:noticeFilePath];
+    if ([noticeDict[@"setting_password"] isEqualToNumber:@(1)]) {
+        self.isNeedChangepwd = YES;
+    }
+    if ([noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)]) {
+        self.isNeedUpgrade = YES;
+    }
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -151,7 +168,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             [cell.messageButton addTarget:self action:@selector(actionCheckUpgrade) forControlEvents:UIControlEventTouchUpInside];
             [cell.openOutLink setTitle:self.pgyLinkString forState:UIControlStateNormal];
             [cell.openOutLink addTarget:self action:@selector(actionOpenLink) forControlEvents:UIControlEventTouchUpInside];
-            return cell;
+            if ([self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)]) {
+                [cell.messageButton showRedIcon];
+            }
+            else {
+                [cell.messageButton hideRedIcon];
+            }
         }
         return cell;
     }
@@ -179,10 +201,13 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
             cell.textLabel.text = @"修改登录密码";
             cell.textLabel.textColor = [UIColor colorWithHexString:kThemeColor];
+             if (self.isNeedChangepwd) {
+                [cell.textLabel showRedIcon];
+             }
+             else {
+                 [cell.textLabel hideRedIcon];
+             }
             return cell;
-        }
-        else {
-            return nil;
         }
     }
     if (indexPath.section == 3) {

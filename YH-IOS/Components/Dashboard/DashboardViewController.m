@@ -20,7 +20,7 @@
 #import "DropTableViewCell.h"
 #import "SubLBXScanViewController.h"
 #import "UITabBar+Badge.h"
-#import "UIButton+Badge.h"
+#import "UIButton+SettingBadge.h"
 #import "UILabel+Badge.h"
 #import "NSString+MD5.h"
 #import "WebViewJavascriptBridge.h"
@@ -90,13 +90,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
      */
     [self checkUserModifiedInitPassword];
-    [self showUserInfoRedIcon];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self checkPushMessageAction];
     [self checkAssetsUpdate];
+    [self showUserInfoRedIcon];
 }
 
 /**
@@ -818,15 +818,18 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
-    if (indexPath.row == 3 && self.isShowUserInfoNotice) {
-        [cell.textLabel showRedIcon];
+    if (indexPath.row == 3 ) {
+        if ([self.noticeDict[@"setting"] isEqualToNumber:@(2)]) {
+            [cell.tittleLabel showRedIcon];
+            return cell;
+        }
     }
     
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 150/4;
+    return 150 / 4;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
@@ -853,29 +856,26 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 #pragma mark - show userInfoNotification
-- (BOOL ) showUserInfoRedIcon {
+- (BOOL) showUserInfoRedIcon {
     self.noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     NSString *virgiPassword = @"123456";
     if ([userDict[@"user_md5"] isEqualToString:virgiPassword.md5]) {
-        self.noticeDict[@"password"] = @"1";
-        self.noticeDict[@"setting"] = @"1";
+        self.noticeDict[@"setting_password"] = @(1);
         [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
     }
+    self.isNeedUpgrade = NO;
     if (self.isNeedUpgrade) {
-        self.noticeDict[@"needupgrade"] = @"1";
-        self.noticeDict[@"setting"] = @"1";
+        self.noticeDict[@"setting_pgyer"] = @(1);
     }
     [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
-    if (self.isNeedUpgrade || [userDict[@"user_md5"] isEqualToString:virgiPassword.md5] ) {
+    if (self.isNeedUpgrade || [userDict[@"user_md5"] isEqualToString:virgiPassword.md5]) {
+        self.noticeDict[@"setting"] = @(2);
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.setting showRedIcon];
         });
         return YES;
-    }
-    else {
-        return NO;
     }
 }
 
@@ -905,12 +905,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     // 对比 build 值，只准正向安装提示
     if([response[@"versionCode"] integerValue] <= currentVersionCode) {
-        self.isNeedUpgrade = true;
         return;
     }
     
     Version *version = [[Version alloc] init];
     BOOL isPgyerLatest = [version.current isEqualToString:response[@"versionName"]] && [version.build isEqualToString:response[@"versionCode"]];
+    if (isPgyerLatest && [response[@"versionCode"] integerValue] > currentVersionCode) {
+        self.isNeedUpgrade = YES;
+    }
     if(!isPgyerLatest && [response[@"versionCode"] integerValue] % 2 == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         

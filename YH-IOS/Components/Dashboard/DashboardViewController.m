@@ -769,7 +769,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)tabBarClick:(NSInteger)index {
     // index == 0 ? [self addAdvertWebView] : [self hideAdertWebView];
-    
+    [self.tabBar displayBadgeOnItemIndex:index orNot:YES];
     NSString *uiVersion = [self currentUIVersion];
     switch (index) {
         case 0: {
@@ -996,10 +996,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
                 [HttpUtils urlConvertToLocal:urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
                 [self extractDataCountFromHtmlContent:httpResponse.string Index:index];
+                 [self setLocalNotifications];
             }
         }
-        
-        [self setLocalNotifications];
     });
 }
 

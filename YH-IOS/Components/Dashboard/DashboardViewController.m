@@ -912,6 +912,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     if (self.isNeedUpgrade) {
         self.noticeDict[@"setting_pgyer"] = @(1);
     }
+    else {
+        self.noticeDict[@"setting_pgyer"] = @(-1);
+    }
     [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
     if (self.isNeedUpgrade || [userDict[@"user_md5"] isEqualToString:virgiPassword.md5]) {
         self.noticeDict[@"setting"] = @(2);

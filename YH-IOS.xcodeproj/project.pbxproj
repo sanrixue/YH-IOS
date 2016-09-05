@@ -89,6 +89,7 @@
 		F69A3D001D794006009E6BD8 /* GestureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */; };
 		F69A3D071D796ED4009E6BD8 /* OneButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */; };
 		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
+		F6F5CBCA1D7D48AE00A1E779 /* SettingDefaultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC91D7D48AE00A1E779 /* SettingDefaultTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -249,6 +250,8 @@
 		F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneButtonTableViewCell.m; sourceTree = "<group>"; };
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
+		F6F5CBC81D7D48AE00A1E779 /* SettingDefaultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingDefaultTableViewCell.h; sourceTree = "<group>"; };
+		F6F5CBC91D7D48AE00A1E779 /* SettingDefaultTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingDefaultTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -432,6 +435,8 @@
 				C49E1AB21C19632000CFFE3C /* SettingViewController.m */,
 				F69A3CFB1D792580009E6BD8 /* UserHeadView.h */,
 				F69A3CFC1D792580009E6BD8 /* UserHeadView.m */,
+				F6F5CBC81D7D48AE00A1E779 /* SettingDefaultTableViewCell.h */,
+				F6F5CBC91D7D48AE00A1E779 /* SettingDefaultTableViewCell.m */,
 				F608FEC41D77FABF0040C16F /* PgyUpdateTableViewCell.h */,
 				F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */,
 				F608FEC11D77D7F00040C16F /* SwitchTableViewCell.h */,
@@ -983,6 +988,7 @@
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */,
 				F69A3D001D794006009E6BD8 /* GestureTableViewCell.m in Sources */,
+				F6F5CBCA1D7D48AE00A1E779 /* SettingDefaultTableViewCell.m in Sources */,
 				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
 				C40D06B21C917BF80029D142 /* TFHpple.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,

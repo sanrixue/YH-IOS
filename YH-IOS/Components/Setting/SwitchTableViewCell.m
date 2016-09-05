@@ -23,7 +23,7 @@
     self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 10,120 , self.frame.size.height - 20)];
     [self.contentView addSubview:self.messageLabel];
     self.changStatusBtn = [[UISwitch alloc] initWithFrame:CGRectMake(mWIDTH - 70, 10, 50, self.frame.size.height - 10)];
-    [self.contentView addSubview:self.changStatusBtn];
+    [self addSubview:self.changStatusBtn];
 }
 
 @end

@@ -19,10 +19,10 @@
 }
 
 - (void)initWithView {
-    self.actionBtn = [[UIButton alloc]initWithFrame:CGRectMake(14, 5, [[UIScreen mainScreen]bounds].size.width-28, 34)];
+    self.actionBtn = [[UIButton alloc]initWithFrame:CGRectMake(18, 5, [[UIScreen mainScreen]bounds].size.width-28, 34)];
     self.actionBtn.backgroundColor = [UIColor redColor];
     self.actionBtn.layer.cornerRadius = 6.0f;
-    [self.contentView addSubview:self.actionBtn];
+    [self addSubview:self.actionBtn];
 }
 
 @end

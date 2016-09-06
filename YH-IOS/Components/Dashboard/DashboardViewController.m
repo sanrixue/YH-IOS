@@ -6,6 +6,7 @@
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
 #define mADVIEWHEIGHT self.view.frame.size.height / 4.5
+#define tabHeight  [[UIScreen mainScreen] bounds].size.height < 668 ? 49 :56
 
 #import "DashboardViewController.h"
 #import "SubjectViewController.h"
@@ -97,7 +98,19 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self checkPushMessageAction];
     [self checkAssetsUpdate];
     [self showUserInfoRedIcon];
+    [self setTabBarHeight];
 }
+
+
+- (void)setTabBarHeight {
+    for (NSLayoutConstraint *constraint in self.tabBar.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+            constraint.constant = tabHeight;
+            break;
+        }
+    }
+}
+
 
 /**
  *  消息推送点击后操作

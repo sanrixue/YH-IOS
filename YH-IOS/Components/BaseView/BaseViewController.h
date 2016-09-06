@@ -23,6 +23,7 @@
 
 @interface BaseViewController : UIViewController<UIWebViewDelegate>
 
+
 @property WebViewJavascriptBridge* bridge;
 @property (weak, nonatomic) IBOutlet UIView *bannerView;
 @property (weak, nonatomic) IBOutlet UIWebView *browser;

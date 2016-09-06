@@ -6,6 +6,7 @@
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
 
+
 #import "BaseViewController.h"
 #import "LoginViewController.h"
 #import <PgyUpdate/PgyUpdateManager.h>
@@ -31,12 +32,28 @@
     }
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [LTHPasscodeViewController sharedUser].delegate = self;
     [LTHPasscodeViewController useKeychain:NO];
     [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
+    [self setHeight];
+    
+}
+
+- (void)setHeight {
+    for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+            constraint.constant = [self getHeight];
+        break;
+        }
+    }
+}
+
+-(int)getHeight {
+    int bannerHeight =[[UIScreen mainScreen] bounds].size.height < 668 ? 64 : 74;
+    return bannerHeight;
 }
 
 #pragma  mark - assistant methods

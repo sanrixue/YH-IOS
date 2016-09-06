@@ -96,6 +96,16 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self checkPushMessageAction];
     [self checkAssetsUpdate];
     [self showUserInfoRedIcon];
+    [self setTabBarHeight];
+}
+
+- (void)setTabBarHeight {
+    for (NSLayoutConstraint *constraint in self.tabBar.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeHeight) {
+            constraint.constant = kTabBarHeight;
+            break;
+        }
+    }
 }
 
 /**

@@ -22,6 +22,9 @@
 #define IS_SCREEN_4_INCH	([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
 #define IS_SCREEN_3_5_INCH	([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 960), [[UIScreen mainScreen] currentMode].size) : NO)
 
+#define kBannerHeight (IS_SCREEN_5_5_INCH ? 74 : 64)
+#define kTabBarHeight (IS_SCREEN_5_5_INCH ? 56 : 49)
+
 #define kScreenHeight ([[UIScreen mainScreen] bounds].size.height)
 #define kScreenWidth ([[UIScreen mainScreen] bounds].size.width)
 // 相对宽度为320屏幕的屏幕倍率

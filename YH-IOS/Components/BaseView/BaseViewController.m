@@ -32,14 +32,12 @@
     }
 }
 
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [LTHPasscodeViewController sharedUser].delegate = self;
     [LTHPasscodeViewController useKeychain:NO];
     [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
     [self setHeight];
-    
 }
 
 - (void)setHeight {
@@ -53,6 +51,7 @@
 
 -(int)getHeight {
     int bannerHeight =[[UIScreen mainScreen] bounds].size.height < 668 ? 64 : 74;
+    
     return bannerHeight;
 }
 

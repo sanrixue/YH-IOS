@@ -64,7 +64,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
-    self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), self.view.frame.size.width, self.view.frame.size.height - 104);
     [self idColor];
     
     [self initUrlStrings];
@@ -768,7 +767,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (void)tabBarClick:(NSInteger)index {
-    // index == 0 ? [self addAdvertWebView] : [self hideAdertWebView];
+    /**
+     *  仅仪表盘显示广告位
+     */
+    index == 0 ? [self addAdvertWebView] : [self hideAdertWebView];
+    
     [self.tabBar displayBadgeOnItemIndex:index orNot:YES];
     NSString *uiVersion = [self currentUIVersion];
     switch (index) {

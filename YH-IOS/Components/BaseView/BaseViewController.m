@@ -224,8 +224,8 @@
     if(op) { [queue addOperation:op]; }
     op = [self checkAssetUpdate:@"BarCodeScan" info: @"扫码样式库" isInAssets: YES];
     if(op) { [queue addOperation:op]; }
-    // op = [self checkAssetUpdate:@"advertisement" info: @"广告样式库" isInAssets: NO];
-    // if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:@"advertisement" info: @"广告样式库" isInAssets: NO];
+    if(op) { [queue addOperation:op]; }
 }
 
 - (AFHTTPRequestOperation *)checkAssetUpdate:(NSString *)assetName info:(NSString *)info isInAssets:(BOOL)isInAssets {

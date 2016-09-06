@@ -43,16 +43,11 @@
 - (void)setHeight {
     for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {
-            constraint.constant = [self getHeight];
+            constraint.constant = kBannerHeight;
+            NSLog(@"宽度是%d",kBannerHeight);
         break;
         }
     }
-}
-
--(int)getHeight {
-    int bannerHeight =[[UIScreen mainScreen] bounds].size.height < 668 ? 64 : 74;
-    
-    return bannerHeight;
 }
 
 #pragma  mark - assistant methods
@@ -240,8 +235,8 @@
     if(op) { [queue addOperation:op]; }
     op = [self checkAssetUpdate:@"BarCodeScan" info: @"扫码样式库" isInAssets: YES];
     if(op) { [queue addOperation:op]; }
-    // op = [self checkAssetUpdate:@"advertisement" info: @"广告样式库" isInAssets: NO];
-    // if(op) { [queue addOperation:op]; }
+    //op = [self checkAssetUpdate:@"advertisement" info: @"广告样式库" isInAssets: NO];
+    //if(op) { [queue addOperation:op]; }
 }
 
 - (AFHTTPRequestOperation *)checkAssetUpdate:(NSString *)assetName info:(NSString *)info isInAssets:(BOOL)isInAssets {

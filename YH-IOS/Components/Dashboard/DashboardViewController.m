@@ -5,7 +5,7 @@
 //  Created by lijunjie on 15/11/25.
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
-#define mADVIEWHEIGHT self.view.frame.size.height / 4.5
+#define mADVIEWHEIGHT self.view.frame.size.height / 6
 
 #import "DashboardViewController.h"
 #import "SubjectViewController.h"
@@ -98,20 +98,17 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self checkAssetsUpdate];
     [self showUserInfoRedIcon];
     [self setTabBarHeight];
+    [self addAdvertWebView];
 }
 
 - (void)setTabBarHeight {
     for (NSLayoutConstraint *constraint in self.tabBar.constraints) {
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {
-            constraint.constant = [self getTabHeight];
+            constraint.constant = KTabBarHeight;
+            NSLog(@"另一个的宽度是%d",KTabBarHeight);
             break;
         }
     }
-}
-
--(int)getTabHeight {
-    int bannerHeight =[[UIScreen mainScreen] bounds].size.height < 668 ? 49 : 56;
-    return bannerHeight;
 }
 
 /**
@@ -134,6 +131,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)initTabClick{
     NSInteger tabIndex = self.clickTab > 0 ? self.clickTab : 0;
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
+    if (tabIndex != 0) {
+        [self hideAdertWebView];
+    }
     [self tabBarClick: tabIndex];
 }
 
@@ -785,6 +785,12 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)tabBarClick:(NSInteger)index {
     // index == 0 ? [self addAdvertWebView] : [self hideAdertWebView];
     [self.tabBar displayBadgeOnItemIndex:index orNot:YES];
+    if (index != 0 ) {
+        [self hideAdertWebView];
+    }
+    else {
+        [self addAdvertWebView];
+    }
     NSString *uiVersion = [self currentUIVersion];
     switch (index) {
         case 0: {

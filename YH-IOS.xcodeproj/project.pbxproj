@@ -85,6 +85,7 @@
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
 		F608FEC31D77D7F00040C16F /* SwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */; };
 		F608FEC61D77FABF0040C16F /* PgyUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */; };
+		F68EA5741D7E8BD600AC2F8A /* advertisement.zip in Resources */ = {isa = PBXBuildFile; fileRef = F68EA5731D7E8BD600AC2F8A /* advertisement.zip */; };
 		F69A3CFD1D792580009E6BD8 /* UserHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFC1D792580009E6BD8 /* UserHeadView.m */; };
 		F69A3D001D794006009E6BD8 /* GestureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */; };
 		F69A3D071D796ED4009E6BD8 /* OneButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */; };
@@ -242,6 +243,7 @@
 		F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchTableViewCell.m; sourceTree = "<group>"; };
 		F608FEC41D77FABF0040C16F /* PgyUpdateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PgyUpdateTableViewCell.h; sourceTree = "<group>"; };
 		F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PgyUpdateTableViewCell.m; sourceTree = "<group>"; };
+		F68EA5731D7E8BD600AC2F8A /* advertisement.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = advertisement.zip; sourceTree = "<group>"; };
 		F69A3CFB1D792580009E6BD8 /* UserHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHeadView.h; sourceTree = "<group>"; };
 		F69A3CFC1D792580009E6BD8 /* UserHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeadView.m; sourceTree = "<group>"; };
 		F69A3CFE1D794006009E6BD8 /* GestureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureTableViewCell.h; sourceTree = "<group>"; };
@@ -682,6 +684,7 @@
 				C4EFE4AB1C98F60A0009411A /* stylesheets.zip */,
 				C4EFE4AC1C98F60A0009411A /* javascripts.zip */,
 				C4EFE4AD1C98F60A0009411A /* images.zip */,
+				F68EA5731D7E8BD600AC2F8A /* advertisement.zip */,
 				C4EFE4AE1C98F60A0009411A /* assets.zip */,
 				C4272CC91C5CBA4700E6971B /* loading.zip */,
 				C4DB7DC61C02EE6000DA534E /* Constants.h */,
@@ -895,6 +898,7 @@
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
+				F68EA5741D7E8BD600AC2F8A /* advertisement.zip in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

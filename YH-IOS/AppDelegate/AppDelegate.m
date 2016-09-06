@@ -281,7 +281,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     [FileUtils checkAssets:@"javascripts" isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:@"stylesheets" isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:@"BarCodeScan" isInAssets:NO bundlePath:bundlePath];
-    // [FileUtils checkAssets:@"advertisement" isInAssets:NO bundlePath:bundlePath];
+    //[FileUtils checkAssets:@"advertisement" isInAssets:NO bundlePath:bundlePath];
 }
 
 - (void)initWebViewUserAgent {

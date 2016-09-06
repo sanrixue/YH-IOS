@@ -307,6 +307,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.userIconImage = [info objectForKey:UIImagePickerControllerEditedImage];
     NSString *userPath = [FileUtils userspace];
     NSString *userIconPath = [userPath stringByAppendingPathComponent:@"userIcon"];
+    NSString *uploadUrl = [NSString stringWithFormat:@"/api/v1/device/%@/upload/user/%@/%@",];
+    [HttpUtils uploadImage:uploadUrl withImage:userIconPath];
     NSData *imageData = UIImageJPEGRepresentation(self.userIconImage, 0.5);
     [imageData writeToFile:userIconPath atomically:YES];
     [self.settingTableView reloadData];
@@ -322,6 +324,13 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         self.userIconImage = [UIImage imageNamed:@"AppIcon"];
     }
 }
+
+#pragma mark - upload- userIcon
+- (void) uploadUserIcon {
+    
+    
+}
+
 
 #pragma mark - action methods
 - (void)actionBack:(id)sender {

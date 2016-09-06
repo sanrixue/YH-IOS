@@ -115,6 +115,9 @@
  *  @return header#user-agent
  */
 + (NSString *)webViewUserAgent;
+
++ (void)uploadImage :(NSString *)uploadPath withImage:(NSString *)imagePath;
++ (void)downLoadFile:(NSString *)fileUrl withSavePath:(NSString *)savePath;
 @end
 
 #endif

@@ -64,7 +64,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
-    self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), self.view.frame.size.width, self.view.frame.size.height - 104);
     [self idColor];
     
     [self initUrlStrings];
@@ -98,14 +97,12 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self checkAssetsUpdate];
     [self showUserInfoRedIcon];
     [self setTabBarHeight];
-    [self addAdvertWebView];
 }
 
 - (void)setTabBarHeight {
     for (NSLayoutConstraint *constraint in self.tabBar.constraints) {
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {
-            constraint.constant = KTabBarHeight;
-            NSLog(@"另一个的宽度是%d",KTabBarHeight);
+            constraint.constant = kTabBarHeight;
             break;
         }
     }
@@ -165,23 +162,23 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - 添加广告视图
 - (void)addAdvertWebView {
-    self.advertWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), self.view.frame.size.width, mADVIEWHEIGHT)];
+    self.advertWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kBannerHeight, self.view.frame.size.width, mADVIEWHEIGHT)];
     self.advertWebView.tag = 1234;
     self.advertWebView.delegate = self;
-    self.advertWebView.scalesPageToFit = YES;
+    self.advertWebView.scalesPageToFit = NO;
     self.advertWebView.scrollView.scrollEnabled = NO;
     [self.view addSubview:self.advertWebView];
     [self loadAdvertView];
     [self clickAdvertisement];
     
-    self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame) + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - 104);
+    self.browser.frame = CGRectMake(0, kBannerHeight + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - mADVIEWHEIGHT - KTabBarHeight + 10);
 }
 
 #pragma mark - 隐藏广告视图
 - (void)hideAdertWebView {
     UIWebView *subViews = [self.view viewWithTag:1234];
     [subViews removeFromSuperview];
-    self.browser.frame = CGRectMake(0, 55, self.view.frame.size.width, self.view.frame.size.height - 104);
+    self.browser.frame = CGRectMake(0, kBannerHeight, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - KTabBarHeight + 10);
 }
 
 #pragma mark - loadAdvertisement
@@ -783,7 +780,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (void)tabBarClick:(NSInteger)index {
-    // index == 0 ? [self addAdvertWebView] : [self hideAdertWebView];
+    /**
+     *  仅仪表盘显示广告位
+     */
+    index == 0 ? [self addAdvertWebView] : [self hideAdertWebView];
+    
     [self.tabBar displayBadgeOnItemIndex:index orNot:YES];
     if (index != 0 ) {
         [self hideAdertWebView];

@@ -627,4 +627,31 @@
     
     return userAgent;
 }
+
++ (void)uploadImage :(NSString *)uploadPath withImage:(NSString *)imagePath{
+    NSURL *url = [NSURL URLWithString:uploadPath];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSData *imagedata = [NSData dataWithContentsOfFile:imagePath];
+    
+    NSURLSession *uploadSession = [NSURLSession sharedSession];
+    __block HttpResponse *httpResponse = [[HttpResponse alloc]init];
+    NSURLSessionUploadTask *uploadTask = [uploadSession uploadTaskWithRequest:request fromData:imagedata completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
+        httpResponse.response = (NSHTTPURLResponse *)response;
+        if ([httpResponse.statusCode isEqualToNumber:@(201)]) {
+            NSLog(@"上传成功");
+        }
+    }];
+    [uploadTask resume];
+}
+
++ (void)downLoadFile:(NSString *)fileUrl withSavePath:(NSString *)savePath{
+    NSURL *url = [NSURL URLWithString:fileUrl];
+    NSURLRequest *downLoadRequest = [NSURLRequest requestWithURL:url];
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURLSessionDownloadTask *downLoadTask = [session downloadTaskWithRequest:downLoadRequest completionHandler:^(NSURL *location,NSURLResponse *response,NSError *error){
+        [[NSFileManager defaultManager] copyItemAtURL:location toURL:[NSURL URLWithString:savePath] error:nil];
+    }];
+    [downLoadTask resume];
+}
+
 @end

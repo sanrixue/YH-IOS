@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "设置.png",
+      "filename" : "Banner-Setting.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "设置@2x.png",
+      "filename" : "Banner-Setting@2x.png",
       "scale" : "2x"
     },
     {

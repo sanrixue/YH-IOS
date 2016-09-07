@@ -21,6 +21,7 @@
 #import "OneButtonTableViewCell.h"
 #import "SettingDefaultTableViewCell.h"
 #import <PgyUpdate/PgyUpdateManager.h>
+#import "AFNetworking.h"
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
 @interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
@@ -310,6 +311,22 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     NSData *imageData = UIImageJPEGRepresentation(self.userIconImage, 0.5);
     [imageData writeToFile:userIconPath atomically:YES];
     [self.settingTableView reloadData];
+    
+    /**
+     * 头像上传至服务器
+     */
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://yonghui-test.idata.mobi"]];
+    NSString *urlPath = [NSString stringWithFormat:@"/api/v1/device/%@/upload/user/%@/gravatar", self.user.deviceID, self.user.userID];
+    AFHTTPRequestOperation *op = [manager POST:urlPath parameters:@{} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
+        NSString *fileName = [NSString stringWithFormat:@"%@-%@-%@.jpg", @"yhtest", self.user.userNum, timestamp];
+        [formData appendPartWithFileData:imageData name:@"gravatar" fileName:fileName mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@ ***** %@", operation.responseString, error);
+    }];
+    [op start];
 }
 
 #pragma mark - get user Icon

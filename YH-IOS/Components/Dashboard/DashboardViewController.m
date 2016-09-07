@@ -259,6 +259,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     else if ([tabIndexDict.allKeys containsObject:openType]) {
         NSInteger tabIndex = [tabIndexDict[openType] integerValue];
         
+        if(tabIndex == 3 && data[@"openLink"] && [@[@"0", @"1", @"2"] containsObject:data[@"openLink"]]) {
+            NSString *tabIndexConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:TABINDEX_CONFIG_FILENAME];
+            NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+            tabIndexDict[@"message"] = @([data[@"openLink"] integerValue]);
+            [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
+        }
+        
         [self tabBarClick: tabIndex];
         [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
     }
@@ -540,6 +547,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self.bridge registerHandler:@"dashboardDataCount" handler:^(id data, WVJBResponseCallback responseCallback) {
         // NSString *tabType = data[@"tabType"];
         // NSNumber *dataCount = data[@"dataCount"];
+    }];
+    
+    [self.bridge registerHandler:@"hideAd" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self hideAdertWebView];
     }];
     
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {

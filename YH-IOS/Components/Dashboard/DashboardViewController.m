@@ -175,7 +175,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)hideAdertWebView {
     UIWebView *subViews = [self.view viewWithTag:1234];
     [subViews removeFromSuperview];
-    self.browser.frame = CGRectMake(0, kBannerHeight, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - kTabBarHeight);
+    self.browser.frame = CGRectMake(0, kBannerHeight, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - kTabBarHeight + 10);
 }
 
 #pragma mark - loadAdvertisement

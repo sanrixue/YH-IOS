@@ -5,7 +5,7 @@
 //  Created by lijunjie on 15/11/25.
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
-#define mADVIEWHEIGHT self.view.frame.size.height / 6
+#define mADVIEWHEIGHT self.view.frame.size.height / 4.5
 
 #import "DashboardViewController.h"
 #import "SubjectViewController.h"

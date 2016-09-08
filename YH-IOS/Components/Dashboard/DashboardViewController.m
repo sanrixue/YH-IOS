@@ -244,6 +244,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
     return isContain;
 }
+
+/**
+ *  <#Description#>
+ *
+ *  @param openType <#openType description#>
+ *  @param data     <#data description#>
+ */
 - (void) openAdClickLink:(NSString *)openType data:(NSDictionary *)data {
     NSString *actionLogTitle = @"";
     NSDictionary *tabIndexDict = @{@"tab_kpi": @0, @"tab_analyse": @1, @"tab_app": @2, @"tab_message": @3};
@@ -270,16 +277,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
     }
     else if ([openType isEqualToString:@"report"]) {
-        if(![self checkAdParams:data containName:@"openLink"]) {
-            return;
-        }
-        if(![self checkAdParams:data containName:@"objectID"]) {
-            return;
-        }
-        if(![self checkAdParams:data containName:@"objectType"]) {
-            return;
-        }
-        if(![self checkAdParams:data containName:@"objectTitle"]) {
+        if(![self checkAdParams:data containName:@"openLink"] ||
+           ![self checkAdParams:data containName:@"objectID"] ||
+           ![self checkAdParams:data containName:@"objectType"] ||
+           ![self checkAdParams:data containName:@"objectTitle"]) {
             return;
         }
         
@@ -787,7 +788,19 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self tabBarClick:item.tag];
 }
 
+/**
+ *  <#Description#>
+ *
+ *  @param index <#index description#>
+ */
 - (void)tabBarClick:(NSInteger)index {
+    /**
+     *  避免用户极短时间内连接点击标签项:
+     *  1. 点击后，禁用所有标签项
+     *  2. _loadhtml 加载 html 再激活所有标签项
+     */
+    [self tabBarState: NO];
+    
     /**
      *  仅仪表盘显示广告位
      */
@@ -823,7 +836,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         }
     }
     
-    [self tabBarState: NO];
     [self loadHtml];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

@@ -40,7 +40,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (assign, nonatomic) BOOL isNeedUpgrade;
 @property (strong, nonatomic) Version *version;
 @property (strong, nonatomic) NSMutableDictionary *noticeDict;
-@property (strong, nonatomic) NSMutableDictionary *userDict;
 @property (strong, nonatomic) NSString *userGavatarPath;
 @property (strong, nonatomic) NSString *userGavatarName;
 @property (strong, nonatomic) NSString  *userIconPath;
@@ -51,15 +50,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    self.userDict = [FileUtils readConfigFile:userConfigPath];
-    NSString *userPath = [FileUtils userspace];
-    self.userGavatarPath = [userPath stringByAppendingPathComponent:@"Configs"];
-    NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
-    self.userGavatarName = [NSString stringWithFormat:@"%@-%@-%@.jpg", @"yhtest", self.user.userNum, timestamp];
-    self.userIconPath = [self.userGavatarPath stringByAppendingPathComponent:self.userGavatarName];
-    [self getUserIcon];
+
+    [self loadUserGravatar];
     [self showNoticeRedIcon];
     self.version = [[Version alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
@@ -320,47 +312,61 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [alertController addAction:photoAction];
 }
 
-#pragma mark - after get the picture which you want,the things you will do
+#pragma mark - upload user gravatar
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     [picker dismissViewControllerAnimated:YES completion:^{}];
+    
     self.userIconImage = [info objectForKey:UIImagePickerControllerEditedImage];
     NSData *imageData = UIImageJPEGRepresentation(self.userIconImage, 1.0);
-    [imageData writeToFile:self.userIconPath atomically:YES];
+    
+    NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
+    NSString *gravatarName = [NSString stringWithFormat:@"%@-%@-%@.jpg", kAppCode, self.user.userNum, timestamp];
+    NSString *gravatarPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:gravatarName];
+    [imageData writeToFile:gravatarPath atomically:YES];
+    
     [self.settingTableView reloadData];
-    NSString *urlPath = [NSString stringWithFormat:@"/api/v1/device/%@/upload/user/%@/gravatar", self.user.deviceID, self.user.userID];
-    [HttpUtils uploadImage:urlPath withImagePath:self.userIconPath withImageName:self.userGavatarName];
+    NSString *urlPath = [NSString stringWithFormat:API_UPLOAD_GRAVATAR_PATH, self.user.deviceID, self.user.userID];
+    [HttpUtils uploadImage:urlPath withImagePath:gravatarPath withImageName:gravatarName];
 }
 
-#pragma mark - get user Icon
-- (void)getUserIcon {
-    NSArray *downloadArray = [self.userDict[@"gravatar"] componentsSeparatedByString:@"/"];
-    NSString *userGavatarName = [self.userGavatarPath stringByAppendingPathComponent:downloadArray[[downloadArray count] -1]];
-    if ([[NSFileManager defaultManager] fileExistsAtPath:userGavatarName]) {
-        self.userIconImage = [UIImage imageWithContentsOfFile:userGavatarName];
+#pragma mark - load user gravatar
+- (void)loadUserGravatar {
+    // default gravatar
+    self.userIconImage = [UIImage imageNamed:@"AppIcon"];
+    
+    NSString *gravatarUrl = self.user.gravatar;
+    if(!gravatarUrl || (![gravatarUrl hasPrefix:@"http://"] && ![gravatarUrl hasPrefix:@"https://"])) {
+        return;
+    }
+    
+    NSString *gravatarName = [[gravatarUrl componentsSeparatedByString:@"/"] lastObject];
+    NSString *gravatarPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:gravatarName];
+    
+    if([FileUtils checkFileExist:gravatarPath isDir:NO]) {
+        self.userIconImage = [UIImage imageWithContentsOfFile:gravatarPath];
     }
     else {
-        if ([downloadArray[0] isEqualToString:@"http:" ] || [downloadArray[0] isEqualToString:@"https:"]) {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [HttpUtils downLoadFile:self.userDict[@"gravatar"] withSavePath:self.userIconPath];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    self.userIconImage = [UIImage imageWithContentsOfFile:self.userIconPath];
-                });
-                if (![FileUtils checkFileExist:[self.userGavatarPath stringByAppendingPathComponent:@"gravatar.json"] isDir:YES]) {
-                    NSDictionary *userGravatar = @{@"name":self.userGavatarName,@"upload_state":@"true",@"gravatar_id":@(1)};
-                    NSMutableDictionary *userIcon = [NSMutableDictionary dictionaryWithDictionary:userGravatar];
-                    [FileUtils writeJSON:userIcon Into:[self.userGavatarName stringByAppendingPathComponent:@"gravatar.json"]];
-                }
-                else {
-                    NSMutableDictionary *gravatar = [FileUtils readConfigFile:[self.userGavatarPath stringByAppendingPathComponent:@"gravatar.json"]];
-                    [gravatar setValue:@"true" forKey:@"upload_state"];
-                    [FileUtils writeJSON:gravatar Into:[self.userGavatarPath stringByAppendingPathComponent:@"gravatar.json"]];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *gravatarName = [[self.user.gravatar componentsSeparatedByString:@"/"] lastObject];
+            NSString *gravatarPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:gravatarName];
+            
+            [HttpUtils downLoadFile:self.user.gravatar withSavePath:gravatarPath];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if([FileUtils checkFileExist:gravatarPath isDir:NO]) {
+                    self.userIconImage = [UIImage imageWithContentsOfFile:gravatarPath];
                     [self.settingTableView reloadData];
+                    
+                    NSString *gravatarConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+                    BOOL uploadState = [FileUtils checkFileExist:gravatarConfigPath isDir:YES];
+                    NSMutableDictionary *gravatarDict = [FileUtils readConfigFile:gravatarConfigPath];
+                    gravatarDict[@"name"] = gravatarName;
+                    gravatarDict[@"upload_state"] = @(uploadState);
+                    [FileUtils writeJSON:gravatarDict Into:gravatarConfigPath];
                 }
             });
-        }
-        else {
-            self.userIconImage = [UIImage imageNamed:@"AppIcon"];
-        }
+            
+        });
+        
     }
 }
 

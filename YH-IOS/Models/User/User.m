@@ -20,6 +20,7 @@
             self.userName   = dict[@"user_name"];
             self.userNum    = dict[@"user_num"];
             self.password   = dict[@"user_md5"];
+            self.gravatar   = dict[@"gravatar"];
             self.userID     = dict[@"user_id"];
             self.roleID     = dict[@"role_id"];
             self.roleName   = dict[@"role_name"];

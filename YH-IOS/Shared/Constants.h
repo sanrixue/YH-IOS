@@ -24,6 +24,8 @@
 #define API_PUSH_DEVICE_TOKEN_PATH  @"%@/api/v1/device/%@/push_token/%@"
 #define API_BARCODE_SCAN_PATH       @"%@/api/v1/group/%@/role/%@/user/%@/store/%@/barcode_scan?code_info=%@&code_type=%@"
 #define API_ASSETS_PATH             @"%@/api/v1/download/%@.zip"
+#define API_UPLOAD_GRAVATAR_PATH    @"/api/v1/device/%@/upload/user/%@/gravatar"
+#define API_DOWNLOAD_GRAVATAR_PATH  @"/api/v1/device/%@/upload/user/%@/gravatar"
 
 #define KPI_DEPRECATED_PATH         @"%@/mobile/%@/role/%@/group/%@/kpi"
 #define KPI_PATH                    @"%@/mobile/%@/group/%@/role/%@/kpi"
@@ -51,6 +53,7 @@
 #define CURRENT_VERSION__FILENAME   @"current_version.txt"
 #define PGYER_VERSION_FILENAME      @"pgyer_version.plist"
 #define BETA_CONFIG_FILENAME        @"beta.plist"
+#define GRAVATAR_CONFIG_FILENAME    @"gravatar.plist"
 
 #define URL_WRITE_LOCAL             @"1"
 // #define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]

@@ -393,12 +393,13 @@
 			path = Vendor;
 			sourceTree = "<group>";
 		};
-		C488E69E1C0ED9D500EB946D /* APIUtils */ = {
+		C488E69E1C0ED9D500EB946D /* APIHelper */ = {
 			isa = PBXGroup;
 			children = (
 				C488E69F1C0ED9F600EB946D /* APIHelper.h */,
 				C488E6A01C0ED9F600EB946D /* APIHelper.m */,
 			);
+			name = APIHelper;
 			path = APIUtils;
 			sourceTree = "<group>";
 		};
@@ -635,7 +636,7 @@
 				C4A564DD1C2CECC10067516F /* UIColor+Hex */,
 				C4A564E01C2CECC10067516F /* UIWebView+Clean */,
 				C49E1AB41C196B5400CFFE3C /* ViewUtils */,
-				C488E69E1C0ED9D500EB946D /* APIUtils */,
+				C488E69E1C0ED9D500EB946D /* APIHelper */,
 				C4DB7DB61C02EE3800DA534E /* DateUtils */,
 				C4DB7DB91C02EE3800DA534E /* ExtendNSLogFunctionality.h */,
 				C4DB7DBA1C02EE3800DA534E /* ExtendNSLogFunctionality.m */,

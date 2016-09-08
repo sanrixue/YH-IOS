@@ -93,14 +93,14 @@
         userDict[@"user_device_id"] = response.data[@"user_device_id"];
         userDict[@"assets_md5"]      = response.data[@"assets_md5"];
         userDict[@"loading_md5"]     = response.data[@"loading_md5"];
-        userDict[@"BarCodeScan_md5"] = response.data[@"barcodescan_md5"];
+        userDict[@"BarCodeScan_md5"] = response.data[@"BarCodeScan_md5"];
         userDict[@"advertisement_md5"] = response.data[@"advertisement_md5"];
         userDict[@"fonts_md5"]       = response.data[@"assets"][@"fonts_md5"];
         userDict[@"images_md5"]      = response.data[@"assets"][@"images_md5"];
         userDict[@"stylesheets_md5"] = response.data[@"assets"][@"stylesheets_md5"];
         userDict[@"javascripts_md5"] = response.data[@"assets"][@"javascripts_md5"];
         userDict[@"user_md5"]        = password;
-        userDict[@"gravatar"]  = response.data[@"gravatar"];
+        userDict[@"gravatar"]        = response.data[@"gravatar"];
         
         /**
          *  rewrite screen lock info into

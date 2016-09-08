@@ -13,6 +13,7 @@
 @property (strong, nonatomic) NSString *userNum;
 @property (strong, nonatomic) NSString *userName;
 @property (strong, nonatomic) NSString *password;
+@property (strong, nonatomic) NSString *gravatar;
 @property (strong, nonatomic) NSNumber *groupID;
 @property (strong, nonatomic) NSNumber *groupName;
 @property (strong, nonatomic) NSNumber *roleID;

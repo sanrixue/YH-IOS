@@ -1,6 +1,7 @@
 # Xcode
 #
 #
+YH-IOS/Shared/PrivateConstants.h
 .DS_Store
 .current-app
 *.lock

@@ -12,6 +12,7 @@
 #define iSearch_HttpUtils_h
 @class HttpResponse;
 
+#import <UIKit/UIKit.h>
 @interface HttpUtils : NSObject
 /**
  *  Http#Get功能代码封装

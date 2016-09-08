@@ -307,7 +307,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.userIconImage = [info objectForKey:UIImagePickerControllerEditedImage];
     NSString *userPath = [FileUtils userspace];
     NSString *userIconPath = [userPath stringByAppendingPathComponent:@"userIcon"];
-    NSString *uploadUrl = [NSString stringWithFormat:@"/api/v1/device/%@/upload/user/%@/%@",];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    NSString *uploadUrl = [NSString stringWithFormat:@"%@/api/v1/device/%@/upload/user/%@/gravatar",kBaseUrl,userDict[@"user_device_id"],userDict[@"user_num"]];
     [HttpUtils uploadImage:uploadUrl withImage:userIconPath];
     NSData *imageData = UIImageJPEGRepresentation(self.userIconImage, 0.5);
     [imageData writeToFile:userIconPath atomically:YES];

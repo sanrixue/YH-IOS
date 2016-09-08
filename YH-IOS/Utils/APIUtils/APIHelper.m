@@ -100,6 +100,7 @@
         userDict[@"stylesheets_md5"] = response.data[@"assets"][@"stylesheets_md5"];
         userDict[@"javascripts_md5"] = response.data[@"assets"][@"javascripts_md5"];
         userDict[@"user_md5"]        = password;
+        userDict[@"gravatar"]  = response.data[@"gravatar"];
         
         /**
          *  rewrite screen lock info into

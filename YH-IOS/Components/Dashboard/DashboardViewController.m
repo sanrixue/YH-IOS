@@ -170,15 +170,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self.view addSubview:self.advertWebView];
     [self loadAdvertView];
     [self clickAdvertisement];
-    
-    self.browser.frame = CGRectMake(0, kBannerHeight + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - mADVIEWHEIGHT - KTabBarHeight + 10);
+    self.browser.frame = CGRectMake(0, kBannerHeight + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - mADVIEWHEIGHT - kTabBarHeight + 10);
 }
 
 #pragma mark - 隐藏广告视图
 - (void)hideAdertWebView {
     UIWebView *subViews = [self.view viewWithTag:1234];
     [subViews removeFromSuperview];
-    self.browser.frame = CGRectMake(0, kBannerHeight, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - KTabBarHeight + 10);
+    self.browser.frame = CGRectMake(0, kBannerHeight, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - kTabBarHeight + 10);
 }
 
 #pragma mark - loadAdvertisement
@@ -261,6 +260,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
     else if ([tabIndexDict.allKeys containsObject:openType]) {
         NSInteger tabIndex = [tabIndexDict[openType] integerValue];
+        
+        if(tabIndex == 3 && data[@"openLink"] && [@[@"0", @"1", @"2"] containsObject:data[@"openLink"]]) {
+            NSString *tabIndexConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:TABINDEX_CONFIG_FILENAME];
+            NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+            tabIndexDict[@"message"] = @([data[@"openLink"] integerValue]);
+            [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
+        }
         
         [self tabBarClick: tabIndex];
         [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
@@ -543,6 +549,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self.bridge registerHandler:@"dashboardDataCount" handler:^(id data, WVJBResponseCallback responseCallback) {
         // NSString *tabType = data[@"tabType"];
         // NSNumber *dataCount = data[@"dataCount"];
+    }];
+    
+    [self.bridge registerHandler:@"hideAd" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self hideAdertWebView];
     }];
     
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {

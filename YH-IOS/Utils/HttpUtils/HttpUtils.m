@@ -630,223 +630,63 @@
     return userAgent;
 }
 
-/*
-+ (void)uploadImage :(NSString *)uploadPath withImage:(UIImage *)imagePath{
-    NSURL *url = [NSURL URLWithString:uploadPath];
-    NSMutableDictionary *mutableHeaders = [NSMutableDictionary dictionary];
-    NSString *TWITTERFON_FORM_BOUNDARY = @"AaB03x";
-    NSString *MPboundary=[[NSString alloc]initWithFormat:@"--%@",TWITTERFON_FORM_BOUNDARY];
-    NSString *endMPboundary=[[NSString alloc]initWithFormat:@"%@--",MPboundary];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-  //  NSData *imagedata = [NSData dataWithContentsOfFile:imagePath];
-    NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000 + arc4random()];
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    NSString *fileName = [NSString stringWithFormat:@"yh_%@_%@.jpg",userDict[@"user_num"],timestamp];
-  //  NSMutableString *body=[[NSMutableString alloc]init];
-    //NSData *data = UIImageJPEGRepresentation(imagePath, 1.0f);
-  //  NSString *str =[imagedata base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    
-    NSData *_data = UIImageJPEGRepresentation(imagePath, 0.1f);
-    
-    NSString *_encodedImageStr = [_data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    NSDictionary *param = @{@"gravatar":@{@"filename" : fileName,@"tempfile":_encodedImageStr}};
-  //  imagePath = [param objectForKey:@"tempfile"];
-   // NSString *end=[[NSString alloc]initWithFormat:@"\r\n%@",endMPboundary];
-    //param[@"gravatar"][@"filename"] = fileName;
-    //param[@"gravatar"][@"tempfile"] =[[ NSString alloc] initWithData:imagedata encoding:NSUTF8StringEncoding];;
-   // param[@"tempfile"] = [NSInputStream inputStreamWithFileAtPath:imagePath];
-    NSData *postdata= [NSJSONSerialization dataWithJSONObject:param options:NSJSONWritingPrettyPrinted error:nil];
-   // [body appendFormat:@"%@\r\n",MPboundary];
-    //声明pic字段，文件名为boris.png
-   // [body appendFormat:@"filename=\%@\r\n",fileName];
-    //声明上传文件的格式
-   // [body appendFormat:@"tempfile = %@",[NSInputStream inputStreamWithFileAtPath:imagePath]];
-   // [body appendFormat:@"tempfile=%@",[im]]
-    //NSString *end=[[NSString alloc]initWithFormat:@"\r\n%@",endMPboundary];
-    NSMutableData *myRequestData=[NSMutableData data];
-    //将body字符串转化为UTF8格式的二进制
-    [myRequestData appendData:postdata];
-    //[myRequestData appendData:imagedata];
-   // [myRequestData appendData:[end dataUsingEncoding:NSUTF8StringEncoding]];
-    NSString *content=[[NSString alloc]initWithFormat:@"multipart/form-data"];
-    //[mutableHeaders setValue:[NSString stringWithFormat:@"form-data; name=\"%@\"; filename=\"%@\"", @"name",fileName] forKey:@"Content-Disposition"];
-    [mutableHeaders setValue:content forKey:@"Content-Type"];
-    //设置HTTPHeader]
-   // [request setValue:[NSString stringWithFormat:@"form-data; name=\"%@\"; filename=\"%@\"", @"name",fileName] forHTTPHeaderField:@"Content-Disposition"];
-    [request setHTTPBody:myRequestData];
-    //[request addValue:fileName forHTTPHeaderField:@"filename"];
-   //[request addValue:@"thisis good" forHTTPHeaderField:@"tempfile"];
-    [request setHTTPMethod:@"POST"];
-    
-    NSURLResponse *response;
-    HttpResponse *httpResponse = [[HttpResponse alloc] init];
-    httpResponse.received = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    httpResponse.response = (NSHTTPURLResponse *)response;
-    NSURLSession *uploadSession = [NSURLSession sharedSession];
-    NSURLSessionUploadTask *uploadTask = [uploadSession uploadTaskWithRequest:request fromData:myRequestData completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
-        httpResponse.response = (NSHTTPURLResponse *)response;
-        if ([httpResponse.statusCode isEqualToNumber:@(201)]) {
-            NSLog(@"上传成功");
-        }
-    }];
-    [uploadTask resume];
-    
-    
-   AFHTTPRequestOperationManager *manager= [AFHTTPRequestOperationManager manager];
-    [manager POST:uploadPath parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
-        [formData appendPartWithFileData:_data name:@"okok" fileName:@"filetemp.jpg" mimeType:@"image/png"];
-    }success:^(AFHTTPRequestOperation *operation,id responseObject) {
-        NSLog(@"这个故事是什么呢");
+/**
+ *  上传用户图像
+ *
+ *  @param uploadPath 上传的服务器 地址
+ *
+ *  @param imagePath  本地的图片地址
+ *
+ *  @param ImageName  图片名
+ */
++ (void)uploadImage :(NSString *)uploadPath withImagePath:(NSString *)imagePath withImageName: (NSString *)imageName {
+      NSString *userConfig = [[FileUtils userspace] stringByAppendingPathComponent:@"Configs"];
+    if (![FileUtils checkFileExist:[userConfig stringByAppendingPathComponent:@"gravatar.json"] isDir:YES]) {
+        NSDictionary *userGravatar = @{@"name":imageName,@"upload_state":@"true",@"gravatar_id":@(1)};
+        NSMutableDictionary *userIcon = [NSMutableDictionary dictionaryWithDictionary:userGravatar];
+        [FileUtils writeJSON:userIcon Into:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
     }
- failure:^(AFHTTPRequestOperation *operation,NSError *error) {
+    NSData *imageData = [NSData dataWithContentsOfFile:imagePath];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://yonghui-test.idata.mobi"]];
+    AFHTTPRequestOperation *op = [manager POST:uploadPath parameters:@{} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData name:@"gravatar" fileName:imageName mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+        NSLog(@"%@",responseObject[@"code"]);
+        NSLog(@"%@",responseObject[@"gravatar_id"]);
+        NSLog(@"%@",responseObject[@"user_id"]);
+        NSString *userConfig = [[FileUtils userspace] stringByAppendingPathComponent:@"Configs"];
+        NSMutableDictionary *gravatar = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+        gravatar[@"name"] = imageName;
+        gravatar[@"upload_state"] = @"true";
+        gravatar[@"gravatar_id"] = responseObject[@"gravatar_id"];
+        [FileUtils writeJSON:gravatar Into:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
         
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@ ***** %@", operation.responseString, error);
+        NSString *userConfig = [[FileUtils userspace] stringByAppendingPathComponent:@"Configs"];
+        NSMutableDictionary *gravatar = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+        gravatar[@"name"] = imageName;
+        gravatar[@"upload_state"] = @"false";
+        [FileUtils writeJSON:gravatar Into:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
     }];
+    [op start];
 }
 
-*/
-+ (void)uploadImage:(NSString *)uploadPath withImage:(NSString *)imagePath {
-    
-    NSData *data = [NSData dataWithContentsOfFile:imagePath];
-    UIImage *image = [UIImage imageNamed:@"xiaojv.jpg"];
-    
-    NSString *stringimage =[data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];;
-    
-    
-    NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000 + arc4random()];
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    NSString *filename = [NSString stringWithFormat:@"yh_%@_%@.jpg",userDict[@"user_num"],timestamp];
-    NSDictionary *param = @{@"gravatar":@{@"filename":filename,@"tempfile":stringimage}};
-    NSData *userData= [NSJSONSerialization dataWithJSONObject:param options:NSJSONWritingPrettyPrinted error:nil];
-    NSFileManager
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:uploadPath]];
-    NSString *content=[[NSString alloc]initWithFormat:@"multipart/form-data"];
-    //[mutableHeaders setValue:[NSString stringWithFormat:@"form-data; name=\"%@\"; filename=\"%@\"", @"name",fileName] forKey:@"Content-Disposition"];
-    [request setValue:content forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPMethod:@"POST"];
-    
-    NSURLResponse *response;
-    HttpResponse *httpResponse = [[HttpResponse alloc] init];
-    NSURLSession *uploadSession = [NSURLSession sharedSession];
-    NSURLSessionUploadTask *uploadTask = [uploadSession uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data,NSURLResponse *response,NSError *error){
-        httpResponse.response = (NSHTTPURLResponse *)response;
-        if ([httpResponse.statusCode isEqualToNumber:@(201)]) {
-            NSLog(@"上传成功");
-        }
-    }];
-    [uploadTask resume];
-    
-    httpResponse.received = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    httpResponse.response = (NSHTTPURLResponse *)response;
-    
-    AFHTTPRequestOperationManager *manager= [AFHTTPRequestOperationManager manager];
-   [manager POST:uploadPath parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
-        
-    [formData appendPartWithFileData:data  name:@"gravatar" fileName:filename mimeType:@"image/jpeg" ];
-    }success:^(AFHTTPRequestOperation *operation,id responseObject) {
-        NSLog(@"这个故事是什么呢");
-    }
-          failure:^(AFHTTPRequestOperation *operation,NSError *error) {
-              
-          }];
-    
-    [manager POST:uploadPath parameters:param success:^(AFHTTPRequestOperation *operation,id responseObject){
-        NSLog(@"成功了，啊");
-    }failure:^(AFHTTPRequestOperation *operation, NSError *error){
-        
-    }];
-    
-}
- 
-
-/*
-+(void) uploadImage:(NSString *)uploadPath withImage:(NSString *)imagePath {
-    //分界线的标识符
-    NSString *TWITTERFON_FORM_BOUNDARY = @"AaB03x";
-    //根据url初始化request
-    NSMutableURLRequest  *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:uploadPath]
-                                       cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
-                                   timeoutInterval:10];
-    //分界线 --AaB03x
-    NSString *MPboundary=[[NSString alloc]initWithFormat:@"--%@",TWITTERFON_FORM_BOUNDARY];
-    //结束符 AaB03x--
-    NSString *endMPboundary=[[NSString alloc]initWithFormat:@"%@--",MPboundary];
-    //得到图片的data
-    UIImage *image = [UIImage imageNamed:@"xiaojv.jpg"];
-    NSData* data = UIImageJPEGRepresentation(image, 1);
-    //http body的字符串
-    NSMutableString *body=[[NSMutableString alloc]init];
-    NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000 + arc4random()];
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    NSString *filename = [NSString stringWithFormat:@"yh_%@_%@.jpg",userDict[@"user_num"],timestamp];
-    NSDictionary *param = @{@"gravatar":@{@"filename":filename,@"tempfile":data}};
-    
-    NSDictionary *parameters = [[NSDictionary alloc]init];
-    //参数的集合的所有key的集合
-    NSArray *keys= [parameters allKeys];
-    
-    //遍历keys
-    for(int i=0;i<[keys count];i++)
-    {
-        //得到当前key
-        NSString *key=[keys objectAtIndex:i];
-        //如果key不是pic，说明value是字符类型，比如name：Boris
-        if(![key isEqualToString:@"pic"])
-        {
-            //添加分界线，换行
-            [body appendFormat:@"%@\r\n",MPboundary];
-            //添加字段名称，换2行
-            [body appendFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n",key];
-            //添加字段的值
-            [body appendFormat:@"%@\r\n",[parameters objectForKey:key]];
-        }
-    }
-    
-    ////添加分界线，换行
-    [body appendFormat:@"%@\r\n",MPboundary];
-    //声明pic字段，文件名为boris.png
-    [body appendFormat:@"Content-Disposition: form-data; name=\"ImageField\"; filename=\"x1234.png\"\r\n"];
-    //声明上传文件的格式
-    [body appendFormat:@"Content-Type: image/jpeg\r\n\r\n"];
-    
-    //声明结束符：--AaB03x--
-    NSString *end=[[NSString alloc]initWithFormat:@"\r\n%@",endMPboundary];
-    //声明myRequestData，用来放入http body
-    NSMutableData *myRequestData=[NSMutableData data];
-    //将body字符串转化为UTF8格式的二进制
-    [myRequestData appendData:[body dataUsingEncoding:NSUTF8StringEncoding]];
-    //将image的data加入
-    [myRequestData appendData:data];
-    //加入结束符--AaB03x--
-    [myRequestData appendData:[end dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    //设置HTTPHeader中Content-Type的值
-    NSString *content=[[NSString alloc] initWithFormat:@"multipart/form-data; boundary=%@",TWITTERFON_FORM_BOUNDARY];
-    //设置HTTPHeader
-    [request setValue:content forHTTPHeaderField:@"Content-Type"];
-    //设置Content-Length
-    [request setValue:[NSString stringWithFormat:@"%lu", (unsigned long)[myRequestData length]] forHTTPHeaderField:@"Content-Length"];
-    //设置http body
-    [request setHTTPBody:myRequestData];
-    //http method
-    [request setHTTPMethod:@"POST"];
-    
-    NSURLResponse *response;
-    HttpResponse *httpResponse = [[HttpResponse alloc] init];
-    httpResponse.received = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
-    httpResponse.response = (NSHTTPURLResponse *)response;
-    
-}*/
+/**
+ *  下载用户图像
+ *
+ *  @param fileUrl 用于图像的服务器地址
+ *
+ *  @param savePath 保存到本地的地址
+ *
+ */
 + (void)downLoadFile:(NSString *)fileUrl withSavePath:(NSString *)savePath{
     NSURL *url = [NSURL URLWithString:fileUrl];
     NSURLRequest *downLoadRequest = [NSURLRequest requestWithURL:url];
-    NSURLSession *session = [NSURLSession sharedSession];
-    NSURLSessionDownloadTask *downLoadTask = [session downloadTaskWithRequest:downLoadRequest completionHandler:^(NSURL *location,NSURLResponse *response,NSError *error){
-        [[NSFileManager defaultManager] copyItemAtURL:location toURL:[NSURL URLWithString:savePath] error:nil];
-    }];
-    [downLoadTask resume];
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileUrl]];
+    UIImage *image = [UIImage imageWithData:imageData];
+    [imageData writeToFile:savePath atomically:YES];
 }
 
 @end

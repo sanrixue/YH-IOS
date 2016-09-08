@@ -2,15 +2,21 @@ pgyer: &pgyer
   user_key: '-'
   api_key: '-'
 yonghui:
+  app_code: 'yonghui'
+  slogan: '融合共享，成于至善'
   application_id: 'com.intfocus.-'
   display_status:
+    drop_menu_scan: 1
+    drop_menu_voice: 1
+    drop_menu_search: 1
+    drop_menu_user_info: 1
     tab_bar: 1
-    kpi: 1
-    analyse: 1
-    app: 1
-    message: 1
-    comment: 1
-    share: 1
+    tab_bar_kpi: 1
+    tab_bar_analyse: 1
+    tab_bar_app: 1
+    tab_bar_message: 1
+    subject_comment: 1
+    subject_share: 1
   key_store:
     path: 'key-store/yh.jks'
     password: '-'
@@ -36,16 +42,63 @@ yonghui:
     android:
       app_id: '-'
       app_secret: '-'
-shengyiplus:
+yonghuitest:
+  app_code: 'yonghuitest'
+  slogan: '融合共享，成于至善'
   application_id: 'com.intfocus.-'
   display_status:
+    drop_menu_scan: 1
+    drop_menu_voice: 1
+    drop_menu_search: 1
+    drop_menu_user_info: 1
     tab_bar: 1
-    kpi: 1
-    analyse: 1
-    app: 1
-    message: 1
-    comment: 1
-    share: 1
+    tab_bar_kpi: 1
+    tab_bar_analyse: 1
+    tab_bar_app: 1
+    tab_bar_message: 1
+    subject_comment: 1
+    subject_share: 1
+  key_store:
+    path: 'key-store/yh-test.jks'
+    password: '-'
+    alias: '-'
+    alias_password: '-'
+  server: 'http://yonghui.idata.mobi'
+  pgyer:
+    ios: '-'
+    android: '-'
+    <<: *pgyer
+  umeng: 
+    ios: 
+      app_key: '-'
+      app_master_secret: '-'
+    android: 
+      app_key: '-'
+      umeng_message_secret: '-'
+      app_master_secret: '-'
+  umeng_weixin:
+    ios:
+      app_id: '-'
+      app_secret: '-'
+    android:
+      app_id: '-'
+      app_secret: '-'
+shengyiplus:
+  app_code: 'shengyiplus'
+  slogan: '融合共享，成于至善'
+  application_id: 'com.intfocus.-'
+  display_status:
+    drop_menu_scan: 1
+    drop_menu_voice: 1
+    drop_menu_search: 1
+    drop_menu_user_info: 1
+    tab_bar: 1
+    tab_bar_kpi: 1
+    tab_bar_analyse: 1
+    tab_bar_app: 1
+    tab_bar_message: 1
+    subject_comment: 1
+    subject_share: 0
   key_store:
     path: 'key-store/-.jks'
     password: '123456'
@@ -72,15 +125,21 @@ shengyiplus:
       app_id: '-'
       app_secret: '-'
 qiyoutong:
+  app_code: 'qiyoutong'
+  slogan: '融合共享，成于至善'
   application_id: 'com.intfocus.-'
   display_status:
-    tab_bar: 0
-    kpi: 1
-    analyse: 0
-    app: 0
-    message: 0
-    comment: 0
-    share: 1
+    drop_menu_scan: 1
+    drop_menu_voice: 1
+    drop_menu_search: 1
+    drop_menu_user_info: 1
+    tab_bar: 1
+    tab_bar_kpi: 1
+    tab_bar_analyse: 1
+    tab_bar_app: 1
+    tab_bar_message: 1
+    subject_comment: 0
+    subject_share: 0
   key_store:
     path: 'key-store/qiyoutong.jks'
     password: '-'

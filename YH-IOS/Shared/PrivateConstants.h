@@ -12,6 +12,7 @@
 #ifndef PrivateConstants_h
 #define PrivateConstants_h
 
+#define kAppCode     @"yonghuitest"
 #define kBaseUrl     @"http://yonghui-test.idata.mobi"
 #define kBaseUrl1    @"http://localhost:4567"
 
@@ -36,6 +37,6 @@
 #define kTabBarMessage YES
 
 #define kSubjectComment YES
-#define kSubjectShare   YES
+#define kSubjectShare   NO
 
 #endif /* PrivateConstants_h */

@@ -12,6 +12,7 @@
 #define iSearch_HttpUtils_h
 @class HttpResponse;
 
+#import <UIKit/UIKit.h>
 @interface HttpUtils : NSObject
 /**
  *  Http#Get功能代码封装
@@ -115,6 +116,9 @@
  *  @return header#user-agent
  */
 + (NSString *)webViewUserAgent;
+
++ (void)uploadImage :(NSString *)uploadPath withImagePath:(NSString *)imagePath withImageName: (NSString *)imageName;
++ (void)downLoadFile:(NSString *)fileUrl withSavePath:(NSString *)savePath;
 @end
 
 #endif

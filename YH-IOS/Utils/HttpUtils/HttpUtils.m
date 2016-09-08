@@ -15,6 +15,8 @@
 #import "ExtendNSLogFunctionality.h"
 #import "Reachability.h"
 #import "TFHpple.h"
+#import "FileUtils.h"
+#import <AFNetworking/AFNetworking.h>
 #import <SSZipArchive.h>
 
 @interface HttpUtils()
@@ -627,4 +629,64 @@
     
     return userAgent;
 }
+
+/**
+ *  上传用户图像
+ *
+ *  @param uploadPath 上传的服务器 地址
+ *
+ *  @param imagePath  本地的图片地址
+ *
+ *  @param ImageName  图片名
+ */
++ (void)uploadImage :(NSString *)uploadPath withImagePath:(NSString *)imagePath withImageName: (NSString *)imageName {
+      NSString *userConfig = [[FileUtils userspace] stringByAppendingPathComponent:@"Configs"];
+    if (![FileUtils checkFileExist:[userConfig stringByAppendingPathComponent:@"gravatar.json"] isDir:YES]) {
+        NSDictionary *userGravatar = @{@"name":imageName,@"upload_state":@"true",@"gravatar_id":@(1)};
+        NSMutableDictionary *userIcon = [NSMutableDictionary dictionaryWithDictionary:userGravatar];
+        [FileUtils writeJSON:userIcon Into:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+    }
+    NSData *imageData = [NSData dataWithContentsOfFile:imagePath];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://yonghui-test.idata.mobi"]];
+    AFHTTPRequestOperation *op = [manager POST:uploadPath parameters:@{} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData name:@"gravatar" fileName:imageName mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+        NSLog(@"%@",responseObject[@"code"]);
+        NSLog(@"%@",responseObject[@"gravatar_id"]);
+        NSLog(@"%@",responseObject[@"user_id"]);
+        NSString *userConfig = [[FileUtils userspace] stringByAppendingPathComponent:@"Configs"];
+        NSMutableDictionary *gravatar = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+        gravatar[@"name"] = imageName;
+        gravatar[@"upload_state"] = @"true";
+        gravatar[@"gravatar_id"] = responseObject[@"gravatar_id"];
+        [FileUtils writeJSON:gravatar Into:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@ ***** %@", operation.responseString, error);
+        NSString *userConfig = [[FileUtils userspace] stringByAppendingPathComponent:@"Configs"];
+        NSMutableDictionary *gravatar = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+        gravatar[@"name"] = imageName;
+        gravatar[@"upload_state"] = @"false";
+        [FileUtils writeJSON:gravatar Into:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+    }];
+    [op start];
+}
+
+/**
+ *  下载用户图像
+ *
+ *  @param fileUrl 用于图像的服务器地址
+ *
+ *  @param savePath 保存到本地的地址
+ *
+ */
++ (void)downLoadFile:(NSString *)fileUrl withSavePath:(NSString *)savePath{
+    NSURL *url = [NSURL URLWithString:fileUrl];
+    NSURLRequest *downLoadRequest = [NSURLRequest requestWithURL:url];
+    NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileUrl]];
+    UIImage *image = [UIImage imageWithData:imageData];
+    [imageData writeToFile:savePath atomically:YES];
+}
+
 @end

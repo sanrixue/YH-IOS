@@ -5,7 +5,7 @@
 //  Created by lijunjie on 15/11/25.
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
-#define mADVIEWHEIGHT self.view.frame.size.height / 6
+#define mADVIEWHEIGHT self.view.frame.size.height / 4.5
 
 #import "DashboardViewController.h"
 #import "SubjectViewController.h"
@@ -65,6 +65,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
+    self.advertWebView = [[UIWebView alloc]init];
+    self.advertWebView.tag = 1234;
     
     [self initUrlStrings];
     [self initLocalNotifications];
@@ -73,10 +75,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     self.btnScanCode.hidden = !kDropMenuScan;
     [self setTabBarItems];
-    
     [self receivePushMessageParams];
     [self initTabClick];
     [self setNotificationBadgeTimer];
+    
     
     /*
      * 解屏进入主页面，需检测版本更新
@@ -128,9 +130,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)initTabClick{
     NSInteger tabIndex = self.clickTab > 0 ? self.clickTab : 0;
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
-    if (tabIndex != 0) {
+    /*if (tabIndex != 0) {
         [self hideAdertWebView];
-    }
+    }*/
     [self tabBarClick: tabIndex];
 }
 
@@ -162,12 +164,15 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - 添加广告视图
 - (void)addAdvertWebView {
-    self.advertWebView = [[UIWebView alloc] initWithFrame:CGRectMake(0, kBannerHeight, self.view.frame.size.width, mADVIEWHEIGHT)];
-    self.advertWebView.tag = 1234;
+    if (![self.view viewWithTag:1234]) {
+        self.advertWebView = [[UIWebView alloc]init];
+        self.advertWebView.tag = 1234;
+    }
+    self.advertWebView.frame =  CGRectMake(0, kBannerHeight, self.view.frame.size.width, mADVIEWHEIGHT);
+    [self.view addSubview:self.advertWebView];
     self.advertWebView.delegate = self;
     self.advertWebView.scalesPageToFit = NO;
     self.advertWebView.scrollView.scrollEnabled = NO;
-    [self.view addSubview:self.advertWebView];
     [self loadAdvertView];
     [self clickAdvertisement];
     self.browser.frame = CGRectMake(0, kBannerHeight + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - mADVIEWHEIGHT - kTabBarHeight + 10);
@@ -176,7 +181,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 #pragma mark - 隐藏广告视图
 - (void)hideAdertWebView {
     UIWebView *subViews = [self.view viewWithTag:1234];
-    [subViews removeFromSuperview];
+  //  subViews.transform = CGAffineTransformMakeScale(0.5, 0.5);
+    subViews.alpha = 1;
+    [UIView animateWithDuration:1 animations:^{
+      //  subViews.transform = CGAffineTransformMakeScale(0.1, 0.1);
+        subViews.alpha = 0;
+    }completion:^(BOOL finished) {
+        [subViews removeFromSuperview];
+    }];
     self.browser.frame = CGRectMake(0, kBannerHeight, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - kTabBarHeight + 10);
 }
 
@@ -422,7 +434,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         responseCallback(@"DashboardViewController - Response for message from ObjC");
     }];
     
-    [self addWebViewJavascriptBridge];
+    [self addWebViewJavascriptBridge]; 
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];

@@ -83,11 +83,13 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self.settingTableView addSubview:backBtn];
     [backBtn addTarget:self action:@selector(actionBack:) forControlEvents:UIControlEventTouchUpInside];
     NSMutableDictionary *userGravatar = [FileUtils readConfigFile:[self.userGavatarPath stringByAppendingPathComponent:@"gravatar.json"]];
-    if ([userGravatar[@"upload_state"] isEqualToString:@"false"]) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *urlPath = [NSString stringWithFormat:@"/api/v1/device/%@/upload/user/%@/gravatar", self.user.deviceID, self.user.userID];
-            [HttpUtils uploadImage:urlPath withImagePath:self.userIconPath withImageName:self.userGavatarName];
-        });
+    if ([FileUtils checkFileExist:[self.userGavatarPath stringByAppendingPathComponent:@"gravatar.json"] isDir:YES]) {
+        if ([userGravatar[@"upload_state"] isEqualToString:@"false"]) {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSString *urlPath = [NSString stringWithFormat:@"/api/v1/device/%@/upload/user/%@/gravatar", self.user.deviceID, self.user.userID];
+                [HttpUtils uploadImage:urlPath withImagePath:self.userIconPath withImageName:self.userGavatarName];
+            });
+        }
     }
 }
 
@@ -344,6 +346,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
                 [HttpUtils downLoadFile:self.userDict[@"gravatar"] withSavePath:self.userIconPath];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     self.userIconImage = [UIImage imageWithContentsOfFile:self.userIconPath];
+                    [self.settingTableView reloadData];
                 });
                 if (![FileUtils checkFileExist:[self.userGavatarPath stringByAppendingPathComponent:@"gravatar.json"] isDir:YES]) {
                     NSDictionary *userGravatar = @{@"name":self.userGavatarName,@"upload_state":@"true",@"gravatar_id":@(1)};
@@ -354,7 +357,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
                     NSMutableDictionary *gravatar = [FileUtils readConfigFile:[self.userGavatarPath stringByAppendingPathComponent:@"gravatar.json"]];
                     [gravatar setValue:@"true" forKey:@"upload_state"];
                     [FileUtils writeJSON:gravatar Into:[self.userGavatarPath stringByAppendingPathComponent:@"gravatar.json"]];
-                    [self.settingTableView reloadData];
                 }
             });
         }

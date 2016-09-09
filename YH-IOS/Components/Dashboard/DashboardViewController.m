@@ -79,7 +79,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self initTabClick];
     [self setNotificationBadgeTimer];
     
-    
+
     /*
      * 解屏进入主页面，需检测版本更新
      */
@@ -112,22 +112,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
 }
 
-- (void) layoutControllerSubViews: (NSNotification *)notification {
+- (void)layoutControllerSubViews: (NSNotification *)notification {
     CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
-    if (statusBarRect.size.height == 40) {
-        for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
-            if (constraint.firstAttribute == NSLayoutAttributeTop) {
-                constraint.constant = 0;
-                break;
-            }
-        }
-    }
-    else {
-        for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
-            if (constraint.firstAttribute == NSLayoutAttributeTop) {
-                constraint.constant = 20;
-                break;
-            }
+
+    for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeTop) {
+            constraint.constant = (statusBarRect.size.height == 40 ? 0 : 20);
+            break;
         }
     }
 }
@@ -146,7 +137,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":app.pushMessageDict[@"link"]}];
     }
     app.pushMessageDict = [NSMutableDictionary dictionary];
-
 }
 
 - (void)initTabClick{

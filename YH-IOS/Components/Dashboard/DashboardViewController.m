@@ -65,8 +65,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
-    self.advertWebView = [[UIWebView alloc]init];
-    self.advertWebView.tag = 1234;
+   // self.advertWebView.tag = 1234;
     
     [self initUrlStrings];
     [self initLocalNotifications];
@@ -164,12 +163,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - 添加广告视图
 - (void)addAdvertWebView {
-    if (![self.view viewWithTag:1234]) {
-        self.advertWebView = [[UIWebView alloc]init];
-        self.advertWebView.tag = 1234;
-    }
+       self.advertWebView = [[UIWebView alloc]init];
+    self.advertWebView.tag = 1234;
+   [self.view addSubview:self.advertWebView];
     self.advertWebView.frame =  CGRectMake(0, kBannerHeight, self.view.frame.size.width, mADVIEWHEIGHT);
-    [self.view addSubview:self.advertWebView];
     self.advertWebView.delegate = self;
     self.advertWebView.scalesPageToFit = NO;
     self.advertWebView.scrollView.scrollEnabled = NO;

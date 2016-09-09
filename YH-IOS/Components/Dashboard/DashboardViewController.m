@@ -66,7 +66,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
-   // self.advertWebView.tag = 1234;
+    self.advertWebView.tag = 1234;
     
     [self initUrlStrings];
     [self initLocalNotifications];

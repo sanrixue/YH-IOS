@@ -639,36 +639,33 @@
  *
  *  @param ImageName  图片名
  */
-+ (void)uploadImage :(NSString *)uploadPath withImagePath:(NSString *)imagePath withImageName: (NSString *)imageName {
-      NSString *userConfig = [[FileUtils userspace] stringByAppendingPathComponent:@"Configs"];
-    if (![FileUtils checkFileExist:[userConfig stringByAppendingPathComponent:@"gravatar.json"] isDir:YES]) {
-        NSDictionary *userGravatar = @{@"name":imageName,@"upload_state":@"true",@"gravatar_id":@(1)};
-        NSMutableDictionary *userIcon = [NSMutableDictionary dictionaryWithDictionary:userGravatar];
-        [FileUtils writeJSON:userIcon Into:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
-    }
++ (void)uploadImage:(NSString *)uploadPath withImagePath:(NSString *)imagePath withImageName:(NSString *)imageName {
+    NSDictionary *dict = @{@"name":imageName, @"upload_state":@(NO)};
+    NSMutableDictionary *gravatarDict = [NSMutableDictionary dictionaryWithDictionary:dict];
+    
+    NSString *gravatarConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+    [FileUtils writeJSON:gravatarDict Into:gravatarConfigPath];
+
     NSData *imageData = [NSData dataWithContentsOfFile:imagePath];
-    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:@"http://yonghui-test.idata.mobi"]];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     AFHTTPRequestOperation *op = [manager POST:uploadPath parameters:@{} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"gravatar" fileName:imageName mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
-        NSLog(@"%@",responseObject[@"code"]);
-        NSLog(@"%@",responseObject[@"gravatar_id"]);
-        NSLog(@"%@",responseObject[@"user_id"]);
-        NSString *userConfig = [[FileUtils userspace] stringByAppendingPathComponent:@"Configs"];
-        NSMutableDictionary *gravatar = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+        NSString *gravatarConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+        NSMutableDictionary *gravatar = [FileUtils readConfigFile:gravatarConfigPath];
         gravatar[@"name"] = imageName;
-        gravatar[@"upload_state"] = @"true";
+        gravatar[@"upload_state"] = @(YES);
         gravatar[@"gravatar_id"] = responseObject[@"gravatar_id"];
-        [FileUtils writeJSON:gravatar Into:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+        [FileUtils writeJSON:gravatar Into:gravatarConfigPath];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@ ***** %@", operation.responseString, error);
-        NSString *userConfig = [[FileUtils userspace] stringByAppendingPathComponent:@"Configs"];
-        NSMutableDictionary *gravatar = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+        NSString *gravatarConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+        NSMutableDictionary *gravatar = [FileUtils readConfigFile:gravatarConfigPath];
         gravatar[@"name"] = imageName;
-        gravatar[@"upload_state"] = @"false";
-        [FileUtils writeJSON:gravatar Into:[userConfig stringByAppendingPathComponent:@"gravatar.json"]];
+        gravatar[@"upload_state"] = @(NO);
+        [FileUtils writeJSON:gravatar Into:gravatarConfigPath];
     }];
     [op start];
 }
@@ -682,10 +679,7 @@
  *
  */
 + (void)downLoadFile:(NSString *)fileUrl withSavePath:(NSString *)savePath{
-    NSURL *url = [NSURL URLWithString:fileUrl];
-    NSURLRequest *downLoadRequest = [NSURLRequest requestWithURL:url];
     NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileUrl]];
-    UIImage *image = [UIImage imageWithData:imageData];
     [imageData writeToFile:savePath atomically:YES];
 }
 

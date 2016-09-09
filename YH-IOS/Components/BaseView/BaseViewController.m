@@ -270,7 +270,7 @@
     __block NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if(!isShouldUpdateAssets && ![userDict[assetKey] isEqualToString:userDict[localAssetKey]]) {
         isShouldUpdateAssets = YES;
-        NSLog(@"local: %@, server: %@", userDict[localAssetKey], userDict[assetKey]);
+        NSLog(@"%@ - local: %@, server: %@", assetName, userDict[localAssetKey], userDict[assetKey]);
     }
     
     if(!isShouldUpdateAssets) { return nil; }

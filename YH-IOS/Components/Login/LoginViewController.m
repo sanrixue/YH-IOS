@@ -46,7 +46,7 @@
     
     // sloganLabel
     self.sloganLabel = [[UILabel alloc] init];
-    self.sloganLabel.text = kLoginSlogan;
+  //  self.sloganLabel.text = kLoginSlogan;
     [self.bgView addSubview:self.sloganLabel];
     [self.sloganLabel setTextColor:[UIColor whiteColor]];
     self.sloganLabel.textAlignment = NSTextAlignmentCenter;

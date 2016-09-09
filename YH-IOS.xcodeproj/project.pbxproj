@@ -182,7 +182,6 @@
 		C4A564DF1C2CECC10067516F /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		C4A564E11C2CECC10067516F /* UIWebView+Clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+Clean.h"; sourceTree = "<group>"; };
 		C4A564E21C2CECC10067516F /* UIWebView+Clean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+Clean.m"; sourceTree = "<group>"; };
-		C4A57AA61CB7859E004F9C3D /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
 		C4AFAD0A1D7E971100261552 /* advertisement.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = advertisement.zip; sourceTree = "<group>"; };
 		C4BA6EA21C7DB24A0059F101 /* FileUtils+Assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FileUtils+Assets.h"; sourceTree = "<group>"; };
 		C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FileUtils+Assets.m"; sourceTree = "<group>"; };
@@ -251,6 +250,7 @@
 		F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureTableViewCell.m; sourceTree = "<group>"; };
 		F69A3D051D796ED4009E6BD8 /* OneButtonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneButtonTableViewCell.h; sourceTree = "<group>"; };
 		F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneButtonTableViewCell.m; sourceTree = "<group>"; };
+		F6F1FEC51D82619000BF3274 /* PrivateConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
 		F6F5CBC81D7D48AE00A1E779 /* SettingDefaultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingDefaultTableViewCell.h; sourceTree = "<group>"; };
@@ -393,12 +393,13 @@
 			path = Vendor;
 			sourceTree = "<group>";
 		};
-		C488E69E1C0ED9D500EB946D /* APIUtils */ = {
+		C488E69E1C0ED9D500EB946D /* APIHelper */ = {
 			isa = PBXGroup;
 			children = (
 				C488E69F1C0ED9F600EB946D /* APIHelper.h */,
 				C488E6A01C0ED9F600EB946D /* APIHelper.m */,
 			);
+			name = APIHelper;
 			path = APIUtils;
 			sourceTree = "<group>";
 		};
@@ -635,7 +636,7 @@
 				C4A564DD1C2CECC10067516F /* UIColor+Hex */,
 				C4A564E01C2CECC10067516F /* UIWebView+Clean */,
 				C49E1AB41C196B5400CFFE3C /* ViewUtils */,
-				C488E69E1C0ED9D500EB946D /* APIUtils */,
+				C488E69E1C0ED9D500EB946D /* APIHelper */,
 				C4DB7DB61C02EE3800DA534E /* DateUtils */,
 				C4DB7DB91C02EE3800DA534E /* ExtendNSLogFunctionality.h */,
 				C4DB7DBA1C02EE3800DA534E /* ExtendNSLogFunctionality.m */,
@@ -681,8 +682,8 @@
 			children = (
 				C4AFAD0A1D7E971100261552 /* advertisement.zip */,
 				C46903931D5CC75F00233D05 /* BarCodeScan.zip */,
-				C4A57AA61CB7859E004F9C3D /* PrivateConstants.h */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
+				F6F1FEC51D82619000BF3274 /* PrivateConstants.h */,
 				C4EFE4AB1C98F60A0009411A /* stylesheets.zip */,
 				C4EFE4AC1C98F60A0009411A /* javascripts.zip */,
 				C4EFE4AD1C98F60A0009411A /* images.zip */,

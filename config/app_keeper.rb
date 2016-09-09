@@ -92,7 +92,6 @@ if slop_opts[:assets]
   `rm -fr YH-IOS/Assets.xcassets/Banner-Setting.imageset && cp -rf config/Assets.xcassets/#{current_app}/Banner-Setting.imageset YH-IOS/Assets.xcassets/`
   `rm -fr YH-IOS/Assets.xcassets/background.imageset && cp -rf config/Assets.xcassets/#{current_app}/background.imageset YH-IOS/Assets.xcassets/`
   `rm -fr YH-IOS/Assets.xcassets/Login-Logo.imageset && cp -rf config/Assets.xcassets/#{current_app}/Login-Logo.imageset YH-IOS/Assets.xcassets/`
-  `rm -f YH-IOS/Shared/loading.zip && cp -f config/Assets/loading-#{current_app}.zip YH-IOS/Shared/loading.zip`
 end
 
 #
@@ -117,6 +116,7 @@ if slop_opts[:constant]
     #ifndef PrivateConstants_h
     #define PrivateConstants_h
 
+    #define kAppCode     @"#{Settings.app_code}"
     #define kBaseUrl     @"#{Settings.server}"
     #define kBaseUrl1    @"http://localhost:4567"
 

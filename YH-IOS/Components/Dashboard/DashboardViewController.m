@@ -63,6 +63,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
+    
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
    // self.advertWebView.tag = 1234;
@@ -129,9 +130,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)initTabClick{
     NSInteger tabIndex = self.clickTab > 0 ? self.clickTab : 0;
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
-    /*if (tabIndex != 0) {
-        [self hideAdertWebView];
-    }*/
     [self tabBarClick: tabIndex];
 }
 
@@ -163,29 +161,29 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - 添加广告视图
 - (void)addAdvertWebView {
-       self.advertWebView = [[UIWebView alloc]init];
+    self.browser.frame = CGRectMake(0, kBannerHeight + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - mADVIEWHEIGHT - kTabBarHeight + 10);
+    
+    if(self.advertWebView) {
+        self.advertWebView.hidden = NO;
+        return;
+    }
+    self.advertWebView = [[UIWebView alloc]init];
     self.advertWebView.tag = 1234;
-   [self.view addSubview:self.advertWebView];
+    
     self.advertWebView.frame =  CGRectMake(0, kBannerHeight, self.view.frame.size.width, mADVIEWHEIGHT);
+    [self.view addSubview:self.advertWebView];
+    
     self.advertWebView.delegate = self;
     self.advertWebView.scalesPageToFit = NO;
     self.advertWebView.scrollView.scrollEnabled = NO;
+    
     [self loadAdvertView];
     [self clickAdvertisement];
-    self.browser.frame = CGRectMake(0, kBannerHeight + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - mADVIEWHEIGHT - kTabBarHeight + 10);
 }
 
 #pragma mark - 隐藏广告视图
 - (void)hideAdertWebView {
-    UIWebView *subViews = [self.view viewWithTag:1234];
-  //  subViews.transform = CGAffineTransformMakeScale(0.5, 0.5);
-    subViews.alpha = 1;
-    [UIView animateWithDuration:1 animations:^{
-      //  subViews.transform = CGAffineTransformMakeScale(0.1, 0.1);
-        subViews.alpha = 0;
-    }completion:^(BOOL finished) {
-        [subViews removeFromSuperview];
-    }];
+    self.advertWebView.hidden = YES;
     self.browser.frame = CGRectMake(0, kBannerHeight, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - kTabBarHeight + 10);
 }
 
@@ -255,6 +253,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
     return isContain;
 }
+
+/**
+ *  <#Description#>
+ *
+ *  @param openType <#openType description#>
+ *  @param data     <#data description#>
+ */
 - (void) openAdClickLink:(NSString *)openType data:(NSDictionary *)data {
     NSString *actionLogTitle = @"";
     NSDictionary *tabIndexDict = @{@"tab_kpi": @0, @"tab_analyse": @1, @"tab_app": @2, @"tab_message": @3};
@@ -281,16 +286,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
     }
     else if ([openType isEqualToString:@"report"]) {
-        if(![self checkAdParams:data containName:@"openLink"]) {
-            return;
-        }
-        if(![self checkAdParams:data containName:@"objectID"]) {
-            return;
-        }
-        if(![self checkAdParams:data containName:@"objectType"]) {
-            return;
-        }
-        if(![self checkAdParams:data containName:@"objectTitle"]) {
+        if(![self checkAdParams:data containName:@"openLink"] ||
+           ![self checkAdParams:data containName:@"objectID"] ||
+           ![self checkAdParams:data containName:@"objectType"] ||
+           ![self checkAdParams:data containName:@"objectTitle"]) {
             return;
         }
         
@@ -798,7 +797,19 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self tabBarClick:item.tag];
 }
 
+/**
+ *  <#Description#>
+ *
+ *  @param index <#index description#>
+ */
 - (void)tabBarClick:(NSInteger)index {
+    /**
+     *  避免用户极短时间内连接点击标签项:
+     *  1. 点击后，禁用所有标签项
+     *  2. _loadhtml 加载 html 再激活所有标签项
+     */
+    [self tabBarState: NO];
+    
     /**
      *  仅仪表盘显示广告位
      */
@@ -840,7 +851,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         }
     }
     
-    [self tabBarState: NO];
     [self loadHtml];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

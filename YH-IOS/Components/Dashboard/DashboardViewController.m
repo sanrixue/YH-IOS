@@ -99,6 +99,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self checkAssetsUpdate];
     [self showUserInfoRedIcon];
     [self setTabBarHeight];
+   // [[ NSNotificationCenter defaultCenter ] addObserver : self selector : @selector (statusBarFramWillChange:) name : UIApplicationWillChangeStatusBarFrameNotification object : nil ];
+    [[ NSNotificationCenter defaultCenter ] addObserver : self selector : @selector (layoutControllerSubViews:) name : UIApplicationDidChangeStatusBarFrameNotification object : nil ];
 }
 
 - (void)setTabBarHeight {
@@ -106,6 +108,26 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {
             constraint.constant = kTabBarHeight;
             break;
+        }
+    }
+}
+
+- (void) layoutControllerSubViews: (NSNotification *)notification {
+    CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
+    if (statusBarRect.size.height == 40) {
+        for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
+            if (constraint.firstAttribute == NSLayoutAttributeTop) {
+                constraint.constant = 0;
+                break;
+            }
+        }
+    }
+    else {
+        for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
+            if (constraint.firstAttribute == NSLayoutAttributeTop) {
+                constraint.constant = 20;
+                break;
+            }
         }
     }
 }
@@ -642,7 +664,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
  */
 -(void)dropTableView:(UIButton *)sender {
     contentView=[[UIViewController alloc]init];
-    //contentView.view.frame = CGRectMake(self.view.frame.size.width - 150, 40, 150, 200);
+    contentView.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count);
     contentView.modalPresentationStyle = UIModalPresentationPopover;
     [contentView setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count)];
     self.dropMenu = [[UITableView alloc] initWithFrame:contentView.view.frame style:UITableViewStylePlain];

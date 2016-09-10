@@ -262,8 +262,10 @@ void UncaughtExceptionHandler(NSException * exception) {
             zipPath = [sharedPath stringByAppendingPathComponent:assetFileName];
             
             NSLog(@"version updated: %@ => %@", bundleZipPath, zipPath);
-            [fileManager removeItemAtPath:zipPath error:&error];
-            if(error) { NSLog(@"%@", [error localizedDescription]); }
+            if([FileUtils checkFileExist:zipPath isDir:NO]) {
+                [fileManager removeItemAtPath:zipPath error:&error];
+                if(error) { NSLog(@"%@", [error localizedDescription]); }
+            }
             [fileManager copyItemAtPath:bundleZipPath toPath:zipPath error:&error];
             if(error) { NSLog(@"%@", [error localizedDescription]); }
         }

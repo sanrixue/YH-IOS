@@ -38,13 +38,11 @@
         if(error) { NSLog(@"unZip: %@ failed for - %@", zipPath, [error localizedDescription]); }
     }
     
-    
     NSString *keyName = [NSString stringWithFormat:@"local_%@_md5", fileName];
     NSData *fileData = [NSData dataWithContentsOfFile:zipPath];
     NSString *md5String = fileData.md5;
     
     BOOL isShouldUnZip = YES;
-    
     if([userDict.allKeys containsObject:keyName] && [userDict[keyName] isEqualToString:md5String]) {
         isShouldUnZip = NO;
     }

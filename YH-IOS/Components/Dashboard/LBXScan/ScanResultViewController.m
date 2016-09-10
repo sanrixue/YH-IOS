@@ -27,8 +27,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     /**
      *  被始化页面样式
      */
-    self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     [self idColor];
+    self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
+    self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     
     self.barCodePath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"BarCodeScan"];
     NSString *htmlPath = [self.barCodePath stringByAppendingPathComponent:@"scan_bar_code.html"];

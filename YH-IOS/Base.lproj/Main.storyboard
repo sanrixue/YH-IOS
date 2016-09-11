@@ -387,8 +387,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="UNg-xt-Kyh" secondAttribute="trailing" constant="-20" id="DDi-xV-e4Z"/>
+                            <constraint firstItem="M3L-6R-By8" firstAttribute="top" secondItem="UNg-xt-Kyh" secondAttribute="bottom" id="SRH-3E-ZVd"/>
                             <constraint firstItem="jiD-n2-AKa" firstAttribute="top" secondItem="VU0-Pg-RXQ" secondAttribute="topMargin" id="Slp-WP-Eqf"/>
-                            <constraint firstItem="M3L-6R-By8" firstAttribute="top" secondItem="UNg-xt-Kyh" secondAttribute="bottom" id="Vlc-7i-p3Z"/>
                             <constraint firstItem="UNg-xt-Kyh" firstAttribute="top" secondItem="jiD-n2-AKa" secondAttribute="bottom" id="gnz-XZ-Mad"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jiD-n2-AKa" secondAttribute="trailing" constant="-20" id="j1P-hr-2Iw"/>
                             <constraint firstItem="UNg-xt-Kyh" firstAttribute="leading" secondItem="VU0-Pg-RXQ" secondAttribute="leadingMargin" constant="-20" id="oEH-ny-7wb"/>

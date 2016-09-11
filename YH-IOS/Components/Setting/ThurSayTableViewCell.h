@@ -11,5 +11,4 @@
 @interface ThurSayTableViewCell : UITableViewCell
 @property (nonatomic,strong)UILabel *titleLabel;
 @property (nonatomic,strong)UIImageView *grayArrow;
-
 @end

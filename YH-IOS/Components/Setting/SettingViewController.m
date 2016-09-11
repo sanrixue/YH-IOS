@@ -65,7 +65,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self initLabelInfoDict];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 70, 40)];
-    UIImage *imageback = [UIImage imageNamed:@"Banner-Back-White"];
+    UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
     UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 15, 25)];
     bakImage.image = imageback;
     [bakImage setContentMode:UIViewContentModeScaleAspectFit];
@@ -87,6 +87,17 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [[ NSNotificationCenter defaultCenter ] addObserver : self selector : @selector (layoutControllerSubViews:) name : UIApplicationDidChangeStatusBarFrameNotification object : nil ];
+}
+
+- (void)layoutControllerSubViews: (NSNotification *)notification {
+    CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
+    if (statusBarRect.size.height == 40){
+        self.settingTableView.frame = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height + 40);
+    }
+    else {
+        self.settingTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }
 }
 
 #pragma mark - init need-show message

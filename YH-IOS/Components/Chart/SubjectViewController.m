@@ -39,6 +39,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     [self idColor];
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
+    self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     
     /**
      *  服务器内链接需要做缓存、点击事件处理；

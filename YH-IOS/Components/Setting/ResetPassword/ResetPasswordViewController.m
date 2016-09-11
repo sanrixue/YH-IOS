@@ -19,6 +19,7 @@
     // Do any additional setup after loading the view.
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
+    self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     [self idColor];
     
     [WebViewJavascriptBridge enableLogging];

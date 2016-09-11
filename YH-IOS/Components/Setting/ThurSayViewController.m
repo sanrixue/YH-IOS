@@ -20,7 +20,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     self.navBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, kBannerHeight)];
     self.navBar.backgroundColor = [UIColor lightGrayColor];
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(20, 20, 40, 30)];

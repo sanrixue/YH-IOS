@@ -26,7 +26,9 @@
 @property (nonatomic, strong) UITextField *userPasswordText;
 @property (nonatomic, strong) UIView *seperateView2;
 @property (nonatomic, strong) UIButton *loginButton;
+@property (nonatomic, strong) UILabel *versionLabel;
 @property (nonatomic, assign) int sideblank;
+@property (nonatomic, strong) Version *version;
 
 @end
 
@@ -97,6 +99,13 @@
     [self.loginButton addTarget:self action:@selector(loginBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.bgView addSubview:self.loginButton];
     
+    //versionLabel
+    self.versionLabel = [[UILabel alloc]init];
+    self.version = [[Version alloc] init];
+    self.versionLabel.textColor = [UIColor whiteColor];
+    self.versionLabel.text = [NSString stringWithFormat:@"%@(%@)", self.version.current, self.version.build];
+    self.versionLabel.textAlignment = NSTextAlignmentCenter;
+    [self.bgView addSubview:self.versionLabel];
     [self layoutView];
 }
 
@@ -107,15 +116,16 @@
     }
     self.sideblank = (self.view.frame.size.width - 40) / 2;
     
-    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText);
+    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel);
     // [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_logoView]-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bgView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-80-[_logoView(42)]-20-[_sloganLabel(20)]-80-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-50-[_loginButton(40)]-(>=80)-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-80-[_logoView(42)]-20-[_sloganLabel(20)]-140-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-50-[_loginButton(40)]-(>=40)-[_versionLabel(20)]-10-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-80-[_sloganLabel]-80-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView1]-40-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView2]-40-|" options:0 metrics:nil views:ViewDict]];
     //[_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-200-[_logoView(50)]-20-[_sloganLabel]-80-[_loginUserView]-1-[_seperateView1(2)]-20-[_loginPassword]-1-[_seperateView2(2)]-16-[_LoginButton]-200-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginUserImage(30)]-10-[_userNameText]-40-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_versionLabel]-120-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginPasswordImage(30)]-10-[_userPasswordText]-40-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginButton]-40-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];

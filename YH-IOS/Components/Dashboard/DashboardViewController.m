@@ -152,7 +152,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)initTabClick{
     NSInteger tabIndex = self.clickTab > 0 ? self.clickTab : 0;
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
-    [self tabBarClick: tabIndex];
+    [self tabBarClick:tabIndex];
 }
 
 #pragma mark - 通知处理
@@ -189,6 +189,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         self.advertWebView.hidden = NO;
         return;
     }
+    
     self.advertWebView = [[UIWebView alloc]init];
     self.advertWebView.tag = 1234;
     
@@ -360,6 +361,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self.urlStrings addObject:[NSString stringWithFormat:ANALYSE_PATH, kBaseUrl, uiVersion, self.user.roleID]];
     [self.urlStrings addObject:[NSString stringWithFormat:APPLICATION_PATH, kBaseUrl, uiVersion, self.user.roleID]];
     [self.urlStrings addObject:[NSString stringWithFormat:MESSAGE_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID, self.user.userID]];
+    [self.urlStrings addObject:[NSString stringWithFormat:@"http://yonghui-test.idata.mobi/thursday_say"]];
 }
 
 /**
@@ -383,7 +385,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         @"tab_message": @(-1),
         @"setting": @(-1),
         @"setting_pgyer": @(-1),
-        @"setting_password": @(-1)
+        @"setting_password": @(-1),
+        @"thursday_say":@(-1),
+        @"thursday_say_last":@(-1)
     };
     NSMutableDictionary *noticeCachedDict = [[NSMutableDictionary alloc] initWithDictionary:noticeDict];
     [FileUtils writeJSON:noticeCachedDict Into:self.noticeFilePath];
@@ -844,6 +848,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     else {
         [self addAdvertWebView];
     }
+    self.urlString = @"";
     NSString *uiVersion = [self currentUIVersion];
     switch (index) {
         case 0: {
@@ -928,9 +933,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
     if (indexPath.row == 3 ) {
-        if ([self.noticeDict[@"setting"] isEqualToNumber:@(2)]) {
-            [cell.tittleLabel showRedIcon];
+        if (![self.noticeDict[@"setting"] isEqualToNumber:@(2)]) {
             return cell;
+        }
+        else{
+            [cell.tittleLabel showRedIcon];
         }
     }
     
@@ -974,7 +981,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         self.noticeDict[@"setting_password"] = @(1);
         [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
     }
-    self.isNeedUpgrade = NO;
     if (self.isNeedUpgrade) {
         self.noticeDict[@"setting_pgyer"] = @(1);
     }
@@ -982,7 +988,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         self.noticeDict[@"setting_pgyer"] = @(-1);
     }
     [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
-    if (self.isNeedUpgrade || [userDict[@"user_md5"] isEqualToString:virgiPassword.md5]) {
+    if (self.isNeedUpgrade || [userDict[@"user_md5"] isEqualToString:virgiPassword.md5] || ![self.noticeDict[@"thursday_say"] isEqualToNumber:@(0)]) {
         self.noticeDict[@"setting"] = @(2);
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.setting showRedIcon];
@@ -1055,7 +1061,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 //    
 //    dispatch_resume(timer);
     
-    [NSTimer scheduledTimerWithTimeInterval:60 * 15 target:self selector:@selector(extractDataCountFromUrlStrings) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:60   target:self selector:@selector(extractDataCountFromUrlStrings) userInfo:nil repeats:YES];
 }
 
 - (void)extractDataCountFromUrlStrings {
@@ -1069,7 +1075,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
                 [HttpUtils urlConvertToLocal:urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
                 [self extractDataCountFromHtmlContent:httpResponse.string Index:index];
-                 [self setLocalNotifications];
+                [self setLocalNotifications];
             }
         }
     });
@@ -1104,18 +1110,31 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      *      - 显示通知样式
      *      - `tab_* = abs(dataCount - tab_*_last); tab_*_last = dataCount`
      */
-    NSInteger dataCount = [valueString integerValue];
-    NSString *keyWord = [NSString stringWithFormat:@"tab_%@", self.tabBarItemNames[index]];
-    NSString *lastKeyWord = [NSString stringWithFormat:@"%@_last", keyWord];
-    
     NSMutableDictionary *noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
-    if ([noticeDict[lastKeyWord] integerValue] == -1) {
-        noticeDict[keyWord] = @(0);
+    NSInteger dataCount = [valueString integerValue];
+    if(index < 4) {
+        NSString *keyWord = [NSString stringWithFormat:@"tab_%@", self.tabBarItemNames[index]];
+        NSString *lastKeyWord = [NSString stringWithFormat:@"%@_last", keyWord];
+        
+        if ([noticeDict[lastKeyWord] integerValue] == -1) {
+            noticeDict[keyWord] = @(0);
+            noticeDict[lastKeyWord] = @(dataCount);
+        }
+        else if ([noticeDict[lastKeyWord] integerValue] > 0 && [noticeDict[lastKeyWord] integerValue] != [noticeDict[keyWord] integerValue]) {
+            noticeDict[keyWord] = @(labs([noticeDict[keyWord] integerValue] - [noticeDict[lastKeyWord] integerValue]));
+            noticeDict[lastKeyWord] = @(dataCount);
+        }
     }
-    else if ([noticeDict[lastKeyWord] integerValue] > 0 && [noticeDict[lastKeyWord] integerValue] != [noticeDict[keyWord] integerValue]) {
-        noticeDict[keyWord] = @(labs([noticeDict[keyWord] integerValue] - [noticeDict[lastKeyWord] integerValue]));
+    else {
+        if ([noticeDict[@"thursday_say_last"] integerValue] == -1) {
+           noticeDict[@"thursday_say"] = @(0);
+           noticeDict[@"thursday_say_last"] = @(dataCount);
     }
-    noticeDict[lastKeyWord] = @(dataCount);
+        else if ([noticeDict[@"thursday_say_last"] integerValue] >0 &&[noticeDict[@"thursday_say_last"] integerValue] != [noticeDict[@"thursday_say"] integerValue]) {
+        noticeDict[@"thursday_say"] = @(labs([noticeDict[@"thursday_say"] integerValue] - [noticeDict[@"thursday_say_last"] integerValue]));
+        noticeDict[@"thursday_say_last"] = @(dataCount);
+        }
+    }
     
     [FileUtils writeJSON:noticeDict Into:self.noticeFilePath];
 }

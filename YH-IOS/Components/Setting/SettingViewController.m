@@ -1,4 +1,4 @@
- //
+//
 //  NewSettingViewController.m
 //  YH-IOS
 //
@@ -22,6 +22,8 @@
 #import "SettingDefaultTableViewCell.h"
 #import <PgyUpdate/PgyUpdateManager.h>
 #import "AFNetworking.h"
+#import "ThurSayViewController.h"
+#import "ThurSayTableViewCell.h"
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
 @interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
@@ -89,7 +91,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 #pragma mark - init need-show message
 - (void)initLabelInfoDict {
-    self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正",@"检测版本更新"];
+    self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正",@"检测版本更新",@"小四说"];
     self.headInfoArray = @[@"应用信息", @"安全策略", @"配色主题"];
 
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
@@ -120,11 +122,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.isNeedChangepwd = NO;
     self.isNeedUpgrade = NO;
     NSString  *noticeFilePath = [FileUtils dirPath:@"Cached" FileName:@"local_notifition.json"];
-    NSMutableDictionary *noticeDict = [FileUtils readConfigFile:noticeFilePath];
-    if ([noticeDict[@"setting_password"] isEqualToNumber:@(1)]) {
+    self.noticeDict = [FileUtils readConfigFile:noticeFilePath];
+    if ([self.noticeDict[@"setting_password"] isEqualToNumber:@(1)]) {
         self.isNeedChangepwd = YES;
     }
-    if ([noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)]) {
+    if ([self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)]) {
         self.isNeedUpgrade = YES;
     }
 }
@@ -134,7 +136,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSArray *numberOfRowsInSection = @[@1, @8, @2, @1, @1];
+    NSArray *numberOfRowsInSection = @[@1, @9, @2, @1, @1];
     return (section < numberOfRowsInSection.count ? [numberOfRowsInSection[section] integerValue] : 0);
 }
 
@@ -189,6 +191,15 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
                 [cell.messageButton hideRedIcon];
             }
             return cell;
+        }
+        else if (indexPath.row == 8) {
+            ThurSayTableViewCell *thurSaycell = [[ThurSayTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
+            thurSaycell.titleLabel.text = self.appInfoArray[8];
+            if (![self.noticeDict[@"thursday_say"] isEqualToNumber:@(0)]) {
+                [cell.titleLabel showRedIcon];
+            }
+            return cell;
+            
         }
         return cell;
     }
@@ -288,6 +299,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
     if ((indexPath.section == 1) && (indexPath.row == 6)) {
         [self actionCheckAssets];
+    }
+    if ((indexPath.section == 1) && (indexPath.row == 8)) {
+        ThurSayViewController *thurSay = [[ThurSayViewController alloc] init];
+        [self presentViewController:thurSay animated:YES completion:nil];
     }
 }
 

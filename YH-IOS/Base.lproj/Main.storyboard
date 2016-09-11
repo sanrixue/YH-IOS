@@ -386,8 +386,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="UNg-xt-Kyh" secondAttribute="trailing" constant="-20" id="DDi-xV-e4Z"/>
+                            <constraint firstItem="M3L-6R-By8" firstAttribute="top" secondItem="UNg-xt-Kyh" secondAttribute="bottom" id="SRH-3E-ZVd"/>
                             <constraint firstItem="jiD-n2-AKa" firstAttribute="top" secondItem="VU0-Pg-RXQ" secondAttribute="topMargin" id="Slp-WP-Eqf"/>
-                            <constraint firstItem="M3L-6R-By8" firstAttribute="top" secondItem="UNg-xt-Kyh" secondAttribute="bottom" id="Vlc-7i-p3Z"/>
                             <constraint firstItem="UNg-xt-Kyh" firstAttribute="top" secondItem="jiD-n2-AKa" secondAttribute="bottom" id="gnz-XZ-Mad"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jiD-n2-AKa" secondAttribute="trailing" constant="-20" id="j1P-hr-2Iw"/>
                             <constraint firstItem="UNg-xt-Kyh" firstAttribute="leading" secondItem="VU0-Pg-RXQ" secondAttribute="leadingMargin" constant="-20" id="oEH-ny-7wb"/>
@@ -533,7 +533,7 @@
                                 <rect key="frame" x="0.0" y="85" width="600" height="515"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="sectionIndexColor" patternImage="79847B85-2CD6-4094-B59B-0997B1F95CD0" colorSpace="pattern"/>
+                                <color key="sectionIndexColor" patternImage="CAE184BD-5BC6-4B19-85F0-45B58DCBF5B0" colorSpace="pattern"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <sections/>
                             </tableView>
@@ -1019,7 +1019,10 @@
         </scene>
     </scenes>
     <resources>
-        <image name="79847B85-2CD6-4094-B59B-0997B1F95CD0" width="84" height="25">
+        <image name="Banner-Back" width="17" height="21"/>
+        <image name="Banner-Logo" width="84" height="25"/>
+        <image name="Banner-Setting" width="20" height="20"/>
+        <image name="CAE184BD-5BC6-4B19-85F0-45B58DCBF5B0" width="84" height="25">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
 GR4fJSYsLzU4VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
@@ -1035,9 +1038,6 @@ AZ4BpgGzAbgBugG8AcEByQHMAdEB2QHcAe4B8QH2AAAAAAAAAgEAAAAAAAAAPwAAAAAAAAAAAAAAAAAA
 Afg
 </mutableData>
         </image>
-        <image name="Banner-Back" width="17" height="21"/>
-        <image name="Banner-Logo" width="84" height="25"/>
-        <image name="Banner-Setting" width="20" height="20"/>
         <image name="Subject-Comment" width="21" height="21"/>
         <image name="Subject-Search" width="21" height="21"/>
         <image name="Subject-Share" width="21" height="21"/>

@@ -16,4 +16,15 @@
  *  @param fileName bundle资源文件名称
  */
 + (void)checkAssets:(NSString *)fileName isInAssets:(BOOL)isInAssets bundlePath:(NSString *)bundlePath;
+
+/**
+ *  服务器响应用 HTML 代码加载静态资源调整为应用内相对路径
+ *
+ *  @param htmlPath <#htmlPath description#>
+ *
+ *  @return <#return value description#>
+ */
++ (NSString *)loadLocalAssetsWithPath:(NSString *)htmlPath;
+
++ (NSString *)currentUIVersion;
 @end

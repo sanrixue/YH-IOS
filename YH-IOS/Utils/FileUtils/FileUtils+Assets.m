@@ -9,6 +9,7 @@
 #import "FileUtils+Assets.h"
 #import "NSData+MD5.h"
 #import <SSZipArchive.h>
+#import "TFHpple.h"
 
 @implementation FileUtils (Assets)
 
@@ -66,5 +67,63 @@
         [userDict writeToFile:userConfigPath atomically:YES];
         NSLog(@"unzipfile for %@, %@", fileName, md5String);
     }
+}
+
+/**
+ *  服务器响应用 HTML 代码加载静态资源调整为应用内相对路径
+ *
+ *  @param htmlPath <#htmlPath description#>
+ *
+ *  @return <#return value description#>
+ */
++ (NSString *)loadLocalAssetsWithPath:(NSString *)htmlPath {
+    NSError *error = nil;
+    NSString *htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:&error],
+    *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
+    if(error) {
+        NSLog(@"%@ - %@", error.description, htmlPath);
+    }
+    
+    
+    NSData *htmlData = [htmlContent dataUsingEncoding:NSUTF8StringEncoding];
+    TFHpple *doc = [[TFHpple alloc] initWithHTMLData:htmlData];
+    
+    NSMutableDictionary *uniqDict = [NSMutableDictionary dictionary];
+    
+    // <script src="../*.js"></script>
+    NSArray *elements = [doc searchWithXPathQuery:@"//script"];
+    for(TFHppleElement *element in elements) {
+        NSDictionary *dict = element.attributes;
+        if(dict && dict[@"src"] && [dict[@"src"] length] > 0 && [dict[@"src"] hasPrefix:@"assets/"]) {
+            uniqDict[dict[@"src"]] = [NSString stringWithFormat:@"%@?%@", [dict[@"src"] componentsSeparatedByString:@"?"][0], timestamp];
+        }
+    }
+    // <link href="../*.css">
+    elements = [doc searchWithXPathQuery:@"//link"];
+    for(TFHppleElement *element in elements) {
+        NSDictionary *dict = element.attributes;
+        if(dict && dict[@"href"] && [dict[@"href"] length] > 0 && [dict[@"href"] hasPrefix:@"assets/"]) {
+            uniqDict[dict[@"href"]] = [NSString stringWithFormat:@"%@?%@", [dict[@"href"] componentsSeparatedByString:@"?"][0], timestamp];
+        }
+    }
+    // <img src="../*.png">
+    elements = [doc searchWithXPathQuery:@"//img"];
+    for(TFHppleElement *element in elements) {
+        NSDictionary *dict = element.attributes;
+        if(dict && dict[@"src"] && [dict[@"src"] length] > 0 && [dict[@"src"] hasPrefix:@"assets/"]) {
+            uniqDict[dict[@"src"]] = [NSString stringWithFormat:@"%@?%@", [dict[@"src"] componentsSeparatedByString:@"?"][0], timestamp];
+        }
+    }
+    for(id key in uniqDict) {
+        htmlContent = [htmlContent stringByReplacingOccurrencesOfString:key withString:uniqDict[key]];
+    }
+    
+    return htmlContent;
+}
+
++ (NSString *)currentUIVersion {
+    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:BETA_CONFIG_FILENAME];
+    NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
+    return betaDict[@"old_ui"] && [betaDict[@"old_ui"] boolValue] ? @"v1" : @"v2";
 }
 @end

@@ -26,7 +26,6 @@
 #define API_BARCODE_SCAN_PATH       @"%@/api/v1/group/%@/role/%@/user/%@/store/%@/barcode_scan?code_info=%@&code_type=%@"
 #define API_ASSETS_PATH             @"%@/api/v1/download/%@.zip"
 #define API_UPLOAD_GRAVATAR_PATH    @"/api/v1/device/%@/upload/user/%@/gravatar"
-#define API_DOWNLOAD_GRAVATAR_PATH  @"/api/v1/device/%@/upload/user/%@/gravatar"
 
 #define KPI_DEPRECATED_PATH         @"%@/mobile/%@/role/%@/group/%@/kpi"
 #define KPI_PATH                    @"%@/mobile/%@/group/%@/role/%@/kpi"
@@ -35,6 +34,7 @@
 #define ANALYSE_PATH                @"%@/mobile/%@/role/%@/analyse"
 #define COMMENT_PATH                @"%@/mobile/%@/id/%@/type/%@/comment"
 #define RESET_PASSWORD_PATH         @"%@/mobile/%@/update_user_password"
+#define THURSDAY_SAY_PATH           @"%@/mobile/%@/thursday_say"
 
 #define REPORT_DATA_FILENAME_DEPRECATED @"template_data_group_%@_report_%@.js"
 #define REPORT_DATA_FILENAME            @"group_%@_template_%@_report_%@.js"
@@ -45,9 +45,11 @@
 #define SETTINGS_CONFIG_FILENAME    @"setting.plist"
 #define TABINDEX_CONFIG_FILENAME    @"page_tab_index.plist"
 #define GESTURE_PASSWORD_FILENAME   @"gesture_password.plist"
+#define LOCAL_NOTIFICATION_FILENAME @"local_notification.plist"
 #define HTML_DIRNAME                @"HTML"
 #define ASSETS1_DIRNAME             @"Assets"
 #define SHARED_DIRNAME              @"Shared"
+#define CACHED_DIRNAME              @"Cached"
 
 #define CACHED_HEADER_FILENAME      @"cached_header.plist"
 #define USER_AGENT_FILENAME         @"webview_user_agent.txt"
@@ -55,6 +57,7 @@
 #define PGYER_VERSION_FILENAME      @"pgyer_version.plist"
 #define BETA_CONFIG_FILENAME        @"beta.plist"
 #define GRAVATAR_CONFIG_FILENAME    @"gravatar.plist"
+#define BARCODE_RESULT_FILENAME     @"barcode_result.json"
 
 #define URL_WRITE_LOCAL             @"1"
 // #define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000]

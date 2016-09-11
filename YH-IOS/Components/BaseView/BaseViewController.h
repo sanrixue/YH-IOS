@@ -39,7 +39,6 @@
 @property (strong, nonatomic) NSString *sharedPath;
 @property (strong, nonatomic) User *user;
 
-- (NSString *)stringWithContentsOfFile:(NSString *)htmlPath;
 - (void)clearBrowserCache;
 - (void)showLoading:(LoadingType)loadingType;
 - (void)idColor;
@@ -65,6 +64,4 @@
 - (BOOL)didPasscodeTimerEnd;
 - (NSString *)passcode;
 - (void)savePasscode:(NSString *)passcode;
-- (NSString *)currentUIVersion;
-
 @end

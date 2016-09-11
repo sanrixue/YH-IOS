@@ -262,8 +262,7 @@
  *  @return html路径
  */
 + (NSString *)urlConvertToLocal:(NSString *)urlString content:(NSString *)htmlContent assetsPath:(NSString *)assetsPath writeToLocal:(NSString *)writeToLocal {
-    
-    
+
     NSError *error = nil;
     NSString *filename = [self urlTofilename:urlString suffix:@".html"][0];
     NSString *filepath = [assetsPath stringByAppendingPathComponent:filename];

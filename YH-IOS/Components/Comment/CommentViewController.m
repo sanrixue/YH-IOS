@@ -24,7 +24,7 @@
     [self idColor];
     
     self.labelTheme.text = self.bannerName;
-    self.urlString = [NSString stringWithFormat:COMMENT_PATH, kBaseUrl, [self currentUIVersion], self.objectID, @(self.commentObjectType)];
+    self.urlString = [NSString stringWithFormat:COMMENT_PATH, kBaseUrl, [FileUtils currentUIVersion], self.objectID, @(self.commentObjectType)];
     
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -176,7 +176,7 @@
         
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSString  *htmlContent = [self stringWithContentsOfFile:htmlPath];
+            NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
         });
     });

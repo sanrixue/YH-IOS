@@ -347,7 +347,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)initUrlStrings {
     self.urlStrings = [NSMutableArray array];
     
-    NSString *uiVersion = [self currentUIVersion];
+    NSString *uiVersion = [FileUtils currentUIVersion];
     [self.urlStrings addObject:[NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID]];
     [self.urlStrings addObject:[NSString stringWithFormat:ANALYSE_PATH, kBaseUrl, uiVersion, self.user.roleID]];
     [self.urlStrings addObject:[NSString stringWithFormat:APPLICATION_PATH, kBaseUrl, uiVersion, self.user.roleID]];
@@ -642,7 +642,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
+            NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
             
             [NSTimer scheduledTimerWithTimeInterval:.2 target:self selector:@selector(enableTabBar) userInfo:nil repeats:NO];
@@ -658,7 +658,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
  *  @param sender <#sender description#>
  */
 -(void)dropTableView:(UIButton *)sender {
-    contentView=[[UIViewController alloc]init];
+    contentView=[[UIViewController alloc] init];
     contentView.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count);
     contentView.modalPresentationStyle = UIModalPresentationPopover;
     [contentView setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count)];
@@ -840,7 +840,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [self addAdvertWebView];
     }
     self.urlString = @"";
-    NSString *uiVersion = [self currentUIVersion];
+    NSString *uiVersion = [FileUtils currentUIVersion];
     switch (index) {
         case 0: {
             self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID];

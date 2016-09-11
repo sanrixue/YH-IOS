@@ -45,9 +45,17 @@
 		C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4771BB51C058C9000AAF44F /* CoreTelephony.framework */; };
 		C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A01C0ED9F600EB946D /* APIHelper.m */; };
 		C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C488E6A51C0F03C800EB946D /* BaseViewController.m */; };
+		C48924E51D858F0A00859411 /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C48924D21D858F0A00859411 /* ResetPasswordViewController.m */; };
+		C48924E61D858F0A00859411 /* GestureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C48924D51D858F0A00859411 /* GestureTableViewCell.m */; };
+		C48924E71D858F0A00859411 /* OneButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C48924D71D858F0A00859411 /* OneButtonTableViewCell.m */; };
+		C48924E81D858F0A00859411 /* PgyUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C48924D91D858F0A00859411 /* PgyUpdateTableViewCell.m */; };
+		C48924E91D858F0A00859411 /* SettingDefaultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C48924DB1D858F0A00859411 /* SettingDefaultTableViewCell.m */; };
+		C48924EA1D858F0A00859411 /* SwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C48924DD1D858F0A00859411 /* SwitchTableViewCell.m */; };
+		C48924EB1D858F0A00859411 /* ThurSayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C48924DF1D858F0A00859411 /* ThurSayTableViewCell.m */; };
+		C48924EC1D858F0A00859411 /* UserHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = C48924E11D858F0A00859411 /* UserHeadView.m */; };
+		C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C48924E41D858F0A00859411 /* ThurSayViewController.m */; };
 		C48C03CA1CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C48C03C81CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a */; };
 		C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */ = {isa = PBXBuildFile; fileRef = C48DC6FC1C1E8FDD00CECB95 /* Version.m */; };
-		C499E8A31C3262240033BF6C /* ResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C499E8A21C3262240033BF6C /* ResetPasswordViewController.m */; };
 		C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB21C19632000CFFE3C /* SettingViewController.m */; };
 		C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = C49E1AB61C196B5400CFFE3C /* ViewUtils.m */; };
 		C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DC1C2CECC10067516F /* NSData+MD5.m */; };
@@ -84,15 +92,7 @@
 		C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B71C99812B0009411A /* WebViewJavascriptBridge.m */; };
 		C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */; };
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
-		F608FEC31D77D7F00040C16F /* SwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */; };
-		F608FEC61D77FABF0040C16F /* PgyUpdateTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */; };
-		F680894D1D85277300CDBAF8 /* ThurSayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F680894C1D85277300CDBAF8 /* ThurSayViewController.m */; };
-		F68089501D85407200CDBAF8 /* ThurSayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F680894F1D85407200CDBAF8 /* ThurSayTableViewCell.m */; };
-		F69A3CFD1D792580009E6BD8 /* UserHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFC1D792580009E6BD8 /* UserHeadView.m */; };
-		F69A3D001D794006009E6BD8 /* GestureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */; };
-		F69A3D071D796ED4009E6BD8 /* OneButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */; };
 		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
-		F6F5CBCA1D7D48AE00A1E779 /* SettingDefaultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC91D7D48AE00A1E779 /* SettingDefaultTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,12 +168,28 @@
 		C488E6A01C0ED9F600EB946D /* APIHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APIHelper.m; sourceTree = "<group>"; };
 		C488E6A41C0F03C800EB946D /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
 		C488E6A51C0F03C800EB946D /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		C48924D11D858F0A00859411 /* ResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPasswordViewController.h; sourceTree = "<group>"; };
+		C48924D21D858F0A00859411 /* ResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPasswordViewController.m; sourceTree = "<group>"; };
+		C48924D41D858F0A00859411 /* GestureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureTableViewCell.h; sourceTree = "<group>"; };
+		C48924D51D858F0A00859411 /* GestureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureTableViewCell.m; sourceTree = "<group>"; };
+		C48924D61D858F0A00859411 /* OneButtonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneButtonTableViewCell.h; sourceTree = "<group>"; };
+		C48924D71D858F0A00859411 /* OneButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneButtonTableViewCell.m; sourceTree = "<group>"; };
+		C48924D81D858F0A00859411 /* PgyUpdateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PgyUpdateTableViewCell.h; sourceTree = "<group>"; };
+		C48924D91D858F0A00859411 /* PgyUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PgyUpdateTableViewCell.m; sourceTree = "<group>"; };
+		C48924DA1D858F0A00859411 /* SettingDefaultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingDefaultTableViewCell.h; sourceTree = "<group>"; };
+		C48924DB1D858F0A00859411 /* SettingDefaultTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingDefaultTableViewCell.m; sourceTree = "<group>"; };
+		C48924DC1D858F0A00859411 /* SwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchTableViewCell.h; sourceTree = "<group>"; };
+		C48924DD1D858F0A00859411 /* SwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchTableViewCell.m; sourceTree = "<group>"; };
+		C48924DE1D858F0A00859411 /* ThurSayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThurSayTableViewCell.h; sourceTree = "<group>"; };
+		C48924DF1D858F0A00859411 /* ThurSayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThurSayTableViewCell.m; sourceTree = "<group>"; };
+		C48924E01D858F0A00859411 /* UserHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHeadView.h; sourceTree = "<group>"; };
+		C48924E11D858F0A00859411 /* UserHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeadView.m; sourceTree = "<group>"; };
+		C48924E31D858F0A00859411 /* ThurSayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThurSayViewController.h; sourceTree = "<group>"; };
+		C48924E41D858F0A00859411 /* ThurSayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThurSayViewController.m; sourceTree = "<group>"; };
 		C48C03C81CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		C48C03C91CABB27B000D9D22 /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
 		C48DC6FB1C1E8FDD00CECB95 /* Version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Version.h; sourceTree = "<group>"; };
 		C48DC6FC1C1E8FDD00CECB95 /* Version.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Version.m; sourceTree = "<group>"; };
-		C499E8A11C3262240033BF6C /* ResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResetPasswordViewController.h; sourceTree = "<group>"; };
-		C499E8A21C3262240033BF6C /* ResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResetPasswordViewController.m; sourceTree = "<group>"; };
 		C49E1AB11C19632000CFFE3C /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		C49E1AB21C19632000CFFE3C /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		C49E1AB51C196B5400CFFE3C /* ViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewUtils.h; sourceTree = "<group>"; };
@@ -241,26 +257,10 @@
 		C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
 		C4EFE4BA1C99812B0009411A /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
-		F608FEC11D77D7F00040C16F /* SwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchTableViewCell.h; sourceTree = "<group>"; };
-		F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchTableViewCell.m; sourceTree = "<group>"; };
-		F608FEC41D77FABF0040C16F /* PgyUpdateTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PgyUpdateTableViewCell.h; sourceTree = "<group>"; };
-		F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PgyUpdateTableViewCell.m; sourceTree = "<group>"; };
-		F680894B1D85277300CDBAF8 /* ThurSayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThurSayViewController.h; sourceTree = "<group>"; };
-		F680894C1D85277300CDBAF8 /* ThurSayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThurSayViewController.m; sourceTree = "<group>"; };
-		F680894E1D85407200CDBAF8 /* ThurSayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThurSayTableViewCell.h; sourceTree = "<group>"; };
-		F680894F1D85407200CDBAF8 /* ThurSayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThurSayTableViewCell.m; sourceTree = "<group>"; };
 		F68EA5731D7E8BD600AC2F8A /* advertisement.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = advertisement.zip; sourceTree = "<group>"; };
-		F69A3CFB1D792580009E6BD8 /* UserHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHeadView.h; sourceTree = "<group>"; };
-		F69A3CFC1D792580009E6BD8 /* UserHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeadView.m; sourceTree = "<group>"; };
-		F69A3CFE1D794006009E6BD8 /* GestureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureTableViewCell.h; sourceTree = "<group>"; };
-		F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureTableViewCell.m; sourceTree = "<group>"; };
-		F69A3D051D796ED4009E6BD8 /* OneButtonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OneButtonTableViewCell.h; sourceTree = "<group>"; };
-		F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OneButtonTableViewCell.m; sourceTree = "<group>"; };
 		F6F1FEC61D82634C00BF3274 /* PrivateConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
-		F6F5CBC81D7D48AE00A1E779 /* SettingDefaultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingDefaultTableViewCell.h; sourceTree = "<group>"; };
-		F6F5CBC91D7D48AE00A1E779 /* SettingDefaultTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingDefaultTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,6 +409,45 @@
 			path = APIUtils;
 			sourceTree = "<group>";
 		};
+		C48924D01D858F0A00859411 /* ResetPassword */ = {
+			isa = PBXGroup;
+			children = (
+				C48924D11D858F0A00859411 /* ResetPasswordViewController.h */,
+				C48924D21D858F0A00859411 /* ResetPasswordViewController.m */,
+			);
+			path = ResetPassword;
+			sourceTree = "<group>";
+		};
+		C48924D31D858F0A00859411 /* SettingTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				C48924D41D858F0A00859411 /* GestureTableViewCell.h */,
+				C48924D51D858F0A00859411 /* GestureTableViewCell.m */,
+				C48924D61D858F0A00859411 /* OneButtonTableViewCell.h */,
+				C48924D71D858F0A00859411 /* OneButtonTableViewCell.m */,
+				C48924D81D858F0A00859411 /* PgyUpdateTableViewCell.h */,
+				C48924D91D858F0A00859411 /* PgyUpdateTableViewCell.m */,
+				C48924DA1D858F0A00859411 /* SettingDefaultTableViewCell.h */,
+				C48924DB1D858F0A00859411 /* SettingDefaultTableViewCell.m */,
+				C48924DC1D858F0A00859411 /* SwitchTableViewCell.h */,
+				C48924DD1D858F0A00859411 /* SwitchTableViewCell.m */,
+				C48924DE1D858F0A00859411 /* ThurSayTableViewCell.h */,
+				C48924DF1D858F0A00859411 /* ThurSayTableViewCell.m */,
+				C48924E01D858F0A00859411 /* UserHeadView.h */,
+				C48924E11D858F0A00859411 /* UserHeadView.m */,
+			);
+			path = SettingTableViewCell;
+			sourceTree = "<group>";
+		};
+		C48924E21D858F0A00859411 /* ThursdaySay */ = {
+			isa = PBXGroup;
+			children = (
+				C48924E31D858F0A00859411 /* ThurSayViewController.h */,
+				C48924E41D858F0A00859411 /* ThurSayViewController.m */,
+			);
+			path = ThursdaySay;
+			sourceTree = "<group>";
+		};
 		C48C03C71CABB27B000D9D22 /* UMessage_Sdk_1.2.6 */ = {
 			isa = PBXGroup;
 			children = (
@@ -428,37 +467,14 @@
 			path = Version;
 			sourceTree = "<group>";
 		};
-		C499E8A01C3262010033BF6C /* ResetPassword */ = {
-			isa = PBXGroup;
-			children = (
-				C499E8A11C3262240033BF6C /* ResetPasswordViewController.h */,
-				C499E8A21C3262240033BF6C /* ResetPasswordViewController.m */,
-			);
-			path = ResetPassword;
-			sourceTree = "<group>";
-		};
 		C49E1AB01C1962F200CFFE3C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
-				C499E8A01C3262010033BF6C /* ResetPassword */,
+				C48924D01D858F0A00859411 /* ResetPassword */,
+				C48924D31D858F0A00859411 /* SettingTableViewCell */,
+				C48924E21D858F0A00859411 /* ThursdaySay */,
 				C49E1AB11C19632000CFFE3C /* SettingViewController.h */,
 				C49E1AB21C19632000CFFE3C /* SettingViewController.m */,
-				F680894E1D85407200CDBAF8 /* ThurSayTableViewCell.h */,
-				F680894F1D85407200CDBAF8 /* ThurSayTableViewCell.m */,
-				F69A3CFB1D792580009E6BD8 /* UserHeadView.h */,
-				F69A3CFC1D792580009E6BD8 /* UserHeadView.m */,
-				F6F5CBC81D7D48AE00A1E779 /* SettingDefaultTableViewCell.h */,
-				F6F5CBC91D7D48AE00A1E779 /* SettingDefaultTableViewCell.m */,
-				F680894B1D85277300CDBAF8 /* ThurSayViewController.h */,
-				F680894C1D85277300CDBAF8 /* ThurSayViewController.m */,
-				F608FEC41D77FABF0040C16F /* PgyUpdateTableViewCell.h */,
-				F608FEC51D77FABF0040C16F /* PgyUpdateTableViewCell.m */,
-				F608FEC11D77D7F00040C16F /* SwitchTableViewCell.h */,
-				F608FEC21D77D7F00040C16F /* SwitchTableViewCell.m */,
-				F69A3CFE1D794006009E6BD8 /* GestureTableViewCell.h */,
-				F69A3CFF1D794006009E6BD8 /* GestureTableViewCell.m */,
-				F69A3D051D796ED4009E6BD8 /* OneButtonTableViewCell.h */,
-				F69A3D061D796ED4009E6BD8 /* OneButtonTableViewCell.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -989,30 +1005,32 @@
 				C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */,
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
 				C46F6A961D0671C900C561CE /* SubLBXScanViewController.m in Sources */,
+				C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */,
 				C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */,
+				C48924EA1D858F0A00859411 /* SwitchTableViewCell.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
+				C48924E91D858F0A00859411 /* SettingDefaultTableViewCell.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
+				C48924EB1D858F0A00859411 /* ThurSayTableViewCell.m in Sources */,
 				C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */,
 				C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */,
+				C48924E71D858F0A00859411 /* OneButtonTableViewCell.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
 				C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */,
-				F608FEC61D77FABF0040C16F /* PgyUpdateTableViewCell.m in Sources */,
 				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
+				C48924E51D858F0A00859411 /* ResetPasswordViewController.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
-				F680894D1D85277300CDBAF8 /* ThurSayViewController.m in Sources */,
 				C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */,
-				F69A3D001D794006009E6BD8 /* GestureTableViewCell.m in Sources */,
-				F6F5CBCA1D7D48AE00A1E779 /* SettingDefaultTableViewCell.m in Sources */,
 				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
 				C40D06B21C917BF80029D142 /* TFHpple.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
 				F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */,
 				C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */,
-				F69A3CFD1D792580009E6BD8 /* UserHeadView.m in Sources */,
+				C48924E81D858F0A00859411 /* PgyUpdateTableViewCell.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
 				C45D27121C23FC490087C6F2 /* README.md in Sources */,
@@ -1029,12 +1047,10 @@
 				C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */,
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,
-				F68089501D85407200CDBAF8 /* ThurSayTableViewCell.m in Sources */,
-				C499E8A31C3262240033BF6C /* ResetPasswordViewController.m in Sources */,
-				F608FEC31D77D7F00040C16F /* SwitchTableViewCell.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
-				F69A3D071D796ED4009E6BD8 /* OneButtonTableViewCell.m in Sources */,
+				C48924E61D858F0A00859411 /* GestureTableViewCell.m in Sources */,
+				C48924EC1D858F0A00859411 /* UserHeadView.m in Sources */,
 				C42ECED41D66EE8E00C5F762 /* DropTableViewCell.m in Sources */,
 				C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */,
 			);
@@ -1201,7 +1217,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cb4eb413-d8d1-4286-8c65-5e72144f9026";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1232,7 +1248,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cb4eb413-d8d1-4286-8c65-5e72144f9026";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

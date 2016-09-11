@@ -102,7 +102,7 @@
     }];
     
     self.labelTheme.text = self.bannerName;
-    self.urlString = [NSString stringWithFormat:RESET_PASSWORD_PATH, kBaseUrl, [self currentUIVersion]];
+    self.urlString = [NSString stringWithFormat:RESET_PASSWORD_PATH, kBaseUrl, [FileUtils currentUIVersion]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -171,7 +171,7 @@
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSString *htmlContent = [self stringWithContentsOfFile:htmlPath];
+            NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:[FileUtils sharedPath]]];
         });
     });

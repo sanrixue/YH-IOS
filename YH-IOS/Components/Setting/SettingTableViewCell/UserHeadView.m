@@ -21,13 +21,13 @@
 - (void)initWithSubview {
     UIImageView *backImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, mWIDTH, 150)];
     backImage.backgroundColor = [UIColor grayColor];
-    UIImage *backimage= [UIImage imageNamed:@"setting_background"];
+    UIImage *backimage= [UIImage imageNamed:@"UserHead-Background"];
     UIImage *userHeadImage = [self handleImage:backimage withSize:CGSizeMake(mWIDTH, 150)];
     backImage.image = userHeadImage;
     backImage.contentMode = UIViewContentModeScaleToFill;
     backImage.backgroundColor = [UIColor colorWithRed:100 green:100 blue:100 alpha:1];
     backImage.userInteractionEnabled = YES;
-    UIView *backView = [[UIView alloc]initWithFrame:CGRectMake( self.frame.origin.x,self.frame.origin.y,mWIDTH,150)];
+    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake( self.frame.origin.x,self.frame.origin.y,mWIDTH,150)];
     backView.backgroundColor = [UIColor grayColor];
     backView.alpha = 0.2;
     [backImage addSubview:backView];

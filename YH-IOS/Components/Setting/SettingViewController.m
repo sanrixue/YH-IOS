@@ -55,6 +55,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
     [self loadUserGravatar];
     [self showNoticeRedIcon];
+    
     self.version = [[Version alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
     self.view.backgroundColor = [UIColor clearColor];
@@ -132,7 +133,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)showNoticeRedIcon {
     self.isNeedChangepwd = NO;
     self.isNeedUpgrade = NO;
-    NSString  *noticeFilePath = [FileUtils dirPath:CACHED_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
+    NSString *noticeFilePath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
     self.noticeDict = [FileUtils readConfigFile:noticeFilePath];
     if ([self.noticeDict[@"setting_password"] isEqualToNumber:@(1)]) {
         self.isNeedChangepwd = YES;
@@ -204,9 +205,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             return cell;
         }
         else if (indexPath.row == 8) {
-            ThurSayTableViewCell *thurSaycell = [[ThurSayTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
-            thurSaycell.titleLabel.text = self.appInfoArray[8];
-            if ([self.noticeDict[@"thursday_say"] integerValue] > 0) {
+            ThurSayTableViewCell *cell = [[ThurSayTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
+            cell.titleLabel.text = self.appInfoArray[8];
+            
+            if ([self.noticeDict[@"setting_thursday_say"] integerValue] > 0) {
                 [cell.titleLabel showRedIcon];
             }
             return cell;
@@ -222,14 +224,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             cell.changStatusBtn.on = isUseGesturePassword;
             [cell.changeGestureBtn setTitle:@"修改锁屏密码" forState:UIControlStateNormal];
             [cell.changeGestureBtn addTarget:self action:@selector(actionChangeGesturePassword) forControlEvents:UIControlEventTouchUpInside];
-            if (isUseGesturePassword) {
-                cell.changeGestureBtn.userInteractionEnabled = YES;
-                [cell.changeGestureBtn setTitleColor:[UIColor colorWithHexString:kThemeColor] forState:UIControlStateNormal];
-            }
-            else {
-                cell.changeGestureBtn.userInteractionEnabled = NO;
-                [cell.changeGestureBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-            }
+            
+            cell.changeGestureBtn.userInteractionEnabled = isUseGesturePassword;
+            UIColor *btnColor = isUseGesturePassword ? [UIColor colorWithHexString:kThemeColor] : [UIColor lightGrayColor];
+            [cell.changeGestureBtn setTitleColor:btnColor forState:UIControlStateNormal];
             
             [cell.changStatusBtn addTarget:self action:@selector(actionWehtherUseGesturePassword:) forControlEvents:UIControlEventValueChanged];
             return cell;

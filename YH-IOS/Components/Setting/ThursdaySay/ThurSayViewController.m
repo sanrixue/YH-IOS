@@ -11,7 +11,6 @@
 
 @interface ThurSayViewController ()<UINavigationBarDelegate,UINavigationControllerDelegate>
 @property (nonatomic, strong) UIWebView *browser;
-@property (nonatomic, strong) NSString *thurSayPath;
 @property (nonatomic, strong) UIView *navBar;
 @property (nonatomic, strong) NSString *urlString;
 @property (nonatomic, strong) NSString *assetsPath;
@@ -43,8 +42,6 @@
     
     self.urlString = [NSString stringWithFormat:THURSDAY_SAY_PATH, kBaseUrl, [FileUtils currentUIVersion]];
     self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
-    
-    self.thurSayPath = [FileUtils dirPath:HTML_DIRNAME FileName:@"thursday_say.html"];
     [self loadHtml];
 }
 

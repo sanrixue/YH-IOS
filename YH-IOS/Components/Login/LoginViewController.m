@@ -14,6 +14,8 @@
 #import "UMessage.h"
 #import "Version.h"
 
+#define kSloganHeight [[UIScreen mainScreen]bounds].size.height / 5
+
 @interface LoginViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIImageView *bgView;
@@ -40,7 +42,6 @@
     self.bgView.image = [UIImage imageNamed:@"background"];
     [self.view addSubview:self.bgView];
     self.bgView.userInteractionEnabled = YES;
-    
     // logoView
     self.logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Logo"]];
     self.logoView.contentMode = UIViewContentModeScaleToFill;
@@ -105,6 +106,7 @@
     self.versionLabel.textColor = [UIColor whiteColor];
     self.versionLabel.text = [NSString stringWithFormat:@"%@(%@)", self.version.current, self.version.build];
     self.versionLabel.textAlignment = NSTextAlignmentCenter;
+    self.versionLabel.adjustsFontSizeToFitWidth = YES;
     [self.bgView addSubview:self.versionLabel];
     [self layoutView];
 }
@@ -119,7 +121,8 @@
     NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel);
     // [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_logoView]-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bgView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-80-[_logoView(42)]-20-[_sloganLabel(20)]-140-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-50-[_loginButton(40)]-(>=40)-[_versionLabel(20)]-10-|" options:0 metrics:nil views:ViewDict]];
+    NSString *strl =[NSString stringWithFormat: @"V:|-80-[_logoView(42)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-50-[_loginButton(40)]-(>=50)-[_versionLabel(20)]-10-|", kSloganHeight];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:strl options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-80-[_sloganLabel]-80-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView1]-40-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView2]-40-|" options:0 metrics:nil views:ViewDict]];

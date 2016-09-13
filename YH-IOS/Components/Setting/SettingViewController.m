@@ -45,6 +45,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (strong, nonatomic) NSString *userGavatarPath;
 @property (strong, nonatomic) NSString *userGavatarName;
 @property (strong, nonatomic) NSString *userIconPath;
+@property (strong, nonatomic) NSString *noticeFilePath;
 
 @end
 
@@ -133,8 +134,13 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)showNoticeRedIcon {
     self.isNeedChangepwd = NO;
     self.isNeedUpgrade = NO;
+<<<<<<< HEAD
     NSString *noticeFilePath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
     self.noticeDict = [FileUtils readConfigFile:noticeFilePath];
+=======
+    _noticeFilePath = [FileUtils dirPath:CACHED_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
+    self.noticeDict = [FileUtils readConfigFile:_noticeFilePath];
+>>>>>>> 446ab692f6f4b45bc030ad166638913a26bbaa83
     if ([self.noticeDict[@"setting_password"] isEqualToNumber:@(1)]) {
         self.isNeedChangepwd = YES;
     }
@@ -311,7 +317,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
     if ((indexPath.section == 1) && (indexPath.row == 8)) {
         ThurSayViewController *thurSay = [[ThurSayViewController alloc] init];
-        [self presentViewController:thurSay animated:YES completion:nil];
+        [self presentViewController:thurSay animated:YES completion:^{
+            self.noticeDict[@"thursday_say"] = @(0);
+            [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
+            [self.settingTableView reloadData];
+        }];
     }
 }
 

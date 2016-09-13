@@ -30,6 +30,7 @@
 
 #define kBannerHeight (IS_SCREEN_5_5_INCH ? 74 : 64)
 #define KTabBarHeight (IS_SCREEN_5_5_INCH ? 56 : 49)
+
 // 相对宽度为320屏幕的屏幕倍率
 #define kScreenWidthRate (kScreenWidth/320.0)
 

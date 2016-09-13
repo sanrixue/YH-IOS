@@ -1044,7 +1044,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - 本地通知，样式加载
 - (void)setNotificationBadgeTimer {
-    NSTimeInterval period = 30.0;
+    NSTimeInterval period = 60 * 30;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, period * NSEC_PER_SEC, 0);

@@ -47,6 +47,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 @property (strong , nonatomic) NSMutableDictionary *noticeDict;
 @property (nonatomic) BOOL isNeedUpgrade;
 @property (assign, nonatomic)BOOL isShowUserInfoNotice;
+@property (strong, nonatomic) dispatch_source_t timer;
 // 设置按钮点击下拉菜单
 @property (nonatomic, strong) NSArray *dropMenuTitles;
 @property (nonatomic, strong) NSArray *dropMenuIcons;
@@ -68,6 +69,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
     self.advertWebView.tag = 1234;
+    //self.browser.scrollView.showsVerticalScrollIndicator = NO;
     
     [self initUrlStrings];
     [self initLocalNotifications];
@@ -359,7 +361,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
  *  初始化本地通知
  */
 - (void)initLocalNotifications {
-    self.noticeFilePath = [FileUtils dirPath:@"Cached" FileName:@"local_notifition.json"];
+    self.noticeFilePath = [FileUtils dirPath:CACHED_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
     if([FileUtils checkFileExist:self.noticeFilePath isDir:NO]) {
         return;
     }
@@ -1042,17 +1044,17 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - 本地通知，样式加载
 - (void)setNotificationBadgeTimer {
-//    NSTimeInterval period = 10.0;
-//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//    dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
-//    dispatch_source_set_timer(timer, DISPATCH_TIME_NOW, period * NSEC_PER_SEC, 0);
-//    dispatch_source_set_event_handler(timer, ^{
-//        [self extractDataCountFromUrlStrings];
-//    });
-//    
-//    dispatch_resume(timer);
+    NSTimeInterval period = 60 * 30;
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
+    dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, period * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(_timer, ^{
+        [self extractDataCountFromUrlStrings];
+    });
     
-    [NSTimer scheduledTimerWithTimeInterval:60   target:self selector:@selector(extractDataCountFromUrlStrings) userInfo:nil repeats:YES];
+    dispatch_resume(_timer);
+    
+   // [NSTimer scheduledTimerWithTimeInterval:60 * 30  target:self selector:@selector(extractDataCountFromUrlStrings) userInfo:nil repeats:YES];
 }
 
 - (void)extractDataCountFromUrlStrings {
@@ -1119,7 +1121,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     else {
         if ([noticeDict[@"thursday_say_last"] integerValue] == -1) {
            noticeDict[@"thursday_say"] = @(0);
-            noticeDict[@"thursday_say_last"] = @(dataCount);
+           noticeDict[@"thursday_say_last"] = @(dataCount);
         }
         else if ([noticeDict[@"thursday_say_last"] integerValue] >0 &&[noticeDict[@"thursday_say_last"] integerValue] != [noticeDict[@"thursday_say"] integerValue]) {
             noticeDict[@"thursday_say"] = @(labs([noticeDict[@"thursday_say"] integerValue] - [noticeDict[@"thursday_say_last"] integerValue]));

@@ -361,7 +361,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
  *  初始化本地通知
  */
 - (void)initLocalNotifications {
-    self.noticeFilePath = [FileUtils dirPath:@"Cached" FileName:@"local_notifition.json"];
+    self.noticeFilePath = [FileUtils dirPath:CACHED_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
     if([FileUtils checkFileExist:self.noticeFilePath isDir:NO]) {
         return;
     }

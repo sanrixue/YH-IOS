@@ -133,7 +133,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)showNoticeRedIcon {
     self.isNeedChangepwd = NO;
     self.isNeedUpgrade = NO;
-    _noticeFilePath = [FileUtils dirPath:@"Cached" FileName:@"local_notifition.json"];
+    _noticeFilePath = [FileUtils dirPath:CACHED_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
     self.noticeDict = [FileUtils readConfigFile:_noticeFilePath];
     if ([self.noticeDict[@"setting_password"] isEqualToNumber:@(1)]) {
         self.isNeedChangepwd = YES;

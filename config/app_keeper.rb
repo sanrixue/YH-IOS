@@ -116,32 +116,33 @@ if slop_opts[:constant]
     #ifndef PrivateConstants_h
     #define PrivateConstants_h
 
-    #define kAppCode     @"#{Settings.app_code}"
-    #define kBaseUrl     @"#{Settings.server}"
-    #define kBaseUrl1    @"http://localhost:4567"
+    #define kAppCode          @"#{Settings.app_code}"
+    #define kBaseUrl          @"#{Settings.server}"
+    #define kBaseUrl1         @"http://localhost:4567"
 
-    #define kLoginSlogan @"#{Settings.slogan_text}"
+    #define kInitPassword     @"123456"
+    #define kLoginSlogan      @"#{Settings.slogan_text}"
 
-    #define kPgyerAppId  @"#{Settings.pgyer.ios}"
-    #define kPgyerUrl    @"http://www.pgyer.com/#{Settings.key_store.alias}-i"
+    #define kPgyerAppId       @"#{Settings.pgyer.ios}"
+    #define kPgyerUrl         @"http://www.pgyer.com/#{Settings.key_store.alias}-i"
     
-    #define kUMAppId     @"#{Settings.umeng.ios.app_key}"
-    #define kWXAppId     @"#{Settings.umeng_weixin.ios.app_id}"
-    #define kWXAppSecret @"#{Settings.umeng_weixin.ios.app_secret}"
+    #define kUMAppId          @"#{Settings.umeng.ios.app_key}"
+    #define kWXAppId          @"#{Settings.umeng_weixin.ios.app_id}"
+    #define kWXAppSecret      @"#{Settings.umeng_weixin.ios.app_secret}"
 
     #define kDropMenuScan     #{Settings.display_status.drop_menu_scan == 1 ? 'YES' : 'NO'}
     #define kDropMenuVoice    #{Settings.display_status.drop_menu_voice == 1 ? 'YES' : 'NO'}
     #define kDropMenuSearch   #{Settings.display_status.drop_menu_search == 1 ? 'YES' : 'NO'}
     #define kDropMenuUserInfo #{Settings.display_status.drop_menu_user_info == 1 ? 'YES' : 'NO'}
 
-    #define kTabBar        #{Settings.display_status.tab_bar == 1 ? 'YES' : 'NO'}
-    #define kTabBarKPI     #{Settings.display_status.tab_bar_kpi == 1 ? 'YES' : 'NO'}
-    #define kTabBarAnalyse #{Settings.display_status.tab_bar_analyse == 1 ? 'YES' : 'NO'}
-    #define kTabBarApp     #{Settings.display_status.tab_bar_app == 1 ? 'YES' : 'NO'}
-    #define kTabBarMessage #{Settings.display_status.tab_bar_message == 1 ? 'YES' : 'NO'}
+    #define kTabBar           #{Settings.display_status.tab_bar == 1 ? 'YES' : 'NO'}
+    #define kTabBarKPI        #{Settings.display_status.tab_bar_kpi == 1 ? 'YES' : 'NO'}
+    #define kTabBarAnalyse    #{Settings.display_status.tab_bar_analyse == 1 ? 'YES' : 'NO'}
+    #define kTabBarApp        #{Settings.display_status.tab_bar_app == 1 ? 'YES' : 'NO'}
+    #define kTabBarMessage    #{Settings.display_status.tab_bar_message == 1 ? 'YES' : 'NO'}
 
-    #define kSubjectComment #{Settings.display_status.subject_comment == 1 ? 'YES' : 'NO'}
-    #define kSubjectShare   #{Settings.display_status.subject_share == 1 ? 'YES' : 'NO'}
+    #define kSubjectComment   #{Settings.display_status.subject_comment == 1 ? 'YES' : 'NO'}
+    #define kSubjectShare     #{Settings.display_status.subject_share == 1 ? 'YES' : 'NO'}
 
     #endif /* PrivateConstants_h */
     EOF

@@ -389,20 +389,6 @@
  */
 + (void)barcodeScanResult:(NSString *)responseString {
     NSString *javascriptPath = [FileUtils barcodeScanResultPath];
-    //    NSString *javascriptContent = [NSString stringWithFormat:@"\
-    //       (function(){ \n\
-    //           var response = %@, \n\
-    //               order_keys = response.order_keys, \n\
-    //               array = [], \n\
-    //               key, value, i; \n\
-    //           for(i = 0; i < order_keys.length; i ++) { \n\
-    //               key = order_keys[i]; \n\
-    //               value = response[key]; \n\
-    //               array.push('<tr><td>' + key + '</td><td>' + value + '</td></tr>') \n\
-    //           } \n\
-    //           document.getElementById('result').innerHTML = array.join(''); \n\
-    //       }).call(this);", responseString];
-    
     NSString *javascriptContent = [NSString stringWithFormat:@"\
                                    (function(){ \n\
                                    window.BarCodeData=%@ \n\

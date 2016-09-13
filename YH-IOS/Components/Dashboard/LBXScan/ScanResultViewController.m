@@ -76,11 +76,12 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)_loadHtml {
     [self clearBrowserCache];
     
-    [FileUtils barcodeScanResult:@"{\"chart\": \"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\", \"tabs\": [{ title: \"提示\", table: { length: 1, \"1\": [\"加载中...\"]}}]}"];
+    [self showLoading:LoadingLoad];
     [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.barCodePath]];
     
-    NSString *cachedPath = [FileUtils dirPath:@"Cached"];
-    NSString *cacheJsonPath = [cachedPath stringByAppendingPathComponent:@"barcode.json"];
+    NSString *cachedPath = [FileUtils dirPath:CACHED_DIRNAME];
+    NSString *cacheJsonPath = [cachedPath stringByAppendingPathComponent:BARCODE_RESULT_FILENAME
+                               ];
     NSMutableDictionary *cacheDict = [FileUtils readConfigFile:cacheJsonPath];
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
@@ -99,7 +100,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];
         
         [self clearBrowserCache];
-        [self showLoading:LoadingLoad];
         [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.barCodePath]];
     });
 }

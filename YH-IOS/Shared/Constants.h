@@ -88,5 +88,16 @@ typedef NS_ENUM(NSInteger, LoadingType) {
     LoadingLogining = 3 // deprecate
 };
 
+#define kBarCodeScanResultDefault @"{ \
+  \"chart\": {                        \
+      \"title\": \"查询中...\",        \
+      \"series\": [{                  \
+           \"name\": \"查询中\",       \
+           \"type\": \"line\",        \
+           \"data\": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] \
+      }] \
+    }, \
+    \"tabs\": [] \
+  }";
 
 #endif /* constant_h */

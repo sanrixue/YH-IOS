@@ -289,14 +289,10 @@
  *  @param codeType   条形码或二维码
  */
 + (void)barCodeScan:(NSString *)userNum group:(NSNumber *)groupID  role:(NSNumber *)roleID store:(NSString *)storeID code:(NSString *)codeInfo type:(NSString *)codeType {
-    
     NSString * urlstring = [NSString stringWithFormat:API_BARCODE_SCAN_PATH, kBaseUrl, groupID, roleID, userNum, storeID, codeInfo, codeType];
     
     HttpResponse *response = [HttpUtils httpGet:urlstring];
     NSString *responseString = response.string;
-    if(!response.data[@"code"] || ![response.data[@"code"] isEqualToNumber:@(200)]) {
-        responseString = @"{\"chart\": \"[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]\", \"tabs\": [{ title: \"提示\", table: { length: 1, \"1\": [\"获取数据失败！\"]}}]}";
-    }
     [FileUtils barcodeScanResult:responseString];
 }
 @end

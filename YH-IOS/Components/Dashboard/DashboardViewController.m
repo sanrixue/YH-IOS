@@ -39,7 +39,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 @property (weak, nonatomic) IBOutlet UIButton *btnScanCode;
 @property (assign, nonatomic) CommentObjectType commentObjectType;
 @property (assign, nonatomic) NSInteger objectID;
-@property (strong, nonatomic) NSArray *tabBarItemNames;
+@property (strong, nonatomic) NSArray *notificationKeys;
 @property (weak, nonatomic) IBOutlet UIButton *setting;
 // 本地通知
 @property (nonatomic, strong) NSMutableArray *urlStrings;
@@ -64,7 +64,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
-    self.tabBarItemNames = @[@"kpi", @"analyse", @"app", @"message"];
+    self.notificationKeys = @[@"tab_kpi", @"tab_analyse", @"tab_app", @"tab_message", @"setting_thursday_say"];
+    self.noticeFilePath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
     
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
@@ -97,10 +98,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+    [self showUserInfoRedIcon];
     [self checkPushMessageAction];
     [self checkAssetsUpdate];
-    [self showUserInfoRedIcon];
     [self setTabBarHeight];
    // [[ NSNotificationCenter defaultCenter ] addObserver : self selector : @selector (statusBarFramWillChange:) name : UIApplicationWillChangeStatusBarFrameNotification object : nil ];
     [[ NSNotificationCenter defaultCenter ] addObserver : self selector : @selector (layoutControllerSubViews:) name : UIApplicationDidChangeStatusBarFrameNotification object : nil ];
@@ -354,7 +354,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self.urlStrings addObject:[NSString stringWithFormat:ANALYSE_PATH, kBaseUrl, uiVersion, self.user.roleID]];
     [self.urlStrings addObject:[NSString stringWithFormat:APPLICATION_PATH, kBaseUrl, uiVersion, self.user.roleID]];
     [self.urlStrings addObject:[NSString stringWithFormat:MESSAGE_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID, self.user.userID]];
-    [self.urlStrings addObject:[NSString stringWithFormat:@"http://yonghui-test.idata.mobi/thursday_say"]];
+    [self.urlStrings addObject:[NSString stringWithFormat:THURSDAY_SAY_PATH, kBaseUrl, uiVersion]];
 }
 
 /**
@@ -379,8 +379,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         @"setting": @(-1),
         @"setting_pgyer": @(-1),
         @"setting_password": @(-1),
-        @"thursday_say":@(-1),
-        @"thursday_say_last":@(-1)
+        @"setting_thursday_say":@(-1),
+        @"setting_thursday_say_last":@(-1)
     };
     NSMutableDictionary *noticeCachedDict = [[NSMutableDictionary alloc] initWithDictionary:noticeDict];
     [FileUtils writeJSON:noticeCachedDict Into:self.noticeFilePath];
@@ -682,7 +682,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
     //popover.barButtonItem=self.navigationItem.rightBarButtonItem;
     [popover setSourceView:self.view];
-    popover.backgroundColor = [UIColor colorWithHexString:@"31809f"];
+    popover.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     [self presentViewController:contentView animated:YES completion:nil];
 }
 
@@ -925,13 +925,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
-    if (indexPath.row == 3 ) {
-        if (![self.noticeDict[@"setting"] isEqualToNumber:@(2)]) {
-            return cell;
-        }
-        else{
-            [cell.tittleLabel showRedIcon];
-        }
+    if (indexPath.row == 3 && [self.noticeDict[@"setting"] integerValue] > 0) {
+        [cell.tittleLabel showRedIcon];
     }
     
     return cell;
@@ -965,35 +960,26 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 #pragma mark - show userInfoNotification
-- (BOOL) showUserInfoRedIcon {
+- (BOOL)showUserInfoRedIcon {
     self.noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    NSString *virgiPassword = @"123456";
-    if ([userDict[@"user_md5"] isEqualToString:virgiPassword.md5]) {
-        self.noticeDict[@"setting_password"] = @(1);
-        [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
-    }
-    if (self.isNeedUpgrade) {
-        self.noticeDict[@"setting_pgyer"] = @(1);
-    }
-    else {
-        self.noticeDict[@"setting_pgyer"] = @(-1);
-    }
+    NSString *kInitPassword = @"123456";
+    self.noticeDict[@"setting_password"] = @([userDict[@"user_md5"] isEqualToString:kInitPassword.md5] ? 1 : 0);
+    self.noticeDict[@"setting_pgyer"] = @(self.isNeedUpgrade ? 1 : -1);
+    
+    NSInteger settingCount = (self.isNeedUpgrade || [self.noticeDict[@"setting_password"] integerValue] > 0 || [self.noticeDict[@"setting_thursday_say"] integerValue] > 0) ? 1 : 0;
+    self.noticeDict[@"setting"] = @(settingCount);
+    
     [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
-    if (self.isNeedUpgrade || [userDict[@"user_md5"] isEqualToString:virgiPassword.md5] || ![self.noticeDict[@"thursday_say"] isEqualToNumber:@(0)]) {
-        self.noticeDict[@"setting"] = @(2);
+    
+    if (settingCount > 0) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.setting showRedIcon];
         });
-        return YES;
     }
-    else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.setting hideRedIcon];
-        });
-        return NO;
-    }
+    
+    return settingCount == 1;
 }
 
 # pragma mark - assitant methods
@@ -1108,18 +1094,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      */
     NSMutableDictionary *noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
     NSInteger dataCount = [valueString integerValue];
-    if(index < 4) {
-        NSString *keyWord = [NSString stringWithFormat:@"tab_%@", self.tabBarItemNames[index]];
-        NSString *lastKeyWord = [NSString stringWithFormat:@"%@_last", keyWord];
-        
-        if ([noticeDict[lastKeyWord] integerValue] == -1) {
-            noticeDict[keyWord] = @(0);
-            noticeDict[lastKeyWord] = @(dataCount);
-        }
-        else if ([noticeDict[lastKeyWord] integerValue] > 0 && [noticeDict[lastKeyWord] integerValue] != [noticeDict[keyWord] integerValue]) {
-            noticeDict[keyWord] = @(labs([noticeDict[keyWord] integerValue] - [noticeDict[lastKeyWord] integerValue]));
-            noticeDict[lastKeyWord] = @(dataCount);
-        }
+
+    NSString *keyWord = self.notificationKeys[index];
+    NSString *lastKeyWord = [NSString stringWithFormat:@"%@_last", keyWord];
+    
+    noticeDict[lastKeyWord] = @(dataCount);
+    if ([noticeDict[lastKeyWord] integerValue] < 0) {
+        noticeDict[keyWord] = @(1);
     }
     else {
         if ([noticeDict[@"thursday_say_last"] integerValue] == -1) {
@@ -1133,6 +1114,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
     
     [FileUtils writeJSON:noticeDict Into:self.noticeFilePath];
+    [self showUserInfoRedIcon];
 }
 
 - (void)setLocalNotifications {
@@ -1143,11 +1125,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         application.applicationIconBadgeNumber = [noticeDict[@"app"] integerValue];
     }
     
-    NSString *keyWord, *lastKeyWord;
+    NSString *keyWord;
     NSInteger dataCount = 0;
-    for (NSInteger index = 0, len = self.tabBarItemNames.count; index < len; index ++) {
-        keyWord = [NSString stringWithFormat:@"tab_%@", self.tabBarItemNames[index]];
-        lastKeyWord = [NSString stringWithFormat:@"%@_last", keyWord];
+    for (NSInteger index = 0; index < 4; index ++) {
+        keyWord = self.notificationKeys[index];
         dataCount = [noticeDict[keyWord] integerValue];
         
         if (dataCount <= 0) {
@@ -1156,7 +1137,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
   
         BOOL isCurrentSelectedItem = self.tabBar.selectedItem.tag == index;
         [self displayTabBarBadgeOnItemIndex:index orNot:isCurrentSelectedItem];
-        // [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:0]];
     }
 }
 

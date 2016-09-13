@@ -21,7 +21,7 @@
 
 #pragma mark 初始化视图
 - (void)initWithSubview {
-    self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(18, 0, 100,self.frame.size.height)];
+    self.titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(18, 0, 100, self.frame.size.height)];
     self.titleLabel.textColor = [UIColor blackColor];
     self.titleLabel.textAlignment = NSTextAlignmentLeft;
     self.titleLabel.adjustsFontSizeToFitWidth = YES;

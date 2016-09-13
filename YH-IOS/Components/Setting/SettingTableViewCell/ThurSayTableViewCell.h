@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ThurSayTableViewCell : UITableViewCell
-@property (nonatomic,strong)UILabel *titleLabel;
-@property (nonatomic,strong)UIImageView *grayArrow;
+@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIImageView *grayArrow;
 @end

@@ -1217,7 +1217,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "19782da2-06cc-4eca-82b3-5a7a7b737a71";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1248,7 +1248,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "19782da2-06cc-4eca-82b3-5a7a7b737a71";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

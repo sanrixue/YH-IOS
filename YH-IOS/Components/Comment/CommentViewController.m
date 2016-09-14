@@ -159,10 +159,10 @@
 }
 
 - (void)_loadHtml {
+    [self clearBrowserCache];
     [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
         HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
         
         __block NSString *htmlPath;
@@ -174,8 +174,8 @@
             htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
         }
         
-        
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self clearBrowserCache];
             NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
         });

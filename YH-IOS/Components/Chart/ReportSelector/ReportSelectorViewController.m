@@ -113,7 +113,7 @@
     NSString *currentItem = self.dataList[indexPath.row];
     cell.textLabel.text = currentItem;
     UIView *bgColorView = [[UIView alloc] init];
-    bgColorView.backgroundColor = (self.selectedItem && [self.selectedItem isEqualToString:currentItem])  ? [UIColor greenColor] : [UIColor whiteColor];
+    bgColorView.backgroundColor = (self.selectedItem && [self.selectedItem isEqualToString:currentItem])  ? [UIColor colorWithHexString:kBannerBgColor] : [UIColor whiteColor];
     cell.backgroundView = bgColorView;
 
 //    

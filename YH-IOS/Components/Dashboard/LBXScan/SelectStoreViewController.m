@@ -16,7 +16,6 @@
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataList;
 @property (strong, nonatomic) User *user;
-@property (strong, nonatomic) NSString *barCodePath;
 @property (strong, nonatomic) NSDictionary *currentStore;
 
 @end
@@ -26,12 +25,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
     self.dataList = [NSMutableArray array];
     
-    NSString *cachedPath = [FileUtils dirPath:@"Cached"];
-    self.barCodePath = [cachedPath stringByAppendingPathComponent:@"barcode.json"];
-    NSMutableDictionary *cachedDict = [FileUtils readConfigFile:self.barCodePath];
+    NSString *barCodePath = [FileUtils dirPath:CACHED_DIRNAME FileName:BARCODE_RESULT_FILENAME];
+    NSMutableDictionary *cachedDict = [FileUtils readConfigFile:barCodePath];
     self.currentStore = cachedDict[@"store"];
     
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
@@ -47,7 +44,7 @@
     self.dataList = [self.dataList sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
     
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
-    topView.backgroundColor=[UIColor colorWithHexString:kBannerBgColor];
+    topView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     [self.view addSubview:topView];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 70, 40)];
@@ -61,7 +58,7 @@
     backLabel.textColor = [UIColor whiteColor];
     [backBtn addSubview:backLabel];
     [topView addSubview:backBtn];
-    [backBtn addTarget:self action:@selector(jumpBack) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn addTarget:self action:@selector(actionBannerBack) forControlEvents:UIControlEventTouchUpInside];
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height-50) style:UITableViewStylePlain];
     [self.view addSubview:self.tableView];
@@ -70,8 +67,13 @@
     self.tableView.delegate = self;
 }
 
-- (void)jumpBack {
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (void)actionBannerBack {
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.tableView.dataSource = nil;
+        self.tableView.delegate = nil;
+        self.tableView = nil;
+        self.dataList = nil;
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -94,8 +96,8 @@
     NSString *storeName = self.dataList[indexPath.row][@"name"];
     cell.textLabel.text = storeName;
     
-    if ([storeName isEqualToString:self.currentStore[@"name"]]) {
-        cell.backgroundColor = [UIColor greenColor];
+    if (self.currentStore && [storeName isEqualToString:self.currentStore[@"name"]]) {
+        cell.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     }
     
     return cell;
@@ -108,13 +110,14 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSMutableDictionary *cachedDict = [FileUtils readConfigFile:self.barCodePath];
+    NSString *barCodePath = [FileUtils dirPath:CACHED_DIRNAME FileName:BARCODE_RESULT_FILENAME];
+    NSMutableDictionary *cachedDict = [FileUtils readConfigFile:barCodePath];
     NSDictionary *currentStore = self.dataList[indexPath.row];
-
-    cachedDict[@"store"] = @{ @"id": currentStore[@"id"], @"name": currentStore[@"name"]};
-    [FileUtils writeJSON:cachedDict Into:self.barCodePath];
     
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    cachedDict[@"store"] = @{ @"id": currentStore[@"id"], @"name": currentStore[@"name"]};
+    [FileUtils writeJSON:cachedDict Into:barCodePath];
+    
+    [self actionBannerBack];
 }
 
 /*

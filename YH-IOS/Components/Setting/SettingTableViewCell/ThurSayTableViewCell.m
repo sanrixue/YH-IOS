@@ -27,14 +27,9 @@
     self.titleLabel.adjustsFontSizeToFitWidth = YES;
     [self addSubview:self.titleLabel];
     
-<<<<<<< HEAD
     self.grayArrow = [[UIImageView alloc]initWithFrame:CGRectMake(mSCREEN.size.width - 30, self.frame.size.height/4, self.frame.size.height/2 , self.frame.size.height/2)];
     self.grayArrow.backgroundColor = [UIColor whiteColor];
     self.grayArrow.image = [UIImage imageNamed:@"Arrow-Right"];
-=======
-    self.grayArrow = [[UIImageView alloc]initWithFrame:CGRectMake(self.frame.size.width- 60, 0, 40 ,self.frame.size.height)];
-    self.grayArrow.image = [UIImage imageNamed:@"info-arrow"];
->>>>>>> 446ab692f6f4b45bc030ad166638913a26bbaa83
     [self addSubview:self.grayArrow];
 }
 @end

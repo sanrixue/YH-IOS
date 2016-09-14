@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -535,11 +535,7 @@
                                 <rect key="frame" x="0.0" y="85" width="600" height="515"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-<<<<<<< HEAD
-                                <color key="sectionIndexColor" patternImage="DC495FD2-7C92-4821-8DD8-201A31D7CEC7" colorSpace="pattern"/>
-=======
-                                <color key="sectionIndexColor" patternImage="65C35ACE-7926-4580-82DB-0FC7FF79FC51" colorSpace="pattern"/>
->>>>>>> 446ab692f6f4b45bc030ad166638913a26bbaa83
+                                <color key="sectionIndexColor" patternImage="8644B636-90E2-42E9-BD2F-ADC4C2267526" colorSpace="pattern"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <sections/>
                             </tableView>
@@ -723,7 +719,6 @@
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="SelectBtn" destination="jih-F7-Pxl" id="kxb-ID-mc4"/>
                         <outlet property="bannerView" destination="h07-A5-bkI" id="e0N-UE-zHi"/>
                         <outlet property="browser" destination="v8i-dZ-EB1" id="gzJ-bv-HkE"/>
                         <outlet property="idColor0" destination="Fnd-Fi-DFu" id="Etm-CZ-dNA"/>
@@ -734,6 +729,7 @@
                         <outlet property="idView" destination="QDd-a6-bFN" id="X88-LW-A08"/>
                         <outlet property="labelTheme" destination="vof-gW-n5p" id="kYU-rU-aWu"/>
                         <outlet property="layoutConstraintBannerView" destination="yRS-oS-sup" id="fRo-Cc-KCk"/>
+                        <outlet property="selectBtn" destination="jih-F7-Pxl" id="Pso-Tn-t8P"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jnR-CY-Iq1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1028,29 +1024,25 @@
         </scene>
     </scenes>
     <resources>
-<<<<<<< HEAD
-        <image name="Banner-Back" width="17" height="21"/>
-        <image name="Banner-Logo" width="168" height="49"/>
-        <image name="Banner-Setting" width="20" height="20"/>
-        <image name="DC495FD2-7C92-4821-8DD8-201A31D7CEC7" width="84" height="25">
-=======
-        <image name="65C35ACE-7926-4580-82DB-0FC7FF79FC51" width="84" height="25">
->>>>>>> 446ab692f6f4b45bc030ad166638913a26bbaa83
+        <image name="8644B636-90E2-42E9-BD2F-ADC4C2267526" width="168" height="49">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
 GR4fJSYsLzU4VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
-V05TQ29sb3KAAoAMEiTAAACAA4AKWHs4NCwgMjV90hUKFhhaTlMub2JqZWN0c6EXgASACdIVChoYohsc
-gAWABoAJEAXTIAohIiMkV05TLmJhc2VbTlMucmVsYXRpdmWAAIAIgAdfEHxmaWxlOi8vL0FwcGxpY2F0
-aW9ucy9YY29kZS5hcHAvQ29udGVudHMvUGx1Z0lucy9JREVJbnRlcmZhY2VCdWlsZGVyS2l0LmlkZXBs
-dWdpbi9Db250ZW50cy9SZXNvdXJjZXMvSUJNaXNzaW5nSW1hZ2VHbHlwaC50aWZm0icoKSpaJGNsYXNz
-bmFtZVgkY2xhc3Nlc1VOU1VSTKIpK1hOU09iamVjdNInKC0uV05TQXJyYXmiLSvTMDEKMjM0V05TV2hp
-dGVcTlNDb2xvclNwYWNlRDAgMAAQA4AL0icoNjdXTlNDb2xvcqI2K9InKDk6V05TSW1hZ2WiOStfEA9O
-U0tleWVkQXJjaGl2ZXLRPT5Ucm9vdIABAAgAEQAaACMALQAyADcARQBLAFYAXQBkAHEAeACAAIIAhACJ
-AIsAjQCWAJsApgCoAKoArACxALQAtgC4ALoAvADDAMsA1wDZANsA3QFcAWEBbAF1AXsBfgGHAYwBlAGX
-AZ4BpgGzAbgBugG8AcEByQHMAdEB2QHcAe4B8QH2AAAAAAAAAgEAAAAAAAAAPwAAAAAAAAAAAAAAAAAA
-Afg
+V05TQ29sb3KAAoAMEiTAAACAA4AKWXsxNjgsIDQ5fdIVChYYWk5TLm9iamVjdHOhF4AEgAnSFQoaGKIb
+HIAFgAaACRAF0yAKISIjJFdOUy5iYXNlW05TLnJlbGF0aXZlgACACIAHXxB8ZmlsZTovLy9BcHBsaWNh
+dGlvbnMvWGNvZGUuYXBwL0NvbnRlbnRzL1BsdWdJbnMvSURFSW50ZXJmYWNlQnVpbGRlcktpdC5pZGVw
+bHVnaW4vQ29udGVudHMvUmVzb3VyY2VzL0lCTWlzc2luZ0ltYWdlR2x5cGgudGlmZtInKCkqWiRjbGFz
+c25hbWVYJGNsYXNzZXNVTlNVUkyiKStYTlNPYmplY3TSJygtLldOU0FycmF5oi0r0zAxCjIzNFdOU1do
+aXRlXE5TQ29sb3JTcGFjZUQwIDAAEAOAC9InKDY3V05TQ29sb3KiNivSJyg5OldOU0ltYWdlojkrXxAP
+TlNLZXllZEFyY2hpdmVy0T0+VHJvb3SAAQAIABEAGgAjAC0AMgA3AEUASwBWAF0AZABxAHgAgACCAIQA
+iQCLAI0AlwCcAKcAqQCrAK0AsgC1ALcAuQC7AL0AxADMANgA2gDcAN4BXQFiAW0BdgF8AX8BiAGNAZUB
+mAGfAacBtAG5AbsBvQHCAcoBzQHSAdoB3QHvAfIB9wAAAAAAAAIBAAAAAAAAAD8AAAAAAAAAAAAAAAAA
+AAH5A
 </mutableData>
         </image>
+        <image name="Banner-Back" width="17" height="21"/>
+        <image name="Banner-Logo" width="168" height="49"/>
+        <image name="Banner-Setting" width="20" height="20"/>
         <image name="Subject-Comment" width="21" height="21"/>
         <image name="Subject-Search" width="21" height="21"/>
         <image name="Subject-Share" width="21" height="21"/>

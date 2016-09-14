@@ -54,13 +54,16 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.noticeFilePath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
+    self.noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
+    
     [self loadUserGravatar];
     [self showNoticeRedIcon];
     
     self.version = [[Version alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
     self.view.backgroundColor = [UIColor clearColor];
-    self.settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height ) style:UITableViewStyleGrouped];
+    self.settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
     [self.view addSubview:self.settingTableView];
     self.settingTableView.delegate = self;
     self.settingTableView.dataSource = self;
@@ -130,23 +133,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.isChangeLochPassword = NO;
 }
 
-
 - (void)showNoticeRedIcon {
     self.isNeedChangepwd = NO;
     self.isNeedUpgrade = NO;
-<<<<<<< HEAD
-    NSString *noticeFilePath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
-    self.noticeDict = [FileUtils readConfigFile:noticeFilePath];
-=======
-    _noticeFilePath = [FileUtils dirPath:CACHED_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
-    self.noticeDict = [FileUtils readConfigFile:_noticeFilePath];
->>>>>>> 446ab692f6f4b45bc030ad166638913a26bbaa83
-    if ([self.noticeDict[@"setting_password"] isEqualToNumber:@(1)]) {
-        self.isNeedChangepwd = YES;
-    }
-    if ([self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)]) {
-        self.isNeedUpgrade = YES;
-    }
+
+    self.isNeedChangepwd = [self.noticeDict[@"setting_password"] isEqualToNumber:@(1)];
+    self.isNeedUpgrade = [self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -318,7 +310,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     if ((indexPath.section == 1) && (indexPath.row == 8)) {
         ThurSayViewController *thurSay = [[ThurSayViewController alloc] init];
         [self presentViewController:thurSay animated:YES completion:^{
-            self.noticeDict[@"thursday_say"] = @(0);
+            self.noticeDict[@"setting_thursday_say"] = @(0);
             [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
             [self.settingTableView reloadData];
         }];

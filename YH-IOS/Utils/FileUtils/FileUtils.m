@@ -391,7 +391,7 @@
     NSString *javascriptPath = [FileUtils barcodeScanResultPath];
     NSString *javascriptContent = [NSString stringWithFormat:@"\
                                    (function(){ \n\
-                                   window.BarCodeData=%@ \n\
+                                     window.BarCodeData=%@ \n\
                                    }).call(this);", responseString];
     NSLog(@"%@", javascriptContent);
     

@@ -1033,7 +1033,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - 本地通知，样式加载
 - (void)setNotificationBadgeTimer {
-    NSTimeInterval period = 60 * 30;
+    NSTimeInterval period = 60 ;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, period * NSEC_PER_SEC, 0);
@@ -1097,19 +1097,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
     NSString *keyWord = self.notificationKeys[index];
     NSString *lastKeyWord = [NSString stringWithFormat:@"%@_last", keyWord];
-    
-    noticeDict[lastKeyWord] = @(dataCount);
-    if ([noticeDict[lastKeyWord] integerValue] < 0) {
+    if (!noticeDict[lastKeyWord] || [noticeDict[lastKeyWord] integerValue] < 0) {
         noticeDict[keyWord] = @(1);
+        noticeDict[lastKeyWord] = @(dataCount);
     }
     else {
-        if ([noticeDict[@"thursday_say_last"] integerValue] == -1) {
-           noticeDict[@"thursday_say"] = @(0);
-           noticeDict[@"thursday_say_last"] = @(dataCount);
-        }
-        else if ([noticeDict[@"thursday_say_last"] integerValue] >0 &&[noticeDict[@"thursday_say_last"] integerValue] != [noticeDict[@"thursday_say"] integerValue]) {
-            noticeDict[@"thursday_say"] = @(labs([noticeDict[@"thursday_say"] integerValue] - [noticeDict[@"thursday_say_last"] integerValue]));
-            noticeDict[@"thursday_say_last"] = @(dataCount);
+         if ([noticeDict[lastKeyWord] integerValue] >0 &&[noticeDict[lastKeyWord] integerValue] != dataCount) {
+            noticeDict[keyWord] = @(labs([noticeDict[keyWord] integerValue] - [noticeDict[lastKeyWord] integerValue]));
+            noticeDict[lastKeyWord] = @(dataCount);
         }
     }
     

@@ -313,7 +313,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     if ((indexPath.section == 1) && (indexPath.row == 8)) {
         ThurSayViewController *thurSay = [[ThurSayViewController alloc] init];
         [self presentViewController:thurSay animated:YES completion:^{
-            self.noticeDict[@"thursday_say"] = @(0);
+            self.noticeDict[@"setting_thursday_say"] = @(0);
             [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
             [self.settingTableView reloadData];
         }];

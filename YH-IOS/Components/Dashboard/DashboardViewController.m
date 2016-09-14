@@ -94,6 +94,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
      */
     [self checkUserModifiedInitPassword];
+    
+    /**
+     *  广告位隐藏于否
+     */
+    if(!kDashboardAd) { [self hideAdertWebView]; }
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -101,9 +106,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     [self checkPushMessageAction];
     [self checkAssetsUpdate];
-    [self showUserInfoRedIcon];
     [self setTabBarHeight];
-   // [[ NSNotificationCenter defaultCenter ] addObserver : self selector : @selector (statusBarFramWillChange:) name : UIApplicationWillChangeStatusBarFrameNotification object : nil ];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutControllerSubViews:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 }
 
@@ -828,15 +831,10 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     /**
      *  仅仪表盘显示广告位
      */
-    index == 0 ? [self addAdvertWebView] : [self hideAdertWebView];
-    
-    [self.tabBar displayBadgeOnItemIndex:index orNot:YES];
-    if (index != 0 ) {
-        [self hideAdertWebView];
+    if(kDashboardAd) {
+        index == 0 ? [self addAdvertWebView] : [self hideAdertWebView];
     }
-    else {
-        [self addAdvertWebView];
-    }
+
     self.urlString = @"";
     NSString *uiVersion = [FileUtils currentUIVersion];
     switch (index) {
@@ -955,26 +953,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     return UIModalPresentationNone;
 }
 
-#pragma mark - show userInfoNotification
-- (BOOL)showUserInfoRedIcon {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-
-    self.noticeDict[@"setting_password"] = @([userDict[@"user_md5"] isEqualToString:kInitPassword.md5] ? 1 : 0);
-    self.noticeDict[@"setting_pgyer"] = @(self.isNeedUpgrade ? 1 : -1);
-    
-    NSInteger settingCount = (self.isNeedUpgrade || [self.noticeDict[@"setting_password"] integerValue] > 0 || [self.noticeDict[@"setting_thursday_say"] integerValue] > 0) ? 1 : 0;
-    self.noticeDict[@"setting"] = @(settingCount);
-    
-    [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        settingCount > 0 ? [self.setting showRedIcon] : [self.setting hideRedIcon];
-    });
-    
-    return settingCount == 1;
-}
-
 # pragma mark - assitant methods
 /**
   *  内容检测版本升级，判断版本号是否为偶数。以便内测
@@ -1035,7 +1013,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     });
     
     dispatch_resume(_timer);
-    
    // [NSTimer scheduledTimerWithTimeInterval:60 * 30  target:self selector:@selector(extractDataCountFromUrlStrings) userInfo:nil repeats:YES];
 }
 
@@ -1110,19 +1087,38 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         application.applicationIconBadgeNumber = [noticeDict[@"app"] integerValue];
     }
     
+    /**
+     *  底部标签页四个 tab 通知样式
+     */
     NSString *keyWord;
     NSInteger dataCount = 0;
     for (NSInteger index = 0; index < 4; index ++) {
         keyWord = self.notificationKeys[index];
         dataCount = [noticeDict[keyWord] integerValue];
         
-        if (dataCount <= 0) {
-            continue;
-        }
+        if (dataCount <= 0) { continue; }
   
         BOOL isCurrentSelectedItem = self.tabBar.selectedItem.tag == index;
         [self displayTabBarBadgeOnItemIndex:index orNot:isCurrentSelectedItem];
     }
+    
+    /**
+     *  右上角设置界面通知样式
+     */
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    
+    self.noticeDict[@"setting_password"] = @([userDict[@"user_md5"] isEqualToString:kInitPassword.md5] ? 1 : 0);
+    self.noticeDict[@"setting_pgyer"] = @(self.isNeedUpgrade ? 1 : -1);
+    
+    NSInteger settingCount = (self.isNeedUpgrade || [self.noticeDict[@"setting_password"] integerValue] > 0 || [self.noticeDict[@"setting_thursday_say"] integerValue] > 0) ? 1 : 0;
+    self.noticeDict[@"setting"] = @(settingCount);
+    
+    [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        settingCount > 0 ? [self.setting showRedIcon] : [self.setting hideRedIcon];
+    });
 }
 
 - (void)displayTabBarBadgeOnItemIndex:(NSInteger)index orNot:(BOOL)isOrNot {

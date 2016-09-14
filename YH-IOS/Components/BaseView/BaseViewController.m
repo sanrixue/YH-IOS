@@ -33,6 +33,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [LTHPasscodeViewController sharedUser].delegate = self;
     [LTHPasscodeViewController useKeychain:NO];
     [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
@@ -103,6 +104,7 @@
 }
 
 - (void)clearBrowserCache {
+    [self.browser stopLoading];
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     
     NSString *domain = [[NSURL URLWithString:self.urlString] host];
@@ -111,21 +113,6 @@
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
         }
     }
-    
-    /*
-     * bug#fixed:
-     2016-09-14 13:53:29.907 YH-IOS[10660:3304226] bool _WebTryThreadLock(bool), 0x13df88140: Multiple locks on web thread not allowed! Please file a bug. Crashing now...
-     1   0x185c2c35c <redacted>
-     2   0x181d14728 <redacted>
-     3   0x181d124cc <redacted>
-     4   0x181d12814 <redacted>
-     5   0x181c3cc50 CFRunLoopRunSpecific
-     6   0x185c2a108 <redacted>
-     7   0x1819c3b28 <redacted>
-     8   0x1819c3a8c <redacted>
-     9   0x1819c1028 thread_start
-     */
-    [self.browser stopLoading];
 }
 
 - (void)showLoading:(LoadingType)loadingType {

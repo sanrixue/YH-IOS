@@ -57,7 +57,7 @@
     // userName
     self.loginUserImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Username"]];
     [self.bgView addSubview:self.loginUserImage];
-    self.userNameText = [[UITextField alloc]init];
+    self.userNameText = [[UITextField alloc] init];
     UIColor *placeHoderColor = [UIColor whiteColor];
     self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入用户名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userNameText.borderStyle = UITextBorderStyleNone;
@@ -68,7 +68,7 @@
     [self.userNameText becomeFirstResponder];
     [self.bgView addSubview:self.userNameText];
     
-    self.seperateView1 = [[UIView alloc]init];
+    self.seperateView1 = [[UIView alloc] init];
     self.seperateView1.backgroundColor = [UIColor whiteColor];
     [self.bgView addSubview:self.seperateView1];
     
@@ -101,9 +101,10 @@
     [self.bgView addSubview:self.loginButton];
     
     //versionLabel
-    self.versionLabel = [[UILabel alloc]init];
+    self.versionLabel = [[UILabel alloc] init];
     self.version = [[Version alloc] init];
     self.versionLabel.textColor = [UIColor whiteColor];
+    self.versionLabel.font = [UIFont systemFontOfSize:12];
     self.versionLabel.text = [NSString stringWithFormat:@"%@(%@)", self.version.current, self.version.build];
     self.versionLabel.textAlignment = NSTextAlignmentCenter;
     self.versionLabel.adjustsFontSizeToFitWidth = YES;

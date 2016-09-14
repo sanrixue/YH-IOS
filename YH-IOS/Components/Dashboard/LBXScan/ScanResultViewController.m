@@ -44,6 +44,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self loadHtml];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    
+    [self clearBrowserCache];
+    [self showLoading:LoadingLoad];
+}
+
 - (void)dealloc {
     self.browser.delegate = nil;
     self.browser = nil;
@@ -77,10 +84,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self clearBrowserCache];
     [self showLoading:LoadingLoad];
     
-    NSString *cachedPath = [FileUtils dirPath:CACHED_DIRNAME];
-    NSString *cacheJsonPath = [cachedPath stringByAppendingPathComponent:BARCODE_RESULT_FILENAME
-                               ];
+    NSString *cacheJsonPath = [FileUtils dirPath:CACHED_DIRNAME FileName:BARCODE_RESULT_FILENAME];
     NSMutableDictionary *cacheDict = [FileUtils readConfigFile:cacheJsonPath];
+    
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
@@ -89,16 +95,12 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         userDict[@"store_ids"] && [userDict[@"store_ids"] count] > 0) {
         
         cacheDict[@"store"] = userDict[@"store_ids"][0];
-        [FileUtils writeJSON:cacheDict Into:cachedPath];
+        [FileUtils writeJSON:cacheDict Into:cacheJsonPath];
     }
-    
     storeID = cacheDict[@"store"][@"id"];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];
-        
-        [self.browser stopLoading];
-        [NSThread sleepForTimeInterval:1.0f];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self clearBrowserCache];

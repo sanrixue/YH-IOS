@@ -130,6 +130,8 @@ if slop_opts[:constant]
     #define kWXAppId          @"#{Settings.umeng_weixin.ios.app_id}"
     #define kWXAppSecret      @"#{Settings.umeng_weixin.ios.app_secret}"
 
+    #define kDashboardAd      #{Settings.display_status.dashboard_ad == 1 ? 'YES' : 'NO'}
+
     #define kDropMenuScan     #{Settings.display_status.drop_menu_scan == 1 ? 'YES' : 'NO'}
     #define kDropMenuVoice    #{Settings.display_status.drop_menu_voice == 1 ? 'YES' : 'NO'}
     #define kDropMenuSearch   #{Settings.display_status.drop_menu_search == 1 ? 'YES' : 'NO'}

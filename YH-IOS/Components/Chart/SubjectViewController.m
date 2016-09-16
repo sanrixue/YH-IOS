@@ -14,7 +14,7 @@
 #import "CommentViewController.h"
 #import "ReportSelectorViewController.h"
 
-static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
+static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
 @interface SubjectViewController ()
@@ -35,17 +35,17 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [super viewDidLoad];
     
     /**
-     *  被始化页面样式
+     * 被始化页面样式
      */
     [self idColor];
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     
     /**
-     *  服务器内链接需要做缓存、点击事件处理；
+     * 服务器内链接需要做缓存、点击事件处理；
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
-    self.urlString = self.link;
+    self.urlString   = self.link;
     
     self.browser.delegate = self;
     if(self.isInnerLink) {
@@ -67,8 +67,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"ChartViewController - ObjC received message from JS: %@", data);
-        responseCallback(@"ChartViewController - Response for message from ObjC");
+        responseCallback(@"SubjectViewController - Response for message from ObjC");
     }];
     [self addWebViewJavascriptBridge];
 }
@@ -84,7 +83,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     /**
      *  横屏时，隐藏标题栏，增大可视区范围
      */
-    [self checkInterfaceOrientation: [[UIApplication sharedApplication] statusBarOrientation]];
+    [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
     [self displayBannerViewButtonsOrNot];
     [self loadHtml];
@@ -130,8 +129,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
          */
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"刷新/主题页面/浏览器";
-            logParams[@"obj_title"] = self.urlString;
+            logParams[kActionALCName]   = @"刷新/主题页面/浏览器";
+            logParams[kObjTitleALCName] = self.urlString;
             [APIHelper actionLog:logParams];
         }
         @catch (NSException *exception) {
@@ -157,10 +156,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
              */
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                logParams[@"action"] = @"JS异常";
-                logParams[@"obj_id"] = self.objectID;
-                logParams[@"obj_type"] = @(self.commentObjectType);
-                logParams[@"obj_title"] = [NSString stringWithFormat:@"主题页面/%@/%@", self.bannerName, data[@"ex"]];
+                logParams[kActionALCName]   = @"JS异常";
+                logParams[kObjIDALCName]    = self.objectID;
+                logParams[kObjTypeALCName]  = @(self.commentObjectType);
+                logParams[kObjTitleALCName] = [NSString stringWithFormat:@"主题页面/%@/%@", self.bannerName, data[@"ex"]];
                 [APIHelper actionLog:logParams];
             }
             @catch (NSException *exception) {
@@ -403,7 +402,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
              * 用户行为记录, 单独异常处理，不可影响用户体验
              */
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"点击/主题页面/评论";
+            logParams[kActionALCName] = @"点击/主题页面/评论";
             [APIHelper actionLog:logParams];
         });
     }
@@ -418,14 +417,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 #pragma mark - UIWebview delegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     /**
      *  忽略 NSURLErrorDomain 错误 - 999
      */
-    if([error code] == NSURLErrorCancelled) return;
+    if([error code] == NSURLErrorCancelled) {
+        return;
+    }
     
     NSLog(@"dvc: %@", error.description);
 }
@@ -483,7 +483,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSURL *url = [request URL];
-        NSLog(@"request: %@", url);
         if (![[url scheme] hasPrefix:@";file"]) {
             [[UIApplication sharedApplication] openURL:url];
             return NO;
@@ -500,10 +499,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = [NSString stringWithFormat:@"微信分享(%d)", fromViewControllerType];
-        logParams[@"obj_id"] = self.objectID;
-        logParams[@"obj_type"] = @(self.commentObjectType);
-        logParams[@"obj_title"] = self.bannerName;
+        logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享(%d)", fromViewControllerType];
+        logParams[kObjIDALCName]    = self.objectID;
+        logParams[kObjTypeALCName]  = @(self.commentObjectType);
+        logParams[kObjTitleALCName] = self.bannerName;
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
@@ -527,10 +526,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = [NSString stringWithFormat:@"微信分享完成(%d)", response.viewControllerType];
-        logParams[@"obj_id"] = self.objectID;
-        logParams[@"obj_type"] = @(self.commentObjectType);
-        logParams[@"obj_title"] = self.bannerName;
+        logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享完成(%d)", response.viewControllerType];
+        logParams[kObjIDALCName]    = self.objectID;
+        logParams[kObjTypeALCName]  = @(self.commentObjectType);
+        logParams[kObjTitleALCName] = self.bannerName;
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {

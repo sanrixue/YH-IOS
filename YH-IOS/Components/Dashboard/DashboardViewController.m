@@ -101,8 +101,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     if(!kDashboardAd) { [self hideAdertWebView]; }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     
     [self checkPushMessageAction];
     [self checkAssetsUpdate];

@@ -7,7 +7,7 @@
 //
 
 #import "FileUtils.h"
-#import "Constants.h"
+#import "Constant.h"
 
 @interface FileUtils (Assets)
 /**

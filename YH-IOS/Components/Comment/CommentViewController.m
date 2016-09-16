@@ -10,14 +10,12 @@
 #import "APIHelper.h"
 
 @interface CommentViewController ()
-
 @end
 
 @implementation CommentViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
@@ -28,7 +26,6 @@
     
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"ObjC received message from JS: %@", data);
         responseCallback(@"Response for message from ObjC");
     }];
     
@@ -40,10 +37,10 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                logParams[@"action"] = @"JS异常";
-                logParams[@"obj_id"] = self.objectID;
-                logParams[@"obj_type"] = @(self.commentObjectType);
-                logParams[@"obj_title"] = [NSString stringWithFormat:@"评论页面/%@/%@", self.bannerName, data[@"ex"]];
+                logParams[kActionALCName]   = @"JS异常";
+                logParams[kObjIDALCName]    = self.objectID;
+                logParams[kObjTypeALCName]  = @(self.commentObjectType);
+                logParams[kObjTitleALCName] = [NSString stringWithFormat:@"评论页面/%@/%@", self.bannerName, data[@"ex"]];
                 [APIHelper actionLog:logParams];
             }
             @catch (NSException *exception) {
@@ -54,29 +51,30 @@
     
     [self.bridge registerHandler:@"writeComment" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        params[@"object_title"] = self.bannerName;
-        params[@"user_name"]    = self.user.userName;
-        params[@"content"]      = data[@"content"];
+        params[kObjTitleAPCCName] = self.bannerName;
+        params[kUserNameAPCCName] = self.user.userName;
+        params[kContentAPCCName]  = data[@"content"];
         BOOL isCreatedSuccessfully = [APIHelper writeComment:self.user.userID objectType:@(self.commentObjectType) objectID:self.objectID params:params];
         
-        if(isCreatedSuccessfully) {
-            [self loadHtml];
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                /*
-                 * 用户行为记录, 单独异常处理，不可影响用户体验
-                 */
-                @try {
-                    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                    logParams[@"action"] = @"发表/评论";
-                    logParams[@"obj_title"] = self.bannerName;
-                    [APIHelper actionLog:logParams];
-                }
-                @catch (NSException *exception) {
-                    NSLog(@"%@", exception);
-                }
-            });
+        if(!isCreatedSuccessfully) {
+            return;
         }
+        
+        [self loadHtml];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[kActionALCName]   = @"发表/评论";
+                logParams[kObjTitleALCName] = self.bannerName;
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
     }];
     
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
@@ -92,7 +90,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - UIWebview pull down to refresh
@@ -101,14 +98,13 @@
     [self loadHtml];
     [refresh endRefreshing];
     
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
          * 用户行为记录, 单独异常处理，不可影响用户体验
          */
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"刷新/评论页面/浏览器";
-        logParams[@"obj_title"] = self.urlString;
+        logParams[kActionALCName]   = @"刷新/评论页面/浏览器";
+        logParams[kObjTitleALCName] = self.urlString;
         [APIHelper actionLog:logParams];
     });
 }
@@ -186,5 +182,4 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return NO;
 }
-
 @end

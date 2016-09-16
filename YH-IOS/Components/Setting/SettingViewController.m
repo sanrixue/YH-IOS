@@ -42,9 +42,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (assign, nonatomic) BOOL isNeedUpgrade;
 @property (strong, nonatomic) Version *version;
 @property (strong, nonatomic) NSMutableDictionary *noticeDict;
-@property (strong, nonatomic) NSString *userGavatarPath;
-@property (strong, nonatomic) NSString *userGavatarName;
-@property (strong, nonatomic) NSString *userIconPath;
 @property (strong, nonatomic) NSString *noticeFilePath;
 
 @end
@@ -71,38 +68,37 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 70, 40)];
     UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
-    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 15, 25)];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 15, 25)];
     bakImage.image = imageback;
     [bakImage setContentMode:UIViewContentModeScaleAspectFit];
     [backBtn addSubview:bakImage];
-    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 50, 25)];
+    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 50, 25)];
     backLabel.text = @"返回";
     backLabel.textColor = [UIColor whiteColor];
     [backBtn addSubview:backLabel];
     [self.settingTableView addSubview:backBtn];
     [backBtn addTarget:self action:@selector(actionBack:) forControlEvents:UIControlEventTouchUpInside];
-    NSMutableDictionary *userGravatar = [FileUtils readConfigFile:[self.userGavatarPath stringByAppendingPathComponent:@"gravatar.json"]];
-    if ([userGravatar[@"upload_state"] isEqualToString:@"false"]) {
+    
+    NSString *userGavatarPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+    NSMutableDictionary *userGravatar = [FileUtils readConfigFile:userGavatarPath];
+    if (![userGravatar[@"upload_state"] boolValue] && userGravatar[@"name"] && userGravatar[@"local_name"]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *urlPath = [NSString stringWithFormat:@"/api/v1/device/%@/upload/user/%@/gravatar", self.user.deviceID, self.user.userID];
-            [HttpUtils uploadImage:urlPath withImagePath:self.userIconPath withImageName:self.userGavatarName];
+            NSString *urlPath = [NSString stringWithFormat:API_UPLOAD_GRAVATAR_PATH, self.user.deviceID, self.user.userID];
+            [HttpUtils uploadImage:urlPath withImagePath:userGravatar[@"local_path"] withImageName:userGravatar[@"name"]];
         });
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[ NSNotificationCenter defaultCenter ] addObserver : self selector : @selector (layoutControllerSubViews:) name : UIApplicationDidChangeStatusBarFrameNotification object : nil ];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutControllerSubViews:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 }
 
 - (void)layoutControllerSubViews: (NSNotification *)notification {
     CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
-    if (statusBarRect.size.height == 40){
-        self.settingTableView.frame = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height + 40);
-    }
-    else {
-        self.settingTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }
+    
+    self.settingTableView.frame = (statusBarRect.size.height == 40 ? CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20) :CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height ));
 }
 
 #pragma mark - init need-show message
@@ -124,7 +120,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (BOOL)prefersStatusBarHidden {
-    return YES;
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 #pragma mark - init need-show message info

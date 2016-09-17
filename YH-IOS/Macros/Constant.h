@@ -105,4 +105,17 @@ extern NSString *const kObjTitleAPCCName;
 extern NSString *const kUserNameAPCCName;
 extern NSString *const kContentAPCCName;
 
+/**
+ *  LocalNotification#TabItems/BannerBtn/ThursdaySay/ModifiedPassword/PgyerUpgrade
+ */
+extern NSString *const kAppLNName;
+extern NSString *const kTabKPILNName;
+extern NSString *const kTabAnalyseLNName;
+extern NSString *const kTabAppLNName;
+extern NSString *const kTabMessageLNName;
+extern NSString *const kSettingLNName;
+extern NSString *const kSettingThursdaySayLNName;
+extern NSString *const kSettingPasswordLNName;
+extern NSString *const kSettingPgyerLNName;
+
 #endif /* Constant_h */

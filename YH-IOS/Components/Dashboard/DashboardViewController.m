@@ -64,7 +64,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
-    self.notificationKeys = @[@"tab_kpi", @"tab_analyse", @"tab_app", @"tab_message", @"setting_thursday_say"];
+    self.notificationKeys = @[kTabKPILNName, kTabAnalyseLNName, kTabAppLNName, kTabMessageLNName, kSettingThursdaySayLNName];
     self.noticeFilePath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
     self.noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
     
@@ -119,7 +119,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
 }
 
-- (void)layoutControllerSubViews: (NSNotification *)notification {
+- (void)layoutControllerSubViews:(NSNotification *)notification {
     CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
 
     for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
@@ -225,7 +225,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 #pragma mark - clickAdvertisment
 - (void)clickAdvertisement {
     self.adBridge = [WebViewJavascriptBridge bridgeForWebView:self.advertWebView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"DashboardViewController - ObjC received message from JS: %@", data);
         responseCallback(@"DashboardViewController - Response for message from ObjC");
     }];
     
@@ -236,9 +235,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
              */
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                logParams[@"action"] = @"JS异常";
-                logParams[@"obj_type"] = @(self.commentObjectType);
-                logParams[@"obj_title"] = [NSString stringWithFormat:@"主页面/%@", data[@"ex"]];
+                logParams[kActionALCName]   = @"JS异常";
+                logParams[kObjTypeALCName]  = @(self.commentObjectType);
+                logParams[kObjTitleALCName] = [NSString stringWithFormat:@"主页面/%@", data[@"ex"]];
                 [APIHelper actionLog:logParams];
             }
             @catch (NSException *exception) {
@@ -361,25 +360,42 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self.urlStrings addObject:[NSString stringWithFormat:THURSDAY_SAY_PATH, kBaseUrl, uiVersion]];
 }
 
+- (NSString *)lastLocalNotification:(NSString *)keyName {
+    return [NSString stringWithFormat:@"%@_last", keyName];
+}
+
 /**
  *  初始化本地通知
  */
 - (void)initLocalNotifications {
-    if(!self.noticeDict) { self.noticeDict = [NSMutableDictionary dictionary]; }
-    if(!self.noticeDict[@"app"]) { self.noticeDict[@"app"] = @(-1); }
-    if(!self.noticeDict[@"tab_kpi"]) { self.noticeDict[@"tab_kpi"] = @(-1); }
-    if(!self.noticeDict[@"tab_kpi_last"]) { self.noticeDict[@"tab_kpi_last"] = @(-1); }
-    if(!self.noticeDict[@"tab_analyse"]) { self.noticeDict[@"tab_analyse"] = @(-1); }
-    if(!self.noticeDict[@"tab_analyse_last"]) { self.noticeDict[@"tab_analyse_last"] = @(-1); }
-    if(!self.noticeDict[@"tab_app"]) { self.noticeDict[@"tab_app"] = @(-1); }
-    if(!self.noticeDict[@"tab_app_last"]) { self.noticeDict[@"tab_app_last"] = @(-1); }
-    if(!self.noticeDict[@"tab_message"]) { self.noticeDict[@"tab_message"] = @(-1); }
-    if(!self.noticeDict[@"tab_message_last"]) { self.noticeDict[@"tab_message_last"] = @(-1); }
-    if(!self.noticeDict[@"setting"]) { self.noticeDict[@"setting"] = @(-1); }
-    if(!self.noticeDict[@"setting_pgyer"]) { self.noticeDict[@"setting_pgyer"] = @(-1); }
-    if(!self.noticeDict[@"setting_password"]) { self.noticeDict[@"setting_password"] = @(-1); }
-    if(!self.noticeDict[@"setting_thursday_say"]) { self.noticeDict[@"setting_thursday_say"] = @(-1); }
-    if(!self.noticeDict[@"setting_thursday_say_last"]) { self.noticeDict[@"setting_thursday_say_last"] = @(-1); }
+    self.noticeDict = self.noticeDict ?: [NSMutableDictionary dictionary];
+    
+    NSString *lastKeyName;
+    self.noticeDict[kAppLNName] = self.noticeDict[kAppLNName] ?: @(-1);
+    
+    self.noticeDict[kTabKPILNName] = self.noticeDict[kTabKPILNName] ?: @(-1);
+    lastKeyName = [self lastLocalNotification:kTabKPILNName];
+    self.noticeDict[lastKeyName] = self.noticeDict[lastKeyName] ?: @(-1);
+
+    self.noticeDict[kTabAnalyseLNName] = self.noticeDict[kTabAnalyseLNName] ?: @(-1);
+    lastKeyName = [self lastLocalNotification:kTabAnalyseLNName];
+    self.noticeDict[lastKeyName] = self.noticeDict[lastKeyName] ?: @(-1);
+    
+    self.noticeDict[kTabAppLNName] = self.noticeDict[kTabAppLNName] ?: @(-1);
+    lastKeyName = [self lastLocalNotification:kTabAppLNName];
+    self.noticeDict[lastKeyName] = self.noticeDict[lastKeyName] ?: @(-1);
+    
+    self.noticeDict[kTabMessageLNName] = self.noticeDict[kTabMessageLNName] ?: @(-1);
+    lastKeyName = [self lastLocalNotification:kTabMessageLNName];
+    self.noticeDict[lastKeyName] = self.noticeDict[lastKeyName] ?: @(-1);
+    
+    self.noticeDict[kSettingLNName] = self.noticeDict[kSettingLNName] ?: @(-1);
+    self.noticeDict[kSettingPgyerLNName] = self.noticeDict[kSettingPgyerLNName] ?: @(-1);
+    self.noticeDict[kSettingPasswordLNName] = self.noticeDict[kSettingPasswordLNName] ?: @(-1);
+
+    self.noticeDict[kSettingThursdaySayLNName] = self.noticeDict[kSettingThursdaySayLNName] ?: @(-1);
+    lastKeyName = [self lastLocalNotification:kSettingThursdaySayLNName];
+    self.noticeDict[lastKeyName] = self.noticeDict[lastKeyName] ?: @(-1);
 
     [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
 }
@@ -400,7 +416,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
              */
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                logParams[@"action"] = @"解屏";
+                logParams[kActionALCName] = @"解屏";
                 [APIHelper actionLog:logParams];
                 
                 /**
@@ -409,16 +425,16 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
                  */
                 NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
                 NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-                if(!userDict[@"user_num"]) {
+                if(!userDict[kUserNumCUName]) {
                     return;
                 }
                 
-                NSString *msg = [APIHelper userAuthentication:userDict[@"user_num"] password:userDict[@"user_md5"]];
+                NSString *msg = [APIHelper userAuthentication:userDict[kUserNumCUName] password:userDict[kPasswordCUName]];
                 if(msg.length == 0) {
                     return;
                 }
                 
-                userDict[@"is_login"] = @(NO);
+                userDict[kIsLoginCUName] = @(NO);
                 [userDict writeToFile:userConfigPath atomically:YES];
             }
             @catch (NSException *exception) {
@@ -433,7 +449,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
  *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
  */
 - (void)checkUserModifiedInitPassword {
-    if(![self.user.password isEqualToString:@"123456".md5]) {
+    if(![self.user.password isEqualToString:kInitPassword.md5]) {
         return;
     }
    
@@ -443,7 +459,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)loadWebView {
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"DashboardViewController - ObjC received message from JS: %@", data);
         responseCallback(@"DashboardViewController - Response for message from ObjC");
     }];
     
@@ -495,8 +510,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
          * 用户行为记录, 单独异常处理，不可影响用户体验
          */
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = @"刷新/主页面/浏览器";
-        logParams[@"obj_title"] = self.urlString;
+        logParams[kActionALCName]   = @"刷新/主页面/浏览器";
+        logParams[kObjTitleALCName] = self.urlString;
         [APIHelper actionLog:logParams];
     });
 }
@@ -550,9 +565,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
              */
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                logParams[@"action"] = @"JS异常";
-                logParams[@"obj_type"] = @(self.commentObjectType);
-                logParams[@"obj_title"] = [NSString stringWithFormat:@"主页面/%@", data[@"ex"]];
+                logParams[kActionALCName]   = @"JS异常";
+                logParams[kObjTypeALCName]  = @(self.commentObjectType);
+                logParams[kObjTitleALCName] = [NSString stringWithFormat:@"主页面/%@", data[@"ex"]];
                 [APIHelper actionLog:logParams];
             }
             @catch (NSException *exception) {
@@ -692,7 +707,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (IBAction)actionBarCodeScanView:(UIButton *)sender {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    if(!userDict[@"store_ids"] || [userDict[@"store_ids"] count] == 0) {
+    if(!userDict[kStoreIDsCUName] || [userDict[kStoreIDsCUName] count] == 0) {
         [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您无门店权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
         
         return;
@@ -717,14 +732,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         subjectViewController.objectID          = sender[@"objectID"];
         subjectViewController.commentObjectType = self.commentObjectType;
         
-        logParams[@"action"] = @"点击/主页面/浏览器";
-        logParams[@"obj_id"] = sender[@"objectID"];
-        logParams[@"obj_type"] = @(self.commentObjectType);
-        logParams[@"obj_title"] = sender[@"bannerName"];
+        logParams[kActionALCName]   = @"点击/主页面/浏览器";
+        logParams[kObjIDALCName]    = sender[@"objectID"];
+        logParams[kObjTypeALCName]  = @(self.commentObjectType);
+        logParams[kObjTitleALCName] = sender[@"bannerName"];
         
     }
     else if([segue.identifier isEqualToString:kSettingSegueIdentifier]) {
-        logParams[@"action"] = @"点击/主页面/设置";
+        logParams[kActionALCName]   = @"点击/主页面/设置";
     }
     
     /*
@@ -873,8 +888,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
          */
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"点击/主页面/标签栏";
-            logParams[@"obj_type"] = @(self.commentObjectType);
+            logParams[kActionALCName]  = @"点击/主页面/标签栏";
+            logParams[kObjTypeALCName] = @(self.commentObjectType);
             [APIHelper actionLog:logParams];
         }
         @catch (NSException *exception) {
@@ -919,7 +934,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
-    if (indexPath.row == 3 && [self.noticeDict[@"setting"] integerValue] > 0) {
+    if (indexPath.row == 3 && [self.noticeDict[kSettingLNName] integerValue] > 0) {
         [cell.tittleLabel showRedIcon];
     }
     
@@ -1066,7 +1081,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSInteger dataCount = [valueString integerValue];
 
     NSString *keyWord = self.notificationKeys[index];
-    NSString *lastKeyWord = [NSString stringWithFormat:@"%@_last", keyWord];
+    NSString *lastKeyWord = [self lastLocalNotification:keyWord];
     
     noticeDict[lastKeyWord] = @(dataCount);
     if ([noticeDict[lastKeyWord] integerValue] < 0) {
@@ -1082,9 +1097,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)setLocalNotifications {
     NSMutableDictionary *noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
     
-    if ([noticeDict[@"app"] intValue] > 0) {
+    if ([noticeDict[kAppLNName] intValue] > 0) {
         UIApplication *application = [UIApplication sharedApplication];
-        application.applicationIconBadgeNumber = [noticeDict[@"app"] integerValue];
+        application.applicationIconBadgeNumber = [noticeDict[kAppLNName] integerValue];
     }
     
     /**
@@ -1108,11 +1123,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
-    self.noticeDict[@"setting_password"] = @([userDict[@"user_md5"] isEqualToString:kInitPassword.md5] ? 1 : 0);
-    self.noticeDict[@"setting_pgyer"] = @(self.isNeedUpgrade ? 1 : -1);
+    self.noticeDict[kSettingPasswordLNName] = @([userDict[kPasswordCUName] isEqualToString:kInitPassword.md5] ? 1 : 0);
+    self.noticeDict[kSettingPgyerLNName]    = @(self.isNeedUpgrade ? 1 : -1);
     
-    NSInteger settingCount = (self.isNeedUpgrade || [self.noticeDict[@"setting_password"] integerValue] > 0 || [self.noticeDict[@"setting_thursday_say"] integerValue] > 0) ? 1 : 0;
-    self.noticeDict[@"setting"] = @(settingCount);
+    NSInteger settingCount = (self.isNeedUpgrade || [self.noticeDict[kSettingPasswordLNName] integerValue] > 0 || [self.noticeDict[kSettingThursdaySayLNName] integerValue] > 0) ? 1 : 0;
+    self.noticeDict[kSettingLNName] = @(settingCount);
     
     [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
     
@@ -1126,5 +1141,4 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [self.tabBar displayBadgeOnItemIndex:index orNot:isOrNot];
     });
 }
-
 @end

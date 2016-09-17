@@ -75,3 +75,16 @@ NSString *const kUserALCName         = @"user";
 NSString *const kObjTitleAPCCName    = @"object_title";
 NSString *const kUserNameAPCCName    = @"user_name";
 NSString *const kContentAPCCName     = @"content";
+
+/**
+ *  LocalNotification#TabItems/BannerBtn/ThursdaySay/ModifiedPassword/PgyerUpgrade
+ */
+NSString *const kAppLNName           = @"tab_kpi";
+NSString *const kTabKPILNName        = @"tab_kpi";
+NSString *const kTabAnalyseLNName    = @"tab_analyse";
+NSString *const kTabAppLNName        = @"tab_app";
+NSString *const kTabMessageLNName    = @"tab_message";
+NSString *const kSettingLNName       = @"setting";
+NSString *const kSettingThursdaySayLNName = @"setting_thursday_say";
+NSString *const kSettingPasswordLNName = @"setting_password";
+NSString *const kSettingPgyerLNName  = @"setting_pgyer";

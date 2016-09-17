@@ -92,9 +92,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     NSString *storeID = @"-1";
     if ((!cacheDict[@"store"] || !cacheDict[@"store"][@"id"]) &&
-        userDict[@"store_ids"] && [userDict[@"store_ids"] count] > 0) {
+        userDict[kStoreIDsCUName] && [userDict[kStoreIDsCUName] count] > 0) {
         
-        cacheDict[@"store"] = userDict[@"store_ids"][0];
+        cacheDict[@"store"] = userDict[kStoreIDsCUName][0];
         [FileUtils writeJSON:cacheDict Into:cacheJsonPath];
     }
     storeID = cacheDict[@"store"][@"id"];
@@ -133,5 +133,4 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         self.bridge = nil;
     }];
 }
-
 @end

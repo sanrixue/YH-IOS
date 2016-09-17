@@ -43,7 +43,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (strong, nonatomic) Version *version;
 @property (strong, nonatomic) NSMutableDictionary *noticeDict;
 @property (strong, nonatomic) NSString *noticeFilePath;
-
 @end
 
 @implementation SettingViewController
@@ -137,8 +136,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.isNeedChangepwd = NO;
     self.isNeedUpgrade = NO;
 
-    self.isNeedChangepwd = [self.noticeDict[@"setting_password"] isEqualToNumber:@(1)];
-    self.isNeedUpgrade = [self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)];
+    self.isNeedChangepwd = [self.noticeDict[kSettingPasswordLNName] isEqualToNumber:@(1)];
+    self.isNeedUpgrade = [self.noticeDict[kSettingPgyerLNName] isEqualToNumber:@(1)];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -194,7 +193,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             [cell.openOutLink setTitle:self.pgyLinkString forState:UIControlStateNormal];
             [cell.openOutLink setTitleColor:[UIColor colorWithHexString:kThemeColor] forState:UIControlStateNormal];
             [cell.openOutLink addTarget:self action:@selector(actionOpenLink) forControlEvents:UIControlEventTouchUpInside];
-            if ([self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)]) {
+            if ([self.noticeDict[kSettingPgyerLNName] isEqualToNumber:@(1)]) {
                 [cell.messageButton showRedIcon];
             }
             else {
@@ -206,7 +205,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             ThurSayTableViewCell *cell = [[ThurSayTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
             cell.titleLabel.text = self.appInfoArray[8];
             
-            if ([self.noticeDict[@"setting_thursday_say"] integerValue] > 0) {
+            if ([self.noticeDict[kSettingThursdaySayLNName] integerValue] > 0) {
                 [cell.titleLabel showRedIcon];
             }
             return cell;
@@ -310,7 +309,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     if ((indexPath.section == 1) && (indexPath.row == 8)) {
         ThurSayViewController *thurSay = [[ThurSayViewController alloc] init];
         [self presentViewController:thurSay animated:YES completion:^{
-            self.noticeDict[@"setting_thursday_say"] = @(0);
+            self.noticeDict[kSettingThursdaySayLNName] = @(0);
             [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
             [self.settingTableView reloadData];
         }];
@@ -524,7 +523,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     // 第三方消息推送，设备标识
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    self.isSuccess = [APIHelper pushDeviceToken:userDict[@"device_uuid"]];
+    self.isSuccess = [APIHelper pushDeviceToken:userDict[kDeviceUUIDCUName]];
     
     [ViewUtils showPopupView:self.view Info:@"校正完成"];
 }
@@ -538,7 +537,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
          */
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"点击/设置页面/修改密码";
+            logParams[kActionALCName] = @"点击/设置页面/修改密码";
             [APIHelper actionLog:logParams];
         }
         @catch (NSException *exception) {
@@ -549,15 +548,13 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)actionWehtherUseGesturePassword:(UISwitch *)sender {
     if([sender isOn]) {
-        NSLog(@"启动锁屏");
         self.isChangeLochPassword = YES;
         [self showLockViewForEnablingPasscode];
     }
     else {
-        NSLog(@"开始设置");
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-        userDict[@"use_gesture_password"] = @(NO);
+        userDict[kIsUseGesturePasswordCUName] = @(NO);
         [userDict writeToFile:userConfigPath atomically:YES];
         
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
@@ -569,14 +566,14 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         self.isChangeLochPassword = NO;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [APIHelper screenLock:userDict[@"user_device_id"] passcode:userDict[@"gesture_password"] state:NO];
+            [APIHelper screenLock:userDict[kUserDeviceIDCUName] passcode:userDict[kGesturePasswordCUName] state:NO];
             
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
              */
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                logParams[@"action"] = [NSString stringWithFormat:@"点击/设置页面/%@锁屏", sender.isOn ? @"开启" : @"禁用"];
+                logParams[kActionALCName] = [NSString stringWithFormat:@"点击/设置页面/%@锁屏", sender.isOn ? @"开启" : @"禁用"];
                 [APIHelper actionLog:logParams];
             }
             @catch (NSException *exception) {
@@ -589,7 +586,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)actionLogout{
     [self clearBrowserCache];
-    NSLog(@"退出登录");
     [self jumpToLogin];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
@@ -597,7 +593,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
          */
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"退出登录";
+            logParams[kActionALCName] = @"退出登录";
             [APIHelper actionLog:logParams];
         }
         @catch (NSException *exception) {
@@ -620,6 +616,4 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 @end

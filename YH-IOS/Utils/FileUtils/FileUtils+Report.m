@@ -34,7 +34,7 @@
  *  @return 文件路径
  */
 + (NSString *)reportJavaScriptDataPath:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID {
-    NSString *reportDataFileName = [NSString stringWithFormat:REPORT_DATA_FILENAME, groupID, templateID, reportID];
+    NSString *reportDataFileName = [NSString stringWithFormat:kReportDataFileName, groupID, templateID, reportID];
     NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
     return [javascriptPath stringByAppendingPathComponent:reportDataFileName];
 }

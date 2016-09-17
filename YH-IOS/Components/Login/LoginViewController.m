@@ -214,7 +214,7 @@
 - (void)checkVersionUpgrade:(NSString *)assetsPath {
     NSDictionary *bundleInfo       =[[NSBundle mainBundle] infoDictionary];
     NSString *currentVersion       = bundleInfo[@"CFBundleShortVersionString"];
-    NSString *versionConfigPath    = [NSString stringWithFormat:@"%@/%@", assetsPath, CURRENT_VERSION__FILENAME];
+    NSString *versionConfigPath    = [NSString stringWithFormat:@"%@/%@", assetsPath, kCurrentVersionFileName];
     
     BOOL isUpgrade = YES;
     NSString *localVersion = @"no-exist";
@@ -228,7 +228,7 @@
     
     if(isUpgrade) {
         NSLog(@"version modified: %@ => %@", localVersion, currentVersion);
-        NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", assetsPath, CACHED_HEADER_FILENAME];
+        NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", assetsPath, kCachedDirName];
         [FileUtils removeFile:cachedHeaderPath];
         NSLog(@"remove header: %@", cachedHeaderPath);
         

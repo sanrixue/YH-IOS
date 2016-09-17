@@ -27,7 +27,7 @@
     self.user = [[User alloc] init];
     self.sharedPath = [FileUtils sharedPath];
     if(self.user.userID) {
-        self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
+        self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
 }
 
@@ -135,7 +135,7 @@
 }
 
 - (void)jumpToLogin {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     userDict[kIsLoginCUName] = @(NO);
     [userDict writeToFile:userConfigPath atomically:YES];
@@ -217,7 +217,7 @@
     
     __block NSString *assetKey = [NSString stringWithFormat:@"%@_md5", assetName];
     __block  NSString *localAssetKey = [NSString stringWithFormat:@"local_%@_md5", assetName];
-    __block NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    __block NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     __block NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if(!isShouldUpdateAssets && ![userDict[assetKey] isEqualToString:userDict[localAssetKey]]) {
         isShouldUpdateAssets = YES;
@@ -235,7 +235,7 @@
     [HUD show:YES];
     
     // 下载地址
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:API_ASSETS_PATH, kBaseUrl, assetName]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:kDownloadAssetsAPIPath, kBaseUrl, assetName]];
     // 保存路径
     AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:url]];
     op.outputStream = [NSOutputStream outputStreamToFileAtPath:assetsZipPath append:NO];
@@ -271,7 +271,7 @@
             /**
              *  解屏验证用户信息，更新用户权限
              */
-            NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+            NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
             if(!userDict[kUserNumCUName]) {
                 return;
@@ -295,7 +295,7 @@
     return YES;
 }
 - (NSString *)passcode {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if([userDict[kIsLoginCUName] boolValue] && [userDict[kIsUseGesturePasswordCUName] boolValue]) {
         return userDict[kGesturePasswordCUName] ?: @"";
@@ -304,13 +304,13 @@
 }
 
 - (void)savePasscode:(NSString *)passcode {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     userDict[kIsUseGesturePasswordCUName] = @(YES);
     userDict[kGesturePasswordCUName] = passcode;
     [userDict writeToFile:userConfigPath atomically:YES];
     
-    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+    NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kSettingConfigFileName];
     [userDict writeToFile:settingsConfigPath atomically:YES];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

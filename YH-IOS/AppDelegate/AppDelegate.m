@@ -78,7 +78,7 @@ void UncaughtExceptionHandler(NSException * exception) {
                            stringByReplacingOccurrencesOfString: @">" withString: @""]
                           stringByReplacingOccurrencesOfString: @" " withString: @""];
     
-    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
+    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     if(pushToken.length != 64 || (pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue])) {
         return;
@@ -158,7 +158,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 #pragma mark - 判断用户是否登录
 - (BOOL)isLogin {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     return [userDict[@"is_login"] isEqualToValue: @(YES)];
 }
@@ -208,7 +208,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (NSString *)passcode {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if([userDict[@"is_login"] boolValue] && [userDict[@"use_gesture_password"] boolValue]) {
         return userDict[@"gesture_password"] ?: @"";
@@ -218,7 +218,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 
 - (void)jumpToLogin {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     userDict[@"is_login"] = @(NO);
     [userDict writeToFile:userConfigPath atomically:YES];
@@ -241,7 +241,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     NSError *error;
     NSDictionary *bundleInfo       =[[NSBundle mainBundle] infoDictionary];
     NSString *currentVersion       = bundleInfo[@"CFBundleShortVersionString"];
-    NSString *versionConfigPath    = [NSString stringWithFormat:@"%@/%@", [FileUtils basePath], CURRENT_VERSION__FILENAME];
+    NSString *versionConfigPath    = [NSString stringWithFormat:@"%@/%@", [FileUtils basePath], kCurrentVersionFileName];
     
     BOOL isUpgrade = YES;
     NSString *localVersion = @"noexist";
@@ -287,7 +287,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (void)initWebViewUserAgent {
-    NSString *userAgentPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_AGENT_FILENAME];
+    NSString *userAgentPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserAgentFileName];
     if(![FileUtils checkFileExist:userAgentPath isDir:NO]) {
         UIWebView* webView = [[UIWebView alloc] initWithFrame:CGRectZero];
         NSString *userAgent = [webView stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];

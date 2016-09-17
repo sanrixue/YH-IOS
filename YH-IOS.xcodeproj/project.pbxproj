@@ -237,7 +237,6 @@
 		C4DB7DBC1C02EE3800DA534E /* FileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileUtils.h; sourceTree = "<group>"; };
 		C4DB7DBD1C02EE3800DA534E /* FileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileUtils.m; sourceTree = "<group>"; };
 		C4DB7DBF1C02EE3800DA534E /* HttpUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpUtils.h; sourceTree = "<group>"; };
-		C4DB7DC61C02EE6000DA534E /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		C4DB7DC91C02EE8E00DA534E /* BaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseModel.h; sourceTree = "<group>"; };
 		C4DB7DCA1C02EE8E00DA534E /* BaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseModel.m; sourceTree = "<group>"; };
 		C4DB7DCC1C02EE8E00DA534E /* HttpResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpResponse.h; sourceTree = "<group>"; };
@@ -729,7 +728,6 @@
 				F68EA5731D7E8BD600AC2F8A /* advertisement.zip */,
 				C4EFE4AE1C98F60A0009411A /* assets.zip */,
 				C4272CC91C5CBA4700E6971B /* loading.zip */,
-				C4DB7DC61C02EE6000DA534E /* Constants.h */,
 			);
 			path = Shared;
 			sourceTree = "<group>";

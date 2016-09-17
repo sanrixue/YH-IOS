@@ -441,8 +441,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
  *  @param response <#response description#>
  */
 - (void)appUpgradeMethod:(NSDictionary *)response {
-    if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) {
-        [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
+    if(!response || !response[kDownloadURLCPCName] || !response[kVersionCodeCPCName] || !response[kVersionNameCPCName]) {
+        [ViewUtils showPopupView:self.view Info:kNoUpgradeWarnText];
         return;
     }
     
@@ -451,16 +451,16 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     NSInteger currentVersionCode = 0;
     if([FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
         NSDictionary *currentResponse = [FileUtils readConfigFile:pgyerVersionPath];
-        if(currentResponse[@"versionCode"]) {
-            currentVersionCode = [currentResponse[@"versionCode"] integerValue];
+        if(currentResponse[kVersionCodeCPCName]) {
+            currentVersionCode = [currentResponse[kVersionCodeCPCName] integerValue];
         }
     }
     
     [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
     
     // 对比 build 值，只准正向安装提示
-    if([response[@"versionCode"] integerValue] <= currentVersionCode) {
-        [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
+    if([response[kVersionCodeCPCName] integerValue] <= currentVersionCode) {
+        [ViewUtils showPopupView:self.view Info:kNoUpgradeWarnText];
         return;
     }
     
@@ -470,20 +470,20 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     Version *version = [[Version alloc] init];
     [self checkPgyerVersionLabel:version];
     
-    BOOL isPgyerLatest = [version.current isEqualToString:response[@"versionName"]] && [version.build isEqualToString:response[@"versionCode"]];
-    if(!isPgyerLatest && [response[@"versionCode"] integerValue] % 2 == 0) {
+    BOOL isPgyerLatest = [version.current isEqualToString:response[kVersionNameCPCName]] && [version.build isEqualToString:response[kVersionCodeCPCName]];
+    if(!isPgyerLatest && [response[kVersionCodeCPCName] integerValue] % 2 == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         
-        [alert addButton:@"升级" actionBlock:^(void) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[@"downloadURL"]]];
+        [alert addButton:kUpgradeBtnText actionBlock:^(void) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
         }];
         
-        NSString *subTitle = [NSString stringWithFormat:@"更新到版本: %@(%@)", response[@"versionName"], response[@"versionCode"]];
-        [alert showSuccess:self title:@"版本更新" subTitle:subTitle closeButtonTitle:@"放弃" duration:0.0f];
+        NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
+        [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
     }
     else {
-        [ViewUtils showPopupView:self.view Info:@"有测试版本发布，请手工安装。"];
+        [ViewUtils showPopupView:self.view Info:kUpgradeWarnTestText];
     }
     
     [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
@@ -529,7 +529,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (void)ResetPassword {
-    NSLog(@"修改密码");
     [self performSegueWithIdentifier:kResetPasswordSegueIdentifier sender:nil];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*

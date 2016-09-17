@@ -44,8 +44,7 @@
     for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {
             constraint.constant = kBannerHeight;
-            NSLog(@"宽度是%d",kBannerHeight);
-        break;
+            break;
         }
     }
 }

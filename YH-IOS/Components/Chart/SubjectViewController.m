@@ -148,6 +148,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         self.btnSearch.frame = self.btnComment.frame; // CGRectMake(CGRectGetMaxX(self.btnSearch.frame) + 30, 0, 30, 55);
     }
 }
+
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -238,11 +239,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     else if(deviceState == StateForbid) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert addButton:@"知道了" actionBlock:^(void) {
+        [alert addButton:kIAlreadyKnownText actionBlock:^(void) {
             [self jumpToLogin];
         }];
         
-        [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
+        [alert showError:self title:kWarningTitleText subTitle:kAppForbiedUseText closeButtonTitle:nil duration:0.0f];
     }
     else {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -375,7 +376,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     UIGraphicsEndImageContext();
     
     [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
-    [UMSocialData defaultData].extConfig.title = @"图表截图分享";
+    [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
     [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:kUMAppId

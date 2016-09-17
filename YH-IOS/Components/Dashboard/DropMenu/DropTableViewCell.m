@@ -21,7 +21,6 @@
 
 #pragma mark 初始化视图
 - (void)initWithSubview {
-    
     self.iconImageView = [[UIImageView alloc]init];
     self.iconImageView.contentMode = UIViewContentModeScaleAspectFit;
     
@@ -34,7 +33,6 @@
     [self.contentView addSubview:self.tittleLabel];
     self.backgroundColor = [UIColor clearColor];
     [self layoutView];
-    
 }
 
 - (void)layoutView {

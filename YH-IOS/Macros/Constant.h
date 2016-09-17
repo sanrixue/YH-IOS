@@ -36,6 +36,32 @@ typedef NS_ENUM(NSInteger, LoadingType) {
     LoadingLogining = 3 // deprecate
 };
 
+/**
+ * Text
+ */
+extern NSString *const kWarmTitleText;
+extern NSString *const kIAlreadyKnownText;
+extern NSString *const kAppForbiedUseText;
+extern NSString *const kWarningInitPwdText;
+extern NSString *const kWarningTitleText;
+extern NSString *const kWarningNoStoreText;
+extern NSString *const kWarningNoCaremaText;
+extern NSString *const kSureBtnText;
+extern NSString *const kWeiXinShareText;
+
+/**
+ *  Dashboard#DropMenu
+ */
+extern NSString *const kDropMentScanText;
+extern NSString *const kDropMentVoiceText;
+extern NSString *const kDropMentSearchText;
+extern NSString *const kDropMentUserInfoText;
+
+/**
+ *  Assets Folder and FileName
+ */
+extern NSString *const kAdFolderName;
+extern NSString *const kAdFileName;
 
 /**
  *  StoryBoard | ViewController
@@ -117,5 +143,25 @@ extern NSString *const kSettingLNName;
 extern NSString *const kSettingThursdaySayLNName;
 extern NSString *const kSettingPasswordLNName;
 extern NSString *const kSettingPgyerLNName;
+
+/**
+ *  Config#Pgyer upgrade columns name
+ */
+extern NSString *const kDownloadURLCPCName;
+extern NSString *const kVersionCodeCPCName;
+extern NSString *const kVersionNameCPCName;
+
+extern NSString *const kUpgradeBtnText;
+extern NSString *const kUpgradeWarnText;
+extern NSString *const kUpgradeTitleText;
+extern NSString *const kCancelBtnText;
+extern NSString *const kUpgradeWarnTestText;
+extern NSString *const kNoUpgradeWarnText;
+
+/**
+ *  Config#BarCodeScan
+ */
+extern NSString *kBarCodeScanFolderName;
+extern NSString *kBarCodeScanFileName;
 
 #endif /* Constant_h */

@@ -15,7 +15,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @interface ScanResultViewController() <UINavigationBarDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @property (strong, nonatomic) NSString *htmlContent;
-@property (strong, nonatomic) NSString *barCodePath;
+@property (strong, nonatomic) NSString *htmlPath;
 @property (weak, nonatomic) IBOutlet UIButton *selectBtn;
 @end
 
@@ -31,9 +31,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     
-    self.barCodePath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"BarCodeScan"];
-    NSString *htmlPath = [self.barCodePath stringByAppendingPathComponent:@"scan_bar_code.html"];
-    self.htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
+    self.htmlPath = [FileUtils sharedDirPath:kBarCodeScanFolderName FileName:kBarCodeScanFileName];
+    self.htmlContent = [NSString stringWithContentsOfFile:self.htmlPath encoding:NSUTF8StringEncoding error:nil];
 
     [self.selectBtn addTarget:self action:@selector(actionJumpToSelectStoreViewController) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -67,11 +66,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     else if(deviceState == StateForbid) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert addButton:@"知道了" actionBlock:^(void) {
+        [alert addButton:kIAlreadyKnownText actionBlock:^(void) {
             [self jumpToLogin];
         }];
         
-        [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
+        [alert showError:self title:kWarmTitleText subTitle:kAppForbiedUseText closeButtonTitle:nil duration:0.0f];
     }
     else {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -104,7 +103,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self clearBrowserCache];
-            [self.browser loadHTMLString:[self htmlContentWithTimestamp] baseURL:[NSURL fileURLWithPath:self.barCodePath]];
+            [self.browser loadHTMLString:[self htmlContentWithTimestamp] baseURL:[NSURL fileURLWithPath:self.htmlPath]];
         });
     });
 }

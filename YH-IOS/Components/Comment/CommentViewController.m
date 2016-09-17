@@ -141,11 +141,11 @@
     else if(deviceState == StateForbid) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         
-        [alert addButton:@"知道了" actionBlock:^(void) {
+        [alert addButton:kIAlreadyKnownText actionBlock:^(void) {
             [self jumpToLogin];
         }];
         
-        [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
+        [alert showError:self title:kWarningTitleText subTitle:kAppForbiedUseText closeButtonTitle:nil duration:0.0f];
     }
     else {
         dispatch_async(dispatch_get_main_queue(), ^{

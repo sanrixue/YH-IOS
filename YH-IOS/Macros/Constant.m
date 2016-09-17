@@ -9,10 +9,39 @@
 #import "Constant.h"
 
 /**
+ *  Assets Folder and FileName
+ */
+NSString *const kAdFolderName = @"advertisement";
+NSString *const kAdFileName   = @"index_ios.html";
+
+
+/**
  *  StoryBoard | ViewController
  */
 NSString *const kMainSBName  = @"Main";
 NSString *const kLoginVCName = @"LoginViewController";
+
+/**
+ * Text
+ */
+NSString *const kWarmTitleText      = @"温馨提示";
+NSString *const kIAlreadyKnownText  = @"知道了";
+NSString *const kAppForbiedUseText  = @"您被禁止在该设备使用本应用";
+NSString *const kWarningInitPwdText = @"初始化密码未修改，安全起见，请在\n【设置】-【个人信息】-【修改密码】页面修改密码";
+NSString *const kWarningTitleText   = @"提示";
+NSString *const kWarningNoStoreText  = @"您无门店权限";
+NSString *const kWarningNoCaremaText = @"没有摄像机权限";
+NSString *const kSureBtnText         = @"确定";
+
+NSString *const kWeiXinShareText     = @"图表截图分享";
+
+/**
+ *  Dashboard#DropMenu
+ */
+NSString *const kDropMentScanText     = @"扫一扫";
+NSString *const kDropMentVoiceText    = @"语音播报";
+NSString *const kDropMentSearchText   = @"搜索";
+NSString *const kDropMentUserInfoText = @"个人信息";
 
 /**
  * Assets file name
@@ -88,3 +117,23 @@ NSString *const kSettingLNName       = @"setting";
 NSString *const kSettingThursdaySayLNName = @"setting_thursday_say";
 NSString *const kSettingPasswordLNName = @"setting_password";
 NSString *const kSettingPgyerLNName  = @"setting_pgyer";
+
+/**
+ *  Config#Pgyer upgrade columns name
+ */
+NSString *const kDownloadURLCPCName = @"downloadURL";
+NSString *const kVersionCodeCPCName = @"versionCode";
+NSString *const kVersionNameCPCName = @"versionName";
+
+NSString *const kUpgradeBtnText     = @"升级";
+NSString *const kUpgradeWarnText    = @"更新到版本: %@(%@)";
+NSString *const kUpgradeTitleText   = @"版本更新";
+NSString *const kCancelBtnText      = @"放弃";
+NSString *const kUpgradeWarnTestText = @"有测试版本发布，请手工安装。";
+NSString *const kNoUpgradeWarnText   = @"未检测到更新";
+
+/**
+ *  Config#BarCodeScan
+ */
+NSString *kBarCodeScanFolderName = @"BarCodeScan";
+NSString *kBarCodeScanFileName  = @"scan_bar_code.html";

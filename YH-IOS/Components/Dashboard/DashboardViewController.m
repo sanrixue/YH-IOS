@@ -25,10 +25,6 @@
 #import "NSString+MD5.h"
 #import "WebViewJavascriptBridge.h"
 
-static NSString *const kDropMentScanText     = @"扫一扫";
-static NSString *const kDropMentVoiceText    = @"语音播报";
-static NSString *const kDropMentSearchText   = @"搜索";
-static NSString *const kDropMentUserInfoText = @"个人信息";
 static NSString *const kChartSegueIdentifier   = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
 
@@ -39,12 +35,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 @property (weak, nonatomic) IBOutlet UIButton *btnScanCode;
 @property (assign, nonatomic) CommentObjectType commentObjectType;
 @property (assign, nonatomic) NSInteger objectID;
-@property (strong, nonatomic) NSArray *notificationKeys;
 @property (weak, nonatomic) IBOutlet UIButton *setting;
 // 本地通知
 @property (nonatomic, strong) NSMutableArray *urlStrings;
-@property (strong, nonatomic) NSString *noticeFilePath;
-@property (strong , nonatomic) NSMutableDictionary *noticeDict;
+@property (strong, nonatomic) NSArray *localNotificationKeys;
+@property (strong, nonatomic) NSString *localNotificationPath;
 @property (nonatomic) BOOL isNeedUpgrade;
 @property (assign, nonatomic)BOOL isShowUserInfoNotice;
 @property (strong, nonatomic) dispatch_source_t timer;
@@ -64,9 +59,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
-    self.notificationKeys = @[kTabKPILNName, kTabAnalyseLNName, kTabAppLNName, kTabMessageLNName, kSettingThursdaySayLNName];
-    self.noticeFilePath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
-    self.noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
+    self.localNotificationKeys = @[kTabKPILNName, kTabAnalyseLNName, kTabAppLNName, kTabMessageLNName, kSettingThursdaySayLNName];
+    self.localNotificationPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
     
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
@@ -130,6 +124,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
 }
 
+#pragma mark - 推送消息点击后的响应处理
 /**
  *  消息推送点击后操作
  */
@@ -152,7 +147,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self tabBarClick:tabIndex];
 }
 
-#pragma mark - 通知处理
 - (void)receivePushMessageParams {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     if([app.pushMessageDict allKeys].count == 0) {
@@ -209,13 +203,12 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - loadAdvertisement
 - (void)loadAdvertView {
-    NSString *advertise = [[FileUtils sharedPath] stringByAppendingPathComponent:@"advertisement"];
-    NSString *advetisePath = [advertise stringByAppendingPathComponent:@"index_ios.html"];
-    if ([FileUtils checkFileExist:advetisePath isDir:YES]) {
-        NSString *advertiseContent = [NSString stringWithContentsOfFile:advetisePath encoding:NSUTF8StringEncoding error:nil];
+    NSString *adFilePath = [FileUtils sharedDirPath:kAdFolderName FileName:kAdFileName];
+    if ([FileUtils checkFileExist:adFilePath isDir:YES]) {
+        NSString *adContent = [NSString stringWithContentsOfFile:adFilePath encoding:NSUTF8StringEncoding error:nil];
         NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000 + arc4random()];
-        advertiseContent = [advertiseContent stringByReplacingOccurrencesOfString:@"TIMESTAMP" withString:timestamp];
-        [self.advertWebView loadHTMLString:advertiseContent baseURL:[NSURL URLWithString:advetisePath]];
+        adContent = [adContent stringByReplacingOccurrencesOfString:@"TIMESTAMP" withString:timestamp];
+        [self.advertWebView loadHTMLString:adContent baseURL:[NSURL URLWithString:adFilePath]];
     }
     else {
         [self hideAdertWebView];
@@ -326,8 +319,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      */
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = [NSString stringWithFormat:@"点击广告#%@", openType];
-        logParams[@"obj_title"] = actionLogTitle;
+        logParams[kActionALCName]   = [NSString stringWithFormat:@"点击广告#%@", openType];
+        logParams[kObjTitleALCName] = actionLogTitle;
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
@@ -348,7 +341,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 #pragma mark - init controls
-
 - (void)initUrlStrings {
     self.urlStrings = [NSMutableArray array];
     
@@ -368,36 +360,36 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
  *  初始化本地通知
  */
 - (void)initLocalNotifications {
-    self.noticeDict = self.noticeDict ?: [NSMutableDictionary dictionary];
+    NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
     
     NSString *lastKeyName;
-    self.noticeDict[kAppLNName] = self.noticeDict[kAppLNName] ?: @(-1);
+    localNotificationDict[kAppLNName] = localNotificationDict[kAppLNName] ?: @(-1);
     
-    self.noticeDict[kTabKPILNName] = self.noticeDict[kTabKPILNName] ?: @(-1);
+    localNotificationDict[kTabKPILNName] = localNotificationDict[kTabKPILNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kTabKPILNName];
-    self.noticeDict[lastKeyName] = self.noticeDict[lastKeyName] ?: @(-1);
+    localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
 
-    self.noticeDict[kTabAnalyseLNName] = self.noticeDict[kTabAnalyseLNName] ?: @(-1);
+    localNotificationDict[kTabAnalyseLNName] = localNotificationDict[kTabAnalyseLNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kTabAnalyseLNName];
-    self.noticeDict[lastKeyName] = self.noticeDict[lastKeyName] ?: @(-1);
+    localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
     
-    self.noticeDict[kTabAppLNName] = self.noticeDict[kTabAppLNName] ?: @(-1);
+    localNotificationDict[kTabAppLNName] = localNotificationDict[kTabAppLNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kTabAppLNName];
-    self.noticeDict[lastKeyName] = self.noticeDict[lastKeyName] ?: @(-1);
+    localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
     
-    self.noticeDict[kTabMessageLNName] = self.noticeDict[kTabMessageLNName] ?: @(-1);
+    localNotificationDict[kTabMessageLNName] = localNotificationDict[kTabMessageLNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kTabMessageLNName];
-    self.noticeDict[lastKeyName] = self.noticeDict[lastKeyName] ?: @(-1);
+    localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
     
-    self.noticeDict[kSettingLNName] = self.noticeDict[kSettingLNName] ?: @(-1);
-    self.noticeDict[kSettingPgyerLNName] = self.noticeDict[kSettingPgyerLNName] ?: @(-1);
-    self.noticeDict[kSettingPasswordLNName] = self.noticeDict[kSettingPasswordLNName] ?: @(-1);
+    localNotificationDict[kSettingLNName] = localNotificationDict[kSettingLNName] ?: @(-1);
+    localNotificationDict[kSettingPgyerLNName] = localNotificationDict[kSettingPgyerLNName] ?: @(-1);
+    localNotificationDict[kSettingPasswordLNName] = localNotificationDict[kSettingPasswordLNName] ?: @(-1);
 
-    self.noticeDict[kSettingThursdaySayLNName] = self.noticeDict[kSettingThursdaySayLNName] ?: @(-1);
+    localNotificationDict[kSettingThursdaySayLNName] = localNotificationDict[kSettingThursdaySayLNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kSettingThursdaySayLNName];
-    self.noticeDict[lastKeyName] = self.noticeDict[lastKeyName] ?: @(-1);
+    localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
 
-    [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
+    [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
 }
 
 /*
@@ -453,7 +445,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         return;
     }
    
-    [ViewUtils simpleAlertView:self Title:@"温馨提示" Message:@"初始化密码未修改，安全起见，请在\n【设置】-【个人信息】-【修改密码】页面修改密码" ButtonTitle:@"知道了"];
+    [ViewUtils simpleAlertView:self Title:kWarmTitleText Message:kWarningInitPwdText ButtonTitle:kIAlreadyKnownText];
 }
 
 - (void)loadWebView {
@@ -627,11 +619,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
     else if(deviceState == StateForbid) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert addButton:@"知道了" actionBlock:^(void) {
+        [alert addButton:kIAlreadyKnownText actionBlock:^(void) {
             [self jumpToLogin];
         }];
         
-        [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
+        [alert showError:self title:kWarmTitleText subTitle:kAppForbiedUseText closeButtonTitle:nil duration:0.0f];
     }
     else {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -680,12 +672,12 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [contentView setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count)];
     self.dropMenu = [[UITableView alloc] initWithFrame:contentView.view.frame style:UITableViewStylePlain];
     self.dropMenu.dataSource = self;
-    self.dropMenu.delegate = self;
-    self.dropMenu.scrollEnabled = NO;
+    self.dropMenu.delegate   = self;
+    self.dropMenu.scrollEnabled   = NO;
     self.dropMenu.backgroundColor = [UIColor clearColor];
     self.dropMenu.separatorColor = [UIColor whiteColor];
     self.dropMenu.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    self.dropMenu.layoutMargins = UIEdgeInsetsZero;
+    self.dropMenu.layoutMargins  = UIEdgeInsetsZero;
     self.dropMenu.separatorInset = UIEdgeInsetsZero;
     // contentView.view.backgroundColor = [UIColor colorWithHexString:@"31809f"];
     
@@ -708,13 +700,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if(!userDict[kStoreIDsCUName] || [userDict[kStoreIDsCUName] count] == 0) {
-        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"您无门店权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        [[[UIAlertView alloc] initWithTitle:kWarningTitleText message:kWarningNoStoreText delegate:nil cancelButtonTitle:kSureBtnText otherButtonTitles:nil] show];
         
         return;
     }
     
     if(![self cameraPemission]) {
-        [[[UIAlertView alloc] initWithTitle:@"提示" message:@"没有摄像机权限" delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil] show];
+        [[[UIAlertView alloc] initWithTitle:kWarningTitleText message:kWarningNoCaremaText delegate:nil cancelButtonTitle:kSureBtnText otherButtonTitles:nil] show];
         
         return;
     }
@@ -881,6 +873,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
     
     [self loadHtml];
+    [self resetTabLocalNotificationState:index];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
@@ -934,8 +927,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
-    if (indexPath.row == 3 && [self.noticeDict[kSettingLNName] integerValue] > 0) {
-        [cell.tittleLabel showRedIcon];
+    if (indexPath.row == 3) {
+        NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
+        if([localNotificationDict[kSettingLNName] integerValue] > 0) {
+            [cell.tittleLabel showRedIcon];
+        }
     }
     
     return cell;
@@ -975,8 +971,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
   *  @param response <#response description#>
   */
 - (void)appUpgradeMethod:(NSDictionary *)response {
-    if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) {
-        // [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
+    if(!response || !response[kDownloadURLCPCName] || !response[kVersionCodeCPCName] || !response[kVersionNameCPCName]) {
         self.isNeedUpgrade = NO;
         return;
     }
@@ -985,33 +980,33 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSInteger currentVersionCode = 0;
     if([FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
         NSDictionary *currentResponse = [FileUtils readConfigFile:pgyerVersionPath];
-        if(currentResponse[@"versionCode"]) {
-            currentVersionCode = [currentResponse[@"versionCode"] integerValue];
+        if(currentResponse[kVersionCodeCPCName]) {
+            currentVersionCode = [currentResponse[kVersionCodeCPCName] integerValue];
         }
     }
     
     [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
     
     // 对比 build 值，只准正向安装提示
-    if([response[@"versionCode"] integerValue] <= currentVersionCode) {
+    if([response[kVersionCodeCPCName] integerValue] <= currentVersionCode) {
         return;
     }
     
     Version *version = [[Version alloc] init];
-    BOOL isPgyerLatest = [version.current isEqualToString:response[@"versionName"]] && [version.build isEqualToString:response[@"versionCode"]];
-    if (isPgyerLatest && [response[@"versionCode"] integerValue] > currentVersionCode) {
+    BOOL isPgyerLatest = [version.current isEqualToString:response[kVersionNameCPCName]] && [version.build isEqualToString:response[kVersionCodeCPCName]];
+    if (isPgyerLatest && [response[kVersionCodeCPCName] integerValue] > currentVersionCode) {
         self.isNeedUpgrade = YES;
     }
-    if(!isPgyerLatest && [response[@"versionCode"] integerValue] % 2 == 0) {
+    if(!isPgyerLatest && [response[kVersionCodeCPCName] integerValue] % 2 == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         
-        [alert addButton:@"升级" actionBlock:^(void) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[@"downloadURL"]]];
+        [alert addButton:kUpgradeBtnText actionBlock:^(void) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
         }];
         
-        NSString *subTitle = [NSString stringWithFormat:@"更新到版本: %@(%@)", response[@"versionName"], response[@"versionCode"]];
-        [alert showSuccess:self title:@"版本更新" subTitle:subTitle closeButtonTitle:@"放弃" duration:0.0f];
+        NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
+        [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
     }
     
     [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
@@ -1042,9 +1037,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
                 [HttpUtils urlConvertToLocal:urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
                 [self extractDataCountFromHtmlContent:httpResponse.string Index:index];
-                [self setLocalNotifications];
             }
         }
+        [self setLocalNotifications];
     });
 }
 
@@ -1077,29 +1072,29 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      *      - 显示通知样式
      *      - `tab_* = abs(dataCount - tab_*_last); tab_*_last = dataCount`
      */
-    NSMutableDictionary *noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
+    NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
     NSInteger dataCount = [valueString integerValue];
 
-    NSString *keyWord = self.notificationKeys[index];
+    NSString *keyWord = self.localNotificationKeys[index];
     NSString *lastKeyWord = [self lastLocalNotification:keyWord];
     
-    noticeDict[lastKeyWord] = @(dataCount);
-    if ([noticeDict[lastKeyWord] integerValue] < 0) {
-        noticeDict[keyWord] = @(1);
+    if ([localNotificationDict[lastKeyWord] integerValue] < 0) {
+        localNotificationDict[keyWord] = @(1);
     }
-    else if ([noticeDict[lastKeyWord] integerValue] != dataCount) {
-        noticeDict[keyWord] = @(labs(dataCount - [noticeDict[lastKeyWord] integerValue]));
+    else if ([localNotificationDict[lastKeyWord] integerValue] != dataCount) {
+        localNotificationDict[keyWord] = @(labs(dataCount - [localNotificationDict[lastKeyWord] integerValue]));
     }
+    localNotificationDict[lastKeyWord] = @(dataCount);
     
-    [FileUtils writeJSON:noticeDict Into:self.noticeFilePath];
+    [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
 }
 
 - (void)setLocalNotifications {
-    NSMutableDictionary *noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
+    NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
     
-    if ([noticeDict[kAppLNName] intValue] > 0) {
+    if ([localNotificationDict[kAppLNName] intValue] > 0) {
         UIApplication *application = [UIApplication sharedApplication];
-        application.applicationIconBadgeNumber = [noticeDict[kAppLNName] integerValue];
+        application.applicationIconBadgeNumber = [localNotificationDict[kAppLNName] integerValue];
     }
     
     /**
@@ -1108,8 +1103,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSString *keyWord;
     NSInteger dataCount = 0;
     for (NSInteger index = 0; index < 4; index ++) {
-        keyWord = self.notificationKeys[index];
-        dataCount = [noticeDict[keyWord] integerValue];
+        keyWord = self.localNotificationKeys[index];
+        dataCount = [localNotificationDict[keyWord] integerValue];
         
         if (dataCount <= 0) { continue; }
   
@@ -1123,13 +1118,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
-    self.noticeDict[kSettingPasswordLNName] = @([userDict[kPasswordCUName] isEqualToString:kInitPassword.md5] ? 1 : 0);
-    self.noticeDict[kSettingPgyerLNName]    = @(self.isNeedUpgrade ? 1 : -1);
+    localNotificationDict[kSettingPasswordLNName] = @([userDict[kPasswordCUName] isEqualToString:kInitPassword.md5] ? 1 : 0);
+    localNotificationDict[kSettingPgyerLNName]    = @(self.isNeedUpgrade ? 1 : -1);
     
-    NSInteger settingCount = (self.isNeedUpgrade || [self.noticeDict[kSettingPasswordLNName] integerValue] > 0 || [self.noticeDict[kSettingThursdaySayLNName] integerValue] > 0) ? 1 : 0;
-    self.noticeDict[kSettingLNName] = @(settingCount);
+    NSInteger settingCount = (self.isNeedUpgrade || [localNotificationDict[kSettingPasswordLNName] integerValue] > 0 || [localNotificationDict[kSettingThursdaySayLNName] integerValue] > 0) ? 1 : 0;
+    localNotificationDict[kSettingLNName] = @(settingCount);
     
-    [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
+    [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         settingCount > 0 ? [self.setting showRedIcon] : [self.setting hideRedIcon];
@@ -1140,5 +1135,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.tabBar displayBadgeOnItemIndex:index orNot:isOrNot];
     });
+}
+
+- (void)resetTabLocalNotificationState:(NSInteger)index {
+    NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
+    localNotificationDict[self.localNotificationKeys[index]] = @(0);
+    [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
+    
+    [self displayTabBarBadgeOnItemIndex:index orNot:YES];
 }
 @end

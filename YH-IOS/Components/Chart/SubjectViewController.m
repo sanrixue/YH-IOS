@@ -32,7 +32,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @property (strong, nonatomic) NSArray *dropMenuTitles;
 @property (strong, nonatomic) NSArray *dropMenuIcons;
-@property (strong, nonatomic) UIButton *btnDropTable;
 
 @end
 
@@ -47,11 +46,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self idColor];
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
-    self.btnDropTable = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 50, 20, 50, 55)];
-    [self.bannerView addSubview:self.btnDropTable];
-    [self.btnDropTable setImage:[UIImage imageNamed:@"Banner-Setting"] forState:UIControlStateNormal];
-    [self.btnDropTable addTarget:self action:@selector(showTableView:) forControlEvents:UIControlEventTouchUpInside];
-    
     /**
      * 服务器内链接需要做缓存、点击事件处理；
      */
@@ -107,6 +101,18 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      * 其他页面,禁用横屏
      */
     [self setAppAllowRotation:NO];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutControllerSubViews:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+}
+
+- (void)layoutControllerSubViews:(NSNotification *)notification {
+    CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
+    
+    for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeTop) {
+            constraint.constant = (statusBarRect.size.height == 40 ? 0 : 20);
+            break;
+        }
+    }
 }
 
 - (void)dealloc {
@@ -344,6 +350,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     self.labelTheme.text = reportSelectedItem;
 }
+- (IBAction)dropTableView:(UIButton *)sender {
+    [self showTableView:sender];
+}
 
 #pragma mark
 - (void)initDropMenu {
@@ -373,12 +382,14 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 -(void)showTableView:(UIButton *)sender {
     [self initDropMenu];
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3.5, 150 / 4 * self.dropMenuTitles.count);
+    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count);
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3.5, 150 / 4 * self.dropMenuTitles.count)];
+    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3.2, 150 / 3.2 * self.dropMenuTitles.count)];
     dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    dropTableViewController.dropTableView.dataSource = self;
     dropTableViewController.dropTableView.delegate = self;
+    dropTableViewController.dropMenuTitles = self.dropMenuTitles ;
+    dropTableViewController.dropMenuIcons = self.dropMenuIcons;
+    
     UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
     popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
     popover.delegate = self;
@@ -391,38 +402,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
     
     return UIModalPresentationNone;
-}
-
-# pragma mark - UITableView Delgate
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return self.dropMenuTitles.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
-    if (!cell) {
-        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
-    }
-    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
-    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
-    
-    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
-    cellBackView.backgroundColor = [UIColor darkGrayColor];
-    cell.selectedBackgroundView = cellBackView;
-    
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return 150 / 4;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -498,7 +477,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [self loadHtml];
         [self.browser stopLoading];
     }
-    
     if([segue.identifier isEqualToString:kCommentSegueIdentifier]) {
         CommentViewController *viewController = (CommentViewController *)segue.destinationViewController;
         viewController.bannerName        = self.bannerName;

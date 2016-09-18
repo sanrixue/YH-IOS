@@ -19,9 +19,7 @@
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate> {
-    UIViewController *contentView;
-}
+@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate>
 
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (assign, nonatomic) BOOL isSupportSearch;
@@ -360,13 +358,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [tmpTitles addObject:kDropCommentText];
         [tmpIcons addObject:@"Subject-Comment"];
     }
-    
     if(self.isSupportSearch) {
         [tmpTitles addObject:kDropSearchText];
         [tmpIcons addObject:@"Subject-Search"];
     }
-    
-    
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
@@ -383,14 +378,12 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
     [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3.5, 150 / 4 * self.dropMenuTitles.count)];
     dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    
     dropTableViewController.dropTableView.dataSource = self;
     dropTableViewController.dropTableView.delegate = self;
     UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
     popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
     popover.delegate = self;
     [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
-    //popover.barButtonItem=self.navigationItem.rightBarButtonItem;
     [popover setSourceView:self.view];
     popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     [self presentViewController:dropTableViewController animated:YES completion:nil];

@@ -57,7 +57,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self showNoticeRedIcon];
     
     self.version = [[Version alloc] init];
-   // [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
     self.view.backgroundColor = [UIColor clearColor];
     self.settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
     [self.view addSubview:self.settingTableView];
@@ -117,7 +117,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     };
     [self initLabelMessageDict];
 }
-
 
 - (BOOL)prefersStatusBarHidden {
     return NO;

@@ -361,7 +361,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
  *  初始化本地通知
  */
 - (void)initLocalNotifications {
-
     NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
     
     NSString *lastKeyName;
@@ -390,7 +389,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     localNotificationDict[kSettingThursdaySayLNName] = localNotificationDict[kSettingThursdaySayLNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kSettingThursdaySayLNName];
     localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
-
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
 
 }
@@ -704,6 +702,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         
         return;
     }
+    
     [self qqStyle];
 }
 
@@ -1069,20 +1068,17 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
     NSInteger dataCount = [valueString integerValue];
 
-
     NSString *keyWord = self.localNotificationKeys[index];
     NSString *lastKeyWord = [self lastLocalNotification:keyWord];
     
     if ([localNotificationDict[lastKeyWord] integerValue] < 0) {
         localNotificationDict[keyWord] = @(1);
-
     }
     else if ([localNotificationDict[lastKeyWord] integerValue] != dataCount) {
         localNotificationDict[keyWord] = @(labs(dataCount - [localNotificationDict[lastKeyWord] integerValue]));
     }
     localNotificationDict[lastKeyWord] = @(dataCount);
     
-
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
 }
 

@@ -19,7 +19,7 @@
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate>
+@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate>
 
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (assign, nonatomic) BOOL isSupportSearch;

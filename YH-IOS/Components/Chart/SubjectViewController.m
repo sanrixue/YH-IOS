@@ -28,7 +28,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (weak, nonatomic) IBOutlet UIButton *btnShare;
 @property (strong, nonatomic) NSString *reportID;
 @property (strong, nonatomic) NSString *templateID;
-@property (weak, nonatomic) IBOutlet UIButton *btnDrop;
 @property (strong, nonatomic) NSString *javascriptPath;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @property (strong, nonatomic) NSArray *dropMenuTitles;

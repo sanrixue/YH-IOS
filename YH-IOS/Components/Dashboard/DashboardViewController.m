@@ -390,7 +390,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     lastKeyName = [self lastLocalNotification:kSettingThursdaySayLNName];
     localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
-
 }
 
 /*

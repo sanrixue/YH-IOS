@@ -140,8 +140,8 @@
 		C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgyUpdate.framework; path = Frameworks/PgyUpdate.framework; sourceTree = "<group>"; };
 		C4272CC71C5C752A00E6971B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C4272CC91C5CBA4700E6971B /* loading.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = loading.zip; sourceTree = "<group>"; };
-		C42ECED21D66EE8E00C5F762 /* DropTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropTableViewCell.h; sourceTree = "<group>"; };
-		C42ECED31D66EE8E00C5F762 /* DropTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropTableViewCell.m; sourceTree = "<group>"; };
+		C42ECED21D66EE8E00C5F762 /* DropTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropTableViewCell.h; path = ../Dashboard/DropMenu/DropTableViewCell.h; sourceTree = "<group>"; };
+		C42ECED31D66EE8E00C5F762 /* DropTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropTableViewCell.m; path = ../Dashboard/DropMenu/DropTableViewCell.m; sourceTree = "<group>"; };
 		C4379B551C18232D0058257A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		C4379B561C18232D0058257A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		C4448C6B1C0AE3030053B431 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
@@ -350,15 +350,6 @@
 			path = hpple;
 			sourceTree = "<group>";
 		};
-		C42ECED11D66EE8E00C5F762 /* DropMenu */ = {
-			isa = PBXGroup;
-			children = (
-				C42ECED21D66EE8E00C5F762 /* DropTableViewCell.h */,
-				C42ECED31D66EE8E00C5F762 /* DropTableViewCell.m */,
-			);
-			path = DropMenu;
-			sourceTree = "<group>";
-		};
 		C4379B541C1823110058257A /* User */ = {
 			isa = PBXGroup;
 			children = (
@@ -548,8 +539,7 @@
 			children = (
 				C488E6A41C0F03C800EB946D /* BaseViewController.h */,
 				C488E6A51C0F03C800EB946D /* BaseViewController.m */,
-				F68089521D8930C400CDBAF8 /* DropViewController.h */,
-				F68089531D8930C400CDBAF8 /* DropViewController.m */,
+				F64068B01D8E87FE003396B0 /* DropView */,
 			);
 			path = BaseView;
 			sourceTree = "<group>";
@@ -568,7 +558,6 @@
 		C4C6283D1C0C1ED6000AD5D8 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
-				C42ECED11D66EE8E00C5F762 /* DropMenu */,
 				C46F6A931D0671C900C561CE /* BarCodeScan */,
 				C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */,
 				C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */,
@@ -825,6 +814,17 @@
 				6A867606F7216FABE6624278 /* libPods-YH-IOS.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F64068B01D8E87FE003396B0 /* DropView */ = {
+			isa = PBXGroup;
+			children = (
+				F68089521D8930C400CDBAF8 /* DropViewController.h */,
+				F68089531D8930C400CDBAF8 /* DropViewController.m */,
+				C42ECED21D66EE8E00C5F762 /* DropTableViewCell.h */,
+				C42ECED31D66EE8E00C5F762 /* DropTableViewCell.m */,
+			);
+			name = DropView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

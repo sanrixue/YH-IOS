@@ -57,9 +57,13 @@
     // userName
     self.loginUserImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Username"]];
     [self.bgView addSubview:self.loginUserImage];
-    self.userNameText = [[UITextField alloc]init];
+    
     UIColor *placeHoderColor = [UIColor whiteColor];
-    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入用户名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
+    
+    self.userNameText = [[UITextField alloc] init];
+    self.userNameText.textAlignment = NSTextAlignmentLeft;
+    self.userNameText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入帐名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userNameText.borderStyle = UITextBorderStyleNone;
     self.userNameText.delegate = self;
     self.userNameText.textColor = [UIColor whiteColor];
@@ -68,7 +72,7 @@
     [self.userNameText becomeFirstResponder];
     [self.bgView addSubview:self.userNameText];
     
-    self.seperateView1 = [[UIView alloc]init];
+    self.seperateView1 = [[UIView alloc] init];
     self.seperateView1.backgroundColor = [UIColor whiteColor];
     [self.bgView addSubview:self.seperateView1];
     
@@ -76,6 +80,8 @@
     self.loginPasswordImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Password"]];
     [self.bgView addSubview:self.loginPasswordImage];
     self.userPasswordText = [[UITextField alloc] init];
+    self.userPasswordText.textAlignment = NSTextAlignmentLeft;
+    self.userPasswordText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     self.userPasswordText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入密码" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userPasswordText.secureTextEntry = YES;
     self.userPasswordText.delegate = self;
@@ -101,9 +107,10 @@
     [self.bgView addSubview:self.loginButton];
     
     //versionLabel
-    self.versionLabel = [[UILabel alloc]init];
+    self.versionLabel = [[UILabel alloc] init];
     self.version = [[Version alloc] init];
     self.versionLabel.textColor = [UIColor whiteColor];
+    self.versionLabel.font = [UIFont systemFontOfSize:12];
     self.versionLabel.text = [NSString stringWithFormat:@"%@(%@)", self.version.current, self.version.build];
     self.versionLabel.textAlignment = NSTextAlignmentCenter;
     self.versionLabel.adjustsFontSizeToFitWidth = YES;
@@ -237,5 +244,4 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 @end

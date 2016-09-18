@@ -10,7 +10,7 @@
 #import "UMessage.h"
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
-#import "Constants.h"
+#import "Constant.h"
 #import "NSData+MD5.h"
 #import <PgySDK/PgyManager.h>
 #import "Version.h"

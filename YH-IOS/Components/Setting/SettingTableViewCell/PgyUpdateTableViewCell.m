@@ -7,7 +7,7 @@
 //
 
 #import "PgyUpdateTableViewCell.h"
-#import "Constants.h"
+#import "Constant.h"
 #import "UIColor+Hex.h"
 
 @implementation PgyUpdateTableViewCell

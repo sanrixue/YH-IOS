@@ -33,8 +33,8 @@
     
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    if(userDict[@"store_ids"] && [userDict[@"store_ids"] count] > 0) {
-        self.dataList =userDict[@"store_ids"];
+    if(userDict[kStoreIDsCUName] && [userDict[kStoreIDsCUName] count] > 0) {
+        self.dataList =userDict[kStoreIDsCUName];
     }
     
     /**
@@ -81,7 +81,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
@@ -119,15 +118,4 @@
     
     [self actionBannerBack];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

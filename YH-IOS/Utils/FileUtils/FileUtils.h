@@ -12,7 +12,7 @@
 #define iContent_FileUtils_h
 
 #import <UIKit/UIKit.h>
-#import "Constants.h"
+#import "Constant.h"
 
 /**
  *  处理File相关的代码块合集
@@ -22,12 +22,14 @@
 + (NSString *)basePath;
 + (NSString *)userspace;
 + (NSString *)loadingPath:(LoadingType)loadingType;
+
 /**
  *  公共资源放在此目录下
  *
  *  @return 目录路径
  */
 + (NSString *)sharedPath;
+
 /**
  *  传递目录名取得沙盒中的绝对路径(一级),不存在则创建，请慎用！
  *
@@ -45,6 +47,7 @@
  *  @return 沙盒中的绝对路径
  */
 + (NSString *)dirPaths:(NSArray *)dirNames;
+
 /**
  *  传递目录名取得沙盒中的绝对路径(二级)
  *
@@ -56,6 +59,25 @@
 + (NSString *)dirPath: (NSString *)dirName FileName:(NSString*) fileName;
 
 /**
+ *  Shared/ 文件夹下一级文件夹操作
+ *
+ *  @param dirName 文件夹名称
+ *
+ *  @return Shared/dirName
+ */
++ (NSString *)sharedDirPath:(NSString *)dirName;
+
+/**
+ *  Shared/ 文件夹下二级文件操作
+ *
+ *  @param dirName  <#dirName description#>
+ *  @param fileName <#fileName description#>
+ *
+ *  @return Shared/dirName/fileName
+ */
++ (NSString *)sharedDirPath:(NSString *)dirName FileName:(NSString *)fileName;
+
+/**
  *  检测目录路径、文件路径是否存在
  *
  *  @param pathname 沙盒中的绝对路径
@@ -63,7 +85,7 @@
  *
  *  @return 布尔类型，存在即TRUE，否则为FALSE
  */
-+ (BOOL) checkFileExist: (NSString*) pathname isDir: (BOOL) isDir;
++ (BOOL)checkFileExist:(NSString*)pathname isDir:(BOOL)isDir;
 
 /**
  *  读取配置档，有则读取。
@@ -73,14 +95,7 @@
  *
  *  @return 返回配置信息NSMutableDictionary
  */
-+ (NSMutableDictionary*) readConfigFile: (NSString*) pathName;
-
-
-
-/**
- *  打印沙盒目录列表, 相当于`tree ./`， 测试时可以用到
- */
-//+ (void) printDir: (NSString *)dirName;
++ (NSMutableDictionary*)readConfigFile:(NSString*)pathName;
 
 /**
  *  物理删除文件，并返回是否删除成功的布尔值。
@@ -89,8 +104,7 @@
  *
  *  @return 是否删除成功的布尔值
  */
-+ (BOOL) removeFile:(NSString *)filePath;
-
++ (BOOL)removeFile:(NSString *)filePath;
 
 /**
  *  文件体积大小转化为可读文字；
@@ -106,17 +120,14 @@
  */
 + (NSString *)humanFileSize:(NSString *)fileSize;
 
-
 /**
  *  NSMutableDictionary写入本地文件
  *
  *  @param data     JSON
  *  @param filePath 目标文件
  */
-+ (void) writeJSON:(NSMutableDictionary *)data
-              Into:(NSString *) slidePath;
-
-
++ (void)writeJSON:(NSMutableDictionary *)data
+             Into:(NSString *)slidePath;
 
 /**
  *  计算指定文件路径的文件大小
@@ -126,6 +137,7 @@
  *  @return 文件体积
  */
 + (NSString *)fileSize:(NSString *)filePath;
+
 /**
  *  计算指定文件夹路径的文件体积
  *
@@ -134,6 +146,7 @@
  *  @return 文件夹体积
  */
 + (NSString *)folderSize:(NSString *)folderPath;
+
 /**
  *  遍历文件夹文件，计算文件夹大小
  *
@@ -171,6 +184,4 @@
 + (void)barcodeScanResult:(NSString *)responseString;
 
 @end
-
-
 #endif

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "sys/utsname.h"
 #import "HttpUtils.h"
-#import "Constants.h"
+#import "Constant.h"
 #import "HttpResponse.h"
 #import <UIKit/UIKit.h>
 #import "ExtendNSLogFunctionality.h"
@@ -639,7 +639,7 @@
  *  @param ImageName  图片名
  */
 + (void)uploadImage:(NSString *)uploadPath withImagePath:(NSString *)imagePath withImageName:(NSString *)imageName {
-    NSDictionary *dict = @{@"name":imageName, @"upload_state":@(NO)};
+    NSDictionary *dict = @{@"name":imageName, @"upload_state":@(NO), @"local_path":imagePath};
     NSMutableDictionary *gravatarDict = [NSMutableDictionary dictionaryWithDictionary:dict];
     
     NSString *gravatarConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];

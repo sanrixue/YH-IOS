@@ -13,11 +13,16 @@
 #import "FileUtils+Report.h"
 #import "CommentViewController.h"
 #import "ReportSelectorViewController.h"
+#import "DropTableViewCell.h"
+#import "DropViewController.h"
 
-static NSString *const kCommentSegueIdentifier = @"ToCommentSegueIdentifier";
+static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface SubjectViewController ()
+@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UINavigationBarDelegate> {
+    UIViewController *contentView;
+}
+
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (assign, nonatomic) BOOL isSupportSearch;
 @property (weak, nonatomic) IBOutlet UIButton *btnSearch;
@@ -25,8 +30,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (weak, nonatomic) IBOutlet UIButton *btnShare;
 @property (strong, nonatomic) NSString *reportID;
 @property (strong, nonatomic) NSString *templateID;
+@property (weak, nonatomic) IBOutlet UIButton *btnDrop;
 @property (strong, nonatomic) NSString *javascriptPath;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
+@property (strong, nonatomic) NSArray *dropMenuTitles;
+@property (strong, nonatomic) NSArray *dropMenuIcons;
+@property (strong, nonatomic) UIButton *btnDropTable;
+
 @end
 
 @implementation SubjectViewController
@@ -35,17 +45,21 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [super viewDidLoad];
     
     /**
-     *  被始化页面样式
+     * 被始化页面样式
      */
     [self idColor];
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
+    self.btnDropTable = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 50, 20, 50, 55)];
+    [self.bannerView addSubview:self.btnDropTable];
+    [self.btnDropTable setImage:[UIImage imageNamed:@"Banner-Setting"] forState:UIControlStateNormal];
+    [self.btnDropTable addTarget:self action:@selector(showTableView:) forControlEvents:UIControlEventTouchUpInside];
     
     /**
-     *  服务器内链接需要做缓存、点击事件处理；
+     * 服务器内链接需要做缓存、点击事件处理；
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
-    self.urlString = self.link;
+    self.urlString   = self.link;
     
     self.browser.delegate = self;
     if(self.isInnerLink) {
@@ -67,8 +81,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"ChartViewController - ObjC received message from JS: %@", data);
-        responseCallback(@"ChartViewController - Response for message from ObjC");
+        responseCallback(@"SubjectViewController - Response for message from ObjC");
     }];
     [self addWebViewJavascriptBridge];
 }
@@ -84,7 +97,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     /**
      *  横屏时，隐藏标题栏，增大可视区范围
      */
-    [self checkInterfaceOrientation: [[UIApplication sharedApplication] statusBarOrientation]];
+    [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
     [self displayBannerViewButtonsOrNot];
     [self loadHtml];
@@ -130,8 +143,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
          */
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"刷新/主题页面/浏览器";
-            logParams[@"obj_title"] = self.urlString;
+            logParams[kActionALCName]   = @"刷新/主题页面/浏览器";
+            logParams[kObjTitleALCName] = self.urlString;
             [APIHelper actionLog:logParams];
         }
         @catch (NSException *exception) {
@@ -149,6 +162,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         self.btnSearch.frame = self.btnComment.frame; // CGRectMake(CGRectGetMaxX(self.btnSearch.frame) + 30, 0, 30, 55);
     }
 }
+
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -157,10 +171,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
              */
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                logParams[@"action"] = @"JS异常";
-                logParams[@"obj_id"] = self.objectID;
-                logParams[@"obj_type"] = @(self.commentObjectType);
-                logParams[@"obj_title"] = [NSString stringWithFormat:@"主题页面/%@/%@", self.bannerName, data[@"ex"]];
+                logParams[kActionALCName]   = @"JS异常";
+                logParams[kObjIDALCName]    = self.objectID;
+                logParams[kObjTypeALCName]  = @(self.commentObjectType);
+                logParams[kObjTitleALCName] = [NSString stringWithFormat:@"主题页面/%@/%@", self.bannerName, data[@"ex"]];
                 [APIHelper actionLog:logParams];
             }
             @catch (NSException *exception) {
@@ -239,11 +253,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     else if(deviceState == StateForbid) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert addButton:@"知道了" actionBlock:^(void) {
+        [alert addButton:kIAlreadyKnownText actionBlock:^(void) {
             [self jumpToLogin];
         }];
         
-        [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
+        [alert showError:self title:kWarningTitleText subTitle:kAppForbiedUseText closeButtonTitle:nil duration:0.0f];
     }
     else {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -319,7 +333,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)displayBannerTitleAndSearchIcon {
-    self.btnSearch.hidden = NO;
+  //  self.btnSearch.hidden = NO;
     
     NSString *reportSelectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
     if(reportSelectedItem == NULL || [reportSelectedItem length] == 0) {
@@ -332,6 +346,107 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         }
     }
     self.labelTheme.text = reportSelectedItem;
+}
+
+#pragma mark
+- (void)initDropMenu {
+    NSMutableArray *tmpTitles = [NSMutableArray array];
+    NSMutableArray *tmpIcons = [NSMutableArray array];
+    if(kSubjectShare) {
+        [tmpTitles addObject:kDropShareText];
+        [tmpIcons addObject:@"Subject-Share"];
+    }
+    if(kSubjectComment) {
+        [tmpTitles addObject:kDropCommentText];
+        [tmpIcons addObject:@"Subject-Comment"];
+    }
+    
+    if(self.isSupportSearch) {
+        [tmpTitles addObject:kDropSearchText];
+        [tmpIcons addObject:@"Subject-Search"];
+    }
+    
+    
+    self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
+    self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
+}
+
+/**
+ *  标题栏设置按钮点击显示下拉菜单
+ *
+ *  @param sender
+ */
+-(void)showTableView:(UIButton *)sender {
+    [self initDropMenu];
+    DropViewController *dropTableViewController = [[DropViewController alloc]init];
+    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3.5, 150 / 4 * self.dropMenuTitles.count);
+    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
+    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3.5, 150 / 4 * self.dropMenuTitles.count)];
+    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    
+    dropTableViewController.dropTableView.dataSource = self;
+    dropTableViewController.dropTableView.delegate = self;
+    UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
+    popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    popover.delegate = self;
+    [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
+    //popover.barButtonItem=self.navigationItem.rightBarButtonItem;
+    [popover setSourceView:self.view];
+    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    [self presentViewController:dropTableViewController animated:YES completion:nil];
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    
+    return UIModalPresentationNone;
+}
+
+# pragma mark - UITableView Delgate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return self.dropMenuTitles.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
+    if (!cell) {
+        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    }
+    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
+    
+    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
+    cellBackView.backgroundColor = [UIColor darkGrayColor];
+    cell.selectedBackgroundView = cellBackView;
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 150 / 4;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSString *itemName = self.dropMenuTitles[indexPath.row];
+        
+        if([itemName isEqualToString:kDropCommentText]) {
+            [self actionWriteComment];
+        }
+        else if([itemName isEqualToString:kDropSearchText]) {
+            [self actionDisplaySearchItems];
+        }
+        else if([itemName isEqualToString:kDropShareText]) {
+            [self actionWebviewScreenShot];
+        }
+    }];
 }
 
 #pragma mark - ibaction block
@@ -347,15 +462,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }];
 }
 
-- (IBAction)actionWriteComment:(UIButton *)sender {
+- (void)actionWriteComment{
     [self performSegueWithIdentifier:kCommentSegueIdentifier sender:nil];
 }
 
-- (IBAction)actionDisplaySearchItems:(id)sender {
+- (void)actionDisplaySearchItems {
     [self performSegueWithIdentifier:kReportSelectorSegueIdentifier sender:nil];
 }
 
-- (IBAction)actionWebviewScreenShot:(id)sender {
+- (void)actionWebviewScreenShot{
     UIWebView *webView = self.browser;
     
     // Setup the Image context. Special handling for retina.
@@ -376,7 +491,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     UIGraphicsEndImageContext();
     
     [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
-    [UMSocialData defaultData].extConfig.title = @"图表截图分享";
+    [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
     [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
     [UMSocialSnsService presentSnsIconSheetView:self
                                          appKey:kUMAppId
@@ -403,7 +518,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
              * 用户行为记录, 单独异常处理，不可影响用户体验
              */
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"点击/主题页面/评论";
+            logParams[kActionALCName] = @"点击/主题页面/评论";
             [APIHelper actionLog:logParams];
         });
     }
@@ -418,14 +533,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 #pragma mark - UIWebview delegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     /**
      *  忽略 NSURLErrorDomain 错误 - 999
      */
-    if([error code] == NSURLErrorCancelled) return;
+    if([error code] == NSURLErrorCancelled) {
+        return;
+    }
     
     NSLog(@"dvc: %@", error.description);
 }
@@ -483,7 +599,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSURL *url = [request URL];
-        NSLog(@"request: %@", url);
         if (![[url scheme] hasPrefix:@";file"]) {
             [[UIApplication sharedApplication] openURL:url];
             return NO;
@@ -500,10 +615,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = [NSString stringWithFormat:@"微信分享(%d)", fromViewControllerType];
-        logParams[@"obj_id"] = self.objectID;
-        logParams[@"obj_type"] = @(self.commentObjectType);
-        logParams[@"obj_title"] = self.bannerName;
+        logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享(%d)", fromViewControllerType];
+        logParams[kObjIDALCName]    = self.objectID;
+        logParams[kObjTypeALCName]  = @(self.commentObjectType);
+        logParams[kObjTitleALCName] = self.bannerName;
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
@@ -527,10 +642,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-        logParams[@"action"] = [NSString stringWithFormat:@"微信分享完成(%d)", response.viewControllerType];
-        logParams[@"obj_id"] = self.objectID;
-        logParams[@"obj_type"] = @(self.commentObjectType);
-        logParams[@"obj_title"] = self.bannerName;
+        logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享完成(%d)", response.viewControllerType];
+        logParams[kObjIDALCName]    = self.objectID;
+        logParams[kObjTypeALCName]  = @(self.commentObjectType);
+        logParams[kObjTitleALCName] = self.bannerName;
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {

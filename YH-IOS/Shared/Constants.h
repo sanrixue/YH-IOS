@@ -8,8 +8,8 @@
 
 #import "PrivateConstants.h"
 
-#ifndef constant_h
-#define constant_h
+#ifndef constants_h
+#define constants_h
 
 #define kThemeColor                 @"#53a93f" //31809f
 #define kBannerBgColor              @"#53a93f"
@@ -64,40 +64,4 @@
 
 
 
-typedef NS_ENUM(NSInteger, SettingTableCellIndex) {
-    IndexGesturePassword = 0
-};
-
-typedef NS_ENUM(NSInteger, CommentObjectType) {
-    ObjectTypeKpi = 1,
-    ObjectTypeAnalyse = 2,
-    ObjectTypeApp = 3,
-    ObjectTypeReport = 4,
-    ObjectTypeMessage = 5
-};
-
-typedef NS_ENUM(NSInteger, DeviceState) {
-    StateOK = 200,
-    StateForbid = 401,
-};
-
-typedef NS_ENUM(NSInteger, LoadingType) {
-    LoadingLogin = 0,
-    LoadingLoad = 1,
-    LoadingRefresh = 2,
-    LoadingLogining = 3 // deprecate
-};
-
-#define kBarCodeScanResultDefault @"{ \
-  \"chart\": {                        \
-      \"title\": \"查询中...\",        \
-      \"series\": [{                  \
-           \"name\": \"查询中\",       \
-           \"type\": \"line\",        \
-           \"data\": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0] \
-      }] \
-    }, \
-    \"tabs\": [] \
-  }";
-
-#endif /* constant_h */
+#endif /* constants_h */

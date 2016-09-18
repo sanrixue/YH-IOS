@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface DropViewController : UIViewController
-@property (nonatomic,strong) NSArray * dataList;
+@property (nonatomic,strong)UITableView *dropTableView;
 @end

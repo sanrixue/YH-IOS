@@ -33,6 +33,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [LTHPasscodeViewController sharedUser].delegate = self;
     [LTHPasscodeViewController useKeychain:NO];
     [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
@@ -43,8 +44,7 @@
     for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {
             constraint.constant = kBannerHeight;
-            NSLog(@"宽度是%d",kBannerHeight);
-        break;
+            break;
         }
     }
 }
@@ -103,6 +103,7 @@
 }
 
 - (void)clearBrowserCache {
+    [self.browser stopLoading];
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     
     NSString *domain = [[NSURL URLWithString:self.urlString] host];
@@ -111,21 +112,6 @@
             [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
         }
     }
-    
-    /*
-     * bug#fixed:
-     2016-09-14 13:53:29.907 YH-IOS[10660:3304226] bool _WebTryThreadLock(bool), 0x13df88140: Multiple locks on web thread not allowed! Please file a bug. Crashing now...
-     1   0x185c2c35c <redacted>
-     2   0x181d14728 <redacted>
-     3   0x181d124cc <redacted>
-     4   0x181d12814 <redacted>
-     5   0x181c3cc50 CFRunLoopRunSpecific
-     6   0x185c2a108 <redacted>
-     7   0x1819c3b28 <redacted>
-     8   0x1819c3a8c <redacted>
-     9   0x1819c1028 thread_start
-     */
-    [self.browser stopLoading];
 }
 
 - (void)showLoading:(LoadingType)loadingType {
@@ -151,11 +137,11 @@
 - (void)jumpToLogin {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    userDict[@"is_login"] = @(NO);
+    userDict[kIsLoginCUName] = @(NO);
     [userDict writeToFile:userConfigPath atomically:YES];
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kMainSBName bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:kLoginVCName];
     self.view.window.rootViewController = loginViewController;
 }
 
@@ -170,18 +156,15 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
     
-    // [self showProgressHUD:@"收到IOS系统，内存警告."];
     NSLog(@"收到IOS系统，内存警告.");
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
          * 用户行为记录, 单独异常处理，不可影响用户体验
          */
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"警告/内存";
+            logParams[kActionALCName] = @"警告/内存";
             [APIHelper actionLog:logParams];
         }
         @catch (NSException *exception) {
@@ -207,19 +190,19 @@
     // 初始化队列
     NSOperationQueue *queue = [[NSOperationQueue alloc]init];
     AFHTTPRequestOperation *op;
-    op = [self checkAssetUpdate:@"loading" info: @"加载库" isInAssets: NO];
+    op = [self checkAssetUpdate:kLoadingAssetsName info:kLoadingPopupText isInAssets: NO];
     if(op) { [queue addOperation:op]; }
-    op = [self checkAssetUpdate:@"fonts" info: @"字体库" isInAssets: YES];
+    op = [self checkAssetUpdate:kFontsAssetsName info:kFontsPopupText isInAssets: YES];
     if(op) { [queue addOperation:op]; }
-    op = [self checkAssetUpdate:@"images" info: @"图库" isInAssets: YES];
+    op = [self checkAssetUpdate:kImagesAssetsName info:kImagesPopupText isInAssets: YES];
     if(op) { [queue addOperation:op]; }
-    op = [self checkAssetUpdate:@"stylesheets" info: @"样式库" isInAssets: YES];
+    op = [self checkAssetUpdate:kStylesheetsAssetsName info:kStylesheetsPopupText isInAssets: YES];
     if(op) { [queue addOperation:op]; }
-    op = [self checkAssetUpdate:@"javascripts" info: @"解析库" isInAssets: YES];
+    op = [self checkAssetUpdate:kJavascriptsAssetsName info:kJavascriptsPopupText isInAssets: YES];
     if(op) { [queue addOperation:op]; }
-    op = [self checkAssetUpdate:@"BarCodeScan" info: @"扫码样式库" isInAssets: NO];
+    op = [self checkAssetUpdate:kBarCodeScanAssetsName info:kBarCodeScanPopupText isInAssets: NO];
     if(op) { [queue addOperation:op]; }
-    op = [self checkAssetUpdate:@"advertisement" info: @"广告样式库" isInAssets: NO];
+    op = [self checkAssetUpdate:kAdvertisementAssetsName info:kAdvertisementPopupText isInAssets: NO];
     if(op) { [queue addOperation:op]; }
 }
 
@@ -276,15 +259,13 @@
 #pragma mark - LTHPasscodeViewControllerDelegate methods
 
 - (void)passcodeWasEnteredSuccessfully {
-    NSLog(@"BaseViewController - Passcode Was Entered Successfully");
-    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
          * 用户行为记录, 单独异常处理，不可影响用户体验
          */
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"解屏";
+            logParams[kActionALCName] = @"解屏";
             [APIHelper actionLog:logParams];
             
             /**
@@ -292,13 +273,15 @@
              */
             NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-            if(userDict[@"user_num"]) {
-                NSString *msg = [APIHelper userAuthentication:userDict[@"user_num"] password:userDict[@"user_md5"]];
-                if(msg.length > 0) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self jumpToLogin];
-                    });
-                }
+            if(!userDict[kUserNumCUName]) {
+                return;
+            }
+            
+            NSString *msg = [APIHelper userAuthentication:userDict[kUserNumCUName] password:userDict[kPasswordCUName]];
+            if(msg.length > 0) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self jumpToLogin];
+                });
             }
         }
         @catch (NSException *exception) {
@@ -314,8 +297,8 @@
 - (NSString *)passcode {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    if([userDict[@"is_login"] boolValue] && [userDict[@"use_gesture_password"] boolValue]) {
-        return userDict[@"gesture_password"] ?: @"";
+    if([userDict[kIsLoginCUName] boolValue] && [userDict[kIsUseGesturePasswordCUName] boolValue]) {
+        return userDict[kGesturePasswordCUName] ?: @"";
     }
     return @"";
 }
@@ -323,15 +306,15 @@
 - (void)savePasscode:(NSString *)passcode {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    userDict[@"use_gesture_password"] = @(YES);
-    userDict[@"gesture_password"] = passcode;
+    userDict[kIsUseGesturePasswordCUName] = @(YES);
+    userDict[kGesturePasswordCUName] = passcode;
     [userDict writeToFile:userConfigPath atomically:YES];
     
     NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
     [userDict writeToFile:settingsConfigPath atomically:YES];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [APIHelper screenLock:userDict[@"user_device_id"] passcode:passcode state:YES];
+        [APIHelper screenLock:userDict[kUserDeviceIDCUName] passcode:passcode state:YES];
     });
     
     /*
@@ -340,7 +323,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"设置锁屏";
+            logParams[kActionALCName] = @"设置锁屏";
             [APIHelper actionLog:logParams];
         }
         @catch (NSException *exception) {

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #include "sys/stat.h"
-#import "Constants.h"
+#import "Constant.h"
 #import "FileUtils.h"
 #import "ExtendNSLogFunctionality.h"
 #import "user.h"
@@ -111,7 +111,7 @@
     for(NSString *dirName in dirNames) {
         pathName = [pathName stringByAppendingPathComponent:dirName];
         existed = [fileManager fileExistsAtPath:pathName isDirectory:&isDir];
-        if ( !(isDir == true && existed == YES) ) {
+        if (!(isDir == true && existed == YES) ) {
             [fileManager createDirectoryAtPath:pathName withIntermediateDirectories:YES attributes:nil error:nil];
         }
     }
@@ -127,13 +127,38 @@
  *
  *  @return 沙盒中的绝对路径
  */
-+ (NSString *)dirPath: (NSString *)dirName FileName:(NSString*) fileName {
++ (NSString *)dirPath:(NSString *)dirName FileName:(NSString*)fileName {
     // 一级目录路径， 不存在则创建
     NSString *pathname = [self dirPath:dirName];
     // 二级文件名称或二级目录名称
     pathname = [pathname stringByAppendingPathComponent:fileName];
     
     return pathname;
+}
+
+/**
+ *  Shared/ 文件夹下一级文件夹操作
+ *
+ *  @param dirName 文件夹名称
+ *
+ *  @return Shared/dirName
+ */
++ (NSString *)sharedDirPath:(NSString *)dirName {
+    NSString *sharedPath = [self sharedPath];
+    return [sharedPath stringByAppendingPathComponent:dirName];
+}
+
+/**
+ *  Shared/ 文件夹下二级文件操作
+ *
+ *  @param dirName  <#dirName description#>
+ *  @param fileName <#fileName description#>
+ *
+ *  @return Shared/dirName/fileName
+ */
++ (NSString *)sharedDirPath:(NSString *)dirName FileName:(NSString *)fileName {
+    NSString *sharedFolderPath = [self sharedDirPath:dirName];
+    return [sharedFolderPath stringByAppendingPathComponent:fileName];
 }
 
 /**
@@ -144,7 +169,7 @@
  *
  *  @return 布尔类型，存在即TRUE，否则为FALSE
  */
-+ (BOOL) checkFileExist: (NSString*) pathname isDir: (BOOL) isDir {
++ (BOOL) checkFileExist:(NSString*)pathname isDir:(BOOL)isDir {
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL isExist = [fileManager fileExistsAtPath:pathname isDirectory:&isDir];
     return isExist;
@@ -181,23 +206,7 @@
     return dict;
 }
 
-
-/**
- *  打印沙盒目录列表, 相当于`tree ./`， 测试时可以用到
- */
-//+ (void) printDir: (NSString *)dirName {
-//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-//    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-//    if(dirName.length) documentsDirectory = [documentsDirectory stringByAppendingPathComponent:dirName];
-//    
-//    NSFileManager *fileManage = [NSFileManager defaultManager];
-//    
-//    NSArray *files = [fileManage subpathsAtPath: documentsDirectory];
-//    NSLog(@"%@",files);
-//}
-
 + (NSMutableArray *)subDirsAtPath:(NSString *)dir {
-
     NSFileManager *fileManage = [NSFileManager defaultManager];
     
     NSArray *files = [fileManage subpathsAtPath:dir];

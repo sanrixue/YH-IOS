@@ -8,8 +8,7 @@
 
 #import "DropViewController.h"
 
-@interface DropViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property (nonatomic,strong)UITableView *dropTableView;
+@interface DropViewController ()
 
 @end
 
@@ -17,24 +16,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    
-    // Do any additional setup after loading the view.
+    self.dropTableView = [[UITableView alloc]initWithFrame:self.view.frame style:UITableViewStylePlain];
+    self.dropTableView.scrollEnabled  = NO;
+    self.dropTableView.backgroundColor = [UIColor clearColor];
+    self.dropTableView.separatorColor = [UIColor whiteColor];
+    self.dropTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.dropTableView.layoutMargins  = UIEdgeInsetsZero;
+    self.dropTableView.separatorInset = UIEdgeInsetsZero;
+    [self.view addSubview:self.dropTableView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

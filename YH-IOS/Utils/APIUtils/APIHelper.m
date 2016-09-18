@@ -7,7 +7,7 @@
 //
 
 #import "APIHelper.h"
-#import "Constants.h"
+#import "Constant.h"
 #import "HttpUtils.h"
 #import "FileUtils.h"
 #import "Version.h"
@@ -76,21 +76,23 @@
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
 
-        userDict[@"user_id"]     = response.data[@"user_id"];
-        userDict[@"user_name"]   = response.data[@"user_name"];
-        userDict[@"user_num"]    = response.data[@"user_num"];
-        userDict[@"group_id"]    = response.data[@"group_id"];
-        userDict[@"group_name"]  = response.data[@"group_name"];
-        userDict[@"role_id"]     = response.data[@"role_id"];
-        userDict[@"role_name"]   = response.data[@"role_name"];
-        userDict[@"kpi_ids"]     = response.data[@"kpi_ids"];
-        userDict[@"app_ids"]     = response.data[@"app_ids"];
-        userDict[@"analyse_ids"] = response.data[@"analyse_ids"];
-        userDict[@"store_ids"]   = response.data[@"store_ids"];
-        userDict[@"is_login"]    = @(YES);
-        userDict[@"device_uuid"]    = response.data[@"device_uuid"];
-        userDict[@"device_state"]   = response.data[@"device_state"];
-        userDict[@"user_device_id"] = response.data[@"user_device_id"];
+        userDict[kUserIDCUName]     = response.data[@"user_id"];
+        userDict[kUserNameCUName]   = response.data[@"user_name"];
+        userDict[kUserNumCUName]    = response.data[@"user_num"];
+        userDict[kGroupIDCUName]    = response.data[@"group_id"];
+        userDict[kGroupNameCUName]  = response.data[@"group_name"];
+        userDict[kRoleIDCUName]     = response.data[@"role_id"];
+        userDict[kRoleNameCUName]   = response.data[@"role_name"];
+        userDict[kKPIIDsCUName]     = response.data[@"kpi_ids"];
+        userDict[kAppIDSCUName]     = response.data[@"app_ids"];
+        userDict[kAnalyseIDsCUName] = response.data[@"analyse_ids"];
+        userDict[kStoreIDsCUName]   = response.data[@"store_ids"];
+        userDict[kIsLoginCUName]    = @(YES);
+        userDict[kDeviceUUIDCUName] = response.data[@"device_uuid"];
+        userDict[kDeviceStateCUName]  = response.data[@"device_state"];
+        userDict[kUserDeviceIDCUName] = response.data[@"user_device_id"];
+        userDict[kGravatarCUName]    = response.data[@"gravatar"];
+        userDict[kPasswordCUName]    = password;
         userDict[@"assets_md5"]      = response.data[@"assets_md5"];
         userDict[@"loading_md5"]     = response.data[@"loading_md5"];
         userDict[@"BarCodeScan_md5"] = response.data[@"BarCodeScan_md5"];
@@ -99,43 +101,43 @@
         userDict[@"images_md5"]      = response.data[@"assets"][@"images_md5"];
         userDict[@"stylesheets_md5"] = response.data[@"assets"][@"stylesheets_md5"];
         userDict[@"javascripts_md5"] = response.data[@"assets"][@"javascripts_md5"];
-        userDict[@"user_md5"]        = password;
-        userDict[@"gravatar"]        = response.data[@"gravatar"];
         
         /**
          *  rewrite screen lock info into
          */
         [userDict writeToFile:userConfigPath atomically:YES];
         
+        
+        userDict[kIsUseGesturePasswordCUName] = @(NO);
+        userDict[kGesturePasswordCUName]      = @"";
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
         if([FileUtils checkFileExist:settingsConfigPath isDir:NO]) {
             NSMutableDictionary *settingsDict = [FileUtils readConfigFile: settingsConfigPath];
-            if(settingsDict[@"use_gesture_password"]) {
-                userDict[@"use_gesture_password"] = settingsDict[@"use_gesture_password"];
-            } else {
-                userDict[@"use_gesture_password"] = @(NO);
+            
+            userDict[kIsUseGesturePasswordCUName] = @(NO);
+            if(settingsDict[kIsUseGesturePasswordCUName]) {
+                userDict[kIsUseGesturePasswordCUName] = settingsDict[kIsUseGesturePasswordCUName];
             }
             
-            if(settingsDict[@"gesture_password"]) {
-                userDict[@"gesture_password"] = settingsDict[@"gesture_password"];
-            } else {
-                userDict[@"gesture_password"] = @"";
+            userDict[kGesturePasswordCUName] = @"";
+            if(settingsDict[kGesturePasswordCUName]) {
+                userDict[kGesturePasswordCUName] = settingsDict[kGesturePasswordCUName];
             }
-        } else {
-            userDict[@"use_gesture_password"] = @(NO);
-            userDict[@"gesture_password"] = @"";
         }
         [userDict writeToFile:userConfigPath atomically:YES];
         [userDict writeToFile:settingsConfigPath atomically:YES];
 
         // 第三方消息推送，设备标识
-        [APIHelper pushDeviceToken: userDict[@"device_uuid"]];
+        [APIHelper pushDeviceToken:userDict[kDeviceUUIDCUName]];
 
-    } else if(response.data && response.data[@"info"]) {
+    }
+    else if(response.data && response.data[@"info"]) {
         alertMsg = [NSString stringWithFormat:@"%@", response.data[@"info"]];
-    } else if(response.errors.count) {
+    }
+    else if(response.errors.count) {
         alertMsg = [response.errors componentsJoinedByString:@"\n"];
-    } else {
+    }
+    else {
         alertMsg = [NSString stringWithFormat:@"未知错误: %@", response.statusCode];
     }
 
@@ -170,8 +172,12 @@
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     
-    if([pushDict[@"push_valid"] boolValue] && pushDict[@"push_device_token"] && [pushDict[@"push_device_token"] length] == 64) return YES;
-    if(!pushDict[@"push_device_token"] || [pushDict[@"push_device_token"] length] != 64) return NO;
+    if([pushDict[@"push_valid"] boolValue] && pushDict[@"push_device_token"] && [pushDict[@"push_device_token"] length] == 64) {
+        return YES;
+    }
+    if(!pushDict[@"push_device_token"] || [pushDict[@"push_device_token"] length] != 64) {
+        return NO;
+    }
     
     NSString *urlString = [NSString stringWithFormat:API_PUSH_DEVICE_TOKEN_PATH, kBaseUrl, deviceUUID, pushDict[@"push_device_token"]];
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:[NSMutableDictionary dictionary]];
@@ -209,7 +215,7 @@
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
-    NSString *urlString = [NSString stringWithFormat:API_DEVICE_STATE_PATH, kBaseUrl, userDict[@"user_device_id"]];
+    NSString *urlString = [NSString stringWithFormat:API_DEVICE_STATE_PATH, kBaseUrl, userDict[kUserDeviceIDCUName]];
     HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
     
 //    userDict[@"device_state"]  = httpResponse.data[@"device_state"];
@@ -251,29 +257,26 @@
  */
 + (void)actionLog:(NSMutableDictionary *)param {
     // TODO: 避免服务器压力，过滤操作由服务器来处理
-    NSString *action = param[@"action"];
+    NSString *action = param[kActionALCName];
     
-    if(action == nil) {
-        return;
-    }
+    if(action == nil) { return; }
 
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
-    param[@"user_id"] = userDict[@"user_id"];
-    param[@"user_name"] = userDict[@"user_name"];
-    param[@"user_device_id"] = userDict[@"user_device_id"];
-    param[@"app_version"] = [NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
+    param[kUserIDCUName]       = userDict[kUserIDCUName];
+    param[kUserNameCUName]     = userDict[kUserNameCUName];
+    param[kUserDeviceIDCUName] = userDict[kUserDeviceIDCUName];
+    param[kAppVersionCUName]   = [NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
     
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"action_log"] = param;
+    params[kActionLogALCName] = param;
     
     NSMutableDictionary *userParams = [NSMutableDictionary dictionary];
-    userParams[@"user_name"] = userDict[@"user_name"];
-    userParams[@"user_pass"] = userDict[@"user_md5"];
-    
-    params[@"user"] = userParams;
+    userParams[kUserNameALCName] = userDict[kUserNameCUName];
+    userParams[kPasswordALCName] = userDict[kPasswordCUName];
+    params[kUserALCName]         = userParams;
     NSString *urlString = [NSString stringWithFormat:API_ACTION_LOG_PATH, kBaseUrl];
     [HttpUtils httpPost:urlString Params:params];
 }

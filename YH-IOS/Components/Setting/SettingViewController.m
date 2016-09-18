@@ -42,11 +42,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (assign, nonatomic) BOOL isNeedUpgrade;
 @property (strong, nonatomic) Version *version;
 @property (strong, nonatomic) NSMutableDictionary *noticeDict;
-@property (strong, nonatomic) NSString *userGavatarPath;
-@property (strong, nonatomic) NSString *userGavatarName;
-@property (strong, nonatomic) NSString *userIconPath;
 @property (strong, nonatomic) NSString *noticeFilePath;
-
 @end
 
 @implementation SettingViewController
@@ -71,38 +67,36 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 10, 70, 40)];
     UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
-    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 15, 25)];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 15, 25)];
     bakImage.image = imageback;
     [bakImage setContentMode:UIViewContentModeScaleAspectFit];
     [backBtn addSubview:bakImage];
-    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 50, 25)];
+    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 50, 25)];
     backLabel.text = @"返回";
     backLabel.textColor = [UIColor whiteColor];
     [backBtn addSubview:backLabel];
     [self.settingTableView addSubview:backBtn];
     [backBtn addTarget:self action:@selector(actionBack:) forControlEvents:UIControlEventTouchUpInside];
-    NSMutableDictionary *userGravatar = [FileUtils readConfigFile:[self.userGavatarPath stringByAppendingPathComponent:@"gravatar.json"]];
-    if ([userGravatar[@"upload_state"] isEqualToString:@"false"]) {
+    
+    NSString *userGavatarPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+    NSMutableDictionary *userGravatar = [FileUtils readConfigFile:userGavatarPath];
+    if (![userGravatar[@"upload_state"] boolValue] && userGravatar[@"name"] && userGravatar[@"local_name"]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *urlPath = [NSString stringWithFormat:@"/api/v1/device/%@/upload/user/%@/gravatar", self.user.deviceID, self.user.userID];
-            [HttpUtils uploadImage:urlPath withImagePath:self.userIconPath withImageName:self.userGavatarName];
+            NSString *urlPath = [NSString stringWithFormat:API_UPLOAD_GRAVATAR_PATH, self.user.deviceID, self.user.userID];
+            [HttpUtils uploadImage:urlPath withImagePath:userGravatar[@"local_path"] withImageName:userGravatar[@"name"]];
         });
     }
 }
 
-- (void)viewDidAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(layoutControllerSubViews:) name: UIApplicationDidChangeStatusBarFrameNotification object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutControllerSubViews:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 }
 
 - (void)layoutControllerSubViews: (NSNotification *)notification {
     CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
-    /*if (statusBarRect.size.height == 40){
-        self.settingTableView.frame = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20);
-    }
-    else {
-        self.settingTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height );
-    }*/
+    
     self.settingTableView.frame = (statusBarRect.size.height == 40 ? CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20) :CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height ));
 }
 
@@ -124,10 +118,15 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self initLabelMessageDict];
 }
 
-/*- (BOOL)prefersStatusBarHidden {
-    return YES;
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
 }
-*/
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - init need-show message info
 - (void)initLabelMessageDict {
     [self checkPgyerVersionLabel:self.version];
@@ -137,8 +136,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)showNoticeRedIcon {
     self.isNeedChangepwd = NO;
     self.isNeedUpgrade = NO;
-    self.isNeedChangepwd = [self.noticeDict[@"setting_password"] isEqualToNumber:@(1)];
-    self.isNeedUpgrade = [self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)];
+
+    self.isNeedChangepwd = [self.noticeDict[kSettingPasswordLNName] isEqualToNumber:@(1)];
+    self.isNeedUpgrade = [self.noticeDict[kSettingPgyerLNName] isEqualToNumber:@(1)];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -194,7 +194,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             [cell.openOutLink setTitle:self.pgyLinkString forState:UIControlStateNormal];
             [cell.openOutLink setTitleColor:[UIColor colorWithHexString:kThemeColor] forState:UIControlStateNormal];
             [cell.openOutLink addTarget:self action:@selector(actionOpenLink) forControlEvents:UIControlEventTouchUpInside];
-            if ([self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)]) {
+            if ([self.noticeDict[kSettingPgyerLNName] isEqualToNumber:@(1)]) {
                 [cell.messageButton showRedIcon];
             }
             else {
@@ -206,7 +206,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             ThurSayTableViewCell *cell = [[ThurSayTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
             cell.titleLabel.text = self.appInfoArray[8];
             
-            if ([self.noticeDict[@"setting_thursday_say"] integerValue] > 0) {
+            if ([self.noticeDict[kSettingThursdaySayLNName] integerValue] > 0) {
                 [cell.titleLabel showRedIcon];
             }
             return cell;
@@ -310,7 +310,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     if ((indexPath.section == 1) && (indexPath.row == 8)) {
         ThurSayViewController *thurSay = [[ThurSayViewController alloc] init];
         [self presentViewController:thurSay animated:YES completion:^{
-            self.noticeDict[@"setting_thursday_say"] = @(0);
+            self.noticeDict[kSettingThursdaySayLNName] = @(0);
             [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
             [self.settingTableView reloadData];
         }];
@@ -442,8 +442,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
  *  @param response <#response description#>
  */
 - (void)appUpgradeMethod:(NSDictionary *)response {
-    if(!response || !response[@"downloadURL"] || !response[@"versionCode"] || !response[@"versionName"]) {
-        [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
+    if(!response || !response[kDownloadURLCPCName] || !response[kVersionCodeCPCName] || !response[kVersionNameCPCName]) {
+        [ViewUtils showPopupView:self.view Info:kNoUpgradeWarnText];
         return;
     }
     
@@ -452,16 +452,16 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     NSInteger currentVersionCode = 0;
     if([FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
         NSDictionary *currentResponse = [FileUtils readConfigFile:pgyerVersionPath];
-        if(currentResponse[@"versionCode"]) {
-            currentVersionCode = [currentResponse[@"versionCode"] integerValue];
+        if(currentResponse[kVersionCodeCPCName]) {
+            currentVersionCode = [currentResponse[kVersionCodeCPCName] integerValue];
         }
     }
     
     [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
     
     // 对比 build 值，只准正向安装提示
-    if([response[@"versionCode"] integerValue] <= currentVersionCode) {
-        [ViewUtils showPopupView:self.view Info:@"未检测到更新"];
+    if([response[kVersionCodeCPCName] integerValue] <= currentVersionCode) {
+        [ViewUtils showPopupView:self.view Info:kNoUpgradeWarnText];
         return;
     }
     
@@ -471,20 +471,20 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     Version *version = [[Version alloc] init];
     [self checkPgyerVersionLabel:version];
     
-    BOOL isPgyerLatest = [version.current isEqualToString:response[@"versionName"]] && [version.build isEqualToString:response[@"versionCode"]];
-    if(!isPgyerLatest && [response[@"versionCode"] integerValue] % 2 == 0) {
+    BOOL isPgyerLatest = [version.current isEqualToString:response[kVersionNameCPCName]] && [version.build isEqualToString:response[kVersionCodeCPCName]];
+    if(!isPgyerLatest && [response[kVersionCodeCPCName] integerValue] % 2 == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         
-        [alert addButton:@"升级" actionBlock:^(void) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[@"downloadURL"]]];
+        [alert addButton:kUpgradeBtnText actionBlock:^(void) {
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
         }];
         
-        NSString *subTitle = [NSString stringWithFormat:@"更新到版本: %@(%@)", response[@"versionName"], response[@"versionCode"]];
-        [alert showSuccess:self title:@"版本更新" subTitle:subTitle closeButtonTitle:@"放弃" duration:0.0f];
+        NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
+        [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
     }
     else {
-        [ViewUtils showPopupView:self.view Info:@"有测试版本发布，请手工安装。"];
+        [ViewUtils showPopupView:self.view Info:kUpgradeWarnTestText];
     }
     
     [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
@@ -524,13 +524,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     // 第三方消息推送，设备标识
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    self.isSuccess = [APIHelper pushDeviceToken:userDict[@"device_uuid"]];
+    self.isSuccess = [APIHelper pushDeviceToken:userDict[kDeviceUUIDCUName]];
     
     [ViewUtils showPopupView:self.view Info:@"校正完成"];
 }
 
 - (void)ResetPassword {
-    NSLog(@"修改密码");
     [self performSegueWithIdentifier:kResetPasswordSegueIdentifier sender:nil];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
@@ -538,7 +537,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
          */
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"点击/设置页面/修改密码";
+            logParams[kActionALCName] = @"点击/设置页面/修改密码";
             [APIHelper actionLog:logParams];
         }
         @catch (NSException *exception) {
@@ -549,15 +548,13 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)actionWehtherUseGesturePassword:(UISwitch *)sender {
     if([sender isOn]) {
-        NSLog(@"启动锁屏");
         self.isChangeLochPassword = YES;
         [self showLockViewForEnablingPasscode];
     }
     else {
-        NSLog(@"开始设置");
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-        userDict[@"use_gesture_password"] = @(NO);
+        userDict[kIsUseGesturePasswordCUName] = @(NO);
         [userDict writeToFile:userConfigPath atomically:YES];
         
         NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
@@ -569,14 +566,14 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         self.isChangeLochPassword = NO;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [APIHelper screenLock:userDict[@"user_device_id"] passcode:userDict[@"gesture_password"] state:NO];
+            [APIHelper screenLock:userDict[kUserDeviceIDCUName] passcode:userDict[kGesturePasswordCUName] state:NO];
             
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
              */
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                logParams[@"action"] = [NSString stringWithFormat:@"点击/设置页面/%@锁屏", sender.isOn ? @"开启" : @"禁用"];
+                logParams[kActionALCName] = [NSString stringWithFormat:@"点击/设置页面/%@锁屏", sender.isOn ? @"开启" : @"禁用"];
                 [APIHelper actionLog:logParams];
             }
             @catch (NSException *exception) {
@@ -589,7 +586,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)actionLogout{
     [self clearBrowserCache];
-    NSLog(@"退出登录");
     [self jumpToLogin];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
@@ -597,7 +593,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
          */
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-            logParams[@"action"] = @"退出登录";
+            logParams[kActionALCName] = @"退出登录";
             [APIHelper actionLog:logParams];
         }
         @catch (NSException *exception) {
@@ -620,6 +616,4 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 @end

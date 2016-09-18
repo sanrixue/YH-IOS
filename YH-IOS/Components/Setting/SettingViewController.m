@@ -54,13 +54,16 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.noticeFilePath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
+    self.noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
+    
     [self loadUserGravatar];
     [self showNoticeRedIcon];
     
     self.version = [[Version alloc] init];
-    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
+   // [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
     self.view.backgroundColor = [UIColor clearColor];
-    self.settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height ) style:UITableViewStyleGrouped];
+    self.settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
     [self.view addSubview:self.settingTableView];
     self.settingTableView.delegate = self;
     self.settingTableView.dataSource = self;
@@ -94,12 +97,13 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)layoutControllerSubViews: (NSNotification *)notification {
     CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
-    if (statusBarRect.size.height == 40){
-        self.settingTableView.frame = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height + 40);
+    /*if (statusBarRect.size.height == 40){
+        self.settingTableView.frame = CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20);
     }
     else {
-        self.settingTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }
+        self.settingTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height );
+    }*/
+    self.settingTableView.frame = (statusBarRect.size.height == 40 ? CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20) :CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height ));
 }
 
 #pragma mark - init need-show message
@@ -120,28 +124,21 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self initLabelMessageDict];
 }
 
-- (BOOL)prefersStatusBarHidden {
+/*- (BOOL)prefersStatusBarHidden {
     return YES;
 }
-
+*/
 #pragma mark - init need-show message info
 - (void)initLabelMessageDict {
     [self checkPgyerVersionLabel:self.version];
     self.isChangeLochPassword = NO;
 }
 
-
 - (void)showNoticeRedIcon {
     self.isNeedChangepwd = NO;
     self.isNeedUpgrade = NO;
-    _noticeFilePath = [FileUtils dirPath:CACHED_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
-    self.noticeDict = [FileUtils readConfigFile:_noticeFilePath];
-    if ([self.noticeDict[@"setting_password"] isEqualToNumber:@(1)]) {
-        self.isNeedChangepwd = YES;
-    }
-    if ([self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)]) {
-        self.isNeedUpgrade = YES;
-    }
+    self.isNeedChangepwd = [self.noticeDict[@"setting_password"] isEqualToNumber:@(1)];
+    self.isNeedUpgrade = [self.noticeDict[@"setting_pgyer"] isEqualToNumber:@(1)];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

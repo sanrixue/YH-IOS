@@ -16,7 +16,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @property (strong, nonatomic) NSString *htmlContent;
 @property (strong, nonatomic) NSString *barCodePath;
-@property (weak, nonatomic) IBOutlet UIButton *SelectBtn;
+@property (weak, nonatomic) IBOutlet UIButton *selectBtn;
 @end
 
 @implementation ScanResultViewController
@@ -24,7 +24,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    /**
+    /**htmlContent
      *  被始化页面样式
      */
     [self idColor];
@@ -35,12 +35,12 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     NSString *htmlPath = [self.barCodePath stringByAppendingPathComponent:@"scan_bar_code.html"];
     self.htmlContent = [NSString stringWithContentsOfFile:htmlPath encoding:NSUTF8StringEncoding error:nil];
 
-    [self.SelectBtn addTarget:self action:@selector(actionJumpToSelectStoreViewController) forControlEvents:UIControlEventTouchUpInside];
+    [self.selectBtn addTarget:self action:@selector(actionJumpToSelectStoreViewController) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    
+    [self clearBrowserCache];
     [self loadHtml];
 }
 
@@ -75,9 +75,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)_loadHtml {
     [self clearBrowserCache];
-    
     [self showLoading:LoadingLoad];
-    [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.barCodePath]];
     
     NSString *cachedPath = [FileUtils dirPath:CACHED_DIRNAME];
     NSString *cacheJsonPath = [cachedPath stringByAppendingPathComponent:BARCODE_RESULT_FILENAME
@@ -99,15 +97,25 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];
         
-        [self clearBrowserCache];
-        [self.browser loadHTMLString:self.htmlContentWithTimestamp baseURL:[NSURL fileURLWithPath:self.barCodePath]];
+        [self.browser stopLoading];
+        [NSThread sleepForTimeInterval:1.0f];
+        
+       dispatch_async(dispatch_get_main_queue(), ^{
+           // [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];
+            [self clearBrowserCache];
+            [self.browser loadHTMLString:[self htmlContentWithTimestamp] baseURL:[NSURL fileURLWithPath:self.barCodePath]];
+        });
     });
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+  //  [self.browser loadHTMLString:@"" baseURL:[NSURL fileURLWithPath:self.barCodePath]];
+   [self showLoading:LoadingLoad];
 }
 
 - (void)actionJumpToSelectStoreViewController {
     SelectStoreViewController *select = [[SelectStoreViewController alloc] init];
     [self presentViewController:select animated:YES completion:nil];
-    
 }
 
 - (NSString *)htmlContentWithTimestamp {

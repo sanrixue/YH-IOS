@@ -331,7 +331,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)displayBannerTitleAndSearchIcon {
-  //  self.btnSearch.hidden = NO;
+    self.btnSearch.hidden = NO;
     
     NSString *reportSelectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
     if(reportSelectedItem == NULL || [reportSelectedItem length] == 0) {

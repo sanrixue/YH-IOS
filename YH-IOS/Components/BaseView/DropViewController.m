@@ -7,7 +7,6 @@
 //
 
 #import "DropViewController.h"
-#import "DropTableViewCell.h"
 
 @interface DropViewController ()
 

@@ -38,7 +38,6 @@
 #define iOS7Later                         (iOSVersion >= 7.0)
 #define iOS8Later                         (iOSVersion >= 8.0)
 
-#define IsPad [[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad
 #pragma mark - weakSelf
 #define WS(weakSelf)   __weak __typeof(&*self)weakSelf = self;
 

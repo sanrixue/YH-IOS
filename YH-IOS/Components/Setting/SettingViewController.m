@@ -331,16 +331,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         [self presentViewController:imagePickerController animated:YES completion:^{}];
     }];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *action){}];
-    if (IsPad) {
-        UIPopoverPresentationController *popPresenter = [alertController popoverPresentationController];
-        popPresenter.sourceView = self.settingTableView;
-        popPresenter.sourceRect =CGRectMake(0, self.view.frame.size.height - 200, self.view.frame.size.width, 200);
-        [self presentViewController:alertController animated:YES completion:nil];
-        
-    }
-    else{
-         [self presentViewController:alertController animated:YES completion:nil];
-    }
+    [self presentViewController:alertController animated:YES completion:nil];
     [alertController addAction:okAction];
     [alertController addAction:cancelAction];
     [alertController addAction:photoAction];

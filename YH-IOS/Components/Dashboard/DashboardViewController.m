@@ -102,24 +102,12 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self checkPushMessageAction];
     [self checkAssetsUpdate];
     [self setTabBarHeight];
-   [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutControllerSubViews:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 }
 
 - (void)setTabBarHeight {
     for (NSLayoutConstraint *constraint in self.tabBar.constraints) {
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {
             constraint.constant = kTabBarHeight;
-            break;
-        }
-    }
-}
-
-- (void)layoutControllerSubViews:(NSNotification *)notification {
-    CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
-    
-    for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
-        if (constraint.firstAttribute == NSLayoutAttributeTop) {
-            constraint.constant = (statusBarRect.size.height == 40 ? 20 : 0);
             break;
         }
     }

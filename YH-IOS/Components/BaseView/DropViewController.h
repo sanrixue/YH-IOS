@@ -11,7 +11,5 @@
 @interface DropViewController : UIViewController
 
 @property (nonatomic,strong) UITableView *dropTableView;
-@property (nonatomic, strong) NSArray *dropMenuTitles;
-@property (nonatomic, strong) NSArray *dropMenuIcons;
 
 @end

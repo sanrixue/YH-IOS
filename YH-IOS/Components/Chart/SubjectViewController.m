@@ -384,11 +384,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
     dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count);
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3.2, 150 / 3.2 * self.dropMenuTitles.count)];
+    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count)];
     dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     dropTableViewController.dropTableView.delegate = self;
-    dropTableViewController.dropMenuTitles = self.dropMenuTitles ;
-    dropTableViewController.dropMenuIcons = self.dropMenuIcons;
+    dropTableViewController.dropTableView.dataSource =self;
     
     UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
     popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
@@ -397,6 +396,37 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [popover setSourceView:self.view];
     popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     [self presentViewController:dropTableViewController animated:YES completion:nil];
+}
+# pragma mark - UITableView Delgate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return self.dropMenuTitles.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
+    if (!cell) {
+        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    }
+    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
+    
+    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
+    cellBackView.backgroundColor = [UIColor darkGrayColor];
+    cell.selectedBackgroundView = cellBackView;
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 150/4;
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {

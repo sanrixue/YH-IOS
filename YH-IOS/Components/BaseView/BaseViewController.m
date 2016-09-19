@@ -52,7 +52,6 @@
     }
 }
 
-
 - (void)setHeight {
     for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {

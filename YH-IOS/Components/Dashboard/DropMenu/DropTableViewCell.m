@@ -42,7 +42,7 @@
     
     NSDictionary *viewDict = NSDictionaryOfVariableBindings(self.contentView,_iconImageView,_tittleLabel);
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-10-[_iconImageView(20)]-20-[_tittleLabel]-2-|" options:0 metrics:nil views:viewDict]];
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-[_iconImageView]-|" options:0 metrics:nil views:viewDict]];
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_iconImageView]-10-|" options:0 metrics:nil views:viewDict]];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[_tittleLabel]-3-|" options:0 metrics:nil views:viewDict]];
 }
 

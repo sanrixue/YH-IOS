@@ -717,7 +717,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 150/4;
+    return 150 / 4;
 }
 
 - (IBAction)actionPerformSettingView:(UIButton *)sender {

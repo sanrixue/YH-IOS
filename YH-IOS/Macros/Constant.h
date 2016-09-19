@@ -58,6 +58,13 @@ extern NSString *const kDropMentSearchText;
 extern NSString *const kDropMentUserInfoText;
 
 /**
+ *  Subject#DropMenu
+ */
+extern NSString *const kDropSearchText;
+extern NSString *const kDropShareText;
+extern NSString *const kDropCommentText;
+
+/**
  *  Assets Folder and FileName
  */
 extern NSString *const kAdFolderName;

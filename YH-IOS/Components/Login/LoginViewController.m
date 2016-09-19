@@ -61,7 +61,7 @@
     UIColor *placeHoderColor = [UIColor whiteColor];
     
     self.userNameText = [[UITextField alloc] init];
-    self.userNameText.textAlignment = NSTextAlignmentCenter;
+    self.userNameText.textAlignment = NSTextAlignmentLeft;
     self.userNameText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入帐名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userNameText.borderStyle = UITextBorderStyleNone;
@@ -80,7 +80,7 @@
     self.loginPasswordImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Password"]];
     [self.bgView addSubview:self.loginPasswordImage];
     self.userPasswordText = [[UITextField alloc] init];
-    self.userPasswordText.textAlignment = NSTextAlignmentCenter;
+    self.userPasswordText.textAlignment = NSTextAlignmentLeft;
     self.userPasswordText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     self.userPasswordText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入密码" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userPasswordText.secureTextEntry = YES;

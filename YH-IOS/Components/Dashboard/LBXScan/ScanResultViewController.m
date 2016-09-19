@@ -24,7 +24,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    /**
+    /**htmlContent
      *  被始化页面样式
      */
     [self idColor];
@@ -39,7 +39,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    
+    [self clearBrowserCache];
     [self loadHtml];
 }
 

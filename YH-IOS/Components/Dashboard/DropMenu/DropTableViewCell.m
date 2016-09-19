@@ -46,5 +46,4 @@
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[_tittleLabel]-3-|" options:0 metrics:nil views:viewDict]];
 }
 
-
 @end

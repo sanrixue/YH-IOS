@@ -93,6 +93,7 @@
 		C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B71C99812B0009411A /* WebViewJavascriptBridge.m */; };
 		C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */; };
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
+		F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68089531D8930C400CDBAF8 /* DropViewController.m */; };
 		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
 /* End PBXBuildFile section */
 
@@ -139,8 +140,8 @@
 		C41E4FA51C0FE00A00E1B514 /* PgyUpdate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PgyUpdate.framework; path = Frameworks/PgyUpdate.framework; sourceTree = "<group>"; };
 		C4272CC71C5C752A00E6971B /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		C4272CC91C5CBA4700E6971B /* loading.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = loading.zip; sourceTree = "<group>"; };
-		C42ECED21D66EE8E00C5F762 /* DropTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropTableViewCell.h; sourceTree = "<group>"; };
-		C42ECED31D66EE8E00C5F762 /* DropTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropTableViewCell.m; sourceTree = "<group>"; };
+		C42ECED21D66EE8E00C5F762 /* DropTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DropTableViewCell.h; path = ../Dashboard/DropMenu/DropTableViewCell.h; sourceTree = "<group>"; };
+		C42ECED31D66EE8E00C5F762 /* DropTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DropTableViewCell.m; path = ../Dashboard/DropMenu/DropTableViewCell.m; sourceTree = "<group>"; };
 		C4379B551C18232D0058257A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		C4379B561C18232D0058257A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		C4448C6B1C0AE3030053B431 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
@@ -260,8 +261,10 @@
 		C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
 		C4EFE4BA1C99812B0009411A /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		F64068AF1D8E3ED2003396B0 /* PrivateConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
+		F68089521D8930C400CDBAF8 /* DropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropViewController.h; sourceTree = "<group>"; };
+		F68089531D8930C400CDBAF8 /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
 		F68EA5731D7E8BD600AC2F8A /* advertisement.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = advertisement.zip; sourceTree = "<group>"; };
-		F6F1FEC61D82634C00BF3274 /* PrivateConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -345,15 +348,6 @@
 				C40D06B11C917BF80029D142 /* XPathQuery.m */,
 			);
 			path = hpple;
-			sourceTree = "<group>";
-		};
-		C42ECED11D66EE8E00C5F762 /* DropMenu */ = {
-			isa = PBXGroup;
-			children = (
-				C42ECED21D66EE8E00C5F762 /* DropTableViewCell.h */,
-				C42ECED31D66EE8E00C5F762 /* DropTableViewCell.m */,
-			);
-			path = DropMenu;
 			sourceTree = "<group>";
 		};
 		C4379B541C1823110058257A /* User */ = {
@@ -545,6 +539,7 @@
 			children = (
 				C488E6A41C0F03C800EB946D /* BaseViewController.h */,
 				C488E6A51C0F03C800EB946D /* BaseViewController.m */,
+				F64068B01D8E87FE003396B0 /* DropView */,
 			);
 			path = BaseView;
 			sourceTree = "<group>";
@@ -563,7 +558,6 @@
 		C4C6283D1C0C1ED6000AD5D8 /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
-				C42ECED11D66EE8E00C5F762 /* DropMenu */,
 				C46F6A931D0671C900C561CE /* BarCodeScan */,
 				C4C6283E1C0C1ED6000AD5D8 /* DashboardViewController.h */,
 				C4C6283F1C0C1ED6000AD5D8 /* DashboardViewController.m */,
@@ -721,10 +715,10 @@
 			children = (
 				C4AFAD0A1D7E971100261552 /* advertisement.zip */,
 				C46903931D5CC75F00233D05 /* BarCodeScan.zip */,
+				F64068AF1D8E3ED2003396B0 /* PrivateConstants.h */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
 				C4EFE4AB1C98F60A0009411A /* stylesheets.zip */,
 				C4EFE4AC1C98F60A0009411A /* javascripts.zip */,
-				F6F1FEC61D82634C00BF3274 /* PrivateConstants.h */,
 				C4EFE4AD1C98F60A0009411A /* images.zip */,
 				F68EA5731D7E8BD600AC2F8A /* advertisement.zip */,
 				C4EFE4AE1C98F60A0009411A /* assets.zip */,
@@ -820,6 +814,17 @@
 				6A867606F7216FABE6624278 /* libPods-YH-IOS.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F64068B01D8E87FE003396B0 /* DropView */ = {
+			isa = PBXGroup;
+			children = (
+				F68089521D8930C400CDBAF8 /* DropViewController.h */,
+				F68089531D8930C400CDBAF8 /* DropViewController.m */,
+				C42ECED21D66EE8E00C5F762 /* DropTableViewCell.h */,
+				C42ECED31D66EE8E00C5F762 /* DropTableViewCell.m */,
+			);
+			name = DropView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1033,6 +1038,7 @@
 				C48924E71D858F0A00859411 /* OneButtonTableViewCell.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
+				F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */,
 				C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */,
 				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
 				C48924E51D858F0A00859411 /* ResetPasswordViewController.m in Sources */,
@@ -1231,7 +1237,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "19782da2-06cc-4eca-82b3-5a7a7b737a71";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1262,7 +1268,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "19782da2-06cc-4eca-82b3-5a7a7b737a71";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

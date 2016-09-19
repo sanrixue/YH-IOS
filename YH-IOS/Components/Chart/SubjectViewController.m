@@ -13,11 +13,14 @@
 #import "FileUtils+Report.h"
 #import "CommentViewController.h"
 #import "ReportSelectorViewController.h"
+#import "DropTableViewCell.h"
+#import "DropViewController.h"
 
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface SubjectViewController ()
+@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate>
+
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (assign, nonatomic) BOOL isSupportSearch;
 @property (weak, nonatomic) IBOutlet UIButton *btnSearch;
@@ -27,6 +30,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (strong, nonatomic) NSString *templateID;
 @property (strong, nonatomic) NSString *javascriptPath;
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
+@property (strong, nonatomic) NSArray *dropMenuTitles;
+@property (strong, nonatomic) NSArray *dropMenuIcons;
+
 @end
 
 @implementation SubjectViewController
@@ -40,7 +46,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self idColor];
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
-    
     /**
      * 服务器内链接需要做缓存、点击事件处理；
      */
@@ -96,6 +101,18 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      * 其他页面,禁用横屏
      */
     [self setAppAllowRotation:NO];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutControllerSubViews:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+}
+
+- (void)layoutControllerSubViews:(NSNotification *)notification {
+    CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
+    
+    for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeTop) {
+            constraint.constant = (statusBarRect.size.height == 40 ? 0 : 20);
+            break;
+        }
+    }
 }
 
 - (void)dealloc {
@@ -333,6 +350,105 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     self.labelTheme.text = reportSelectedItem;
 }
+- (IBAction)dropTableView:(UIButton *)sender {
+    [self showTableView:sender];
+}
+
+#pragma mark
+- (void)initDropMenu {
+    NSMutableArray *tmpTitles = [NSMutableArray array];
+    NSMutableArray *tmpIcons = [NSMutableArray array];
+    if(kSubjectShare) {
+        [tmpTitles addObject:kDropShareText];
+        [tmpIcons addObject:@"Subject-Share"];
+    }
+    if(kSubjectComment) {
+        [tmpTitles addObject:kDropCommentText];
+        [tmpIcons addObject:@"Subject-Comment"];
+    }
+    if(self.isSupportSearch) {
+        [tmpTitles addObject:kDropSearchText];
+        [tmpIcons addObject:@"Subject-Search"];
+    }
+    self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
+    self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
+}
+
+/**
+ *  标题栏设置按钮点击显示下拉菜单
+ *
+ *  @param sender
+ */
+-(void)showTableView:(UIButton *)sender {
+    [self initDropMenu];
+    DropViewController *dropTableViewController = [[DropViewController alloc]init];
+    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count);
+    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
+    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count)];
+    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    dropTableViewController.dropTableView.delegate = self;
+    dropTableViewController.dropTableView.dataSource =self;
+    
+    UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
+    popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    popover.delegate = self;
+    [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
+    [popover setSourceView:self.view];
+    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    [self presentViewController:dropTableViewController animated:YES completion:nil];
+}
+# pragma mark - UITableView Delgate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return self.dropMenuTitles.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
+    if (!cell) {
+        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    }
+    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
+    
+    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
+    cellBackView.backgroundColor = [UIColor darkGrayColor];
+    cell.selectedBackgroundView = cellBackView;
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 150 / 4;
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    
+    return UIModalPresentationNone;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSString *itemName = self.dropMenuTitles[indexPath.row];
+        
+        if([itemName isEqualToString:kDropCommentText]) {
+            [self actionWriteComment];
+        }
+        else if([itemName isEqualToString:kDropSearchText]) {
+            [self actionDisplaySearchItems];
+        }
+        else if([itemName isEqualToString:kDropShareText]) {
+            [self actionWebviewScreenShot];
+        }
+    }];
+}
 
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
@@ -347,15 +463,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }];
 }
 
-- (IBAction)actionWriteComment:(UIButton *)sender {
+- (void)actionWriteComment{
     [self performSegueWithIdentifier:kCommentSegueIdentifier sender:nil];
 }
 
-- (IBAction)actionDisplaySearchItems:(id)sender {
+- (void)actionDisplaySearchItems {
     [self performSegueWithIdentifier:kReportSelectorSegueIdentifier sender:nil];
 }
 
-- (IBAction)actionWebviewScreenShot:(id)sender {
+- (void)actionWebviewScreenShot{
     UIWebView *webView = self.browser;
     
     // Setup the Image context. Special handling for retina.
@@ -391,7 +507,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [self loadHtml];
         [self.browser stopLoading];
     }
-    
     if([segue.identifier isEqualToString:kCommentSegueIdentifier]) {
         CommentViewController *viewController = (CommentViewController *)segue.destinationViewController;
         viewController.bannerName        = self.bannerName;

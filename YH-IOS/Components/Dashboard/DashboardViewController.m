@@ -24,6 +24,7 @@
 #import "UILabel+Badge.h"
 #import "NSString+MD5.h"
 #import "WebViewJavascriptBridge.h"
+#import "DropViewController.h"
 
 static NSString *const kChartSegueIdentifier   = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
@@ -101,24 +102,12 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self checkPushMessageAction];
     [self checkAssetsUpdate];
     [self setTabBarHeight];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutControllerSubViews:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 }
 
 - (void)setTabBarHeight {
     for (NSLayoutConstraint *constraint in self.tabBar.constraints) {
         if (constraint.firstAttribute == NSLayoutAttributeHeight) {
             constraint.constant = kTabBarHeight;
-            break;
-        }
-    }
-}
-
-- (void)layoutControllerSubViews:(NSNotification *)notification {
-    CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
-
-    for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
-        if (constraint.firstAttribute == NSLayoutAttributeTop) {
-            constraint.constant = (statusBarRect.size.height == 40 ? 0 : 20);
             break;
         }
     }
@@ -388,7 +377,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     localNotificationDict[kSettingThursdaySayLNName] = localNotificationDict[kSettingThursdaySayLNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kSettingThursdaySayLNName];
     localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
-
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
 }
 
@@ -663,33 +651,61 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 /**
  *  标题栏设置按钮点击显示下拉菜单
  *
- *  @param sender <#sender description#>
+ *  @param sender 
  */
 -(void)dropTableView:(UIButton *)sender {
-    contentView=[[UIViewController alloc] init];
-    contentView.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count);
-    contentView.modalPresentationStyle = UIModalPresentationPopover;
-    [contentView setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count)];
-    self.dropMenu = [[UITableView alloc] initWithFrame:contentView.view.frame style:UITableViewStylePlain];
-    self.dropMenu.dataSource = self;
-    self.dropMenu.delegate   = self;
-    self.dropMenu.scrollEnabled   = NO;
-    self.dropMenu.backgroundColor = [UIColor clearColor];
-    self.dropMenu.separatorColor = [UIColor whiteColor];
-    self.dropMenu.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    self.dropMenu.layoutMargins  = UIEdgeInsetsZero;
-    self.dropMenu.separatorInset = UIEdgeInsetsZero;
-    // contentView.view.backgroundColor = [UIColor colorWithHexString:@"31809f"];
-    
-    [contentView.view addSubview:self.dropMenu];
-    UIPopoverPresentationController *popover = [contentView popoverPresentationController];
+    DropViewController *dropTableViewController = [[DropViewController alloc]init];
+    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count);
+    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
+    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count)];
+    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    dropTableViewController.dropTableView.delegate = self;
+    dropTableViewController.dropTableView.dataSource =self;
+    UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
     popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
     popover.delegate = self;
     [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
-    //popover.barButtonItem=self.navigationItem.rightBarButtonItem;
     [popover setSourceView:self.view];
-    popover.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
-    [self presentViewController:contentView animated:YES completion:nil];
+    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    [self presentViewController:dropTableViewController animated:YES completion:nil];
+}
+
+# pragma mark - UITableView Delgate
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return self.dropMenuTitles.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
+    if (!cell) {
+        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    }
+    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
+    
+    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
+    cellBackView.backgroundColor = [UIColor darkGrayColor];
+    cell.selectedBackgroundView = cellBackView;
+    if (indexPath.row == 3) {
+        NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
+        if([localNotificationDict[kSettingLNName] integerValue] > 0) {
+            [cell.tittleLabel showRedIcon];
+        }
+    }
+    
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    return 150 / 4;
 }
 
 - (IBAction)actionPerformSettingView:(UIButton *)sender {
@@ -906,41 +922,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     return NO;
 }
 
-# pragma mark - UITableView Delgate
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dropMenuTitles.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
-    if (!cell) {
-        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
-    }
-    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
-    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
-    
-    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
-    cellBackView.backgroundColor = [UIColor darkGrayColor];
-    cell.selectedBackgroundView = cellBackView;
-    if (indexPath.row == 3) {
-        NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
-        if([localNotificationDict[kSettingLNName] integerValue] > 0) {
-            [cell.tittleLabel showRedIcon];
-        }
-    }
-    
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 150 / 4;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     [self dismissViewControllerAnimated:YES completion:^{
         NSString *itemName = self.dropMenuTitles[indexPath.row];
@@ -963,6 +944,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
     return UIModalPresentationNone;
 }
+
 
 # pragma mark - assitant methods
 /**

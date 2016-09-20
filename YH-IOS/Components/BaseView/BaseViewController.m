@@ -38,6 +38,18 @@
     [LTHPasscodeViewController useKeychain:NO];
     [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
     [self setHeight];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutControllerSubViews:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+}
+
+- (void)layoutControllerSubViews:(NSNotification *)notification {
+    CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
+    
+    for (NSLayoutConstraint *constraint in self.bannerView.constraints) {
+        if (constraint.firstAttribute == NSLayoutAttributeTop) {
+            constraint.constant = (statusBarRect.size.height == 40 ? 0 : 20);
+            break;
+        }
+    }
 }
 
 - (void)setHeight {

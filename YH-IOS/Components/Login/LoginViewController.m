@@ -38,7 +38,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.bgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    
+    self.bgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
     self.bgView.image = [UIImage imageNamed:@"background"];
     [self.view addSubview:self.bgView];
     self.bgView.userInteractionEnabled = YES;
@@ -61,7 +62,7 @@
     UIColor *placeHoderColor = [UIColor whiteColor];
     
     self.userNameText = [[UITextField alloc] init];
-    self.userNameText.textAlignment = NSTextAlignmentLeft;
+    self.userNameText.textAlignment = NSTextAlignmentCenter;
     self.userNameText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入帐名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userNameText.borderStyle = UITextBorderStyleNone;
@@ -80,7 +81,7 @@
     self.loginPasswordImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Password"]];
     [self.bgView addSubview:self.loginPasswordImage];
     self.userPasswordText = [[UITextField alloc] init];
-    self.userPasswordText.textAlignment = NSTextAlignmentLeft;
+    self.userPasswordText.textAlignment = NSTextAlignmentCenter;
     self.userPasswordText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     self.userPasswordText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入密码" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userPasswordText.secureTextEntry = YES;
@@ -134,9 +135,9 @@
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView1]-40-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView2]-40-|" options:0 metrics:nil views:ViewDict]];
     //[_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-200-[_logoView(50)]-20-[_sloganLabel]-80-[_loginUserView]-1-[_seperateView1(2)]-20-[_loginPassword]-1-[_seperateView2(2)]-16-[_LoginButton]-200-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginUserImage(30)]-10-[_userNameText]-40-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginUserImage(30)]-10-[_userNameText]-80-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_versionLabel]-120-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginPasswordImage(30)]-10-[_userPasswordText]-40-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginPasswordImage(30)]-10-[_userPasswordText]-80-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginButton]-40-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];

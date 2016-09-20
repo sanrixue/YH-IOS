@@ -32,6 +32,7 @@
 #define KTabBarHeight (IS_SCREEN_5_5_INCH ? 56 : 49)
 // 相对宽度为320屏幕的屏幕倍率
 #define kScreenWidthRate (kScreenWidth/320.0)
+#define isPad (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
 
 #pragma mark - 系统版本相关
 #define iOSVersion                        [[[UIDevice currentDevice] systemVersion] floatValue]

@@ -24,6 +24,7 @@
 #import "AFNetworking.h"
 #import "ThurSayViewController.h"
 #import "ThurSayTableViewCell.h"
+#import "NSString+MD5.h"
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
 @interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
@@ -356,9 +357,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 #pragma mark - load user gravatar
 - (void)loadUserGravatar {
+    
     // default gravatar
     self.userIconImage = [UIImage imageNamed:@"AppIcon"];
-    
     NSString *gravatarUrl = self.user.gravatar;
     if(!gravatarUrl || (![gravatarUrl hasPrefix:@"http://"] && ![gravatarUrl hasPrefix:@"https://"])) {
         return;

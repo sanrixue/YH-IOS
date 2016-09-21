@@ -456,8 +456,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         }
     }
     
-    [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
-    
     // 对比 build 值，只准正向安装提示
     if([response[kVersionCodeCPCName] integerValue] <= currentVersionCode) {
         [ViewUtils showPopupView:self.view Info:kNoUpgradeWarnText];
@@ -477,6 +475,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         [alert addButton:kUpgradeBtnText actionBlock:^(void) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
+            
+            // 只有点击【升级】按钮才存储蒲公英平台响应信息
+            [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
         }];
         
         NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
@@ -485,8 +486,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     else {
         [ViewUtils showPopupView:self.view Info:kUpgradeWarnTestText];
     }
-    
-    [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
 }
 
 - (void)actionOpenLink{

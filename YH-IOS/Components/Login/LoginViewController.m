@@ -112,7 +112,7 @@
     self.version = [[Version alloc] init];
     self.versionLabel.textColor = [UIColor whiteColor];
     self.versionLabel.font = [UIFont systemFontOfSize:12];
-    self.versionLabel.text = [NSString stringWithFormat:@"%@(%@)", self.version.current, self.version.build];
+    self.versionLabel.text = [NSString stringWithFormat:@"i%@(%@)", self.version.current, self.version.build];
     self.versionLabel.textAlignment = NSTextAlignmentCenter;
     self.versionLabel.adjustsFontSizeToFitWidth = YES;
     [self.bgView addSubview:self.versionLabel];

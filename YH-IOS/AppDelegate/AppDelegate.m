@@ -55,6 +55,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
     [self.window setRootViewController:initViewController];

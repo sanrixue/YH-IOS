@@ -115,7 +115,7 @@ NSString *const kContentAPCCName     = @"content";
 /**
  *  LocalNotification#TabItems/BannerBtn/ThursdaySay/ModifiedPassword/PgyerUpgrade
  */
-NSString *const kAppLNName           = @"tab_kpi";
+NSString *const kAppLNName           = @"app";
 NSString *const kTabKPILNName        = @"tab_kpi";
 NSString *const kTabAnalyseLNName    = @"tab_analyse";
 NSString *const kTabAppLNName        = @"tab_app";

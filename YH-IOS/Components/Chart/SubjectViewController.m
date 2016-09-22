@@ -460,21 +460,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)actionWebviewScreenShot{
-    UIWebView *webView = self.browser;
-    
-    // Setup the Image context. Special handling for retina.
-    if ([UIScreen instancesRespondToSelector:@selector(scale)] && [[UIScreen mainScreen] scale] == 2.0f) {
-        UIGraphicsBeginImageContextWithOptions(webView.frame.size, NO, 2.0f);
-    }
-    else {
-        UIGraphicsBeginImageContext(webView.frame.size);
-    }
-    
-    // Render the web view
-    [webView.layer renderInContext:UIGraphicsGetCurrentContext()];
-    
-    // Get the image
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *image = [self saveWebViewAsImage];
     
     // End the graphics context
     UIGraphicsEndImageContext();
@@ -488,6 +474,44 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
                                      shareImage:image
                                 shareToSnsNames:@[UMShareToWechatSession]
                                        delegate:self];
+}
+
+- (UIImage *)saveWebViewAsImage {
+    CGFloat scale = [UIScreen mainScreen].scale;
+    CGSize boundsSize = self.browser.bounds.size;
+    CGFloat boundsWidth = boundsSize.width;
+    CGFloat boundsHeight = boundsSize.height;
+    CGSize contentSize = self.browser.scrollView.contentSize;
+    CGFloat contentHeight = contentSize.height;
+    CGPoint offset = self.browser.scrollView.contentOffset;
+    [self.browser.scrollView setContentOffset:CGPointMake(0, 0)];
+    NSMutableArray *images = [NSMutableArray array];
+    //将整个webview 分成若干图片
+    while (contentHeight > 0) {
+        UIGraphicsBeginImageContextWithOptions(boundsSize, NO, 0.0);//生成一个透明的图形
+        [self.browser.layer renderInContext:UIGraphicsGetCurrentContext()];//使用webview内容渲染该图形
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();//获取该图形
+        UIGraphicsEndImageContext();//关闭上下文
+        [images addObject:image];
+        CGFloat offsetY = self.browser.scrollView.contentOffset.y;
+        [self.browser.scrollView setContentOffset:CGPointMake(0, offsetY + boundsHeight)];
+        contentHeight -= boundsHeight;
+    }
+    
+    [self.browser.scrollView setContentOffset:offset];
+    CGSize imageSize = CGSizeMake(contentSize.width * scale,
+                                  contentSize.height * scale);
+    UIGraphicsBeginImageContext(imageSize);
+    //将数组中的每一图片重写编写位置。并生成完整的图片
+    [images enumerateObjectsUsingBlock:^(UIImage *image, NSUInteger idx, BOOL *stop) {
+        [image drawInRect:CGRectMake(0,
+                                     scale * boundsHeight * idx,
+                                     scale * boundsWidth,
+                                     scale * boundsHeight)];
+    }];
+    UIImage *fullImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return fullImage;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

@@ -136,6 +136,7 @@ extern NSString *const kLoginVCName;
 /**
  * Assets file name
  */
+extern NSString *const kAssetsAssetsName;
 extern NSString *const kLoadingAssetsName;
 extern NSString *const kFontsAssetsName;
 extern NSString *const kImagesAssetsName;
@@ -221,6 +222,7 @@ extern NSString *const kUpgradeTitleText;
 extern NSString *const kCancelBtnText;
 extern NSString *const kUpgradeWarnTestText;
 extern NSString *const kNoUpgradeWarnText;
+extern NSString *const kViewInstantBtnText;
 
 /**
  *  Config#BarCodeScan

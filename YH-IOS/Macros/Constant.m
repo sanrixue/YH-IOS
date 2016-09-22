@@ -65,13 +65,11 @@ NSString *const kBarCodeResultFileName           = @"barcode_result.json";
 NSString *const kCurrentVersionFileName          = @"current_version.txt";
 NSString *const kUserAgentFileName               = @"webview_user_agent.txt";
 
-#define URL_WRITE_LOCAL             @"1"
 /**
  *  Assets Folder and FileName
  */
 NSString *const kAdFolderName = @"advertisement";
 NSString *const kAdFileName   = @"index_ios.html";
-
 
 /**
  *  StoryBoard | ViewController
@@ -82,15 +80,14 @@ NSString *const kLoginVCName = @"LoginViewController";
 /**
  * Text
  */
-NSString *const kWarmTitleText      = @"温馨提示";
-NSString *const kIAlreadyKnownText  = @"知道了";
-NSString *const kAppForbiedUseText  = @"您被禁止在该设备使用本应用";
-NSString *const kWarningInitPwdText = @"初始化密码未修改，安全起见，请在\n【设置】-【个人信息】-【修改密码】页面修改密码";
-NSString *const kWarningTitleText   = @"提示";
+NSString *const kWarmTitleText       = @"温馨提示";
+NSString *const kIAlreadyKnownText   = @"知道了";
+NSString *const kAppForbiedUseText   = @"您被禁止在该设备使用本应用";
+NSString *const kWarningInitPwdText  = @"初始化密码未修改，安全起见，请在\n【设置】-【个人信息】-【修改密码】页面修改密码";
+NSString *const kWarningTitleText    = @"提示";
 NSString *const kWarningNoStoreText  = @"您无门店权限";
 NSString *const kWarningNoCaremaText = @"没有摄像机权限";
 NSString *const kSureBtnText         = @"确定";
-
 NSString *const kWeiXinShareText     = @"图表截图分享";
 
 /**
@@ -104,20 +101,21 @@ NSString *const kDropMentUserInfoText = @"个人信息";
 /**
  *  Subject#DropMenu
  */
-NSString *const kDropSearchText = @"筛选";
-NSString *const kDropShareText = @"分享";
+NSString *const kDropSearchText  = @"筛选";
+NSString *const kDropShareText   = @"分享";
 NSString *const kDropCommentText = @"评论";
 
 /**
  * Assets file name
  */
+NSString *const kAssetsAssetsName        = @"assets";
 NSString *const kLoadingAssetsName       = @"loading";
 NSString *const kFontsAssetsName         = @"fonts";
 NSString *const kImagesAssetsName        = @"images";
 NSString *const kStylesheetsAssetsName   = @"stylesheets";
 NSString *const kJavascriptsAssetsName   = @"javascripts";
 NSString *const kBarCodeScanAssetsName   = @"BarCodeScan";
-NSString *const kAdvertisementAssetsName = @"BarCodeScan";
+NSString *const kAdvertisementAssetsName = @"advertisement";
 
 NSString *const kLoadingPopupText        = @"加载库";
 NSString *const kFontsPopupText          = @"字体库";
@@ -180,8 +178,8 @@ NSString *const kTabAppLNName        = @"tab_app";
 NSString *const kTabMessageLNName    = @"tab_message";
 NSString *const kSettingLNName       = @"setting";
 NSString *const kSettingThursdaySayLNName = @"setting_thursday_say";
-NSString *const kSettingPasswordLNName = @"setting_password";
-NSString *const kSettingPgyerLNName  = @"setting_pgyer";
+NSString *const kSettingPasswordLNName    = @"setting_password";
+NSString *const kSettingPgyerLNName       = @"setting_pgyer";
 
 /**
  *  Config#Pgyer upgrade columns name
@@ -190,15 +188,16 @@ NSString *const kDownloadURLCPCName = @"downloadURL";
 NSString *const kVersionCodeCPCName = @"versionCode";
 NSString *const kVersionNameCPCName = @"versionName";
 
-NSString *const kUpgradeBtnText     = @"升级";
-NSString *const kUpgradeWarnText    = @"更新到版本: %@(%@)";
-NSString *const kUpgradeTitleText   = @"版本更新";
-NSString *const kCancelBtnText      = @"放弃";
+NSString *const kUpgradeBtnText      = @"升级";
+NSString *const kUpgradeWarnText     = @"更新到版本: %@(%@)";
+NSString *const kUpgradeTitleText    = @"版本更新";
+NSString *const kCancelBtnText       = @"放弃";
 NSString *const kUpgradeWarnTestText = @"有测试版本发布，请手工安装。";
 NSString *const kNoUpgradeWarnText   = @"未检测到更新";
+NSString *const kViewInstantBtnText  = @"立即查看";
 
 /**
  *  Config#BarCodeScan
  */
 NSString *kBarCodeScanFolderName = @"BarCodeScan";
-NSString *kBarCodeScanFileName  = @"scan_bar_code.html";
+NSString *kBarCodeScanFileName   = @"scan_bar_code.html";

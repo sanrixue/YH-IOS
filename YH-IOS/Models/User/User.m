@@ -37,7 +37,7 @@
 }
 
 + (NSString *)configPath {
-    return [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    return [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
 }
 
 /**

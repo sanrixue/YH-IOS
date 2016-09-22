@@ -102,7 +102,7 @@
     }];
     
     self.labelTheme.text = self.bannerName;
-    self.urlString = [NSString stringWithFormat:RESET_PASSWORD_PATH, kBaseUrl, [FileUtils currentUIVersion]];
+    self.urlString = [NSString stringWithFormat:kResetPwdMobilePath, kBaseUrl, [FileUtils currentUIVersion]];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -117,7 +117,7 @@
     noticeDict[@"setting_password"] = @(-1);
     noticeDict[@"setting"] = @(0);
     [FileUtils writeJSON:noticeDict Into:noticeFilePath];
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     userDict[@"user_md5"] = newPassword.md5;
     [FileUtils writeJSON:userDict Into:userConfigPath];
@@ -162,7 +162,7 @@
         
         __block NSString *htmlPath;
         if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
         }
         else {
             NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];

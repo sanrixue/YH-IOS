@@ -27,7 +27,7 @@
  */
 + (void)checkAssets:(NSString *)fileName isInAssets:(BOOL)isInAssets bundlePath:(NSString *)bundlePath {
     NSString *sharedPath = [FileUtils sharedPath];
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
     NSError *error;
@@ -122,7 +122,7 @@
 }
 
 + (NSString *)currentUIVersion {
-    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:BETA_CONFIG_FILENAME];
+    NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
     return betaDict[@"old_ui"] && [betaDict[@"old_ui"] boolValue] ? @"v1" : @"v2";
 }

@@ -183,7 +183,7 @@
  *  @param assetsPath 缓存位置
  */
 + (void)clearHttpResponeHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath {
-    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
+    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:kCachedHeaderConfigFileName];
     NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
     if(cachedHeaderDict && cachedHeaderDict[urlString]) {
         [cachedHeaderDict removeObjectForKey:urlString];
@@ -201,7 +201,7 @@
  */
 + (HttpResponse *)checkResponseHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath {
     urlString = [self urlCleaner:urlString];
-    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:CACHED_HEADER_FILENAME];
+    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:kCachedHeaderConfigFileName];
     NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
     
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
@@ -615,7 +615,7 @@
 + (NSString *)webViewUserAgent {
     NSString *userAgent = @"Mozilla/5.0 (iPhone; CPU iPhone OS 9_0 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13A340 default-by-hand";
     
-    NSString *userAgentPath = [[self basePath] stringByAppendingPathComponent:USER_AGENT_FILENAME];
+    NSString *userAgentPath = [[self basePath] stringByAppendingPathComponent:kUserAgentFileName];
     
     if([self checkFileExist:userAgentPath isDir:NO]) {
         userAgent = [NSString stringWithContentsOfFile:userAgentPath encoding:NSUTF8StringEncoding error:nil];
@@ -642,7 +642,7 @@
     NSDictionary *dict = @{@"name":imageName, @"upload_state":@(NO), @"local_path":imagePath};
     NSMutableDictionary *gravatarDict = [NSMutableDictionary dictionaryWithDictionary:dict];
     
-    NSString *gravatarConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+    NSString *gravatarConfigPath = [FileUtils dirPath:kConfigDirName FileName:kGravatarConfigFileName];
     [FileUtils writeJSON:gravatarDict Into:gravatarConfigPath];
 
     NSData *imageData = [NSData dataWithContentsOfFile:imagePath];
@@ -651,7 +651,7 @@
         [formData appendPartWithFileData:imageData name:@"gravatar" fileName:imageName mimeType:@"image/jpeg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
-        NSString *gravatarConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+        NSString *gravatarConfigPath = [FileUtils dirPath:kConfigDirName FileName:kGravatarConfigFileName];
         NSMutableDictionary *gravatar = [FileUtils readConfigFile:gravatarConfigPath];
         gravatar[@"name"] = imageName;
         gravatar[@"upload_state"] = @(YES);
@@ -660,7 +660,7 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@ ***** %@", operation.responseString, error);
-        NSString *gravatarConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+        NSString *gravatarConfigPath = [FileUtils dirPath:kConfigDirName FileName:kGravatarConfigFileName];
         NSMutableDictionary *gravatar = [FileUtils readConfigFile:gravatarConfigPath];
         gravatar[@"name"] = imageName;
         gravatar[@"upload_state"] = @(NO);

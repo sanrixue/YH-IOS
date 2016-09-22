@@ -28,7 +28,7 @@
     //获取应用程序沙盒的Documents目录
     NSString *basePath = [FileUtils basePath];
     
-    NSString *configPath = [basePath stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *configPath = [basePath stringByAppendingPathComponent:kUserConfigFileName];
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:configPath];
     NSString *namespace = [NSString stringWithFormat:@"user-%@", dict[@"user_id"]];
     NSString *userSpacePath = [basePath stringByAppendingPathComponent:namespace];
@@ -42,7 +42,7 @@
  *  @return 目录路径
  */
 + (NSString *)sharedPath {
-    NSString *shardPath = [[self basePath] stringByAppendingPathComponent:SHARED_DIRNAME];
+    NSString *shardPath = [[self basePath] stringByAppendingPathComponent:kSharedDirName];
     
     if(![self checkFileExist:shardPath isDir:YES]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:shardPath withIntermediateDirectories:YES attributes:nil error:nil];
@@ -372,7 +372,7 @@
 + (void)shareData:(NSDictionary *)dict fileName:(NSString *)fileName {
     fileName = [NSString stringWithFormat:@"data-%@.share", fileName];
     [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:dict]
-                    Into:[FileUtils dirPath:CONFIG_DIRNAME FileName:fileName]];
+                    Into:[FileUtils dirPath:kConfigDirName FileName:fileName]];
 }
 
 /**
@@ -380,7 +380,7 @@
  */
 + (NSDictionary *)shareData:(NSString *)fileName {
     fileName = [NSString stringWithFormat:@"data-%@.share", fileName];
-    return [FileUtils readConfigFile:[FileUtils dirPath:CONFIG_DIRNAME FileName:fileName]];
+    return [FileUtils readConfigFile:[FileUtils dirPath:kConfigDirName FileName:fileName]];
 }
 
 /**

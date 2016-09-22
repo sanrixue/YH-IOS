@@ -9,7 +9,7 @@
 #ifndef Constant_h
 #define Constant_h
 
-#import "Constants.h"
+#import "PrivateConstants.h"
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSInteger, SettingTableCellIndex) {
@@ -35,6 +35,63 @@ typedef NS_ENUM(NSInteger, LoadingType) {
     LoadingRefresh = 2,
     LoadingLogining = 3 // deprecate
 };
+
+/**
+ *  Config#Color
+ */
+extern NSString *const kThemeColor;
+extern NSString *const kBannerBgColor;
+extern NSString *const kBannerTextColor;
+extern NSString *const kIsUrlWrite2Local;
+
+/**
+ *  API#paths
+ */
+extern NSString *const kUserAuthenticateAPIPath;
+extern NSString *const kReportDataAPIPath;
+extern NSString *const kCommentAPIPath;
+extern NSString *const kScreenLockAPIPath;
+extern NSString *const kDeviceStateAPIPath;
+extern NSString *const kResetPwdAPIPath;
+extern NSString *const kActionLogAPIPath;
+extern NSString *const kPushDeviceTokenAPIPath;
+extern NSString *const kBarCodeScanAPIPath;
+extern NSString *const kDownloadAssetsAPIPath;
+extern NSString *const kUploadGravatarAPIPath;
+
+/**
+ *  Mobile#View Path
+ */
+extern NSString *const kKPIMobilePath;
+extern NSString *const kMessageMobilePath;
+extern NSString *const kAppMobilePath;
+extern NSString *const kAnalyseMobilePath;
+extern NSString *const kCommentMobilePath;
+extern NSString *const kResetPwdMobilePath;
+extern NSString *const kThursdaySayMobilePath;
+
+/**
+ *  Config#Application
+ */
+extern NSString *const kConfigDirName;
+extern NSString *const kHTMLDirName;
+extern NSString *const kAssetsDirName;
+extern NSString *const kSharedDirName;
+extern NSString *const kCachedDirName;
+extern NSString *const kReportDataFileName;
+extern NSString *const kUserConfigFileName;
+extern NSString *const kPushConfigFileName;
+extern NSString *const kSettingConfigFileName;
+extern NSString *const kTabIndexConfigFileName;
+extern NSString *const kGesturePwdConfileFileName;
+extern NSString *const kLocalNotificationConfigFileName;
+extern NSString *const kCachedHeaderConfigFileName;
+extern NSString *const kPgyerVersionConfigFileName;
+extern NSString *const kGravatarConfigFileName;
+extern NSString *const kBetaConfigFileName;
+extern NSString *const kBarCodeResultFileName;
+extern NSString *const kCurrentVersionFileName;
+extern NSString *const kUserAgentFileName;
 
 /**
  * Text

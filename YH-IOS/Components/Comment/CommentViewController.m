@@ -22,7 +22,7 @@
     [self idColor];
     
     self.labelTheme.text = self.bannerName;
-    self.urlString = [NSString stringWithFormat:COMMENT_PATH, kBaseUrl, [FileUtils currentUIVersion], self.objectID, @(self.commentObjectType)];
+    self.urlString = [NSString stringWithFormat:kCommentMobilePath, kBaseUrl, [FileUtils currentUIVersion], self.objectID, @(self.commentObjectType)];
     
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -163,7 +163,7 @@
         
         __block NSString *htmlPath;
         if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
         }
         else {
             NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];

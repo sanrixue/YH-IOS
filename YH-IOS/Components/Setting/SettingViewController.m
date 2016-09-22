@@ -50,7 +50,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.noticeFilePath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
+    self.noticeFilePath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     self.noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
     
     [self loadUserGravatar];
@@ -78,11 +78,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self.settingTableView addSubview:backBtn];
     [backBtn addTarget:self action:@selector(actionBack:) forControlEvents:UIControlEventTouchUpInside];
     
-    NSString *userGavatarPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+    NSString *userGavatarPath = [FileUtils dirPath:kConfigDirName FileName:kGravatarConfigFileName];
     NSMutableDictionary *userGravatar = [FileUtils readConfigFile:userGavatarPath];
     if (![userGravatar[@"upload_state"] boolValue] && userGravatar[@"name"] && userGravatar[@"local_name"]) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSString *urlPath = [NSString stringWithFormat:API_UPLOAD_GRAVATAR_PATH, self.user.deviceID, self.user.userID];
+            NSString *urlPath = [NSString stringWithFormat:kUploadGravatarAPIPath, self.user.deviceID, self.user.userID];
             [HttpUtils uploadImage:urlPath withImagePath:userGravatar[@"local_path"] withImageName:userGravatar[@"name"]];
         });
     }
@@ -105,7 +105,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
     self.headInfoArray = @[@"应用信息", @"安全策略", @"配色主题"];
 
-    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
+    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     self.settingDict = @{
         self.appInfoArray[0]: self.version.appName,
@@ -346,11 +346,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     NSString *gravatarName = [NSString stringWithFormat:@"%@-%@-%@.jpg", kAppCode, self.user.userNum, timestamp];
-    NSString *gravatarPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:gravatarName];
+    NSString *gravatarPath = [FileUtils dirPath:kConfigDirName FileName:gravatarName];
     [imageData writeToFile:gravatarPath atomically:YES];
     
     [self.settingTableView reloadData];
-    NSString *urlPath = [NSString stringWithFormat:API_UPLOAD_GRAVATAR_PATH, self.user.deviceID, self.user.userID];
+    NSString *urlPath = [NSString stringWithFormat:kUploadGravatarAPIPath, self.user.deviceID, self.user.userID];
     [HttpUtils uploadImage:urlPath withImagePath:gravatarPath withImageName:gravatarName];
 }
 
@@ -365,7 +365,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
     
     NSString *gravatarName = [[gravatarUrl componentsSeparatedByString:@"/"] lastObject];
-    NSString *gravatarPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:gravatarName];
+    NSString *gravatarPath = [FileUtils dirPath:kConfigDirName FileName:gravatarName];
     
     if([FileUtils checkFileExist:gravatarPath isDir:NO]) {
         self.userIconImage = [UIImage imageWithContentsOfFile:gravatarPath];
@@ -373,7 +373,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     else {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSString *gravatarName = [[self.user.gravatar componentsSeparatedByString:@"/"] lastObject];
-            NSString *gravatarPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:gravatarName];
+            NSString *gravatarPath = [FileUtils dirPath:kConfigDirName FileName:gravatarName];
             
             [HttpUtils downLoadFile:self.user.gravatar withSavePath:gravatarPath];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -381,7 +381,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
                     self.userIconImage = [UIImage imageWithContentsOfFile:gravatarPath];
                     [self.settingTableView reloadData];
                     
-                    NSString *gravatarConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:GRAVATAR_CONFIG_FILENAME];
+                    NSString *gravatarConfigPath = [FileUtils dirPath:kConfigDirName FileName:kGravatarConfigFileName];
                     BOOL uploadState = [FileUtils checkFileExist:gravatarConfigPath isDir:YES];
                     NSMutableDictionary *gravatarDict = [FileUtils readConfigFile:gravatarConfigPath];
                     gravatarDict[@"name"] = gravatarName;
@@ -402,14 +402,14 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)actionSwitchToNewUI:(UISwitch *)sender {
     NSLog(@"更改ui");
-    NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:BETA_CONFIG_FILENAME];
+    NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
     betaDict[@"new_ui"] = @(sender.isOn);
     [betaDict writeToFile:settingsConfigPath atomically:YES];
 }
 
 - (void)checkPgyerVersionLabel:(Version *)version {
-    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
+    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
     if(![FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
         return;
     }
@@ -446,7 +446,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         return;
     }
     
-    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
+    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
     
     NSInteger currentVersionCode = 0;
     if([FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
@@ -455,8 +455,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             currentVersionCode = [currentResponse[kVersionCodeCPCName] integerValue];
         }
     }
-    
-    [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
     
     // 对比 build 值，只准正向安装提示
     if([response[kVersionCodeCPCName] integerValue] <= currentVersionCode) {
@@ -477,6 +475,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         [alert addButton:kUpgradeBtnText actionBlock:^(void) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
+            
+            // 只有点击【升级】按钮才存储蒲公英平台响应信息
+            [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
         }];
         
         NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
@@ -485,8 +486,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     else {
         [ViewUtils showPopupView:self.view Info:kUpgradeWarnTestText];
     }
-    
-    [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
 }
 
 - (void)actionOpenLink{
@@ -506,14 +505,14 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     if([segue.identifier isEqualToString:kResetPasswordSegueIdentifier]) {
         ResetPasswordViewController *resetPasswordViewController = (ResetPasswordViewController *)segue.destinationViewController;
         resetPasswordViewController.bannerName = @"重置密码";
-        resetPasswordViewController.link       = RESET_PASSWORD_PATH;
+        resetPasswordViewController.link       = kResetPwdMobilePath;
     }
 }
 
 - (void)actionCheckAssets {
-    NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", self.sharedPath, CACHED_HEADER_FILENAME];
+    NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", self.sharedPath, kCachedHeaderConfigFileName];
     [FileUtils removeFile:cachedHeaderPath];
-    cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:HTML_DIRNAME], CACHED_HEADER_FILENAME];
+    cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
     [FileUtils removeFile:cachedHeaderPath];
     
     [APIHelper userAuthentication:self.user.userNum password:self.user.password];
@@ -521,7 +520,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self checkAssetsUpdate];
     
     // 第三方消息推送，设备标识
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     self.isSuccess = [APIHelper pushDeviceToken:userDict[kDeviceUUIDCUName]];
     
@@ -551,12 +550,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         [self showLockViewForEnablingPasscode];
     }
     else {
-        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
         userDict[kIsUseGesturePasswordCUName] = @(NO);
         [userDict writeToFile:userConfigPath atomically:YES];
         
-        NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+        NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kSettingConfigFileName];
         [userDict writeToFile:settingsConfigPath atomically:YES];
         
         //self.buttonChangeGesturePassword.enabled = NO;

@@ -9,6 +9,64 @@
 #import "Constant.h"
 
 /**
+ *  Config#Color
+ */
+NSString *const kThemeColor       = @"#53a93f"; //31809f
+NSString *const kBannerBgColor    = @"#53a93f";
+NSString *const kBannerTextColor  = @"#ffffff";
+NSString *const kIsUrlWrite2Local = @"1";
+
+/**
+ *  API#paths
+ */
+NSString *const kUserAuthenticateAPIPath = @"%@/api/v1/%@/%@/%@/authentication";
+NSString *const kReportDataAPIPath       = @"%@/api/v1/group/%@/template/%@/report/%@/attachment";
+NSString *const kCommentAPIPath          = @"%@/api/v1/user/%@/id/%@/type/%@";
+NSString *const kScreenLockAPIPath       = @"%@/api/v1/user_device/%@/screen_lock";
+NSString *const kDeviceStateAPIPath      = @"%@/api/v1/user_device/%@/state";
+NSString *const kResetPwdAPIPath         = @"%@/api/v1/update/%@/password";
+NSString *const kActionLogAPIPath        = @"%@/api/v1/ios/logger";
+NSString *const kPushDeviceTokenAPIPath  = @"%@/api/v1/device/%@/push_token/%@";
+NSString *const kBarCodeScanAPIPath      = @"%@/api/v1/group/%@/role/%@/user/%@/store/%@/barcode_scan?code_info=%@&code_type=%@";
+NSString *const kDownloadAssetsAPIPath   = @"%@/api/v1/download/%@.zip";
+NSString *const kUploadGravatarAPIPath   =  @"/api/v1/device/%@/upload/user/%@/gravatar";
+
+/**
+ *  Mobile#View Path
+ */
+NSString *const kKPIMobilePath         = @"%@/mobile/%@/group/%@/role/%@/kpi";
+NSString *const kMessageMobilePath     = @"%@/mobile/%@/role/%@/group/%@/user/%@/message";
+NSString *const kAppMobilePath         = @"%@/mobile/%@/role/%@/app";
+NSString *const kAnalyseMobilePath     = @"%@/mobile/%@/role/%@/analyse";
+NSString *const kCommentMobilePath     = @"%@/mobile/%@/id/%@/type/%@/comment";
+NSString *const kResetPwdMobilePath    = @"%@/mobile/%@/update_user_password";
+NSString *const kThursdaySayMobilePath = @"%@/mobile/%@/thursday_say";
+
+/**
+ *  Config#Application
+ */
+NSString *const kConfigDirName = @"Configs";
+NSString *const kHTMLDirName   = @"HTML";
+NSString *const kAssetsDirName = @"Assets";
+NSString *const kSharedDirName = @"Shared";
+NSString *const kCachedDirName = @"Cached";
+NSString *const kReportDataFileName              = @"group_%@_template_%@_report_%@.js";
+NSString *const kUserConfigFileName              = @"user.plist";
+NSString *const kPushConfigFileName              = @"push_message.plist";
+NSString *const kSettingConfigFileName           = @"setting.plist";
+NSString *const kTabIndexConfigFileName          = @"page_tab_index.plist";
+NSString *const kGesturePwdConfileFileName       = @"gesture_password.plist";
+NSString *const kLocalNotificationConfigFileName = @"local_notification.plist";
+NSString *const kCachedHeaderConfigFileName      = @"cached_header.plist";
+NSString *const kPgyerVersionConfigFileName      = @"pgyer_version.plist";
+NSString *const kGravatarConfigFileName          = @"gravatar.plist";
+NSString *const kBetaConfigFileName              = @"beta.plist";
+NSString *const kBarCodeResultFileName           = @"barcode_result.json";
+NSString *const kCurrentVersionFileName          = @"current_version.txt";
+NSString *const kUserAgentFileName               = @"webview_user_agent.txt";
+
+#define URL_WRITE_LOCAL             @"1"
+/**
  *  Assets Folder and FileName
  */
 NSString *const kAdFolderName = @"advertisement";

@@ -61,7 +61,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     self.localNotificationKeys = @[kTabKPILNName, kTabAnalyseLNName, kTabAppLNName, kTabMessageLNName, kSettingThursdaySayLNName];
-    self.localNotificationPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:LOCAL_NOTIFICATION_FILENAME];
+    self.localNotificationPath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
@@ -277,7 +277,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         NSInteger tabIndex = [tabIndexDict[openType] integerValue];
         
         if(tabIndex == 3 && data[@"openLink"] && [@[@"0", @"1", @"2"] containsObject:data[@"openLink"]]) {
-            NSString *tabIndexConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:TABINDEX_CONFIG_FILENAME];
+            NSString *tabIndexConfigPath = [FileUtils dirPath:kConfigDirName FileName:kTabIndexConfigFileName];
             NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
             tabIndexDict[@"message"] = @([data[@"openLink"] integerValue]);
             [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
@@ -334,11 +334,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.urlStrings = [NSMutableArray array];
     
     NSString *uiVersion = [FileUtils currentUIVersion];
-    [self.urlStrings addObject:[NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID]];
-    [self.urlStrings addObject:[NSString stringWithFormat:ANALYSE_PATH, kBaseUrl, uiVersion, self.user.roleID]];
-    [self.urlStrings addObject:[NSString stringWithFormat:APPLICATION_PATH, kBaseUrl, uiVersion, self.user.roleID]];
-    [self.urlStrings addObject:[NSString stringWithFormat:MESSAGE_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID, self.user.userID]];
-    [self.urlStrings addObject:[NSString stringWithFormat:THURSDAY_SAY_PATH, kBaseUrl, uiVersion]];
+    [self.urlStrings addObject:[NSString stringWithFormat:kKPIMobilePath, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID]];
+    [self.urlStrings addObject:[NSString stringWithFormat:kAnalyseMobilePath, kBaseUrl, uiVersion, self.user.roleID]];
+    [self.urlStrings addObject:[NSString stringWithFormat:kAppMobilePath, kBaseUrl, uiVersion, self.user.roleID]];
+    [self.urlStrings addObject:[NSString stringWithFormat:kMessageMobilePath, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID, self.user.userID]];
+    [self.urlStrings addObject:[NSString stringWithFormat:kThursdaySayMobilePath, kBaseUrl, uiVersion]];
 }
 
 - (NSString *)lastLocalNotification:(NSString *)keyName {
@@ -403,7 +403,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
                  *  解屏验证用户信息，更新用户权限
                  *  若难失败，则在下次解屏检测时进入登录界面
                  */
-                NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+                NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
                 NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
                 if(!userDict[kUserNumCUName]) {
                     return;
@@ -576,7 +576,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }];
     
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString *tabIndexConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:TABINDEX_CONFIG_FILENAME];
+        NSString *tabIndexConfigPath = [FileUtils dirPath:kConfigDirName FileName:kTabIndexConfigFileName];
         NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
         
         NSString *action = data[@"action"], *pageName = data[@"pageName"];
@@ -629,7 +629,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         
         __block NSString *htmlPath;
         if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
         }
         else {
             NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
@@ -713,7 +713,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (IBAction)actionBarCodeScanView:(UIButton *)sender {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if(!userDict[kStoreIDsCUName] || [userDict[kStoreIDsCUName] count] == 0) {
         [[[UIAlertView alloc] initWithTitle:kWarningTitleText message:kWarningNoStoreText delegate:nil cancelButtonTitle:kSureBtnText otherButtonTitles:nil] show];
@@ -862,27 +862,27 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSString *uiVersion = [FileUtils currentUIVersion];
     switch (index) {
         case 0: {
-            self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID];
+            self.urlString = [NSString stringWithFormat:kKPIMobilePath, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID];
             self.commentObjectType = ObjectTypeKpi;
             break;
         }
         case 1: {
-            self.urlString = [NSString stringWithFormat:ANALYSE_PATH, kBaseUrl, uiVersion, self.user.roleID];
+            self.urlString = [NSString stringWithFormat:kAnalyseMobilePath, kBaseUrl, uiVersion, self.user.roleID];
             self.commentObjectType = ObjectTypeAnalyse;
             break;
         }
         case 2: {
-            self.urlString = [NSString stringWithFormat:APPLICATION_PATH, kBaseUrl, uiVersion, self.user.roleID];
+            self.urlString = [NSString stringWithFormat:kAppMobilePath, kBaseUrl, uiVersion, self.user.roleID];
             self.commentObjectType = ObjectTypeApp;
             break;
         }
         case 3: {
-            self.urlString = [NSString stringWithFormat:MESSAGE_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID, self.user.userID];
+            self.urlString = [NSString stringWithFormat:kMessageMobilePath, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID, self.user.userID];
             self.commentObjectType = ObjectTypeMessage;
             break;
         }
         default: {
-            self.urlString = [NSString stringWithFormat:KPI_PATH, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID];
+            self.urlString = [NSString stringWithFormat:kKPIMobilePath, kBaseUrl, uiVersion, self.user.roleID, self.user.groupID];
             self.commentObjectType = ObjectTypeReport;
             break;
         }
@@ -958,7 +958,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         return;
     }
     
-    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:PGYER_VERSION_FILENAME];
+    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
     NSInteger currentVersionCode = 0;
     if([FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
         NSDictionary *currentResponse = [FileUtils readConfigFile:pgyerVersionPath];
@@ -966,8 +966,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             currentVersionCode = [currentResponse[kVersionCodeCPCName] integerValue];
         }
     }
-    
-    [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
     
     // 对比 build 值，只准正向安装提示
     if([response[kVersionCodeCPCName] integerValue] <= currentVersionCode) {
@@ -985,13 +983,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         [alert addButton:kUpgradeBtnText actionBlock:^(void) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
+            
+            // 只有点击【升级】按钮才存储蒲公英平台响应信息
+            [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
         }];
         
         NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
         [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
     }
-    
-    [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
 }
 
 #pragma mark - 本地通知，样式加载
@@ -1017,7 +1016,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:self.assetsPath];
             
             if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
-                [HttpUtils urlConvertToLocal:urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+                [HttpUtils urlConvertToLocal:urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
                 [self extractDataCountFromHtmlContent:httpResponse.string Index:index];
             }
         }
@@ -1097,7 +1096,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     /**
      *  右上角设置界面通知样式
      */
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
     localNotificationDict[kSettingPasswordLNName] = @([userDict[kPasswordCUName] isEqualToString:kInitPassword.md5] ? 1 : 0);

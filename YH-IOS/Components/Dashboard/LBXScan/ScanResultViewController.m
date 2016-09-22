@@ -83,10 +83,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self clearBrowserCache];
     [self showLoading:LoadingLoad];
     
-    NSString *cacheJsonPath = [FileUtils dirPath:CACHED_DIRNAME FileName:BARCODE_RESULT_FILENAME];
+    NSString *cacheJsonPath = [FileUtils dirPath:kCachedDirName FileName:kBarCodeResultFileName];
     NSMutableDictionary *cacheDict = [FileUtils readConfigFile:cacheJsonPath];
     
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
     NSString *storeID = @"-1";

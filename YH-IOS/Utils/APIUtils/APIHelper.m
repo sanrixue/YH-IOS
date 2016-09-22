@@ -16,7 +16,7 @@
 @implementation APIHelper
 
 + (NSString *)reportDataUrlString:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID  {
-    return[NSString stringWithFormat:API_DATA_PATH, kBaseUrl, groupID, templateID, reportID];
+    return[NSString stringWithFormat:kReportDataAPIPath, kBaseUrl, groupID, templateID, reportID];
 }
 
 #pragma todo: pass assetsPath as parameter
@@ -24,9 +24,9 @@
     NSString *urlString = [self reportDataUrlString:groupID templateID:templateID reportID:reportID];
     
     NSString *userspacePath = [FileUtils userspace];
-    NSString *assetsPath = [userspacePath stringByAppendingPathComponent:HTML_DIRNAME];
+    NSString *assetsPath = [userspacePath stringByAppendingPathComponent:kHTMLDirName];
     
-    NSString *reportDataFileName = [NSString stringWithFormat:REPORT_DATA_FILENAME, groupID, templateID, reportID];
+    NSString *reportDataFileName = [NSString stringWithFormat:kReportDataFileName, groupID, templateID, reportID];
     NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
     javascriptPath = [javascriptPath stringByAppendingPathComponent:reportDataFileName];
     
@@ -57,7 +57,7 @@
  *  @return error msg when authentication failed
  */
 + (NSString *)userAuthentication:(NSString *)usernum password:(NSString *)password {
-    NSString *urlString = [NSString stringWithFormat:API_USER_PATH, kBaseUrl, @"IOS", usernum, password];
+    NSString *urlString = [NSString stringWithFormat:kUserAuthenticateAPIPath, kBaseUrl, @"IOS", usernum, password];
     NSString *alertMsg = @"";
     
     NSMutableDictionary *deviceDict = [NSMutableDictionary dictionary];
@@ -73,7 +73,7 @@
     HttpResponse *response = [HttpUtils httpPost:urlString Params:deviceDict];
     
     if(response.data[@"code"] && [response.data[@"code"] isEqualToNumber:@(200)]) {
-        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
 
         userDict[kUserIDCUName]     = response.data[@"user_id"];
@@ -110,7 +110,7 @@
         
         userDict[kIsUseGesturePasswordCUName] = @(NO);
         userDict[kGesturePasswordCUName]      = @"";
-        NSString *settingsConfigPath = [FileUtils dirPath:CONFIG_DIRNAME FileName:SETTINGS_CONFIG_FILENAME];
+        NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kSettingConfigFileName];
         if([FileUtils checkFileExist:settingsConfigPath isDir:NO]) {
             NSMutableDictionary *settingsDict = [FileUtils readConfigFile: settingsConfigPath];
             
@@ -155,7 +155,7 @@
  *  @return 是否创建成功
  */
 + (BOOL)writeComment:(NSNumber *)userID objectType:(NSNumber *)objectType objectID:(NSNumber *)objectID params:(NSMutableDictionary *)params {
-    NSString *urlString = [NSString stringWithFormat:API_COMMENT_PATH, kBaseUrl, userID, objectID, objectType];
+    NSString *urlString = [NSString stringWithFormat:kCommentAPIPath, kBaseUrl, userID, objectID, objectType];
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];
     
     return [httpResponse.statusCode isEqual:@(201)];
@@ -169,7 +169,7 @@
  *  @return 服务器是否更新成功
  */
 + (BOOL)pushDeviceToken:(NSString *)deviceUUID {
-    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:PUSH_CONFIG_FILENAME];
+    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     
     if([pushDict[@"push_valid"] boolValue] && pushDict[@"push_device_token"] && [pushDict[@"push_device_token"] length] == 64) {
@@ -179,7 +179,7 @@
         return NO;
     }
     
-    NSString *urlString = [NSString stringWithFormat:API_PUSH_DEVICE_TOKEN_PATH, kBaseUrl, deviceUUID, pushDict[@"push_device_token"]];
+    NSString *urlString = [NSString stringWithFormat:kPushDeviceTokenAPIPath, kBaseUrl, deviceUUID, pushDict[@"push_device_token"]];
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:[NSMutableDictionary dictionary]];
 
     pushDict[@"push_valid"] = @(httpResponse.data[@"valid"] && [httpResponse.data[@"valid"] boolValue]);
@@ -196,7 +196,7 @@
  *  @param state        是否锁屏
  */
 + (void)screenLock:(NSString *)userDeviceID passcode:(NSString *)passcode state:(BOOL)state {
-    NSString *urlString = [NSString stringWithFormat:API_SCREEN_LOCK_PATH, kBaseUrl, userDeviceID];
+    NSString *urlString = [NSString stringWithFormat:kScreenLockAPIPath, kBaseUrl, userDeviceID];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"screen_lock_state"] = @(state);
     params[@"screen_lock_type"]  = @"4位数字";
@@ -212,10 +212,10 @@
  *  @return 是否可用
  */
 + (DeviceState)deviceState {
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
-    NSString *urlString = [NSString stringWithFormat:API_DEVICE_STATE_PATH, kBaseUrl, userDict[kUserDeviceIDCUName]];
+    NSString *urlString = [NSString stringWithFormat:kDeviceStateAPIPath, kBaseUrl, userDict[kUserDeviceIDCUName]];
     HttpResponse *httpResponse = [HttpUtils httpGet:urlString];
     
 //    userDict[@"device_state"]  = httpResponse.data[@"device_state"];
@@ -241,7 +241,7 @@
  *  @return 服务器响应
  */
 + (HttpResponse *)resetPassword:(NSNumber *)userID newPassword:(NSString *)newPassword {
-    NSString *urlString = [NSString stringWithFormat:API_RESET_PASSWORD_PATH, kBaseUrl, userID];
+    NSString *urlString = [NSString stringWithFormat:kResetPwdAPIPath, kBaseUrl, userID];
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"password"] = newPassword;
@@ -261,7 +261,7 @@
     
     if(action == nil) { return; }
 
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
     param[kUserIDCUName]       = userDict[kUserIDCUName];
@@ -277,7 +277,7 @@
     userParams[kUserNameALCName] = userDict[kUserNameCUName];
     userParams[kPasswordALCName] = userDict[kPasswordCUName];
     params[kUserALCName]         = userParams;
-    NSString *urlString = [NSString stringWithFormat:API_ACTION_LOG_PATH, kBaseUrl];
+    NSString *urlString = [NSString stringWithFormat:kActionLogAPIPath, kBaseUrl];
     [HttpUtils httpPost:urlString Params:params];
 }
 
@@ -292,7 +292,7 @@
  *  @param codeType   条形码或二维码
  */
 + (void)barCodeScan:(NSString *)userNum group:(NSNumber *)groupID  role:(NSNumber *)roleID store:(NSString *)storeID code:(NSString *)codeInfo type:(NSString *)codeType {
-    NSString * urlstring = [NSString stringWithFormat:API_BARCODE_SCAN_PATH, kBaseUrl, groupID, roleID, userNum, storeID, codeInfo, codeType];
+    NSString * urlstring = [NSString stringWithFormat:kBarCodeScanAPIPath, kBaseUrl, groupID, roleID, userNum, storeID, codeInfo, codeType];
     
     HttpResponse *response = [HttpUtils httpGet:urlstring];
     NSString *responseString = response.string;

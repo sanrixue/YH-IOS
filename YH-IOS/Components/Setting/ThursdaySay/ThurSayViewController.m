@@ -40,8 +40,8 @@
     self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(0, kBannerHeight, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight)];
     [self.view addSubview:self.browser];
     
-    self.urlString = [NSString stringWithFormat:THURSDAY_SAY_PATH, kBaseUrl, [FileUtils currentUIVersion]];
-    self.assetsPath = [FileUtils dirPath:HTML_DIRNAME];
+    self.urlString = [NSString stringWithFormat:kThursdaySayMobilePath, kBaseUrl, [FileUtils currentUIVersion]];
+    self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     [self loadHtml];
 }
 
@@ -51,7 +51,7 @@
         
         __block NSString *htmlPath;
         if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:URL_WRITE_LOCAL];
+            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
         }
         else {
             NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];

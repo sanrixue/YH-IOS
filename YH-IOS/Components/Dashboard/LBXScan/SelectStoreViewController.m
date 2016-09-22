@@ -27,11 +27,11 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.dataList = [NSMutableArray array];
     
-    NSString *barCodePath = [FileUtils dirPath:CACHED_DIRNAME FileName:BARCODE_RESULT_FILENAME];
+    NSString *barCodePath = [FileUtils dirPath:kCachedDirName FileName:kBarCodeResultFileName];
     NSMutableDictionary *cachedDict = [FileUtils readConfigFile:barCodePath];
     self.currentStore = cachedDict[@"store"];
     
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:USER_CONFIG_FILENAME];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if(userDict[kStoreIDsCUName] && [userDict[kStoreIDsCUName] count] > 0) {
         self.dataList =userDict[kStoreIDsCUName];
@@ -109,7 +109,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *barCodePath = [FileUtils dirPath:CACHED_DIRNAME FileName:BARCODE_RESULT_FILENAME];
+    NSString *barCodePath = [FileUtils dirPath:kCachedDirName FileName:kBarCodeScanFileName];
     NSMutableDictionary *cachedDict = [FileUtils readConfigFile:barCodePath];
     NSDictionary *currentStore = self.dataList[indexPath.row];
     

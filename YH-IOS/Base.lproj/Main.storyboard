@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="14F1605" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -495,7 +495,7 @@
                                 <rect key="frame" x="0.0" y="85" width="600" height="515"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="sectionIndexColor" patternImage="857BEABE-2ACA-4DA4-B31F-6E79903D155B" colorSpace="pattern"/>
+                                <color key="sectionIndexColor" patternImage="02BDE65E-3DA3-406B-B02D-9EFDD68CD1C2" colorSpace="pattern"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <sections/>
                             </tableView>
@@ -635,27 +635,28 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jih-F7-Pxl">
-                                        <rect key="frame" x="525" y="24" width="75" height="22"/>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oDd-AD-w81">
+                                        <rect key="frame" x="536" y="21" width="20" height="22"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="36" id="M5Z-Ux-LXQ"/>
+                                            <constraint firstAttribute="height" constant="55" id="GtV-z7-uxo"/>
+                                            <constraint firstAttribute="width" constant="50" id="vrs-hS-6xi"/>
                                         </constraints>
-                                        <state key="normal" image="Subject-Search"/>
+                                        <state key="normal" image="Banner-Setting"/>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.54101616649999995" green="0.71126197469999997" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="jih-F7-Pxl" secondAttribute="bottom" constant="9" id="ABm-Mu-iP8"/>
                                     <constraint firstAttribute="bottom" secondItem="vof-gW-n5p" secondAttribute="bottom" constant="5" id="J0F-u3-Vpf"/>
+                                    <constraint firstAttribute="trailing" secondItem="oDd-AD-w81" secondAttribute="trailing" id="Rjb-xP-hce"/>
                                     <constraint firstAttribute="bottom" secondItem="QDd-a6-bFN" secondAttribute="bottom" id="UIY-HY-FXo"/>
                                     <constraint firstItem="Uro-mi-m6g" firstAttribute="leading" secondItem="h07-A5-bkI" secondAttribute="leading" id="Y1W-ul-ppg"/>
                                     <constraint firstAttribute="height" constant="55" id="ab7-3r-OgX"/>
-                                    <constraint firstItem="jih-F7-Pxl" firstAttribute="top" secondItem="h07-A5-bkI" secondAttribute="top" constant="24" id="bKX-gd-QvH"/>
                                     <constraint firstAttribute="trailing" secondItem="vof-gW-n5p" secondAttribute="trailing" id="nEe-B5-sdM"/>
                                     <constraint firstAttribute="bottom" secondItem="Uro-mi-m6g" secondAttribute="bottom" id="pLN-kZ-OTt"/>
                                     <constraint firstItem="vof-gW-n5p" firstAttribute="leading" secondItem="h07-A5-bkI" secondAttribute="leading" id="uA1-iP-gao"/>
                                     <constraint firstItem="vof-gW-n5p" firstAttribute="top" secondItem="h07-A5-bkI" secondAttribute="top" constant="25" id="vxn-90-P43"/>
-                                    <constraint firstAttribute="trailing" secondItem="jih-F7-Pxl" secondAttribute="trailing" constant="8" id="y5g-Nd-Rr1"/>
+                                    <constraint firstItem="oDd-AD-w81" firstAttribute="top" secondItem="h07-A5-bkI" secondAttribute="top" constant="15" id="wpn-Tn-mIk"/>
+                                    <constraint firstAttribute="trailing" secondItem="oDd-AD-w81" secondAttribute="trailing" constant="20" symbolic="YES" id="xI0-2j-uw0"/>
                                     <constraint firstItem="Uro-mi-m6g" firstAttribute="top" secondItem="h07-A5-bkI" secondAttribute="top" id="yv7-NS-Adp"/>
                                 </constraints>
                             </view>
@@ -689,7 +690,7 @@
                         <outlet property="idView" destination="QDd-a6-bFN" id="X88-LW-A08"/>
                         <outlet property="labelTheme" destination="vof-gW-n5p" id="kYU-rU-aWu"/>
                         <outlet property="layoutConstraintBannerView" destination="yRS-oS-sup" id="fRo-Cc-KCk"/>
-                        <outlet property="selectBtn" destination="jih-F7-Pxl" id="Pso-Tn-t8P"/>
+                        <outlet property="selectBtn" destination="oDd-AD-w81" id="W4p-1r-KYG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jnR-CY-Iq1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -984,7 +985,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="857BEABE-2ACA-4DA4-B31F-6E79903D155B" width="168" height="49">
+        <image name="02BDE65E-3DA3-406B-B02D-9EFDD68CD1C2" width="168" height="49">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
 GR4fJSYsLzU4VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz
@@ -1001,9 +1002,8 @@ AAH5A
 </mutableData>
         </image>
         <image name="Banner-Back" width="17" height="21"/>
-        <image name="Banner-Logo" width="168" height="50"/>
+        <image name="Banner-Logo" width="168" height="49"/>
         <image name="Banner-Setting" width="20" height="20"/>
-        <image name="Subject-Search" width="21" height="21"/>
         <image name="TabBar-Analyse" width="20" height="20"/>
         <image name="TabBar-Analyse-Selected" width="20" height="20"/>
         <image name="TabBar-App" width="22" height="22"/>

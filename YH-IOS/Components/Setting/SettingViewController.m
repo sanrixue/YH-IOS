@@ -579,7 +579,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             }
         });
     }
-    [self.settingTableView reloadData];
+    // [self.settingTableView reloadData];
 }
 
 - (void)actionLogout{

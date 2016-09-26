@@ -143,20 +143,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [popover setSourceView:self.view];
     popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     [self presentViewController:dropTableViewController animated:YES completion:nil];
-    
-    /*SelectStoreViewController *select = [[SelectStoreViewController alloc] init];
-    [self presentViewController:select animated:YES completion:nil];*/
 }
 
 # pragma mark - UITableView Delgate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return self.dropMenuTitles.count;
 }
 
@@ -176,12 +171,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     return 150 / 4;
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
-    
     return UIModalPresentationNone;
 }
 
@@ -205,6 +198,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     // End the graphics context
     UIGraphicsEndImageContext();
     
+#pragma todo# 分享文字
     [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
     [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
     [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
@@ -253,9 +247,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     UIGraphicsEndImageContext();
     return fullImage;
 }
-
-
-
 
 - (NSString *)htmlContentWithTimestamp {
     NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000 + arc4random()];

@@ -107,7 +107,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     [FileUtils writeJSON:_pushMessageDict Into:pushConfigPath];
     if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
         [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:@"提示" message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"立即查看", nil];
+        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText, nil];
         [alertView show];
     }
     else {
@@ -124,7 +124,6 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (void)checkIsLoginThenJump {
     if (![self isLogin]) {
-        NSLog(@"为登录 跳转至登录界面");
         LoginViewController *loginView = [[LoginViewController alloc]init];
         UIViewController *view = (UIViewController *)self.window.rootViewController;
         [view presentViewController:loginView animated:YES completion:nil];
@@ -257,7 +256,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     if(isUpgrade) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *sharedPath = [FileUtils sharedPath], *bundleZipPath, *zipPath, *assetFileName;
-        for(NSString *assetName in @[@"assets", @"loading", @"fonts", @"images", @"stylesheets", @"javascripts", @"BarCodeScan", @"advertisement"]) { 
+        for(NSString *assetName in @[kAssetsAssetsName, kLoadingAssetsName, kFontsAssetsName, kImagesAssetsName, kStylesheetsAssetsName, kJavascriptsAssetsName, kBarCodeScanAssetsName, kAdvertisementAssetsName]) {
             assetFileName = [NSString stringWithFormat:@"%@.zip", assetName];
             bundleZipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:assetFileName];
             zipPath = [sharedPath stringByAppendingPathComponent:assetFileName];
@@ -277,14 +276,14 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (void)checkAssets {
     NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
-    [FileUtils checkAssets:@"assets" isInAssets:NO bundlePath:bundlePath];
-    [FileUtils checkAssets:@"loading" isInAssets:NO bundlePath:bundlePath];
-    [FileUtils checkAssets:@"fonts" isInAssets:YES bundlePath:bundlePath];
-    [FileUtils checkAssets:@"images" isInAssets:YES bundlePath:bundlePath];
-    [FileUtils checkAssets:@"javascripts" isInAssets:YES bundlePath:bundlePath];
-    [FileUtils checkAssets:@"stylesheets" isInAssets:YES bundlePath:bundlePath];
-    [FileUtils checkAssets:@"BarCodeScan" isInAssets:NO bundlePath:bundlePath];
-    [FileUtils checkAssets:@"advertisement" isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:kAssetsAssetsName isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:kLoadingAssetsName isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:kFontsAssetsName isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:kImagesAssetsName isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:kJavascriptsAssetsName isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:kStylesheetsAssetsName isInAssets:YES bundlePath:bundlePath];
+    [FileUtils checkAssets:kBarCodeScanAssetsName isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:kAdvertisementAssetsName isInAssets:NO bundlePath:bundlePath];
 }
 
 - (void)initWebViewUserAgent {

@@ -8,13 +8,16 @@
 
 #import "FileUtils+Report.h"
 #import "ReportSelectorViewController.h"
+#import "SearchTableViewCell.h"
 
-@interface ReportSelectorViewController ()
+@interface ReportSelectorViewController ()<UISearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldSearch;
 @property (strong, nonatomic) NSArray *dataList;
 @property (strong, nonatomic) NSArray *searchItems;
 @property (strong, nonatomic) NSString *selectedItem;
+@property (assign, nonatomic) BOOL isSearch;
+@property (strong, nonatomic) UISearchBar *searchBar;
 @end
 
 @implementation ReportSelectorViewController
@@ -51,8 +54,8 @@
     /**
      *  搜索框内容改变时，实时搜索并展示
      */
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SearchValueChanged:) name:UITextFieldTextDidChangeNotification object:nil];
-    [self.textFieldSearch addTarget:self action:@selector(SearchValueChanged:) forControlEvents:UIControlEventValueChanged];
+  //  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(SearchValueChanged:) name:UITextFieldTextDidChangeNotification object:nil];
+    //[self.textFieldSearch addTarget:self action:@selector(SearchValueChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -65,13 +68,12 @@
  *
  *  @param notifice notifice
  */
-- (void)SearchValueChanged:(NSNotification *)notifice {
-    UITextField *field = [notifice object];
-    NSString *searchText = [field.text stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+- (void)SearchValueChanged:(NSString *)notifice {
+   // UITextField *field = [notifice object];
+    NSString *searchText = notifice;
     
     if([searchText length] > 0) {
         NSString *predicateStr = [NSString stringWithFormat:@"(SELF CONTAINS \"%@\")", searchText];
-        
         NSPredicate *sPredicate = [NSPredicate predicateWithFormat:predicateStr];
         NSMutableArray *array = [NSMutableArray arrayWithArray:self.searchItems];
         [array filterUsingPredicate:sPredicate];
@@ -94,49 +96,118 @@
 
 #pragma mark - UITableViewDataSource
 
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+    return 3;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    switch (section) {
+        case 0:
+            return 0.001;
+            break;
+        case 1:
+            return 10;
+            break;
+        case 2:
+            return 10;
+            break;
+            
+        default:
+            return 20;
+            break;
+    }
+}
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dataList.count;
+    switch (section) {
+        case 0:
+            return 1;
+            break;
+        case 1:
+            return 1;
+            break;
+        case 2:
+            if (_isSearch) {
+                return self.dataList.count;
+            }
+            else {
+                return  _searchItems.count;
+            }
+            break;
+        default:
+            return 1;
+            break;
+    }
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIndentifier = @"CellIndentifier";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIndentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
-    }
     
-    //[tableView setSeparatorColor:[UIColor blueColor]];
-    NSString *currentItem = self.dataList[indexPath.row];
-    cell.textLabel.text = currentItem;
-    UIView *bgColorView = [[UIView alloc] init];
-    bgColorView.backgroundColor = (self.selectedItem && [self.selectedItem isEqualToString:currentItem])  ? [UIColor colorWithHexString:kBannerBgColor] : [UIColor whiteColor];
-    cell.backgroundView = bgColorView;
-
-//    
-//    cell.separatorInset = UIEdgeInsetsZero;
-//    if ([cell respondsToSelector:@selector(preservesSuperviewLayoutMargins)]){
-//        cell.layoutMargins = UIEdgeInsetsZero;
-//        cell.preservesSuperviewLayoutMargins = false;
-//    }
-    return cell;
+    if (indexPath.section == 0) {
+        SearchTableViewCell *cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"search"];
+        cell.searchBar.delegate = self;
+        return cell;
+    }
+    if (indexPath.section == 1) {
+        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"selected"];
+        cell.textLabel.text = self.selectedItem;
+        return cell;
+    }
+    else {
+        static NSString *CellIndentifier = @"CellIndentifier";
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIndentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
+        }
+        if (_isSearch) {
+            cell.textLabel.text = self.dataList[indexPath.row];
+        }
+        else{
+             NSString *currentItem = self.searchItems[indexPath.row];
+            cell.textLabel.text = currentItem;
+         }
+        return cell;
+    }
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    if (section == 1) {
+        NSString *string1 = @"已选";
+        return string1;
+    }
+    if (section == 2) {
+        NSString *string2 = @"列表";
+        return string2;
+    }
+    else{
+        return NULL;
+    }
+}
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 30.0;
+    if (indexPath.section == 0) {
+        return 50;
+    }
+    else {
+        return 30.0;
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *selectedItem = self.dataList[indexPath.row];
-    
     NSString *selectedItemPath = [NSString stringWithFormat:@"%@.selected_item", [FileUtils reportJavaScriptDataPath:self.user.groupID templateID:self.templateID reportID:self.reportID]];
     [selectedItem writeToFile:selectedItemPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    
     [self actionBack:nil];
 }
+
+- (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+   // [self SearchValueChanged:searchBar.text];
+    self.isSearch = YES;
+}
+
+- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self SearchValueChanged:searchBar.text];
+    [searchBar resignFirstResponder];
+}
+
 @end

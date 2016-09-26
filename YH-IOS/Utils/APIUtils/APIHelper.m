@@ -27,6 +27,7 @@
     NSString *assetsPath = [userspacePath stringByAppendingPathComponent:kHTMLDirName];
     
     NSString *reportDataFileName = [NSString stringWithFormat:kReportDataFileName, groupID, templateID, reportID];
+    NSString *unzipFileName = [NSString stringWithFormat:kUnzipReportDataFileName, groupID, reportID, templateID];
     NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
     javascriptPath = [javascriptPath stringByAppendingPathComponent:reportDataFileName];
     
@@ -34,7 +35,7 @@
         [HttpUtils clearHttpResponeHeader:urlString assetsPath:assetsPath];
     }
     
-    HttpResponse *httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:assetsPath];
+    HttpResponse *httpResponse = [HttpUtils checkReportResponseHeader:urlString assetsPath:assetsPath withFileName:javascriptPath withUpzip:unzipFileName];
     
     if([httpResponse.statusCode isEqualToNumber:@(200)] && httpResponse.string) {
         NSError *error = nil;

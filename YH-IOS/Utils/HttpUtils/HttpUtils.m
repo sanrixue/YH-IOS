@@ -66,6 +66,44 @@
     return httpResponse;
 }
 
++ (HttpResponse *)httpDown:(NSString *)urlString header:(NSDictionary *)header timeoutInterval:(NSTimeInterval)timeoutInterval withLocalPath:(NSString *)savePath  withfileName:(NSString *)fileName {
+    urlString  = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    LogGreen(@"\nPOST:\n%@\n", urlString);
+    
+    NSURL *url = [NSURL URLWithString:urlString];
+    __block HttpResponse *httpResponse;
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:timeoutInterval];
+    [request setValue:[self webViewUserAgent] forHTTPHeaderField:@"User-Agent"];
+    
+    if(header) {
+        for(NSString *key in header) {
+            [request setValue:header[key] forHTTPHeaderField:key];
+        }
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:header options:NSJSONWritingPrettyPrinted error:nil];
+        LogGreen(@"\nParams:\n%@\n", [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]);
+    }
+    
+    NSURLSession *Session = [NSURLSession sharedSession];
+    NSURLSessionDownloadTask *downLoadTask = [Session downloadTaskWithRequest:request completionHandler:^(NSURL *location, NSURLResponse *response,NSError *error){
+    httpResponse.received = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    httpResponse.response = (NSHTTPURLResponse*)response;
+        NSString *cachePath = [FileUtils dirPath:@"Cache"];
+        NSString *cacheFilePath = [cachePath stringByAppendingPathComponent:[NSString  stringWithFormat:@"%@.zip",fileName]];
+        if ([FileUtils checkFileExist:savePath isDir:YES]) {
+            [FileUtils removeFile:savePath];
+        }
+        [[NSFileManager defaultManager]copyItemAtURL:location toURL:[NSURL fileURLWithPath:cacheFilePath isDirectory:YES] error:nil];
+        [SSZipArchive unzipFileAtPath:cacheFilePath toDestination:cachePath];
+        [FileUtils removeFile:cacheFilePath];
+        [[NSFileManager defaultManager]copyItemAtPath:[cachePath stringByAppendingPathComponent:fileName] toPath:savePath error:nil];
+        [FileUtils removeFile:[cachePath stringByAppendingPathComponent:fileName]];
+        NSLog(@"%@",savePath);
+    }];
+    [downLoadTask resume];
+    return httpResponse;
+}
+
+
 
 /**
  *  应用从服务器获取数据，设置超时时间为: 15.0秒
@@ -216,6 +254,39 @@
     }
     
     HttpResponse *httpResponse = [self httpGet:urlString header:header timeoutInterval:10.0];
+    //HttpResponse *httpResponse = [self httpDown:urlString header:header timeoutInterval:10.0];
+    
+    if(![httpResponse.statusCode isEqualToNumber:@(304)]) {
+        if(!cachedHeaderDict) {
+            cachedHeaderDict = [NSMutableDictionary dictionary];
+        }
+        
+        cachedHeaderDict[urlString] = httpResponse.response.allHeaderFields;
+        [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
+    }
+    NSLog(@"%@ - %@", urlString, httpResponse.statusCode);
+    
+    return httpResponse;
+}
+
++ (HttpResponse *)checkReportResponseHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath withFileName:(NSString *)loactionPath  withUpzip :(NSString *)unzipFileName{
+    urlString = [self urlCleaner:urlString];
+    NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:kCachedHeaderConfigFileName];
+    NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
+    
+    NSMutableDictionary *header = [NSMutableDictionary dictionary];
+    if(cachedHeaderDict[urlString]) {
+        if(cachedHeaderDict[urlString][@"Etag"]) {
+            header[@"IF-None-Match"] = cachedHeaderDict[urlString][@"Etag"];
+        }
+        
+        if(cachedHeaderDict[urlString][@"Last-Modified"]) {
+            header[@"If-Modified-Since"] = cachedHeaderDict[urlString][@"Last-Modified"];
+        }
+    }
+    
+   // HttpResponse *httpResponse = [self httpGet:urlString header:header timeoutInterval:10.0];
+    HttpResponse *httpResponse = [self httpDown:urlString header:header timeoutInterval:10.0 withLocalPath:loactionPath withfileName:unzipFileName];
     
     if(![httpResponse.statusCode isEqualToNumber:@(304)]) {
         if(!cachedHeaderDict) {

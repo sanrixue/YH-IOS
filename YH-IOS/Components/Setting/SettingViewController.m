@@ -43,6 +43,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (strong, nonatomic) Version *version;
 @property (strong, nonatomic) NSMutableDictionary *noticeDict;
 @property (strong, nonatomic) NSString *noticeFilePath;
+
 @end
 
 @implementation SettingViewController
@@ -579,7 +580,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             }
         });
     }
-    [self.settingTableView reloadData];
 }
 
 - (void)actionLogout{

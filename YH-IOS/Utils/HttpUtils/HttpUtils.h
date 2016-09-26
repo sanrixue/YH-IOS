@@ -119,6 +119,8 @@
 
 + (void)uploadImage :(NSString *)uploadPath withImagePath:(NSString *)imagePath withImageName: (NSString *)imageName;
 + (void)downLoadFile:(NSString *)fileUrl withSavePath:(NSString *)savePath;
++ (HttpResponse *)httpDown:(NSString *)urlString header:(NSDictionary *)header timeoutInterval:(NSTimeInterval)timeoutInterval withLocalPath:(NSString *)savePath withfileName:(NSString *)fileName;
++ (HttpResponse *)checkReportResponseHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath withFileName:(NSString *)loactionPath withUpzip :(NSString *)unzipFileName;
 @end
 
 #endif

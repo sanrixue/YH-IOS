@@ -10,13 +10,17 @@
 #import "User.h"
 #import "FileUtils.h"
 #import "ScanResultViewController.h"
+#import "SearchTableViewCell.h"
 
-@interface SelectStoreViewController ()<UINavigationBarDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface SelectStoreViewController ()<UINavigationBarDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataList;
 @property (strong, nonatomic) User *user;
 @property (strong, nonatomic) NSDictionary *currentStore;
+@property (assign, nonatomic) BOOL isSearch;
+@property (strong, nonatomic) NSArray *searchItems;
+@property (strong, nonatomic) NSString *selectedItem;
 
 @end
 
@@ -25,7 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.dataList = [NSMutableArray array];
+    self.searchItems = [NSMutableArray array];
     
     NSString *barCodePath = [FileUtils dirPath:kCachedDirName FileName:kBarCodeResultFileName];
     NSMutableDictionary *cachedDict = [FileUtils readConfigFile:barCodePath];
@@ -34,14 +38,17 @@
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if(userDict[kStoreIDsCUName] && [userDict[kStoreIDsCUName] count] > 0) {
-        self.dataList =userDict[kStoreIDsCUName];
+        self.searchItems =userDict[kStoreIDsCUName];
     }
     
     /**
      *  筛选项列表按字母排序，以便于用户查找
      */
     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-    self.dataList = [self.dataList sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+    self.searchItems = [self.searchItems sortedArrayUsingDescriptors:[NSArray arrayWithObjects:descriptor,nil]];
+    if((self.selectedItem == NULL || [self.selectedItem length] == 0) && [self.searchItems count] > 0) {
+        self.selectedItem = [self.searchItems firstObject][@"name"];
+    }
     
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
     topView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
@@ -60,7 +67,7 @@
     [topView addSubview:backBtn];
     [backBtn addTarget:self action:@selector(actionBannerBack) forControlEvents:UIControlEventTouchUpInside];
     
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height-50) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height-50) style:UITableViewStyleGrouped];
     [self.view addSubview:self.tableView];
     
     self.tableView.dataSource = self;
@@ -72,8 +79,34 @@
         self.tableView.dataSource = nil;
         self.tableView.delegate = nil;
         self.tableView = nil;
-        self.dataList = nil;
+        self.searchItems = nil;
     }];
+}
+
+/**
+ *  监听输入框内容变化
+ *
+ *  @param notifice notifice
+ */
+- (void)SearchValueChanged:(NSString *)notifice {
+    // UITextField *field = [notifice object];
+    NSString *searchText = notifice;
+    
+    if([searchText length] > 0) {
+        NSString *predicateStr = [NSString stringWithFormat:@"(SELF CONTAINS \"%@\")", searchText];
+        NSPredicate *sPredicate = [NSPredicate predicateWithFormat:predicateStr];
+        NSMutableArray *array = [[NSMutableArray alloc]init];
+        for (int i = 0; i < self.searchItems.count; i ++) {
+            [array  addObject:self.searchItems[i][@"name"]];
+        }
+        [array filterUsingPredicate:sPredicate];
+        self.dataList = [NSArray arrayWithArray:array];
+    }
+    else {
+        self.dataList = [self.searchItems copy];
+    }
+    
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -81,41 +114,96 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (_isSearch) {
+        return (section == 1)? _dataList.count : 1;
+    }
+    else {
+        return (section == 2) ? _searchItems.count : 1;
+    }
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dataList.count;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return (_isSearch) ? 2 : 3;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell  *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-
-    NSString *storeName = self.dataList[indexPath.row][@"name"];
-    cell.textLabel.text = storeName;
-    
-    if (self.currentStore && [storeName isEqualToString:self.currentStore[@"name"]]) {
-        cell.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
+    static NSString *CellIndentifier = @"CellIndentifier";
+    if (_isSearch) {
+        if (indexPath.section == 0) {
+            SearchTableViewCell *cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"search"];
+            cell.searchBar.delegate = self;
+            return cell;
+        }
+        else {
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIndentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
+            }
+            cell.textLabel.text = self.dataList[indexPath.row];
+            return cell;
+        }
     }
-    
-    return cell;
+    else {
+        if (indexPath.section == 0) {
+            SearchTableViewCell *cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"search"];
+            cell.searchBar.delegate = self;
+            return cell;
+        }
+        if (indexPath.section == 1) {
+            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"selected"];
+            cell.textLabel.text = self.selectedItem;
+            return cell;
+        }
+        else {
+            static NSString *CellIndentifier = @"CellIndentifier";
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIndentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
+            }
+            NSString *currentItem = self.searchItems[indexPath.row][@"name"];
+            cell.textLabel.text = currentItem;
+            return cell;
+        }
+    }
+}
+
+#pragma mark - UITableViewDelegate
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return (section == 0) ? 0.001:30;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    NSArray *array = (_isSearch)? @[@"",@"列表"]:@[@"",@"已选",@"未选"];
+    return array[section];
 }
 
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 30.0;
+    return (indexPath.section == 0) ? 50 : 30 ;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *barCodePath = [FileUtils dirPath:kCachedDirName FileName:kBarCodeScanFileName];
     NSMutableDictionary *cachedDict = [FileUtils readConfigFile:barCodePath];
     NSDictionary *currentStore = self.dataList[indexPath.row];
-    
     cachedDict[@"store"] = @{ @"id": currentStore[@"id"], @"name": currentStore[@"name"]};
     [FileUtils writeJSON:cachedDict Into:barCodePath];
     
     [self actionBannerBack];
 }
+
+- (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    // [self SearchValueChanged:searchBar.text];
+    self.isSearch = YES;
+}
+
+- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self SearchValueChanged:searchBar.text];
+    [searchBar resignFirstResponder];
+}
+
 @end

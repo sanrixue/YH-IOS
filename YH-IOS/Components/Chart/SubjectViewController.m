@@ -495,49 +495,24 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (UIImage *)saveWebViewAsImage {
-    CGFloat scale = [UIScreen mainScreen].scale;
-    CGSize boundsSize = self.browser.bounds.size;
-    CGFloat boundsWidth = boundsSize.width;
-    CGFloat boundsHeight = boundsSize.height;
-    CGSize contentSize = self.browser.scrollView.contentSize;
-    CGFloat contentHeight = contentSize.height;
-    CGPoint offset = self.browser.scrollView.contentOffset;
-    [self.browser.scrollView setContentOffset:CGPointMake(0, 0)];
-    NSMutableArray *images = [NSMutableArray array];
-    int number = 0;
-    //将整个webview 分成若干图片
-    while (contentHeight > 0 && number < 2) {
-        UIGraphicsBeginImageContextWithOptions(boundsSize, NO, 0.0);//生成一个透明的图形
-        [self.browser.layer renderInContext:UIGraphicsGetCurrentContext()];//使用webview内容渲染该图形
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();//获取该图形
-        UIGraphicsEndImageContext();//关闭上下文
-         CGContextRelease(UIGraphicsGetCurrentContext());
-        [images addObject:image];
-        CGFloat offsetY = self.browser.scrollView.contentOffset.y;
-        [self.browser.scrollView setContentOffset:CGPointMake(0, offsetY + boundsHeight)];
-        contentHeight -= boundsHeight;
-        number ++;
+    UIScrollView *scrollview = self.browser.scrollView;
+    UIImage *image = nil;
+    CGSize boundsSize = self.browser.scrollView.contentSize;
+    if (boundsSize.height > kScreenHeight * 6) {
+        boundsSize.height = kScreenHeight * 6;
     }
-    
-    [self.browser.scrollView setContentOffset:offset];
-    CGSize imageSize = CGSizeMake(contentSize.width * scale,
-                                  contentSize.height * scale);
-    @try {
-        UIGraphicsBeginImageContext(imageSize);
-        //将数组中的每一图片重写编写位置。并生成完整的图片
-        [images enumerateObjectsUsingBlock:^(UIImage *image, NSUInteger idx, BOOL *stop) {
-            [image drawInRect:CGRectMake(0,
-                                         scale * boundsHeight * idx,
-                                         scale * boundsWidth,
-                                         scale * boundsHeight)];
-        }];
-    } @catch (NSException *exception) {
-         NSLog(@"%@", exception);
-         UIGraphicsEndImageContext();
-    }
-    UIImage *fullImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsBeginImageContextWithOptions(boundsSize ,NO, 0.0);
+    CGPoint savedContentOffset = scrollview.contentOffset;
+    CGRect savedFrame = scrollview.frame;
+    scrollview.contentOffset = CGPointZero;
+    scrollview.frame = CGRectMake(0,0, boundsSize.width, boundsSize.height);
+    [scrollview.layer renderInContext: UIGraphicsGetCurrentContext()];
+    image = UIGraphicsGetImageFromCurrentImageContext();
+    scrollview.contentOffset = savedContentOffset;
+    scrollview.frame = savedFrame;
     UIGraphicsEndImageContext();
-     CGContextRelease(UIGraphicsGetCurrentContext());
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.1);
+    UIImage *fullImage = [UIImage imageWithData:imageData];
     return fullImage;
 }
 

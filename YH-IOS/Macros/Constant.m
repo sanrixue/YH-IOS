@@ -201,8 +201,5 @@ NSString *const kViewInstantBtnText  = @"立即查看";
  *  Config#BarCodeScan
  */
 NSString *kBarCodeScanFolderName = @"BarCodeScan";
-<<<<<<< HEAD
-NSString *kBarCodeScanFileName  = @"scan_bar_code.html";
-=======
 NSString *kBarCodeScanFileName   = @"scan_bar_code.html";
->>>>>>> 95fecd5d784a1ce81f2ea63522172c4c622d26ff
+

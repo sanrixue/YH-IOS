@@ -12,7 +12,7 @@
 #import "FileUtils.h"
 #import "Version.h"
 #import "OpenUDID.h"
-
+#import <SSZipArchive/SSZipArchive.h>
 @implementation APIHelper
 
 + (NSString *)reportDataUrlString:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID  {
@@ -27,7 +27,6 @@
     NSString *assetsPath = [userspacePath stringByAppendingPathComponent:kHTMLDirName];
     
     NSString *reportDataFileName = [NSString stringWithFormat:kReportDataFileName, groupID, templateID, reportID];
-    NSString *unzipFileName = [NSString stringWithFormat:kUnzipReportDataFileName, groupID, reportID, templateID];
     NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
     javascriptPath = [javascriptPath stringByAppendingPathComponent:reportDataFileName];
     
@@ -35,18 +34,20 @@
         [HttpUtils clearHttpResponeHeader:urlString assetsPath:assetsPath];
     }
     
-    HttpResponse *httpResponse = [HttpUtils checkReportResponseHeader:urlString assetsPath:assetsPath withFileName:javascriptPath withUpzip:unzipFileName];
-    
-    if([httpResponse.statusCode isEqualToNumber:@(200)] && httpResponse.string) {
-        NSError *error = nil;
-        [httpResponse.string writeToFile:javascriptPath atomically:YES encoding:NSUTF8StringEncoding error:&error];
-        if(error) { NSLog(@"%@ - %@", error.description, javascriptPath); }
-        
-        NSString *searchItemsPath = [NSString stringWithFormat:@"%@.search_items", javascriptPath];
-        if([FileUtils checkFileExist:searchItemsPath isDir:NO]) {
-            [FileUtils removeFile:searchItemsPath];
+    HttpResponse *httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:assetsPath];
+    if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
+        NSString *cachePath = [FileUtils dirPath:@"Cache"];
+        NSString *cacheFilePath = [cachePath stringByAppendingPathComponent:[NSString  stringWithFormat:@"%@.zip",reportDataFileName]];
+        [httpResponse.received writeToFile:cacheFilePath atomically:YES];
+        [SSZipArchive unzipFileAtPath:cacheFilePath toDestination:cachePath];
+        [FileUtils removeFile:cacheFilePath];
+        if ([FileUtils checkFileExist:javascriptPath isDir:YES]) {
+            [FileUtils removeFile:javascriptPath];
         }
+        [[NSFileManager defaultManager]copyItemAtPath:[cachePath stringByAppendingPathComponent:reportDataFileName] toPath:javascriptPath error:nil];
+        [FileUtils removeFile:[cachePath stringByAppendingPathComponent:reportDataFileName]];
     }
+    
 }
 
 /**

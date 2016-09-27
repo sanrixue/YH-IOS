@@ -58,6 +58,7 @@ extern NSString *const kPushDeviceTokenAPIPath;
 extern NSString *const kBarCodeScanAPIPath;
 extern NSString *const kDownloadAssetsAPIPath;
 extern NSString *const kUploadGravatarAPIPath;
+extern NSString *const kUnzipReportDataFileName;
 
 /**
  *  Mobile#View Path

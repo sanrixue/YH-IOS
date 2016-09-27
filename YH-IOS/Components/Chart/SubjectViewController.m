@@ -19,7 +19,7 @@
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate>
+@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate>
 
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (assign, nonatomic) BOOL isSupportSearch;
@@ -32,6 +32,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @property (strong, nonatomic) NSArray *dropMenuTitles;
 @property (strong, nonatomic) NSArray *dropMenuIcons;
+@property (assign, nonatomic) BOOL isLoadFinish;
 
 @end
 
@@ -39,6 +40,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.isLoadFinish = NO;
     
     /**
      * 被始化页面样式
@@ -51,7 +53,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     self.urlString   = self.link;
-    
+    self.browser.delegate = self;
     self.browser.delegate = self;
     if(self.isInnerLink) {
         /*
@@ -319,6 +321,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             [self clearBrowserCache];
             NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+            self.isLoadFinish = !self.browser.isLoading;
         });
     });
 }
@@ -460,57 +463,56 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)actionWebviewScreenShot{
-    UIImage *image = [self saveWebViewAsImage];
-    
-    // End the graphics context
-    UIGraphicsEndImageContext();
-    
-    [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
-    [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
-    [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
-    [UMSocialSnsService presentSnsIconSheetView:self
-                                         appKey:kUMAppId
-                                      shareText:self.bannerName
-                                     shareImage:image
-                                shareToSnsNames:@[UMShareToWechatSession]
-                                       delegate:self];
+    if (self.isLoadFinish) {
+        @try {
+            UIImage *image = [self saveWebViewAsImage];
+            [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
+            [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
+            [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
+            [UMSocialSnsService presentSnsIconSheetView:self
+                                                 appKey:kUMAppId
+                                              shareText:self.bannerName
+                                             shareImage:image
+                                        shareToSnsNames:@[UMShareToWechatSession]
+                                               delegate:self];
+        } @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    }
+    else {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"分享提示"
+                                                                       message:@"正在加载数据，请稍后分享"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  self.isLoadFinish = self.browser.isLoading;
+                                                              }];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 - (UIImage *)saveWebViewAsImage {
-    CGFloat scale = [UIScreen mainScreen].scale;
-    CGSize boundsSize = self.browser.bounds.size;
-    CGFloat boundsWidth = boundsSize.width;
-    CGFloat boundsHeight = boundsSize.height;
-    CGSize contentSize = self.browser.scrollView.contentSize;
-    CGFloat contentHeight = contentSize.height;
-    CGPoint offset = self.browser.scrollView.contentOffset;
-    [self.browser.scrollView setContentOffset:CGPointMake(0, 0)];
-    NSMutableArray *images = [NSMutableArray array];
-    //将整个webview 分成若干图片
-    while (contentHeight > 0) {
-        UIGraphicsBeginImageContextWithOptions(boundsSize, NO, 0.0);//生成一个透明的图形
-        [self.browser.layer renderInContext:UIGraphicsGetCurrentContext()];//使用webview内容渲染该图形
-        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();//获取该图形
-        UIGraphicsEndImageContext();//关闭上下文
-        [images addObject:image];
-        CGFloat offsetY = self.browser.scrollView.contentOffset.y;
-        [self.browser.scrollView setContentOffset:CGPointMake(0, offsetY + boundsHeight)];
-        contentHeight -= boundsHeight;
+    UIScrollView *scrollview = self.browser.scrollView;
+    UIImage *image = nil;
+    CGSize boundsSize = self.browser.scrollView.contentSize;
+    if (boundsSize.height > kScreenHeight * 6) {
+        boundsSize.height = kScreenHeight * 6;
     }
-    
-    [self.browser.scrollView setContentOffset:offset];
-    CGSize imageSize = CGSizeMake(contentSize.width * scale,
-                                  contentSize.height * scale);
-    UIGraphicsBeginImageContext(imageSize);
-    //将数组中的每一图片重写编写位置。并生成完整的图片
-    [images enumerateObjectsUsingBlock:^(UIImage *image, NSUInteger idx, BOOL *stop) {
-        [image drawInRect:CGRectMake(0,
-                                     scale * boundsHeight * idx,
-                                     scale * boundsWidth,
-                                     scale * boundsHeight)];
-    }];
-    UIImage *fullImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsBeginImageContextWithOptions(boundsSize ,NO, 0.0);
+    CGPoint savedContentOffset = scrollview.contentOffset;
+    CGRect savedFrame = scrollview.frame;
+    scrollview.contentOffset = CGPointZero;
+    scrollview.frame = CGRectMake(0,0, boundsSize.width, boundsSize.height);
+    [scrollview.layer renderInContext: UIGraphicsGetCurrentContext()];
+    image = UIGraphicsGetImageFromCurrentImageContext();
+    scrollview.contentOffset = savedContentOffset;
+    scrollview.frame = savedFrame;
     UIGraphicsEndImageContext();
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.1);
+    UIImage *fullImage = [UIImage imageWithData:imageData];
     return fullImage;
 }
 
@@ -545,6 +547,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 #pragma mark - UIWebview delegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    NSLog(@"页面加载完成");
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {

@@ -20,7 +20,7 @@ NSString *const kIsUrlWrite2Local = @"1";
  *  API#paths
  */
 NSString *const kUserAuthenticateAPIPath = @"%@/api/v1/%@/%@/%@/authentication";
-NSString *const kReportDataAPIPath       = @"%@/api/v1/group/%@/template/%@/report/%@/attachment";
+NSString *const kReportDataAPIPath       = @"%@/api/v1/group/%@/template/%@/report/%@/zip";
 NSString *const kCommentAPIPath          = @"%@/api/v1/user/%@/id/%@/type/%@";
 NSString *const kScreenLockAPIPath       = @"%@/api/v1/user_device/%@/screen_lock";
 NSString *const kDeviceStateAPIPath      = @"%@/api/v1/user_device/%@/state";
@@ -51,6 +51,7 @@ NSString *const kAssetsDirName = @"Assets";
 NSString *const kSharedDirName = @"Shared";
 NSString *const kCachedDirName = @"Cached";
 NSString *const kReportDataFileName              = @"group_%@_template_%@_report_%@.js";
+NSString *const kUnzipReportDataFileName         = @"group_%@_report_%@_template_%@.js";
 NSString *const kUserConfigFileName              = @"user.plist";
 NSString *const kPushConfigFileName              = @"push_message.plist";
 NSString *const kSettingConfigFileName           = @"setting.plist";
@@ -201,3 +202,4 @@ NSString *const kViewInstantBtnText  = @"立即查看";
  */
 NSString *kBarCodeScanFolderName = @"BarCodeScan";
 NSString *kBarCodeScanFileName   = @"scan_bar_code.html";
+

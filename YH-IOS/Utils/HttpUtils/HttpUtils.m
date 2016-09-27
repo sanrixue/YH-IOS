@@ -215,7 +215,6 @@
     }
     
     HttpResponse *httpResponse = [self httpGet:urlString header:header timeoutInterval:10.0];
-    //HttpResponse *httpResponse = [self httpDown:urlString header:header timeoutInterval:10.0];
     
     if(![httpResponse.statusCode isEqualToNumber:@(304)]) {
         if(!cachedHeaderDict) {

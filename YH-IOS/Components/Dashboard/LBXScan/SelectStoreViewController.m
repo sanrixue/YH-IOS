@@ -94,12 +94,9 @@
     NSString *searchText = notifice;
     
     if([searchText length] > 0) {
-        NSString *predicateStr = [NSString stringWithFormat:@"(SELF CONTAINS \"%@\")", searchText];
+        NSString *predicateStr = [NSString stringWithFormat:@"(SELF['name'] CONTAINS \"%@\")", searchText];
         NSPredicate *sPredicate = [NSPredicate predicateWithFormat:predicateStr];
-        NSMutableArray *array = [[NSMutableArray alloc]init];
-        for (int i = 0; i < self.searchItems.count; i ++) {
-            [array  addObject:self.searchItems[i][@"name"]];
-        }
+        NSMutableArray *array = [NSMutableArray arrayWithArray:self.searchItems];
         [array filterUsingPredicate:sPredicate];
         self.searchArray = [NSArray arrayWithArray:array];
     }
@@ -141,7 +138,7 @@
             if (cell == nil) {
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
             }
-            cell.textLabel.text = self.searchArray[indexPath.row];
+            cell.textLabel.text = self.searchArray[indexPath.row][@"name"];
             return cell;
         }
     }

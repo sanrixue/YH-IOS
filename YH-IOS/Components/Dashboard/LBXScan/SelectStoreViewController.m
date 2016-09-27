@@ -21,6 +21,7 @@
 @property (assign, nonatomic) BOOL isSearch;
 @property (strong, nonatomic) NSArray *searchItems;
 @property (strong, nonatomic) NSString *selectedItem;
+@property (strong, nonatomic) NSArray *searchArray;
 
 @end
 
@@ -100,10 +101,10 @@
             [array  addObject:self.searchItems[i][@"name"]];
         }
         [array filterUsingPredicate:sPredicate];
-        self.dataList = [NSArray arrayWithArray:array];
+        self.searchArray = [NSArray arrayWithArray:array];
     }
     else {
-        self.dataList = [self.searchItems copy];
+        self.searchArray = [self.searchItems copy];
     }
     
     [self.tableView reloadData];
@@ -116,7 +117,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (_isSearch) {
-        return (section == 1)? _dataList.count : 1;
+        return (section == 1)? _searchArray.count : 1;
     }
     else {
         return (section == 2) ? _searchItems.count : 1;
@@ -140,7 +141,7 @@
             if (cell == nil) {
                 cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
             }
-            cell.textLabel.text = self.dataList[indexPath.row];
+            cell.textLabel.text = self.searchArray[indexPath.row];
             return cell;
         }
     }
@@ -189,7 +190,9 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *barCodePath = [FileUtils dirPath:kCachedDirName FileName:kBarCodeScanFileName];
     NSMutableDictionary *cachedDict = [FileUtils readConfigFile:barCodePath];
-    NSDictionary *currentStore = self.dataList[indexPath.row];
+    NSDictionary *currentStore;
+    currentStore =(_isSearch) ? self.searchArray[indexPath.row] :self.searchItems[indexPath.row];
+    
     cachedDict[@"store"] = @{ @"id": currentStore[@"id"], @"name": currentStore[@"name"]};
     [FileUtils writeJSON:cachedDict Into:barCodePath];
     

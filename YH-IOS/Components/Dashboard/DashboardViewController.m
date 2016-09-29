@@ -77,7 +77,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self setTabBarItems];
     [self receivePushMessageParams];
     [self initTabClick];
-    [self setNotificationBadgeTimer];
+    [self getNewNotifiaction];
     
     /*
      * 解屏进入主页面，需检测版本更新
@@ -94,6 +94,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      *  广告位隐藏于否
      */
     if(!kDashboardAd) { [self hideAdertWebView]; }
+}
+
+- (void)getNewNotifiaction {
+    dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
+    dispatch_after(time, dispatch_get_main_queue(), ^{
+        [self setNotificationBadgeTimer];
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated {

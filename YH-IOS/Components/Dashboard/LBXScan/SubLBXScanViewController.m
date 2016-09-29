@@ -158,7 +158,6 @@
     [alert showInfo:self title:@"扫码内容" subTitle:strResult closeButtonTitle:nil duration:0.0f];
 }
 
-
 #pragma mark -底部功能项
 
 //打开相册

@@ -272,6 +272,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     NSLog(@"%@", self.urlString);
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
+    self.isLoadFinish = !self.browser.isLoading;
 }
 
 - (void)loadInnerLink {

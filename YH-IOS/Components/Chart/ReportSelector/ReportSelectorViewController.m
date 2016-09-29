@@ -150,7 +150,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSArray *array = (_isSearch)? @[@"",@"列表"]:@[@"",@"已选",@"未选"];
+    NSArray *array = (_isSearch)? @[@"",@"列表"]:@[@"",@"已选门店",@"所有门店"];
     return array[section];
 }
 

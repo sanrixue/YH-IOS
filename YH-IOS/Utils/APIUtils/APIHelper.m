@@ -42,10 +42,9 @@
         if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
             [FileUtils removeFile:javascriptPath];
         }
-        [[NSFileManager defaultManager]copyItemAtPath:[cachePath stringByAppendingPathComponent:reportDataFileName] toPath:javascriptPath error:nil];
+        [[NSFileManager defaultManager] copyItemAtPath:[cachePath stringByAppendingPathComponent:reportDataFileName] toPath:javascriptPath error:nil];
         [FileUtils removeFile:[cachePath stringByAppendingPathComponent:reportDataFileName]];
     }
-    
 }
 
 /**

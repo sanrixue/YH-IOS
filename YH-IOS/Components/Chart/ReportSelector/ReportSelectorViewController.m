@@ -11,7 +11,6 @@
 #import "SearchTableViewCell.h"
 
 @interface ReportSelectorViewController ()<UISearchBarDelegate> {
-    
     NSString *searchingText;
 }
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -46,7 +45,6 @@
      *  self.searchItems 不做任何修改，列表源使用变量 self.dataList
      */
     self.searchItems = [self.searchItems sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-    
     
     self.dataList = [self.searchItems copy];
     self.labelTheme.text = self.bannerName;
@@ -88,10 +86,10 @@
         _isSearch = NO;
         [self.tableView reloadData];
     }
-    else{
+    else {
         [super dismissViewControllerAnimated:YES completion:^{
-        [self.progressHUD hide:YES];
-        self.progressHUD = nil;
+            [self.progressHUD hide:YES];
+            self.progressHUD = nil;
         }];
     }
 }
@@ -102,7 +100,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return (section == 0) ? 0.001:30;
+    return (section == 0) ? 0.001 : 30;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -125,12 +123,12 @@
             return cell;
         }
         else {
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIndentifier];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
-        }
-        cell.textLabel.text = self.dataList[indexPath.row];
-        return cell;
+            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIndentifier];
+            if (cell == nil) {
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
+            }
+            cell.textLabel.text = self.dataList[indexPath.row];
+            return cell;
         }
     }
     else {
@@ -140,15 +138,15 @@
             return cell;
         }
         if (indexPath.section == 1) {
-        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"selected"];
-        cell.textLabel.text = self.selectedItem;
-        return cell;
-    }
+            UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"selected"];
+            cell.textLabel.text = self.selectedItem;
+            return cell;
+        }
         else {
             static NSString *CellIndentifier = @"CellIndentifier";
             UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIndentifier];
             if (cell == nil) {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
+                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIndentifier];
             }
             NSString *currentItem = self.searchItems[indexPath.row];
             cell.textLabel.text = currentItem;
@@ -173,7 +171,7 @@
         selectedItem =(_isSearch) ?self.dataList[indexPath.row] : self.selectedItem;
     }
     if (indexPath.section == 2) {
-    selectedItem = self.searchItems[indexPath.row];
+        selectedItem = self.searchItems[indexPath.row];
     }
     NSString *selectedItemPath = [NSString stringWithFormat:@"%@.selected_item", [FileUtils reportJavaScriptDataPath:self.user.groupID templateID:self.templateID reportID:self.reportID]];
     [selectedItem writeToFile:selectedItemPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
@@ -183,18 +181,19 @@
     }];
 }
 
-- (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     searchingText =searchBar.text;
     self.isSearch = YES;
 }
 
-- (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     if ([searchText isEqualToString:@""]) {
         _isSearch = NO;
         [self.tableView reloadData];
     }
 }
-- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self SearchValueChanged:searchBar.text];
     searchingText = searchBar.text;
     [searchBar resignFirstResponder];

@@ -23,9 +23,7 @@
 + (void)reportData:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID {
     NSString *urlString = [self reportDataUrlString:groupID templateID:templateID reportID:reportID];
     
-    NSString *userspacePath = [FileUtils userspace];
-    NSString *assetsPath = [userspacePath stringByAppendingPathComponent:kHTMLDirName];
-    
+    NSString *assetsPath = [FileUtils dirPath:kHTMLDirName];
     NSString *reportDataFileName = [NSString stringWithFormat:kReportDataFileName, groupID, templateID, reportID];
     NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
     javascriptPath = [javascriptPath stringByAppendingPathComponent:reportDataFileName];
@@ -36,18 +34,17 @@
     
     HttpResponse *httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:assetsPath];
     if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
-        NSString *cachePath = [FileUtils dirPath:@"Cache"];
-        NSString *cacheFilePath = [cachePath stringByAppendingPathComponent:[NSString  stringWithFormat:@"%@.zip",reportDataFileName]];
+        NSString *cachePath = [FileUtils dirPath:kCachedDirName];
+        NSString *cacheFilePath = [cachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",reportDataFileName]];
         [httpResponse.received writeToFile:cacheFilePath atomically:YES];
         [SSZipArchive unzipFileAtPath:cacheFilePath toDestination:cachePath];
         [FileUtils removeFile:cacheFilePath];
-        if ([FileUtils checkFileExist:javascriptPath isDir:YES]) {
+        if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
             [FileUtils removeFile:javascriptPath];
         }
-        [[NSFileManager defaultManager]copyItemAtPath:[cachePath stringByAppendingPathComponent:reportDataFileName] toPath:javascriptPath error:nil];
+        [[NSFileManager defaultManager] copyItemAtPath:[cachePath stringByAppendingPathComponent:reportDataFileName] toPath:javascriptPath error:nil];
         [FileUtils removeFile:[cachePath stringByAppendingPathComponent:reportDataFileName]];
     }
-    
 }
 
 /**

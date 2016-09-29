@@ -10,14 +10,16 @@
 #import "ReportSelectorViewController.h"
 #import "SearchTableViewCell.h"
 
-@interface ReportSelectorViewController ()<UISearchBarDelegate>
+@interface ReportSelectorViewController ()<UISearchBarDelegate> {
+    
+    NSString *searchingText;
+}
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldSearch;
 @property (strong, nonatomic) NSArray *dataList;
 @property (strong, nonatomic) NSArray *searchItems;
 @property (strong, nonatomic) NSString *selectedItem;
 @property (assign, nonatomic) BOOL isSearch;
-@property (strong, nonatomic) UISearchBar *searchBar;
 @end
 
 @implementation ReportSelectorViewController
@@ -77,16 +79,21 @@
     else {
         self.dataList = [self.searchItems copy];
     }
-    
     [self.tableView reloadData];
 }
 
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
-    [super dismissViewControllerAnimated:YES completion:^{
+    if (_isSearch) {
+        _isSearch = NO;
+        [self.tableView reloadData];
+    }
+    else{
+        [super dismissViewControllerAnimated:YES completion:^{
         [self.progressHUD hide:YES];
         self.progressHUD = nil;
-    }];
+        }];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -114,6 +121,7 @@
         if (indexPath.section == 0) {
             SearchTableViewCell *cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"search"];
             cell.searchBar.delegate = self;
+            cell.searchBar.text = searchingText;
             return cell;
         }
         else {
@@ -160,19 +168,35 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *selectedItem = self.dataList[indexPath.row];
+    NSString *selectedItem ;
+    if (indexPath.section == 1) {
+        selectedItem =(_isSearch) ?self.dataList[indexPath.row] : self.selectedItem;
+    }
+    if (indexPath.section == 2) {
+    selectedItem = self.searchItems[indexPath.row];
+    }
     NSString *selectedItemPath = [NSString stringWithFormat:@"%@.selected_item", [FileUtils reportJavaScriptDataPath:self.user.groupID templateID:self.templateID reportID:self.reportID]];
     [selectedItem writeToFile:selectedItemPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-    [self actionBack:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.progressHUD hide:YES];
+        self.progressHUD = nil;
+    }];
 }
 
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
-    self.searchBar.text = searchBar.text;
+    searchingText =searchBar.text;
     self.isSearch = YES;
 }
 
+- (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if ([searchText isEqualToString:@""]) {
+        _isSearch = NO;
+        [self.tableView reloadData];
+    }
+}
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self SearchValueChanged:searchBar.text];
+    searchingText = searchBar.text;
     [searchBar resignFirstResponder];
 }
 

@@ -10,14 +10,16 @@
 #import "ReportSelectorViewController.h"
 #import "SearchTableViewCell.h"
 
-@interface ReportSelectorViewController ()<UISearchBarDelegate>
+@interface ReportSelectorViewController ()<UISearchBarDelegate> {
+    
+    NSString *searchingText;
+}
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldSearch;
 @property (strong, nonatomic) NSArray *dataList;
 @property (strong, nonatomic) NSArray *searchItems;
 @property (strong, nonatomic) NSString *selectedItem;
 @property (assign, nonatomic) BOOL isSearch;
-@property (strong, nonatomic) UISearchBar *searchBar;
 @end
 
 @implementation ReportSelectorViewController
@@ -77,16 +79,16 @@
     else {
         self.dataList = [self.searchItems copy];
     }
-    
     [self.tableView reloadData];
 }
 
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
-    [super dismissViewControllerAnimated:YES completion:^{
+
+        [super dismissViewControllerAnimated:YES completion:^{
         [self.progressHUD hide:YES];
         self.progressHUD = nil;
-    }];
+        }];
 }
 
 #pragma mark - UITableViewDataSource
@@ -114,6 +116,7 @@
         if (indexPath.section == 0) {
             SearchTableViewCell *cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"search"];
             cell.searchBar.delegate = self;
+            cell.searchBar.text = searchingText;
             return cell;
         }
         else {
@@ -167,12 +170,24 @@
 }
 
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
-    self.searchBar.text = searchBar.text;
+    searchingText =searchBar.text;
     self.isSearch = YES;
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if (!searchText) {
+        _isSearch = NO;
+        [self.tableView reloadData];
+    }
+}
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    _isSearch = NO;
+    [self.tableView reloadData];
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self SearchValueChanged:searchBar.text];
+    searchingText = searchBar.text;
     [searchBar resignFirstResponder];
 }
 

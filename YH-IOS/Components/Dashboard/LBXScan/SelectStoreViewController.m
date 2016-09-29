@@ -12,7 +12,10 @@
 #import "ScanResultViewController.h"
 #import "SearchTableViewCell.h"
 
-@interface SelectStoreViewController ()<UINavigationBarDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>
+@interface SelectStoreViewController ()<UINavigationBarDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>{
+    
+    NSString *searchingText;
+}
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) NSArray *dataList;
@@ -76,12 +79,18 @@
 }
 
 - (void)actionBannerBack {
-    [self dismissViewControllerAnimated:YES completion:^{
+    if (_isSearch) {
+        _isSearch = NO;
+        [self.tableView reloadData];
+    }
+    else {
+        [self dismissViewControllerAnimated:YES completion:^{
         self.tableView.dataSource = nil;
         self.tableView.delegate = nil;
         self.tableView = nil;
         self.searchItems = nil;
-    }];
+        }];
+    }
 }
 
 /**
@@ -130,6 +139,7 @@
     if (_isSearch) {
         if (indexPath.section == 0) {
             SearchTableViewCell *cell = [[SearchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"search"];
+            cell.searchBar.text = searchingText;
             cell.searchBar.delegate = self;
             return cell;
         }
@@ -188,21 +198,38 @@
     NSString *barCodePath = [FileUtils dirPath:kCachedDirName FileName:kBarCodeScanFileName];
     NSMutableDictionary *cachedDict = [FileUtils readConfigFile:barCodePath];
     NSDictionary *currentStore;
-    currentStore =(_isSearch) ? self.searchArray[indexPath.row] :self.searchItems[indexPath.row];
+    if (indexPath.section == 1) {
+        currentStore =(_isSearch) ? self.searchArray[indexPath.row] :self.currentStore;
+    }
+    if (indexPath.section == 2) {
+    currentStore = self.searchItems[indexPath.row];
+    }
     
     cachedDict[@"store"] = @{ @"id": currentStore[@"id"], @"name": currentStore[@"name"]};
     [FileUtils writeJSON:cachedDict Into:barCodePath];
     
-    [self actionBannerBack];
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.tableView.dataSource = nil;
+        self.tableView.delegate = nil;
+        self.tableView = nil;
+        self.searchItems = nil;
+    }];
 }
 
+- (void) searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if ([searchText isEqualToString:@""]) {
+        _isSearch = NO;
+        [self.tableView reloadData];
+    }
+}
 - (void) searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
-    // [self SearchValueChanged:searchBar.text];
+    searchingText =searchBar.text;
     self.isSearch = YES;
 }
 
 - (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     [self SearchValueChanged:searchBar.text];
+    searchingText = searchBar.text;
     [searchBar resignFirstResponder];
 }
 

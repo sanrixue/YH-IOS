@@ -12,7 +12,6 @@
 #import "LBXScanWrapper.h"
 #import <SCLAlertView.h>
 #import "ScanResultViewController.h"
-#import "LBXScanVideoZoomView.h"
 
 @interface SubLBXScanViewController ()
 @end

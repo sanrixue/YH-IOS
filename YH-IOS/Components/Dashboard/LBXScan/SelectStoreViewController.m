@@ -204,7 +204,6 @@
     if (indexPath.section == 2) {
     currentStore = self.searchItems[indexPath.row];
     }
-    
     cachedDict[@"store"] = @{ @"id": currentStore[@"id"], @"name": currentStore[@"name"]};
     [FileUtils writeJSON:cachedDict Into:barCodePath];
     

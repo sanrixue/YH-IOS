@@ -12,6 +12,7 @@
 #import "LBXScanWrapper.h"
 #import <SCLAlertView.h>
 #import "ScanResultViewController.h"
+#import "LBXScanVideoZoomView.h"
 
 @interface SubLBXScanViewController ()
 @end
@@ -26,8 +27,29 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     self.view.backgroundColor = [UIColor blackColor];
+    [self initScan];
+    
 }
 
+- (void)initScan {
+    __weak __typeof(self) weakSelf = self;
+    CGRect cropRect = CGRectZero;
+     if (self.isOpenInterestRect) {
+         cropRect = [LBXScanView getScanRectWithPreView:self.view style:self.style];
+     }
+    UIView *videoView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
+    videoView.backgroundColor = [UIColor clearColor];
+    [self.view insertSubview:videoView atIndex:0];
+    NSArray *array = [NSArray arrayWithObjects:AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode128Code, AVMetadataObjectTypeCode39Code,AVMetadataObjectTypeCode93Code,AVMetadataObjectTypeITF14Code,nil];
+    self.scanObj = [[LBXScanWrapper alloc]initWithPreView:videoView
+                                          ArrayObjectType:array
+                                                 cropRect:cropRect
+                                                  success:^(NSArray<LBXScanResult *> *array){
+                                                      [weakSelf scanResultWithArray:array];
+                                                  }];
+    
+    [self.scanObj setNeedCaptureImage:self.isNeedScanImage];
+}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
@@ -113,11 +135,11 @@
     [[[UIAlertView alloc] initWithTitle:@"提示" message:str delegate:nil cancelButtonTitle:@"知道" otherButtonTitles:nil] show];
 }
 
+
 - (void)scanResultWithArray:(NSArray<LBXScanResult*>*)array {
     
     if (array.count < 1) {
         [self popAlertMsgWithScanResult:nil];
-     
         return;
     }
     
@@ -157,6 +179,7 @@
     }];
     [alert showInfo:self title:@"扫码内容" subTitle:strResult closeButtonTitle:nil duration:0.0f];
 }
+
 
 #pragma mark -底部功能项
 

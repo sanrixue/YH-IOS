@@ -818,7 +818,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     //SubLBXScanViewController继承自LBXScanViewController
     //添加一些扫码或相册结果处理
     SubLBXScanViewController *vc = [SubLBXScanViewController new];
-    vc.style = style;
+    vc.style = style; 
     vc.isQQSimulator = YES;
     vc.isVideoZoom = YES;
     

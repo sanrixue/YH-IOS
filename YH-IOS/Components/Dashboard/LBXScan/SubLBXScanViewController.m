@@ -27,29 +27,10 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     self.view.backgroundColor = [UIColor blackColor];
-    [self initScan];
+    self.isOpenInterestRect = YES;
     
 }
 
-- (void)initScan {
-    __weak __typeof(self) weakSelf = self;
-    CGRect cropRect = CGRectZero;
-     if (self.isOpenInterestRect) {
-         cropRect = [LBXScanView getScanRectWithPreView:self.view style:self.style];
-     }
-    UIView *videoView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame))];
-    videoView.backgroundColor = [UIColor clearColor];
-    [self.view insertSubview:videoView atIndex:0];
-    NSArray *array = [NSArray arrayWithObjects:AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode128Code, AVMetadataObjectTypeCode39Code,AVMetadataObjectTypeCode93Code,AVMetadataObjectTypeITF14Code,nil];
-    self.scanObj = [[LBXScanWrapper alloc]initWithPreView:videoView
-                                          ArrayObjectType:array
-                                                 cropRect:cropRect
-                                                  success:^(NSArray<LBXScanResult *> *array){
-                                                      [weakSelf scanResultWithArray:array];
-                                                  }];
-    
-    [self.scanObj setNeedCaptureImage:self.isNeedScanImage];
-}
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     

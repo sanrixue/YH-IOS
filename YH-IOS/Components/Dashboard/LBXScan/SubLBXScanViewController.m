@@ -26,6 +26,8 @@
         self.edgesForExtendedLayout = UIRectEdgeNone;
     }
     self.view.backgroundColor = [UIColor blackColor];
+    self.isOpenInterestRect = YES;
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -113,11 +115,11 @@
     [[[UIAlertView alloc] initWithTitle:@"提示" message:str delegate:nil cancelButtonTitle:@"知道" otherButtonTitles:nil] show];
 }
 
+
 - (void)scanResultWithArray:(NSArray<LBXScanResult*>*)array {
     
     if (array.count < 1) {
         [self popAlertMsgWithScanResult:nil];
-     
         return;
     }
     
@@ -157,6 +159,7 @@
     }];
     [alert showInfo:self title:@"扫码内容" subTitle:strResult closeButtonTitle:nil duration:0.0f];
 }
+
 
 #pragma mark -底部功能项
 

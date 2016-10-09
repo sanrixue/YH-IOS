@@ -11,7 +11,7 @@
 #import "LBXScanView.h"
 #import "LBXScanWrapper.h"
 
-
+ 
 
 
 @interface LBXScanViewController : UIViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
@@ -32,8 +32,6 @@
  @brief  扫码区域视图,二维码一般都是框
  */
 @property (nonatomic,strong) LBXScanView* qRScanView;
-
-
 
 
 /**

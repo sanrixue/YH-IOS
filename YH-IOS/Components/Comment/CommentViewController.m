@@ -30,7 +30,6 @@
     }];
     
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        
         /*
          * 用户行为记录, 单独异常处理，不可影响用户体验
          */

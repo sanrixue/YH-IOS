@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>LBXAlertAction.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>LBXScan.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -30,11 +25,6 @@
 			<false/>
 		</dict>
 		<key>Pods-YH-IOS.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>QRCodeReaderViewController.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -67,12 +57,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>228A1890D914D757B3477DB081287AEB</key>
+		<key>2602F3D0DAC534568B6AD7EEA0DD1959</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2602F3D0DAC534568B6AD7EEA0DD1959</key>
+		<key>2E74DB916E454359278E88CD6325B631</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -82,27 +72,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>408669D2F040543BBF7959700CCDFCDE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>4C92304D7238AFB97C1D3B7A76C26609</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>622A1AC198C1950738113DEA8F8C4647</key>
+		<key>82E795CC07B8B3C44DF36567A8842EAD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7BD50638919A2C54A578A8ABCB42F3D6</key>
+		<key>881B8997C832D763DCD454040CA6F6D7</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>82561D370644F4C142EDE6253F0D01F7</key>
+		<key>97F4F920F5F868EA91F38FBFF484C46A</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9BB627B5E468FEA9E761DFC4E6F23423</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,17 +102,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F94358D3F300D35E92102117A01DE029</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>FE2F1D7B9D9FCEA148517E4657B243F4</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FE83EF077736BF2D6CDEA8C14F09E6F4</key>
 		<dict>
 			<key>primary</key>
 			<true/>

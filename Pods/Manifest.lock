@@ -20,12 +20,10 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
-  - LBXAlertAction (1.0.3)
   - LBXScan (1.1.2):
     - ZXingObjC (~> 3.0)
   - LTHPasscodeViewController (3.7.1)
   - MBProgressHUD (0.9.1)
-  - QRCodeReaderViewController (4.0.1)
   - Reachability (3.2)
   - SCLAlertView-Objective-C (0.7.9)
   - SSZipArchive (0.3.3)
@@ -37,11 +35,9 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.5.4)
-  - LBXAlertAction (~> 1.0.3)
   - LBXScan (from `https://github.com/MxABC/LBXScan.git`)
   - LTHPasscodeViewController (~> 3.7.1)
   - MBProgressHUD (~> 0.9.1)
-  - QRCodeReaderViewController (~> 4.0.1)
   - Reachability (~> 3.2)
   - SCLAlertView-Objective-C (~> 0.7.9)
   - SSZipArchive (~> 0.3.2)
@@ -65,11 +61,9 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
-  LBXAlertAction: e904f511f0e44fde323e056691d7a8a99d71faba
   LBXScan: 30153fa9c57bbe63d93cc6bf35c047ec1b63260c
   LTHPasscodeViewController: 93a2438709e2affda710ad53081810d12d3081ff
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
-  QRCodeReaderViewController: 6538745c8f4ffa9407a26bd7f9489ea01739e7b0
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SCLAlertView-Objective-C: e36ab12dc1ec4ff6f932888083b21d71a3a1ad23
   SSZipArchive: 2cf2a6d3ac9f03252b7d96f93728b9b983be9afb
@@ -77,6 +71,6 @@ SPEC CHECKSUMS:
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
   ZYCornerRadius: 485a8e9304d16d1620641054a08b9c0f55dd512c
 
-PODFILE CHECKSUM: f207fb025b734481df713cc77034cd237e8bbfbe
+PODFILE CHECKSUM: 177dda050a2089bf8fcbffcea4f975d361e6bed4
 
 COCOAPODS: 1.0.1

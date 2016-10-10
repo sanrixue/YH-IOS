@@ -118,7 +118,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         self.appInfoArray[3]: [kBaseUrl componentsSeparatedByString:@"://"][1],
         self.appInfoArray[4]: self.version.bundleID,
         self.appInfoArray[5]: pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭",
-        self.appInfoArray[7]: @"okokok"
     };
     [self initLabelMessageDict];
 }
@@ -193,7 +192,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         }
         else if(indexPath.row == 7) {
             PgyUpdateTableViewCell *cell = [[PgyUpdateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
-            [cell.messageButton setTitle:self.appInfoArray[7] forState:UIControlStateNormal];
+            [cell.messageButton setTitle:textTitle forState:UIControlStateNormal];
             [cell.messageButton addTarget:self action:@selector(actionCheckUpgrade) forControlEvents:UIControlEventTouchUpInside];
             [cell.openOutLink setTitle:self.pgyLinkString forState:UIControlStateNormal];
             [cell.openOutLink setTitleColor:[UIColor colorWithHexString:kThemeColor] forState:UIControlStateNormal];

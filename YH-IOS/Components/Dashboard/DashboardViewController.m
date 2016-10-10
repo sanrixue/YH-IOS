@@ -156,11 +156,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)receivePushMessageParams {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    if([app.pushMessageDict allKeys].count == 0) {
+    if([app.pushMessageDict allKeys].count == 0 || ![app.pushMessageDict objectForKey:@"state"]) {
         self.clickTab = -1;
-        return;
-    }
-    if (![app.pushMessageDict objectForKey:@"state"]){
         return;
     }
     NSString *type = [app.pushMessageDict objectForKey:@"type"];

@@ -25,6 +25,7 @@
 #import "NSString+MD5.h"
 #import "WebViewJavascriptBridge.h"
 #import "DropViewController.h"
+#import "ThurSayViewController.h"
 
 static NSString *const kChartSegueIdentifier   = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
@@ -106,7 +107,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self checkPushMessageAction];
+   // [self checkPushMessageAction];
     [self checkAssetsUpdate];
     [self setTabBarHeight];
 }
@@ -126,17 +127,27 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
  */
 - (void)checkPushMessageAction {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    if([app.pushMessageDict allKeys].count == 0) {
+    if([app.pushMessageDict allKeys].count == 0 || ![app.pushMessageDict objectForKey:@"state"]) {
         return;
     }
-    
     NSString *type = [app.pushMessageDict objectForKey:@"type"];
     if ([type isEqualToString:@"report"]) {
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":app.pushMessageDict[@"link"]}];
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": app.pushMessageDict[@"title"], @"link": app.pushMessageDict[@"link"], @"objectID": app.pushMessageDict[@"obj_id"]}];
     }
-    app.pushMessageDict = [NSMutableDictionary dictionary];
+    else if([type isEqualToString:@"thursday_say"]) {
+       ThurSayViewController *thurSay = [[ThurSayViewController alloc]init];
+       [self presentViewController:thurSay animated:YES completion:nil];
+    }
+    app.pushMessageDict[@"state"] = NULL;
+    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
+    [FileUtils writeJSON:app.pushMessageDict Into:pushConfigPath];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    [self checkPushMessageAction];
+    
+}
 - (void)initTabClick{
     NSInteger tabIndex = self.clickTab > 0 ? self.clickTab : 0;
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
@@ -149,7 +160,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         self.clickTab = -1;
         return;
     }
-    
+    if (![app.pushMessageDict objectForKey:@"state"]){
+        return;
+    }
     NSString *type = [app.pushMessageDict objectForKey:@"type"];
     if ([type isEqualToString:@"analyse"]) {
         self.clickTab = 1;

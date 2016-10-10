@@ -26,7 +26,7 @@
 #import "ThurSayTableViewCell.h"
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
-@interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
+@interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     NSDictionary *pgyVersionDict;
 }
 @property (strong, nonatomic) UITableView *settingTableView;

@@ -16,7 +16,7 @@
 #import "ResetPasswordViewController.h"
 #import "UserHeadView.h"
 #import "UILabel+Badge.h"
-#import "UIButton+Badge.h"
+#import "UIButton+Badge.h" 
 #import "GestureTableViewCell.h"
 #import "OneButtonTableViewCell.h"
 #import "SettingDefaultTableViewCell.h"
@@ -26,7 +26,9 @@
 #import "ThurSayTableViewCell.h"
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
-@interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
+    NSDictionary *pgyVersionDict;
+}
 @property (strong, nonatomic) UITableView *settingTableView;
 @property (strong, nonatomic) NSArray *userInfoArray;
 @property (strong, nonatomic) NSArray *appInfoArray;
@@ -56,6 +58,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     [self loadUserGravatar];
     [self showNoticeRedIcon];
+    [self actionCheckUpgrade];
     
     self.version = [[Version alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
@@ -195,10 +198,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             [cell.openOutLink setTitleColor:[UIColor colorWithHexString:kThemeColor] forState:UIControlStateNormal];
             [cell.openOutLink addTarget:self action:@selector(actionOpenLink) forControlEvents:UIControlEventTouchUpInside];
             if ([self.noticeDict[kSettingPgyerLNName] isEqualToNumber:@(1)]) {
-                [cell.messageButton showRedIcon];
-            }
-            else {
-                [cell.messageButton hideRedIcon];
+                UIView *redIcon = [[UIView alloc]initWithFrame:CGRectMake(CGRectGetMinX(cell.messageButton.frame) - 10, cell.frame.size.height * 0.25, 6, 6)];
+                redIcon.layer.cornerRadius = 3;
+                redIcon.backgroundColor = [UIColor redColor];
+                [cell addSubview:redIcon];
             }
             return cell;
         }
@@ -410,21 +413,18 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (void)checkPgyerVersionLabel:(Version *)version {
-    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
-    if(![FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
-        return;
-    }
-    NSMutableDictionary *pgyerVersionDict = [FileUtils readConfigFile:pgyerVersionPath];
-    BOOL isPgyerLatest = [version.current isEqualToString:pgyerVersionDict[@"versionName"]] && [version.build isEqualToString:pgyerVersionDict[@"versionCode"]];
+    
+    BOOL isPgyerLatest = [version.current isEqualToString:pgyVersionDict[@"versionName"]] && [version.build isEqualToString:pgyVersionDict[@"versionCode"]];
     self.pgyLinkString = @"已是最新版本";
     
-    if(isNULL(pgyerVersionDict[@"versionCode"])) {
+    if(isNULL(pgyVersionDict[@"versionCode"])) {
         self.pgyLinkString = @"蒲公英链接";
     }
-    else if(!isPgyerLatest) {
-        NSString *betaName = (pgyerVersionDict[@"versionCode"] && [pgyerVersionDict[@"versionCode"] integerValue] % 2 == 0) ? @"" : @"测试";
-        self.pgyLinkString= [NSString stringWithFormat:@"%@版本:%@(%@)", betaName, pgyerVersionDict[@"versionName"], pgyerVersionDict[@"versionCode"]];
+    else if(!isPgyerLatest ) {
+        NSString *betaName = (pgyVersionDict[@"versionCode"] && [pgyVersionDict[@"versionCode"] integerValue] % 2 == 0) ? @"" : @"测试";
+        self.pgyLinkString= [NSString stringWithFormat:@"%@版本:%@(%@)", betaName, pgyVersionDict[@"versionName"],  pgyVersionDict[@"versionCode"]];
     }
+    [self.settingTableView reloadData];
 }
 
 /**
@@ -446,6 +446,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         [ViewUtils showPopupView:self.view Info:kNoUpgradeWarnText];
         return;
     }
+    pgyVersionDict = response;
+    NSLog(@"蒲公英版本的信息是:%@", pgyVersionDict);
     
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
     

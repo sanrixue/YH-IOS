@@ -52,6 +52,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 // 广告栏
 @property (strong, nonatomic) UIWebView *advertWebView;
 @property WebViewJavascriptBridge *adBridge;
+@property (strong, nonatomic)NSString *userClickTagPath;
 @end
 
 @implementation DashboardViewController
@@ -64,6 +65,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.localNotificationKeys = @[kTabKPILNName, kTabAnalyseLNName, kTabAppLNName, kTabMessageLNName, kSettingThursdaySayLNName];
     self.localNotificationPath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     
+    self.userClickTagPath = [self getUserClickPath];
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
     self.advertWebView.tag = 1234;
@@ -95,6 +97,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      *  广告位隐藏于否
      */
     if(!kDashboardAd) { [self hideAdertWebView]; }
+}
+
+- (NSString *)getUserClickPath {
+    NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBehaviorConfigFileName];
+    return settingsConfigPath;
 }
 
 - (void)getNewNotifiaction {
@@ -149,7 +156,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
 }
 - (void)initTabClick{
-    NSInteger tabIndex = self.clickTab > 0 ? self.clickTab : 0;
+    NSMutableDictionary *behaviorDict = [FileUtils readConfigFile:self.userClickTagPath];
+    NSInteger tabIndex = behaviorDict[@"tab_index"] ? [behaviorDict[@"tab_index"] integerValue] : 0;
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
     [self tabBarClick:tabIndex];
 }
@@ -612,6 +620,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         else {
             NSLog(@"unkown action %@", action);
         }
+        
+        NSMutableDictionary *behaviorDict = [FileUtils readConfigFile:self.userClickTagPath];
+        behaviorDict[@"message"] = tabIndex;
+        [behaviorDict writeToFile:self.userClickTagPath atomically:YES];
+        
     }];
 }
 
@@ -868,6 +881,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      */
     [self tabBarState: NO];
     
+    NSMutableDictionary *behaviorDict = [FileUtils readConfigFile:self.userClickTagPath];
+    behaviorDict[@"tab_index"] = @(index);
+    [behaviorDict writeToFile:self.userClickTagPath atomically:YES];
     /**
      *  仅仪表盘显示广告位
      */

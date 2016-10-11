@@ -101,6 +101,13 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 }
 
 - (NSString *)getUserClickPath {
+    
+    NSString *pathName = [[FileUtils userspace] stringByAppendingPathComponent:kConfigDirName];
+    NSString *tabIndexConfigPath = [pathName stringByAppendingPathComponent:kTabIndexConfigFileName];
+    if ([FileUtils checkFileExist:tabIndexConfigPath isDir:NO]) {
+        [FileUtils removeFile:tabIndexConfigPath];
+    }
+   // NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
     NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBehaviorConfigFileName];
     return settingsConfigPath;
 }

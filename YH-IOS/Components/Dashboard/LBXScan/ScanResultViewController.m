@@ -193,8 +193,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)actionWebviewScreenShot{
-    UIImage *image = [self saveWebViewAsImage];
-    
+    UIImage *image;
+    NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
+    NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
+    if (betaDict[@"new_ui"]) {
+        image = [self saveWebViewAsImage];
+    }
+    else{
+        image = [self getImageFromCurrentScreen];
+    }
     // End the graphics context
     UIGraphicsEndImageContext();
     
@@ -209,6 +216,17 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
                                 shareToSnsNames:@[UMShareToWechatSession]
                                        delegate:self];
 }
+
+- (UIImage *)getImageFromCurrentScreen {
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [self.view.layer renderInContext:context];
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return theImage;
+}
+
 
 - (UIImage *)saveWebViewAsImage {
     UIScrollView *scrollview = self.browser.scrollView;

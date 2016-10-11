@@ -107,7 +107,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 #pragma mark - init need-show message
 - (void)initLabelInfoDict {
     self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
-    self.headInfoArray = @[@"应用信息", @"安全策略", @"配色主题"];
+    self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能"];
 
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
@@ -249,7 +249,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
     if (indexPath.section == 3) {
         SwitchTableViewCell *cell = [[SwitchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
-        cell.messageLabel.text = @"旧版UI";
+        cell.messageLabel.text = @"截取长图";
         cell.changStatusBtn.on = [[FileUtils currentUIVersion] isEqualToString:@"v1"];
         [cell.changStatusBtn addTarget:self action:@selector(actionSwitchToNewUI:) forControlEvents:UIControlEventValueChanged];
         return cell;

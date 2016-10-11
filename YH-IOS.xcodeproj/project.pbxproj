@@ -263,8 +263,8 @@
 		C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		F630B2E41D98FAB600CAA6A0 /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		F630B2E51D98FAB600CAA6A0 /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
-		F64068AF1D8E3ED2003396B0 /* PrivateConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
 		F676D6BF1DAB6BC40069FD4F /* YH-IOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "YH-IOS.entitlements"; sourceTree = "<group>"; };
+		F6780CDE1DACDFEF008EF523 /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
 		F68089521D8930C400CDBAF8 /* DropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropViewController.h; sourceTree = "<group>"; };
 		F68089531D8930C400CDBAF8 /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
 		F68EA5731D7E8BD600AC2F8A /* advertisement.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = advertisement.zip; sourceTree = "<group>"; };
@@ -718,8 +718,8 @@
 			isa = PBXGroup;
 			children = (
 				C4AFAD0A1D7E971100261552 /* advertisement.zip */,
+				F6780CDE1DACDFEF008EF523 /* PrivateConstants.h */,
 				C46903931D5CC75F00233D05 /* BarCodeScan.zip */,
-				F64068AF1D8E3ED2003396B0 /* PrivateConstants.h */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
 				C4EFE4AB1C98F60A0009411A /* stylesheets.zip */,
 				C4EFE4AC1C98F60A0009411A /* javascripts.zip */,

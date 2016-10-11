@@ -408,7 +408,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     NSLog(@"更改ui");
     NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
-    betaDict[@"new_ui"] = @(sender.isOn);
+    betaDict[@"share_image"] = @(sender.isOn);
     [betaDict writeToFile:settingsConfigPath atomically:YES];
 }
 

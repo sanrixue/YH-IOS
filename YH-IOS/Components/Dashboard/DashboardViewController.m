@@ -53,6 +53,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 @property (strong, nonatomic) UIWebView *advertWebView;
 @property WebViewJavascriptBridge *adBridge;
 @property (strong, nonatomic)NSString *userClickTagPath;
+@property (strong, nonatomic)NSMutableDictionary *behaviorDict;
 @end
 
 @implementation DashboardViewController
@@ -156,8 +157,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
 }
 - (void)initTabClick{
-    NSMutableDictionary *behaviorDict = [FileUtils readConfigFile:self.userClickTagPath];
-    NSInteger tabIndex = behaviorDict[@"tab_index"] ? [behaviorDict[@"tab_index"] integerValue] : 0;
+    self.behaviorDict = [FileUtils readConfigFile:self.userClickTagPath];
+    NSInteger tabIndex = self.behaviorDict[@"tab_index"] ? [self.behaviorDict[@"tab_index"] integerValue] : 0;
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
     [self tabBarClick:tabIndex];
 }
@@ -302,10 +303,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         NSInteger tabIndex = [tabIndexDict[openType] integerValue];
         
         if(tabIndex == 3 && data[@"openLink"] && [@[@"0", @"1", @"2"] containsObject:data[@"openLink"]]) {
-            NSString *tabIndexConfigPath = [FileUtils dirPath:kConfigDirName FileName:kTabIndexConfigFileName];
-            NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+            NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:self.userClickTagPath];
             tabIndexDict[@"message"] = @([data[@"openLink"] integerValue]);
-            [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
+            [tabIndexDict writeToFile:self.userClickTagPath atomically:YES];
         }
         
         [self tabBarClick: tabIndex];
@@ -601,16 +601,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }];
     
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString *tabIndexConfigPath = [FileUtils dirPath:kConfigDirName FileName:kTabIndexConfigFileName];
-        NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+        NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:self.userClickTagPath];
         
         NSString *action = data[@"action"], *pageName = data[@"pageName"];
         NSNumber *tabIndex = data[@"tabIndex"];
         
         if([action isEqualToString:@"store"]) {
             tabIndexDict[pageName] = tabIndex;
-            
-            [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
+            [tabIndexDict writeToFile:self.userClickTagPath atomically:YES];
         }
         else if([action isEqualToString:@"restore"]) {
             tabIndex = tabIndexDict[pageName] ?: @(0);
@@ -620,11 +618,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         else {
             NSLog(@"unkown action %@", action);
         }
-        
-        NSMutableDictionary *behaviorDict = [FileUtils readConfigFile:self.userClickTagPath];
-        behaviorDict[@"message"] = tabIndex;
-        [behaviorDict writeToFile:self.userClickTagPath atomically:YES];
-        
     }];
 }
 
@@ -881,9 +874,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      */
     [self tabBarState: NO];
     
-    NSMutableDictionary *behaviorDict = [FileUtils readConfigFile:self.userClickTagPath];
-    behaviorDict[@"tab_index"] = @(index);
-    [behaviorDict writeToFile:self.userClickTagPath atomically:YES];
+    self.behaviorDict[@"tab_index"] = @(index);
+    [self.behaviorDict writeToFile:self.userClickTagPath atomically:YES];
     /**
      *  仅仪表盘显示广告位
      */

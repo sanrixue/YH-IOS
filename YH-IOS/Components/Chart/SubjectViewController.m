@@ -466,7 +466,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)actionWebviewScreenShot{
     if (self.isLoadFinish) {
         @try {
-            UIImage *image = [self saveWebViewAsImage];
+            UIImage *image;
+            NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
+            NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
+            if (betaDict[@"share_image"]) {
+              image = [self saveWebViewAsImage];
+            }
+            else{
+                image = [self getImageFromCurrentScreen];
+            }
             [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
             [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
             [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
@@ -493,6 +501,16 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
     }
+}
+
+- (UIImage *)getImageFromCurrentScreen {
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [self.view.layer renderInContext:context];
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return theImage;
 }
 
 - (UIImage *)saveWebViewAsImage {

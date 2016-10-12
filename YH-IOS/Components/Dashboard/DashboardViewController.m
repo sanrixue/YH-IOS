@@ -25,6 +25,7 @@
 #import "NSString+MD5.h"
 #import "WebViewJavascriptBridge.h"
 #import "DropViewController.h"
+#import "ThurSayViewController.h"
 
 static NSString *const kChartSegueIdentifier   = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
@@ -51,6 +52,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 // 广告栏
 @property (strong, nonatomic) UIWebView *advertWebView;
 @property WebViewJavascriptBridge *adBridge;
+@property (strong, nonatomic)NSString *userClickTagPath;
+@property (strong, nonatomic)NSMutableDictionary *behaviorDict;
 @end
 
 @implementation DashboardViewController
@@ -63,6 +66,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.localNotificationKeys = @[kTabKPILNName, kTabAnalyseLNName, kTabAppLNName, kTabMessageLNName, kSettingThursdaySayLNName];
     self.localNotificationPath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     
+    self.userClickTagPath = [self getUserClickPath];
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
     self.advertWebView.tag = 1234;
@@ -96,6 +100,18 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     if(!kDashboardAd) { [self hideAdertWebView]; }
 }
 
+- (NSString *)getUserClickPath {
+    
+    NSString *pathName = [[FileUtils userspace] stringByAppendingPathComponent:kConfigDirName];
+    NSString *tabIndexConfigPath = [pathName stringByAppendingPathComponent:kTabIndexConfigFileName];
+    if ([FileUtils checkFileExist:tabIndexConfigPath isDir:NO]) {
+        [FileUtils removeFile:tabIndexConfigPath];
+    }
+   // NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+    NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBehaviorConfigFileName];
+    return settingsConfigPath;
+}
+
 - (void)getNewNotifiaction {
     dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
     dispatch_after(time, dispatch_get_main_queue(), ^{
@@ -106,7 +122,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [self checkPushMessageAction];
+   // [self checkPushMessageAction];
     [self checkAssetsUpdate];
     [self setTabBarHeight];
 }
@@ -126,30 +142,40 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
  */
 - (void)checkPushMessageAction {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    if([app.pushMessageDict allKeys].count == 0) {
+    if([app.pushMessageDict allKeys].count == 0 || ![app.pushMessageDict objectForKey:@"state"]) {
         return;
     }
-    
     NSString *type = [app.pushMessageDict objectForKey:@"type"];
     if ([type isEqualToString:@"report"]) {
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"link":app.pushMessageDict[@"link"]}];
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": app.pushMessageDict[@"title"], @"link": app.pushMessageDict[@"link"], @"objectID": app.pushMessageDict[@"obj_id"]}];
     }
-    app.pushMessageDict = [NSMutableDictionary dictionary];
+    else if([type isEqualToString:@"thursday_say"]) {
+       ThurSayViewController *thurSay = [[ThurSayViewController alloc]init];
+       [self presentViewController:thurSay animated:YES completion:nil];
+    }
+    app.pushMessageDict[@"state"] = NULL;
+    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
+    [FileUtils writeJSON:app.pushMessageDict Into:pushConfigPath];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    [self checkPushMessageAction];
+    
+}
 - (void)initTabClick{
-    NSInteger tabIndex = self.clickTab > 0 ? self.clickTab : 0;
+    self.behaviorDict = [FileUtils readConfigFile:self.userClickTagPath];
+    NSInteger tabIndex = self.behaviorDict[@"tab_index"] ? [self.behaviorDict[@"tab_index"] integerValue] : 0;
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
     [self tabBarClick:tabIndex];
 }
 
 - (void)receivePushMessageParams {
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    if([app.pushMessageDict allKeys].count == 0) {
+    if([app.pushMessageDict allKeys].count == 0 || ![app.pushMessageDict objectForKey:@"state"]) {
         self.clickTab = -1;
         return;
     }
-    
     NSString *type = [app.pushMessageDict objectForKey:@"type"];
     if ([type isEqualToString:@"analyse"]) {
         self.clickTab = 1;
@@ -284,10 +310,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         NSInteger tabIndex = [tabIndexDict[openType] integerValue];
         
         if(tabIndex == 3 && data[@"openLink"] && [@[@"0", @"1", @"2"] containsObject:data[@"openLink"]]) {
-            NSString *tabIndexConfigPath = [FileUtils dirPath:kConfigDirName FileName:kTabIndexConfigFileName];
-            NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+            NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:self.userClickTagPath];
             tabIndexDict[@"message"] = @([data[@"openLink"] integerValue]);
-            [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
+            [tabIndexDict writeToFile:self.userClickTagPath atomically:YES];
         }
         
         [self tabBarClick: tabIndex];
@@ -583,16 +608,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }];
     
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString *tabIndexConfigPath = [FileUtils dirPath:kConfigDirName FileName:kTabIndexConfigFileName];
-        NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+        NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:self.userClickTagPath];
         
         NSString *action = data[@"action"], *pageName = data[@"pageName"];
         NSNumber *tabIndex = data[@"tabIndex"];
         
         if([action isEqualToString:@"store"]) {
             tabIndexDict[pageName] = tabIndex;
-            
-            [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
+            [tabIndexDict writeToFile:self.userClickTagPath atomically:YES];
         }
         else if([action isEqualToString:@"restore"]) {
             tabIndex = tabIndexDict[pageName] ?: @(0);
@@ -858,6 +881,8 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      */
     [self tabBarState: NO];
     
+    self.behaviorDict[@"tab_index"] = @(index);
+    [self.behaviorDict writeToFile:self.userClickTagPath atomically:YES];
     /**
      *  仅仪表盘显示广告位
      */

@@ -62,6 +62,7 @@ NSString *const kCachedHeaderConfigFileName      = @"cached_header.plist";
 NSString *const kPgyerVersionConfigFileName      = @"pgyer_version.plist";
 NSString *const kGravatarConfigFileName          = @"gravatar.plist";
 NSString *const kBetaConfigFileName              = @"beta.plist";
+NSString *const kBehaviorConfigFileName          = @"behavior.plist";
 NSString *const kBarCodeResultFileName           = @"barcode_result.json";
 NSString *const kCurrentVersionFileName          = @"current_version.txt";
 NSString *const kUserAgentFileName               = @"webview_user_agent.txt";

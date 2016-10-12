@@ -53,6 +53,7 @@ extern NSString *const kCommentAPIPath;
 extern NSString *const kScreenLockAPIPath;
 extern NSString *const kDeviceStateAPIPath;
 extern NSString *const kResetPwdAPIPath;
+extern NSString *const kBehaviorConfigFileName;
 extern NSString *const kActionLogAPIPath;
 extern NSString *const kPushDeviceTokenAPIPath;
 extern NSString *const kBarCodeScanAPIPath;

@@ -42,7 +42,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (strong, nonatomic) UIImage *userIconImage;
 @property (strong, nonatomic) NSDictionary *settingDict;
 @property (assign, nonatomic) BOOL isNeedChangepwd;
-@property (assign, nonatomic) BOOL isNeedUpgrade;
 @property (strong, nonatomic) Version *version;
 @property (strong, nonatomic) NSMutableDictionary *noticeDict;
 @property (strong, nonatomic) NSString *noticeFilePath;
@@ -60,7 +59,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     [self loadUserGravatar];
     [self showNoticeRedIcon];
-    [self actionCheckUpgrade];
     
     self.version = [[Version alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
@@ -134,16 +132,17 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 #pragma mark - init need-show message info
 - (void)initLabelMessageDict {
-    [self checkPgyerVersionLabel:self.version];
+    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
+    NSDictionary *pgyerVersionDict = [FileUtils readConfigFile:pgyerVersionPath];
+    
+    [self checkPgyerVersionLabel:self.version pgyerResponse:pgyerVersionDict];
     self.isChangeLochPassword = NO;
 }
 
 - (void)showNoticeRedIcon {
     self.isNeedChangepwd = NO;
-    self.isNeedUpgrade = NO;
 
     self.isNeedChangepwd = [self.noticeDict[kSettingPasswordLNName] isEqualToNumber:@(1)];
-    self.isNeedUpgrade = [self.noticeDict[kSettingPgyerLNName] isEqualToNumber:@(1)];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -415,32 +414,33 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self.betaDict writeToFile:settingsConfigPath atomically:YES];
 }
 
-- (void)checkPgyerVersionLabel:(Version *)version {
-    
-    BOOL isPgyerLatest = [version.current isEqualToString:pgyVersionDict[@"versionName"]] && [version.build isEqualToString:pgyVersionDict[@"versionCode"]];
-    self.pgyLinkString = @"已是最新版本";
-    
-    if(isNULL(pgyVersionDict[@"versionCode"])) {
+- (void)checkPgyerVersionLabel:(Version *)version pgyerResponse:(NSDictionary *)pgyerResponse {
+    if(!pgyerResponse || !pgyerResponse[kDownloadURLCPCName] || !pgyerResponse[kVersionCodeCPCName] || !pgyerResponse[kVersionNameCPCName]) {
         self.pgyLinkString = @"蒲公英链接";
     }
-    else if(!isPgyerLatest ) {
-        NSString *betaName = (pgyVersionDict[@"versionCode"] && [pgyVersionDict[@"versionCode"] integerValue] % 2 == 0) ? @"" : @"测试";
-        self.pgyLinkString= [NSString stringWithFormat:@"%@版本:%@(%@)", betaName, pgyVersionDict[@"versionName"],  pgyVersionDict[@"versionCode"]];
+    else {
+        BOOL isPygerUpgrade = ([pgyerResponse[kVersionCodeCPCName] integerValue] > [version.build integerValue]);
+        self.pgyLinkString = @"已是最新版本";
+        
+        if(isPygerUpgrade) {
+            NSString *betaName = ([pgyerResponse[kVersionCodeCPCName] integerValue] % 2 == 0) ? @"" : @"测试";
+            self.pgyLinkString= [NSString stringWithFormat:@"%@版本:%@(%@)", betaName, pgyerResponse[kVersionNameCPCName],  pgyerResponse[kVersionCodeCPCName]];
+        }
     }
     [self.settingTableView reloadData];
 }
 
 /**
  *  检测版本升级，判断版本号是否为偶数。以便内测
- response = @{
- @"appUrl": @"http://www.pgyer.com/yh-i",
- @"build": @118,
- @"downloadURL": @"itms-services://?action=download-manifest&url=https://www.pgyer.com/app/plist/93bb21bdb7f10bdf0a84ad51045bd70e",
- @"lastBuild": @118,
- @"releaseNote": @"asdfasdfc: 1.3.87(build118)",
- @"versionCode": @188,
- @"versionName ": @"1.4.0"
- };
+     response = @{
+         @"appUrl": @"http://www.pgyer.com/yh-i",
+         @"build": @118,
+         @"downloadURL": @"itms-services://?action=download-manifest&url=https://www.pgyer.com/app/plist/93bb21bdb7f10bdf0a84ad51045bd70e",
+         @"lastBuild": @118,
+         @"releaseNote": @"asdfasdfc: 1.3.87(build118)",
+         @"versionCode": @188,
+         @"versionName ": @"1.4.0"
+     };
  *
  *  @param response <#response description#>
  */
@@ -449,41 +449,33 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         [ViewUtils showPopupView:self.view Info:kNoUpgradeWarnText];
         return;
     }
-    pgyVersionDict = response;
-    NSLog(@"蒲公英版本的信息是:%@", pgyVersionDict);
     
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
+    [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
     
-    NSInteger currentVersionCode = 0;
-    if([FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
-        NSDictionary *currentResponse = [FileUtils readConfigFile:pgyerVersionPath];
-        if(currentResponse[kVersionCodeCPCName]) {
-            currentVersionCode = [currentResponse[kVersionCodeCPCName] integerValue];
-        }
-    }
+    NSInteger currentVersionCode = [self.version.build integerValue];
+    NSInteger responseVersionCode = [response[kVersionCodeCPCName] integerValue];
     
     // 对比 build 值，只准正向安装提示
-    if([response[kVersionCodeCPCName] integerValue] <= currentVersionCode) {
-        [ViewUtils showPopupView:self.view Info:kNoUpgradeWarnText];
+    if(responseVersionCode <= currentVersionCode) {
         return;
     }
+    
+    NSString *localNotificationPath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
+    NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:localNotificationPath];
+    localNotificationDict[kSettingPgyerLNName] = @(1);
+    [FileUtils writeJSON:localNotificationDict Into:localNotificationPath];
     
     /**
      * 更新按钮右侧提示文字
      */
-    Version *version = [[Version alloc] init];
-    [self checkPgyerVersionLabel:version];
+    [self checkPgyerVersionLabel:self.version pgyerResponse:response];
     
-    BOOL isPgyerLatest = [version.current isEqualToString:response[kVersionNameCPCName]] && [version.build isEqualToString:response[kVersionCodeCPCName]];
-    if(!isPgyerLatest && [response[kVersionCodeCPCName] integerValue] % 2 == 0) {
+    if(responseVersionCode % 2 == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
-        
         [alert addButton:kUpgradeBtnText actionBlock:^(void) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
-            
-            // 只有点击【升级】按钮才存储蒲公英平台响应信息
-            [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
         }];
         
         NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];

@@ -183,19 +183,18 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }];
     
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString *tabIndexConfigPath = [FileUtils dirPath:kConfigDirName FileName:kTabIndexConfigFileName];
-        NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+        NSString *behaviorPath = [FileUtils dirPath:kConfigDirName FileName:kBehaviorConfigFileName];
+        NSMutableDictionary *behaviorDict = [FileUtils readConfigFile:behaviorPath];
         
         NSString *action = data[@"action"], *pageName = data[@"pageName"];
         NSNumber *tabIndex = data[@"tabIndex"];
         
         if([action isEqualToString:@"store"]) {
-            tabIndexDict[pageName] = tabIndex;
-            
-            [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
+            behaviorDict[@"report"][pageName] = tabIndex;
+            [behaviorDict writeToFile:behaviorPath atomically:YES];
         }
         else if([action isEqualToString:@"restore"]) {
-            tabIndex = tabIndexDict[pageName] ?: @(0);
+            tabIndex = behaviorDict[@"report"] && behaviorDict[@"report"][pageName] ? behaviorDict[@"report"][pageName] : @(0);
             
             responseCallback(tabIndex);
         }

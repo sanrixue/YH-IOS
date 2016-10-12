@@ -84,7 +84,6 @@ extern NSString *const kReportDataFileName;
 extern NSString *const kUserConfigFileName;
 extern NSString *const kPushConfigFileName;
 extern NSString *const kSettingConfigFileName;
-extern NSString *const kTabIndexConfigFileName;
 extern NSString *const kGesturePwdConfileFileName;
 extern NSString *const kLocalNotificationConfigFileName;
 extern NSString *const kCachedHeaderConfigFileName;

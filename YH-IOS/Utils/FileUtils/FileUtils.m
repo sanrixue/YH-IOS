@@ -266,7 +266,7 @@
 }
 
 /**
- *  NSMutableDictionary写入本地文件
+ *  NSMutableDictionary 写入本地文件
  *
  *  @param data     JSON
  *  @param filePath 目标文件

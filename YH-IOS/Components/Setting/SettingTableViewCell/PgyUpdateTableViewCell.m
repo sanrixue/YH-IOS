@@ -27,12 +27,14 @@
     [self.messageButton setTitleColor:linkColor forState:UIControlStateNormal];
     self.messageButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     self.messageButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.messageButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [self addSubview:self.messageButton];
     
     self.openOutLink = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.messageButton.frame) + 80, 10, mWIDTH - 220, self.frame.size.height - 20)];
     [self.openOutLink setTitleColor:linkColor forState:UIControlStateNormal];
     self.openOutLink.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     self.openOutLink.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.openOutLink.titleLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:self.openOutLink];
 }
 

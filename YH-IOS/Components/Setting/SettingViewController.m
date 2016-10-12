@@ -28,6 +28,7 @@
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
 @interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     NSDictionary *pgyVersionDict;
+    NSString *settingsConfigPath;
 }
 @property (strong, nonatomic) UITableView *settingTableView;
 @property (strong, nonatomic) NSArray *userInfoArray;
@@ -44,6 +45,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (strong, nonatomic) Version *version;
 @property (strong, nonatomic) NSMutableDictionary *noticeDict;
 @property (strong, nonatomic) NSString *noticeFilePath;
+@property (strong, nonatomic) NSMutableDictionary *betaDict;
 
 @end
 
@@ -249,7 +251,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     if (indexPath.section == 3) {
         SwitchTableViewCell *cell = [[SwitchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
         cell.messageLabel.text = @"截取长图";
-        cell.changStatusBtn.on = [[FileUtils currentUIVersion] isEqualToString:@"v1"];
+        settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
+        self.betaDict = [FileUtils readConfigFile:settingsConfigPath];
+        cell.changStatusBtn.on = [self.betaDict[@"share_image"] isEqualToNumber:@(1)];
         [cell.changStatusBtn addTarget:self action:@selector(actionSwitchToNewUI:) forControlEvents:UIControlEventValueChanged];
         return cell;
     }
@@ -405,10 +409,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)actionSwitchToNewUI:(UISwitch *)sender {
     NSLog(@"更改ui");
-    NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
-    NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
-    betaDict[@"share_image"] = @(sender.isOn);
-    [betaDict writeToFile:settingsConfigPath atomically:YES];
+    self.betaDict = [FileUtils readConfigFile:settingsConfigPath];
+    self.betaDict[@"share_image"] = @(sender.isOn);
+    [self.betaDict writeToFile:settingsConfigPath atomically:YES];
 }
 
 - (void)checkPgyerVersionLabel:(Version *)version pgyerResponse:(NSDictionary *)pgyerResponse {

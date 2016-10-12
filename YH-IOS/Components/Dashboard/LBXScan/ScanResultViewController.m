@@ -196,7 +196,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     UIImage *image;
     NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
-    if (betaDict[@"share_image"]) {
+    if ([betaDict[@"share_image"] isEqualToNumber:@(1)]) {
         image = [self saveWebViewAsImage];
     }
     else{

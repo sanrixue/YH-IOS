@@ -98,7 +98,7 @@ end
 # rewrite private setting
 #
 if slop_opts[:constant]
-  constant_path = 'YH-IOS/Shared/PrivateConstants.h'
+  constant_path = 'YH-IOS/Macros/PrivateConstants.h'
   puts %(- done: write #{constant_path})
   File.open(constant_path, 'w:utf-8') do |file|
     file.puts <<-EOF.strip_heredoc

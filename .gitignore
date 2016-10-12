@@ -7,7 +7,7 @@ YH-IOS/Shared/PrivateConstants.h
 *.lock
 *.y[a]ml
 .pgyer_upload.sh
-constant_private.h
+PrivateConstants.h
 build/
 *.pbxuser
 !default.pbxuser

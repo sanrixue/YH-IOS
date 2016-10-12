@@ -42,7 +42,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 @property (nonatomic, strong) NSMutableArray *urlStrings;
 @property (strong, nonatomic) NSArray *localNotificationKeys;
 @property (strong, nonatomic) NSString *localNotificationPath;
-@property (nonatomic) BOOL isNeedUpgrade;
 @property (assign, nonatomic) BOOL isShowUserInfoNotice;
 @property (strong, nonatomic) dispatch_source_t timer;
 // 设置按钮点击下拉菜单
@@ -983,38 +982,30 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
   */
 - (void)appUpgradeMethod:(NSDictionary *)response {
     if(!response || !response[kDownloadURLCPCName] || !response[kVersionCodeCPCName] || !response[kVersionNameCPCName]) {
-        self.isNeedUpgrade = NO;
         return;
     }
     
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
-    NSInteger currentVersionCode = 0;
-    if([FileUtils checkFileExist:pgyerVersionPath isDir:NO]) {
-        NSDictionary *currentResponse = [FileUtils readConfigFile:pgyerVersionPath];
-        if(currentResponse[kVersionCodeCPCName]) {
-            currentVersionCode = [currentResponse[kVersionCodeCPCName] integerValue];
-        }
-    }
+    [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
+    
+    Version *version = [[Version alloc] init];
+    NSInteger currentVersionCode = [version.build integerValue];
+    NSInteger responseVersionCode = [response[kVersionCodeCPCName] integerValue];
     
     // 对比 build 值，只准正向安装提示
-    if([response[kVersionCodeCPCName] integerValue] <= currentVersionCode) {
+    if(responseVersionCode <= currentVersionCode) {
         return;
     }
     
-    Version *version = [[Version alloc] init];
-    BOOL isPgyerLatest = [version.current isEqualToString:response[kVersionNameCPCName]] && [version.build isEqualToString:response[kVersionCodeCPCName]];
-    if (isPgyerLatest && [response[kVersionCodeCPCName] integerValue] > currentVersionCode) {
-        self.isNeedUpgrade = YES;
-    }
-    if(!isPgyerLatest && [response[kVersionCodeCPCName] integerValue] % 2 == 0) {
+    NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
+    localNotificationDict[kSettingPgyerLNName] = @(1);
+    [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
+    
+    if(responseVersionCode % 2 == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
-        
         [alert addButton:kUpgradeBtnText actionBlock:^(void) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
-            
-            // 只有点击【升级】按钮才存储蒲公英平台响应信息
-            [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
         }];
         
         NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
@@ -1129,9 +1120,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
     localNotificationDict[kSettingPasswordLNName] = @([userDict[kPasswordCUName] isEqualToString:kInitPassword.md5] ? 1 : 0);
-    localNotificationDict[kSettingPgyerLNName]    = @(self.isNeedUpgrade ? 1 : -1);
+
     
-    NSInteger settingCount = (self.isNeedUpgrade || [localNotificationDict[kSettingPasswordLNName] integerValue] > 0 || [localNotificationDict[kSettingThursdaySayLNName] integerValue] > 0) ? 1 : 0;
+    NSInteger settingCount = ([localNotificationDict[kSettingPgyerLNName] integerValue] > 0 ||
+                              [localNotificationDict[kSettingPasswordLNName] integerValue] > 0 ||
+                              [localNotificationDict[kSettingThursdaySayLNName] integerValue] > 0) ? 1 : 0;
     localNotificationDict[kSettingLNName] = @(settingCount);
     
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];

@@ -183,19 +183,18 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }];
     
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSString *tabIndexConfigPath = [FileUtils dirPath:kConfigDirName FileName:kTabIndexConfigFileName];
-        NSMutableDictionary *tabIndexDict = [FileUtils readConfigFile:tabIndexConfigPath];
+        NSString *behaviorPath = [FileUtils dirPath:kConfigDirName FileName:kBehaviorConfigFileName];
+        NSMutableDictionary *behaviorDict = [FileUtils readConfigFile:behaviorPath];
         
         NSString *action = data[@"action"], *pageName = data[@"pageName"];
         NSNumber *tabIndex = data[@"tabIndex"];
         
         if([action isEqualToString:@"store"]) {
-            tabIndexDict[pageName] = tabIndex;
-            
-            [tabIndexDict writeToFile:tabIndexConfigPath atomically:YES];
+            behaviorDict[@"report"][pageName] = tabIndex;
+            [behaviorDict writeToFile:behaviorPath atomically:YES];
         }
         else if([action isEqualToString:@"restore"]) {
-            tabIndex = tabIndexDict[pageName] ?: @(0);
+            tabIndex = behaviorDict[@"report"] && behaviorDict[@"report"][pageName] ? behaviorDict[@"report"][pageName] : @(0);
             
             responseCallback(tabIndex);
         }
@@ -466,7 +465,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)actionWebviewScreenShot{
     if (self.isLoadFinish) {
         @try {
-            UIImage *image = [self saveWebViewAsImage];
+            UIImage *image;
+            NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
+            NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
+            if (betaDict[@"share_image"]) {
+              image = [self saveWebViewAsImage];
+            }
+            else{
+                image = [self getImageFromCurrentScreen];
+            }
             [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
             [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
             [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
@@ -493,6 +500,16 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
     }
+}
+
+- (UIImage *)getImageFromCurrentScreen {
+    UIGraphicsBeginImageContext(self.view.frame.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [self.view.layer renderInContext:context];
+    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return theImage;
 }
 
 - (UIImage *)saveWebViewAsImage {

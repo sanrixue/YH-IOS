@@ -86,6 +86,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     }
     
     pushDict[@"push_device_token"] = pushToken;
+    NSLog(@"设备%@",pushToken);
     pushDict[@"push_valid"] = @(NO);
     [pushDict writeToFile:pushConfigPath atomically:YES];
 }
@@ -101,8 +102,11 @@ void UncaughtExceptionHandler(NSException * exception) {
     [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
     _pushMessageDict = [[NSMutableDictionary alloc]init];
-    self.pushMessageDict[@"link"] = userInfo[@"link"];
-    self.pushMessageDict[@"type"] = userInfo[@"type"];
+    self.pushMessageDict[@"link"] = userInfo[@"url"];
+    self.pushMessageDict[@"type"] = userInfo[@"obj_type"];
+    self.pushMessageDict[@"obj_id"] = userInfo[@"obj_id"];
+    self.pushMessageDict[@"title"] = userInfo[@"title"];
+    self.pushMessageDict[@"state"] = @YES;
     NSString *pushConfigPath= [[FileUtils basePath] stringByAppendingPathComponent:@"push_message.plist"];
     [FileUtils writeJSON:_pushMessageDict Into:pushConfigPath];
     if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {

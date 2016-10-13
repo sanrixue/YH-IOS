@@ -121,7 +121,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     
     if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
         [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText, nil];
+        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
         [alertView show];
     }
     else {
@@ -138,9 +138,10 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (void)checkIsLoginThenJump {
     if (![self isLogin]) {
-        LoginViewController *loginView = [[LoginViewController alloc]init];
+       /* LoginViewController *loginView = [[LoginViewController alloc]init];
         UIViewController *view = (UIViewController *)self.window.rootViewController;
-        [view presentViewController:loginView animated:YES completion:nil];
+        [view presentViewController:loginView animated:YES completion:nil];*/
+        [self jumpToLogin];
     }
     else {
         [self jumpToDashboardView];
@@ -174,7 +175,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (BOOL)isLogin {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    return [userDict[@"is_login"] isEqualToValue: @(YES)];
+    return [userDict[@"is_login"] boolValue];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

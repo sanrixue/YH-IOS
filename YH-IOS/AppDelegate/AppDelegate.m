@@ -97,18 +97,28 @@ void UncaughtExceptionHandler(NSException * exception) {
     NSLog(@"application:didFailToRegisterForRemoteNotificationsWithError: %@", error);
 }
 
+/**
+ *  <#Description#>
+ *
+     push_message: { // 服务器参数
+         type: report,
+         title: '16年第三季度季报'
+         url: 'report-link’, // 与 API 链接格式相同
+         obj_id: 1,
+         obj_type: 1
+     },
+     state: true_or_false // 接收参数时设置为 `false`
+ */
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     // 关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
-    _pushMessageDict = [[NSMutableDictionary alloc]init];
-    self.pushMessageDict[@"link"] = userInfo[@"url"];
-    self.pushMessageDict[@"type"] = userInfo[@"obj_type"];
-    self.pushMessageDict[@"obj_id"] = userInfo[@"obj_id"];
-    self.pushMessageDict[@"title"] = userInfo[@"title"];
-    self.pushMessageDict[@"state"] = @YES;
-    NSString *pushConfigPath= [[FileUtils basePath] stringByAppendingPathComponent:@"push_message.plist"];
-    [FileUtils writeJSON:_pushMessageDict Into:pushConfigPath];
+    
+    NSMutableDictionary *pushMessageDict = [NSMutableDictionary dictionaryWithDictionary:userInfo];
+    pushMessageDict[kStatePushColumn] = @(NO);
+    NSString *pushConfigPath= [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
+    [FileUtils writeJSON:pushMessageDict Into:pushConfigPath];
+    
     if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
         [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
         UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText, nil];

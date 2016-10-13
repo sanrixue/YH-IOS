@@ -73,6 +73,16 @@ extern NSString *const kResetPwdMobilePath;
 extern NSString *const kThursdaySayMobilePath;
 
 /**
+ *  Config#Push Message
+ */
+extern NSString *const kTypePushColumn;
+extern NSString *const kTitlePushColumn;
+extern NSString *const kLinkPushColumn;
+extern NSString *const kObjIDPushColumn;
+extern NSString *const kObjTypePushColumn;
+extern NSString *const kStatePushColumn;
+
+/**
  *  Config#Application
  */
 extern NSString *const kConfigDirName;

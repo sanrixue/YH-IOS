@@ -43,6 +43,16 @@ NSString *const kResetPwdMobilePath    = @"%@/mobile/%@/update_user_password";
 NSString *const kThursdaySayMobilePath = @"%@/mobile/%@/thursday_say";
 
 /**
+ *  Config#Push Message
+ */
+NSString *const kTypePushColumn    = @"type";
+NSString *const kTitlePushColumn   = @"title";
+NSString *const kLinkPushColumn    = @"url";
+NSString *const kObjIDPushColumn   = @"object_id";
+NSString *const kObjTypePushColumn = @"object_type";
+NSString *const kStatePushColumn   = @"state";
+
+/**
  *  Config#Application
  */
 NSString *const kConfigDirName = @"Configs";

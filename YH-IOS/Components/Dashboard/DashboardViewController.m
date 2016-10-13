@@ -79,7 +79,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     self.btnScanCode.hidden = !kDropMenuScan;
     [self setTabBarItems];
-    [self receivePushMessageParams];
     [self initTabClick];
     [self getNewNotifiaction];
     
@@ -110,9 +109,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-   // [self checkPushMessageAction];
     [self checkAssetsUpdate];
     [self setTabBarHeight];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    [self checkPushMessageAction];
 }
 
 - (void)setTabBarHeight {
@@ -126,45 +130,65 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - 推送消息点击后的响应处理
 /**
- *  消息推送点击后操作
+ *  消息推送点击后操作 
+ *
+     { // 服务器参数
+         type: report,
+         title: '16年第三季度季报'
+         url: 'report-link’, // 与 API 链接格式相同
+         obj_id: 1,
+         obj_type: 1
+     },
+     state: true_or_false // 接收参数时设置为 `false`
  */
 - (void)checkPushMessageAction {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    if([app.pushMessageDict allKeys].count == 0 || ![app.pushMessageDict objectForKey:@"state"]) {
+    NSString *pushMessagePath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
+    NSMutableDictionary *pushMessageDict = [FileUtils readConfigFile:pushMessagePath];
+    if([pushMessageDict allKeys].count == 0 || pushMessageDict[kStatePushColumn]) {
         return;
     }
-    NSString *type = [app.pushMessageDict objectForKey:@"type"];
-    if ([type isEqualToString:@"report"]) {
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": app.pushMessageDict[@"title"], @"link": app.pushMessageDict[@"link"], @"objectID": app.pushMessageDict[@"obj_id"]}];
-    }
-    else if([type isEqualToString:@"thursday_say"]) {
-       ThurSayViewController *thurSay = [[ThurSayViewController alloc]init];
-       [self presentViewController:thurSay animated:YES completion:nil];
-    }
-    app.pushMessageDict[@"state"] = NULL;
-    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
-    [FileUtils writeJSON:app.pushMessageDict Into:pushConfigPath];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:YES];
-    [self checkPushMessageAction];
     
+    NSString *pushType = pushMessageDict[kTypePushColumn];
+    NSInteger tabIndex = -1;
+    if ([pushType isEqualToString:@"report"]) {
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": pushMessageDict[kTitlePushColumn], @"link": pushMessageDict[kLinkPushColumn], @"objectID": pushMessageDict[kObjIDPushColumn], @"objectType": pushMessageDict[kObjTypePushColumn]}];
+    }
+    else if ([pushType isEqualToString:@"kpi"]) {
+        tabIndex = 0;
+    }
+    else if ([pushType isEqualToString:@"analyse"]) {
+        tabIndex = 1;
+    }
+    else if ([pushType isEqualToString:@"app"]) {
+        tabIndex = 2;
+    }
+    else if ([pushType isEqualToString:@"message"]) {
+        tabIndex = 3;
+    }
+    else if([pushType isEqualToString:@"thursday_say"]) {
+        ThurSayViewController *thurSay = [[ThurSayViewController alloc] init];
+        [self presentViewController:thurSay animated:YES completion:nil];
+    }
+    
+    pushMessageDict[kStatePushColumn] = @(YES);
+    [FileUtils writeJSON:pushMessageDict Into:pushMessagePath];
+    
+    if(tabIndex >= 0) { [self tabBarClick:tabIndex]; }
 }
 
 - (void)initTabClick {
     if(![FileUtils checkFileExist:self.behaviorPath isDir:NO]) {
         NSMutableDictionary *defaultBehaviorDict = [NSMutableDictionary dictionaryWithDictionary:@{
-                                                                                                   @"dashboard": @{
-                                                                                                       @"tab_index": @(0)
-                                                                                                   },
-                                                                                                   @"message": @{
-                                                                                                       @"tab_index": @(0)
-                                                                                                   },
-                                                                                                   @"report": @{
-                                                                                                       @"tab_index": @(0)
-                                                                                                   }
-                                                                                                   }];
+           @"dashboard": @{
+               @"tab_index": @(0)
+           },
+           @"message": @{
+               @"tab_index": @(0)
+           },
+           @"report": @{
+               @"tab_index": @(0)
+           }
+        }];
         [defaultBehaviorDict writeToFile:self.behaviorPath atomically:YES];
     }
     
@@ -172,30 +196,6 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSInteger tabIndex = [self.behaviorDict[@"dashboard"][@"tab_index"] integerValue];
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
     [self tabBarClick:tabIndex];
-}
-
-- (void)receivePushMessageParams {
-    AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
-    if([app.pushMessageDict allKeys].count == 0 || ![app.pushMessageDict objectForKey:@"state"]) {
-        self.clickTab = -1;
-        return;
-    }
-    NSString *type = [app.pushMessageDict objectForKey:@"type"];
-    if ([type isEqualToString:@"analyse"]) {
-        self.clickTab = 1;
-    }
-    else if ([type isEqualToString:@"app"]) {
-        self.clickTab = 2;
-    }
-    else if ([type isEqualToString:@"message"]) {
-        self.clickTab = 3;
-    }
-    else if([type isEqualToString:@"report"]) {
-        self.clickTab = 0;
-    }
-    else {
-        self.clickTab = 0;
-    }
 }
 
 #pragma mark - 添加广告视图
@@ -759,17 +759,20 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
     
     if([segue.identifier isEqualToString:kChartSegueIdentifier]) {
+        NSInteger objectType = self.commentObjectType;
+        if(sender[kObjTypePushColumn]) {
+            objectType = [sender[kObjTypePushColumn] integerValue];
+        }
         SubjectViewController *subjectViewController = (SubjectViewController *)segue.destinationViewController;
         subjectViewController.bannerName        = sender[@"bannerName"];
         subjectViewController.link              = sender[@"link"];
         subjectViewController.objectID          = sender[@"objectID"];
-        subjectViewController.commentObjectType = self.commentObjectType;
+        subjectViewController.commentObjectType = objectType;
         
         logParams[kActionALCName]   = @"点击/主页面/浏览器";
         logParams[kObjIDALCName]    = sender[@"objectID"];
-        logParams[kObjTypeALCName]  = @(self.commentObjectType);
+        logParams[kObjTypeALCName]  = @(objectType);
         logParams[kObjTitleALCName] = sender[@"bannerName"];
-        
     }
     else if([segue.identifier isEqualToString:kSettingSegueIdentifier]) {
         logParams[kActionALCName]   = @"点击/主页面/设置";

@@ -260,7 +260,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     if(isUpgrade) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *sharedPath = [FileUtils sharedPath], *bundleZipPath, *zipPath, *assetFileName;
-        for(NSString *assetName in @[kAssetsAssetsName, kLoadingAssetsName, kFontsAssetsName, kImagesAssetsName, kStylesheetsAssetsName, kJavascriptsAssetsName, kBarCodeScanAssetsName, kAdvertisementAssetsName]) {
+        for(NSString *assetName in @[kAssetsAssetsName, kLoadingAssetsName, kFontsAssetsName, kImagesAssetsName, kStylesheetsAssetsName, kJavascriptsAssetsName, kBarCodeScanAssetsName]) { // kAdvertisementAssetsName
             assetFileName = [NSString stringWithFormat:@"%@.zip", assetName];
             bundleZipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:assetFileName];
             zipPath = [sharedPath stringByAppendingPathComponent:assetFileName];
@@ -287,7 +287,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     [FileUtils checkAssets:kJavascriptsAssetsName isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:kStylesheetsAssetsName isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:kBarCodeScanAssetsName isInAssets:NO bundlePath:bundlePath];
-    [FileUtils checkAssets:kAdvertisementAssetsName isInAssets:NO bundlePath:bundlePath];
+    // [FileUtils checkAssets:kAdvertisementAssetsName isInAssets:NO bundlePath:bundlePath];
 }
 
 - (void)initWebViewUserAgent {

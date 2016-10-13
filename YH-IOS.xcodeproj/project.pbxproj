@@ -62,7 +62,6 @@
 		C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DC1C2CECC10067516F /* NSData+MD5.m */; };
 		C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564DF1C2CECC10067516F /* UIColor+Hex.m */; };
 		C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */ = {isa = PBXBuildFile; fileRef = C4A564E21C2CECC10067516F /* UIWebView+Clean.m */; };
-		C4AFAD0B1D7E971100261552 /* advertisement.zip in Resources */ = {isa = PBXBuildFile; fileRef = C4AFAD0A1D7E971100261552 /* advertisement.zip */; };
 		C4BA6EA41C7DB24A0059F101 /* FileUtils+Assets.m in Sources */ = {isa = PBXBuildFile; fileRef = C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */; };
 		C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C284E41D06BB1A009458E6 /* ScanResultViewController.m */; };
 		C4C628431C0C1ED6000AD5D8 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4C6283C1C0C1ED6000AD5D8 /* SubjectViewController.m */; };
@@ -146,6 +145,7 @@
 		C4379B551C18232D0058257A /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		C4379B561C18232D0058257A /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		C4448C6B1C0AE3030053B431 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
+		C44676001DAE75C600574037 /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
 		C45D270E1C23FC490087C6F2 /* OpenUDID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenUDID.h; sourceTree = "<group>"; };
 		C45D270F1C23FC490087C6F2 /* OpenUDID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenUDID.m; sourceTree = "<group>"; };
 		C45D27101C23FC490087C6F2 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -205,7 +205,6 @@
 		C4A564DF1C2CECC10067516F /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		C4A564E11C2CECC10067516F /* UIWebView+Clean.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+Clean.h"; sourceTree = "<group>"; };
 		C4A564E21C2CECC10067516F /* UIWebView+Clean.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+Clean.m"; sourceTree = "<group>"; };
-		C4AFAD0A1D7E971100261552 /* advertisement.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = advertisement.zip; sourceTree = "<group>"; };
 		C4BA6EA21C7DB24A0059F101 /* FileUtils+Assets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FileUtils+Assets.h"; sourceTree = "<group>"; };
 		C4BA6EA31C7DB24A0059F101 /* FileUtils+Assets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FileUtils+Assets.m"; sourceTree = "<group>"; };
 		C4C284E41D06BB1A009458E6 /* ScanResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanResultViewController.m; sourceTree = "<group>"; };
@@ -266,7 +265,6 @@
 		F676D6BF1DAB6BC40069FD4F /* YH-IOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "YH-IOS.entitlements"; sourceTree = "<group>"; };
 		F68089521D8930C400CDBAF8 /* DropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropViewController.h; sourceTree = "<group>"; };
 		F68089531D8930C400CDBAF8 /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
-		F68EA5731D7E8BD600AC2F8A /* advertisement.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = advertisement.zip; sourceTree = "<group>"; };
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -469,6 +467,7 @@
 		C49BB9A81D8C24F4004C9F70 /* Macros */ = {
 			isa = PBXGroup;
 			children = (
+				C44676001DAE75C600574037 /* PrivateConstants.h */,
 				C49BB9AB1D8C2548004C9F70 /* Constant.h */,
 				C49BB9A91D8C2538004C9F70 /* Constant.m */,
 			);
@@ -716,13 +715,11 @@
 		C4DB7DC51C02EE6000DA534E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				C4AFAD0A1D7E971100261552 /* advertisement.zip */,
 				C46903931D5CC75F00233D05 /* BarCodeScan.zip */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
 				C4EFE4AB1C98F60A0009411A /* stylesheets.zip */,
 				C4EFE4AC1C98F60A0009411A /* javascripts.zip */,
 				C4EFE4AD1C98F60A0009411A /* images.zip */,
-				F68EA5731D7E8BD600AC2F8A /* advertisement.zip */,
 				C4EFE4AE1C98F60A0009411A /* assets.zip */,
 				C4272CC91C5CBA4700E6971B /* loading.zip */,
 			);
@@ -954,7 +951,6 @@
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
-				C4AFAD0B1D7E971100261552 /* advertisement.zip in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1230,7 +1226,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1263,7 +1259,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

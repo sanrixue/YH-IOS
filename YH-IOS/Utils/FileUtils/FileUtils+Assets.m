@@ -122,8 +122,9 @@
 }
 
 + (NSString *)currentUIVersion {
-    NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
-    NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
-    return betaDict[@"old_ui"] && [betaDict[@"old_ui"] boolValue] ? @"v1" : @"v2";
+    return @"v2";
+//    NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
+//    NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
+//    return betaDict[@"old_ui"] && [betaDict[@"old_ui"] boolValue] ? @"v1" : @"v2";
 }
 @end

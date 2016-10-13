@@ -125,7 +125,7 @@ void UncaughtExceptionHandler(NSException * exception) {
         [alertView show];
     }
     else {
-        [self checkIsLoginThenJump];
+        [self isLogin] ? [self jumpToDashboardView] : [self jumpToLogin];
     }
 }
 
@@ -137,13 +137,11 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (void)checkIsLoginThenJump {
-    if (![self isLogin]) {
-        LoginViewController *loginView = [[LoginViewController alloc]init];
-        UIViewController *view = (UIViewController *)self.window.rootViewController;
-        [view presentViewController:loginView animated:YES completion:nil];
+    if ([self isLogin]) {
+        [self jumpToDashboardView];
     }
     else {
-        [self jumpToDashboardView];
+        [self jumpToLogin];
     }
 }
 
@@ -174,7 +172,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (BOOL)isLogin {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    return [userDict[@"is_login"] isEqualToValue: @(YES)];
+    return [userDict[@"is_login"] boolValue];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

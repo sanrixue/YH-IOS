@@ -144,7 +144,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)checkPushMessageAction {
     NSString *pushMessagePath = [[FileUtils basePath] stringByAppendingPathComponent:kPushMessageFileName];
     NSMutableDictionary *pushMessageDict = [FileUtils readConfigFile:pushMessagePath];
-    if([pushMessageDict allKeys].count == 0 || pushMessageDict[kStatePushColumn]) {
+    if([pushMessageDict allKeys].count == 0 || [pushMessageDict[kStatePushColumn] boolValue]) {
         return;
     }
     

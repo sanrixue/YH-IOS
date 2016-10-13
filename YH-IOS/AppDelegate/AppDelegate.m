@@ -116,8 +116,8 @@ void UncaughtExceptionHandler(NSException * exception) {
     
     NSMutableDictionary *pushMessageDict = [NSMutableDictionary dictionaryWithDictionary:userInfo];
     pushMessageDict[kStatePushColumn] = @(NO);
-    NSString *pushConfigPath= [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
-    [FileUtils writeJSON:pushMessageDict Into:pushConfigPath];
+    NSString *pushConfigPath= [[FileUtils basePath] stringByAppendingPathComponent:kPushMessageFileName];
+    [pushMessageDict writeToFile:pushConfigPath atomically:YES];
     
     if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
         [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];

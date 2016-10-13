@@ -93,6 +93,7 @@ extern NSString *const kCachedDirName;
 extern NSString *const kReportDataFileName;
 extern NSString *const kUserConfigFileName;
 extern NSString *const kPushConfigFileName;
+extern NSString *const kPushMessageFileName;
 extern NSString *const kSettingConfigFileName;
 extern NSString *const kGesturePwdConfileFileName;
 extern NSString *const kLocalNotificationConfigFileName;

@@ -142,7 +142,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      state: true_or_false // 接收参数时设置为 `false`
  */
 - (void)checkPushMessageAction {
-    NSString *pushMessagePath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
+    NSString *pushMessagePath = [[FileUtils basePath] stringByAppendingPathComponent:kPushMessageFileName];
     NSMutableDictionary *pushMessageDict = [FileUtils readConfigFile:pushMessagePath];
     if([pushMessageDict allKeys].count == 0 || pushMessageDict[kStatePushColumn]) {
         return;
@@ -151,7 +151,12 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     NSString *pushType = pushMessageDict[kTypePushColumn];
     NSInteger tabIndex = -1;
     if ([pushType isEqualToString:@"report"]) {
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": pushMessageDict[kTitlePushColumn], @"link": pushMessageDict[kLinkPushColumn], @"objectID": pushMessageDict[kObjIDPushColumn], @"objectType": pushMessageDict[kObjTypePushColumn]}];
+        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{
+            @"bannerName": pushMessageDict[kTitlePushColumn],
+            @"link": pushMessageDict[kLinkPushColumn],
+            @"objectID": pushMessageDict[kObjIDPushColumn],
+            @"objectType": pushMessageDict[kObjTypePushColumn]
+        }];
     }
     else if ([pushType isEqualToString:@"kpi"]) {
         tabIndex = 0;
@@ -171,7 +176,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }
     
     pushMessageDict[kStatePushColumn] = @(YES);
-    [FileUtils writeJSON:pushMessageDict Into:pushMessagePath];
+    [pushMessageDict writeToFile:pushMessagePath atomically:YES];
     
     if(tabIndex >= 0) { [self tabBarClick:tabIndex]; }
 }

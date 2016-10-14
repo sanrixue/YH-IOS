@@ -121,7 +121,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     
     if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
         [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText, nil];
+        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
         [alertView show];
     }
     else {

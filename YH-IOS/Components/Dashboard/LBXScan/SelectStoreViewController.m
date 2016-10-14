@@ -199,10 +199,13 @@
     NSMutableDictionary *cachedDict = [FileUtils readConfigFile:barCodePath];
     NSDictionary *currentStore;
     if (indexPath.section == 1) {
-        currentStore =(_isSearch) ? self.searchArray[indexPath.row] :self.currentStore;
+        currentStore =((_isSearch) && [self.searchArray count] > 0) ? self.searchArray[indexPath.row] :self.currentStore;
     }
     if (indexPath.section == 2) {
-    currentStore = self.searchItems[indexPath.row];
+        currentStore = self.searchItems[indexPath.row];
+    }
+    else{
+        currentStore = self.currentStore;
     }
     cachedDict[@"store"] = @{ @"id": currentStore[@"id"], @"name": currentStore[@"name"]};
     [FileUtils writeJSON:cachedDict Into:barCodePath];

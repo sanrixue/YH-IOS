@@ -23,7 +23,9 @@
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
 
-@interface AppDelegate ()<LTHPasscodeViewControllerDelegate>
+@interface AppDelegate ()<LTHPasscodeViewControllerDelegate>{
+    BOOL isDismissPush;
+}
 @end
 
 @implementation AppDelegate
@@ -60,7 +62,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
     [self.window setRootViewController:initViewController];
     [self.window makeKeyAndVisible];
-    
+    isDismissPush = NO;
     [self initPgyer];
     [self initUMessage:launchOptions];
     [self initUMSocial];
@@ -125,20 +127,23 @@ void UncaughtExceptionHandler(NSException * exception) {
         [alertView show];
     }
     else {
-        [self isLogin] ? [self jumpToDashboardView] : [self jumpToLogin];
+         [self jumpToLogin];
     }
 }
 
 #pragma mark - 程序在运行时候接收到通知
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-        [self checkIsLoginThenJump];
+        [self checkIsLoginThenJump:alertView];
     }
 }
 
-- (void)checkIsLoginThenJump {
-    if ([self isLogin]) {
+- (void)checkIsLoginThenJump:(UIAlertView *)alertView {
+    if ([self isLogin] && !isDismissPush) {
         [self jumpToDashboardView];
+    }
+    else if ([self isLogin] && isDismissPush){
+        [alertView removeFromSuperview];
     }
     else {
         [self jumpToLogin];
@@ -313,6 +318,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
     if ([LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd]) {
         [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES withLogout:NO andLogoutTitle:nil];
+        isDismissPush = YES;
     }
 }
 

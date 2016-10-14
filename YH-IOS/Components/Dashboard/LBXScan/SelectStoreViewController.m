@@ -102,7 +102,7 @@
     // UITextField *field = [notifice object];
     NSString *searchText = notifice;
     
-    if([searchText length] > 0 && searchText) {
+    if([searchText length] > 0) {
         NSString *predicateStr = [NSString stringWithFormat:@"(SELF['name'] CONTAINS \"%@\")", searchText];
         NSPredicate *sPredicate = [NSPredicate predicateWithFormat:predicateStr];
         NSMutableArray *array = [NSMutableArray arrayWithArray:self.searchItems];

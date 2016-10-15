@@ -72,6 +72,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.localNotificationPath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     self.behaviorPath = [FileUtils dirPath:kConfigDirName FileName:kBehaviorConfigFileName];
     
+    UIButton *refreshBtn = [[UIButton alloc]initWithFrame:CGRectMake(10, 30, 60, 40)];
+    [refreshBtn setImage:[UIImage imageNamed:@"Subject-Share"] forState:UIControlStateNormal];
+    [refreshBtn addTarget:self action:@selector(handleRefresh:)  forControlEvents:UIControlEventTouchUpInside];
+    [self.bannerView addSubview:refreshBtn];
+    
     [self initUrlStrings];
     [self initLocalNotifications];
     [self initDropMenu];
@@ -478,9 +483,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     [self addWebViewJavascriptBridge]; 
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
-    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
+   // UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    //[refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    //[self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
 }
 
 - (void)initDropMenu {
@@ -517,7 +522,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
     [self loadHtml];
-    [refresh endRefreshing];
+    //[refresh endRefreshing];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*

@@ -43,16 +43,6 @@ NSString *const kResetPwdMobilePath    = @"%@/mobile/%@/update_user_password";
 NSString *const kThursdaySayMobilePath = @"%@/mobile/%@/thursday_say";
 
 /**
- *  Config#Push Message
- */
-NSString *const kTypePushColumn    = @"type";
-NSString *const kTitlePushColumn   = @"title";
-NSString *const kLinkPushColumn    = @"url";
-NSString *const kObjIDPushColumn   = @"object_id";
-NSString *const kObjTypePushColumn = @"object_type";
-NSString *const kStatePushColumn   = @"state";
-
-/**
  *  Config#Application
  */
 NSString *const kConfigDirName = @"Configs";
@@ -64,7 +54,6 @@ NSString *const kReportDataFileName              = @"group_%@_template_%@_report
 NSString *const kUnzipReportDataFileName         = @"group_%@_report_%@_template_%@.js";
 NSString *const kUserConfigFileName              = @"user.plist";
 NSString *const kPushConfigFileName              = @"push_message_config.plist";
-NSString *const kPushMessageFileName             = @"push_message.plist";
 NSString *const kSettingConfigFileName           = @"setting.plist";
 NSString *const kGesturePwdConfileFileName       = @"gesture_password.plist";
 NSString *const kLocalNotificationConfigFileName = @"local_notification.plist";
@@ -72,10 +61,35 @@ NSString *const kCachedHeaderConfigFileName      = @"cached_header.plist";
 NSString *const kPgyerVersionConfigFileName      = @"pgyer_version.plist";
 NSString *const kGravatarConfigFileName          = @"gravatar.plist";
 NSString *const kBetaConfigFileName              = @"beta.plist";
-NSString *const kBehaviorConfigFileName          = @"behavior_v0.plist";
 NSString *const kBarCodeResultFileName           = @"barcode_result.json";
 NSString *const kCurrentVersionFileName          = @"current_version.txt";
 NSString *const kUserAgentFileName               = @"webview_user_agent.txt";
+
+/**
+ *  Config#User Behavior Column name
+ */
+NSString *const kBehaviorConfigFileName = @"behavior_v0.plist";
+NSString *const kDashboardUBCName       = @"dashboard";
+NSString *const kMessageUBCName         = @"message";
+NSString *const kReportUBCName          = @"message";
+NSString *const kTabIndexUBCName        = @"tab_index";
+
+/**
+ *  Config#Push Message With Umeng
+ */
+NSString *const kPushMessageFileName = @"push_message.plist";
+NSString *const kTypePushColumn    = @"type";
+NSString *const kTitlePushColumn   = @"title";
+NSString *const kLinkPushColumn    = @"url";
+NSString *const kObjIDPushColumn   = @"object_id";
+NSString *const kObjTypePushColumn = @"object_type";
+NSString *const kStatePushColumn   = @"state";
+NSString *const kTypeReportPushColumn      = @"report";
+NSString *const kTypeKPIPushColumn         = @"kpi";
+NSString *const kTypeAnalysePushColumn     = @"analyse";
+NSString *const kTypeAppPushColumn         = @"app";
+NSString *const kTypeMessagePushColumn     = @"message";
+NSString *const kTypeThursdaySayPushColumn = @"message";
 
 /**
  *  Assets Folder and FileName

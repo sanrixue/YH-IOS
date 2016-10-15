@@ -190,11 +190,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         NSNumber *tabIndex = data[@"tabIndex"];
         
         if([action isEqualToString:@"store"]) {
-            behaviorDict[@"report"][pageName] = tabIndex;
+            behaviorDict[kReportUBCName][pageName] = tabIndex;
             [behaviorDict writeToFile:behaviorPath atomically:YES];
         }
         else if([action isEqualToString:@"restore"]) {
-            tabIndex = behaviorDict[@"report"] && behaviorDict[@"report"][pageName] ? behaviorDict[@"report"][pageName] : @(0);
+            tabIndex = behaviorDict[kReportUBCName] && behaviorDict[kReportUBCName][pageName] ? behaviorDict[kReportUBCName][pageName] : @(0);
             
             responseCallback(tabIndex);
         }

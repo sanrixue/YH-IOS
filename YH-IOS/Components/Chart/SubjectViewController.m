@@ -117,7 +117,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 #pragma mark - UIWebview pull down to refresh
 
--(void)handleRefresh{
+-(void)handleRefresh {
     [self addWebViewJavascriptBridge];
     
     if(self.isInnerLink) {

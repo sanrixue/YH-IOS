@@ -130,6 +130,7 @@ NSString *const kDropMentUserInfoText = @"个人信息";
 NSString *const kDropSearchText  = @"筛选";
 NSString *const kDropShareText   = @"分享";
 NSString *const kDropCommentText = @"评论";
+NSString *const kDropRefreshText = @"刷新";
 
 /**
  * Assets file name

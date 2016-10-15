@@ -139,11 +139,8 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (void)checkIsLoginThenJump:(UIAlertView *)alertView {
-    if ([self isLogin] && !isDismissPush) {
-        [self jumpToDashboardView];
-    }
-    else if ([self isLogin] && isDismissPush){
-        [alertView removeFromSuperview];
+    if ([self isLogin]) {
+        isDismissPush ? [alertView removeFromSuperview] : [self jumpToDashboardView];
     }
     else {
         [self jumpToLogin];

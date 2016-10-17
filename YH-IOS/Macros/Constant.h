@@ -146,6 +146,7 @@ extern NSString *const kDropMentUserInfoText;
 extern NSString *const kDropSearchText;
 extern NSString *const kDropShareText;
 extern NSString *const kDropCommentText;
+extern NSString *const kDropRefreshText;
 
 /**
  *  Assets Folder and FileName

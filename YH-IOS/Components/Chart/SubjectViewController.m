@@ -117,7 +117,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 #pragma mark - UIWebview pull down to refresh
 
--(void)handleRefresh:(UIRefreshControl *)refresh {
+-(void)handleRefresh {
     [self addWebViewJavascriptBridge];
     
     if(self.isInnerLink) {
@@ -128,7 +128,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     
     [self loadHtml];
-    [refresh endRefreshing];
+    //[refresh endRefreshing];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
@@ -232,9 +232,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         responseCallback(selectedItem);
     }];
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
-    [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
+   // UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    //[refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    //[self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
 }
 
 #pragma mark - assistant methods
@@ -361,6 +361,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [tmpTitles addObject:kDropSearchText];
         [tmpIcons addObject:@"Subject-Search"];
     }
+    [tmpTitles addObject:kDropRefreshText];
+    [tmpIcons addObject:@"Subject-Comment"];
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
@@ -437,6 +439,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         }
         else if([itemName isEqualToString:kDropShareText]) {
             [self actionWebviewScreenShot];
+        }
+        else if ([itemName isEqualToString:kDropRefreshText]){
+            [self handleRefresh];
         }
     }];
 }

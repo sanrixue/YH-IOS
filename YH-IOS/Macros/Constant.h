@@ -43,6 +43,7 @@ extern NSString *const kThemeColor;
 extern NSString *const kBannerBgColor;
 extern NSString *const kBannerTextColor;
 extern NSString *const kIsUrlWrite2Local;
+extern NSInteger const kTimerInterval;
 
 /**
  *  API#paths
@@ -53,13 +54,21 @@ extern NSString *const kCommentAPIPath;
 extern NSString *const kScreenLockAPIPath;
 extern NSString *const kDeviceStateAPIPath;
 extern NSString *const kResetPwdAPIPath;
-extern NSString *const kBehaviorConfigFileName;
 extern NSString *const kActionLogAPIPath;
 extern NSString *const kPushDeviceTokenAPIPath;
 extern NSString *const kBarCodeScanAPIPath;
 extern NSString *const kDownloadAssetsAPIPath;
 extern NSString *const kUploadGravatarAPIPath;
 extern NSString *const kUnzipReportDataFileName;
+
+/**
+ *  Config#User Behavior Column name
+ */
+extern NSString *const kBehaviorConfigFileName;
+extern NSString *const kDashboardUBCName;
+extern NSString *const kMessageUBCName;
+extern NSString *const kReportUBCName;
+extern NSString *const kTabIndexUBCName;
 
 /**
  *  Mobile#View Path
@@ -81,6 +90,12 @@ extern NSString *const kLinkPushColumn;
 extern NSString *const kObjIDPushColumn;
 extern NSString *const kObjTypePushColumn;
 extern NSString *const kStatePushColumn;
+extern NSString *const kTypeReportPushColumn;
+extern NSString *const kTypeKPIPushColumn;
+extern NSString *const kTypeAnalysePushColumn;
+extern NSString *const kTypeAppPushColumn;
+extern NSString *const kTypeMessagePushColumn;
+extern NSString *const kTypeThursdaySayPushColumn;
 
 /**
  *  Config#Application
@@ -132,6 +147,7 @@ extern NSString *const kDropMentUserInfoText;
 extern NSString *const kDropSearchText;
 extern NSString *const kDropShareText;
 extern NSString *const kDropCommentText;
+extern NSString *const kDropRefreshText;
 
 /**
  *  Assets Folder and FileName

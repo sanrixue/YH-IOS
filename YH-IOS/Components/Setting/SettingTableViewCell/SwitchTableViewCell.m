@@ -20,9 +20,9 @@
 
 #pragma mark 初始化视图
 - (void)initWithSubview {
-    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 10,120 , self.frame.size.height - 20)];
+    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 5, 120, self.frame.size.height - 20)];
     [self.contentView addSubview:self.messageLabel];
-    self.changStatusBtn = [[UISwitch alloc] initWithFrame:CGRectMake(mWIDTH - 70, 10, 50, self.frame.size.height - 10)];
+    self.changStatusBtn = [[UISwitch alloc] initWithFrame:CGRectMake(mWIDTH - 70, 5, 50, self.frame.size.height - 10)];
     [self addSubview:self.changStatusBtn];
 }
 

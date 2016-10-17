@@ -27,8 +27,13 @@
 #import "DropViewController.h"
 #import "ThurSayViewController.h"
 
-static NSString *const kChartSegueIdentifier   = @"DashboardToChartSegueIdentifier";
+static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
+
+static NSString *const kBannerNameSubjectColumn = @"bannerName";
+static NSString *const kLinkSubjectColumn       = @"link";
+static NSString *const kObjIDSubjectColumn      = @"objectID";
+static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 @interface DashboardViewController () <UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationBarDelegate> {
     UIViewController *contentView;
@@ -80,7 +85,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     self.btnScanCode.hidden = !kDropMenuScan;
     [self setTabBarItems];
     [self initTabClick];
-    [self getNewNotifiaction];
+    
+    /**
+     *  广告位隐藏于否
+     */
+    if(!kDashboardAd) { [self hideAdertWebView]; }
+    
+    [self checkAssetsUpdate];
+    [self setTabBarHeight];
     
     /*
      * 解屏进入主页面，需检测版本更新
@@ -94,28 +106,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     [self checkUserModifiedInitPassword];
     
     /**
-     *  广告位隐藏于否
+     *  生命周期内仅执行一次
      */
-    if(!kDashboardAd) { [self hideAdertWebView]; }
-}
-
-- (void)getNewNotifiaction {
-    dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
-    dispatch_after(time, dispatch_get_main_queue(), ^{
-        [self setNotificationBadgeTimer];
-    });
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self checkAssetsUpdate];
-    [self setTabBarHeight];
+    [self receiveLocalNotification];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+  //  [[NSNotificationCenter  defaultCenter]addObserver:self selector:@selector(checkPushMessageAction) name:@"NotificationThurSay" object:nil];
     [self checkPushMessageAction];
 }
 
@@ -126,6 +124,14 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             break;
         }
     }
+}
+
+#pragma mark - 本地通知状态，定时刷新
+- (void)receiveLocalNotification {
+    dispatch_time_t time = dispatch_time(DISPATCH_TIME_NOW, 5 * NSEC_PER_SEC);
+    dispatch_after(time, dispatch_get_main_queue(), ^{
+        [self setNotificationBadgeTimer];
+    });
 }
 
 #pragma mark - 推送消息点击后的响应处理
@@ -150,27 +156,27 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     
     NSString *pushType = pushMessageDict[kTypePushColumn];
     NSInteger tabIndex = -1;
-    if ([pushType isEqualToString:@"report"]) {
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{
-            @"bannerName": pushMessageDict[kTitlePushColumn],
-            @"link": pushMessageDict[kLinkPushColumn],
-            @"objectID": pushMessageDict[kObjIDPushColumn],
-            @"objectType": pushMessageDict[kObjTypePushColumn]
+    if ([pushType isEqualToString:kTypeReportPushColumn]) {
+        [self performSegueWithIdentifier:kSubjectSegueIdentifier sender:@{
+            kBannerNameSubjectColumn: pushMessageDict[kTitlePushColumn],
+            kLinkSubjectColumn: pushMessageDict[kLinkPushColumn],
+            kObjIDSubjectColumn: pushMessageDict[kObjIDPushColumn],
+            kObjTypeSubjectColumn: pushMessageDict[kObjTypePushColumn]
         }];
     }
-    else if ([pushType isEqualToString:@"kpi"]) {
+    else if ([pushType isEqualToString:kTypeKPIPushColumn]) {
         tabIndex = 0;
     }
-    else if ([pushType isEqualToString:@"analyse"]) {
+    else if ([pushType isEqualToString:kTypeAnalysePushColumn]) {
         tabIndex = 1;
     }
-    else if ([pushType isEqualToString:@"app"]) {
+    else if ([pushType isEqualToString:kTypeAppPushColumn]) {
         tabIndex = 2;
     }
-    else if ([pushType isEqualToString:@"message"]) {
+    else if ([pushType isEqualToString:kTypeMessagePushColumn]) {
         tabIndex = 3;
     }
-    else if([pushType isEqualToString:@"thursday_say"]) {
+    else if([pushType isEqualToString:kTypeThursdaySayPushColumn]) {
         ThurSayViewController *thurSay = [[ThurSayViewController alloc] init];
         [self presentViewController:thurSay animated:YES completion:nil];
     }
@@ -184,21 +190,21 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)initTabClick {
     if(![FileUtils checkFileExist:self.behaviorPath isDir:NO]) {
         NSMutableDictionary *defaultBehaviorDict = [NSMutableDictionary dictionaryWithDictionary:@{
-           @"dashboard": @{
-               @"tab_index": @(0)
+           kDashboardUBCName: @{
+               kTabIndexUBCName: @(0)
            },
-           @"message": @{
-               @"tab_index": @(0)
+           kMessageUBCName: @{
+               kTabIndexUBCName: @(0)
            },
-           @"report": @{
-               @"tab_index": @(0)
+           kReportUBCName: @{
+               kTabIndexUBCName: @(0)
            }
         }];
         [defaultBehaviorDict writeToFile:self.behaviorPath atomically:YES];
     }
     
     self.behaviorDict = [FileUtils readConfigFile:self.behaviorPath];
-    NSInteger tabIndex = [self.behaviorDict[@"dashboard"][@"tab_index"] integerValue];
+    NSInteger tabIndex = [self.behaviorDict[kDashboardUBCName][kTabIndexUBCName] integerValue];
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
     [self tabBarClick:tabIndex];
 }
@@ -328,9 +334,9 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
             return;
         }
         
-        NSDictionary *params = @{@"bannerName": data[@"objectTitle"], @"link": data[@"openLink"], @"objectID": data[@"objectID"]};
+        NSDictionary *params = @{kBannerNameSubjectColumn: data[@"objectTitle"], kLinkSubjectColumn: data[@"openLink"], kObjIDSubjectColumn: data[@"objectID"]};
         self.commentObjectType = [data[@"objectType"] integerValue];
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:params];
+        [self performSegueWithIdentifier:kSubjectSegueIdentifier sender:params];
         actionLogTitle = data[@"objectTitle"];
     }
     else {
@@ -597,7 +603,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
     }];
     
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self performSegueWithIdentifier:kChartSegueIdentifier sender:@{@"bannerName": data[@"bannerName"], @"link": data[@"link"], @"objectID": data[@"objectID"]}];
+        [self performSegueWithIdentifier:kSubjectSegueIdentifier sender:@{
+            kBannerNameSubjectColumn: data[@"bannerName"],
+            kLinkSubjectColumn: data[@"link"],
+            kObjIDSubjectColumn: data[@"objectID"]
+        }];
     }];
     
     [self.bridge registerHandler:@"dashboardDataCount" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -614,11 +624,11 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
         NSNumber *tabIndex = data[@"tabIndex"];
         
         if([action isEqualToString:@"store"]) {
-            self.behaviorDict[@"message"][@"tab_index"] = tabIndex;
+            self.behaviorDict[kMessageUBCName][kTabIndexUBCName] = tabIndex;
             [self.behaviorDict writeToFile:self.behaviorPath atomically:YES];
         }
         else if([action isEqualToString:@"restore"]) {
-            tabIndex = self.behaviorDict[@"message"][@"tab_index"];
+            tabIndex = self.behaviorDict[kMessageUBCName][kTabIndexUBCName];
             
             responseCallback(tabIndex);
         }
@@ -763,15 +773,15 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
     
-    if([segue.identifier isEqualToString:kChartSegueIdentifier]) {
+    if([segue.identifier isEqualToString:kSubjectSegueIdentifier]) {
         NSInteger objectType = self.commentObjectType;
-        if(sender[kObjTypePushColumn]) {
-            objectType = [sender[kObjTypePushColumn] integerValue];
+        if(sender[kObjTypeSubjectColumn]) {
+            objectType = [sender[kObjTypeSubjectColumn] integerValue];
         }
         SubjectViewController *subjectViewController = (SubjectViewController *)segue.destinationViewController;
-        subjectViewController.bannerName        = sender[@"bannerName"];
-        subjectViewController.link              = sender[@"link"];
-        subjectViewController.objectID          = sender[@"objectID"];
+        subjectViewController.bannerName        = sender[kBannerNameSubjectColumn];
+        subjectViewController.link              = sender[kLinkSubjectColumn];
+        subjectViewController.objectID          = sender[kObjIDSubjectColumn];
         subjectViewController.commentObjectType = objectType;
         
         logParams[kActionALCName]   = @"点击/主页面/浏览器";
@@ -884,7 +894,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
      */
     [self tabBarState: NO];
     
-    self.behaviorDict[@"dashboard"][@"tab_index"] = @(index);
+    self.behaviorDict[kDashboardUBCName][kTabIndexUBCName] = @(index);
     [self.behaviorDict writeToFile:self.behaviorPath atomically:YES];
     
     /**
@@ -1023,7 +1033,7 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 #pragma mark - 本地通知，样式加载
 - (void)setNotificationBadgeTimer {
-    NSTimeInterval period = 60 * 30;
+    NSTimeInterval period = 60 * kTimerInterval;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, period * NSEC_PER_SEC, 0);
@@ -1037,10 +1047,15 @@ static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdenti
 
 - (void)extractDataCountFromUrlStrings {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *urlString;
+        NSString *urlString, *paramsSplit;
         HttpResponse *httpResponse;
+        NSString *externParams = [NSString stringWithFormat:@"auto_timer=%li&user_device_id=%@", (long)kTimerInterval, self.user.deviceID];
+        
         for (NSInteger index = 0, len = self.urlStrings.count; index < len; index ++) {
             urlString = self.urlStrings[index];
+            paramsSplit = [urlString containsString:@"?"] ? @"&" : @"?";
+            urlString = [NSString stringWithFormat:@"%@%@%@", urlString, paramsSplit, externParams];
+            
             httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:self.assetsPath];
             
             if ([httpResponse.statusCode isEqualToNumber:@(200)]) {

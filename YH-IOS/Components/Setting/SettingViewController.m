@@ -28,7 +28,6 @@
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
 @interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
     NSDictionary *pgyVersionDict;
-    NSString *settingsConfigPath;
 }
 @property (strong, nonatomic) UITableView *settingTableView;
 @property (strong, nonatomic) NSArray *userInfoArray;
@@ -45,6 +44,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 @property (strong, nonatomic) Version *version;
 @property (strong, nonatomic) NSMutableDictionary *noticeDict;
 @property (strong, nonatomic) NSString *noticeFilePath;
+@property (strong, nonatomic) NSString *settingsConfigPath;
 @property (strong, nonatomic) NSMutableDictionary *betaDict;
 
 @end
@@ -54,6 +54,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     self.noticeFilePath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     self.noticeDict = [FileUtils readConfigFile:self.noticeFilePath];
     
@@ -218,6 +219,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         }
         return cell;
     }
+    
     if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             BOOL isUseGesturePassword = [LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd];
@@ -234,7 +236,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             [cell.changStatusBtn addTarget:self action:@selector(actionWehtherUseGesturePassword:) forControlEvents:UIControlEventValueChanged];
             return cell;
         }
-        if (indexPath.row == 1) {
+        else if (indexPath.row == 1) {
             SettingDefaultTableViewCell *cell = [[SettingDefaultTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
             cell.titleLabel.text = @"修改登录密码";
             cell.titleLabel.textColor = [UIColor colorWithHexString:kThemeColor];
@@ -248,15 +250,16 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             return cell;
         }
     }
+    
     if (indexPath.section == 3) {
         SwitchTableViewCell *cell = [[SwitchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
         cell.messageLabel.text = @"截取长图";
-        settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
-        self.betaDict = [FileUtils readConfigFile:settingsConfigPath];
+        self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
         cell.changStatusBtn.on = [self.betaDict[@"share_image"] isEqualToNumber:@(1)];
         [cell.changStatusBtn addTarget:self action:@selector(actionSwitchToNewUI:) forControlEvents:UIControlEventValueChanged];
         return cell;
     }
+    
     if (indexPath.section == 4) {
         OneButtonTableViewCell *cell = [[OneButtonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"threesection"];
         [cell.actionBtn addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
@@ -264,9 +267,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         [cell.actionBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         return cell;
     }
-    else {
-        return nil;
-    }
+
+    return nil;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -290,20 +292,30 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        return 150;
+    CGFloat height = 30;
+    switch (indexPath.section) {
+        case 0:
+            height = 150;
+            break;
+        case 1:
+            if(indexPath.row == 8) {
+                height = 44;
+            }
+            break;
+        case 2:
+            if (indexPath.row == 0) {
+                height = 45;
+            }
+            else if (indexPath.row == 1) {
+                height = 35;
+            }
+            break;
+        case 3:
+            height = 44;
+            break;
     }
-    if (indexPath.section == 2) {
-        if (indexPath.row == 0) {
-            return 70;
-        }
-        else {
-            return 44;
-        }
-    }
-    else {
-        return 44;
-    }
+    
+    return height;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -409,9 +421,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 - (void)actionSwitchToNewUI:(UISwitch *)sender {
     NSLog(@"更改ui");
-    self.betaDict = [FileUtils readConfigFile:settingsConfigPath];
+    self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
     self.betaDict[@"share_image"] = @(sender.isOn);
-    [self.betaDict writeToFile:settingsConfigPath atomically:YES];
+    [self.betaDict writeToFile:self.settingsConfigPath atomically:YES];
 }
 
 - (void)checkPgyerVersionLabel:(Version *)version pgyerResponse:(NSDictionary *)pgyerResponse {
@@ -552,14 +564,14 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
         userDict[kIsUseGesturePasswordCUName] = @(NO);
         [userDict writeToFile:userConfigPath atomically:YES];
-        
-        NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kSettingConfigFileName];
-        [userDict writeToFile:settingsConfigPath atomically:YES];
+        [userDict writeToFile:self.settingsConfigPath atomically:YES];
         
         //self.buttonChangeGesturePassword.enabled = NO;
         
         [ViewUtils showPopupView:self.view Info:@"禁用手势锁设置成功"];
         self.isChangeLochPassword = NO;
+        
+        [self.settingTableView reloadData];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [APIHelper screenLock:userDict[kUserDeviceIDCUName] passcode:userDict[kGesturePasswordCUName] state:NO];

@@ -25,6 +25,8 @@
 
 @interface AppDelegate ()<LTHPasscodeViewControllerDelegate>{
     BOOL isDismissPush;
+    int iconNumber;
+    NSDictionary *userPushInfo;
 }
 @end
 
@@ -53,6 +55,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     
     NSURL *url = [NSURL URLWithString:[mailContent stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     [[UIApplication sharedApplication] openURL:url];
+    
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -71,9 +74,21 @@ void UncaughtExceptionHandler(NSException * exception) {
     [self initWebViewUserAgent];
     [self initScreenLock];
     NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
-
+    application.applicationIconBadgeNumber = 0;
+    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (userInfo) {
+        [self savePushDict:userInfo];
+    }
     return YES;
 }
+
+- (void)savePushDict:(NSDictionary *)dict {
+    NSMutableDictionary *pushMessageDict = [NSMutableDictionary dictionaryWithDictionary:dict];
+    pushMessageDict[kStatePushColumn] = @(NO);
+    NSString *pushConfigPath= [[FileUtils basePath] stringByAppendingPathComponent:kPushMessageFileName];
+    [pushMessageDict writeToFile:pushConfigPath atomically:YES];
+}
+
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [UMessage registerDeviceToken:deviceToken];
@@ -115,45 +130,37 @@ void UncaughtExceptionHandler(NSException * exception) {
     // 关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
-    
-    NSMutableDictionary *pushMessageDict = [NSMutableDictionary dictionaryWithDictionary:userInfo];
-    pushMessageDict[kStatePushColumn] = @(NO);
-    NSString *pushConfigPath= [[FileUtils basePath] stringByAppendingPathComponent:kPushMessageFileName];
-    [pushMessageDict writeToFile:pushConfigPath atomically:YES];
-    
-    if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
-        [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    [self savePushDict:userInfo];
+    if (application.applicationState == UIApplicationStateActive) {
         UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
         [alertView show];
     }
-    else {
-         [self jumpToLogin];
-    }
+
+    application.applicationIconBadgeNumber = 1;
 }
 
 #pragma mark - 程序在运行时候接收到通知
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
-        [self checkIsLoginThenJump:alertView];
+        [self checkIsLoginThenJump];
+        //[alertView removeFromSuperview];
     }
 }
 
-- (void)checkIsLoginThenJump:(UIAlertView *)alertView {
-    if ([self isLogin] && !isDismissPush) {
-        [self jumpToDashboardView];
-    }
-    else if ([self isLogin] && isDismissPush){
-        [alertView removeFromSuperview];
+- (void)checkIsLoginThenJump {
+    if ([self isLogin]) {
+        !isDismissPush ? [self jumpToDashboardView] : nil;
     }
     else {
         [self jumpToLogin];
     }
+    isDismissPush = NO;
 }
 
 #pragma mark - 跳转至仪表盘
 - (void)jumpToDashboardView {
     LoginViewController *previousRootViewController = (LoginViewController *)_window.rootViewController;
-    
+    isDismissPush = NO;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     // dashboardViewController.clickTab = self.clickTab;

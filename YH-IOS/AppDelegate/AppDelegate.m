@@ -25,8 +25,6 @@
 
 @interface AppDelegate ()<LTHPasscodeViewControllerDelegate>{
     BOOL isDismissPush;
-    int iconNumber;
-    NSDictionary *userPushInfo;
 }
 @end
 

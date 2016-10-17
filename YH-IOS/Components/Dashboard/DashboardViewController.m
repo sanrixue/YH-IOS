@@ -113,7 +113,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-  //  [[NSNotificationCenter  defaultCenter]addObserver:self selector:@selector(checkPushMessageAction) name:@"NotificationThurSay" object:nil];
     [self checkPushMessageAction];
 }
 

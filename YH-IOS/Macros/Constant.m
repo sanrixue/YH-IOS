@@ -15,6 +15,7 @@ NSString *const kThemeColor       = @"#53a93f"; //31809f
 NSString *const kBannerBgColor    = @"#53a93f";
 NSString *const kBannerTextColor  = @"#ffffff";
 NSString *const kIsUrlWrite2Local = @"1";
+NSInteger const kTimerInterval    = 30;
 
 /**
  *  API#paths

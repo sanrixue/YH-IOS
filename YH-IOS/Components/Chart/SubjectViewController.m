@@ -362,7 +362,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [tmpIcons addObject:@"Subject-Search"];
     }
     [tmpTitles addObject:kDropRefreshText];
-    [tmpIcons addObject:@"Subject-Comment"];
+    [tmpIcons addObject:@"Subject-Refresh"];
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }

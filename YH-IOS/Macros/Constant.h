@@ -43,6 +43,7 @@ extern NSString *const kThemeColor;
 extern NSString *const kBannerBgColor;
 extern NSString *const kBannerTextColor;
 extern NSString *const kIsUrlWrite2Local;
+extern NSInteger const kTimerInterval;
 
 /**
  *  API#paths

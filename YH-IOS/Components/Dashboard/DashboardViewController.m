@@ -27,7 +27,7 @@
 #import "DropViewController.h"
 #import "ThurSayViewController.h"
 
-static NSString *const kSubjectSegueIdentifier   = @"DashboardToChartSegueIdentifier";
+static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
 
 static NSString *const kBannerNameSubjectColumn = @"bannerName";
@@ -1033,7 +1033,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 #pragma mark - 本地通知，样式加载
 - (void)setNotificationBadgeTimer {
-    NSTimeInterval period = 60 * 30;
+    NSTimeInterval period = 60 * kTimerInterval;
     dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     dispatch_source_set_timer(_timer, DISPATCH_TIME_NOW, period * NSEC_PER_SEC, 0);
@@ -1047,11 +1047,15 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 - (void)extractDataCountFromUrlStrings {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSString *urlString;
+        NSString *urlString, *paramsSplit;
         HttpResponse *httpResponse;
+        NSString *externParams = [NSString stringWithFormat:@"auto_timer=%li&user_device_id=%@", (long)kTimerInterval, self.user.deviceID];
         
         for (NSInteger index = 0, len = self.urlStrings.count; index < len; index ++) {
             urlString = self.urlStrings[index];
+            paramsSplit = [urlString containsString:@"?"] ? @"&" : @"?";
+            urlString = [NSString stringWithFormat:@"%@%@%@", urlString, paramsSplit, externParams];
+            
             httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:self.assetsPath];
             
             if ([httpResponse.statusCode isEqualToNumber:@(200)]) {

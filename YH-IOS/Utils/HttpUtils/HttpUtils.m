@@ -199,18 +199,18 @@
  *  @return HttpResponse
  */
 + (HttpResponse *)checkResponseHeader:(NSString *)urlString assetsPath:(NSString *)assetsPath {
-    urlString = [self urlCleaner:urlString];
     NSString *cachedHeaderPath = [assetsPath stringByAppendingPathComponent:kCachedHeaderConfigFileName];
     NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
     
+    NSString *urlCleanedString = [self urlCleaner:urlString];
     NSMutableDictionary *header = [NSMutableDictionary dictionary];
-    if(cachedHeaderDict[urlString]) {
-        if(cachedHeaderDict[urlString][@"Etag"]) {
-            header[@"IF-None-Match"] = cachedHeaderDict[urlString][@"Etag"];
+    if(cachedHeaderDict[urlCleanedString]) {
+        if(cachedHeaderDict[urlCleanedString][@"Etag"]) {
+            header[@"IF-None-Match"] = cachedHeaderDict[urlCleanedString][@"Etag"];
         }
         
-        if(cachedHeaderDict[urlString][@"Last-Modified"]) {
-            header[@"If-Modified-Since"] = cachedHeaderDict[urlString][@"Last-Modified"];
+        if(cachedHeaderDict[urlCleanedString][@"Last-Modified"]) {
+            header[@"If-Modified-Since"] = cachedHeaderDict[urlCleanedString][@"Last-Modified"];
         }
     }
     
@@ -221,7 +221,7 @@
             cachedHeaderDict = [NSMutableDictionary dictionary];
         }
         
-        cachedHeaderDict[urlString] = httpResponse.response.allHeaderFields;
+        cachedHeaderDict[urlCleanedString] = httpResponse.response.allHeaderFields;
         [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
     }
     NSLog(@"%@ - %@", urlString, httpResponse.statusCode);

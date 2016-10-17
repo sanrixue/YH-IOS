@@ -90,7 +90,7 @@ NSString *const kTypeKPIPushColumn         = @"kpi";
 NSString *const kTypeAnalysePushColumn     = @"analyse";
 NSString *const kTypeAppPushColumn         = @"app";
 NSString *const kTypeMessagePushColumn     = @"message";
-NSString *const kTypeThursdaySayPushColumn = @"message";
+NSString *const kTypeThursdaySayPushColumn = @"thursday_say";
 
 /**
  *  Assets Folder and FileName

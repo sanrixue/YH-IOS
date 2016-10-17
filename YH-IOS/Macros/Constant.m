@@ -78,13 +78,13 @@ NSString *const kTabIndexUBCName        = @"tab_index";
 /**
  *  Config#Push Message With Umeng
  */
-NSString *const kPushMessageFileName = @"push_message.plist";
-NSString *const kTypePushColumn    = @"type";
-NSString *const kTitlePushColumn   = @"title";
-NSString *const kLinkPushColumn    = @"url";
-NSString *const kObjIDPushColumn   = @"object_id";
-NSString *const kObjTypePushColumn = @"object_type";
-NSString *const kStatePushColumn   = @"state";
+NSString *const kPushMessageFileName       = @"push_message.plist";
+NSString *const kTypePushColumn            = @"type";
+NSString *const kTitlePushColumn           = @"title";
+NSString *const kLinkPushColumn            = @"url";
+NSString *const kObjIDPushColumn           = @"object_id";
+NSString *const kObjTypePushColumn         = @"object_type";
+NSString *const kStatePushColumn           = @"state";
 NSString *const kTypeReportPushColumn      = @"report";
 NSString *const kTypeKPIPushColumn         = @"kpi";
 NSString *const kTypeAnalysePushColumn     = @"analyse";

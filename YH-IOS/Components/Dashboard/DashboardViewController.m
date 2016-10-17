@@ -1049,7 +1049,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSString *urlString, *paramsSplit;
         HttpResponse *httpResponse;
-        NSString *externParams = [NSString stringWithFormat:@"auto_timer=%li&user_device_id=%@", (long)kTimerInterval, self.user.deviceID];
+        NSString *externParams = [NSString stringWithFormat:@"platform=ios&auto_timer=%li&user_device_id=%@", (long)kTimerInterval, self.user.deviceID];
         
         for (NSInteger index = 0, len = self.urlStrings.count; index < len; index ++) {
             urlString = self.urlStrings[index];

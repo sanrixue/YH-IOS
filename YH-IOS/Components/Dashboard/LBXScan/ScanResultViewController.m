@@ -29,9 +29,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    /**htmlContent
-     *  被始化页面样式
-     */
     [self idColor];
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
@@ -44,6 +41,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
+    
     [self clearBrowserCache];
     [self loadHtml];
 }
@@ -101,6 +99,24 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         cacheDict[@"store"] = userDict[kStoreIDsCUName][0];
         [FileUtils writeJSON:cacheDict Into:cacheJsonPath];
     }
+    else {
+        // 缓存的门店信息可能过期，判断是否在用户权限门店列表中（user.plist）
+        BOOL isExpired = YES;
+        NSDictionary *storeDict = [NSDictionary dictionary];
+        for(NSInteger i = 0, len = [userDict[kStoreIDsCUName] count]; i < len; i++) {
+            storeDict = userDict[kStoreIDsCUName][i];
+            if(storeDict[@"name"] && storeDict[@"id"] && [storeDict[@"id"] integerValue] == [cacheDict[@"store"][@"id"] integerValue]) {
+                isExpired = NO;
+                break;
+            }
+        }
+        
+        if(isExpired) {
+            cacheDict[@"store"] = userDict[kStoreIDsCUName][0];
+            [FileUtils writeJSON:cacheDict Into:cacheJsonPath];
+        }
+    }
+    
     storeID = cacheDict[@"store"][@"id"];
     self.labelTheme.text =cacheDict[@"store"][@"name"];
     

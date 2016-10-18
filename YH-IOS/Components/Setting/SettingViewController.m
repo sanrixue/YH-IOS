@@ -24,6 +24,7 @@
 #import "AFNetworking.h"
 #import "ThurSayViewController.h"
 #import "ThurSayTableViewCell.h"
+#import "UserInfoViewController.h"
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
 @interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
@@ -107,14 +108,13 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 #pragma mark - init need-show message
 - (void)initLabelInfoDict {
-    if ([self.version.current intValue] % 2) {
-        self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
-        self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能"];
+    if (![self.version.current intValue] % 2) {
+         self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
     }
     else {
-        self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
-        self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能"];
+        self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说",@"个人配置"];
     }
+    self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能"];
 
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
@@ -157,7 +157,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSArray *numberOfRowsInSection = @[@1, @9, @2, @1, @1];
+    int sectionTwoNum = (int)self.appInfoArray.count;
+    NSArray *numberOfRowsInSection = @[@1, @(sectionTwoNum), @2, @1, @1];
     return (section < numberOfRowsInSection.count ? [numberOfRowsInSection[section] integerValue] : 0);
 }
 
@@ -338,6 +339,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
             [self.settingTableView reloadData];
         }];
+    }
+    if ((indexPath.section == 1) && (indexPath.row == 9)) {
+        UserInfoViewController *userInfoView = [[UserInfoViewController alloc]init];
+        [self presentViewController:userInfoView animated:YES completion:nil];
     }
 }
 

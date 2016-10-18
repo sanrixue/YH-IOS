@@ -102,6 +102,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [FileUtils writeJSON:cacheDict Into:cacheJsonPath];
     }
     storeID = cacheDict[@"store"][@"id"];
+    self.labelTheme.text =cacheDict[@"store"][@"name"];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];

@@ -160,7 +160,7 @@
         }
         if (indexPath.section == 1) {
             UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"selected"];
-            cell.textLabel.text = self.selectedItem;
+            cell.textLabel.text = self.currentStore[@"name"];
             return cell;
         }
         else {
@@ -195,7 +195,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *barCodePath = [FileUtils dirPath:kCachedDirName FileName:kBarCodeScanFileName];
+    NSString *barCodePath = [FileUtils dirPath:kCachedDirName FileName:kBarCodeResultFileName];
     NSMutableDictionary *cachedDict = [FileUtils readConfigFile:barCodePath];
     NSDictionary *currentStore;
     if (indexPath.section == 1) {

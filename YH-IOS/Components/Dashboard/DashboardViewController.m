@@ -113,7 +113,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
     [self checkPushMessageAction];
 }
 

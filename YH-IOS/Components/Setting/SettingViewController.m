@@ -65,7 +65,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     self.version = [[Version alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
     self.view.backgroundColor = [UIColor clearColor];
-    self.settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) style:UITableViewStyleGrouped];
+    self.settingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height ) style:UITableViewStyleGrouped];
     [self.view addSubview:self.settingTableView];
     self.settingTableView.delegate = self;
     self.settingTableView.dataSource = self;
@@ -108,13 +108,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 #pragma mark - init need-show message
 - (void)initLabelInfoDict {
-    if (![self.version.current intValue] % 2) {
-         self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
-    }
-    else {
-        self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说",@"个人配置"];
-    }
-    self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能"];
+    self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
+    self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能",@"开发者功能"];
 
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
@@ -127,6 +122,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         self.appInfoArray[5]: pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭"
     };
     [self initLabelMessageDict];
+    
 }
 
 - (BOOL)prefersStatusBarHidden {
@@ -153,12 +149,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 5;
+    return 6;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    int sectionTwoNum = (int)self.appInfoArray.count;
-    NSArray *numberOfRowsInSection = @[@1, @(sectionTwoNum), @2, @1, @1];
+    
+    NSArray *numberOfRowsInSection = @[@1, @(self.appInfoArray.count), @2, @1, @1,@1];
     return (section < numberOfRowsInSection.count ? [numberOfRowsInSection[section] integerValue] : 0);
 }
 
@@ -171,9 +167,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    /**
-     *  用户信息
-     */
+    
+    //用户个人信息
     if (indexPath.section == 0) {
         UserHeadView *cell = [[UserHeadView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"userId"];
         [cell.userIcon addTarget:self action:@selector(addUserIcon) forControlEvents:UIControlEventTouchUpInside];
@@ -186,7 +181,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
         return cell;
     }
-    
+    //应用信息
     if (indexPath.section == 1) {
         SettingDefaultTableViewCell *cell = [[SettingDefaultTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
         
@@ -226,7 +221,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         }
         return cell;
     }
-    
+
     if (indexPath.section == 2) {
         if (indexPath.row == 0) {
             BOOL isUseGesturePassword = [LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd];
@@ -268,6 +263,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
     
     if (indexPath.section == 4) {
+        ThurSayTableViewCell *cell = [[ThurSayTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
+        cell.titleLabel.text = @"开发者选项";
+        return cell;
+    }
+    
+    if (indexPath.section == 5) {
         OneButtonTableViewCell *cell = [[OneButtonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"threesection"];
         [cell.actionBtn addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
         [cell.actionBtn setTitle:@"退出登录" forState:UIControlStateNormal];
@@ -292,6 +293,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         case 3:
             headString = self.headInfoArray[section - 1];
             break;
+        case 4:
+            headString = self.headInfoArray[section - 1];
         default:
             break;
     }
@@ -320,6 +323,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         case 3:
             height = 44;
             break;
+        case 4:
+            height = 44;
+            break;
     }
     
     return height;
@@ -340,7 +346,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             [self.settingTableView reloadData];
         }];
     }
-    if ((indexPath.section == 1) && (indexPath.row == 9)) {
+    if (indexPath.section == 4 ) {
         UserInfoViewController *userInfoView = [[UserInfoViewController alloc]init];
         [self presentViewController:userInfoView animated:YES completion:nil];
     }

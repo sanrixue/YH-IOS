@@ -27,20 +27,16 @@
     NSMutableDictionary *userConfigBehaviorDict = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:kBehaviorConfigFileName]];
     NSMutableDictionary *userConfigSettingDict = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:kSettingConfigFileName]];
     NSMutableDictionary *userLocalNotificationDict = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:kLocalNotificationConfigFileName]];
-    self.userInfoDict = [NSMutableDictionary dictionaryWithDictionary:userConfigSettingDict];
-    [self.userInfoDict addEntriesFromDictionary:userConfigBehaviorDict];
-    [self.userInfoDict addEntriesFromDictionary:userLocalNotificationDict];
-    self.userInfoDictKey = [self.userInfoDict allKeys];
     //显示的 label
-    NSString *writeMessageString = [NSString stringWithFormat:@"%@",self.userInfoDict];
+    NSString *writeMessageString = [NSString stringWithFormat:@"个人基本信息:\n%@ \n 用户行为记录:\n%@\n 设置信息:\n%@",userConfigSettingDict,userConfigBehaviorDict,userLocalNotificationDict];
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60,self.view.frame.size.width, self.view.frame.size.height)];
     UILabel *showlabel = [[UILabel alloc] init];
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     [style setLineBreakMode:NSLineBreakByCharWrapping];
-    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:14.f ], NSParagraphStyleAttributeName : style };
+    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:14.0f ], NSParagraphStyleAttributeName : style };
     CGRect labelRect = [writeMessageString boundingRectWithSize:CGSizeMake(self.view.frame.size.width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
     showlabel.font =[UIFont systemFontOfSize:14];
-    showlabel.frame = CGRectMake(labelRect.origin.x, labelRect.origin.y, self.view.frame.size.width, labelRect.size.height + 200);
+    showlabel.frame = CGRectMake(0, 0, self.view.frame.size.width, labelRect.size.height + 200);
     showlabel.text = writeMessageString;
     showlabel.numberOfLines = 0;
     scrollView.contentSize = showlabel.frame.size;
@@ -54,10 +50,11 @@
     titlelabel.textAlignment = NSTextAlignmentCenter;
     titlelabel.adjustsFontSizeToFitWidth = YES;
     [self.view addSubview:titlelabel];
-    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, 20, 50, 30)];
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 20)];
     [backBtn addTarget:self action:@selector(backToSetting) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [backBtn setTintColor:[UIColor whiteColor]];
+    [backBtn setImage:[UIImage imageNamed:@"Banner-Back"] forState:UIControlStateNormal];
     [self.view addSubview:backBtn];
 }
 

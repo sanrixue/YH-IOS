@@ -43,7 +43,6 @@
     showlabel.frame = CGRectMake(labelRect.origin.x, labelRect.origin.y, self.view.frame.size.width, labelRect.size.height + 200);
     showlabel.text = writeMessageString;
     showlabel.numberOfLines = 0;
-    showlabel.backgroundColor =[UIColor clearColor];
     scrollView.contentSize = showlabel.frame.size;
     scrollView.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:showlabel];

@@ -129,9 +129,12 @@ void UncaughtExceptionHandler(NSException * exception) {
     [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
     [self savePushDict:userInfo];
-    if (application.applicationState == UIApplicationStateActive) {
+    if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
         UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
         [alertView show];
+    }
+    else {
+        [self checkIsLoginThenJump];
     }
 
     application.applicationIconBadgeNumber = 1;

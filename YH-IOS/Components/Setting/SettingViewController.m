@@ -107,8 +107,14 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 #pragma mark - init need-show message
 - (void)initLabelInfoDict {
-    self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
-    self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能"];
+    if ([self.version.current intValue] % 2) {
+        self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
+        self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能"];
+    }
+    else {
+        self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
+        self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能"];
+    }
 
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];

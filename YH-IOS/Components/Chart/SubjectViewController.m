@@ -476,11 +476,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             UIImage *image;
             NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
             betaDict = [FileUtils readConfigFile:settingsConfigPath];
-            if (![betaDict[@"share_image"] boolValue]) {
-              image = [self saveWebViewAsImage];
-            }
-            else{
+            if (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) {
                 image = [self getImageFromCurrentScreen];
+            }
+            else {
+                image = [self saveWebViewAsImage];
             }
             [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
             [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
@@ -660,7 +660,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         logParams[kObjIDALCName]    = self.objectID;
         logParams[kObjTypeALCName]  = @(self.commentObjectType);
         logParams[kObjTitleALCName] = self.bannerName;
-        logParams[kScreenshotType] = (![betaDict[@"share_image"] boolValue]) ? @"screenIamge" : @"allImage";
+        logParams[kScreenshotType] = ( [betaDict[@"image_within_screen"] boolValue] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
@@ -688,7 +688,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         logParams[kObjIDALCName]    = self.objectID;
         logParams[kObjTypeALCName]  = @(self.commentObjectType);
         logParams[kObjTitleALCName] = self.bannerName;
-        logParams[kScreenshotType] = (![betaDict[@"share_image"] boolValue]) ? @"screenIamge" : @"allImage";
+        logParams[kScreenshotType] = ( [betaDict[@"image_within_screen"] boolValue] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {

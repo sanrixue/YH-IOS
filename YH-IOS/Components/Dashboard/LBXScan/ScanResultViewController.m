@@ -211,15 +211,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }];
 }
 
-- (void)actionWebviewScreenShot{
+- (void)actionWebviewScreenShot {
     UIImage *image;
     NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     betaDict = [FileUtils readConfigFile:settingsConfigPath];
-    if (![betaDict[@"share_image"] boolValue]) {
-        image = [self saveWebViewAsImage];
+    if (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) {
+        image = [self getImageFromCurrentScreen];
     }
     else{
-        image = [self getImageFromCurrentScreen];
+        image = [self saveWebViewAsImage];
     }
     // End the graphics context
     UIGraphicsEndImageContext();
@@ -299,7 +299,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
         logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享(%d)", fromViewControllerType];
-        logParams[kScreenshotType] = (![betaDict[@"share_image"] boolValue]) ? @"screenIamge" : @"allImage";
+        logParams[kScreenshotType] = ( [betaDict[@"image_within_screen"] boolValue] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
@@ -324,7 +324,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
         logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享完成(%d)", response.viewControllerType];
-        logParams[kScreenshotType] = (![betaDict[@"share_image"] boolValue]) ? @"screenIamge" : @"allImage";
+        logParams[kScreenshotType] = ( [betaDict[@"image_within_screen"] boolValue] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {

@@ -27,9 +27,13 @@
     NSMutableDictionary *userConfigBehaviorDict = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:kBehaviorConfigFileName]];
     NSMutableDictionary *userConfigSettingDict = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:kSettingConfigFileName]];
     NSMutableDictionary *userLocalNotificationDict = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:kLocalNotificationConfigFileName]];
+    //手机系统版本
+    NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];
+    //手机型号
+    NSString *phoneModel = [[UIDevice currentDevice] model];
 
     //显示的 label
-    NSString *writeMessageString = [NSString stringWithFormat:@"个人基本信息:\n%@ \n 用户行为记录:\n%@\n 设置信息:\n%@",userConfigSettingDict,userConfigBehaviorDict,userLocalNotificationDict];
+    NSString *writeMessageString = [NSString stringWithFormat:@"个人基本信息:\n%@ \n  手机系统版本:%@,\n 手机型号:%@ \n 用户行为记录:\n%@\n 设置信息:\n%@",userConfigSettingDict,phoneVersion,phoneModel,userConfigBehaviorDict,userLocalNotificationDict];
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60,self.view.frame.size.width, self.view.frame.size.height)];
     UILabel *showlabel = [[UILabel alloc] init];
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];

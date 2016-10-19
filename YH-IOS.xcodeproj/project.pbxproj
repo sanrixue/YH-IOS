@@ -95,7 +95,6 @@
 		F630B2E61D98FAB600CAA6A0 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F630B2E51D98FAB600CAA6A0 /* SearchTableViewCell.m */; };
 		F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F64903BB1DB5CD9B0001DD2B /* UserInfoViewController.m */; };
 		F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68089531D8930C400CDBAF8 /* DropViewController.m */; };
-		F68EB9E51DB727260020DD17 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB9E41DB727260020DD17 /* LoadingView.m */; };
 		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
 /* End PBXBuildFile section */
 
@@ -268,8 +267,6 @@
 		F64903BB1DB5CD9B0001DD2B /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		F68089521D8930C400CDBAF8 /* DropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropViewController.h; sourceTree = "<group>"; };
 		F68089531D8930C400CDBAF8 /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
-		F68EB9E31DB727260020DD17 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
-		F68EB9E41DB727260020DD17 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -545,7 +542,6 @@
 		C4C628391C0C1ED6000AD5D8 /* BaseView */ = {
 			isa = PBXGroup;
 			children = (
-				F68EB9E21DB727050020DD17 /* LoadingAnimation */,
 				C488E6A41C0F03C800EB946D /* BaseViewController.h */,
 				C488E6A51C0F03C800EB946D /* BaseViewController.m */,
 				F64068B01D8E87FE003396B0 /* DropView */,
@@ -834,15 +830,6 @@
 			name = DropView;
 			sourceTree = "<group>";
 		};
-		F68EB9E21DB727050020DD17 /* LoadingAnimation */ = {
-			isa = PBXGroup;
-			children = (
-				F68EB9E31DB727260020DD17 /* LoadingView.h */,
-				F68EB9E41DB727260020DD17 /* LoadingView.m */,
-			);
-			name = LoadingAnimation;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1047,7 +1034,6 @@
 				C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */,
 				F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */,
 				C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */,
-				F68EB9E51DB727260020DD17 /* LoadingView.m in Sources */,
 				C48924EA1D858F0A00859411 /* SwitchTableViewCell.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */,

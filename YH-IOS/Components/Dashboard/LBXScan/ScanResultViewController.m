@@ -209,15 +209,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }];
 }
 
-- (void)actionWebviewScreenShot{
+- (void)actionWebviewScreenShot {
     UIImage *image;
     NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
-    if (![betaDict[@"share_image"] boolValue]) {
-        image = [self saveWebViewAsImage];
+    if (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) {
+        image = [self getImageFromCurrentScreen];
     }
     else{
-        image = [self getImageFromCurrentScreen];
+        image = [self saveWebViewAsImage];
     }
     // End the graphics context
     UIGraphicsEndImageContext();

@@ -10,10 +10,10 @@
 #import "FileUtils.h"
 #import "UIColor+Hex.h"
 
-@interface UserInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
-@property (strong, nonatomic)NSMutableDictionary *userInfoDict;
-@property (strong, nonatomic)NSArray *userInfoDictKey;
-@property (strong, nonatomic)UILabel *showInfo;
+@interface UserInfoViewController ()
+@property (strong, nonatomic) NSMutableDictionary *userInfoDict;
+@property (strong, nonatomic) NSArray *userInfoDictKey;
+@property (strong, nonatomic) UILabel *showInfo;
 
 @end
 
@@ -21,19 +21,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     // 初始化数据
-    NSString *userConfig = [[FileUtils userspace] stringByAppendingPathComponent:kConfigDirName];
-    NSMutableDictionary *userConfigBehaviorDict = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:kBehaviorConfigFileName]];
-    NSMutableDictionary *userConfigSettingDict = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:kSettingConfigFileName]];
-    NSMutableDictionary *userLocalNotificationDict = [FileUtils readConfigFile:[userConfig stringByAppendingPathComponent:kLocalNotificationConfigFileName]];
-    //手机系统版本
-    NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];
-    //手机型号
-    NSString *phoneModel = [[UIDevice currentDevice] model];
+    NSString *configPath = [FileUtils dirPath:kConfigDirName];
+    NSString *settingDict = [self toString:configPath fileName:kSettingConfigFileName];
+    NSString *behaviorDict = [self toString:configPath fileName:kBehaviorConfigFileName];
+    NSString *noticeDict = [self toString:configPath fileName:kLocalNotificationConfigFileName];
+    NSString *betaDict = [self toString:configPath fileName:kBetaConfigFileName];
 
     //显示的 label
-    NSString *writeMessageString = [NSString stringWithFormat:@"个人基本信息:\n%@ \n  手机系统版本:%@,\n 手机型号:%@ \n 用户行为记录:\n%@\n 设置信息:\n%@",userConfigSettingDict,phoneVersion,phoneModel,userConfigBehaviorDict,userLocalNotificationDict];
+    NSString *writeMessageString = [NSString stringWithFormat:@"%@:\n%@\n%@:\n%@\n%@:\n%@\n%@:\n%@",kSettingConfigFileName, settingDict, kBehaviorConfigFileName, behaviorDict,kLocalNotificationConfigFileName, noticeDict, kBetaConfigFileName, betaDict];
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60,self.view.frame.size.width, self.view.frame.size.height)];
     UILabel *showlabel = [[UILabel alloc] init];
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
@@ -71,7 +69,22 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-
+- (NSString *)toString:(NSString *)folder fileName:(NSString *)fileName {
+    NSString *filePath = [folder stringByAppendingPathComponent:fileName];
+    NSMutableDictionary *configContent = [FileUtils readConfigFile:filePath];
+    NSString *jsonString = @"";
+    NSError *error;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:configContent
+                                                       options:0 // Pass 0 if you don't care about the readability of the generated string
+                                                         error:&error];
+    if (!jsonData) {
+        jsonString = [NSString stringWithFormat:@"%@", configContent];
+    }
+    else {
+        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    }
+    return jsonString;
+}
 
 @end
 

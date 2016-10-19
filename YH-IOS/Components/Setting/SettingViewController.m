@@ -258,7 +258,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         SwitchTableViewCell *cell = [[SwitchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
         cell.messageLabel.text = @"截取全屏";
         self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
-        cell.changStatusBtn.on = [self.betaDict[@"share_image"] isEqualToNumber:@(1)];
+        cell.changStatusBtn.on = (self.betaDict[@"image_within_screen"] && [self.betaDict[@"image_within_screen"] boolValue]);
         [cell.changStatusBtn addTarget:self action:@selector(actionSwitchToNewUI:) forControlEvents:UIControlEventValueChanged];
         return cell;
     }
@@ -438,9 +438,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 - (void)actionSwitchToNewUI:(UISwitch *)sender {
-    NSLog(@"更改ui");
     self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
-    self.betaDict[@"share_image"] = @(sender.isOn);
+    self.betaDict[@"image_within_screen"] = @(sender.isOn);
     [self.betaDict writeToFile:self.settingsConfigPath atomically:YES];
 }
 

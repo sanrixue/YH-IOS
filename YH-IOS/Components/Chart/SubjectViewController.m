@@ -473,11 +473,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             UIImage *image;
             NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
             NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
-            if (![betaDict[@"share_image"] boolValue]) {
-              image = [self saveWebViewAsImage];
-            }
-            else{
+            if (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) {
                 image = [self getImageFromCurrentScreen];
+            }
+            else {
+                image = [self saveWebViewAsImage];
             }
             [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
             [UMSocialData defaultData].extConfig.title = kWeiXinShareText;

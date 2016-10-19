@@ -256,7 +256,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     if (indexPath.section == 3) {
         SwitchTableViewCell *cell = [[SwitchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
-        cell.messageLabel.text = @"截取长图";
+        cell.messageLabel.text = @"截取全屏";
         self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
         cell.changStatusBtn.on = [self.betaDict[@"share_image"] isEqualToNumber:@(1)];
         [cell.changStatusBtn addTarget:self action:@selector(actionSwitchToNewUI:) forControlEvents:UIControlEventValueChanged];

@@ -20,6 +20,9 @@ static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifi
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
 @interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate>
+{
+    NSMutableDictionary *betaDict;
+}
 
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (assign, nonatomic) BOOL isSupportSearch;
@@ -472,7 +475,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         @try {
             UIImage *image;
             NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
-            NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
+            betaDict = [FileUtils readConfigFile:settingsConfigPath];
             if (![betaDict[@"share_image"] boolValue]) {
               image = [self saveWebViewAsImage];
             }
@@ -657,6 +660,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         logParams[kObjIDALCName]    = self.objectID;
         logParams[kObjTypeALCName]  = @(self.commentObjectType);
         logParams[kObjTitleALCName] = self.bannerName;
+        logParams[kScreenshotType] = (![betaDict[@"share_image"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
@@ -684,6 +688,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         logParams[kObjIDALCName]    = self.objectID;
         logParams[kObjTypeALCName]  = @(self.commentObjectType);
         logParams[kObjTitleALCName] = self.bannerName;
+        logParams[kScreenshotType] = (![betaDict[@"share_image"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {

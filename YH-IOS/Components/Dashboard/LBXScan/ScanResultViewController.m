@@ -15,7 +15,9 @@
 
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface ScanResultViewController() <UINavigationBarDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UMSocialDataDelegate,UMSocialUIDelegate>
+@interface ScanResultViewController() <UINavigationBarDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UMSocialDataDelegate,UMSocialUIDelegate> {
+    NSMutableDictionary *betaDict;
+}
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @property (strong, nonatomic) NSString *htmlContent;
 @property (strong, nonatomic) NSString *htmlPath;
@@ -212,7 +214,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)actionWebviewScreenShot{
     UIImage *image;
     NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
-    NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
+    betaDict = [FileUtils readConfigFile:settingsConfigPath];
     if (![betaDict[@"share_image"] boolValue]) {
         image = [self saveWebViewAsImage];
     }
@@ -297,6 +299,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
         logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享(%d)", fromViewControllerType];
+        logParams[kScreenshotType] = (![betaDict[@"share_image"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
@@ -321,6 +324,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
         logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享完成(%d)", response.viewControllerType];
+        logParams[kScreenshotType] = (![betaDict[@"share_image"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {

@@ -299,7 +299,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
         logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享(%d)", fromViewControllerType];
-        logParams[kScreenshotType] = ( [betaDict[@"image_within_screen"] boolValue] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
+        logParams[kScreenshotType] = ( betaDict[@"image_within_screen"]  && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
@@ -324,7 +324,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
         logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享完成(%d)", response.viewControllerType];
-        logParams[kScreenshotType] = ( [betaDict[@"image_within_screen"] boolValue] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
+        logParams[kScreenshotType] = ( betaDict[@"image_within_screen"]&& [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {

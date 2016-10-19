@@ -660,7 +660,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         logParams[kObjIDALCName]    = self.objectID;
         logParams[kObjTypeALCName]  = @(self.commentObjectType);
         logParams[kObjTitleALCName] = self.bannerName;
-        logParams[kScreenshotType] = ( [betaDict[@"image_within_screen"] boolValue] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
+        logParams[kScreenshotType] = ( betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
@@ -688,7 +688,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         logParams[kObjIDALCName]    = self.objectID;
         logParams[kObjTypeALCName]  = @(self.commentObjectType);
         logParams[kObjTitleALCName] = self.bannerName;
-        logParams[kScreenshotType] = ( [betaDict[@"image_within_screen"] boolValue] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
+        logParams[kScreenshotType] = ( betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {

@@ -110,13 +110,14 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)initLabelInfoDict {
     self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
     self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能",@"开发者功能"];
+    NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];
 
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     self.settingDict = @{
         self.appInfoArray[0]: self.version.appName,
         self.appInfoArray[1]: [NSString stringWithFormat:@"%@(%@)", self.version.current, self.version.build],
-        self.appInfoArray[2]: [[Version machineHuman] componentsSeparatedByString:@" ("][0],
+        self.appInfoArray[2]: [NSString stringWithFormat: @"%@ (%@)",[[Version machineHuman]componentsSeparatedByString:@" ("][0], phoneVersion],
         self.appInfoArray[3]: [kBaseUrl componentsSeparatedByString:@"://"][1],
         self.appInfoArray[4]: self.version.bundleID,
         self.appInfoArray[5]: pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭"

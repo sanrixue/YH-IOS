@@ -202,7 +202,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             [cell.openOutLink setTitle:self.pgyLinkString forState:UIControlStateNormal];
             [cell.openOutLink setTitleColor:[UIColor colorWithHexString:kThemeColor] forState:UIControlStateNormal];
             [cell.openOutLink addTarget:self action:@selector(actionOpenLink) forControlEvents:UIControlEventTouchUpInside];
-            if ([self.noticeDict[kSettingPgyerLNName] isEqualToNumber:@(1)]) {
+            if ([self.noticeDict[kSettingPgyerLNName] boolValue]) {
                 UIView *redIcon = [[UIView alloc]initWithFrame:CGRectMake(CGRectGetMinX(cell.messageButton.frame) - 10, cell.frame.size.height * 0.25, 6, 6)];
                 redIcon.layer.cornerRadius = 3;
                 redIcon.backgroundColor = [UIColor redColor];
@@ -450,6 +450,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     else {
         BOOL isPygerUpgrade = ([pgyerResponse[kVersionCodeCPCName] integerValue] > [version.build integerValue]);
         self.pgyLinkString = @"已是最新版本";
+        if (!isPygerUpgrade) {
+            self.noticeDict[kSettingPgyerLNName] = @NO;
+        }
         
         if(isPygerUpgrade) {
             NSString *betaName = ([pgyerResponse[kVersionCodeCPCName] integerValue] % 2 == 0) ? @"" : @"测试";

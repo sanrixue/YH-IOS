@@ -482,15 +482,18 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             else {
                 image = [self saveWebViewAsImage];
             }
-            [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
-            [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
-            [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
-            [UMSocialSnsService presentSnsIconSheetView:self
-                                                 appKey:kUMAppId
-                                              shareText:self.bannerName
-                                             shareImage:image
-                                        shareToSnsNames:@[UMShareToWechatSession]
-                                               delegate:self];
+            dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1ull *NSEC_PER_SEC);
+            dispatch_after(time, dispatch_get_main_queue(), ^{
+                [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
+                [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
+                [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
+                [UMSocialSnsService presentSnsIconSheetView:self
+                                                     appKey:kUMAppId
+                                                  shareText:self.bannerName
+                                                 shareImage:image
+                                            shareToSnsNames:@[UMShareToWechatSession]
+                                                   delegate:self];
+            });
         } @catch (NSException *exception) {
             NSLog(@"%@", exception);
         }
@@ -516,7 +519,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self.view.layer renderInContext:context];
     UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
     return theImage;
 }
 
@@ -537,9 +539,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     scrollview.contentOffset = savedContentOffset;
     scrollview.frame = savedFrame;
     UIGraphicsEndImageContext();
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.1);
-    UIImage *fullImage = [UIImage imageWithData:imageData];
-    return fullImage;
+    return image;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

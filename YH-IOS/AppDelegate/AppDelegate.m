@@ -19,6 +19,7 @@
 #import "DashboardViewController.h"
 #import "LoginViewController.h"
 #import "LTHPasscodeViewController.h"
+#import "ThurSayViewController.h"
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
@@ -127,14 +128,14 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     // 关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
-    [UMessage didReceiveRemoteNotification:userInfo];
     [self savePushDict:userInfo];
+    [UMessage didReceiveRemoteNotification:userInfo];
     if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
         UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
         [alertView show];
     }
     else {
-        [self checkIsLoginThenJump];
+        [self savePushDict:userInfo];
     }
 
     application.applicationIconBadgeNumber = 1;
@@ -147,15 +148,39 @@ void UncaughtExceptionHandler(NSException * exception) {
         //[alertView removeFromSuperview];
     }
 }
+// 获取当前页面显示的类
+- (UIViewController *)getCurrentVC {
+    UIViewController *result = nil;
+    
+    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+    if (window.windowLevel != UIWindowLevelNormal) {
+        NSArray *windows = [[UIApplication sharedApplication] windows];
+        for(UIWindow * tmpWin in windows) {
+            if (tmpWin.windowLevel == UIWindowLevelNormal) {
+                window = tmpWin;
+                break;
+            }
+        }
+    }
+    
+    UIView *frontView = [[window subviews] objectAtIndex:0];
+    id nextResponder = [frontView nextResponder];
+    result = [nextResponder isKindOfClass:[UIViewController class]] ? nextResponder : window.rootViewController;
+    return result;
+}
+
+- (void)jumpToThurSay {
+    if ([[self getCurrentVC] isMemberOfClass:[LoginViewController class]]) {
+        return;
+    }
+    if (![[self getCurrentVC] isMemberOfClass:[ThurSayViewController class]]) {
+        [self.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    }
+    [self jumpToDashboardView];
+}
 
 - (void)checkIsLoginThenJump {
-    if ([self isLogin]) {
-        !isDismissPush ? [self jumpToDashboardView] : nil;
-    }
-    else {
-        [self jumpToLogin];
-    }
-    isDismissPush = NO;
+    [self isLogin] ? [self jumpToThurSay] : [self jumpToLogin];
 }
 
 #pragma mark - 跳转至仪表盘

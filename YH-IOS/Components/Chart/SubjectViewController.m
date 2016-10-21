@@ -20,6 +20,9 @@ static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifi
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
 @interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate>
+{
+    NSMutableDictionary *betaDict;
+}
 
 @property (assign, nonatomic) BOOL isInnerLink;
 @property (assign, nonatomic) BOOL isSupportSearch;
@@ -472,22 +475,25 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         @try {
             UIImage *image;
             NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
-            NSMutableDictionary *betaDict = [FileUtils readConfigFile:settingsConfigPath];
+            betaDict = [FileUtils readConfigFile:settingsConfigPath];
             if (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) {
                 image = [self getImageFromCurrentScreen];
             }
             else {
                 image = [self saveWebViewAsImage];
             }
-            [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
-            [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
-            [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
-            [UMSocialSnsService presentSnsIconSheetView:self
-                                                 appKey:kUMAppId
-                                              shareText:self.bannerName
-                                             shareImage:image
-                                        shareToSnsNames:@[UMShareToWechatSession]
-                                               delegate:self];
+            dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1ull *NSEC_PER_SEC);
+            dispatch_after(time, dispatch_get_main_queue(), ^{
+                [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
+                [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
+                [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
+                [UMSocialSnsService presentSnsIconSheetView:self
+                                                     appKey:kUMAppId
+                                                  shareText:self.bannerName
+                                                 shareImage:image
+                                            shareToSnsNames:@[UMShareToWechatSession]
+                                                   delegate:self];
+            });
         } @catch (NSException *exception) {
             NSLog(@"%@", exception);
         }
@@ -513,7 +519,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self.view.layer renderInContext:context];
     UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
     return theImage;
 }
 
@@ -534,9 +539,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     scrollview.contentOffset = savedContentOffset;
     scrollview.frame = savedFrame;
     UIGraphicsEndImageContext();
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.1);
-    UIImage *fullImage = [UIImage imageWithData:imageData];
-    return fullImage;
+    return image;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -657,6 +660,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         logParams[kObjIDALCName]    = self.objectID;
         logParams[kObjTypeALCName]  = @(self.commentObjectType);
         logParams[kObjTitleALCName] = self.bannerName;
+        logParams[kScreenshotType] = ( betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {
@@ -684,6 +688,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         logParams[kObjIDALCName]    = self.objectID;
         logParams[kObjTypeALCName]  = @(self.commentObjectType);
         logParams[kObjTitleALCName] = self.bannerName;
+        logParams[kScreenshotType] = ( betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) ? @"screenIamge" : @"allImage";
         [APIHelper actionLog:logParams];
     }
     @catch (NSException *exception) {

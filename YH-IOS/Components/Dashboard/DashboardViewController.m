@@ -26,6 +26,7 @@
 #import "WebViewJavascriptBridge.h"
 #import "DropViewController.h"
 #import "ThurSayViewController.h"
+#import "LoadingView.h"
 
 static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
@@ -69,6 +70,9 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     [self idColor];
     self.advertWebView.tag = 1234;
     //self.browser.scrollView.showsVerticalScrollIndicator = NO;
+  //  LoadingView *loadingView = [[LoadingView alloc]initWithFrame:CGRectMake(100,80, 150, 150)];
+    //[self.view addSubview:loadingView];
+    //[loadingView showHub];
     
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];

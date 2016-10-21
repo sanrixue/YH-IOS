@@ -188,6 +188,7 @@ NSString *const kActionLogALCName    = @"action_log";
 NSString *const kUserNameALCName     = @"user_name";
 NSString *const kPasswordALCName     = @"user_pass";
 NSString *const kUserALCName         = @"user";
+NSString *const kScreenshotType      = @"Screenshort-type";
 
 /**
  *  API#Post Comment column names

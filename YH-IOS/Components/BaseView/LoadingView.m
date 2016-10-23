@@ -14,7 +14,7 @@
 #define KHEIGHT      self.frame.size.height
 #define KBALL_RADIUS  20
 
-@interface LoadingView ()<CAAnimationDelegate>
+@interface LoadingView () //<CAAnimationDelegate>
 
 @end
 

@@ -24,9 +24,7 @@
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
 
-@interface AppDelegate ()<LTHPasscodeViewControllerDelegate>{
-    BOOL isDismissPush;
-}
+@interface AppDelegate ()<LTHPasscodeViewControllerDelegate>
 @end
 
 @implementation AppDelegate
@@ -59,12 +57,12 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
     [self.window setRootViewController:initViewController];
     [self.window makeKeyAndVisible];
-    isDismissPush = NO;
+    
     [self initPgyer];
     [self initUMessage:launchOptions];
     [self initUMSocial];
@@ -73,15 +71,18 @@ void UncaughtExceptionHandler(NSException * exception) {
     [self initWebViewUserAgent];
     [self initScreenLock];
     NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
+    
     application.applicationIconBadgeNumber = 0;
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (userInfo) {
-        [self savePushDict:userInfo];
-    }
+    [self savePushDict:userInfo];
+    
     return YES;
 }
 
 - (void)savePushDict:(NSDictionary *)dict {
+    if(!dict) { return; }
+    
     NSMutableDictionary *pushMessageDict = [NSMutableDictionary dictionaryWithDictionary:dict];
     pushMessageDict[kStatePushColumn] = @(NO);
     NSString *pushConfigPath= [[FileUtils basePath] stringByAppendingPathComponent:kPushMessageFileName];
@@ -126,16 +127,14 @@ void UncaughtExceptionHandler(NSException * exception) {
      state: true_or_false // 接收参数时设置为 `false`
  */
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [self savePushDict:userInfo];
+    
     // 关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
-    [self savePushDict:userInfo];
     [UMessage didReceiveRemoteNotification:userInfo];
     if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
         UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
         [alertView show];
-    }
-    else {
-        [self savePushDict:userInfo];
     }
 
     application.applicationIconBadgeNumber = 1;
@@ -186,7 +185,6 @@ void UncaughtExceptionHandler(NSException * exception) {
 #pragma mark - 跳转至仪表盘
 - (void)jumpToDashboardView {
     LoginViewController *previousRootViewController = (LoginViewController *)_window.rootViewController;
-    isDismissPush = NO;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     // dashboardViewController.clickTab = self.clickTab;
@@ -351,7 +349,6 @@ void UncaughtExceptionHandler(NSException * exception) {
     [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
     if ([LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd]) {
         [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES withLogout:NO andLogoutTitle:nil];
-        isDismissPush = YES;
     }
 }
 

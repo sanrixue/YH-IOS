@@ -5,7 +5,7 @@
 # 1. 应用图标、loading.zip
 # 2. Info.plist应用名称
 # 3. constant_private.h 服务器域名、友盟、蒲公英配置
-# 
+#
 # $ bundle exec ruby config/app_keeper.rb -h
 # usage: config/app_keeper.rb [options]
 #     -a, --app       current app
@@ -15,7 +15,7 @@
 #     -u, --pgyer     upload ipa to pgyer
 #     -v, --version   print the version
 #     -h, --help      print help info
-#     
+#
 require 'slop'
 require 'json'
 require 'plist'
@@ -103,7 +103,7 @@ if slop_opts[:constant]
   File.open(constant_path, 'w:utf-8') do |file|
     file.puts <<-EOF.strip_heredoc
     //  PrivateConstants.h
-    //  
+    //
     //  `bundle install`
     //  `./appkeeper.sh #{current_app}`
     //
@@ -125,7 +125,7 @@ if slop_opts[:constant]
 
     #define kPgyerAppId       @"#{Settings.pgyer.ios}"
     #define kPgyerUrl         @"http://www.pgyer.com/#{Settings.key_store.alias}-i"
-    
+
     #define kUMAppId          @"#{Settings.umeng.ios.app_key}"
     #define kWXAppId          @"#{Settings.umeng_weixin.ios.app_id}"
     #define kWXAppSecret      @"#{Settings.umeng_weixin.ios.app_secret}"
@@ -161,11 +161,13 @@ if slop_opts[:pgyer]
   end
 
   puts %(- done: generate apk(#{File.size(ipa_path).to_s(:human_size)}) - #{ipa_path})
-  response = `curl --silent -F "file=@#{ipa_path}" -F "uKey=#{Settings.pgyer.user_key}" -F "_api_key=#{Settings.pgyer.api_key}" http://www.pgyer.com/apiv1/app/upload`
+  command = %(curl --silent -F "file=@#{ipa_path}" -F "uKey=#{Settings.pgyer.user_key}" -F "_api_key=#{Settings.pgyer.api_key}" https://www.pgyer.com/apiv1/app/upload)
+  response = `#{command}`
   begin
     hash = JSON.parse(response).deep_symbolize_keys[:data]
     puts %(- done: upload ipa(#{hash[:appFileSize].to_i.to_s(:human_size)}) to #pgyer#\n\t#{hash[:appName]}\n\t#{hash[:appIdentifier]}\n\t#{hash[:appVersion]}(#{hash[:appVersionNo]})\n\t#{hash[:appQRCodeURL]})
   rescue => e
+    puts command
     puts %(- error: cannot parse pgyer response)
     puts response.inspect
     puts e.message

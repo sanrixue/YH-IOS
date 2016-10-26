@@ -117,6 +117,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
     [self checkPushMessageAction];
 }
 
@@ -157,8 +158,8 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         return;
     }
     
-    NSString *pushType = pushMessageDict[kTypePushColumn];
     NSInteger tabIndex = -1;
+    NSString *pushType = pushMessageDict[kTypePushColumn];
     if ([pushType isEqualToString:kTypeReportPushColumn]) {
         [self performSegueWithIdentifier:kSubjectSegueIdentifier sender:@{
             kBannerNameSubjectColumn: pushMessageDict[kTitlePushColumn],

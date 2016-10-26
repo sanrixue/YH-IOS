@@ -136,8 +136,6 @@ void UncaughtExceptionHandler(NSException * exception) {
         UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
         [alertView show];
     }
-
-    application.applicationIconBadgeNumber = 1;
 }
 
 #pragma mark - 程序在运行时候接收到通知
@@ -150,7 +148,6 @@ void UncaughtExceptionHandler(NSException * exception) {
 // 获取当前页面显示的类
 - (UIViewController *)getCurrentVC {
     UIViewController *result = nil;
-    
     UIWindow * window = [[UIApplication sharedApplication] keyWindow];
     if (window.windowLevel != UIWindowLevelNormal) {
         NSArray *windows = [[UIApplication sharedApplication] windows];

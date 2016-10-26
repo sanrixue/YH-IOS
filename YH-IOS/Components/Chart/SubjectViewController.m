@@ -212,17 +212,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         self.javascriptPath = [javascriptFolder stringByAppendingPathComponent:reportDataFileName];
         NSString *searchItemsPath = [NSString stringWithFormat:@"%@.search_items", self.javascriptPath];
         
-        if(![FileUtils checkFileExist:searchItemsPath isDir:NO]) {
-            [data[@"items"] writeToFile:searchItemsPath atomically:YES];
+        [data[@"items"] writeToFile:searchItemsPath atomically:YES];
             
-            /**
-             *  判断筛选的条件: data[@"items"] 数组不为空
-             *  报表第一次加载时，此处为判断筛选功能的关键点
-             */
-            self.isSupportSearch = [FileUtils reportIsSupportSearch:self.user.groupID templateID:self.templateID reportID:self.reportID];
-            if(self.isSupportSearch) {
-                [self displayBannerTitleAndSearchIcon];
-            }
+        /**
+          *  判断筛选的条件: data[@"items"] 数组不为空
+          *  报表第一次加载时，此处为判断筛选功能的关键点
+          */
+        self.isSupportSearch = [FileUtils reportIsSupportSearch:self.user.groupID templateID:self.templateID reportID:self.reportID];
+        if(self.isSupportSearch) {
+            [self displayBannerTitleAndSearchIcon];
         }
     }];
     

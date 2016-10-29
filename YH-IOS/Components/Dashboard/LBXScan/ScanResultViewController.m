@@ -140,6 +140,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [tmpIcons addObject:@"Subject-Share"];
     [tmpTitles addObject:kDropSearchText];
     [tmpIcons addObject:@"Subject-Search"];
+    [tmpTitles addObject:kDropRefreshText];
+    [tmpIcons addObject:@"Subject-Refresh"];
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
@@ -207,6 +209,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         }
         else if([itemName isEqualToString:kDropShareText]) {
             [self actionWebviewScreenShot];
+        }
+        else if ([itemName isEqualToString:kDropRefreshText]) {
+            [self loadHtml];
         }
     }];
 }

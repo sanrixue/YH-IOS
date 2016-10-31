@@ -459,8 +459,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self.betaDict writeToFile:self.settingsConfigPath atomically:YES];
 }
 
-
-
 - (void)checkPgyerVersionLabel:(Version *)version pgyerResponse:(NSDictionary *)pgyerResponse {
     if(!pgyerResponse || !pgyerResponse[kDownloadURLCPCName] || !pgyerResponse[kVersionCodeCPCName] || !pgyerResponse[kVersionNameCPCName]) {
         self.pgyLinkString = @"蒲公英链接";

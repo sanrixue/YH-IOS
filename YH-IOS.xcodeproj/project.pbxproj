@@ -270,6 +270,7 @@
 		F68089531D8930C400CDBAF8 /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
 		F68EB9E71DB74CB40020DD17 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		F68EB9E81DB74CB40020DD17 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
+		F6C5562A1DC19E5C0058F6EC /* YH-IOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "YH-IOS.entitlements"; sourceTree = "<group>"; };
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -618,6 +619,7 @@
 		C4DB7D751C02EC0500DA534E /* YH-IOS */ = {
 			isa = PBXGroup;
 			children = (
+				F6C5562A1DC19E5C0058F6EC /* YH-IOS.entitlements */,
 				C49BB9A81D8C24F4004C9F70 /* Macros */,
 				C4C628381C0C1ED6000AD5D8 /* Components */,
 				C4771B881C05871300AAF44F /* Vendor */,

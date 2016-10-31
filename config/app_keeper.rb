@@ -155,21 +155,24 @@ end
 # upload ipa to pgyer
 #
 if slop_opts[:pgyer]
-  ipa_path = `find ~/Desktop -name "YH-IOS.ipa" | sort | tail -n 1`.strip
-  exit_when !File.exist?(ipa_path) do
-    puts %(Abort: ipa not found - #{ipa_path})
-  end
+  def upload_ipa(ipa_path, retry_num = 0)
+    command = %(curl --silent -F "file=@#{ipa_path}" -F "uKey=#{Settings.pgyer.user_key}" -F "_api_key=#{Settings.pgyer.api_key}" https://www.pgyer.com/apiv1/app/upload)
+    response = `#{command}`
 
-  puts %(- done: generate apk(#{File.size(ipa_path).to_s(:human_size)}) - #{ipa_path})
-  command = %(curl --silent -F "file=@#{ipa_path}" -F "uKey=#{Settings.pgyer.user_key}" -F "_api_key=#{Settings.pgyer.api_key}" https://www.pgyer.com/apiv1/app/upload)
-  response = `#{command}`
-  begin
     hash = JSON.parse(response).deep_symbolize_keys[:data]
     puts %(- done: upload ipa(#{hash[:appFileSize].to_i.to_s(:human_size)}) to #pgyer#\n\t#{hash[:appName]}\n\t#{hash[:appIdentifier]}\n\t#{hash[:appVersion]}(#{hash[:appVersionNo]})\n\t#{hash[:appQRCodeURL]})
   rescue => e
     puts command
-    puts %(- error: cannot parse pgyer response)
-    puts response.inspect
     puts e.message
+    puts response.inspect
+
+    upload_ipa(ipa_path, retry_num + 1) if retry_num < 3
   end
+
+  ipa_path = `find ~/Desktop -name "YH-IOS.ipa" | sort | tail -n 1`.strip
+  exit_when !File.exist?(ipa_path) do
+    puts %(Abort: ipa not found - #{ipa_path})
+  end
+  puts %(- done: generate apk(#{File.size(ipa_path).to_s(:human_size)}) - #{ipa_path})
+  upload_ipa(ipa_path)
 end

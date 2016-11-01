@@ -38,6 +38,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 @interface DashboardViewController () <UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationBarDelegate> {
     UIViewController *contentView;
+    NSDictionary *betaDict;
 }
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 @property (weak, nonatomic) IBOutlet UIButton *btnScanCode;
@@ -117,7 +118,11 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+     betaDict = [FileUtils readConfigFile:[FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName]];
+    if (!([betaDict[@"allow_brower_copy"] boolValue]) && !(self.tabBar.selectedItem.tag == 3)) {
+    [self.browser stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitUserSelect='none';"];
+    [self.browser stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitTouchCallout='none';"];
+    }
     [self checkPushMessageAction];
 }
 
@@ -867,6 +872,11 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 #pragma mark - UIWebview delegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    if (([betaDict[@"allow_brower_copy"] boolValue]) || (self.tabBar.selectedItem.tag == 3)) {
+        return;
+    }
+    [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitUserSelect='none';"];
+    [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitTouchCallout='none';"];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {

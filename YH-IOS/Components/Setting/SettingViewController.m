@@ -109,7 +109,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 #pragma mark - init need-show message
 - (void)initLabelInfoDict {
     self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
-    self.headInfoArray = @[@"应用信息", @"安全策略", @"分享功能",@"开发者功能"];
+    self.headInfoArray = @[@"应用信息", @"安全策略", @"辅助功能",@"开发者功能"];
     NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];
 
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
@@ -155,7 +155,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    NSArray *numberOfRowsInSection = @[@1, @(self.appInfoArray.count), @2, @1, @1,@1];
+    NSArray *numberOfRowsInSection = @[@1, @(self.appInfoArray.count), @2, @2, @1,@1];
     return (section < numberOfRowsInSection.count ? [numberOfRowsInSection[section] integerValue] : 0);
 }
 
@@ -255,12 +255,22 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
     
     if (indexPath.section == 3) {
-        SwitchTableViewCell *cell = [[SwitchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
-        cell.messageLabel.text = @"截取全屏";
-        self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
-        cell.changStatusBtn.on = (self.betaDict[@"image_within_screen"] && [self.betaDict[@"image_within_screen"] boolValue]);
-        [cell.changStatusBtn addTarget:self action:@selector(actionSwitchToNewUI:) forControlEvents:UIControlEventValueChanged];
-        return cell;
+        if (indexPath.row == 0) {
+            SwitchTableViewCell *cell = [[SwitchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
+            cell.messageLabel.text = @"分享长图";
+            self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
+            cell.changStatusBtn.on = (self.betaDict[@"image_within_screen"] && [self.betaDict[@"image_within_screen"] boolValue]);
+            [cell.changStatusBtn addTarget:self action:@selector(actionSwitchToNewUI:) forControlEvents:UIControlEventValueChanged];
+            return cell;
+        }
+        else {
+            SwitchTableViewCell *cell = [[SwitchTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
+            cell.messageLabel.text = @"报表操作";
+            self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
+            cell.changStatusBtn.on = (self.betaDict[@"allow_brower_copy"] && [self.betaDict[@"allow_brower_copy"] boolValue]);
+            [cell.changStatusBtn addTarget:self action:@selector(actionSwitchToReportDeal:) forControlEvents:UIControlEventValueChanged];
+            return cell;
+        }
     }
     
     if (indexPath.section == 4) {
@@ -440,6 +450,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 - (void)actionSwitchToNewUI:(UISwitch *)sender {
     self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
     self.betaDict[@"image_within_screen"] = @(sender.isOn);
+    [self.betaDict writeToFile:self.settingsConfigPath atomically:YES];
+}
+
+- (void)actionSwitchToReportDeal:(UISwitch *)sender {
+    self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
+    self.betaDict[@"allow_brower_copy"] = @(sender.isOn);
     [self.betaDict writeToFile:self.settingsConfigPath atomically:YES];
 }
 

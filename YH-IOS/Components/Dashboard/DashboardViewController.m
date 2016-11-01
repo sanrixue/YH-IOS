@@ -71,7 +71,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     [self idColor];
     self.advertWebView.tag = 1234;
     //self.browser.scrollView.showsVerticalScrollIndicator = NO;
-  //  LoadingView *loadingView = [[LoadingView alloc]initWithFrame:CGRectMake(100,80, 150, 150)];
+    //LoadingView *loadingView = [[LoadingView alloc]initWithFrame:CGRectMake(100,80, 150, 150)];
     //[self.view addSubview:loadingView];
     //[loadingView showHub];
     
@@ -120,8 +120,8 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     [super viewDidAppear:animated];
      betaDict = [FileUtils readConfigFile:[FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName]];
     if (!([betaDict[@"allow_brower_copy"] boolValue]) && !(self.tabBar.selectedItem.tag == 3)) {
-    [self.browser stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitUserSelect='none';"];
-    [self.browser stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitTouchCallout='none';"];
+        [self.browser stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitUserSelect='none';"];
+        [self.browser stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitTouchCallout='none';"];
     }
     [self checkPushMessageAction];
 }

@@ -103,9 +103,9 @@ void UncaughtExceptionHandler(NSException * exception) {
     }
     
     pushDict[@"push_device_token"] = pushToken;
-    NSLog(@"设备%@",pushToken);
     pushDict[@"push_valid"] = @(NO);
     [pushDict writeToFile:pushConfigPath atomically:YES];
+    NSLog(@"设备%@",pushToken);
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -316,6 +316,12 @@ void UncaughtExceptionHandler(NSException * exception) {
         }
 
         [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        
+        // 消息推送，重新上传服务器
+        NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
+        NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
+        pushDict[@"push_valid"] = @(NO);
+        [pushDict writeToFile:pushConfigPath atomically:YES];
     }
 }
 

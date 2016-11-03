@@ -171,6 +171,10 @@
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
     NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
     
+    if(pushDict[@"device_uuid"] && ![pushDict[@"device_uuid"] isEqualToString:deviceUUID]) {
+        pushDict[@"push_valid"] = @(NO);
+    }
+    
     if([pushDict[@"push_valid"] boolValue] && pushDict[@"push_device_token"] && [pushDict[@"push_device_token"] length] == 64) {
         return YES;
     }
@@ -181,6 +185,7 @@
     NSString *urlString = [NSString stringWithFormat:kPushDeviceTokenAPIPath, kBaseUrl, deviceUUID, pushDict[@"push_device_token"]];
     HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:[NSMutableDictionary dictionary]];
 
+    pushDict[@"device_uuid"] = deviceUUID;
     pushDict[@"push_valid"] = @(httpResponse.data[@"valid"] && [httpResponse.data[@"valid"] boolValue]);
     [pushDict writeToFile:pushConfigPath atomically:YES];
     

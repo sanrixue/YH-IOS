@@ -612,11 +612,24 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     }];
     
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self performSegueWithIdentifier:kSubjectSegueIdentifier sender:@{
-            kBannerNameSubjectColumn: data[@"bannerName"],
-            kLinkSubjectColumn: data[@"link"],
-            kObjIDSubjectColumn: data[@"objectID"]
-        }];
+        if ([data[@"link"] isEqualToString:@""]) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                           message:@"该功能正在开发中"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        else {
+            [self performSegueWithIdentifier:kSubjectSegueIdentifier sender:@{
+                  kBannerNameSubjectColumn: data[@"bannerName"],
+                  kLinkSubjectColumn: data[@"link"],
+                  kObjIDSubjectColumn: data[@"objectID"]
+            }];
+        }
     }];
     
     [self.bridge registerHandler:@"dashboardDataCount" handler:^(id data, WVJBResponseCallback responseCallback) {

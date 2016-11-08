@@ -12,6 +12,7 @@
 #import "ScanResultViewController.h"
 #import "SearchTableViewCell.h"
 
+
 @interface SelectStoreViewController ()<UINavigationBarDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UISearchBarDelegate>{
     
     NSString *searchingText;

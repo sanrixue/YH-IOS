@@ -223,6 +223,12 @@
         NSLog(@"remove header: %@", cachedHeaderPath);
         
         [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        
+        // 消息推送，重新上传服务器
+        NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
+        NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
+        pushDict[@"push_valid"] = @(NO);
+        [pushDict writeToFile:pushConfigPath atomically:YES];
     }
 }
 

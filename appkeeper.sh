@@ -14,6 +14,9 @@ case "$1" in
   pgyer)
       bundle exec ruby config/app_keeper.rb --app="$(cat .current-app)" --pgyer
   ;;
+  view)
+    bundle exec ruby config/app_keeper.rb --view
+  ;;
   all)
       echo 'TODO'
   ;;

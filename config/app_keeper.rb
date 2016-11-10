@@ -16,6 +16,7 @@
 #     -v, --version   print the version
 #     -h, --help      print help info
 #
+require 'pp'
 require 'slop'
 require 'json'
 require 'plist'
@@ -37,6 +38,7 @@ slop_opts = Slop.parse do |o|
   o.bool '-e', '--assets', 'assets.xassets', default: false
   o.bool '-c', '--constant', 'constant_private.h', default: false
   o.bool '-u', '--pgyer', 'upload ipa to pgyer', default: false
+  o.bool '-w', '--view', 'pgyer version info', default: false
   o.on '-v', '--version', 'print the version' do
     puts Slop::VERSION
     exit
@@ -175,4 +177,24 @@ if slop_opts[:pgyer]
   end
   puts %(- done: generate apk(#{File.size(ipa_path).to_s(:human_size)}) - #{ipa_path})
   upload_ipa(ipa_path)
+end
+
+
+if slop_opts[:view]
+  def view_pgyer_version
+    api_url = 'http://www.pgyer.com/apiv1/app/getAppKeyByShortcut'
+    command = format('curl --silent --data "shortcut=%s&_api_key=%s" %s', Settings.pgyer.shortcut , Settings.pgyer.api_key, api_url)
+    response = `#{command}`
+
+    hash = JSON.parse(response).deep_symbolize_keys
+    data = hash.dig(:data)
+    data[:appSize] = data[:appFileSize].to_i.to_s(:human_size)
+    pp data.slice(:appFileName, :appSize, :appFileSize, :appName, :appVersion, :appVersionNo, :appIdentifier, :appCreated)
+  rescue => e
+    puts command
+    puts response.inspect
+    puts e.message
+  end
+
+  view_pgyer_version
 end

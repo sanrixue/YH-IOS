@@ -100,10 +100,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadHtml) name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 

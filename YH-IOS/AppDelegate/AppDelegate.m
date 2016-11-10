@@ -20,6 +20,10 @@
 #import "LoginViewController.h"
 #import "LTHPasscodeViewController.h"
 #import "ThurSayViewController.h"
+#import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
+#import "iflyMSC/IFlySpeechSynthesizer.h"
+#import "iflyMSC/IFlySpeechUtility.h"
+
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
@@ -62,7 +66,8 @@ void UncaughtExceptionHandler(NSException * exception) {
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
     [self.window setRootViewController:initViewController];
     [self.window makeKeyAndVisible];
-    
+    NSString *initString  = [NSString stringWithFormat:@"appid = %@",@"581aad1c"];
+    [IFlySpeechUtility createUtility:initString];
     [self initPgyer];
     [self initUMessage:launchOptions];
     [self initUMSocial];

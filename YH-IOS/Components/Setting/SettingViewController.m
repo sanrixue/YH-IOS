@@ -61,6 +61,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     [self loadUserGravatar];
     [self showNoticeRedIcon];
+    self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
+    if (!self.betaDict[@"image_within_screen"]) {
+         self.betaDict[@"image_within_screen"] = @(1);
+         [self.betaDict writeToFile:self.settingsConfigPath atomically:YES];
+    }
     
     self.version = [[Version alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];
@@ -191,7 +196,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         cell.detailLabel.text = self.settingDict[textTitle];
         
         if (indexPath.row == 6) {
-            cell.detailLabel.text = @"若发现界面显示异常，请校正";
+            cell.detailLabel.text = @"清空缓存";
             cell.titleLabel.textColor = [UIColor colorWithHexString:kThemeColor];
             return cell;
         }

@@ -97,16 +97,19 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     [self displayBannerViewButtonsOrNot];
     [self loadHtml];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadHtml) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    //别忘了删除监听
-    
+
     /*
      * 其他页面,禁用横屏
      */
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
     [self setAppAllowRotation:NO];
 }
 
@@ -477,10 +480,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
             betaDict = [FileUtils readConfigFile:settingsConfigPath];
             if (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) {
-                image = [self getImageFromCurrentScreen];
+                image = [self saveWebViewAsImage];
             }
             else {
-                image = [self saveWebViewAsImage];
+                 image = [self getImageFromCurrentScreen];
             }
             dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1ull *NSEC_PER_SEC);
             dispatch_after(time, dispatch_get_main_queue(), ^{

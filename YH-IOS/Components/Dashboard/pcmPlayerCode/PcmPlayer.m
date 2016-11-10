@@ -8,8 +8,7 @@
 
 #import "PcmPlayer.h"
 
-typedef struct Wavehead
-{
+typedef struct Wavehead {
     /****RIFF WAVE CHUNK*/
     unsigned char a[4];     //四个字节存放'R','I','F','F'
     long int b;             //整个文件的长度-8;每个Chunk的size字段，都是表示除了本Chunk的ID和SIZE字段外的长度;
@@ -44,8 +43,7 @@ typedef struct Wavehead
 
 
 
--(id)initWithFilePath:(NSString *)path sampleRate:(long)sample
-{
+-(id)initWithFilePath:(NSString *)path sampleRate:(long)sample {
     self = [super init];
     
     if (self) {
@@ -56,8 +54,7 @@ typedef struct Wavehead
     return self;
 }
 
--(id)initWithData:(NSData *)data sampleRate:(long)sample
-{
+-(id)initWithData:(NSData *)data sampleRate:(long)sample {
     if (data == nil) {
         return nil;
     }
@@ -76,7 +73,7 @@ typedef struct Wavehead
  *  写wave音频头,写完回调 onAudioLoaded 函数
  *
  */
-- (void)writeWaveHead:(NSData *)audioData sampleRate:(long)sampleRate{
+- (void)writeWaveHead:(NSData *)audioData sampleRate:(long)sampleRate {
     Byte waveHead[44];
     waveHead[0] = 'R';
     waveHead[1] = 'I';
@@ -153,27 +150,23 @@ typedef struct Wavehead
     
 }
 
-- (void)play
-{
+- (void)play {
     
-    if (self.isPlaying)
-    {
+    if (self.isPlaying) {
         NSLog(@"pcmPlayer isPlaying");
         return;
     }
     self.isPlaying = YES;
     
     self.player.volume=1;
-    if ([self.pcmData length] > 44)
-    {
+    if ([self.pcmData length] > 44) {
         self.player.meteringEnabled = YES;
         NSLog(@"音频持续时间是%f",self.player.duration);
         
         BOOL ret = [self.player play];
         NSLog(@"play ret=%d",ret);
     }
-    else
-    {
+    else {
         self.isPlaying = NO;
         NSLog(@"音频数据为空");
     }
@@ -197,8 +190,7 @@ typedef struct Wavehead
 
 #pragma mark speechRecordDelegate
 
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
-{
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     NSLog(@"in pcmPlayer audioPlayerDidFinishPlaying");
     self.isPlaying=NO;
 }

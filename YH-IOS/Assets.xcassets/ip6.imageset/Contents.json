@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "ip6.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "ip6.png",
+      "filename" : "ip6p.png",
       "scale" : "2x"
     },
     {

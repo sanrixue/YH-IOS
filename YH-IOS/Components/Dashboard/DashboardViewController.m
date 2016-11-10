@@ -117,10 +117,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     [self receiveLocalNotification];
 }
 
-- (void)stopplay {
-    [_setting.layer removeAllAnimations];
-}
-
 
 - (void)rotate360DegreeWithImageView:(UIImageView *)imageView{
     CABasicAnimation *animation = [ CABasicAnimation
@@ -1034,15 +1030,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         }
         else if([itemName isEqualToString:kDropMentVoiceText]) {
            [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
-           /* if (_audioPlayer.isPlaying) {
-                [_audioPlayer stop];
-                [self.setting.imageView.layer removeAllAnimations];
-            }
-            else {
-                [self voiceSppech];
-                [self rotate360DegreeWithImageView:_setting.imageView];
-                
-            }*/
         }
         else if([itemName isEqualToString:kDropMentSearchText]) {
             [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];

@@ -27,14 +27,6 @@
 #import "DropViewController.h"
 #import "ThurSayViewController.h"
 #import "LoadingView.h"
-#import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
-#import "iflyMSC/IFlySpeechSynthesizer.h"
-#import "iflyMSC/IFlySpeechUtility.h"
-#import "iflyMSC/IFlySpeechConstant.h"
-#import <AVFoundation/AVFoundation.h>
-#import "VoiceSpeechView.h"
-#import "PcmPlayer.h"
-#import "PcmPlayerDelegate.h"
 
 
 static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
@@ -45,12 +37,9 @@ static NSString *const kLinkSubjectColumn       = @"link";
 static NSString *const kObjIDSubjectColumn      = @"objectID";
 static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
-@interface DashboardViewController () <UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationBarDelegate,IFlySpeechSynthesizerDelegate,YHVoiceSpeechViewDelegate,PcmPlayerDelegate> {
+@interface DashboardViewController () <UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationBarDelegate> {
     UIViewController *contentView;
     NSDictionary *betaDict;
-    IFlySpeechSynthesizer *_iFlySppechSynthesizer;
-    VoiceSpeechView *_VoiceSpeechView;
-    NSTimer *voiceTimer;
 }
 @property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 @property (weak, nonatomic) IBOutlet UIButton *btnScanCode;
@@ -72,9 +61,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 @property WebViewJavascriptBridge *adBridge;
 @property (strong, nonatomic) NSString *behaviorPath;
 @property (strong, nonatomic) NSMutableDictionary *behaviorDict;
-// 播放状态
-@property (assign, nonatomic) BOOL isSpeack;
-@property (nonatomic, strong) PcmPlayer *audioPlayer;
 @end
 
 @implementation DashboardViewController
@@ -129,11 +115,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
      *  生命周期内仅执行一次
      */
     [self receiveLocalNotification];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopplay) name:@"StopPlay" object:nil];
-}
-
-- (void)stopplay {
-    [_setting.layer removeAllAnimations];
 }
 
 
@@ -571,94 +552,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
 
-- (void)showSpeechView {
-    _VoiceSpeechView = [[VoiceSpeechView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), self.view.frame.size.width, 40)];
-    self.browser.frame = CGRectMake(0, CGRectGetMaxY(_VoiceSpeechView.frame), self.view.frame.size.width, self.view.frame.size.height - CGRectGetMaxY(_VoiceSpeechView.frame));
-    [self.view addSubview:_VoiceSpeechView];
-    _VoiceSpeechView.delegate =self;
-     _VoiceSpeechView.tag = 444;
-    [self voiceSppech];
-}
-
-- (void)voiceSpeechBtnClick:(VoiceSpeechView *)voiceView {
-    if (_isSpeack) {
-        [_iFlySppechSynthesizer pauseSpeaking];
-        _VoiceSpeechView.startBtn.backgroundColor = [UIColor redColor];
-        _VoiceSpeechView.messageView.text = @"暂停播放";
-        _isSpeack = NO;
-    }
-    else {
-        _VoiceSpeechView.startBtn.backgroundColor = [UIColor greenColor];
-        [_iFlySppechSynthesizer resumeSpeaking];
-        _isSpeack = YES;
-    }
-}
-
-- (void) voiceSppech {
-    _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
-    _iFlySppechSynthesizer.delegate = self;
-    [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
-    [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant VOLUME]];
-    [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
-    [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
-    [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
-    NSString *contentString = [NSString stringWithFormat:@"2016/12/56,12:34,13.456万，同比增长 1%。浙江温州，浙江温州，最大皮革厂，江南皮革厂倒闭了！王八蛋老板黄鹤吃喝嫖赌，欠下了3.5个亿，带着他的小姨子跑了。我们没有没有办法，拿着钱包抵公司。原价都是三百多、二百多、一百多的钱包，通通二十块，通通二十块！黄鹤王八蛋，你不是人，我们辛辛苦苦给你干了大半年，你不发工资，你还我血汗钱，还我血汗钱！"];
-    [_iFlySppechSynthesizer synthesize:contentString toUri:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"]];
-    _isSpeack = [_iFlySppechSynthesizer isSpeaking];
-}
-
-- (void)playUriAudio {
-    NSError *error = nil;
-    _audioPlayer = [[PcmPlayer alloc] init];
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
-    _audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
-    [self reportPlay];
-    NSLog(@"需要播放的时间长度为:%f", _audioPlayer.player.duration);
-}
-
-- (void)cancelSpeechView:(VoiceSpeechView *)voiceView {
-    self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), self.view.frame.size.width, self.view.frame.size.height - CGRectGetMaxY(self.bannerView.frame) - 60);
-    UIView *subViews = [self.view viewWithTag:444];
-    [subViews removeFromSuperview];
-    [_audioPlayer stop];
-}
-
-- (void)onCompleted:(IFlySpeechError *)error {
-    _VoiceSpeechView.messageView.text = @"合成完成";
-    _isSpeack = NO;
-    [self playUriAudio];
-}
-
-- (void)reportPlay {
-//    __block int proValue = 1;
-//    [_audioPlayer play];
-//    if (!_audioPlayer.isPlaying) {
-//        [[NSNotificationCenter defaultCenter] postNotificationName:@"StopPlay" object:self];
-//    }
-//    voiceTimer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer *timer){
-//        double totoaltime = _audioPlayer.player.duration;
-//        proValue += (totoaltime+1)/26;
-//        if (proValue >= totoaltime) {
-//            [timer invalidate];
-//        }
-//        else {
-//            [_VoiceSpeechView.progressView setProgress:proValue/totoaltime animated:YES];
-//        }
-//    }];
-}
-
-- (void) onSpeakBegin {
-   // [_VoiceSpeechView.progressView setProgress:0];
-    _VoiceSpeechView.messageView.text = @"正在播放";
-}
-
-- (void) onBufferProgress:(int)progress message:(NSString *)msg {
-      NSLog(@"buffer progress %2d%%. msg: %@.", progress, msg);
-}
-
-- (void)onSpeakProgress:(int)progress {
-}
-
 #pragma mark - UIWebview pull down to refresh
 - (void)handleRefresh:(UIRefreshControl *)refresh {
     [self addWebViewJavascriptBridge];
@@ -882,18 +775,8 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     if (!cell) {
         cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
     }
-    if (_audioPlayer.isPlaying && indexPath.row == 1) {
-        cell.tittleLabel.text = @"正在播放";
-        cell.iconImageView.image = [UIImage imageNamed:@"play"];
-    }
-    else if (!_audioPlayer.isPlaying && indexPath.row == 1) {
-        cell.tittleLabel.text = @"语音播报";
-        cell.iconImageView.image = [UIImage imageNamed:@"stop"];
-    }
-    else {
     cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
     cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
-    }
     
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
@@ -1147,15 +1030,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         }
         else if([itemName isEqualToString:kDropMentVoiceText]) {
            [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
-           /* if (_audioPlayer.isPlaying) {
-                [_audioPlayer stop];
-                [self.setting.imageView.layer removeAllAnimations];
-            }
-            else {
-                [self voiceSppech];
-                [self rotate360DegreeWithImageView:_setting.imageView];
-                
-            }*/
         }
         else if([itemName isEqualToString:kDropMentSearchText]) {
             [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];

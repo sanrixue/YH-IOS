@@ -100,10 +100,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadHtml) name:UIApplicationDidBecomeActiveNotification object:nil];
-}
-
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
@@ -578,6 +574,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 #pragma mark - UIWebview delegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     NSDictionary *browerDict = [FileUtils readConfigFile:[FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName]];
+    self.isLoadFinish = YES;
     if ([browerDict[@"allow_brower_copy"] boolValue]) {
         return;
     }

@@ -630,21 +630,21 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 }
 
 - (void)reportPlay {
-    __block int proValue = 1;
-    [_audioPlayer play];
-    if (!_audioPlayer.isPlaying) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"StopPlay" object:self];
-    }
-    voiceTimer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer *timer){
-        double totoaltime = _audioPlayer.player.duration;
-        proValue += (totoaltime+1)/26;
-        if (proValue >= totoaltime) {
-            [timer invalidate];
-        }
-        else {
-            [_VoiceSpeechView.progressView setProgress:proValue/totoaltime animated:YES];
-        }
-    }];
+//    __block int proValue = 1;
+//    [_audioPlayer play];
+//    if (!_audioPlayer.isPlaying) {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:@"StopPlay" object:self];
+//    }
+//    voiceTimer = [NSTimer scheduledTimerWithTimeInterval:1 repeats:YES block:^(NSTimer *timer){
+//        double totoaltime = _audioPlayer.player.duration;
+//        proValue += (totoaltime+1)/26;
+//        if (proValue >= totoaltime) {
+//            [timer invalidate];
+//        }
+//        else {
+//            [_VoiceSpeechView.progressView setProgress:proValue/totoaltime animated:YES];
+//        }
+//    }];
 }
 
 - (void) onSpeakBegin {

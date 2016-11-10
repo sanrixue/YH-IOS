@@ -604,7 +604,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self checkInterfaceOrientation:toInterfaceOrientation];
-
+    [self dismissViewControllerAnimated:YES completion:nil];
     [self loadHtml];
 }
 
@@ -616,7 +616,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)checkInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     BOOL isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation);
     
-    //self.bannerView.hidden = isLandscape;
+    self.bannerView.hidden = isLandscape;
     [[UIApplication sharedApplication] setStatusBarHidden:isLandscape withAnimation:NO];
     
     self.layoutConstraintBannerView.constant = (isLandscape ? -55 : 0);

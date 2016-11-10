@@ -476,7 +476,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             UIImage *image;
             NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
             betaDict = [FileUtils readConfigFile:settingsConfigPath];
-            if (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) {
+            if (!betaDict[@"image_within_screen"] || [betaDict[@"image_within_screen"] boolValue]) {
                 image = [self saveWebViewAsImage];
             }
             else {

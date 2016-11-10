@@ -97,7 +97,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     [self displayBannerViewButtonsOrNot];
     [self loadHtml];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -106,7 +105,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     /*
      * 其他页面,禁用横屏
      */
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
     [self setAppAllowRotation:NO];
 }
 

@@ -62,8 +62,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self loadUserGravatar];
     [self showNoticeRedIcon];
     self.betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
-    self.betaDict[@"image_within_screen"] = @(1);
-    [self.betaDict writeToFile:self.settingsConfigPath atomically:YES];
+    if (!self.betaDict[@"image_within_screen"]) {
+         self.betaDict[@"image_within_screen"] = @(1);
+         [self.betaDict writeToFile:self.settingsConfigPath atomically:YES];
+    }
     
     self.version = [[Version alloc] init];
     [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:NO];

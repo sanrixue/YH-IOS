@@ -116,6 +116,9 @@
     self.versionLabel.textAlignment = NSTextAlignmentCenter;
     self.versionLabel.adjustsFontSizeToFitWidth = YES;
     [self.bgView addSubview:self.versionLabel];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(userinfomoveToTop:) name:UIKeyboardDidShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(userinfomoveToTop:) name:UIKeyboardDidHideNotification object:nil];
     [self layoutView];
 }
 
@@ -143,6 +146,18 @@
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+}
+
+- (void)userinfomoveToTop:(NSNotification *)aNotification {
+    NSDictionary *userInfo = [aNotification userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];
+    int height = keyboardRect.size.height;
+    self.bgView.frame = CGRectMake(0, - height + height / 1.7, self.view.frame.size.width, self.view.frame.size.height);
+}
+
+- (void)userinfoMoveToBottom:(NSNotification *)aNotification {
+    self.bgView.frame = self.view.frame;
 }
 
 //add: 登录按钮事件

@@ -13,14 +13,13 @@
 #import <PgyUpdate/PgyUpdateManager.h>
 #import "UMessage.h"
 #import "Version.h"
+#import "UIColor+Hex.h"
 
-#define kSloganHeight [[UIScreen mainScreen]bounds].size.height / 5
-
+#define WIDTHINPUT CGRectGetWidth(self.userInfoBackView.frame) - 100
+#define USERHEIGHT self.view.frame.size.height * 2/7
 @interface LoginViewController () <UITextFieldDelegate>
 
 @property (nonatomic, strong) UIImageView *bgView;
-@property (nonatomic, strong) UIImageView *logoView;
-@property (nonatomic, strong) UILabel *sloganLabel;
 @property (nonatomic, strong) UIImageView *loginUserImage;
 @property (nonatomic, strong) UITextField *userNameText;
 @property (nonatomic, strong) UIView *seperateView1;
@@ -29,7 +28,7 @@
 @property (nonatomic, strong) UIView *seperateView2;
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UILabel *versionLabel;
-@property (nonatomic, assign) int sideblank;
+@property (nonatomic, strong) UIView *userInfoBackView;
 @property (nonatomic, strong) Version *version;
 
 @end
@@ -38,77 +37,29 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.bgView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    self.bgView.image = [UIImage imageNamed:@"background"];
+    self.bgView.image = [UIImage imageNamed:@"ip6"];
     [self.view addSubview:self.bgView];
     self.bgView.userInteractionEnabled = YES;
-    // logoView
-    self.logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Logo"]];
-    self.logoView.contentMode = UIViewContentModeScaleToFill;
-    [self.bgView addSubview:self.logoView];
     
-    // sloganLabel
-    self.sloganLabel = [[UILabel alloc] init];
-    self.sloganLabel.text = kLoginSlogan;
-    [self.bgView addSubview:self.sloganLabel];
-    [self.sloganLabel setTextColor:[UIColor whiteColor]];
-    self.sloganLabel.textAlignment = NSTextAlignmentCenter;
+    //userInfoBackView
+    self.userInfoBackView = [[UIView alloc]initWithFrame:CGRectMake(40, self.view.frame.size.height / 2 + 60, self.view.frame.size.width - 80, USERHEIGHT)];
+    self.userInfoBackView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
+    self.userInfoBackView.layer.cornerRadius = 8;
+    self.userInfoBackView.userInteractionEnabled = YES;
+    [self.bgView addSubview:self.userInfoBackView];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userinfomoveToTop:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
     
-    // userName
-    self.loginUserImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Username"]];
-    [self.bgView addSubview:self.loginUserImage];
-    
-    UIColor *placeHoderColor = [UIColor whiteColor];
-    
-    self.userNameText = [[UITextField alloc] init];
-    self.userNameText.textAlignment = NSTextAlignmentCenter;
-    self.userNameText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入帐名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
-    self.userNameText.borderStyle = UITextBorderStyleNone;
-    self.userNameText.delegate = self;
-    self.userNameText.textColor = [UIColor whiteColor];
-    self.userNameText.userInteractionEnabled = YES;
-    self.userNameText.returnKeyType = UIReturnKeyDone;
-    [self.userNameText becomeFirstResponder];
-    [self.bgView addSubview:self.userNameText];
-    
-    self.seperateView1 = [[UIView alloc] init];
-    self.seperateView1.backgroundColor = [UIColor whiteColor];
-    [self.bgView addSubview:self.seperateView1];
-    
-    // userPassword
-    self.loginPasswordImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Password"]];
-    [self.bgView addSubview:self.loginPasswordImage];
-    self.userPasswordText = [[UITextField alloc] init];
-    self.userPasswordText.textAlignment = NSTextAlignmentCenter;
-    self.userPasswordText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    self.userPasswordText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入密码" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
-    self.userPasswordText.secureTextEntry = YES;
-    self.userPasswordText.delegate = self;
-    [self.userPasswordText setTextColor:[UIColor whiteColor]];
-    self.userPasswordText.returnKeyType = UIReturnKeyDone;
-    self.userPasswordText.userInteractionEnabled = YES;
-    self.userPasswordText.borderStyle = UITextBorderStyleNone;
-    self.userPasswordText.clearButtonMode = UITextFieldViewModeAlways;
-    [self.bgView addSubview:self.userPasswordText];
-    
-    self.seperateView2 = [[UIView alloc] init];
-    self.seperateView2.backgroundColor = [UIColor whiteColor];
-    [self.bgView addSubview:self.seperateView2];
-    
-    // loginButton
-    self.loginButton = [[UIButton alloc] init];
-    [self.loginButton setTitle:@"登录" forState:UIControlStateNormal];
-    [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.loginButton.layer.borderWidth = 2;
-    self.loginButton.layer.cornerRadius = 6;
-    self.loginButton.layer.borderColor = [[UIColor whiteColor] CGColor];
-    [self.loginButton addTarget:self action:@selector(loginBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.bgView addSubview:self.loginButton];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(userinfoMoveToBottom:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
     
     //versionLabel
-    self.versionLabel = [[UILabel alloc] init];
+    self.versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(120, self.view.frame.size.height - 30, self.view.frame.size.width - 240, 20)];
     self.version = [[Version alloc] init];
     self.versionLabel.textColor = [UIColor whiteColor];
     self.versionLabel.font = [UIFont systemFontOfSize:12];
@@ -116,33 +67,76 @@
     self.versionLabel.textAlignment = NSTextAlignmentCenter;
     self.versionLabel.adjustsFontSizeToFitWidth = YES;
     [self.bgView addSubview:self.versionLabel];
-    [self layoutView];
+    
+    // userName
+    self.loginUserImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"user"]];
+    [self.userInfoBackView addSubview:self.loginUserImage];
+    
+    UIColor *placeHoderColor = [UIColor whiteColor];
+    
+    self.userNameText = [[UITextField alloc] initWithFrame:CGRectMake(60, 18,WIDTHINPUT, 30)];
+    self.userNameText.textAlignment = NSTextAlignmentCenter;
+    //self.userNameText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"帐户名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
+    self.userNameText.borderStyle = UITextBorderStyleNone;
+    self.userNameText.delegate = self;
+    self.userNameText.textColor = [UIColor whiteColor];
+    self.userNameText.userInteractionEnabled = YES;
+    self.userNameText.returnKeyType = UIReturnKeyDone;
+    [self.userNameText becomeFirstResponder];
+    [self.userInfoBackView addSubview:self.userNameText];
+    
+    self.seperateView1 = [[UIView alloc] initWithFrame:CGRectMake(60, 49,WIDTHINPUT, 1)];
+    self.seperateView1.backgroundColor = [UIColor whiteColor];
+    [self.userInfoBackView addSubview:self.seperateView1];
+    
+    // userPassword
+    self.loginPasswordImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"password"]];
+    [self.userInfoBackView addSubview:self.loginPasswordImage];
+    self.userPasswordText = [[UITextField alloc] init];
+    [self.userInfoBackView addSubview:self.userPasswordText];
+    self.userPasswordText.frame = CGRectMake(60, 55, WIDTHINPUT, 30);
+    self.userPasswordText.textAlignment = NSTextAlignmentCenter;
+    self.userPasswordText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    self.userPasswordText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"密码" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
+    self.userPasswordText.secureTextEntry = YES;
+    self.userPasswordText.delegate = self;
+    [self.userPasswordText setTextColor:[UIColor whiteColor]];
+    self.userPasswordText.returnKeyType = UIReturnKeyDone;
+    self.userPasswordText.userInteractionEnabled = YES;
+    self.userPasswordText.borderStyle = UITextBorderStyleNone;
+    self.userPasswordText.clearButtonMode = UITextFieldViewModeAlways;
+    
+    self.seperateView2 = [[UIView alloc] initWithFrame:CGRectMake(60, 91, WIDTHINPUT, 1)];
+    self.seperateView2.backgroundColor = [UIColor whiteColor];
+    [self.userInfoBackView addSubview:self.seperateView2];
+    self.loginPasswordImage.frame = CGRectMake(30, CGRectGetMaxY(self.seperateView2.frame) - 20, 20, 20);
+    self.loginUserImage.frame = CGRectMake(30, CGRectGetMaxY(self.seperateView1.frame) - 20, 20, 20);
+    // loginButton
+    self.loginButton = [[UIButton alloc] initWithFrame:CGRectMake(60, CGRectGetMaxY(self.userPasswordText.frame) + 30, WIDTHINPUT, 30)];
+    [self.loginButton setTitle:@"登录" forState:UIControlStateNormal];
+    [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.loginButton.layer.borderWidth = 0;
+    self.loginButton.layer.cornerRadius = 6;
+    self.loginButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+    self.loginButton.backgroundColor = [UIColor colorWithHexString:@"99C28C"];
+    [self.loginButton addTarget:self action:@selector(loginBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.userInfoBackView addSubview:self.loginButton];
+    
 }
 
-//布局视图
-- (void)layoutView {
-    for (UIView *view in [self.bgView subviews]) {
-        view.translatesAutoresizingMaskIntoConstraints = NO;
-    }
-    self.sideblank = (self.view.frame.size.width - 40) / 2;
-    
-    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel);
-    // [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_logoView]-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bgView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0]];
-    NSString *strl =[NSString stringWithFormat: @"V:|-80-[_logoView(42)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-50-[_loginButton(40)]-(>=50)-[_versionLabel(20)]-10-|", kSloganHeight];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:strl options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-80-[_sloganLabel]-80-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView1]-40-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView2]-40-|" options:0 metrics:nil views:ViewDict]];
-    //[_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-200-[_logoView(50)]-20-[_sloganLabel]-80-[_loginUserView]-1-[_seperateView1(2)]-20-[_loginPassword]-1-[_seperateView2(2)]-16-[_LoginButton]-200-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginUserImage(30)]-10-[_userNameText]-80-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_versionLabel]-120-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginPasswordImage(30)]-10-[_userPasswordText]-80-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginButton]-40-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+- (void)userinfomoveToTop:(NSNotification *)aNotification {
+    NSDictionary *userInfo = [aNotification userInfo];
+    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [aValue CGRectValue];
+    int height = keyboardRect.size.height;
+    self.bgView.frame = CGRectMake(0, -height + height / 2.7, self.view.frame.size.width, self.view.frame.size.height);
+    self.userInfoBackView.frame = CGRectMake(40, self.view.frame.size.height - height - 20, self.view.frame.size.width - 80, USERHEIGHT);
+}
+
+- (void)userinfoMoveToBottom:(NSNotification *)aNotification {
+    self.bgView.frame = self.view.frame;
+    self.userInfoBackView.frame = CGRectMake(40, self.view.frame.size.height / 2 + 60, self.view.frame.size.width - 80, USERHEIGHT);
 }
 
 //add: 登录按钮事件

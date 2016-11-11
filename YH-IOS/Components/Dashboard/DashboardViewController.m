@@ -602,7 +602,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
     [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
     [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
-    NSString *contentString = [NSString stringWithFormat:@"2016/12/56,12:34,13.456万，同比增长 1%。浙江温州，浙江温州，最大皮革厂，江南皮革厂倒闭了！王八蛋老板黄鹤吃喝嫖赌，欠下了3.5个亿，带着他的小姨子跑了。我们没有没有办法，拿着钱包抵公司。原价都是三百多、二百多、一百多的钱包，通通二十块，通通二十块！黄鹤王八蛋，你不是人，我们辛辛苦苦给你干了大半年，你不发工资，你还我血汗钱，还我血汗钱！"];
+    NSString *contentString = [NSString stringWithFormat:@" 销售额报表概况如下，昨天销售额为 545.4 万元，周环比增长百分之 6.5 ，截止到昨天本月同比减少百分之 22 , 同店同比增长率概况如下，本月累计金额 1亿5021.6 万元，月累计同比增长百分之 4.6，当天金额为 432.9 万元，天同比增长百分之14.3 。客流概况如下，昨天为 9.6 万人次，环比增长百分之 6.7 ，月累计216.7 完人次 ，同比减少百分之 4.1客单价概况如下，昨天为 67.5 ，周同天环比增长百分之 4，月累计为 72.5 ，环比减少百分之 5.8。目标管理概况如下，5 月份销售额为 8073.51 万元，较 4月份下降了 3145.48 万元，5 月份销售额完成率为百分之 57.2会员店概况如下，本周总体销售额为 15 万元，较上周减少百分之 11.4。"];
     [_iFlySppechSynthesizer synthesize:contentString toUri:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"]];
     _isSpeack = [_iFlySppechSynthesizer isSpeaking];
 }
@@ -624,6 +624,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 }
 
 - (void)onCompleted:(IFlySpeechError *)error {
+    [self dismissViewControllerAnimated:YES completion:nil];
     _VoiceSpeechView.messageView.text = @"合成完成";
     _isSpeack = NO;
     [self playUriAudio];
@@ -648,6 +649,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 }
 
 - (void) onSpeakBegin {
+    [ViewUtils showPopupView:self.view Info:@"正在合成播报数据"];
    // [_VoiceSpeechView.progressView setProgress:0];
     _VoiceSpeechView.messageView.text = @"正在播放";
 }
@@ -1146,8 +1148,8 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             [self actionBarCodeScanView:nil];
         }
         else if([itemName isEqualToString:kDropMentVoiceText]) {
-           [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
-           /* if (_audioPlayer.isPlaying) {
+         //  [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+            if (_audioPlayer.isPlaying) {
                 [_audioPlayer stop];
                 [self.setting.imageView.layer removeAllAnimations];
             }
@@ -1155,7 +1157,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
                 [self voiceSppech];
                 [self rotate360DegreeWithImageView:_setting.imageView];
                 
-            }*/
+            }
         }
         else if([itemName isEqualToString:kDropMentSearchText]) {
             [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];

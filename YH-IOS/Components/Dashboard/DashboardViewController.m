@@ -75,6 +75,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 // 播放状态
 @property (assign, nonatomic) BOOL isSpeack;
 @property (nonatomic, strong) PcmPlayer *audioPlayer;
+@property (nonatomic,strong) NSTimer *voicetimer;
 @end
 
 @implementation DashboardViewController
@@ -580,19 +581,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     [self voiceSppech];
 }
 
-- (void)voiceSpeechBtnClick:(VoiceSpeechView *)voiceView {
-    if (_isSpeack) {
-        [_iFlySppechSynthesizer pauseSpeaking];
-        _VoiceSpeechView.startBtn.backgroundColor = [UIColor redColor];
-        _VoiceSpeechView.messageView.text = @"暂停播放";
-        _isSpeack = NO;
-    }
-    else {
-        _VoiceSpeechView.startBtn.backgroundColor = [UIColor greenColor];
-        [_iFlySppechSynthesizer resumeSpeaking];
-        _isSpeack = YES;
-    }
-}
+
 
 - (void) voiceSppech {
     _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
@@ -602,9 +591,14 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
     [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
     [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
+    //asr_audio_path保存录音文件路径，如不再需要，设置value为nil表示取消，默认目录是documents
+    [_iFlySppechSynthesizer setParameter:@" tts.pcm" forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
     NSString *contentString = [NSString stringWithFormat:@" 销售额报表概况如下，昨天销售额为 545.4 万元，周环比增长百分之 6.5 ，截止到昨天本月同比减少百分之 22 , 同店同比增长率概况如下，本月累计金额 1亿5021.6 万元，月累计同比增长百分之 4.6，当天金额为 432.9 万元，天同比增长百分之14.3 。客流概况如下，昨天为 9.6 万人次，环比增长百分之 6.7 ，月累计216.7 完人次 ，同比减少百分之 4.1客单价概况如下，昨天为 67.5 ，周同天环比增长百分之 4，月累计为 72.5 ，环比减少百分之 5.8。目标管理概况如下，5 月份销售额为 8073.51 万元，较 4月份下降了 3145.48 万元，5 月份销售额完成率为百分之 57.2会员店概况如下，本周总体销售额为 15 万元，较上周减少百分之 11.4。"];
-    [_iFlySppechSynthesizer synthesize:contentString toUri:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"]];
+   // [_iFlySppechSynthesizer synthesize:contentString toUri:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"]];
+    [_iFlySppechSynthesizer startSpeaking:contentString];
     _isSpeack = [_iFlySppechSynthesizer isSpeaking];
+    
+   _voicetimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onSpeakProgress:) userInfo:nil repeats:NO];
 }
 
 - (void)playUriAudio {
@@ -616,18 +610,17 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     NSLog(@"需要播放的时间长度为:%f", _audioPlayer.player.duration);
 }
 
-- (void)cancelSpeechView:(VoiceSpeechView *)voiceView {
-    self.browser.frame = CGRectMake(0, CGRectGetMaxY(self.bannerView.frame), self.view.frame.size.width, self.view.frame.size.height - CGRectGetMaxY(self.bannerView.frame) - 60);
-    UIView *subViews = [self.view viewWithTag:444];
-    [subViews removeFromSuperview];
-    [_audioPlayer stop];
+- (void) onSpeakProgress:(int) progress {
+
+    NSLog(@"播放的时长为 %d",progress);
 }
+
 
 - (void)onCompleted:(IFlySpeechError *)error {
     [self dismissViewControllerAnimated:YES completion:nil];
     _VoiceSpeechView.messageView.text = @"合成完成";
     _isSpeack = NO;
-    [self playUriAudio];
+  //  [self playUriAudio];
 }
 
 - (void)reportPlay {
@@ -655,11 +648,9 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 }
 
 - (void) onBufferProgress:(int)progress message:(NSString *)msg {
-      NSLog(@"buffer progress %2d%%. msg: %@.", progress, msg);
+      NSLog(@"对不对啊 人们啊  %2d%%. msg: %@.", progress, msg);
 }
 
-- (void)onSpeakProgress:(int)progress {
-}
 
 #pragma mark - UIWebview pull down to refresh
 - (void)handleRefresh:(UIRefreshControl *)refresh {
@@ -890,7 +881,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     }
     else if (!_audioPlayer.isPlaying && indexPath.row == 1) {
         cell.tittleLabel.text = @"语音播报";
-        cell.iconImageView.image = [UIImage imageNamed:@"stop"];
+        cell.iconImageView.image = [UIImage imageNamed:@"1.gif"];
     }
     else {
     cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
@@ -1155,7 +1146,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             }
             else {
                 [self voiceSppech];
-                [self rotate360DegreeWithImageView:_setting.imageView];
+               [self rotate360DegreeWithImageView:_setting.imageView];
                 
             }
         }

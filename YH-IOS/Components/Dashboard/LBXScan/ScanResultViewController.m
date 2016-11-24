@@ -117,7 +117,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         NSDictionary *storeDict = [NSDictionary dictionary];
         for(NSInteger i = 0, len = [userDict[kStoreIDsCUName] count]; i < len; i++) {
             storeDict = userDict[kStoreIDsCUName][i];
-            if(storeDict[@"name"] && storeDict[@"id"] && [storeDict[@"id"] integerValue] == [cacheDict[@"store"][@"id"] integerValue]) {
+            if(storeDict[@"name"] && storeDict[@"id"] && ([storeDict[@"id"] integerValue] == [cacheDict[@"store"][@"id"] integerValue])) {
                 isExpired = NO;
                 break;
             }
@@ -130,7 +130,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     
     storeID = cacheDict[@"store"][@"id"];
-    self.labelTheme.text =cacheDict[@"store"][@"name"];
+    self.labelTheme.text = cacheDict[@"store"][@"name"];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       BOOL jsonFormateRight = [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];

@@ -71,6 +71,11 @@ extern NSString *const kReportUBCName;
 extern NSString *const kTabIndexUBCName;
 
 /**
+ * Config#User BarCode Result
+ */
+extern NSString *const kBarcodeReturnFileName;
+
+/**
  *  Mobile#View Path
  */
 extern NSString *const kKPIMobilePath;

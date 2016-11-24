@@ -303,8 +303,8 @@
     NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
     NSError *err;
     BOOL isJsonRight;
-     [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
-    if (err) {
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+    if (err || (dic.count == 0)) {
         isJsonRight = NO;
     }
     else {

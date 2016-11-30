@@ -15,6 +15,7 @@
 #import "ReportSelectorViewController.h"
 #import "DropTableViewCell.h"
 #import "DropViewController.h"
+#import "VoicePlayViewController.h"
 
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
@@ -370,6 +371,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     [tmpTitles addObject:kDropRefreshText];
     [tmpIcons addObject:@"Subject-Refresh"];
+    [tmpTitles addObject:kDropMentVoiceText];
+    [tmpIcons addObject:@"DropMenu-Voice"];
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
@@ -449,6 +452,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         }
         else if ([itemName isEqualToString:kDropRefreshText]){
             [self handleRefresh];
+        }
+        else if ([itemName isEqualToString:kDropMentVoiceText]) {
+            VoicePlayViewController *voicePlay = [[VoicePlayViewController alloc]init];
+            voicePlay.asstePath =self.assetsPath;
+            voicePlay.isReport = YES;
+            voicePlay.reportUrlString = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/report/30/audio";
+            [self presentViewController:voicePlay animated:YES completion:nil];
         }
     }];
 }

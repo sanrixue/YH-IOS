@@ -101,6 +101,7 @@
 		F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F64903BB1DB5CD9B0001DD2B /* UserInfoViewController.m */; };
 		F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68089531D8930C400CDBAF8 /* DropViewController.m */; };
 		F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB9E81DB74CB40020DD17 /* LoadingView.m */; };
+		F6B0F1591DEEA0440094FDB6 /* VoicePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6B0F1581DEEA0440094FDB6 /* VoicePlayViewController.m */; };
 		F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D749E81DCC767300921C76 /* PcmPlayer.m */; };
 		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
 /* End PBXBuildFile section */
@@ -283,6 +284,8 @@
 		F68089531D8930C400CDBAF8 /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
 		F68EB9E71DB74CB40020DD17 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		F68EB9E81DB74CB40020DD17 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
+		F6B0F1571DEEA0440094FDB6 /* VoicePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoicePlayViewController.h; sourceTree = "<group>"; };
+		F6B0F1581DEEA0440094FDB6 /* VoicePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoicePlayViewController.m; sourceTree = "<group>"; };
 		F6C5562A1DC19E5C0058F6EC /* YH-IOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "YH-IOS.entitlements"; sourceTree = "<group>"; };
 		F6D749E71DCC767300921C76 /* PcmPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcmPlayer.h; sourceTree = "<group>"; };
 		F6D749E81DCC767300921C76 /* PcmPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PcmPlayer.m; sourceTree = "<group>"; };
@@ -886,6 +889,8 @@
 				F6D749E71DCC767300921C76 /* PcmPlayer.h */,
 				F6D749E81DCC767300921C76 /* PcmPlayer.m */,
 				F6D749E91DCC767300921C76 /* PcmPlayerDelegate.h */,
+				F6B0F1571DEEA0440094FDB6 /* VoicePlayViewController.h */,
+				F6B0F1581DEEA0440094FDB6 /* VoicePlayViewController.m */,
 			);
 			path = pcmPlayerCode;
 			sourceTree = "<group>";
@@ -964,6 +969,9 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.Siri = {
 								enabled = 1;
 							};
 						};
@@ -1147,6 +1155,7 @@
 				C48924EC1D858F0A00859411 /* UserHeadView.m in Sources */,
 				C42ECED41D66EE8E00C5F762 /* DropTableViewCell.m in Sources */,
 				C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */,
+				F6B0F1591DEEA0440094FDB6 /* VoicePlayViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

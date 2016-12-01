@@ -20,8 +20,10 @@
 #import "HttpResponse.h"
 #import "User.h"
 
+
 @interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,UITableViewDelegate,UITableViewDataSource>{
     IFlySpeechSynthesizer *_iFlySppechSynthesizer;
+    int loopTime;
 }
 @property(nonatomic,strong)UITableView *playListTableView;
 @property (nonatomic, strong) PcmPlayer *audioPlayer;
@@ -52,13 +54,15 @@
     self.playListTableView.delegate = self;
     self.playListTableView.backgroundView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.playListTableView];
-    self.view.backgroundColor = [UIColor greenColor];
+    self.view.backgroundColor = [UIColor darkGrayColor];
     
     self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - 20, 40, 40, 40)];
     [self.view addSubview:self.playerBtn];
     self.playerBtn.layer.cornerRadius = 20;
-    self.playerBtn.backgroundColor = [UIColor redColor];
-    [self.playerBtn addTarget:self action:@selector(voiceSppech) forControlEvents:UIControlEventTouchUpInside];
+    [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
+    self.playerBtn.backgroundColor = [UIColor greenColor];
+    [self.playerBtn addTarget:self action:@selector(playerState) forControlEvents:UIControlEventTouchUpInside];
+    loopTime = 0;
     
     // Do any additional setup after loading the view.
 }
@@ -68,10 +72,13 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self voiceSppech];
+    });
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _isReport ? self.reporStringtArray.count : self.reportListArray.count;
+    return self.reportListArray.count;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -83,20 +90,14 @@
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"playcell"];
     }
-    if (_isReport) {
-        cell.textLabel.text = self.reporStringtArray[indexPath.row];
-    }
-    else {
-        cell.textLabel.text = self.reportListArray[indexPath.row];
-    }
+    cell.textLabel.text = self.reportListArray[indexPath.row];
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return _isReport ? 100 : 40;
+    return  40;
 }
-
 
 - (void) voiceSppech{
     
@@ -111,18 +112,16 @@
     [_iFlySppechSynthesizer setParameter:@"tts.pcm" forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
     NSString *contentString =[NSString stringWithFormat:@"%@", [self reayPlayData]];
     if (contentString) {
-        
-        _isReport ?  [_iFlySppechSynthesizer synthesize:contentString toUri:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"]]: [_iFlySppechSynthesizer startSpeaking:contentString];
+        [_iFlySppechSynthesizer startSpeaking:contentString];
     }
     else {
+        [self getReportData];
         [_iFlySppechSynthesizer startSpeaking:@"正在准备播报数据，请稍后"];
     }
-    //[_iFlySppechSynthesizer startSpeaking:@"this is a good thing thsat you shuold do 我经常一个人看着那些美丽的封疆，喜欢安安经营的校花"];
 }
 
 - (void) getReportData {
-     NSString *urlCleanedString = [self urlCleaner:self.reportUrlString];
-   // NSString *reportString = [NSString stringWithFormat:@"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/audio"];
+    NSString *urlCleanedString = [self urlCleaner:self.reportUrlString];
     HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.reportUrlString assetsPath:self.asstePath];
     NSString *cachePath = [[FileUtils userspace] stringByAppendingPathComponent:@"Cached"];
     NSString *playDataPath = [cachePath stringByAppendingPathComponent:@"PlayData.plist"];
@@ -137,26 +136,13 @@
         _cacaheDict[urlCleanedString] = httpResponse.data;
         [_cacaheDict writeToFile:playDataPath atomically:YES];
     }
-    _isReport ? [self getReportString:self.reportUrlString] :[self getPlayString:self.reportUrlString];
+    [self getPlayString:self.reportUrlString];
 }
 
 - (NSString *)urlCleaner:(NSString *)urlString {
     return [urlString componentsSeparatedByString:@"?"][0];
 }
 
-- (void)getReportString:(NSString *)filePath {
-    _user = [[User alloc]init];
-    NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
-    self.reportListArray = [[NSMutableArray alloc]init];
-    self.reporStringtArray = [[NSMutableArray alloc] init];
-    [self.reporStringtArray addObject:firstPlayString];
-    NSString *urlCleanedString = [self urlCleaner:filePath];
-    NSArray *array = _cacaheDict[urlCleanedString][@"audio"];
-    self.reportListArray = _cacaheDict[urlCleanedString][@"title"];
-    for (NSString *obj in array) {
-        [self.reporStringtArray addObject:obj];
-    }
-}
 
 - (void)getPlayString:(NSString *)filePath {
     _user = [[User alloc]init];
@@ -175,21 +161,22 @@
         }
         [self.reporStringtArray addObject:playContent];
     }
-    [self.reporStringtArray addObject:@"以上就是所有播报数据，谢谢收听"];
 }
 
 - (NSString *) reayPlayData {
     NSString *contentString = @"";
-    for (NSString *obj in self.reporStringtArray) {
-        contentString = [NSString stringWithFormat:@"%@%@",contentString,obj];
+    if  (loopTime < self.reporStringtArray.count) {
+        contentString = self.reporStringtArray[loopTime];
     }
-    
+    loopTime++;
     return contentString;
 }
 
 - (void) onSpeakProgress:(int) progress {
-    
     NSLog(@"播放的时长为 %d",progress);
+    if (progress == 100) {
+        [self voiceSppech];
+    }
 }
 
 - (void)onBufferProgress:(int)progress message:(NSString *)msg {
@@ -197,28 +184,24 @@
 }
 
 - (void)onCompleted:(IFlySpeechError *)error {
-    if (_isReport) {
-        [self playReport];
-    }
     NSLog(@"可能会出错的是什么呢");
-
+    [self voiceSppech];
 }
 
-- (void)playReport {
-    NSError *error = nil;
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
-    _audioPlayer = [[PcmPlayer alloc] initWithFilePath:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
-    [_audioPlayer play];
+- (void)onSpeakBegin {
+    NSLog(@"开始合成");
 }
 
 - (void)playerState {
     if (_isSpeaking) {
         [_iFlySppechSynthesizer pauseSpeaking];
         _isSpeaking = NO;
+         [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     }
     else {
         [_iFlySppechSynthesizer resumeSpeaking];
         _isSpeaking = YES;
+         [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     }
 }
 

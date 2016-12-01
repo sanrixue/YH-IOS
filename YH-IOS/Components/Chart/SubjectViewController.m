@@ -263,12 +263,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)loadOuterLink {
     NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
-    NSString *appendParams = [NSString stringWithFormat:@"?user_num=%@&timestamp=%@", self.user.userNum, timestamp];
     
     if([self.urlString containsString:@"?"]) {
+        NSString *appendParams = [NSString stringWithFormat:@"?user_num=%@&timestamp=%@", self.user.userNum, timestamp];
         self.urlString = [self.urlString stringByReplacingOccurrencesOfString:@"?" withString:appendParams];
     }
     else {
+        NSString *appendParams = [NSString stringWithFormat:@"&user_num=%@&timestamp=%@", self.user.userNum, timestamp];
         self.urlString = [NSString stringWithFormat:@"%@%@", self.urlString, appendParams];
     }
     

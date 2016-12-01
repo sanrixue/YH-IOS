@@ -12,7 +12,6 @@
 #import "iflyMSC/IFlySpeechUtility.h"
 #import "iflyMSC/IFlySpeechConstant.h"
 #import <AVFoundation/AVFoundation.h>
-#import "VoiceSpeechView.h"
 #import "PcmPlayer.h"
 #import "PcmPlayerDelegate.h"
 #import "FileUtils.h"
@@ -72,7 +71,7 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self voiceSppech];
     });
 }

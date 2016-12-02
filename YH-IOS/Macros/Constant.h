@@ -153,6 +153,7 @@ extern NSString *const kDropSearchText;
 extern NSString *const kDropShareText;
 extern NSString *const kDropCommentText;
 extern NSString *const kDropRefreshText;
+extern NSString *const kDropVoiceInText;
 
 /**
  *  Assets Folder and FileName

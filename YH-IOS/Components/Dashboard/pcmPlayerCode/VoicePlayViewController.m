@@ -20,7 +20,7 @@
 #import "User.h"
 
 
-@interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,UITableViewDelegate,UITableViewDataSource>{
+@interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate>{
     IFlySpeechSynthesizer *_iFlySppechSynthesizer;
     int loopTime;
 }
@@ -96,6 +96,17 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     return  40;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+      //  [_iFlySppechSynthesizer stopSpeaking];
+        loopTime = (int)indexPath.row;
+        [self voiceSppech];
+}
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    [_iFlySppechSynthesizer stopSpeaking];
+    [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
 }
 
 - (void) voiceSppech{
@@ -184,6 +195,10 @@
 
 - (void)onCompleted:(IFlySpeechError *)error {
     NSLog(@"可能会出错的是什么呢");
+    if (loopTime == self.reporStringtArray.count) {
+        [_iFlySppechSynthesizer stopSpeaking];
+        [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
+    }
     [self voiceSppech];
 }
 

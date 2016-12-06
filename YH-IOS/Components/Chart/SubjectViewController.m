@@ -31,7 +31,7 @@
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate,IFlySpeechSynthesizerDelegate,AVAudioPlayerDelegate>
+@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate,IFlySpeechSynthesizerDelegate>
 {
     NSMutableDictionary *betaDict;
     IFlySpeechSynthesizer *_iFlySppechSynthesizer;
@@ -50,9 +50,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (strong, nonatomic) NSArray *dropMenuTitles;
 @property (strong, nonatomic) NSArray *dropMenuIcons;
 @property (assign, nonatomic) BOOL isLoadFinish;
-@property (nonatomic, strong) PcmPlayer *audioPlayer;
 @property (nonatomic,strong) NSMutableDictionary *cacaheDict;
-@property (strong, nonatomic) User *user;
 @property (assign, nonatomic) BOOL isSpeaking;
 @property (weak, nonatomic) IBOutlet UIButton *setting;
 
@@ -104,6 +102,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    if ([self.audioPlayer.player isPlaying]) {
+        [self rotate360DegreeWithImageView:self.setting.imageView];
+    }
     
     /*
      * 主题页面,允许横屏
@@ -134,7 +135,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self setAppAllowRotation:NO];
 }
 
-
 - (void) voiceSppech{
     
     //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
@@ -145,7 +145,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
     [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
     [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
-    [_iFlySppechSynthesizer setParameter:@"tts.pcm" forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
+   // [_iFlySppechSynthesizer setParameter:@"tts.pcm" forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
     self.user = [[User alloc]init];
     NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
     reportUrl = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/report/30/audio";
@@ -196,19 +196,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     return contentString;
 }
 
-- (void)playReport {
-    NSError *error = nil;
-    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
-    _audioPlayer = [[PcmPlayer alloc] initWithFilePath:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
-    [_audioPlayer play];
-    _audioPlayer.player.delegate =self;
-    
-}
 
 - (void) onSpeakBegin {
     NSLog(@"开始合成");
-    _isSpeaking = YES;
 }
+
 - (void) onSpeakProgress:(int) progress {
     
     NSLog(@"播放的时长为 %d",progress);
@@ -219,7 +211,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)onCompleted:(IFlySpeechError *)error {
-     [self playReport];
+    if (error) {
+        NSLog(@"%@",error);
+    }
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"PlayReport" object:nil];
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
@@ -596,14 +591,16 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             voicePlay.isReport = YES;
             voicePlay.reportUrlString = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/report/30/audio";
             [self presentViewController:voicePlay animated:YES completion:nil];*/
-            if ([self.audioPlayer isPlaying] && self.audioPlayer) {
-                [self.audioPlayer stop];
+            if (_isSpeaking) {
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
                 [_iFlySppechSynthesizer stopSpeaking];
                 [self.setting.imageView.layer removeAllAnimations];
+                _isSpeaking = NO;
             }
             else {
                  [self rotate360DegreeWithImageView:self.setting.imageView];
                 [self voiceSppech];
+                _isSpeaking = YES;
             }
         }
     }];

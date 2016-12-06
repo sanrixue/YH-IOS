@@ -63,6 +63,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 @property WebViewJavascriptBridge *adBridge;
 @property (strong, nonatomic) NSString *behaviorPath;
 @property (strong, nonatomic) NSMutableDictionary *behaviorDict;
+@property (strong ,nonnull) VoicePlayViewController *voiceViewController;
 @end
 
 @implementation DashboardViewController
@@ -118,10 +119,11 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
      */
     [self receiveLocalNotification];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopplay) name:@"StopPlay" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playReport) name:@"PlayReport" object:nil];
 }
 
 - (void)stopplay {
-    [_setting.layer removeAllAnimations];
+    [self.audioPlayer.player stop];
 }
 
 
@@ -716,6 +718,16 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     }
 }
 
+- (void)playReport {
+    NSError *error = nil;
+    [self.audioPlayer stop];
+    AVAudioSession *avsession = [AVAudioSession sharedInstance] ;
+    [avsession setCategory:AVAudioSessionCategoryPlayback error:&error];
+    [avsession setActive:YES error:nil];
+    self.audioPlayer = [[PcmPlayer alloc] initWithFilePath:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
+    [self.audioPlayer play];
+}
+
 - (void)_loadHtml {
     [self clearBrowserCache];
     [self showLoading:LoadingLoad];
@@ -1038,11 +1050,11 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             [self actionBarCodeScanView:nil];
         }
         else if([itemName isEqualToString:kDropMentVoiceText]) {
-            VoicePlayViewController *voice = [[VoicePlayViewController alloc]init];
-            voice.asstePath =self.assetsPath;
-            voice.isReport = NO;
-            voice.reportUrlString = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/audio";
-            [self presentViewController:voice animated:YES completion:nil];
+            self.voiceViewController = [[VoicePlayViewController alloc]init];
+            self.voiceViewController.asstePath =self.assetsPath;
+            self.voiceViewController.isReport = NO;
+            self.voiceViewController.reportUrlString = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/audio";
+            [self presentViewController:self.voiceViewController animated:YES completion:nil];
         }
         else if([itemName isEqualToString:kDropMentSearchText]) {
             [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];

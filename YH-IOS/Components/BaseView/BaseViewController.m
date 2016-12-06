@@ -16,7 +16,7 @@
 #import <SSZipArchive.h>
 #import "Version.h"
 
-@interface BaseViewController ()<LTHPasscodeViewControllerDelegate>
+@interface BaseViewController ()<LTHPasscodeViewControllerDelegate,AVAudioPlayerDelegate>
 @end
 
 @implementation BaseViewController
@@ -29,6 +29,8 @@
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
+    _audioPlayer = [[PcmPlayer alloc]init];
+    _audioPlayer.player.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -40,6 +42,7 @@
     [self setHeight];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutControllerSubViews:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 }
+
 
 - (void)layoutControllerSubViews:(NSNotification *)notification {
     CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];

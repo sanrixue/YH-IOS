@@ -21,7 +21,6 @@
 
 
 @interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate>{
-    IFlySpeechSynthesizer *_iFlySppechSynthesizer;
     int loopTime;
 }
 @property(nonatomic,strong)UITableView *playListTableView;
@@ -33,13 +32,13 @@
 @property (strong, nonatomic) User *user;
 @property (strong,nonatomic) UIButton *playerBtn;
 @property (assign, nonatomic) BOOL isSpeaking;
+@property (nonatomic, strong) IFlySpeechSynthesizer *iFlySppechSynthesizer;
 @end
 
 @implementation VoicePlayViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self getReportData];
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
     [backBtn addTarget:self action:@selector(dismissPlay) forControlEvents:UIControlEventTouchUpInside];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
@@ -47,7 +46,17 @@
     [backBtn setImage:[UIImage imageNamed:@"Banner-Back"] forState:UIControlStateNormal];
     [self.view addSubview:backBtn];
     
-    self.isSpeaking = YES;
+    _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
+    _iFlySppechSynthesizer.delegate = self;
+    [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
+    [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant VOLUME]];
+    [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
+    [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
+    [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self getReportData];
+    });
+    self.isSpeaking = [_iFlySppechSynthesizer isSpeaking];
     self.playListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 600) style:UITableViewStylePlain];
     self.playListTableView.dataSource=self;
     self.playListTableView.delegate = self;
@@ -61,20 +70,14 @@
     [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     self.playerBtn.backgroundColor = [UIColor greenColor];
     [self.playerBtn addTarget:self action:@selector(playerState) forControlEvents:UIControlEventTouchUpInside];
-    loopTime = 0;
     
-    // Do any additional setup after loading the view.
+    loopTime = 0;
 }
 
 - (void)dismissPlay {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self voiceSppech];
-    });
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.reportListArray.count;
@@ -98,12 +101,12 @@
     return  40;
 }
 
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
       //  [_iFlySppechSynthesizer stopSpeaking];
         loopTime = (int)indexPath.row;
         [self voiceSppech];
 }
+
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     [_iFlySppechSynthesizer stopSpeaking];
     [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
@@ -112,14 +115,6 @@
 - (void) voiceSppech{
     
     //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
-    _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
-    _iFlySppechSynthesizer.delegate = self;
-    [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
-    [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant VOLUME]];
-    [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
-    [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
-    [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
-    [_iFlySppechSynthesizer setParameter:@"tts.pcm" forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
     NSString *contentString =[NSString stringWithFormat:@"%@", [self reayPlayData]];
     if (contentString) {
         [_iFlySppechSynthesizer startSpeaking:contentString];
@@ -149,6 +144,7 @@
     [self getPlayString:self.reportUrlString];
 }
 
+
 - (NSString *)urlCleaner:(NSString *)urlString {
     return [urlString componentsSeparatedByString:@"?"][0];
 }
@@ -171,6 +167,12 @@
         }
         [self.reporStringtArray addObject:playContent];
     }
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.playListTableView reloadData];
+        if (![_iFlySppechSynthesizer isSpeaking]) {
+            [self voiceSppech];
+        }
+    });
 }
 
 - (NSString *) reayPlayData {
@@ -179,14 +181,12 @@
         contentString = self.reporStringtArray[loopTime];
     }
     loopTime++;
+    [self.playListTableView reloadData];
     return contentString;
 }
 
 - (void) onSpeakProgress:(int) progress {
     NSLog(@"播放的时长为 %d",progress);
-    if (progress == 100) {
-        [self voiceSppech];
-    }
 }
 
 - (void)onBufferProgress:(int)progress message:(NSString *)msg {
@@ -197,7 +197,6 @@
     NSLog(@"可能会出错的是什么呢");
     if (loopTime == self.reporStringtArray.count) {
         [_iFlySppechSynthesizer stopSpeaking];
-        [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     }
     [self voiceSppech];
 }
@@ -207,7 +206,7 @@
 }
 
 - (void)playerState {
-    if (_isSpeaking) {
+    if ([_iFlySppechSynthesizer isSpeaking] ) {
         [_iFlySppechSynthesizer pauseSpeaking];
         _isSpeaking = NO;
          [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
@@ -220,12 +219,10 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-    [_iFlySppechSynthesizer stopSpeaking];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 
 @end

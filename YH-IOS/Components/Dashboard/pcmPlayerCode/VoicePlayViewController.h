@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface VoicePlayViewController : UIViewController
+@interface VoicePlayViewController : UIViewController<UINavigationControllerDelegate>
 
 @property (nonatomic,strong)NSString *asstePath;
 @property (nonatomic,assign)BOOL isReport;

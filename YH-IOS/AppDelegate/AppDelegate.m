@@ -227,6 +227,8 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    [self resignFirstResponder];
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
@@ -236,8 +238,36 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self becomeFirstResponder];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
+}
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
+    if (event.type == UIEventTypeRemoteControl) {
+        switch (event.subtype) {
+            case UIEventSubtypeRemoteControlPause:
+                NSLog(@"暂停播放1");
+                [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:@"reportPlay"];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"stopAnimation" object:nil];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
+                break;
+            case UIEventSubtypeRemoteControlStop:
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
+                NSLog(@"暂停播放2");
+                break;
+            case UIEventSubtypeRemoteControlTogglePlayPause:
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
+                NSLog(@"暂停播放3");
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

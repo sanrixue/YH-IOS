@@ -97,14 +97,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         responseCallback(@"SubjectViewController - Response for message from ObjC");
     }];
     [self addWebViewJavascriptBridge];
-    _isSpeaking = NO;
+    NSNumber *number = [[NSUserDefaults standardUserDefaults]objectForKey:@"reportPlay"];
+    _isSpeaking = number ? [number boolValue] : NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    if ([self.audioPlayer.player isPlaying]) {
-        [self rotate360DegreeWithImageView:self.setting.imageView];
-    }
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stopAnimationOnSetting) name:@"stopAnimation" object:nil];
     
     /*
      * 主题页面,允许横屏
@@ -123,10 +122,17 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)viewDidAppear:(BOOL)animated {
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadHtml) name:UIApplicationDidBecomeActiveNotification object:nil];
+    !(_isSpeaking) ?[self.setting.imageView.layer removeAllAnimations] : [self rotate360DegreeWithImageView:self.setting.imageView];
+}
+
+- (void) stopAnimationOnSetting {
+    [self.setting.imageView.layer removeAllAnimations];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    NSNumber *number = [NSNumber numberWithBool:self.isSpeaking];
+    [[NSUserDefaults standardUserDefaults] setObject:number forKey:@"reportPlay"];
 
     /*
      * 其他页面,禁用横屏
@@ -136,8 +142,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void) voiceSppech{
-    
-    //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
     _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
     _iFlySppechSynthesizer.delegate = self;
     [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
@@ -159,7 +163,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
        contentString = [NSString stringWithFormat:@"%@%@%@",firstPlayString,insideString,@"以上是所有内容，谢谢收听"];
     }
     [_iFlySppechSynthesizer synthesize:contentString toUri:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"]];
-    //[_iFlySppechSynthesizer startSpeaking:@"this is a good thing thsat you shuold do 我经常一个人看着那些美丽的封疆，喜欢安安经营的校花"];
 }
 
 - (void) getReportData :(NSString *)reporturlString {
@@ -220,6 +223,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     [self.setting.imageView.layer removeAllAnimations];
     _isSpeaking  = NO;
+    isPlayReport = NO;
 }
 
 - (void)rotate360DegreeWithImageView:(UIImageView *)imageView{

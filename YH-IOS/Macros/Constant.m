@@ -232,3 +232,4 @@ NSString *const kViewInstantBtnText  = @"立即查看";
 NSString *kBarCodeScanFolderName = @"BarCodeScan";
 NSString *kBarCodeScanFileName   = @"scan_bar_code.html";
 
+BOOL isPlayReport = NO;

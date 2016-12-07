@@ -21,9 +21,8 @@
 
 
 @interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate>{
-    int loopTime;
 }
-@property(nonatomic,strong)UITableView *playListTableView;
+@property (nonatomic,strong)UITableView *playListTableView;
 @property (nonatomic, strong) PcmPlayer *audioPlayer;
 @property (nonatomic,strong) NSTimer *voicetimer;
 @property (nonatomic,strong) NSMutableDictionary *cacaheDict;
@@ -33,6 +32,7 @@
 @property (strong,nonatomic) UIButton *playerBtn;
 @property (assign, nonatomic) BOOL isSpeaking;
 @property (nonatomic, strong) IFlySpeechSynthesizer *iFlySppechSynthesizer;
+@property (nonatomic, assign) int loopTime;
 @end
 
 @implementation VoicePlayViewController
@@ -67,11 +67,14 @@
     self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - 20, 40, 40, 40)];
     [self.view addSubview:self.playerBtn];
     self.playerBtn.layer.cornerRadius = 20;
-    [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
+    [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     self.playerBtn.backgroundColor = [UIColor greenColor];
     [self.playerBtn addTarget:self action:@selector(playerState) forControlEvents:UIControlEventTouchUpInside];
     
-    loopTime = 0;
+    _loopTime =[ [[NSUserDefaults standardUserDefaults]objectForKey:@"reportId"] intValue];
+    if (!self.loopTime) {
+        self.loopTime = 0;
+    }
 }
 
 - (void)dismissPlay {
@@ -88,11 +91,11 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"playcell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"playcell"];
-    }
+    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"reportcell"];
     cell.textLabel.text = self.reportListArray[indexPath.row];
+    if (indexPath.row == self.loopTime) {
+        cell.backgroundColor = [UIColor lightGrayColor];
+    }
     return cell;
 }
 
@@ -103,18 +106,26 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
       //  [_iFlySppechSynthesizer stopSpeaking];
-        loopTime = (int)indexPath.row;
-        [self voiceSppech];
+     [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
+    _isSpeaking = YES;
+    self.loopTime = (int)indexPath.row;
+    [self voiceSppech];
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     [_iFlySppechSynthesizer stopSpeaking];
+    _isSpeaking = NO;
     [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
 }
 
 - (void) voiceSppech{
-    
+    [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
+    if (self.loopTime == 0) {
+        _user = [[User alloc]init];
+        NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
+        [_iFlySppechSynthesizer startSpeaking:firstPlayString];
+    }
     NSString *contentString =[NSString stringWithFormat:@"%@", [self reayPlayData]];
     if (contentString) {
         [_iFlySppechSynthesizer startSpeaking:contentString];
@@ -151,11 +162,8 @@
 
 
 - (void)getPlayString:(NSString *)filePath {
-    _user = [[User alloc]init];
-    NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
     self.reportListArray = [[NSMutableArray alloc]init];
     self.reporStringtArray = [[NSMutableArray alloc] init];
-    [self.reporStringtArray addObject:firstPlayString];
     NSString *urlCleanedString = [self urlCleaner:filePath];
     NSArray *array = _cacaheDict[urlCleanedString][@"data"];
     for (NSDictionary *boj in array) {
@@ -177,10 +185,9 @@
 
 - (NSString *) reayPlayData {
     NSString *contentString = @"";
-    if  (loopTime < self.reporStringtArray.count) {
-        contentString = self.reporStringtArray[loopTime];
+    if  (self.loopTime < self.reporStringtArray.count) {
+        contentString = self.reporStringtArray[self.loopTime];
     }
-    loopTime++;
     [self.playListTableView reloadData];
     return contentString;
 }
@@ -195,9 +202,10 @@
 
 - (void)onCompleted:(IFlySpeechError *)error {
     NSLog(@"可能会出错的是什么呢");
-    if (loopTime == self.reporStringtArray.count) {
+    if (self.loopTime == self.reporStringtArray.count) {
         [_iFlySppechSynthesizer stopSpeaking];
     }
+    self.loopTime++;
     [self voiceSppech];
 }
 
@@ -206,7 +214,7 @@
 }
 
 - (void)playerState {
-    if ([_iFlySppechSynthesizer isSpeaking] ) {
+    if ( _isSpeaking) {
         [_iFlySppechSynthesizer pauseSpeaking];
         _isSpeaking = NO;
          [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
@@ -219,6 +227,8 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
+    NSNumber *interger =[NSNumber numberWithInt:self.loopTime];
+    [[NSUserDefaults standardUserDefaults]setObject:interger forKey:@"reportId"];
 }
 
 - (void)didReceiveMemoryWarning {

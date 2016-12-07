@@ -24,6 +24,8 @@
 #import "iflyMSC/IFlySpeechSynthesizer.h"
 #import "iflyMSC/IFlySpeechUtility.h"
 
+#import <AVFoundation/AVFoundation.h>
+
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
@@ -214,11 +216,19 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    AVAudioSession *session=[AVAudioSession sharedInstance];
+    [session setActive:YES error:nil];
+    //后台播放
+    [session setCategory:AVAudioSessionCategoryPlayback error:nil];
+    
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
+    [self resignFirstResponder];
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 }
@@ -228,8 +238,36 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    [self becomeFirstResponder];
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
 
+}
+- (BOOL)canBecomeFirstResponder {
+    return YES;
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)event {
+    if (event.type == UIEventTypeRemoteControl) {
+        switch (event.subtype) {
+            case UIEventSubtypeRemoteControlPause:
+                NSLog(@"暂停播放1");
+                [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:@"reportPlay"];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"stopAnimation" object:nil];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
+                break;
+            case UIEventSubtypeRemoteControlStop:
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
+                NSLog(@"暂停播放2");
+                break;
+            case UIEventSubtypeRemoteControlTogglePlayPause:
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
+                NSLog(@"暂停播放3");
+                break;
+            default:
+                break;
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

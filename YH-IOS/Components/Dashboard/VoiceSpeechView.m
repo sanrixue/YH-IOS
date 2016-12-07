@@ -51,7 +51,6 @@
     [self addSubview:self.messageView];
 }
 
-
 - (void)voiceStart {
     [self.delegate voiceSpeechBtnClick:self];
 }

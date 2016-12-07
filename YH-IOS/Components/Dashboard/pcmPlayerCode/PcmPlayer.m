@@ -37,10 +37,7 @@ typedef struct Wavehead {
 
 @end
 
-
 @implementation PcmPlayer
-
-
 
 
 -(id)initWithFilePath:(NSString *)path sampleRate:(long)sample {

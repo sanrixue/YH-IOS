@@ -578,7 +578,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     NSDictionary *browerDict = [FileUtils readConfigFile:[FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName]];
     self.isLoadFinish = YES;
-    [webView stringByEvaluatingJavaScriptFromString:@"window.alert=null;"];
     if ([browerDict[@"allow_brower_copy"] boolValue]) {
         return;
     }
@@ -592,9 +591,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     if([error code] == NSURLErrorCancelled) {
         return;
-    }
-    if (error) {
-      [self showLoading:LoadingRefresh];
     }
     
     NSLog(@"dvc: %@", error.description);

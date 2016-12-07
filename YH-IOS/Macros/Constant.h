@@ -265,4 +265,5 @@ extern NSString *const kViewInstantBtnText;
 extern NSString *kBarCodeScanFolderName;
 extern NSString *kBarCodeScanFileName;
 
+extern BOOL isPlayReport;
 #endif /* Constant_h */

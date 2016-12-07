@@ -966,7 +966,7 @@
 					C4DB7D721C02EC0500DA534E = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = WV94P663S4;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1330,8 +1330,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "56cfaee7-f287-475e-8023-48334bee3329";
-				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: com.intfocus.yonghuitest";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1363,8 +1363,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "56cfaee7-f287-475e-8023-48334bee3329";
-				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: com.intfocus.yonghuitest";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

@@ -115,6 +115,7 @@
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     [_iFlySppechSynthesizer stopSpeaking];
     _isSpeaking = NO;
+    _loopTime = 0;
     [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
 }
 

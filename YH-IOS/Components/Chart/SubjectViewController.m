@@ -127,6 +127,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void) stopAnimationOnSetting {
     [self.setting.imageView.layer removeAllAnimations];
+    [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:@"reportPlay"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

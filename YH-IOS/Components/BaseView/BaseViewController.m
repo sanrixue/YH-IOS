@@ -16,7 +16,7 @@
 #import <SSZipArchive.h>
 #import "Version.h"
 
-@interface BaseViewController ()<LTHPasscodeViewControllerDelegate,AVAudioPlayerDelegate>
+@interface BaseViewController ()<LTHPasscodeViewControllerDelegate>
 @end
 
 @implementation BaseViewController
@@ -105,6 +105,10 @@
     }
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.idView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.bannerView attribute:NSLayoutAttributeTrailing multiplier:1.0f constant:-10.0f]];
+}
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    [self.audioPlayer.player stop];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"stopAnimation" object:nil];
 }
 
 - (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size {

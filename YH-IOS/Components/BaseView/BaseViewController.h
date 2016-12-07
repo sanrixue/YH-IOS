@@ -22,7 +22,7 @@
 #import "ExtendNSLogFunctionality.h"
 #import "PcmPlayer.h"
 
-@interface BaseViewController : UIViewController<UIWebViewDelegate>
+@interface BaseViewController : UIViewController<UIWebViewDelegate,AVAudioPlayerDelegate>
 
 @property WebViewJavascriptBridge* bridge;
 @property (weak, nonatomic) IBOutlet UIView *bannerView;

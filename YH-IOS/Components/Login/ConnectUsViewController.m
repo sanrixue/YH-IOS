@@ -7,6 +7,8 @@
 //
 
 #import "ConnectUsViewController.h"
+#import "UIColor+Hex.h"
+#import "Constant.h"
 
 @interface ConnectUsViewController ()
 @property (nonatomic, strong) UIWebView *webView;
@@ -21,7 +23,7 @@
     
     self.view.backgroundColor  = [UIColor whiteColor];
     UIView *topView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
-    topView.backgroundColor = [UIColor greenColor];
+    topView.backgroundColor =  [UIColor colorWithHexString:kBannerBgColor];
     [self.view addSubview:topView];
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
     [backBtn addTarget:self action:@selector(dismissThurSay) forControlEvents:UIControlEventTouchUpInside];

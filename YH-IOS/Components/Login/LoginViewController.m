@@ -43,7 +43,7 @@
     [super viewDidLoad];
     
     self.bgView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    self.bgView.image = [UIImage imageNamed:@"Background"];
+    self.bgView.image = [UIImage imageNamed:@"background"];
     [self.view addSubview:self.bgView];
     self.bgView.userInteractionEnabled = YES;
     // logoView

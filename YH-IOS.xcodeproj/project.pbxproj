@@ -70,7 +70,7 @@
 		C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CF3B571C1AC75C00F58E1E /* CommentViewController.m */; };
 		C4DB7D781C02EC0500DA534E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D771C02EC0500DA534E /* main.m */; };
 		C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D7F1C02EC0500DA534E /* Main.storyboard */; };
-		C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D821C02EC0500DA534E /* Assets.xcassets */; };
+		C4DB7D831C02EC0500DA534E /* images_mobile-login-background.png in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D821C02EC0500DA534E /* images_mobile-login-background.png */; };
 		C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D841C02EC0500DA534E /* LaunchScreen.storyboard */; };
 		C4DB7D911C02EC0600DA534E /* YH_IOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D901C02EC0600DA534E /* YH_IOSTests.m */; };
 		C4DB7D9C1C02EC0600DA534E /* YH_IOSUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D9B1C02EC0600DA534E /* YH_IOSUITests.m */; };
@@ -92,7 +92,12 @@
 		C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B71C99812B0009411A /* WebViewJavascriptBridge.m */; };
 		C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */; };
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
+<<<<<<< HEAD
 		F630B0221DDC0A4500CE10B1 /* 1.gif in Resources */ = {isa = PBXBuildFile; fileRef = F630B0211DDC0A4500CE10B1 /* 1.gif */; };
+=======
+		F60A8CDF1DFFBE4D00D43FFE /* GuidePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F60A8CDE1DFFBE4D00D43FFE /* GuidePageViewController.m */; };
+		F60A8CE21DFFE19F00D43FFE /* ConnectUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F60A8CE11DFFE19F00D43FFE /* ConnectUsViewController.m */; };
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 		F630B2E61D98FAB600CAA6A0 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F630B2E51D98FAB600CAA6A0 /* SearchTableViewCell.m */; };
 		F63A5BBF1DCAE2CB0092FC24 /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F63A5BBE1DCAE2CB0092FC24 /* libz.1.1.3.tbd */; };
 		F63A5BC11DCAE3520092FC24 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63A5BC01DCAE3520092FC24 /* AddressBook.framework */; };
@@ -229,7 +234,7 @@
 		C4DB7D731C02EC0500DA534E /* YH-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YH-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DB7D771C02EC0500DA534E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C4DB7D801C02EC0500DA534E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C4DB7D821C02EC0500DA534E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C4DB7D821C02EC0500DA534E /* images_mobile-login-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "images_mobile-login-background.png"; path = "../config/Assets.xcassets/shengyiplus/Background.imageset/images_mobile-login-background.png"; sourceTree = "<group>"; };
 		C4DB7D851C02EC0500DA534E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C4DB7D871C02EC0500DA534E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4DB7D8C1C02EC0600DA534E /* YH-IOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "YH-IOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -269,7 +274,14 @@
 		C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
 		C4EFE4BA1C99812B0009411A /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		F630B0211DDC0A4500CE10B1 /* 1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = 1.gif; sourceTree = "<group>"; };
+=======
+		F60A8CDD1DFFBE4D00D43FFE /* GuidePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuidePageViewController.h; sourceTree = "<group>"; };
+		F60A8CDE1DFFBE4D00D43FFE /* GuidePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuidePageViewController.m; sourceTree = "<group>"; };
+		F60A8CE01DFFE19F00D43FFE /* ConnectUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectUsViewController.h; sourceTree = "<group>"; };
+		F60A8CE11DFFE19F00D43FFE /* ConnectUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectUsViewController.m; sourceTree = "<group>"; };
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 		F630B2E41D98FAB600CAA6A0 /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		F630B2E51D98FAB600CAA6A0 /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		F63A5BBC1DCAE0BC0092FC24 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = ../iOS_voice_1144_54bfa2c0/lib/iflyMSC.framework; sourceTree = "<group>"; };
@@ -603,6 +615,10 @@
 			children = (
 				C4C628411C0C1ED6000AD5D8 /* LoginViewController.h */,
 				C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */,
+				F60A8CDD1DFFBE4D00D43FFE /* GuidePageViewController.h */,
+				F60A8CDE1DFFBE4D00D43FFE /* GuidePageViewController.m */,
+				F60A8CE01DFFE19F00D43FFE /* ConnectUsViewController.h */,
+				F60A8CE11DFFE19F00D43FFE /* ConnectUsViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -651,7 +667,7 @@
 				C4DB7DB51C02EE3800DA534E /* Utils */,
 				C4DB7DAC1C02EC3D00DA534E /* AppDelegate */,
 				C4DB7D7F1C02EC0500DA534E /* Main.storyboard */,
-				C4DB7D821C02EC0500DA534E /* Assets.xcassets */,
+				C4DB7D821C02EC0500DA534E /* images_mobile-login-background.png */,
 				C4DB7D841C02EC0500DA534E /* LaunchScreen.storyboard */,
 				C4DB7D761C02EC0500DA534E /* Supporting Files */,
 			);
@@ -978,10 +994,14 @@
 					};
 					C4DB7D8B1C02EC0600DA534E = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = WV94P663S4;
+						ProvisioningStyle = Manual;
 						TestTargetID = C4DB7D721C02EC0500DA534E;
 					};
 					C4DB7D961C02EC0600DA534E = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = WV94P663S4;
+						ProvisioningStyle = Automatic;
 						TestTargetID = C4DB7D721C02EC0500DA534E;
 					};
 				};
@@ -1022,7 +1042,7 @@
 				C4EFE4B31C98F60A0009411A /* assets.zip in Resources */,
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
-				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
+				C4DB7D831C02EC0500DA534E /* images_mobile-login-background.png in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1111,6 +1131,7 @@
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
 				C48924E91D858F0A00859411 /* SettingDefaultTableViewCell.m in Sources */,
+				F60A8CE21DFFE19F00D43FFE /* ConnectUsViewController.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
 				C48924EB1D858F0A00859411 /* ThurSayTableViewCell.m in Sources */,
 				C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */,
@@ -1118,6 +1139,7 @@
 				C48924E71D858F0A00859411 /* OneButtonTableViewCell.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
+				F60A8CDF1DFFBE4D00D43FFE /* GuidePageViewController.m in Sources */,
 				F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */,
 				C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */,
 				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
@@ -1227,10 +1249,11 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Shengyin Software Technology Co., Ltd.";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1247,7 +1270,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "902c543b-8b76-42a8-b172-e4a981192439";
@@ -1277,6 +1300,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1287,7 +1311,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "902c543b-8b76-42a8-b172-e4a981192439";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1302,8 +1326,7 @@
 			baseConfigurationReference = 766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = "YH-IOS/YH-IOS.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;
@@ -1336,9 +1359,14 @@
 			baseConfigurationReference = 12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+<<<<<<< HEAD
 				CODE_SIGN_ENTITLEMENTS = "YH-IOS/YH-IOS.entitlements";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+=======
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1369,6 +1397,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = WV94P663S4;
 				INFOPLIST_FILE = "YH-IOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.intfocus.YH-IOSTests";
@@ -1381,6 +1411,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = WV94P663S4;
 				INFOPLIST_FILE = "YH-IOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.intfocus.YH-IOSTests";
@@ -1392,6 +1424,8 @@
 		C4DB7DA71C02EC0600DA534E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = WV94P663S4;
 				INFOPLIST_FILE = "YH-IOSUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.intfocus.YH-IOSUITests";
@@ -1404,6 +1438,8 @@
 		C4DB7DA81C02EC0600DA534E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = WV94P663S4;
 				INFOPLIST_FILE = "YH-IOSUITests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.intfocus.YH-IOSUITests";

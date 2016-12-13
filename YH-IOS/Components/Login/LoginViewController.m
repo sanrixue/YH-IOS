@@ -13,6 +13,7 @@
 #import <PgyUpdate/PgyUpdateManager.h>
 #import "UMessage.h"
 #import "Version.h"
+#import "ConnectUsViewController.h"
 
 #define kSloganHeight [[UIScreen mainScreen]bounds].size.height / 6
 
@@ -31,6 +32,8 @@
 @property (nonatomic, strong) UILabel *versionLabel;
 @property (nonatomic, assign) int sideblank;
 @property (nonatomic, strong) Version *version;
+@property (nonatomic, strong) UIButton *directLoginBtn;
+@property (nonatomic, strong) UIButton *connectUs;
 
 @end
 
@@ -40,7 +43,7 @@
     [super viewDidLoad];
     
     self.bgView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    self.bgView.image = [UIImage imageNamed:@"background"];
+    self.bgView.image = [UIImage imageNamed:@"Background"];
     [self.view addSubview:self.bgView];
     self.bgView.userInteractionEnabled = YES;
     // logoView
@@ -117,6 +120,27 @@
     self.versionLabel.adjustsFontSizeToFitWidth = YES;
     [self.bgView addSubview:self.versionLabel];
     
+<<<<<<< HEAD
+=======
+    
+    // directLogin
+    self.directLoginBtn = [[UIButton alloc]init];
+    [self.directLoginBtn setTitle:@"观看演示" forState:UIControlStateNormal];
+    [self.directLoginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.directLoginBtn setBackgroundColor:[UIColor clearColor]];
+    self.directLoginBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    [self.bgView addSubview:self.directLoginBtn];
+    [self.directLoginBtn addTarget:self action:@selector(directLogin) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.connectUs = [[UIButton alloc]init];
+    [self.connectUs setTitle:@"联系我们" forState:UIControlStateNormal];
+    [self.connectUs setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.connectUs setBackgroundColor:[UIColor clearColor]];
+    self.connectUs.titleLabel.font = [UIFont systemFontOfSize:12];
+    [self.bgView addSubview:self.connectUs];
+    [self.connectUs  addTarget:self action:@selector(jumptoconnectUs) forControlEvents:UIControlEventTouchUpInside];
+    
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userinfomoveToTop:)
                                                  name:UIKeyboardWillShowNotification
@@ -136,21 +160,28 @@
     }
     self.sideblank = (self.view.frame.size.width - 40) / 2;
     
-    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel);
+    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel,_directLoginBtn,_connectUs);
     // [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_logoView]-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bgView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0]];
+<<<<<<< HEAD
     NSString *strl =[NSString stringWithFormat: @"V:|-100-[_logoView(42)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-30-[_loginButton(40)]-(>=50)-[_versionLabel(20)]-10-|", kSloganHeight];
+=======
+    NSString *strl =[NSString stringWithFormat: @"V:|-100-[_logoView(42)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-30-[_loginButton(40)]-30-[_directLoginBtn(20)]-(>=10)-[_versionLabel(20)]-10-|", kSloganHeight];
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:strl options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-80-[_sloganLabel]-80-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_directLoginBtn]-120-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView1]-40-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView2]-40-|" options:0 metrics:nil views:ViewDict]];
     //[_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-200-[_logoView(50)]-20-[_sloganLabel]-80-[_loginUserView]-1-[_seperateView1(2)]-20-[_loginPassword]-1-[_seperateView2(2)]-16-[_LoginButton]-200-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginUserImage(30)]-10-[_userNameText]-80-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_versionLabel]-120-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginPasswordImage(30)]-10-[_userPasswordText]-80-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginButton]-40-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_versionLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_connectUs attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_versionLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_connectUs attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_versionLabel(80)]-40-[_connectUs(70)]-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
 }
@@ -167,6 +198,14 @@
     self.bgView.frame = self.view.frame;
 }
 
+<<<<<<< HEAD
+=======
+- (void)jumptoconnectUs{
+    ConnectUsViewController *connetUsView = [[ConnectUsViewController alloc]init];
+    [self presentViewController:connetUsView animated:YES completion:nil];
+}
+
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 //add: 登录按钮事件
 - (void)loginBtnClick {
     if (self.userNameText.text.length == 0) {
@@ -196,6 +235,20 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     [textField resignFirstResponder];
     return YES;
+}
+
+- (void)directLogin {
+    NSString *paswd = @"123456";
+    NSString *msg = [APIHelper userAuthentication:@"0011" password:paswd.md5];
+    
+    if (!(msg.length == 0)) {
+        [self showProgressHUD:msg mode:MBProgressHUDModeText];
+        [self.progressHUD hide:YES afterDelay:2.0];
+        return;
+    }
+    
+    [self showProgressHUD:@"跳转中"];
+    [self jumpToDashboardView];
 }
 
 //跳转到仪表盘页面

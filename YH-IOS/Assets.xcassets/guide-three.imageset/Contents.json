@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
+      "filename" : "3.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "iPhone 7 Plus@2x (1).png",
       "scale" : "2x"
     },
     {

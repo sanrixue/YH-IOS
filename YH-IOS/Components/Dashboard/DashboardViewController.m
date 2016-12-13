@@ -27,8 +27,11 @@
 #import "DropViewController.h"
 #import "ThurSayViewController.h"
 #import "LoadingView.h"
+<<<<<<< HEAD
 #import "VoicePlayViewController.h"
 
+=======
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 
 
 static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
@@ -63,7 +66,10 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 @property WebViewJavascriptBridge *adBridge;
 @property (strong, nonatomic) NSString *behaviorPath;
 @property (strong, nonatomic) NSMutableDictionary *behaviorDict;
+<<<<<<< HEAD
 @property (strong ,nonnull) VoicePlayViewController *voiceViewController;
+=======
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 @end
 
 @implementation DashboardViewController
@@ -112,18 +118,21 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
      *  登录或解屏后，密码为初始值时提示:
      *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
      */
-    [self checkUserModifiedInitPassword];
+    //[self checkUserModifiedInitPassword];
     
     /**
      *  生命周期内仅执行一次
      */
     [self receiveLocalNotification];
+<<<<<<< HEAD
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopplay) name:@"StopPlay" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playReport) name:@"PlayReport" object:nil];
 }
 
 - (void)stopplay {
     [self.audioPlayer.player stop];
+=======
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 }
 
 
@@ -561,7 +570,10 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 #pragma mark - UIWebview pull down to refresh
 - (void)handleRefresh:(UIRefreshControl *)refresh {
     [self addWebViewJavascriptBridge];
@@ -797,7 +809,10 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     }
     cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
     cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
+<<<<<<< HEAD
     
+=======
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
     
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
@@ -1050,11 +1065,15 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             [self actionBarCodeScanView:nil];
         }
         else if([itemName isEqualToString:kDropMentVoiceText]) {
+<<<<<<< HEAD
             self.voiceViewController = [[VoicePlayViewController alloc]init];
             self.voiceViewController.asstePath =self.assetsPath;
             self.voiceViewController.isReport = NO;
             self.voiceViewController.reportUrlString = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/audio";
             [self presentViewController:self.voiceViewController animated:YES completion:nil];
+=======
+           [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
         }
         else if([itemName isEqualToString:kDropMentSearchText]) {
             [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];

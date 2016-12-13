@@ -67,6 +67,12 @@ NSString *const kCurrentVersionFileName          = @"current_version.txt";
 NSString *const kUserAgentFileName               = @"webview_user_agent.txt";
 
 /**
+  * Config#User barcode js
+  */
+
+NSString *const kBarcodeReturnFileName           = @"barCodeResult";
+
+/**
  *  Config#User Behavior Column name
  */
 NSString *const kBehaviorConfigFileName = @"behavior_v0.plist";

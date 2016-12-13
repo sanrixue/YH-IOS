@@ -28,6 +28,7 @@
 #import "HttpResponse.h"
 #import "User.h"
 
+
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
@@ -120,6 +121,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
+<<<<<<< HEAD
 - (void)viewDidAppear:(BOOL)animated {
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadHtml) name:UIApplicationDidBecomeActiveNotification object:nil];
     !(_isSpeaking) ?[self.setting.imageView.layer removeAllAnimations] : [self rotate360DegreeWithImageView:self.setting.imageView];
@@ -130,6 +132,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:@"reportPlay"];
 }
 
+=======
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     NSNumber *number = [NSNumber numberWithBool:self.isSpeaking];
@@ -304,6 +308,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self showLoading:LoadingRefresh];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -325,7 +330,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
         
-        [self loadHtml];
+        [self handleRefresh];
     }];
     
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -405,6 +410,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)loadOuterLink {
     NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     
+<<<<<<< HEAD
     if([self.urlString containsString:@"?"]) {
         NSString *appendParams = [NSString stringWithFormat:@"?user_num=%@&timestamp=%@", self.user.userNum, timestamp];
         self.urlString = [self.urlString stringByReplacingOccurrencesOfString:@"?" withString:appendParams];
@@ -413,6 +419,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         NSString *appendParams = [NSString stringWithFormat:@"&user_num=%@&timestamp=%@", self.user.userNum, timestamp];
         self.urlString = [NSString stringWithFormat:@"%@%@", self.urlString, appendParams];
     }
+=======
+    NSString *splitString = [self.urlString containsString:@"?"] ? @"&" : @"?";
+    NSString *appendParams = [NSString stringWithFormat:@"user_num=%@&timestamp=%@", self.user.userNum, timestamp];
+    self.urlString = [NSString stringWithFormat:@"%@%@%@", self.urlString, splitString, appendParams];
+>>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
     
     NSLog(@"%@", self.urlString);
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
@@ -450,7 +461,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [APIHelper reportData:self.user.groupID templateID:self.templateID reportID:self.reportID];
-        
+    
         HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
         
         __block NSString *htmlPath;
@@ -642,7 +653,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             UIImage *image;
             NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
             betaDict = [FileUtils readConfigFile:settingsConfigPath];
-            if (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) {
+            if (!betaDict[@"image_within_screen"] || [betaDict[@"image_within_screen"] boolValue]) {
                 image = [self saveWebViewAsImage];
             }
             else {
@@ -740,6 +751,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 #pragma mark - UIWebview delegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     NSDictionary *browerDict = [FileUtils readConfigFile:[FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName]];
+    self.isLoadFinish = YES;
     if ([browerDict[@"allow_brower_copy"] boolValue]) {
         return;
     }
@@ -769,7 +781,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self checkInterfaceOrientation:toInterfaceOrientation];
-
+    [self dismissViewControllerAnimated:YES completion:nil];
     [self loadHtml];
 }
 
@@ -781,7 +793,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)checkInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     BOOL isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation);
     
-    //self.bannerView.hidden = isLandscape;
+    self.bannerView.hidden = isLandscape;
     [[UIApplication sharedApplication] setStatusBarHidden:isLandscape withAnimation:NO];
     
     self.layoutConstraintBannerView.constant = (isLandscape ? -55 : 0);

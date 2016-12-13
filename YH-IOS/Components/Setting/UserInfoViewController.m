@@ -29,22 +29,27 @@
     NSString *behaviorDict = [self toString:configPath fileName:kBehaviorConfigFileName];
     NSString *noticeDict = [self toString:configPath fileName:kLocalNotificationConfigFileName];
     NSString *betaDict = [self toString:configPath fileName:kBetaConfigFileName];
-
+    NSString *javascriptPath = [FileUtils barcodeScanResultPath];
+    NSString *barCodeResult = @"";
+    if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
+         barCodeResult = [NSString stringWithContentsOfFile:javascriptPath encoding:NSUTF8StringEncoding error:nil];
+    }
     //显示的 label
-    NSString *writeMessageString = [NSString stringWithFormat:@"%@:\n%@\n%@:\n%@\n%@:\n%@\n%@:\n%@",kSettingConfigFileName, settingDict, kBehaviorConfigFileName, behaviorDict,kLocalNotificationConfigFileName, noticeDict, kBetaConfigFileName, betaDict];
+    NSString *writeMessageString = [NSString stringWithFormat:@"%@:\n%@\n%@:\n%@\n%@:\n%@\n%@:\n%@\n%@:%@\n",kSettingConfigFileName, settingDict, kBehaviorConfigFileName, behaviorDict,kLocalNotificationConfigFileName, noticeDict, kBetaConfigFileName, betaDict,kBarcodeReturnFileName,barCodeResult];
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 60,self.view.frame.size.width, self.view.frame.size.height)];
     UILabel *showlabel = [[UILabel alloc] init];
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    [style setLineBreakMode:NSLineBreakByCharWrapping];
+    [style setLineBreakMode:NSLineBreakByWordWrapping];
     NSDictionary *attributes = @{ NSFontAttributeName : [UIFont systemFontOfSize:14.0f ], NSParagraphStyleAttributeName : style };
     CGRect labelRect = [writeMessageString boundingRectWithSize:CGSizeMake(self.view.frame.size.width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
     showlabel.font =[UIFont systemFontOfSize:14];
-    showlabel.frame = CGRectMake(0, 0, self.view.frame.size.width, labelRect.size.height + 200);
+    showlabel.frame = CGRectMake(0, 0, self.view.frame.size.width, labelRect.size.height + 100);
     showlabel.text = writeMessageString;
     showlabel.numberOfLines = 0;
     scrollView.contentSize = showlabel.frame.size;
     scrollView.backgroundColor = [UIColor whiteColor];
     [scrollView addSubview:showlabel];
+    scrollView.bounces = NO;
     [self.view addSubview:scrollView];
     //顶部返回和title
     UILabel *titlelabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 20,self.view.frame.size.width - 200 , 30)];

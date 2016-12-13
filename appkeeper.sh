@@ -21,8 +21,10 @@ case "$1" in
       echo 'TODO'
   ;;
   del:entitle)
-      pbxproj=YH-IOS.xcodeproj/project.pbxproj
-      sed /CODE_SIGN_ENTITLEMENTS/d "${pbxproj}" > "${pbxproj}"
+      project=YH-IOS.xcodeproj/project.pbxproj
+      sed -i '.bak' /CODE_SIGN_ENTITLEMENTS/d YH-IOS.xcodeproj/project.pbxproj
+      diff ${project} ${project}.bak
+      mv ${project}.bak build/
   ;;
   *)
       test -z "$1" && echo "current app: $(cat .current-app)" || echo "unknown argument - $1"

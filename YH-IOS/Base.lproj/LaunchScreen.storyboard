@@ -38,6 +38,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="background" width="640" height="1136"/>
+        <image name="background" width="731" height="1300"/>
     </resources>
 </document>

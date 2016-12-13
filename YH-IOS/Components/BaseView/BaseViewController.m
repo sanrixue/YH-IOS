@@ -29,6 +29,8 @@
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
+    _audioPlayer = [[PcmPlayer alloc]init];
+    _audioPlayer.player.delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -40,6 +42,7 @@
     [self setHeight];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(layoutControllerSubViews:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
 }
+
 
 - (void)layoutControllerSubViews:(NSNotification *)notification {
     CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
@@ -102,6 +105,10 @@
     }
     
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.idView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.bannerView attribute:NSLayoutAttributeTrailing multiplier:1.0f constant:-10.0f]];
+}
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    [self.audioPlayer.player stop];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"stopAnimation" object:nil];
 }
 
 - (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size {

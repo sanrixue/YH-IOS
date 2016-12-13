@@ -20,8 +20,9 @@
 #import "UIWebview+Clean.h"
 #import "LTHPasscodeViewController.h"
 #import "ExtendNSLogFunctionality.h"
+#import "PcmPlayer.h"
 
-@interface BaseViewController : UIViewController<UIWebViewDelegate>
+@interface BaseViewController : UIViewController<UIWebViewDelegate,AVAudioPlayerDelegate>
 
 @property WebViewJavascriptBridge* bridge;
 @property (weak, nonatomic) IBOutlet UIView *bannerView;
@@ -38,6 +39,7 @@
 @property (strong, nonatomic) NSString *assetsPath;
 @property (strong, nonatomic) NSString *sharedPath;
 @property (strong, nonatomic) User *user;
+@property (nonatomic, strong) PcmPlayer *audioPlayer;
 
 - (void)clearBrowserCache;
 - (void)showLoading:(LoadingType)loadingType;
@@ -46,6 +48,7 @@
 - (void)jumpToLogin;
 - (void)showProgressHUD:(NSString *)text;
 - (void)showProgressHUD:(NSString *)text mode:(MBProgressHUDMode)mode;
+
 
 /**
  *  设置是否允许横屏

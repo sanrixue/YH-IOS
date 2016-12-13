@@ -153,6 +153,7 @@ extern NSString *const kDropSearchText;
 extern NSString *const kDropShareText;
 extern NSString *const kDropCommentText;
 extern NSString *const kDropRefreshText;
+extern NSString *const kDropVoiceInText;
 
 /**
  *  Assets Folder and FileName
@@ -264,4 +265,5 @@ extern NSString *const kViewInstantBtnText;
 extern NSString *kBarCodeScanFolderName;
 extern NSString *kBarCodeScanFileName;
 
+extern BOOL isPlayReport;
 #endif /* Constant_h */

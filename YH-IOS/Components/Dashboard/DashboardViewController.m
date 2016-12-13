@@ -61,13 +61,14 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 @property WebViewJavascriptBridge *adBridge;
 @property (strong, nonatomic) NSString *behaviorPath;
 @property (strong, nonatomic) NSMutableDictionary *behaviorDict;
+
 @end
 
 @implementation DashboardViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
     self.advertWebView.tag = 1234;
@@ -109,7 +110,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
      *  登录或解屏后，密码为初始值时提示:
      *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
      */
-    [self checkUserModifiedInitPassword];
+    //[self checkUserModifiedInitPassword];
     
     /**
      *  生命周期内仅执行一次
@@ -552,6 +553,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
 
+
 #pragma mark - UIWebview pull down to refresh
 - (void)handleRefresh:(UIRefreshControl *)refresh {
     [self addWebViewJavascriptBridge];
@@ -706,6 +708,16 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             [self showLoading:LoadingRefresh];
         });
     }
+}
+
+- (void)playReport {
+    NSError *error = nil;
+    [self.audioPlayer stop];
+    AVAudioSession *avsession = [AVAudioSession sharedInstance] ;
+    [avsession setCategory:AVAudioSessionCategoryPlayback error:&error];
+    [avsession setActive:YES error:nil];
+    self.audioPlayer = [[PcmPlayer alloc] initWithFilePath:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
+    [self.audioPlayer play];
 }
 
 - (void)_loadHtml {

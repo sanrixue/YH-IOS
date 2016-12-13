@@ -70,7 +70,7 @@
 		C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C4CF3B571C1AC75C00F58E1E /* CommentViewController.m */; };
 		C4DB7D781C02EC0500DA534E /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D771C02EC0500DA534E /* main.m */; };
 		C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D7F1C02EC0500DA534E /* Main.storyboard */; };
-		C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D821C02EC0500DA534E /* Assets.xcassets */; };
+		C4DB7D831C02EC0500DA534E /* images_mobile-login-background.png in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D821C02EC0500DA534E /* images_mobile-login-background.png */; };
 		C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4DB7D841C02EC0500DA534E /* LaunchScreen.storyboard */; };
 		C4DB7D911C02EC0600DA534E /* YH_IOSTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D901C02EC0600DA534E /* YH_IOSTests.m */; };
 		C4DB7D9C1C02EC0600DA534E /* YH_IOSUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = C4DB7D9B1C02EC0600DA534E /* YH_IOSUITests.m */; };
@@ -229,7 +229,7 @@
 		C4DB7D731C02EC0500DA534E /* YH-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "YH-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4DB7D771C02EC0500DA534E /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C4DB7D801C02EC0500DA534E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		C4DB7D821C02EC0500DA534E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C4DB7D821C02EC0500DA534E /* images_mobile-login-background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "images_mobile-login-background.png"; path = "../config/Assets.xcassets/shengyiplus/Background.imageset/images_mobile-login-background.png"; sourceTree = "<group>"; };
 		C4DB7D851C02EC0500DA534E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C4DB7D871C02EC0500DA534E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C4DB7D8C1C02EC0600DA534E /* YH-IOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "YH-IOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -656,7 +656,7 @@
 				C4DB7DB51C02EE3800DA534E /* Utils */,
 				C4DB7DAC1C02EC3D00DA534E /* AppDelegate */,
 				C4DB7D7F1C02EC0500DA534E /* Main.storyboard */,
-				C4DB7D821C02EC0500DA534E /* Assets.xcassets */,
+				C4DB7D821C02EC0500DA534E /* images_mobile-login-background.png */,
 				C4DB7D841C02EC0500DA534E /* LaunchScreen.storyboard */,
 				C4DB7D761C02EC0500DA534E /* Supporting Files */,
 			);
@@ -1024,7 +1024,7 @@
 				C4EFE4B31C98F60A0009411A /* assets.zip in Resources */,
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
-				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
+				C4DB7D831C02EC0500DA534E /* images_mobile-login-background.png in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

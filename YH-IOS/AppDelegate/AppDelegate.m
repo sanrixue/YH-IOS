@@ -23,6 +23,7 @@
 #import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
 #import "iflyMSC/IFlySpeechSynthesizer.h"
 #import "iflyMSC/IFlySpeechUtility.h"
+#import "GuidePageViewController.h"
 
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
@@ -61,10 +62,15 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
-    [self.window setRootViewController:initViewController];
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
+        GuidePageViewController *guidePage = [[GuidePageViewController alloc]init];
+        [self.window setRootViewController:guidePage];
+    }else{
+         [self.window setRootViewController:initViewController];
+    }
     [self.window makeKeyAndVisible];
     NSString *initString  = [NSString stringWithFormat:@"appid = %@",@"581aad1c"];
     [IFlySpeechUtility createUtility:initString];

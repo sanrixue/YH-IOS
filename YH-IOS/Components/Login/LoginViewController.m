@@ -117,6 +117,8 @@
     self.versionLabel.adjustsFontSizeToFitWidth = YES;
     [self.bgView addSubview:self.versionLabel];
     
+    
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userinfomoveToTop:)
                                                  name:UIKeyboardWillShowNotification

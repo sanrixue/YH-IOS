@@ -109,7 +109,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
      *  登录或解屏后，密码为初始值时提示:
      *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
      */
-    [self checkUserModifiedInitPassword];
+    //[self checkUserModifiedInitPassword];
     
     /**
      *  生命周期内仅执行一次

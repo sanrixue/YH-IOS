@@ -93,6 +93,7 @@
 		C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */; };
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
 		F60A8CDF1DFFBE4D00D43FFE /* GuidePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F60A8CDE1DFFBE4D00D43FFE /* GuidePageViewController.m */; };
+		F60A8CE21DFFE19F00D43FFE /* ConnectUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F60A8CE11DFFE19F00D43FFE /* ConnectUsViewController.m */; };
 		F630B2E61D98FAB600CAA6A0 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F630B2E51D98FAB600CAA6A0 /* SearchTableViewCell.m */; };
 		F63A5BBF1DCAE2CB0092FC24 /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F63A5BBE1DCAE2CB0092FC24 /* libz.1.1.3.tbd */; };
 		F63A5BC11DCAE3520092FC24 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63A5BC01DCAE3520092FC24 /* AddressBook.framework */; };
@@ -270,6 +271,8 @@
 		C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		F60A8CDD1DFFBE4D00D43FFE /* GuidePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuidePageViewController.h; sourceTree = "<group>"; };
 		F60A8CDE1DFFBE4D00D43FFE /* GuidePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuidePageViewController.m; sourceTree = "<group>"; };
+		F60A8CE01DFFE19F00D43FFE /* ConnectUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectUsViewController.h; sourceTree = "<group>"; };
+		F60A8CE11DFFE19F00D43FFE /* ConnectUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectUsViewController.m; sourceTree = "<group>"; };
 		F630B2E41D98FAB600CAA6A0 /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		F630B2E51D98FAB600CAA6A0 /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		F63A5BBC1DCAE0BC0092FC24 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = ../iOS_voice_1144_54bfa2c0/lib/iflyMSC.framework; sourceTree = "<group>"; };
@@ -603,6 +606,8 @@
 				C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */,
 				F60A8CDD1DFFBE4D00D43FFE /* GuidePageViewController.h */,
 				F60A8CDE1DFFBE4D00D43FFE /* GuidePageViewController.m */,
+				F60A8CE01DFFE19F00D43FFE /* ConnectUsViewController.h */,
+				F60A8CE11DFFE19F00D43FFE /* ConnectUsViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -963,7 +968,7 @@
 					C4DB7D721C02EC0500DA534E = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = WV94P663S4;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1108,6 +1113,7 @@
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
 				C48924E91D858F0A00859411 /* SettingDefaultTableViewCell.m in Sources */,
+				F60A8CE21DFFE19F00D43FFE /* ConnectUsViewController.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
 				C48924EB1D858F0A00859411 /* ThurSayTableViewCell.m in Sources */,
 				C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */,
@@ -1302,7 +1308,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1323,7 +1329,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb4eb413-d8d1-4286-8c65-5e72144f9026";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1336,7 +1342,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1356,7 +1362,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "cb4eb413-d8d1-4286-8c65-5e72144f9026";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

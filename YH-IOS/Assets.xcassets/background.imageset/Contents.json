@@ -2,11 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "images_mobile-login-background.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "iPhone 7 Plus@2x (1).png",
       "scale" : "2x"
     },
     {

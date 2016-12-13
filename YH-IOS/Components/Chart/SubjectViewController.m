@@ -15,13 +15,28 @@
 #import "ReportSelectorViewController.h"
 #import "DropTableViewCell.h"
 #import "DropViewController.h"
+#import "VoicePlayViewController.h"
+#import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
+#import "iflyMSC/IFlySpeechSynthesizer.h"
+#import "iflyMSC/IFlySpeechUtility.h"
+#import "iflyMSC/IFlySpeechConstant.h"
+#import <AVFoundation/AVFoundation.h>
+#import "PcmPlayer.h"
+#import "PcmPlayerDelegate.h"
+#import "FileUtils.h"
+#import "HttpUtils.h"
+#import "HttpResponse.h"
+#import "User.h"
+
 
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate>
+@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate,IFlySpeechSynthesizerDelegate>
 {
     NSMutableDictionary *betaDict;
+    IFlySpeechSynthesizer *_iFlySppechSynthesizer;
+    NSString *reportUrl;
 }
 
 @property (assign, nonatomic) BOOL isInnerLink;
@@ -36,6 +51,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (strong, nonatomic) NSArray *dropMenuTitles;
 @property (strong, nonatomic) NSArray *dropMenuIcons;
 @property (assign, nonatomic) BOOL isLoadFinish;
+@property (nonatomic,strong) NSMutableDictionary *cacaheDict;
+@property (assign, nonatomic) BOOL isSpeaking;
+@property (weak, nonatomic) IBOutlet UIButton *setting;
 
 @end
 
@@ -80,10 +98,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         responseCallback(@"SubjectViewController - Response for message from ObjC");
     }];
     [self addWebViewJavascriptBridge];
+    NSNumber *number = [[NSUserDefaults standardUserDefaults]objectForKey:@"reportPlay"];
+    _isSpeaking = number ? [number boolValue] : NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stopAnimationOnSetting) name:@"stopAnimation" object:nil];
     
     /*
      * 主题页面,允许横屏
@@ -102,12 +123,123 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    NSNumber *number = [NSNumber numberWithBool:self.isSpeaking];
+    [[NSUserDefaults standardUserDefaults] setObject:number forKey:@"reportPlay"];
 
     /*
      * 其他页面,禁用横屏
      */
     [[NSNotificationCenter defaultCenter]removeObserver:self];
     [self setAppAllowRotation:NO];
+}
+
+- (void) voiceSppech{
+    _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
+    _iFlySppechSynthesizer.delegate = self;
+    [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
+    [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant VOLUME]];
+    [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
+    [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
+    [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
+   // [_iFlySppechSynthesizer setParameter:@"tts.pcm" forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
+    self.user = [[User alloc]init];
+    NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
+    reportUrl = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/report/30/audio";
+     [self getReportData:reportUrl];
+    NSString *insideString = [self getReportString:reportUrl];
+    NSString *contentString = @"";
+    if (!insideString) {
+        contentString = @"播报数据正在准备中，请稍后";
+    }
+    else {
+       contentString = [NSString stringWithFormat:@"%@%@%@",firstPlayString,insideString,@"以上是所有内容，谢谢收听"];
+    }
+    [_iFlySppechSynthesizer synthesize:contentString toUri:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"]];
+}
+
+- (void) getReportData :(NSString *)reporturlString {
+    NSString *urlCleanedString = [self urlCleaner:reporturlString];
+    // NSString *reportString = [NSString stringWithFormat:@"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/audio"];
+    HttpResponse *httpResponse = [HttpUtils checkResponseHeader:reporturlString assetsPath:self.assetsPath];
+    NSString *cachePath = [[FileUtils userspace] stringByAppendingPathComponent:@"Cached"];
+    NSString *playDataPath = [cachePath stringByAppendingPathComponent:@"PlayData.plist"];
+    self.cacaheDict = [NSMutableDictionary dictionaryWithContentsOfFile:playDataPath];
+    if (![FileUtils checkFileExist:playDataPath isDir:NO]) {
+        [[NSFileManager defaultManager] createFileAtPath:playDataPath contents:nil attributes:nil];
+    }
+    if (!_cacaheDict) {
+        _cacaheDict = [[NSMutableDictionary alloc]init];
+    }
+    if (httpResponse.response.statusCode == 200) {
+        _cacaheDict[urlCleanedString] = httpResponse.data;
+        [_cacaheDict writeToFile:playDataPath atomically:YES];
+    }
+   
+}
+
+- (NSString *)urlCleaner:(NSString *)urlString {
+    return [urlString componentsSeparatedByString:@"?"][0];
+}
+
+- (NSString *)getReportString:(NSString *)filePath {
+    NSString *contentString = @"";
+    NSString *urlCleanedString = [self urlCleaner:filePath];
+    NSArray *array = _cacaheDict[urlCleanedString][@"audio"];
+    for (NSString *obj in array) {
+        contentString = [NSString stringWithFormat:@"%@%@",contentString,obj];
+    }
+    return contentString;
+}
+
+
+- (void) onSpeakBegin {
+    NSLog(@"开始合成");
+}
+
+- (void) onSpeakProgress:(int) progress {
+    
+    NSLog(@"播放的时长为 %d",progress);
+}
+
+- (void)onBufferProgress:(int)progress message:(NSString *)msg {
+    NSLog(@"正在合成是吗");
+}
+
+- (void)onCompleted:(IFlySpeechError *)error {
+    if (error) {
+        NSLog(@"%@",error);
+    }
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"PlayReport" object:nil];
+}
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    [self.setting.imageView.layer removeAllAnimations];
+    _isSpeaking  = NO;
+    isPlayReport = NO;
+}
+
+- (void)rotate360DegreeWithImageView:(UIImageView *)imageView{
+    CABasicAnimation *animation = [ CABasicAnimation
+                                   animationWithKeyPath: @"transform" ];
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
+    
+    //围绕Z轴旋转，垂直与屏幕
+    animation.toValue = [ NSValue valueWithCATransform3D:
+                         
+                         CATransform3DMakeRotation(M_PI, 0.0, 0.0, 1.0) ];
+    animation.duration = 2;
+    //旋转效果累计，先转180度，接着再旋转180度，从而实现360旋转
+    animation.cumulative = YES;
+    animation.repeatCount = HUGE_VALF;
+    
+    //在图片边缘添加一个像素的透明区域，去图片锯齿
+    CGRect imageRrect = CGRectMake(0, 0,imageView.frame.size.width, imageView.frame.size.height);
+    UIGraphicsBeginImageContext(imageRrect.size);
+    [imageView.image drawInRect:CGRectMake(1,1,imageView.frame.size.width-2,imageView.frame.size.height-2)];
+    imageView.image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    [imageView.layer addAnimation:animation forKey:nil];
 }
 
 - (void)dealloc {
@@ -163,6 +295,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self showLoading:LoadingRefresh];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -184,7 +317,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
         
-        [self loadHtml];
+        [self handleRefresh];
     }];
     
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -304,7 +437,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [APIHelper reportData:self.user.groupID templateID:self.templateID reportID:self.reportID];
-        
+    
         HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
         
         __block NSString *htmlPath;
@@ -362,6 +495,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     [tmpTitles addObject:kDropRefreshText];
     [tmpIcons addObject:@"Subject-Refresh"];
+    [tmpTitles addObject:kDropVoiceInText];
+    [tmpIcons addObject:@"DropMenu-Voice"];
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
@@ -374,9 +509,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 -(void)showTableView:(UIButton *)sender {
     [self initDropMenu];
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count);
+    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3, 150 / 4 * self.dropMenuTitles.count);
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count)];
+    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3, 150 / 4 * self.dropMenuTitles.count)];
     dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     dropTableViewController.dropTableView.delegate = self;
     dropTableViewController.dropTableView.dataSource =self;
@@ -442,7 +577,29 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         else if ([itemName isEqualToString:kDropRefreshText]){
             [self handleRefresh];
         }
+        else if ([itemName isEqualToString:kDropVoiceInText]) {
+           /* VoicePlayViewController *voicePlay = [[VoicePlayViewController alloc]init];
+            voicePlay.asstePath =self.assetsPath;
+            voicePlay.isReport = YES;
+            voicePlay.reportUrlString = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/report/30/audio";
+            [self presentViewController:voicePlay animated:YES completion:nil];*/
+            if (_isSpeaking) {
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
+                [_iFlySppechSynthesizer stopSpeaking];
+                [self.setting.imageView.layer removeAllAnimations];
+                _isSpeaking = NO;
+            }
+            else {
+                 [self rotate360DegreeWithImageView:self.setting.imageView];
+                [self voiceSppech];
+                _isSpeaking = YES;
+            }
+        }
     }];
+}
+
+- (void)playStateChange {
+    [self voiceSppech];
 }
 
 #pragma mark - ibaction block

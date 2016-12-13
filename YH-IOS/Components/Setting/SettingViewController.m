@@ -113,8 +113,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 #pragma mark - init need-show message
 - (void)initLabelInfoDict {
-    self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"检测版本更新", @"小四说"];
-    self.headInfoArray = @[@"应用信息", @"安全策略", @"辅助功能",@"开发者功能"];
+    self.appInfoArray = @[@"名称", @"版本号", @"设备型号", @"数据接口", @"应用标识", @"消息推送", @"校正", @"小四说"];
+    self.headInfoArray = @[@"应用信息", @"安全策略", @"辅助功能"];
     NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];
 
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
@@ -155,12 +155,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 6;
+    return 5;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    NSArray *numberOfRowsInSection = @[@1, @(self.appInfoArray.count), @2, @2, @1,@1];
+    NSArray *numberOfRowsInSection = @[@1, @(self.appInfoArray.count), @1, @2,@1];
     return (section < numberOfRowsInSection.count ? [numberOfRowsInSection[section] integerValue] : 0);
 }
 
@@ -200,24 +200,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             cell.titleLabel.textColor = [UIColor colorWithHexString:kThemeColor];
             return cell;
         }
-        else if(indexPath.row == 7) {
-            PgyUpdateTableViewCell *cell = [[PgyUpdateTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
-            [cell.messageButton setTitle:textTitle forState:UIControlStateNormal];
-            [cell.messageButton addTarget:self action:@selector(actionCheckUpgrade) forControlEvents:UIControlEventTouchUpInside];
-            [cell.openOutLink setTitle:self.pgyLinkString forState:UIControlStateNormal];
-            [cell.openOutLink setTitleColor:[UIColor colorWithHexString:kThemeColor] forState:UIControlStateNormal];
-            [cell.openOutLink addTarget:self action:@selector(actionOpenLink) forControlEvents:UIControlEventTouchUpInside];
-            if ([self.noticeDict[kSettingPgyerLNName] boolValue]) {
-                UIView *redIcon = [[UIView alloc]initWithFrame:CGRectMake(CGRectGetMinX(cell.messageButton.frame) - 10, cell.frame.size.height * 0.25, 6, 6)];
-                redIcon.layer.cornerRadius = 3;
-                redIcon.backgroundColor = [UIColor redColor];
-                [cell addSubview:redIcon];
-            }
-            return cell;
-        }
-        else if (indexPath.row == 8) {
+        else if (indexPath.row == 7) {
             ThurSayTableViewCell *cell = [[ThurSayTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
-            cell.titleLabel.text = self.appInfoArray[8];
+            cell.titleLabel.text = self.appInfoArray[7];
             
             if ([self.noticeDict[kSettingThursdaySayLNName] integerValue] > 0) {
                 [cell.titleLabel showRedIcon];
@@ -229,7 +214,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
 
     if (indexPath.section == 2) {
-        if (indexPath.row == 0) {
             BOOL isUseGesturePassword = [LTHPasscodeViewController doesPasscodeExist] && [LTHPasscodeViewController didPasscodeTimerEnd];
             GestureTableViewCell *cell = [[GestureTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
             cell.messageLabel.text = @"启用锁屏";
@@ -243,20 +227,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             
             [cell.changStatusBtn addTarget:self action:@selector(actionWehtherUseGesturePassword:) forControlEvents:UIControlEventValueChanged];
             return cell;
-        }
-        else if (indexPath.row == 1) {
-            SettingDefaultTableViewCell *cell = [[SettingDefaultTableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"settingId"];
-            cell.titleLabel.text = @"修改登录密码";
-            cell.titleLabel.textColor = [UIColor colorWithHexString:kThemeColor];
-             if (self.isNeedChangepwd) {
-                [cell.titleLabel showRedIcon];
-                 cell.detailLabel.text = @"请修改初始密码";
-             }
-             else {
-                 [cell.titleLabel hideRedIcon];
-             }
-            return cell;
-        }
     }
     
     if (indexPath.section == 3) {
@@ -279,12 +249,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     }
     
     if (indexPath.section == 4) {
-        ThurSayTableViewCell *cell = [[ThurSayTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"settingId"];
-        cell.titleLabel.text = @"开发者选项";
-        return cell;
-    }
-    
-    if (indexPath.section == 5) {
         OneButtonTableViewCell *cell = [[OneButtonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"threesection"];
         [cell.actionBtn addTarget:self action:@selector(actionLogout) forControlEvents:UIControlEventTouchUpInside];
         [cell.actionBtn setTitle:@"退出登录" forState:UIControlStateNormal];
@@ -309,8 +273,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         case 3:
             headString = self.headInfoArray[section - 1];
             break;
-        case 4:
-            headString = self.headInfoArray[section - 1];
         default:
             break;
     }
@@ -324,17 +286,12 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
             height = 150;
             break;
         case 1:
-            if(indexPath.row == 8) {
+            if(indexPath.row == 7) {
                 height = 44;
             }
             break;
         case 2:
-            if (indexPath.row == 0) {
-                height = 45;
-            }
-            else if (indexPath.row == 1) {
-                height = 35;
-            }
+            height = 50;
             break;
         case 3:
             height = 44;
@@ -354,17 +311,13 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     if ((indexPath.section == 1) && (indexPath.row == 6)) {
         [self actionCheckAssets];
     }
-    if ((indexPath.section == 1) && (indexPath.row == 8)) {
+    if ((indexPath.section == 1) && (indexPath.row == 7)) {
         ThurSayViewController *thurSay = [[ThurSayViewController alloc] init];
         [self presentViewController:thurSay animated:YES completion:^{
             self.noticeDict[kSettingThursdaySayLNName] = @(0);
             [FileUtils writeJSON:self.noticeDict Into:self.noticeFilePath];
             [self.settingTableView reloadData];
         }];
-    }
-    if (indexPath.section == 4 ) {
-        UserInfoViewController *userInfoView = [[UserInfoViewController alloc]init];
-        [self presentViewController:userInfoView animated:YES completion:nil];
     }
 }
 

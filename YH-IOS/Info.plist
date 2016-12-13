@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>生意+</string>
+	<string>永辉生意人</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIcons</key>
@@ -19,7 +19,7 @@
 		<string>zh_CN</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>生意+</string>
+	<string>永辉生意人</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -35,7 +35,7 @@
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wx9161b0fbb0bcd2eb</string>
+				<string>wx9173274e2ea0d365</string>
 			</array>
 		</dict>
 	</array>

@@ -120,8 +120,6 @@
     self.versionLabel.adjustsFontSizeToFitWidth = YES;
     [self.bgView addSubview:self.versionLabel];
     
-<<<<<<< HEAD
-=======
     
     // directLogin
     self.directLoginBtn = [[UIButton alloc]init];
@@ -140,7 +138,6 @@
     [self.bgView addSubview:self.connectUs];
     [self.connectUs  addTarget:self action:@selector(jumptoconnectUs) forControlEvents:UIControlEventTouchUpInside];
     
->>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userinfomoveToTop:)
                                                  name:UIKeyboardWillShowNotification
@@ -163,11 +160,7 @@
     NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel,_directLoginBtn,_connectUs);
     // [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_logoView]-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bgView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0]];
-<<<<<<< HEAD
-    NSString *strl =[NSString stringWithFormat: @"V:|-100-[_logoView(42)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-30-[_loginButton(40)]-(>=50)-[_versionLabel(20)]-10-|", kSloganHeight];
-=======
     NSString *strl =[NSString stringWithFormat: @"V:|-100-[_logoView(42)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-30-[_loginButton(40)]-30-[_directLoginBtn(20)]-(>=10)-[_versionLabel(20)]-10-|", kSloganHeight];
->>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:strl options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-80-[_sloganLabel]-80-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_directLoginBtn]-120-|" options:0 metrics:nil views:ViewDict]];
@@ -198,14 +191,11 @@
     self.bgView.frame = self.view.frame;
 }
 
-<<<<<<< HEAD
-=======
 - (void)jumptoconnectUs{
     ConnectUsViewController *connetUsView = [[ConnectUsViewController alloc]init];
     [self presentViewController:connetUsView animated:YES completion:nil];
 }
 
->>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 //add: 登录按钮事件
 - (void)loginBtnClick {
     if (self.userNameText.text.length == 0) {

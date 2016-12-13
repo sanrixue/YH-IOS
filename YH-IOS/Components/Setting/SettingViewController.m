@@ -181,11 +181,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         self.settingTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
         cell.userName.text = [NSString stringWithFormat:@"%@(%@)", self.user.userName, self.user.userID];;
-<<<<<<< HEAD
-        cell.userRole.text = [NSString stringWithFormat:@"%@ | %@", self.user. roleName, self.user.groupName];
-=======
         cell.userRole.text = [NSString stringWithFormat:@"%@ | %@", self.user.roleName, self.user.groupName];
->>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
         UIImage *userHead = self.userIconImage ?: [UIImage imageNamed:@"AppIcon"];
         [cell.userIcon setBackgroundImage:userHead forState:UIControlStateNormal];
 

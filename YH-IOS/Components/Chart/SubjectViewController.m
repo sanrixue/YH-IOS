@@ -121,19 +121,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
-<<<<<<< HEAD
-- (void)viewDidAppear:(BOOL)animated {
-     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadHtml) name:UIApplicationDidBecomeActiveNotification object:nil];
-    !(_isSpeaking) ?[self.setting.imageView.layer removeAllAnimations] : [self rotate360DegreeWithImageView:self.setting.imageView];
-}
-
-- (void) stopAnimationOnSetting {
-    [self.setting.imageView.layer removeAllAnimations];
-    [[NSUserDefaults standardUserDefaults] setObject:@(0) forKey:@"reportPlay"];
-}
-
-=======
->>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     NSNumber *number = [NSNumber numberWithBool:self.isSpeaking];
@@ -410,20 +397,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)loadOuterLink {
     NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     
-<<<<<<< HEAD
-    if([self.urlString containsString:@"?"]) {
-        NSString *appendParams = [NSString stringWithFormat:@"?user_num=%@&timestamp=%@", self.user.userNum, timestamp];
-        self.urlString = [self.urlString stringByReplacingOccurrencesOfString:@"?" withString:appendParams];
-    }
-    else {
-        NSString *appendParams = [NSString stringWithFormat:@"&user_num=%@&timestamp=%@", self.user.userNum, timestamp];
-        self.urlString = [NSString stringWithFormat:@"%@%@", self.urlString, appendParams];
-    }
-=======
     NSString *splitString = [self.urlString containsString:@"?"] ? @"&" : @"?";
     NSString *appendParams = [NSString stringWithFormat:@"user_num=%@&timestamp=%@", self.user.userNum, timestamp];
     self.urlString = [NSString stringWithFormat:@"%@%@%@", self.urlString, splitString, appendParams];
->>>>>>> e30d28dfec706d20e5277bb4c8737c9891c7cecb
     
     NSLog(@"%@", self.urlString);
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];

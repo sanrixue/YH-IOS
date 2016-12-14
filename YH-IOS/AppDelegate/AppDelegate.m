@@ -342,6 +342,10 @@ void UncaughtExceptionHandler(NSException * exception) {
     }
     
     if(isUpgrade) {
+        NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils sharedPath], kCachedHeaderConfigFileName];
+        [FileUtils removeFile:cachedHeaderPath];
+        cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
+        [FileUtils removeFile:cachedHeaderPath];
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSString *sharedPath = [FileUtils sharedPath], *bundleZipPath, *zipPath, *assetFileName;
         for(NSString *assetName in @[kAssetsAssetsName, kLoadingAssetsName, kFontsAssetsName, kImagesAssetsName, kStylesheetsAssetsName, kJavascriptsAssetsName, kBarCodeScanAssetsName]) { // kAdvertisementAssetsName

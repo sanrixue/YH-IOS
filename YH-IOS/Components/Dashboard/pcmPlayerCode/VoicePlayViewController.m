@@ -34,6 +34,7 @@
 @property (nonatomic, strong) IFlySpeechSynthesizer *iFlySppechSynthesizer;
 @property (nonatomic, assign) int loopTime;
 @property (nonatomic, strong) UITextView *contentTextView;
+@property (nonatomic, strong) NSString *reportDataString;
 @end
 
 @implementation VoicePlayViewController
@@ -78,6 +79,9 @@
     self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - 20, 40, 40, 40)];
     [self.view addSubview:self.playerBtn];
     self.playerBtn.layer.cornerRadius = 20;
+    if ([_iFlySppechSynthesizer isSpeaking]) {
+         [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
+    }
     [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     self.playerBtn.backgroundColor = [UIColor greenColor];
     [self.playerBtn addTarget:self action:@selector(playerState) forControlEvents:UIControlEventTouchUpInside];
@@ -86,12 +90,14 @@
     if (!self.loopTime) {
         self.loopTime = 0;
     }
+    if (!self.reportDataString) {
+        self.contentTextView.text = self.reportDataString;
+    }
 }
 
 - (void)dismissPlay {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.reportListArray.count;
@@ -131,14 +137,13 @@
 }
 
 - (void) voiceSppech{
-    [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
+     [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
-    if (self.loopTime == 0) {
-        _user = [[User alloc]init];
-        NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
-        [_iFlySppechSynthesizer startSpeaking:firstPlayString];
-    }
-    NSString *contentString =[NSString stringWithFormat:@"%@", [self reayPlayData]];
+    _user = [[User alloc]init];
+    NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
+    NSString *contentString =[NSString stringWithFormat:@"报表名称%@。%@。%@",self.reportListArray[_loopTime],firstPlayString, [self reayPlayData]];
+    self.reportDataString = [contentString stringByReplacingOccurrencesOfString:@"。" withString:@".\n"];
+    self.contentTextView.text = self.reportDataString;
     if (contentString) {
         [_iFlySppechSynthesizer startSpeaking:contentString];
     }
@@ -146,7 +151,6 @@
         [self getReportData];
         [_iFlySppechSynthesizer startSpeaking:@"正在准备播报数据，请稍后"];
     }
-    self.contentTextView.text = contentString;
 }
 
 - (void) getReportData {

@@ -26,6 +26,14 @@ case "$1" in
       diff ${project} ${project}.bak
       mv ${project}.bak build/
   ;;
+  git:push)
+      git_current_branch=$(git rev-parse --abbrev-ref HEAD)
+      git push origin ${git_current_branch}
+  ;;
+  git:pull)
+      git_current_branch=$(git rev-parse --abbrev-ref HEAD)
+      git pull origin ${git_current_branch}
+  ;;
   *)
       test -z "$1" && echo "current app: $(cat .current-app)" || echo "unknown argument - $1"
   ;;

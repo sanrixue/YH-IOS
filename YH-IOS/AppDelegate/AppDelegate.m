@@ -310,7 +310,10 @@ void UncaughtExceptionHandler(NSException * exception) {
             assetFileName = [NSString stringWithFormat:@"%@.zip", assetName];
             bundleZipPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:assetFileName];
             zipPath = [sharedPath stringByAppendingPathComponent:assetFileName];
-            
+            NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils sharedPath], kCachedHeaderConfigFileName];
+            [FileUtils removeFile:cachedHeaderPath];
+            cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
+            [FileUtils removeFile:cachedHeaderPath];
             NSLog(@"version updated: %@ => %@", bundleZipPath, zipPath);
             if([FileUtils checkFileExist:zipPath isDir:NO]) {
                 [fileManager removeItemAtPath:zipPath error:&error];

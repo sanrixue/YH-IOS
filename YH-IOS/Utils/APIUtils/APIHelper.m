@@ -34,7 +34,7 @@
     
     HttpResponse *httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:assetsPath];
     if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
-        NSString *cachePath = [FileUtils dirPath:kCachedDirName];
+        NSString *cachePath = [FileUtils dirPath:kCachedDirName]; 
         NSString *cacheFilePath = [cachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",reportDataFileName]];
         [httpResponse.received writeToFile:cacheFilePath atomically:YES];
         [SSZipArchive unzipFileAtPath:cacheFilePath toDestination:cachePath];

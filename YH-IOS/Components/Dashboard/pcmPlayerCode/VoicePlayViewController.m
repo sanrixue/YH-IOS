@@ -33,6 +33,7 @@
 @property (assign, nonatomic) BOOL isSpeaking;
 @property (nonatomic, strong) IFlySpeechSynthesizer *iFlySppechSynthesizer;
 @property (nonatomic, assign) int loopTime;
+@property (nonatomic, strong) UITextView *contentTextView;
 @end
 
 @implementation VoicePlayViewController
@@ -46,6 +47,10 @@
     [backBtn setImage:[UIImage imageNamed:@"Banner-Back"] forState:UIControlStateNormal];
     [self.view addSubview:backBtn];
     
+    UIView *sepertView = [[UIView alloc]initWithFrame:CGRectMake(0, 98, self.view.frame.size.width, 2)];
+    sepertView.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:sepertView];
+    
     _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
     _iFlySppechSynthesizer.delegate = self;
     [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
@@ -56,8 +61,14 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self getReportData];
     });
+    self.contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 200)];
+    self.contentTextView.backgroundColor = [UIColor darkGrayColor];
+    self.contentTextView.textColor = [UIColor greenColor];
+    self.contentTextView.userInteractionEnabled= NO;
+    [self.view addSubview:self.contentTextView];
+    
     self.isSpeaking = [_iFlySppechSynthesizer isSpeaking];
-    self.playListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 600) style:UITableViewStylePlain];
+    self.playListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 300, self.view.frame.size.width, self.view.frame.size.height-300) style:UITableViewStylePlain];
     self.playListTableView.dataSource=self;
     self.playListTableView.delegate = self;
     self.playListTableView.backgroundView.backgroundColor = [UIColor clearColor];
@@ -135,6 +146,7 @@
         [self getReportData];
         [_iFlySppechSynthesizer startSpeaking:@"正在准备播报数据，请稍后"];
     }
+    self.contentTextView.text = contentString;
 }
 
 - (void) getReportData {

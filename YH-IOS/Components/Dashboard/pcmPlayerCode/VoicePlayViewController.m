@@ -75,7 +75,6 @@
     self.playListTableView.backgroundView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:self.playListTableView];
     self.view.backgroundColor = [UIColor darkGrayColor];
-    
     self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - 20, 40, 40, 40)];
     [self.view addSubview:self.playerBtn];
     self.playerBtn.layer.cornerRadius = 20;
@@ -93,10 +92,16 @@
     if (!self.reportDataString) {
         self.contentTextView.text = self.reportDataString;
     }
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stopPlay) name:@"stopPlay" object:nil];
 }
 
 - (void)dismissPlay {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)stopPlay {
+    [_iFlySppechSynthesizer stopSpeaking];
+    self.loopTime = 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -141,7 +146,7 @@
     //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
     _user = [[User alloc]init];
     NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
-    NSString *contentString =[NSString stringWithFormat:@"报表名称%@。%@。%@",self.reportListArray[_loopTime],firstPlayString, [self reayPlayData]];
+    NSString *contentString = [NSString stringWithFormat:@"报表名称%@。%@。%@",self.reportListArray[_loopTime],firstPlayString, [self reayPlayData]];
     self.reportDataString = [contentString stringByReplacingOccurrencesOfString:@"。" withString:@".\n"];
     self.contentTextView.text = self.reportDataString;
     if (contentString) {
@@ -168,6 +173,7 @@
     if (httpResponse.response.statusCode == 200) {
         _cacaheDict[urlCleanedString] = httpResponse.data;
         [_cacaheDict writeToFile:playDataPath atomically:YES];
+        self.loopTime = 0;
     }
     [self getPlayString:self.reportUrlString];
 }
@@ -219,11 +225,22 @@
 
 - (void)onCompleted:(IFlySpeechError *)error {
     NSLog(@"可能会出错的是什么呢");
+    if (error.errorCode > 20000) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"合成错误" message:@"语音播报合成错误" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {}];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
     if (self.loopTime == self.reporStringtArray.count) {
         [_iFlySppechSynthesizer stopSpeaking];
+        [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     }
-    self.loopTime++;
-    [self voiceSppech];
+    else{
+        [self voiceSppech];
+        self.loopTime++;
+    }
 }
 
 - (void)onSpeakBegin {
@@ -244,6 +261,9 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
+    if (self.loopTime == self.reportListArray.count) {
+        return;
+    }
     NSNumber *interger =[NSNumber numberWithInt:self.loopTime];
     [[NSUserDefaults standardUserDefaults]setObject:interger forKey:@"reportId"];
 }

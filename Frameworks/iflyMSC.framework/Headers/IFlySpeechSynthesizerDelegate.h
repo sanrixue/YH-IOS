@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "IFlySpeechEvent.h"
+#import "IFlySpeechError.h"
 
 @class IFlySpeechError;
 

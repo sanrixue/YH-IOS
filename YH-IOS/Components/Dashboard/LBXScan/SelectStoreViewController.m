@@ -202,7 +202,7 @@
     if (indexPath.section == 1) {
         currentStore =((_isSearch) && [self.searchArray count] > 0) ? self.searchArray[indexPath.row] :self.currentStore;
     }
-    if (indexPath.section == 2) {
+    else if (indexPath.section == 2) {
         currentStore = self.searchItems[indexPath.row];
     }
     else{

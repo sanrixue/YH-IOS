@@ -1053,7 +1053,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             self.voiceViewController = [[VoicePlayViewController alloc]init];
             self.voiceViewController.asstePath =self.assetsPath;
             self.voiceViewController.isReport = NO;
-            self.voiceViewController.reportUrlString = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/audio";
+            self.voiceViewController.reportUrlString = [NSString stringWithFormat:@"%@/api/v1/group/%@/role/%@/audio",kBaseUrl,self.user.groupID,self.user.roleID];
             [self presentViewController:self.voiceViewController animated:YES completion:nil];
         }
         else if([itemName isEqualToString:kDropMentSearchText]) {

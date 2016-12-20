@@ -59,9 +59,7 @@
     [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
     [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
     [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self getReportData];
-    });
+    [self getReportData];
     self.contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 200)];
     self.contentTextView.backgroundColor = [UIColor darkGrayColor];
     self.contentTextView.textColor = [UIColor greenColor];
@@ -146,6 +144,18 @@
     //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
     _user = [[User alloc]init];
     NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
+   /* if ([self.reportListArray count] == 0) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"暂无播报数据"
+                                                                       message:@"播报内容为空，暂时无法播放"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }*/
     NSString *contentString = [NSString stringWithFormat:@"报表名称%@。%@。%@",self.reportListArray[_loopTime],firstPlayString, [self reayPlayData]];
     self.reportDataString = [contentString stringByReplacingOccurrencesOfString:@"。" withString:@".\n"];
     self.contentTextView.text = self.reportDataString;
@@ -178,11 +188,9 @@
     [self getPlayString:self.reportUrlString];
 }
 
-
 - (NSString *)urlCleaner:(NSString *)urlString {
     return [urlString componentsSeparatedByString:@"?"][0];
 }
-
 
 - (void)getPlayString:(NSString *)filePath {
     self.reportListArray = [[NSMutableArray alloc]init];

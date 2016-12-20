@@ -205,7 +205,7 @@
     else if (indexPath.section == 2) {
         currentStore = self.searchItems[indexPath.row];
     }
-    else{
+    else {
         currentStore = self.currentStore;
     }
     cachedDict[@"store"] = @{ @"id": currentStore[@"id"], @"name": currentStore[@"name"] };

@@ -202,6 +202,7 @@
     if (indexPath.section == 1) {
         currentStore =((_isSearch) && [self.searchArray count] > 0) ? self.searchArray[indexPath.row] :self.currentStore;
     }
+    //fixed-bug: else is vaild at the side-if;
     else if (indexPath.section == 2) {
         currentStore = self.searchItems[indexPath.row];
     }

@@ -56,8 +56,9 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self getReportData];
     });
+    
     self.isSpeaking = [_iFlySppechSynthesizer isSpeaking];
-    self.playListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 600) style:UITableViewStylePlain];
+    self.playListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 300, self.view.frame.size.width, 300) style:UITableViewStylePlain];
     self.playListTableView.dataSource=self;
     self.playListTableView.delegate = self;
     self.playListTableView.backgroundView.backgroundColor = [UIColor clearColor];

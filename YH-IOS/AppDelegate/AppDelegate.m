@@ -66,7 +66,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"] && !isPad){
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
         GuidePageViewController *guidePage = [[GuidePageViewController alloc]init];
         [self.window setRootViewController:guidePage];

@@ -51,29 +51,6 @@
     [self creatWelcomeView];
 }
 
-#pragma mark -显示顶部大标题
-- (void)showTitieLabel:(NSString *)showText atImage:(UIImageView *)image {
-    self.TitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, mWIDTH / 6, mWIDTH - 160, 40)];
-    self.TitleLabel.backgroundColor = [UIColor clearColor];
-    self.TitleLabel.textColor = [UIColor colorWithHexString:@"4c8ba7"];
-    self.TitleLabel.text = showText;
-    self.TitleLabel.font = [UIFont systemFontOfSize:40];
-    self.TitleLabel.textAlignment = NSTextAlignmentCenter;
-    self.TitleLabel.adjustsFontSizeToFitWidth = YES;
-    [image addSubview:self.TitleLabel];
-}
-
-#pragma mark -显示细节标题
-- (void)showDetailLabel:(NSString *)showText atImageView:(UIImageView *)image {
-    self.detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, CGRectGetMaxY(self.TitleLabel.frame) + 3, mWIDTH - 160, 60)];
-    self.detailLabel.backgroundColor = [UIColor clearColor];
-    self.detailLabel.textColor = [UIColor colorWithHexString:@"4c8ba7"];
-    self.detailLabel.text = showText;
-    self.detailLabel.numberOfLines = 2;
-    self.detailLabel.font = [UIFont systemFontOfSize:12.0];
-    self.detailLabel.adjustsFontSizeToFitWidth = YES;
-    [image addSubview:self.detailLabel];
-}
 
 #pragma mark -显示图片
 - (void)showImge:(UIImage *)showImage atImageView :(UIImageView *)image {
@@ -101,14 +78,6 @@
         if (_imageView.tag == 100) {
             [_imageView addSubview:self.loginButton];
             [self showImge:[UIImage imageNamed:@"logo"] atImageView:_imageView];
-        }
-        if (_imageView.tag == 101) {
-            [self showTitieLabel:@"数据跟你走" atImage:_imageView];
-            [self showDetailLabel:@"出差途中，也可以实时掌握企业经营状况" atImageView:_imageView];
-        }
-        if (_imageView.tag == 102) {
-            [self showTitieLabel:@"可动口可动手" atImage:_imageView];
-            [self showDetailLabel:@"文字，语言，扫码，多种查询方式，只为让您身在不同环境多一些选择" atImageView:_imageView];
         }
         [_imageViews addObject:_imageView];
     }

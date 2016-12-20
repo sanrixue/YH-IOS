@@ -37,6 +37,7 @@
 @property (nonatomic, assign) int loopTime;
 @property (nonatomic, strong) UITextView *contentTextView;
 @property (nonatomic, strong) NSString *reportDataString;
+@property (nonatomic, strong) UIButton *listBtn;
 @end
 
 @implementation VoicePlayViewController
@@ -54,6 +55,16 @@
     sepertView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:sepertView];
     
+    self.playListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 200, self.view.frame.size.width, 200) style:UITableViewStylePlain];
+    self.playListTableView.dataSource = self;
+    self.playListTableView.delegate = self;
+    
+    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 100, 10, 40, 40)];
+    [self.listBtn setTitle:@"列表" forState:UIControlStateNormal];
+    [self.view addSubview:self.listBtn];
+    [self.listBtn addTarget:self action:@selector(dropView:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
     _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
     _iFlySppechSynthesizer.delegate = self;
     [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
@@ -62,7 +73,7 @@
     [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
     [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
     [self getReportData];
-    self.contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, 200)];
+    self.contentTextView = [[UITextView alloc]init];
     self.contentTextView.backgroundColor = [UIColor darkGrayColor];
     self.contentTextView.textColor = [UIColor greenColor];
     self.contentTextView.userInteractionEnabled= NO;
@@ -92,6 +103,12 @@
 
 - (void)dismissPlay {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+// 弹出播放列表
+- (void)dropView {
+    [self.view addSubview:self.playListTableView];
+    
 }
 
 - (void)stopPlay {
@@ -130,21 +147,6 @@
 }
 
 
--(void)dropTableView:(UIButton *)sender {
-    DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, 200 );
-    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width,200)];
-    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    dropTableViewController.dropTableView.delegate = self;
-    dropTableViewController.dropTableView.dataSource =self;
-    UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
-    popover.delegate = self;
-    [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
-    [popover setSourceView:self.view];
-    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    [self presentViewController:dropTableViewController animated:YES completion:nil];
-}
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     [_iFlySppechSynthesizer stopSpeaking];

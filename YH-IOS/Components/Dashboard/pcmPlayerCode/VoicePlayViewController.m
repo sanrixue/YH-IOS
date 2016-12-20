@@ -18,9 +18,11 @@
 #import "HttpUtils.h"
 #import "HttpResponse.h"
 #import "User.h"
+#import "DropViewController.h"
+#import "UIColor+Hex.h"
 
 
-@interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate>{
+@interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate,UIPopoverPresentationControllerDelegate>{
 }
 @property (nonatomic,strong)UITableView *playListTableView;
 @property (nonatomic, strong) PcmPlayer *audioPlayer;
@@ -67,11 +69,6 @@
     [self.view addSubview:self.contentTextView];
     
     self.isSpeaking = [_iFlySppechSynthesizer isSpeaking];
-    self.playListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 300, self.view.frame.size.width, self.view.frame.size.height-300) style:UITableViewStylePlain];
-    self.playListTableView.dataSource=self;
-    self.playListTableView.delegate = self;
-    self.playListTableView.backgroundView.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:self.playListTableView];
     self.view.backgroundColor = [UIColor darkGrayColor];
     self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - 20, 40, 40, 40)];
     [self.view addSubview:self.playerBtn];
@@ -130,6 +127,23 @@
     _isSpeaking = YES;
     self.loopTime = (int)indexPath.row;
     [self voiceSppech];
+}
+
+
+-(void)dropTableView:(UIButton *)sender {
+    DropViewController *dropTableViewController = [[DropViewController alloc]init];
+    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, 200 );
+    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
+    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width,200)];
+    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    dropTableViewController.dropTableView.delegate = self;
+    dropTableViewController.dropTableView.dataSource =self;
+    UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
+    popover.delegate = self;
+    [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
+    [popover setSourceView:self.view];
+    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    [self presentViewController:dropTableViewController animated:YES completion:nil];
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {

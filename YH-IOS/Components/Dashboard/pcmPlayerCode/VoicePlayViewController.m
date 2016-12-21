@@ -23,6 +23,7 @@
 
 
 @interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate,UIPopoverPresentationControllerDelegate>{
+    CGFloat _scale;
 }
 @property (nonatomic,strong)UITableView *playListTableView;
 @property (nonatomic, strong) PcmPlayer *audioPlayer;
@@ -55,14 +56,14 @@
     sepertView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:sepertView];
     
-    self.playListTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 200, self.view.frame.size.width, 200) style:UITableViewStylePlain];
+    self.playListTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.playListTableView.dataSource = self;
     self.playListTableView.delegate = self;
     
     self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 100, 10, 40, 40)];
     [self.listBtn setTitle:@"列表" forState:UIControlStateNormal];
     [self.view addSubview:self.listBtn];
-    [self.listBtn addTarget:self action:@selector(dropView:) forControlEvents:UIControlEventTouchUpInside];
+    [self.listBtn addTarget:self action:@selector(pinchAction) forControlEvents:UIControlEventTouchUpInside];
     
     
     _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
@@ -73,11 +74,14 @@
     [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
     [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
     [self getReportData];
-    self.contentTextView = [[UITextView alloc]init];
+    self.contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, self.view.frame.size.height - 100)];
     self.contentTextView.backgroundColor = [UIColor darkGrayColor];
+    self.contentTextView.userInteractionEnabled = YES;
+    self.contentTextView.editable = NO;
     self.contentTextView.textColor = [UIColor greenColor];
-    self.contentTextView.userInteractionEnabled= NO;
     [self.view addSubview:self.contentTextView];
+    [self pinchGestureRecognizer];
+     [self.contentTextView addSubview:self.playListTableView];
     
     self.isSpeaking = [_iFlySppechSynthesizer isSpeaking];
     self.view.backgroundColor = [UIColor darkGrayColor];
@@ -105,11 +109,31 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-// 弹出播放列表
-- (void)dropView {
-    [self.view addSubview:self.playListTableView];
+- (void)pinchGestureRecognizer {
+
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchAction:)];
+    [self.view addGestureRecognizer:pinch];
+}
+
+- (void)pinchAction:(UIPinchGestureRecognizer *)sender {
+    NSLog(@"捏合手势 %f", sender.scale);
+    (sender.scale > 1) ? [self hideListTable] : [self showListTable];
     
 }
+
+- (void)showListTable {
+    [UIView animateWithDuration:2 animations:^{
+        self.playListTableView.frame = CGRectMake(0, self.contentTextView.frame.size.height -  200, self.contentTextView.frame.size.width, 200);
+    }];
+    [self.playListTableView reloadData];
+}
+
+- (void)hideListTable {
+      [UIView animateWithDuration:2 animations:^{
+        self.playListTableView.frame = CGRectMake(0, 0,0, 0);
+        }];
+}
+
 
 - (void)stopPlay {
     [_iFlySppechSynthesizer stopSpeaking];
@@ -160,7 +184,7 @@
     //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
     _user = [[User alloc]init];
     NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
-   /* if ([self.reportListArray count] == 0) {
+    if ([self.reportListArray count] == 0) {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"暂无播报数据"
                                                                        message:@"播报内容为空，暂时无法播放"
                                                                 preferredStyle:UIAlertControllerStyleAlert];
@@ -171,9 +195,9 @@
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
         return;
-    }*/
+    }
     NSString *contentString = [NSString stringWithFormat:@"报表名称%@。%@。%@",self.reportListArray[_loopTime],firstPlayString, [self reayPlayData]];
-    self.reportDataString = [contentString stringByReplacingOccurrencesOfString:@"。" withString:@".\n"];
+    self.reportDataString = [contentString stringByReplacingOccurrencesOfString:@"/" withString:@".\n"];
     self.contentTextView.text = self.reportDataString;
     if (contentString) {
         [_iFlySppechSynthesizer startSpeaking:contentString];
@@ -189,7 +213,6 @@
     HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.reportUrlString assetsPath:self.asstePath];
     NSString *cachePath = [[FileUtils userspace] stringByAppendingPathComponent:@"Cached"];
     NSString *playDataPath = [cachePath stringByAppendingPathComponent:@"PlayData.plist"];
-    self.cacaheDict = [NSMutableDictionary dictionaryWithContentsOfFile:playDataPath];
     if (![FileUtils checkFileExist:playDataPath isDir:NO]) {
         [[NSFileManager defaultManager] createFileAtPath:playDataPath contents:nil attributes:nil];
     }
@@ -200,6 +223,9 @@
         _cacaheDict[urlCleanedString] = httpResponse.data;
         [_cacaheDict writeToFile:playDataPath atomically:YES];
         self.loopTime = 0;
+    }
+    else {
+        self.cacaheDict = [NSMutableDictionary dictionaryWithContentsOfFile:playDataPath];
     }
     [self getPlayString:self.reportUrlString];
 }
@@ -285,8 +311,8 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-    if (self.loopTime == self.reportListArray.count) {
-        return;
+    if (self.loopTime >= self.reportListArray.count) {
+        self.loopTime = 0;
     }
     NSNumber *interger =[NSNumber numberWithInt:self.loopTime];
     [[NSUserDefaults standardUserDefaults]setObject:interger forKey:@"reportId"];

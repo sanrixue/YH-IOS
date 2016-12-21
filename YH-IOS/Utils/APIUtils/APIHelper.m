@@ -24,26 +24,26 @@
     NSString *urlString = [self reportDataUrlString:groupID templateID:templateID reportID:reportID];
     
     NSString *assetsPath = [FileUtils dirPath:kHTMLDirName];
-    NSString *reportDataFileName = [NSString stringWithFormat:kReportDataFileName, groupID, templateID, reportID];
     NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
-    javascriptPath = [javascriptPath stringByAppendingPathComponent:reportDataFileName];
-    
-    if(![FileUtils checkFileExist:javascriptPath isDir:NO]) {
-        [HttpUtils clearHttpResponeHeader:urlString assetsPath:assetsPath];
-    }
     
     HttpResponse *httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:assetsPath];
     if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
+        NSDictionary *httpHeader = [httpResponse.response allHeaderFields];
+        NSString *disposition = httpHeader[@"Content-Disposition"];
+        NSArray *array = [disposition componentsSeparatedByString:@"\""];
+        NSString *cacheFilePath = array[1];
+        NSString *reportFileName = [cacheFilePath stringByReplacingOccurrencesOfString:@".js.zip" withString:@".js"];
         NSString *cachePath = [FileUtils dirPath:kCachedDirName];
-        NSString *cacheFilePath = [cachePath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",reportDataFileName]];
-        [httpResponse.received writeToFile:cacheFilePath atomically:YES];
-        [SSZipArchive unzipFileAtPath:cacheFilePath toDestination:cachePath];
-        [FileUtils removeFile:cacheFilePath];
+        NSString *fullFileCachePath = [cachePath stringByAppendingPathComponent:cacheFilePath];
+        javascriptPath = [javascriptPath stringByAppendingPathComponent:reportFileName];
+        [httpResponse.received writeToFile:fullFileCachePath atomically:YES];
+        [SSZipArchive unzipFileAtPath:fullFileCachePath toDestination: cachePath];
+        [FileUtils removeFile:fullFileCachePath];
         if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
             [FileUtils removeFile:javascriptPath];
         }
-        [[NSFileManager defaultManager] copyItemAtPath:[cachePath stringByAppendingPathComponent:reportDataFileName] toPath:javascriptPath error:nil];
-        [FileUtils removeFile:[cachePath stringByAppendingPathComponent:reportDataFileName]];
+        [[NSFileManager defaultManager] copyItemAtPath:[cachePath stringByAppendingPathComponent:reportFileName] toPath:javascriptPath error:nil];
+        [FileUtils removeFile:[cachePath stringByAppendingPathComponent:reportFileName]];
     }
 }
 

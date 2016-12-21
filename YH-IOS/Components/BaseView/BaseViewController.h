@@ -20,9 +20,8 @@
 #import "UIWebview+Clean.h"
 #import "LTHPasscodeViewController.h"
 #import "ExtendNSLogFunctionality.h"
-#import "PcmPlayer.h"
 
-@interface BaseViewController : UIViewController<UIWebViewDelegate,AVAudioPlayerDelegate>
+@interface BaseViewController : UIViewController<UIWebViewDelegate>
 
 @property WebViewJavascriptBridge* bridge;
 @property (weak, nonatomic) IBOutlet UIView *bannerView;
@@ -39,7 +38,7 @@
 @property (strong, nonatomic) NSString *assetsPath;
 @property (strong, nonatomic) NSString *sharedPath;
 @property (strong, nonatomic) User *user;
-@property (nonatomic, strong) PcmPlayer *audioPlayer;
+
 
 - (void)clearBrowserCache;
 - (void)showLoading:(LoadingType)loadingType;

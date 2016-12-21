@@ -20,9 +20,6 @@
 #import "LoginViewController.h"
 #import "LTHPasscodeViewController.h"
 #import "ThurSayViewController.h"
-#import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
-#import "iflyMSC/IFlySpeechSynthesizer.h"
-#import "iflyMSC/IFlySpeechUtility.h"
 #import "GuidePageViewController.h"
 
 #import <AVFoundation/AVFoundation.h>
@@ -74,8 +71,6 @@ void UncaughtExceptionHandler(NSException * exception) {
          [self.window setRootViewController:initViewController];
     }
     [self.window makeKeyAndVisible];
-    NSString *initString  = [NSString stringWithFormat:@"appid = %@",@"581aad1c"];
-    [IFlySpeechUtility createUtility:initString];
     [self initPgyer];
     [self initUMessage:launchOptions];
     [self initUMSocial];

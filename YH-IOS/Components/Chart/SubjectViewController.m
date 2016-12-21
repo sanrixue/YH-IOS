@@ -15,14 +15,6 @@
 #import "ReportSelectorViewController.h"
 #import "DropTableViewCell.h"
 #import "DropViewController.h"
-#import "VoicePlayViewController.h"
-#import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
-#import "iflyMSC/IFlySpeechSynthesizer.h"
-#import "iflyMSC/IFlySpeechUtility.h"
-#import "iflyMSC/IFlySpeechConstant.h"
-#import <AVFoundation/AVFoundation.h>
-#import "PcmPlayer.h"
-#import "PcmPlayerDelegate.h"
 #import "FileUtils.h"
 #import "HttpUtils.h"
 #import "HttpResponse.h"
@@ -32,10 +24,9 @@
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate,IFlySpeechSynthesizerDelegate>
+@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate>
 {
     NSMutableDictionary *betaDict;
-    IFlySpeechSynthesizer *_iFlySppechSynthesizer;
     NSString *reportUrl;
 }
 
@@ -104,7 +95,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stopAnimationOnSetting) name:@"stopAnimation" object:nil];
     
     /*
      * 主题页面,允许横屏
@@ -133,29 +123,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self setAppAllowRotation:NO];
 }
 
-- (void) voiceSppech{
-    _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
-    _iFlySppechSynthesizer.delegate = self;
-    [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
-    [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant VOLUME]];
-    [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
-    [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
-    [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
-   // [_iFlySppechSynthesizer setParameter:@"tts.pcm" forKey: [IFlySpeechConstant TTS_AUDIO_PATH]];
-    self.user = [[User alloc]init];
-    NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
-    reportUrl = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/report/30/audio";
-     [self getReportData:reportUrl];
-    NSString *insideString = [self getReportString:reportUrl];
-    NSString *contentString = @"";
-    if (!insideString) {
-        contentString = @"播报数据正在准备中，请稍后";
-    }
-    else {
-       contentString = [NSString stringWithFormat:@"%@%@%@",firstPlayString,insideString,@"以上是所有内容，谢谢收听"];
-    }
-    [_iFlySppechSynthesizer synthesize:contentString toUri:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"]];
-}
 
 - (void) getReportData :(NSString *)reporturlString {
     NSString *urlCleanedString = [self urlCleaner:reporturlString];
@@ -191,32 +158,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     return contentString;
 }
 
-
-- (void) onSpeakBegin {
-    NSLog(@"开始合成");
-}
-
-- (void) onSpeakProgress:(int) progress {
-    
-    NSLog(@"播放的时长为 %d",progress);
-}
-
-- (void)onBufferProgress:(int)progress message:(NSString *)msg {
-    NSLog(@"正在合成是吗");
-}
-
-- (void)onCompleted:(IFlySpeechError *)error {
-    if (error) {
-        NSLog(@"%@",error);
-    }
-     [[NSNotificationCenter defaultCenter] postNotificationName:@"PlayReport" object:nil];
-}
-
-- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
-    [self.setting.imageView.layer removeAllAnimations];
-    _isSpeaking  = NO;
-    isPlayReport = NO;
-}
 
 - (void)rotate360DegreeWithImageView:(UIImageView *)imageView{
     CABasicAnimation *animation = [ CABasicAnimation
@@ -495,8 +436,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     [tmpTitles addObject:kDropRefreshText];
     [tmpIcons addObject:@"Subject-Refresh"];
-    [tmpTitles addObject:kDropVoiceInText];
-    [tmpIcons addObject:@"DropMenu-Voice"];
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
@@ -577,30 +516,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         else if ([itemName isEqualToString:kDropRefreshText]){
             [self handleRefresh];
         }
-        else if ([itemName isEqualToString:kDropVoiceInText]) {
-           /* VoicePlayViewController *voicePlay = [[VoicePlayViewController alloc]init];
-            voicePlay.asstePath =self.assetsPath;
-            voicePlay.isReport = YES;
-            voicePlay.reportUrlString = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/report/30/audio";
-            [self presentViewController:voicePlay animated:YES completion:nil];*/
-            if (_isSpeaking) {
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
-                [_iFlySppechSynthesizer stopSpeaking];
-                [self.setting.imageView.layer removeAllAnimations];
-                _isSpeaking = NO;
-            }
-            else {
-                 [self rotate360DegreeWithImageView:self.setting.imageView];
-                [self voiceSppech];
-                _isSpeaking = YES;
-            }
-        }
     }];
 }
 
-- (void)playStateChange {
-    [self voiceSppech];
-}
 
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {

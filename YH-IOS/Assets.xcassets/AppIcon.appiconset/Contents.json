@@ -87,19 +87,19 @@
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "ipad-76@1x.png",
+      "filename" : "76*76.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "ipad-76@2x.png",
+      "filename" : "152*152.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "SY＋logo-ipad-83.5@2x.png",
+      "filename" : "167*167.png",
       "scale" : "2x"
     }
   ],

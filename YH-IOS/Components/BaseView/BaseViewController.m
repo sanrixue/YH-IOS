@@ -96,7 +96,7 @@
             color = colors[userIDIndex];
         }
         imageView = colorViews[i];
-        imageView.image = [self imageWithColor:[UIColor colorWithHexString:color] size:CGSizeMake(5.0, 5.0)];
+        imageView.image = [self imageWithColor:[UIColor colorWithHexString:color] size:CGSizeMake(1.0, 1.0)];
         imageView.layer.cornerRadius = 2.5f;
         imageView.layer.masksToBounds = YES;
         imageView.hidden = NO;

@@ -65,7 +65,7 @@
     self.playListTableView.delegate = self;
     
     // 播放列表
-    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, 55, 25, 25)];
+    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, 50, 25, 25)];
     [self.listBtn setImage:[UIImage imageNamed:@"playlist"] forState:UIControlStateNormal];
     self.listBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:self.listBtn];
@@ -85,7 +85,7 @@
     self.contentTextView.backgroundColor = [UIColor darkGrayColor];
     self.contentTextView.userInteractionEnabled = YES;
     self.contentTextView.editable = NO;
-    self.contentTextView.textColor = [UIColor greenColor];
+    self.contentTextView.textColor = [UIColor whiteColor];
     [self.view addSubview:self.contentTextView];
     [self pinchGestureRecognizer];
     [self.contentTextView addSubview:self.playListTableView];
@@ -97,13 +97,13 @@
     self.playerBtn.layer.cornerRadius = 20;
     
     // 上一曲
-    UIButton *lastBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 80, 50, 30, 30)];
+    UIButton *lastBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 80, 46, 30, 30)];
     [self.view addSubview:lastBtn];
     [lastBtn setImage:[UIImage imageNamed:@"lastplay"] forState:UIControlStateNormal];
     [lastBtn addTarget:self action:@selector(playlastReport) forControlEvents:UIControlEventTouchUpInside];
     
     // 下一曲
-    UIButton *nextBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 + 50, 50, 30, 30)];
+    UIButton *nextBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 + 50, 46, 30, 30)];
     [self.view addSubview:nextBtn];
     [nextBtn setImage:[UIImage imageNamed:@"nextplay"] forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(playNextReport) forControlEvents:UIControlEventTouchUpInside];
@@ -124,7 +124,7 @@
         [self getReportData];
         [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     }
-    self.playerBtn.backgroundColor = [UIColor greenColor];
+    
     [self.playerBtn addTarget:self action:@selector(playerState) forControlEvents:UIControlEventTouchUpInside];
     self.isShowList = NO;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stopPlay) name:@"stopPlay" object:nil];
@@ -223,14 +223,26 @@
      [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
     if ([self.reportListArray count] == 0) {
+        [_iFlySppechSynthesizer stopSpeaking];
+        [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
+        NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
+        NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
+        NSString *urlCleanedString = [self urlCleaner:self.reportUrlString];
+        cachedHeaderDict[urlCleanedString][@"Etag"] = @"1";
+        cachedHeaderDict[urlCleanedString][@"Last-Modified"] = @"1";
+        [cachedHeaderDict writeToFile:cachedHeaderPath atomically:YES];
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"暂无播报数据"
-                                                                       message:@"播报内容为空，暂时无法播放"
+                                                                       message:@"播报内容为空，可刷新重试"
                                                                 preferredStyle:UIAlertControllerStyleAlert];
         
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel
                                                               handler:^(UIAlertAction * action) {}];
+        UIAlertAction* resetData = [UIAlertAction actionWithTitle:@"刷新" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  [self getReportData];}];
         
         [alert addAction:defaultAction];
+        [alert addAction:resetData];
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
@@ -308,7 +320,7 @@
         contentString = [NSString stringWithFormat:@"报表名称%@。%@。%@。 以上就是全部内容谢谢收听",self.reportListArray[_loopTime],firstPlayString,self.reporStringtArray[self.loopTime]];
     }
     else {
-        contentString =  @"播报数据暂时出错";
+        contentString =  @"播报数据为空";
     }
     [self.playListTableView reloadData];
     return contentString;
@@ -327,10 +339,16 @@
     self.loopTime++;
     if (error.errorCode > 20000) {
         [_iFlySppechSynthesizer stopSpeaking];
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"合成错误" message:@"语音播报合成错误" preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel
+        [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"合成错误" message:@"语音播报合成错误" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"停止" style:UIAlertActionStyleCancel
                                                               handler:^(UIAlertAction * action) {}];
+        UIAlertAction* reAction = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  [self voiceSppech];
+                                                              }];
         [alert addAction:defaultAction];
+        [alert addAction:reAction];
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }

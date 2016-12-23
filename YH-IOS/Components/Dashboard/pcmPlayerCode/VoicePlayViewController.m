@@ -25,26 +25,28 @@
 @interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate,UIPopoverPresentationControllerDelegate>{
     CGFloat _scale;
 }
-@property (nonatomic,strong)UITableView *playListTableView;
+@property (nonatomic, strong)UITableView *playListTableView;
 @property (nonatomic, strong) PcmPlayer *audioPlayer;
-@property (nonatomic,strong) NSTimer *voicetimer;
-@property (nonatomic,strong) NSMutableDictionary *cacaheDict;
-@property (nonatomic,strong) NSMutableArray *reportListArray;
-@property (nonatomic,strong) NSMutableArray *reporStringtArray;
-@property (strong, nonatomic) User *user;
-@property (strong,nonatomic) UIButton *playerBtn;
-@property (assign, nonatomic) BOOL isSpeaking;
+@property (nonatomic, strong) NSTimer *voicetimer;
+@property (nonatomic, strong) NSMutableDictionary *cacaheDict;
+@property (nonatomic, strong) NSMutableArray *reportListArray;
+@property (nonatomic, strong) NSMutableArray *reporStringtArray;
+@property (nonatomic, strong) User *user;
+@property (nonatomic, strong) UIButton *playerBtn;
+@property (nonatomic, assign) BOOL isSpeaking;
 @property (nonatomic, strong) IFlySpeechSynthesizer *iFlySppechSynthesizer;
 @property (nonatomic, assign) int loopTime;
 @property (nonatomic, strong) UITextView *contentTextView;
 @property (nonatomic, strong) NSString *reportDataString;
 @property (nonatomic, strong) UIButton *listBtn;
+@property (nonatomic, assign) BOOL isShowList;
 @end
 
 @implementation VoicePlayViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //返回按钮
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
     [backBtn addTarget:self action:@selector(dismissPlay) forControlEvents:UIControlEventTouchUpInside];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
@@ -52,20 +54,24 @@
     [backBtn setImage:[UIImage imageNamed:@"Banner-Back"] forState:UIControlStateNormal];
     [self.view addSubview:backBtn];
     
+    //分割线
     UIView *sepertView = [[UIView alloc]initWithFrame:CGRectMake(0, 98, self.view.frame.size.width, 2)];
     sepertView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:sepertView];
     
+    //播放列表
     self.playListTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.playListTableView.dataSource = self;
     self.playListTableView.delegate = self;
     
-    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 100, 10, 40, 40)];
-    [self.listBtn setTitle:@"列表" forState:UIControlStateNormal];
+    // 播放列表
+    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, 55, 25, 25)];
+    [self.listBtn setImage:[UIImage imageNamed:@"playlist"] forState:UIControlStateNormal];
+    self.listBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:self.listBtn];
-    [self.listBtn addTarget:self action:@selector(pinchAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.listBtn addTarget:self action:@selector(showListTable) forControlEvents:UIControlEventTouchUpInside];
     
-    
+    // 初始化语音播放
     _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
     _iFlySppechSynthesizer.delegate = self;
     [_iFlySppechSynthesizer setParameter:@"50" forKey:[IFlySpeechConstant SPEED]];
@@ -73,7 +79,8 @@
     [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
     [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
     [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
-    [self getReportData];
+    
+    // 播报内容
     self.contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, self.view.frame.size.height - 100)];
     self.contentTextView.backgroundColor = [UIColor darkGrayColor];
     self.contentTextView.userInteractionEnabled = YES;
@@ -81,27 +88,45 @@
     self.contentTextView.textColor = [UIColor greenColor];
     [self.view addSubview:self.contentTextView];
     [self pinchGestureRecognizer];
-     [self.contentTextView addSubview:self.playListTableView];
+    [self.contentTextView addSubview:self.playListTableView];
     
     self.isSpeaking = [_iFlySppechSynthesizer isSpeaking];
     self.view.backgroundColor = [UIColor darkGrayColor];
-    self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width/2 - 20, 40, 40, 40)];
+    self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 20, 40, 40, 40)];
     [self.view addSubview:self.playerBtn];
     self.playerBtn.layer.cornerRadius = 20;
-    if ([_iFlySppechSynthesizer isSpeaking]) {
-         [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
-    }
-    [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
-    self.playerBtn.backgroundColor = [UIColor greenColor];
-    [self.playerBtn addTarget:self action:@selector(playerState) forControlEvents:UIControlEventTouchUpInside];
     
+    // 上一曲
+    UIButton *lastBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 80, 50, 30, 30)];
+    [self.view addSubview:lastBtn];
+    [lastBtn setImage:[UIImage imageNamed:@"lastplay"] forState:UIControlStateNormal];
+    [lastBtn addTarget:self action:@selector(playlastReport) forControlEvents:UIControlEventTouchUpInside];
+    
+    // 下一曲
+    UIButton *nextBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 + 50, 50, 30, 30)];
+    [self.view addSubview:nextBtn];
+    [nextBtn setImage:[UIImage imageNamed:@"nextplay"] forState:UIControlStateNormal];
+    [nextBtn addTarget:self action:@selector(playNextReport) forControlEvents:UIControlEventTouchUpInside];
+    
+    // 播放状态初始化
     _loopTime =[ [[NSUserDefaults standardUserDefaults]objectForKey:@"reportId"] intValue];
+    _isSpeaking = [[[NSUserDefaults standardUserDefaults]objectForKey:@"playState"]boolValue];
     if (!self.loopTime) {
         self.loopTime = 0;
     }
-    if (!self.reportDataString) {
-        self.contentTextView.text = self.reportDataString;
+    if (_isSpeaking) {
+        [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
+        NSString *cachePath = [[FileUtils userspace] stringByAppendingPathComponent:@"Cached"];
+        NSString *playDataPath = [cachePath stringByAppendingPathComponent:@"PlayData.plist"];
+        [self getPlayString:self.reportUrlString filepath:playDataPath];
     }
+    else {
+        [self getReportData];
+        [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
+    }
+    self.playerBtn.backgroundColor = [UIColor greenColor];
+    [self.playerBtn addTarget:self action:@selector(playerState) forControlEvents:UIControlEventTouchUpInside];
+    self.isShowList = NO;
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stopPlay) name:@"stopPlay" object:nil];
 }
 
@@ -109,36 +134,50 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)pinchGestureRecognizer {
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+}
 
+// 添加聚合手势
+- (void)pinchGestureRecognizer {
     UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchAction:)];
     [self.view addGestureRecognizer:pinch];
 }
 
+// 手势判断
 - (void)pinchAction:(UIPinchGestureRecognizer *)sender {
     NSLog(@"捏合手势 %f", sender.scale);
     (sender.scale > 1) ? [self hideListTable] : [self showListTable];
-    
 }
 
+// 显示播放列表
 - (void)showListTable {
-    [UIView animateWithDuration:2 animations:^{
-        self.playListTableView.frame = CGRectMake(0, self.contentTextView.frame.size.height -  200, self.contentTextView.frame.size.width, 200);
-    }];
-    [self.playListTableView reloadData];
-}
-
-- (void)hideListTable {
-      [UIView animateWithDuration:2 animations:^{
-        self.playListTableView.frame = CGRectMake(0, 0,0, 0);
+    if (self.isShowList) {
+        [self hideListTable];
+        self.isShowList = NO;
+    }
+    else {
+        [UIView animateWithDuration:2 animations:^{
+            self.playListTableView.frame = CGRectMake(0, self.contentTextView.frame.size.height -  200, self.contentTextView.frame.size.width, 200);
         }];
+        [self.playListTableView reloadData];
+        self.isShowList = YES;
+    }
 }
 
+// 隐藏播放列表
+- (void)hideListTable {
+    [UIView animateWithDuration:2 animations:^{
+        self.playListTableView.frame = CGRectMake(0, 0,0, 0);
+    }];
+}
 
+// 停止播放
 - (void)stopPlay {
     [_iFlySppechSynthesizer stopSpeaking];
     self.loopTime = 0;
 }
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.reportListArray.count;
@@ -158,7 +197,6 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     return  40;
 }
 
@@ -170,20 +208,20 @@
     [self voiceSppech];
 }
 
-
-
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
     [_iFlySppechSynthesizer stopSpeaking];
     _isSpeaking = NO;
     _loopTime = 0;
-    [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
+    NSNumber *interger =[NSNumber numberWithInt:self.loopTime];
+    NSNumber *number = [NSNumber numberWithBool:self.isSpeaking];
+    [[NSUserDefaults standardUserDefaults] setObject:number forKey:@"playState"];
+    [[NSUserDefaults standardUserDefaults]setObject:interger forKey:@"reportId"];
 }
 
+// 开始播报
 - (void) voiceSppech{
      [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
-    _user = [[User alloc]init];
-    NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
     if ([self.reportListArray count] == 0) {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"暂无播报数据"
                                                                        message:@"播报内容为空，暂时无法播放"
@@ -196,8 +234,9 @@
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
-    NSString *contentString = [NSString stringWithFormat:@"报表名称%@。%@。%@",self.reportListArray[_loopTime],firstPlayString, [self reayPlayData]];
-    self.reportDataString = [contentString stringByReplacingOccurrencesOfString:@"/" withString:@".\n"];
+    _user = [[User alloc]init];
+    NSString *contentString = [self reayPlayData];
+    self.reportDataString = [contentString stringByReplacingOccurrencesOfString:@"。" withString:@".\n"];
     self.contentTextView.text = self.reportDataString;
     if (contentString) {
         [_iFlySppechSynthesizer startSpeaking:contentString];
@@ -208,33 +247,32 @@
     }
 }
 
-- (void) getReportData {
+// 获取播报数据
+- (void)getReportData{
     NSString *urlCleanedString = [self urlCleaner:self.reportUrlString];
     HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.reportUrlString assetsPath:self.asstePath];
     NSString *cachePath = [[FileUtils userspace] stringByAppendingPathComponent:@"Cached"];
     NSString *playDataPath = [cachePath stringByAppendingPathComponent:@"PlayData.plist"];
-    if (![FileUtils checkFileExist:playDataPath isDir:NO]) {
-        [[NSFileManager defaultManager] createFileAtPath:playDataPath contents:nil attributes:nil];
+    if (![FileUtils checkFileExist:cachePath isDir:NO]) {
+        [FileUtils dirPath:@"Cached"];
     }
-    if (!_cacaheDict) {
-        _cacaheDict = [[NSMutableDictionary alloc]init];
-    }
+    self.cacaheDict = [[NSMutableDictionary alloc]init];
     if (httpResponse.response.statusCode == 200) {
         _cacaheDict[urlCleanedString] = httpResponse.data;
         [_cacaheDict writeToFile:playDataPath atomically:YES];
         self.loopTime = 0;
     }
-    else {
-        self.cacaheDict = [NSMutableDictionary dictionaryWithContentsOfFile:playDataPath];
-    }
-    [self getPlayString:self.reportUrlString];
+
+    [self getPlayString:self.reportUrlString filepath:playDataPath];
 }
 
 - (NSString *)urlCleaner:(NSString *)urlString {
     return [urlString componentsSeparatedByString:@"?"][0];
 }
 
-- (void)getPlayString:(NSString *)filePath {
+// 分拆播报数据
+- (void)getPlayString:(NSString *)filePath filepath:(NSString *)playDataPath {
+    self.cacaheDict = [FileUtils readConfigFile:playDataPath];
     self.reportListArray = [[NSMutableArray alloc]init];
     self.reporStringtArray = [[NSMutableArray alloc] init];
     NSString *urlCleanedString = [self urlCleaner:filePath];
@@ -254,12 +292,23 @@
             [self voiceSppech];
         }
     });
+    
+    self.contentTextView.text = [self reayPlayData];
 }
 
-- (NSString *) reayPlayData {
+// 合成播报数据
+- (NSString *)reayPlayData{
     NSString *contentString = @"";
-    if  (self.loopTime < self.reporStringtArray.count) {
-        contentString = self.reporStringtArray[self.loopTime];
+    _user = [[User alloc]init];
+     NSString *firstPlayString = [NSString stringWithFormat:@"本报表针对%@商行%@", self.user.roleName, self.user.groupName];
+    if  (self.loopTime < self.reporStringtArray.count - 1 && self.reportListArray.count !=0 && self.reporStringtArray.count !=0 ) {
+        contentString = [NSString stringWithFormat:@"报表名称%@。%@。%@",self.reportListArray[_loopTime],firstPlayString,self.reporStringtArray[self.loopTime]];
+    }
+    else if (self.loopTime == self.reporStringtArray.count - 1) {
+        contentString = [NSString stringWithFormat:@"报表名称%@。%@。%@。 以上就是全部内容谢谢收听",self.reportListArray[_loopTime],firstPlayString,self.reporStringtArray[self.loopTime]];
+    }
+    else {
+        contentString =  @"播报数据暂时出错";
     }
     [self.playListTableView reloadData];
     return contentString;
@@ -275,7 +324,9 @@
 
 - (void)onCompleted:(IFlySpeechError *)error {
     NSLog(@"可能会出错的是什么呢");
+    self.loopTime++;
     if (error.errorCode > 20000) {
+        [_iFlySppechSynthesizer stopSpeaking];
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"合成错误" message:@"语音播报合成错误" preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel
                                                               handler:^(UIAlertAction * action) {}];
@@ -284,19 +335,39 @@
         return;
     }
     if (self.loopTime == self.reporStringtArray.count) {
-        [_iFlySppechSynthesizer stopSpeaking];
-        [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"stopPlay" object:nil];
+        [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     }
     else{
         [self voiceSppech];
-        self.loopTime++;
     }
+}
+
+// 下一曲
+- (void)playNextReport {
+    [_iFlySppechSynthesizer pauseSpeaking];
+    self.loopTime ++;
+    if (_loopTime == self.reportListArray.count) {
+        _loopTime = 0;
+    }
+    [self voiceSppech];
+}
+
+// 上一曲
+- (void)playlastReport {
+    [_iFlySppechSynthesizer pauseSpeaking];
+    self.loopTime --;
+    if (self.loopTime < 0) {
+        return;
+    }
+    [self voiceSppech];
 }
 
 - (void)onSpeakBegin {
     NSLog(@"开始合成");
 }
 
+// 播放状态
 - (void)playerState {
     if ( _isSpeaking) {
         [_iFlySppechSynthesizer pauseSpeaking];
@@ -310,11 +381,14 @@
     }
 }
 
+// 保存播放状态
 - (void) viewWillDisappear:(BOOL)animated {
     if (self.loopTime >= self.reportListArray.count) {
         self.loopTime = 0;
     }
     NSNumber *interger =[NSNumber numberWithInt:self.loopTime];
+    NSNumber *number = [NSNumber numberWithBool:self.isSpeaking];
+    [[NSUserDefaults standardUserDefaults] setObject:number forKey:@"playState"];
     [[NSUserDefaults standardUserDefaults]setObject:interger forKey:@"reportId"];
 }
 

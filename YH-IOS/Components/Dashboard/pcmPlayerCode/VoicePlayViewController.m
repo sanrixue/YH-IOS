@@ -354,7 +354,7 @@
     }
     if (self.loopTime == self.reporStringtArray.count) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"stopPlay" object:nil];
-        [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
+       // [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     }
     else{
         [self voiceSppech];

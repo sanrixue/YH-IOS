@@ -463,7 +463,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         self.fromViewController = @"AlreadyShow";
         // 检测版本更新
         [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
-        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
+        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appToUpgradeMethod:)];
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
@@ -485,17 +485,19 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
                 }
                 
                 NSString *msg = [APIHelper userAuthentication:userDict[kUserNumCUName] password:userDict[kPasswordCUName]];
-                if(msg.length == 0) {
-                    return;
+                if(msg.length != 0) {
+                    userDict[kIsLoginCUName] = @(NO);
+                    [userDict writeToFile:userConfigPath atomically:YES];
                 }
-                
-                userDict[kIsLoginCUName] = @(NO);
-                [userDict writeToFile:userConfigPath atomically:YES];
             }
             @catch (NSException *exception) {
                 NSLog(@"%@", exception);
             }
         });
+    }
+    else if (self.fromViewController && [self.fromViewController isEqualToString:@"LoginViewController"]) {
+        [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
+        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appToUpgradeMethod:)];
     }
 }
 
@@ -1051,7 +1053,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
   *
   *  @param response <#response description#>
   */
-- (void)appUpgradeMethod:(NSDictionary *)response {
+- (void)appToUpgradeMethod:(NSDictionary *)response {
     if(!response || !response[kDownloadURLCPCName] || !response[kVersionCodeCPCName] || !response[kVersionNameCPCName]) {
         return;
     }

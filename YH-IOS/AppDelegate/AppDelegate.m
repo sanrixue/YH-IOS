@@ -12,7 +12,6 @@
 #import "UMSocialWechatHandler.h"
 #import "Constant.h"
 #import "NSData+MD5.h"
-#import <PgySDK/PgyManager.h>
 #import "Version.h"
 #import "FileUtils+Assets.h"
 
@@ -71,10 +70,8 @@ void UncaughtExceptionHandler(NSException * exception) {
          [self.window setRootViewController:initViewController];
     }
     [self.window makeKeyAndVisible];
-    [self initPgyer];
     [self initUMessage:launchOptions];
     [self initUMSocial];
-    [self checkVersionUpgrade];
     [self checkAssets];
     [self initWebViewUserAgent];
     [self initScreenLock];
@@ -317,6 +314,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     self.window.rootViewController = loginViewController;
 }
 
+
 #pragma mark - 缓存当前应用版本，每次检测，不一致时，有所动作
 /**
  *  应用版本更新后，拷贝静态资源至sharedPath/下
@@ -326,6 +324,7 @@ void UncaughtExceptionHandler(NSException * exception) {
  *
  *  @param assetsPath <#assetsPath description#>
  */
+/*
 - (void)checkVersionUpgrade {
     NSError *error;
     NSDictionary *bundleInfo       =[[NSBundle mainBundle] infoDictionary];
@@ -368,6 +367,7 @@ void UncaughtExceptionHandler(NSException * exception) {
         [pushDict writeToFile:pushConfigPath atomically:YES];
     }
 }
+*/
 
 - (void)checkAssets {
     NSString *bundlePath = [[NSBundle mainBundle] bundlePath];
@@ -399,11 +399,6 @@ void UncaughtExceptionHandler(NSException * exception) {
     }
 }
 
-#pragma mark - initialized SDK
-- (void)initPgyer {
-    [[PgyManager sharedPgyManager] setEnableFeedback:NO];
-    [[PgyManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
-}
 
 - (void)initUMessage:(NSDictionary *)launchOptions {
     [UMessage startWithAppkey:kUMAppId launchOptions:launchOptions];

@@ -20,22 +20,18 @@
 #import "GestureTableViewCell.h"
 #import "OneButtonTableViewCell.h"
 #import "SettingDefaultTableViewCell.h"
-#import <PgyUpdate/PgyUpdateManager.h>
 #import "AFNetworking.h"
 #import "ThurSayViewController.h"
 #import "ThurSayTableViewCell.h"
 #import "UserInfoViewController.h"
 
 static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdentifier";
-@interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate> {
-    NSDictionary *pgyVersionDict;
-}
+@interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (strong, nonatomic) UITableView *settingTableView;
 @property (strong, nonatomic) NSArray *userInfoArray;
 @property (strong, nonatomic) NSArray *appInfoArray;
 @property (strong, nonatomic) UIButton *logoutBtn;
 @property (strong, nonatomic) NSDictionary *MessageDict;
-@property (strong, nonatomic) NSString *pgyLinkString;
 @property (assign, nonatomic) BOOL isSuccess;
 @property (assign, nonatomic) BOOL isChangeLochPassword;
 @property (strong, nonatomic) NSArray *headInfoArray;
@@ -141,10 +137,6 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
 
 #pragma mark - init need-show message info
 - (void)initLabelMessageDict {
-    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
-    NSDictionary *pgyerVersionDict = [FileUtils readConfigFile:pgyerVersionPath];
-    
-    [self checkPgyerVersionLabel:self.version pgyerResponse:pgyerVersionDict];
     self.isChangeLochPassword = NO;
 }
 
@@ -417,94 +409,11 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [self.betaDict writeToFile:self.settingsConfigPath atomically:YES];
 }
 
-- (void)checkPgyerVersionLabel:(Version *)version pgyerResponse:(NSDictionary *)pgyerResponse {
-    if(!pgyerResponse || !pgyerResponse[kDownloadURLCPCName] || !pgyerResponse[kVersionCodeCPCName] || !pgyerResponse[kVersionNameCPCName]) {
-        self.pgyLinkString = @"蒲公英链接";
-    }
-    else {
-        BOOL isPygerUpgrade = ([pgyerResponse[kVersionCodeCPCName] integerValue] > [version.build integerValue]);
-        self.pgyLinkString = @"已是最新版本";
-        if (!isPygerUpgrade) {
-            self.noticeDict[kSettingPgyerLNName] = @NO;
-        }
-        
-        if(isPygerUpgrade) {
-            NSString *betaName = ([pgyerResponse[kVersionCodeCPCName] integerValue] % 2 == 0) ? @"" : @"测试";
-            self.pgyLinkString= [NSString stringWithFormat:@"%@版本:%@(%@)", betaName, pgyerResponse[kVersionNameCPCName],  pgyerResponse[kVersionCodeCPCName]];
-        }
-    }
-    [self.settingTableView reloadData];
-}
-
-/**
- *  检测版本升级，判断版本号是否为偶数。以便内测
-     response = @{
-         @"appUrl": @"http://www.pgyer.com/yh-i",
-         @"build": @118,
-         @"downloadURL": @"itms-services://?action=download-manifest&url=https://www.pgyer.com/app/plist/93bb21bdb7f10bdf0a84ad51045bd70e",
-         @"lastBuild": @118,
-         @"releaseNote": @"asdfasdfc: 1.3.87(build118)",
-         @"versionCode": @188,
-         @"versionName ": @"1.4.0"
-     };
- *
- *  @param response <#response description#>
- */
-- (void)appUpgradeMethod:(NSDictionary *)response {
-    if(!response || !response[kDownloadURLCPCName] || !response[kVersionCodeCPCName] || !response[kVersionNameCPCName]) {
-        [ViewUtils showPopupView:self.view Info:kNoUpgradeWarnText];
-        return;
-    }
-    
-    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
-    [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
-    
-    NSInteger currentVersionCode = [self.version.build integerValue];
-    NSInteger responseVersionCode = [response[kVersionCodeCPCName] integerValue];
-    
-    // 对比 build 值，只准正向安装提示
-    if(responseVersionCode <= currentVersionCode) {
-        return;
-    }
-    
-    NSString *localNotificationPath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
-    NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:localNotificationPath];
-    localNotificationDict[kSettingPgyerLNName] = @(1);
-    [FileUtils writeJSON:localNotificationDict Into:localNotificationPath];
-    
-    /**
-     * 更新按钮右侧提示文字
-     */
-    [self checkPgyerVersionLabel:self.version pgyerResponse:response];
-    
-    if(responseVersionCode % 2 == 0) {
-        SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert addButton:kUpgradeBtnText actionBlock:^(void) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
-            [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
-        }];
-        
-        NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
-        [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
-    }
-    else {
-        [ViewUtils showPopupView:self.view Info:kUpgradeWarnTestText];
-    }
-}
-
-- (void)actionOpenLink{
-    NSURL *url = [NSURL URLWithString:[kPgyerUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    [[UIApplication sharedApplication] openURL:url];
-}
 
 - (void)actionChangeGesturePassword {
     [self showLockViewForChangingPasscode];
 }
 
-- (void)actionCheckUpgrade {
-    [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
-    [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
-}
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if([segue.identifier isEqualToString:kResetPasswordSegueIdentifier]) {
         ResetPasswordViewController *resetPasswordViewController = (ResetPasswordViewController *)segue.destinationViewController;

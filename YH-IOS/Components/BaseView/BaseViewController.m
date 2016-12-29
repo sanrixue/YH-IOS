@@ -9,7 +9,6 @@
 
 #import "BaseViewController.h"
 #import "LoginViewController.h"
-#import <PgyUpdate/PgyUpdateManager.h>
 #import "ViewUtils.h"
 #import "AppDelegate.h"
 #import "AFNetworking.h"

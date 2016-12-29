@@ -118,7 +118,6 @@ extern NSString *const kSettingConfigFileName;
 extern NSString *const kGesturePwdConfileFileName;
 extern NSString *const kLocalNotificationConfigFileName;
 extern NSString *const kCachedHeaderConfigFileName;
-extern NSString *const kPgyerVersionConfigFileName;
 extern NSString *const kGravatarConfigFileName;
 extern NSString *const kBetaConfigFileName;
 extern NSString *const kBarCodeResultFileName;
@@ -242,7 +241,6 @@ extern NSString *const kTabMessageLNName;
 extern NSString *const kSettingLNName;
 extern NSString *const kSettingThursdaySayLNName;
 extern NSString *const kSettingPasswordLNName;
-extern NSString *const kSettingPgyerLNName;
 
 /**
  *  Config#Pgyer upgrade columns name

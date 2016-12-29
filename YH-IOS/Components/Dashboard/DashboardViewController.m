@@ -13,7 +13,6 @@
 #import "NSData+MD5.h"
 #import "ViewUtils.h"
 #import <SCLAlertView.h>
-#import <PgyUpdate/PgyUpdateManager.h>
 #import "LBXScanView.h"
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
@@ -77,7 +76,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     //[self.view addSubview:loadingView];
     //[loadingView showHub];
     
-    self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
+    self.bannerView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     
     self.localNotificationKeys = @[kTabKPILNName, kTabAnalyseLNName, kTabAppLNName, kTabMessageLNName, kSettingThursdaySayLNName];
@@ -447,7 +446,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
     
     localNotificationDict[kSettingLNName] = localNotificationDict[kSettingLNName] ?: @(-1);
-    localNotificationDict[kSettingPgyerLNName] = localNotificationDict[kSettingPgyerLNName] ?: @(-1);
     localNotificationDict[kSettingPasswordLNName] = localNotificationDict[kSettingPasswordLNName] ?: @(-1);
 
     localNotificationDict[kSettingThursdaySayLNName] = localNotificationDict[kSettingThursdaySayLNName] ?: @(-1);
@@ -462,10 +460,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 - (void)checkFromViewController {
     if(self.fromViewController && [self.fromViewController isEqualToString:@"AppDelegate"]) {
         self.fromViewController = @"AlreadyShow";
-        // 检测版本更新
-        [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
-        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
-        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -1047,46 +1041,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     return UIModalPresentationNone;
 }
 
-
-# pragma mark - assitant methods
-/**
-  *  内容检测版本升级，判断版本号是否为偶数。以便内测
-  *
-  *  @param response <#response description#>
-  */
-- (void)appUpgradeMethod:(NSDictionary *)response {
-    if(!response || !response[kDownloadURLCPCName] || !response[kVersionCodeCPCName] || !response[kVersionNameCPCName]) {
-        return;
-    }
-    
-    NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
-    [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
-    
-    Version *version = [[Version alloc] init];
-    NSInteger currentVersionCode = [version.build integerValue];
-    NSInteger responseVersionCode = [response[kVersionCodeCPCName] integerValue];
-    
-    // 对比 build 值，只准正向安装提示
-    if(responseVersionCode <= currentVersionCode) {
-        return;
-    }
-    
-    NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
-    localNotificationDict[kSettingPgyerLNName] = @(1);
-    [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
-    
-    if(responseVersionCode % 2 == 0) {
-        SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert addButton:kUpgradeBtnText actionBlock:^(void) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
-            [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
-        }];
-        
-        NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
-        [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
-    }
-}
-
 #pragma mark - 本地通知，样式加载
 - (void)setNotificationBadgeTimer {
     NSTimeInterval period = 60 * kTimerInterval;
@@ -1202,8 +1156,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     localNotificationDict[kSettingPasswordLNName] = @([userDict[kPasswordCUName] isEqualToString:kInitPassword.md5] ? 1 : 0);
 
     
-    NSInteger settingCount = ([localNotificationDict[kSettingPgyerLNName] integerValue] > 0 ||
-                              [localNotificationDict[kSettingPasswordLNName] integerValue] > 0 ||
+    NSInteger settingCount = ([localNotificationDict[kSettingPasswordLNName] integerValue] > 0 ||
                               [localNotificationDict[kSettingThursdaySayLNName] integerValue] > 0) ? 1 : 0;
     localNotificationDict[kSettingLNName] = @(settingCount);
     

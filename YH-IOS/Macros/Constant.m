@@ -12,7 +12,7 @@
  *  Config#Color
  */
 NSString *const kThemeColor       = @"#53a93f"; //31809f
-NSString *const kBannerBgColor    = @"#ffffff";
+NSString *const kBannerBgColor    = @"#53a93f";
 NSString *const kBannerTextColor  = @"#ffffff";
 NSString *const kIsUrlWrite2Local = @"1";
 NSInteger const kTimerInterval    = 30;
@@ -59,7 +59,6 @@ NSString *const kSettingConfigFileName           = @"setting.plist";
 NSString *const kGesturePwdConfileFileName       = @"gesture_password.plist";
 NSString *const kLocalNotificationConfigFileName = @"local_notification.plist";
 NSString *const kCachedHeaderConfigFileName      = @"cached_header.plist";
-NSString *const kPgyerVersionConfigFileName      = @"pgyer_version.plist";
 NSString *const kGravatarConfigFileName          = @"gravatar.plist";
 NSString *const kBetaConfigFileName              = @"beta_v0.plist";
 NSString *const kBarCodeResultFileName           = @"barcode_result.json";
@@ -215,7 +214,6 @@ NSString *const kTabMessageLNName    = @"tab_message";
 NSString *const kSettingLNName       = @"setting";
 NSString *const kSettingThursdaySayLNName = @"setting_thursday_say";
 NSString *const kSettingPasswordLNName    = @"setting_password";
-NSString *const kSettingPgyerLNName       = @"setting_pgyer";
 
 /**
  *  Config#Pgyer upgrade columns name

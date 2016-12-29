@@ -10,10 +10,8 @@
 #import "DashboardViewController.h"
 #import "APIHelper.h"
 #import "NSString+MD5.h"
-#import <PgyUpdate/PgyUpdateManager.h>
 #import "UMessage.h"
 #import "Version.h"
-#import "ConnectUsViewController.h"
 
 #define kSloganHeight [[UIScreen mainScreen]bounds].size.height / 6
 
@@ -130,13 +128,6 @@
     [self.bgView addSubview:self.directLoginBtn];
     [self.directLoginBtn addTarget:self action:@selector(directLogin) forControlEvents:UIControlEventTouchUpInside];
     
-    self.connectUs = [[UIButton alloc]init];
-    [self.connectUs setTitle:@"联系我们" forState:UIControlStateNormal];
-    [self.connectUs setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.connectUs setBackgroundColor:[UIColor clearColor]];
-    self.connectUs.titleLabel.font = [UIFont systemFontOfSize:12];
-    [self.bgView addSubview:self.connectUs];
-    [self.connectUs  addTarget:self action:@selector(jumptoconnectUs) forControlEvents:UIControlEventTouchUpInside];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(userinfomoveToTop:)
@@ -157,7 +148,7 @@
     }
     self.sideblank = (self.view.frame.size.width - 40) / 2;
     
-    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel,_directLoginBtn,_connectUs);
+    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel,_directLoginBtn);
     // [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_logoView]-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bgView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0]];
     NSString *strl =[NSString stringWithFormat: @"V:|-100-[_logoView(40)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-30-[_loginButton(40)]-30-[_directLoginBtn(20)]-(>=10)-[_versionLabel(20)]-10-|", kSloganHeight];
@@ -171,10 +162,8 @@
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginPasswordImage(30)]-10-[_userPasswordText]-80-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginButton]-40-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_versionLabel attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_connectUs attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
-    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_versionLabel attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_connectUs attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_versionLabel(80)]-40-[_connectUs(70)]-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_versionLabel]-120-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
 }
@@ -189,11 +178,6 @@
 
 - (void)userinfoMoveToBottom:(NSNotification *)aNotification {
     self.bgView.frame = self.view.frame;
-}
-
-- (void)jumptoconnectUs{
-    ConnectUsViewController *connetUsView = [[ConnectUsViewController alloc]init];
-    [self presentViewController:connetUsView animated:YES completion:nil];
 }
 
 //add: 登录按钮事件
@@ -274,38 +258,6 @@
     self.progressHUD.mode = mode;
     
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
-}
-
-#pragma mark - 缓存当前应用版本，每次检测，不一致时，有所动作
-- (void)checkVersionUpgrade:(NSString *)assetsPath {
-    NSDictionary *bundleInfo       =[[NSBundle mainBundle] infoDictionary];
-    NSString *currentVersion       = bundleInfo[@"CFBundleShortVersionString"];
-    NSString *versionConfigPath    = [NSString stringWithFormat:@"%@/%@", assetsPath, kCurrentVersionFileName];
-    
-    BOOL isUpgrade = YES;
-    NSString *localVersion = @"no-exist";
-    if([FileUtils checkFileExist:versionConfigPath isDir:NO]) {
-        localVersion = [NSString stringWithContentsOfFile:versionConfigPath encoding:NSUTF8StringEncoding error:nil];
-        
-        if(localVersion && [localVersion isEqualToString:currentVersion]) {
-            isUpgrade = NO;
-        }
-    }
-    
-    if(isUpgrade) {
-        NSLog(@"version modified: %@ => %@", localVersion, currentVersion);
-        NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", assetsPath, kCachedDirName];
-        [FileUtils removeFile:cachedHeaderPath];
-        NSLog(@"remove header: %@", cachedHeaderPath);
-        
-        [currentVersion writeToFile:versionConfigPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-        
-        // 消息推送，重新上传服务器
-        NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
-        NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
-        pushDict[@"push_valid"] = @(NO);
-        [pushDict writeToFile:pushConfigPath atomically:YES];
-    }
 }
 
 # pragma mark - 登录界面不支持旋转

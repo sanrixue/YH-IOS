@@ -23,11 +23,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-<<<<<<< HEAD
 	<string>1.0</string>
-=======
-	<string>1.4.155</string>
->>>>>>> a42c553e9c1f7a7cdd7e71c89b8de245f74ae9dd
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -44,13 +40,9 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-<<<<<<< HEAD
-	<string>1</string>
+	<string>3</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
-=======
-	<string>329</string>
->>>>>>> a42c553e9c1f7a7cdd7e71c89b8de245f74ae9dd
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>weixin</string>

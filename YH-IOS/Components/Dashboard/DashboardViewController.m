@@ -506,6 +506,15 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             }
         });
     }
+    
+    else if (self.fromViewController && [self.fromViewController isEqualToString:@"LoginViewController"]) {
+        [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
+        [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
+        NSNumber *interger =[NSNumber numberWithInt:0];
+        NSNumber *number = [NSNumber numberWithBool:0];
+        [[NSUserDefaults standardUserDefaults] setObject:number forKey:@"playState"];
+        [[NSUserDefaults standardUserDefaults]setObject:interger forKey:@"reportId"];
+    }
 }
 
 /**

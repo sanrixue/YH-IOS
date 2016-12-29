@@ -27,6 +27,7 @@
 #import "HttpUtils.h"
 #import "HttpResponse.h"
 #import "User.h"
+#import "ViewUtils.h"
 
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
@@ -596,7 +597,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             voicePlay.isReport = YES;
             voicePlay.reportUrlString = @"http://yonghui-test.idata.mobi/api/v1/group/0/role/7/report/30/audio";
             [self presentViewController:voicePlay animated:YES completion:nil];*/
-            if (_isSpeaking) {
+           /* if (_isSpeaking) {
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
                 [_iFlySppechSynthesizer stopSpeaking];
                 [self.setting.imageView.layer removeAllAnimations];
@@ -606,7 +607,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
                  [self rotate360DegreeWithImageView:self.setting.imageView];
                 [self voiceSppech];
                 _isSpeaking = YES;
-            }
+            }*/
+            [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
         }
     }];
 }

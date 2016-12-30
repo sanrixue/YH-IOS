@@ -27,6 +27,7 @@
 #import "DropViewController.h"
 #import "ThurSayViewController.h"
 #import "LoadingView.h"
+#import <Reachability/Reachability.h>
 
 
 static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
@@ -1074,15 +1075,22 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     localNotificationDict[kSettingPgyerLNName] = @(1);
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
     
+    Reachability *reach = [Reachability reachabilityForInternetConnection];
     if(responseVersionCode % 2 == 0) {
-        SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert addButton:kUpgradeBtnText actionBlock:^(void) {
+        if (responseVersionCode % 10 == 8 && [reach isReachableViaWiFi]) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
-        }];
+        }
+        else {
+           SCLAlertView *alert = [[SCLAlertView alloc] init];
+           [alert addButton:kUpgradeBtnText actionBlock:^(void) {
+              [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
+              [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
+           }];
         
-        NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
-        [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
+          NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
+          [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
+        }
     }
 }
 

@@ -123,7 +123,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         self.appInfoArray[0]: self.version.appName,
         self.appInfoArray[1]: [NSString stringWithFormat:@"%@(%@)", self.version.current, self.version.build],
         self.appInfoArray[2]: [NSString stringWithFormat: @"%@ (%@)",[[Version machineHuman]componentsSeparatedByString:@" ("][0], phoneVersion],
-        self.appInfoArray[3]: [kBaseUrl componentsSeparatedByString:@"://"][1],
+        self.appInfoArray[3]: kBaseUrl, //[kBaseUrl componentsSeparatedByString:@"://"][1],
         self.appInfoArray[4]: self.version.bundleID,
         self.appInfoArray[5]: pushDict[@"push_valid"] && [pushDict[@"push_valid"] boolValue] ? @"开启" : @"关闭"
     };

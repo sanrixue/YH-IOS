@@ -1328,7 +1328,7 @@
 			baseConfigurationReference = 12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;

@@ -1083,7 +1083,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
                //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]] options:@{} completionHandler:nil];
                 [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
-                
             }];
             
             [alertVC addAction:action1];

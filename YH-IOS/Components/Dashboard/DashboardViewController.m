@@ -1076,8 +1076,8 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
     
     Reachability *reach = [Reachability reachabilityForInternetConnection];
-    if(responseVersionCode % 2 == 1) {
-        if (responseVersionCode % 10 == 7 && [reach isReachableViaWiFi]) {
+    if(responseVersionCode % 2 == 0) {
+        if (responseVersionCode % 10 == 8 && [reach isReachableViaWiFi]) {
             UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"" message:@"由于程序有十分大的改动，您必须升级最新版本才能不影响使用，请您务必升级" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];

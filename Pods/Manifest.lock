@@ -20,6 +20,7 @@ PODS:
   - AFNetworking/UIKit (2.5.4):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
+  - Kiwi (2.4.0)
   - LBXScan (1.1.2):
     - ZXingObjC (~> 3.0)
   - LTHPasscodeViewController (3.7.1)
@@ -35,6 +36,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (~> 2.5.4)
+  - Kiwi
   - LBXScan (from `https://github.com/MxABC/LBXScan.git`)
   - LTHPasscodeViewController (~> 3.7.1)
   - MBProgressHUD (~> 0.9.1)
@@ -61,6 +63,7 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
+  Kiwi: f49c9d54b28917df5928fe44968a39ed198cb8a8
   LBXScan: 30153fa9c57bbe63d93cc6bf35c047ec1b63260c
   LTHPasscodeViewController: 93a2438709e2affda710ad53081810d12d3081ff
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
@@ -71,6 +74,6 @@ SPEC CHECKSUMS:
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
   ZYCornerRadius: 485a8e9304d16d1620641054a08b9c0f55dd512c
 
-PODFILE CHECKSUM: 177dda050a2089bf8fcbffcea4f975d361e6bed4
+PODFILE CHECKSUM: ba27af4700a62f417b855e98698cd71788abba3a
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1

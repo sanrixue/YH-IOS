@@ -2,7 +2,11 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 platform :ios, '8.0'
 
-target 'YH-IOS' do
+target 'YH-IOSTests' do
+   pod 'Kiwi'
+end
+
+target 'YH-IOS' do 
     pod 'Reachability', '~> 3.2'
     pod 'MBProgressHUD', '~> 0.9.1'
     pod 'SSZipArchive', '~> 0.3.2'

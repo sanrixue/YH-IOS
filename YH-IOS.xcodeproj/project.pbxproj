@@ -92,6 +92,7 @@
 		C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B71C99812B0009411A /* WebViewJavascriptBridge.m */; };
 		C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */; };
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
+		E82914D75E2E5FBBD44D4682 /* libPods-YH-IOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C953F159F46DB4D2BB1AE9 /* libPods-YH-IOSTests.a */; };
 		F630B2E61D98FAB600CAA6A0 /* SearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F630B2E51D98FAB600CAA6A0 /* SearchTableViewCell.m */; };
 		F63A5BBF1DCAE2CB0092FC24 /* libz.1.1.3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = F63A5BBE1DCAE2CB0092FC24 /* libz.1.1.3.tbd */; };
 		F63A5BC11DCAE3520092FC24 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63A5BC01DCAE3520092FC24 /* AddressBook.framework */; };
@@ -124,8 +125,10 @@
 /* Begin PBXFileReference section */
 		12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.release.xcconfig"; sourceTree = "<group>"; };
 		185BA5271DB2573500EE9ADD /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
+		430EB71935A8127AC10C1ABC /* Pods-YH-IOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A867606F7216FABE6624278 /* libPods-YH-IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.debug.xcconfig"; sourceTree = "<group>"; };
+		7D36BC7CD3D95EFFD33A5C4A /* Pods-YH-IOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		C40343361D6ADEAB00625D53 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
 		C40343371D6ADEAB00625D53 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		C40343381D6ADEAB00625D53 /* UILabel+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Badge.h"; sourceTree = "<group>"; };
@@ -267,6 +270,7 @@
 		C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewJavascriptBridgeBase.m; sourceTree = "<group>"; };
 		C4EFE4BA1C99812B0009411A /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		F4C953F159F46DB4D2BB1AE9 /* libPods-YH-IOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F630B2E41D98FAB600CAA6A0 /* SearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchTableViewCell.h; sourceTree = "<group>"; };
 		F630B2E51D98FAB600CAA6A0 /* SearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchTableViewCell.m; sourceTree = "<group>"; };
 		F63A5BBC1DCAE0BC0092FC24 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = ../iOS_voice_1144_54bfa2c0/lib/iflyMSC.framework; sourceTree = "<group>"; };
@@ -323,6 +327,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E82914D75E2E5FBBD44D4682 /* libPods-YH-IOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +346,8 @@
 			children = (
 				766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */,
 				12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */,
+				7D36BC7CD3D95EFFD33A5C4A /* Pods-YH-IOSTests.debug.xcconfig */,
+				430EB71935A8127AC10C1ABC /* Pods-YH-IOSTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -843,6 +850,7 @@
 				C4771BA81C058A7B00AAF44F /* PgyUpdate.framework */,
 				C4771BA51C058A1800AAF44F /* libxml2.tbd */,
 				6A867606F7216FABE6624278 /* libPods-YH-IOS.a */,
+				F4C953F159F46DB4D2BB1AE9 /* libPods-YH-IOSTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -914,9 +922,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C4DB7DA31C02EC0600DA534E /* Build configuration list for PBXNativeTarget "YH-IOSTests" */;
 			buildPhases = (
+				A186C989AF7CA500DCC43AE2 /* [CP] Check Pods Manifest.lock */,
 				C4DB7D881C02EC0600DA534E /* Sources */,
 				C4DB7D891C02EC0600DA534E /* Frameworks */,
 				C4DB7D8A1C02EC0600DA534E /* Resources */,
+				F713507268E9B6AAC59C8D6C /* [CP] Embed Pods Frameworks */,
+				74B911A46846A39B802294EA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1048,7 +1059,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		6C1B698DDFC5C340B1595665 /* [CP] Copy Pods Resources */ = {
@@ -1066,6 +1077,36 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		74B911A46846A39B802294EA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A186C989AF7CA500DCC43AE2 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		E32AEDE46CFB22176110AA88 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1079,6 +1120,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F713507268E9B6AAC59C8D6C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1295,6 +1351,7 @@
 			baseConfigurationReference = 766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_LOADER = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
@@ -1328,6 +1385,7 @@
 			baseConfigurationReference = 12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_LOADER = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
@@ -1358,29 +1416,43 @@
 		};
 		C4DB7DA41C02EC0600DA534E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7D36BC7CD3D95EFFD33A5C4A /* Pods-YH-IOSTests.debug.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				BUNDLE_LOADER = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "YH-IOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					XCTest,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.intfocus.YH-IOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YH-IOS.app/YH-IOS";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Debug;
 		};
 		C4DB7DA51C02EC0600DA534E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 430EB71935A8127AC10C1ABC /* Pods-YH-IOSTests.release.xcconfig */;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
+				BUNDLE_LOADER = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
+				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = "YH-IOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					XCTest,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.intfocus.YH-IOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YH-IOS.app/YH-IOS";
+				TEST_HOST = "$(BUNDLE_LOADER)";
 			};
 			name = Release;
 		};
@@ -1422,7 +1494,7 @@
 				C4DB7D9F1C02EC0600DA534E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		C4DB7DA01C02EC0600DA534E /* Build configuration list for PBXNativeTarget "YH-IOS" */ = {
 			isa = XCConfigurationList;
@@ -1431,7 +1503,7 @@
 				C4DB7DA21C02EC0600DA534E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		C4DB7DA31C02EC0600DA534E /* Build configuration list for PBXNativeTarget "YH-IOSTests" */ = {
 			isa = XCConfigurationList;
@@ -1440,7 +1512,7 @@
 				C4DB7DA51C02EC0600DA534E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		C4DB7DA61C02EC0600DA534E /* Build configuration list for PBXNativeTarget "YH-IOSUITests" */ = {
 			isa = XCConfigurationList;
@@ -1449,7 +1521,7 @@
 				C4DB7DA81C02EC0600DA534E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

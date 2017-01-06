@@ -25,9 +25,7 @@
 @property (nonatomic, strong) UITextField *userNameText;
 @property (nonatomic, strong) UIView *seperateView1;
 @property (nonatomic, strong) UIImageView *loginPasswordImage;
-@property (nonatomic, strong) UITextField *userPasswordText;
 @property (nonatomic, strong) UIView *seperateView2;
-@property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UILabel *versionLabel;
 @property (nonatomic, assign) int sideblank;
 @property (nonatomic, strong) Version *version;

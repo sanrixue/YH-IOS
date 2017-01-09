@@ -404,4 +404,6 @@
     
     [javascriptContent writeToFile:javascriptPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
+
+
 @end

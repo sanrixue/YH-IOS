@@ -28,6 +28,7 @@
 #import "ThurSayViewController.h"
 #import "LoadingView.h"
 #import "VoicePlayViewController.h"
+#import <Reachability/Reachability.h>
 
 
 
@@ -1091,15 +1092,29 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     localNotificationDict[kSettingPgyerLNName] = @(1);
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
     
+    Reachability *reach = [Reachability reachabilityForInternetConnection];
     if(responseVersionCode % 2 == 0) {
-        SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert addButton:kUpgradeBtnText actionBlock:^(void) {
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
-            [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
-        }];
-        
-        NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
-        [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
+        if (responseVersionCode % 10 == 8 && [reach isReachableViaWiFi]) {
+            UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:@"" message:@"由于程序有十分大的改动，您必须升级最新版本才能不影响使用，请您务必升级" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
+                //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]] options:@{} completionHandler:nil];
+                [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
+            }];
+            
+            [alertVC addAction:action1];
+            [self presentViewController:alertVC animated:YES completion:nil];
+        }
+        else {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            [alert addButton:kUpgradeBtnText actionBlock:^(void) {
+                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
+                [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
+            }];
+            
+            NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
+            [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
+        }
     }
 }
 

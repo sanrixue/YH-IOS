@@ -82,7 +82,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     [self checkAssets];
     [self initWebViewUserAgent];
     [self initScreenLock];
-    [self configNowPlayingInfoCenter];
+    //[self configNowPlayingInfoCenter];
     NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
     
     application.applicationIconBadgeNumber = 0;
@@ -292,7 +292,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     if (NSClassFromString(@"MPNowPlayingInfoCenter")) {
         
         NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        
+        [dict setObject:@"名字" forKey:MPMediaItemPropertyTitle];
         UIImage *image = [UIImage imageNamed:@"playimage"];
         MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc] initWithImage:image];
         [dict setObject:artwork forKey:MPMediaItemPropertyArtwork];

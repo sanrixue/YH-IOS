@@ -21,6 +21,7 @@
 #import "DropViewController.h"
 #import "UIColor+Hex.h"
 #import "PcmPlayerDelegate.h"
+#import <MediaPlayer/MediaPlayer.h>
 
 
 @interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,PcmPlayerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate,UIPopoverPresentationControllerDelegate>{
@@ -41,6 +42,8 @@
 @property (nonatomic, strong) NSString *reportDataString;
 @property (nonatomic, strong) UIButton *listBtn;
 @property (nonatomic, assign) BOOL isShowList;
+@property (nonatomic, assign) BOOL isNeedGetNewReport;
+@property (nonatomic, strong) NSMutableArray *reportIdArray;
 @end
 
 @implementation VoicePlayViewController
@@ -214,13 +217,14 @@
 
 // 一次播放完成
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    self.loopTime++;
     if (_loopTime < self.reportListArray.count) {
-        self.loopTime++;
         [self voiceSppech];
         return;
     }
     _loopTime = 0;
     _isSpeaking = NO;
+    [self.audioPlayer stop];
     NSNumber *interger =[NSNumber numberWithInt:self.loopTime];
     NSNumber *number = [NSNumber numberWithBool:self.isSpeaking];
     [[NSUserDefaults standardUserDefaults] setObject:number forKey:@"playState"];
@@ -259,13 +263,42 @@
     NSString *contentString = [self reayPlayData];
     self.reportDataString = [contentString stringByReplacingOccurrencesOfString:@"。" withString:@".\n"];
     self.contentTextView.text = self.reportDataString;
-    if (contentString) {
-        [_iFlySppechSynthesizer synthesize:contentString toUri:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"]];
+    NSString *reportMP3Dir = [[FileUtils userspace]stringByAppendingPathComponent:@"REPORTMP3"];
+    if (![FileUtils checkFileExist:reportMP3Dir isDir:YES]) {
+        [FileUtils dirPath: @"REPORTMP3"];
+    }
+    
+    if ([[FileUtils folderSize:reportMP3Dir] intValue] > (300 * 1024 * 1024)) {
+        [FileUtils removeFile:reportMP3Dir];
+    }
+    
+    NSString *savePath = [reportMP3Dir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",self.reportIdArray[_loopTime]]];
+    if ((contentString && _isNeedGetNewReport) || ![FileUtils checkFileExist:savePath isDir:NO]) {
+        [_iFlySppechSynthesizer synthesize:contentString toUri:savePath];
        // [_iFlySppechSynthesizer startSpeaking:contentString];
+    }
+    else if (!_isNeedGetNewReport && [FileUtils checkFileExist:savePath isDir:NO]){
+        [self playReportData];
     }
     else {
         [self getReportData];
         [_iFlySppechSynthesizer startSpeaking:@"正在准备播报数据，请稍后"];
+    }
+}
+
+
+- (void)configNowPlayingInfoCenter {
+    if (NSClassFromString(@"MPNowPlayingInfoCenter")) {
+        
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        [dict setObject:[NSNumber numberWithDouble:self.audioPlayer.player.duration] forKey:MPMediaItemPropertyPlaybackDuration];
+        [dict setObject:self.reportListArray[_loopTime] forKey:MPMediaItemPropertyTitle];
+        UIImage *image = [UIImage imageNamed:@"playimage"];
+        MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc] initWithImage:image];
+        [dict setObject:artwork forKey:MPMediaItemPropertyArtwork];
+        
+        [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dict];
+        
     }
 }
 
@@ -278,11 +311,13 @@
     if (![FileUtils checkFileExist:cachePath isDir:NO]) {
         [FileUtils dirPath:@"Cached"];
     }
+    self.isNeedGetNewReport = NO;
     self.cacaheDict = [[NSMutableDictionary alloc]init];
     if (httpResponse.response.statusCode == 200) {
         _cacaheDict[urlCleanedString] = httpResponse.data;
         [_cacaheDict writeToFile:playDataPath atomically:YES];
         self.loopTime = 0;
+        self.isNeedGetNewReport = YES;
     }
     [self getPlayString:self.reportUrlString filepath:playDataPath];
 }
@@ -296,10 +331,12 @@
     self.cacaheDict = [FileUtils readConfigFile:playDataPath];
     self.reportListArray = [[NSMutableArray alloc]init];
     self.reporStringtArray = [[NSMutableArray alloc] init];
+    self.reportIdArray = [[NSMutableArray alloc]init];
     NSString *urlCleanedString = [self urlCleaner:filePath];
     NSArray *array = _cacaheDict[urlCleanedString][@"data"];
     for (NSDictionary *boj in array) {
         [self.reportListArray addObject:boj[@"title"]];
+        [self.reportIdArray addObject:boj[@"id"]];
         NSArray *arrayinside = boj[@"audio"];
         NSString *playContent = @"";
         for (NSString *str in arrayinside) {
@@ -376,9 +413,12 @@
     AVAudioSession *avsession = [AVAudioSession sharedInstance] ;
     [avsession setCategory:AVAudioSessionCategoryPlayback error:&error];
     [avsession setActive:YES error:nil];
-    self.audioPlayer = [[PcmPlayer alloc] initWithFilePath:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
+    NSString *reportMP3Dir = [[FileUtils userspace]stringByAppendingPathComponent:@"REPORTMP3"];
+    NSString *savePath = [reportMP3Dir stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",self.reportIdArray[_loopTime]]];
+    self.audioPlayer = [[PcmPlayer alloc] initWithFilePath:savePath sampleRate:8000];
     self.audioPlayer.player.delegate =self;
     [self.audioPlayer play];
+    [self configNowPlayingInfoCenter];
     [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     NSLog(@"播放");
 }

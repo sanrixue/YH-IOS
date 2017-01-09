@@ -183,5 +183,6 @@
  */
 + (void)barcodeScanResult:(NSString *)responseString;
 
+
 @end
 #endif

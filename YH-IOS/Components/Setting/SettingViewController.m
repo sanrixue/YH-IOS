@@ -565,6 +565,10 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [FileUtils removeFile:cachedHeaderPath];
     cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
     [FileUtils removeFile:cachedHeaderPath];
+    NSString *reportMP3Dir = [[FileUtils userspace]stringByAppendingPathComponent:@"REPORTMP3"];
+    if ([FileUtils checkFileExist:reportMP3Dir isDir:YES]) {
+         [FileUtils removeFile:reportMP3Dir];
+    }
     
     [APIHelper userAuthentication:self.user.userNum password:self.user.password];
     

@@ -25,6 +25,7 @@
 #import "iflyMSC/IFlySpeechUtility.h"
 
 #import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
@@ -67,6 +68,10 @@ void UncaughtExceptionHandler(NSException * exception) {
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
     [self.window setRootViewController:initViewController];
+    NSError *error = nil;
+    AVAudioSession *avsession = [AVAudioSession sharedInstance] ;
+    [avsession setCategory:AVAudioSessionCategoryPlayback error:&error];
+    [avsession setActive:YES error:nil];
     [self.window makeKeyAndVisible];
     NSString *initString  = [NSString stringWithFormat:@"appid = %@",@"581aad1c"];
     [IFlySpeechUtility createUtility:initString];
@@ -77,6 +82,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     [self checkAssets];
     [self initWebViewUserAgent];
     [self initScreenLock];
+    [self configNowPlayingInfoCenter];
     NSSetUncaughtExceptionHandler(&UncaughtExceptionHandler);
     
     application.applicationIconBadgeNumber = 0;
@@ -260,13 +266,39 @@ void UncaughtExceptionHandler(NSException * exception) {
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
                 NSLog(@"暂停播放2");
                 break;
-            case UIEventSubtypeRemoteControlTogglePlayPause:
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"StopPlay" object:nil];
+            case UIEventSubtypeRemoteControlPlay:
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"PlayReport" object:nil];
                 NSLog(@"暂停播放3");
+                break;
+            case UIEventSubtypeRemoteControlPreviousTrack:
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"Playback" object:nil];
+                break;
+            case UIEventSubtypeRemoteControlBeginSeekingBackward:
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"Playback" object:nil];
+                break;
+            case UIEventSubtypeRemoteControlNextTrack:
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"Playforward" object:nil];
+                break;
+            case UIEventSubtypeRemoteControlBeginSeekingForward:
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"Playforward" object:nil];
                 break;
             default:
                 break;
         }
+    }
+}
+
+- (void)configNowPlayingInfoCenter {
+    if (NSClassFromString(@"MPNowPlayingInfoCenter")) {
+        
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        
+        UIImage *image = [UIImage imageNamed:@"playimage"];
+        MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc] initWithImage:image];
+        [dict setObject:artwork forKey:MPMediaItemPropertyArtwork];
+        
+        [[MPNowPlayingInfoCenter defaultCenter] setNowPlayingInfo:dict];
+        
     }
 }
 

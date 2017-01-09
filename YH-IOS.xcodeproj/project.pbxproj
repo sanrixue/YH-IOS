@@ -100,6 +100,8 @@
 		F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F64903BB1DB5CD9B0001DD2B /* UserInfoViewController.m */; };
 		F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68089531D8930C400CDBAF8 /* DropViewController.m */; };
 		F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB9E81DB74CB40020DD17 /* LoadingView.m */; };
+		F692A1581E2375FC007FAFC5 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F692A1571E2375FB007FAFC5 /* MediaPlayer.framework */; };
+		F692A15A1E23760D007FAFC5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F692A1591E23760D007FAFC5 /* CoreMedia.framework */; };
 		F6B0F1591DEEA0440094FDB6 /* VoicePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6B0F1581DEEA0440094FDB6 /* VoicePlayViewController.m */; };
 		F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D749E81DCC767300921C76 /* PcmPlayer.m */; };
 		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
@@ -281,6 +283,8 @@
 		F68089531D8930C400CDBAF8 /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
 		F68EB9E71DB74CB40020DD17 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		F68EB9E81DB74CB40020DD17 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
+		F692A1571E2375FB007FAFC5 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		F692A1591E23760D007FAFC5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		F6B0F1571DEEA0440094FDB6 /* VoicePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoicePlayViewController.h; sourceTree = "<group>"; };
 		F6B0F1581DEEA0440094FDB6 /* VoicePlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoicePlayViewController.m; sourceTree = "<group>"; };
 		F6C5562A1DC19E5C0058F6EC /* YH-IOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "YH-IOS.entitlements"; sourceTree = "<group>"; };
@@ -297,6 +301,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4771BB01C058C6F00AAF44F /* AudioToolbox.framework in Frameworks */,
+				F692A15A1E23760D007FAFC5 /* CoreMedia.framework in Frameworks */,
+				F692A1581E2375FC007FAFC5 /* MediaPlayer.framework in Frameworks */,
 				F63A5BC31DCAE6BF0092FC24 /* iflyMSC.framework in Frameworks */,
 				F63A5BC11DCAE3520092FC24 /* AddressBook.framework in Frameworks */,
 				C4771BB61C058C9000AAF44F /* CoreTelephony.framework in Frameworks */,
@@ -311,7 +318,6 @@
 				C48C03CA1CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a in Frameworks */,
 				C4771BB41C058C8400AAF44F /* OpenGLES.framework in Frameworks */,
 				C4771BB21C058C7C00AAF44F /* CoreMotion.framework in Frameworks */,
-				C4771BB01C058C6F00AAF44F /* AudioToolbox.framework in Frameworks */,
 				C4771BAE1C058C6600AAF44F /* AVFoundation.framework in Frameworks */,
 				C41E4FA71C0FE00A00E1B514 /* PgyUpdate.framework in Frameworks */,
 				C4771BAC1C058C4400AAF44F /* SystemConfiguration.framework in Frameworks */,
@@ -822,6 +828,8 @@
 		E7359AA6518F9148E9F7A313 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F692A1591E23760D007FAFC5 /* CoreMedia.framework */,
+				F692A1571E2375FB007FAFC5 /* MediaPlayer.framework */,
 				F63A5BC21DCAE6BF0092FC24 /* iflyMSC.framework */,
 				F63A5BC01DCAE3520092FC24 /* AddressBook.framework */,
 				F63A5BBE1DCAE2CB0092FC24 /* libz.1.1.3.tbd */,

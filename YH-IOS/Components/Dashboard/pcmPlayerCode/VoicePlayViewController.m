@@ -20,9 +20,10 @@
 #import "User.h"
 #import "DropViewController.h"
 #import "UIColor+Hex.h"
+#import "PcmPlayerDelegate.h"
 
 
-@interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate,UIPopoverPresentationControllerDelegate>{
+@interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,PcmPlayerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate,UIPopoverPresentationControllerDelegate>{
     CGFloat _scale;
 }
 @property (nonatomic, strong)UITableView *playListTableView;
@@ -79,6 +80,10 @@
     [_iFlySppechSynthesizer setParameter:@"xiaoyan" forKey:[IFlySpeechConstant VOICE_NAME]];
     [_iFlySppechSynthesizer setParameter:@"8000" forKey:[IFlySpeechConstant SAMPLE_RATE]];
     [_iFlySppechSynthesizer setParameter:@"unicode" forKey:[IFlySpeechConstant TEXT_ENCODING]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopplay) name:@"StopPlay" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playReportData) name:@"PlayReport" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playlastReport) name:@"Playback" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playNextReport) name:@"Playforward" object:nil];
     
     // 播报内容
     self.contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, self.view.frame.size.height - 100)];
@@ -127,7 +132,6 @@
     
     [self.playerBtn addTarget:self action:@selector(playerState) forControlEvents:UIControlEventTouchUpInside];
     self.isShowList = NO;
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(stopPlay) name:@"stopPlay" object:nil];
 }
 
 - (void)dismissPlay {
@@ -165,17 +169,17 @@
     }
 }
 
+- (void)stopplay {
+    [self.audioPlayer.player pause];
+     self.loopTime = 0;
+     [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
+}
+
 // 隐藏播放列表
 - (void)hideListTable {
     [UIView animateWithDuration:2 animations:^{
         self.playListTableView.frame = CGRectMake(0, 0,0, 0);
     }];
-}
-
-// 停止播放
-- (void)stopPlay {
-    [_iFlySppechSynthesizer stopSpeaking];
-    self.loopTime = 0;
 }
 
 
@@ -208,10 +212,15 @@
     [self voiceSppech];
 }
 
+// 一次播放完成
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
-    [_iFlySppechSynthesizer stopSpeaking];
-    _isSpeaking = NO;
+    if (_loopTime < self.reportListArray.count) {
+        self.loopTime++;
+        [self voiceSppech];
+        return;
+    }
     _loopTime = 0;
+    _isSpeaking = NO;
     NSNumber *interger =[NSNumber numberWithInt:self.loopTime];
     NSNumber *number = [NSNumber numberWithBool:self.isSpeaking];
     [[NSUserDefaults standardUserDefaults] setObject:number forKey:@"playState"];
@@ -223,7 +232,7 @@
      [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     //_audioPlayer = [[PcmPlayer alloc]initWithFilePath:[[FileUtils sharedPath] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
     if ([self.reportListArray count] == 0) {
-        [_iFlySppechSynthesizer stopSpeaking];
+        [self.audioPlayer stop];
         [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
         NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
         NSMutableDictionary *cachedHeaderDict = [NSMutableDictionary dictionaryWithContentsOfFile:cachedHeaderPath];
@@ -251,7 +260,8 @@
     self.reportDataString = [contentString stringByReplacingOccurrencesOfString:@"。" withString:@".\n"];
     self.contentTextView.text = self.reportDataString;
     if (contentString) {
-        [_iFlySppechSynthesizer startSpeaking:contentString];
+        [_iFlySppechSynthesizer synthesize:contentString toUri:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"]];
+       // [_iFlySppechSynthesizer startSpeaking:contentString];
     }
     else {
         [self getReportData];
@@ -274,7 +284,6 @@
         [_cacaheDict writeToFile:playDataPath atomically:YES];
         self.loopTime = 0;
     }
-
     [self getPlayString:self.reportUrlString filepath:playDataPath];
 }
 
@@ -300,7 +309,7 @@
     }
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.playListTableView reloadData];
-        if (![_iFlySppechSynthesizer isSpeaking]) {
+        if (!_isSpeaking) {
             [self voiceSppech];
         }
     });
@@ -308,7 +317,7 @@
     self.contentTextView.text = [self reayPlayData];
 }
 
-// 合成播报数据
+// 准备播报语音数据
 - (NSString *)reayPlayData{
     NSString *contentString = @"";
     _user = [[User alloc]init];
@@ -334,9 +343,9 @@
     NSLog(@"正在合成是吗");
 }
 
+// 合成完成后，调用系统播放器
 - (void)onCompleted:(IFlySpeechError *)error {
     NSLog(@"可能会出错的是什么呢");
-    self.loopTime++;
     if (error.errorCode > 20000) {
         [_iFlySppechSynthesizer stopSpeaking];
         [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
@@ -357,44 +366,62 @@
        // [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     }
     else{
-        [self voiceSppech];
+        [self playReportData];
     }
+}
+
+// 转换语音播报格式并播报
+- (void)playReportData {
+    NSError *error = nil;
+    AVAudioSession *avsession = [AVAudioSession sharedInstance] ;
+    [avsession setCategory:AVAudioSessionCategoryPlayback error:&error];
+    [avsession setActive:YES error:nil];
+    self.audioPlayer = [[PcmPlayer alloc] initWithFilePath:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
+    self.audioPlayer.player.delegate =self;
+    [self.audioPlayer play];
+    [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
+    NSLog(@"播放");
 }
 
 // 下一曲
 - (void)playNextReport {
-    [_iFlySppechSynthesizer pauseSpeaking];
+    [self.audioPlayer pause];
     self.loopTime ++;
     if (_loopTime == self.reportListArray.count) {
         _loopTime = 0;
     }
+    NSLog(@"下一曲");
     [self voiceSppech];
 }
 
 // 上一曲
 - (void)playlastReport {
-    [_iFlySppechSynthesizer pauseSpeaking];
+    [self.audioPlayer pause];
     self.loopTime --;
     if (self.loopTime < 0) {
         return;
     }
+    NSLog(@"上一曲");
     [self voiceSppech];
 }
 
+// 开始播报，本版不是用
 - (void)onSpeakBegin {
     NSLog(@"开始合成");
 }
 
-// 播放状态
+// 播放状态更改
 - (void)playerState {
     if ( _isSpeaking) {
-        [_iFlySppechSynthesizer pauseSpeaking];
+        [self.audioPlayer pause];
         _isSpeaking = NO;
+         NSLog(@"暂停");
          [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     }
     else {
-        [_iFlySppechSynthesizer resumeSpeaking];
+        [self.audioPlayer play];
         _isSpeaking = YES;
+        NSLog(@"播放");
          [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     }
 }

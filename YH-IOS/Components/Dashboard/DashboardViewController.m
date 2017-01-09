@@ -118,12 +118,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
      *  生命周期内仅执行一次
      */
     [self receiveLocalNotification];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopplay) name:@"StopPlay" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playReport) name:@"PlayReport" object:nil];
-}
-
-- (void)stopplay {
-    [self.audioPlayer.player stop];
 }
 
 
@@ -727,15 +721,6 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     }
 }
 
-- (void)playReport {
-    NSError *error = nil;
-    [self.audioPlayer stop];
-    AVAudioSession *avsession = [AVAudioSession sharedInstance] ;
-    [avsession setCategory:AVAudioSessionCategoryPlayback error:&error];
-    [avsession setActive:YES error:nil];
-    self.audioPlayer = [[PcmPlayer alloc] initWithFilePath:[[FileUtils userspace] stringByAppendingPathComponent:@"oc.pcm"] sampleRate:8000];
-    [self.audioPlayer play];
-}
 
 - (void)_loadHtml {
     [self clearBrowserCache];

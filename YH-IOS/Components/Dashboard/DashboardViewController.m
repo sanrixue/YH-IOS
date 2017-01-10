@@ -29,8 +29,6 @@
 #import "LoadingView.h"
 #import "VoicePlayViewController.h"
 
-
-
 static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
 
@@ -78,42 +76,42 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     //LoadingView *loadingView = [[LoadingView alloc]initWithFrame:CGRectMake(100,80, 150, 150)];
     //[self.view addSubview:loadingView];
     //[loadingView showHub];
-    
+
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
-    
+
     self.localNotificationKeys = @[kTabKPILNName, kTabAnalyseLNName, kTabAppLNName, kTabMessageLNName, kSettingThursdaySayLNName];
     self.localNotificationPath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     self.behaviorPath = [FileUtils dirPath:kConfigDirName FileName:kBehaviorConfigFileName];
-    
+
     [self initUrlStrings];
     [self initLocalNotifications];
     [self initDropMenu];
     [self loadWebView];
-    
+
     self.btnScanCode.hidden = !kDropMenuScan;
     [self setTabBarItems];
     [self initTabClick];
-    
+
     /**
      *  广告位隐藏于否
      */
     if(!kDashboardAd) { [self hideAdertWebView]; }
-    
+
     [self checkAssetsUpdate];
     [self setTabBarHeight];
-    
+
     /*
      * 解屏进入主页面，需检测版本更新
      */
     [self checkFromViewController];
-    
+
     /**
      *  登录或解屏后，密码为初始值时提示:
      *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
      */
     [self checkUserModifiedInitPassword];
-    
+
     /**
      *  生命周期内仅执行一次
      */
@@ -125,23 +123,23 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     CABasicAnimation *animation = [ CABasicAnimation
                                    animationWithKeyPath: @"transform" ];
     animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DIdentity];
-    
+
     //围绕Z轴旋转，垂直与屏幕
     animation.toValue = [ NSValue valueWithCATransform3D:
-                         
+
                          CATransform3DMakeRotation(M_PI, 0.0, 0.0, 1.0) ];
     animation.duration = 2;
     //旋转效果累计，先转180度，接着再旋转180度，从而实现360旋转
     animation.cumulative = YES;
     animation.repeatCount = HUGE_VALF;
-    
+
     //在图片边缘添加一个像素的透明区域，去图片锯齿
     CGRect imageRrect = CGRectMake(0, 0,imageView.frame.size.width, imageView.frame.size.height);
     UIGraphicsBeginImageContext(imageRrect.size);
     [imageView.image drawInRect:CGRectMake(1,1,imageView.frame.size.width-2,imageView.frame.size.height-2)];
     imageView.image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    
+
     [imageView.layer addAnimation:animation forKey:nil];
 }
 
@@ -174,7 +172,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 #pragma mark - 推送消息点击后的响应处理
 /**
- *  消息推送点击后操作 
+ *  消息推送点击后操作
  *
      { // 服务器参数
          type: report,
@@ -191,7 +189,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     if([pushMessageDict allKeys].count == 0 || [pushMessageDict[kStatePushColumn] boolValue]) {
         return;
     }
-    
+
     NSInteger tabIndex = -1;
     NSString *pushType = pushMessageDict[kTypePushColumn];
     if ([pushType isEqualToString:kTypeReportPushColumn]) {
@@ -218,10 +216,10 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         ThurSayViewController *thurSay = [[ThurSayViewController alloc] init];
         [self presentViewController:thurSay animated:YES completion:nil];
     }
-    
+
     pushMessageDict[kStatePushColumn] = @(YES);
     [pushMessageDict writeToFile:pushMessagePath atomically:YES];
-    
+
     if(tabIndex >= 0) { [self tabBarClick:tabIndex]; }
 }
 
@@ -240,7 +238,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         }];
         [defaultBehaviorDict writeToFile:self.behaviorPath atomically:YES];
     }
-    
+
     self.behaviorDict = [FileUtils readConfigFile:self.behaviorPath];
     NSInteger tabIndex = [self.behaviorDict[kDashboardUBCName][kTabIndexUBCName] integerValue];
     [self.tabBar setSelectedItem:[self.tabBar.items objectAtIndex:tabIndex]];
@@ -250,22 +248,22 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 #pragma mark - 添加广告视图
 - (void)addAdvertWebView {
     self.browser.frame = CGRectMake(0, kBannerHeight + mADVIEWHEIGHT, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight - mADVIEWHEIGHT - kTabBarHeight + 10);
-    
+
     if(self.advertWebView) {
         self.advertWebView.hidden = NO;
         return;
     }
-    
+
     self.advertWebView = [[UIWebView alloc]init];
     self.advertWebView.tag = 1234;
-    
+
     self.advertWebView.frame =  CGRectMake(0, kBannerHeight, self.view.frame.size.width, mADVIEWHEIGHT);
     [self.view addSubview:self.advertWebView];
-    
+
     self.advertWebView.delegate = self;
     self.advertWebView.scalesPageToFit = NO;
     self.advertWebView.scrollView.scrollEnabled = NO;
-    
+
     [self loadAdvertView];
     [self clickAdvertisement];
 }
@@ -295,7 +293,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     self.adBridge = [WebViewJavascriptBridge bridgeForWebView:self.advertWebView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         responseCallback(@"DashboardViewController - Response for message from ObjC");
     }];
-    
+
     [self.adBridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
@@ -313,7 +311,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             }
         });
     }];
-    
+
     [self.adBridge registerHandler:@"adLink" handler:^(id data, WVJBResponseCallback responseCallback) {
         if(![self checkAdParams:data containName:@"openType"]) {
             return;
@@ -323,7 +321,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 }
 
 
-#pragma mark - openAdclickLink 
+#pragma mark - openAdclickLink
 /**
  *  javascript:
  *  jbridge.callHandler('adLink', {'openType': openType, 'openLink': openLink, 'objectID': objectID, 'objectType': objectType, 'objectTitle': objectTitle},
@@ -350,12 +348,12 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 - (void) openAdClickLink:(NSString *)openType data:(NSDictionary *)data {
     NSString *actionLogTitle = @"";
     NSDictionary *tabIndexDict = @{@"tab_kpi": @0, @"tab_analyse": @1, @"tab_app": @2, @"tab_message": @3};
-    
+
     if ([openType isEqualToString:@"browser"]) {
         if(![self checkAdParams:data containName:@"openLink"]) {
             return;
         }
-        
+
         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:data[@"openLink"]]];
         actionLogTitle = data[@"openLink"];
     }
@@ -371,7 +369,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
            ![self checkAdParams:data containName:@"objectTitle"]) {
             return;
         }
-        
+
         NSDictionary *params = @{kBannerNameSubjectColumn: data[@"objectTitle"], kLinkSubjectColumn: data[@"openLink"], kObjIDSubjectColumn: data[@"objectID"]};
         self.commentObjectType = [data[@"objectType"] integerValue];
         [self performSegueWithIdentifier:kSubjectSegueIdentifier sender:params];
@@ -380,7 +378,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     else {
         [ViewUtils showPopupView:self.view Info:[NSString stringWithFormat:@"错误: 未知openType: `%@`", openType]];
     }
-    
+
     /*
      * 用户行为记录, 单独异常处理，不可影响用户体验
      */
@@ -410,7 +408,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 #pragma mark - init controls
 - (void)initUrlStrings {
     self.urlStrings = [NSMutableArray array];
-    
+
     NSString *uiVersion = [FileUtils currentUIVersion];
     [self.urlStrings addObject:[NSString stringWithFormat:kKPIMobilePath, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID]];
     [self.urlStrings addObject:[NSString stringWithFormat:kAnalyseMobilePath, kBaseUrl, uiVersion, self.user.roleID]];
@@ -428,10 +426,10 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
  */
 - (void)initLocalNotifications {
     NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
-    
+
     NSString *lastKeyName;
     localNotificationDict[kAppLNName] = localNotificationDict[kAppLNName] ?: @(-1);
-    
+
     localNotificationDict[kTabKPILNName] = localNotificationDict[kTabKPILNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kTabKPILNName];
     localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
@@ -439,15 +437,15 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     localNotificationDict[kTabAnalyseLNName] = localNotificationDict[kTabAnalyseLNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kTabAnalyseLNName];
     localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
-    
+
     localNotificationDict[kTabAppLNName] = localNotificationDict[kTabAppLNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kTabAppLNName];
     localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
-    
+
     localNotificationDict[kTabMessageLNName] = localNotificationDict[kTabMessageLNName] ?: @(-1);
     lastKeyName = [self lastLocalNotification:kTabMessageLNName];
     localNotificationDict[lastKeyName] = localNotificationDict[lastKeyName] ?: @(-1);
-    
+
     localNotificationDict[kSettingLNName] = localNotificationDict[kSettingLNName] ?: @(-1);
     localNotificationDict[kSettingPgyerLNName] = localNotificationDict[kSettingPgyerLNName] ?: @(-1);
     localNotificationDict[kSettingPasswordLNName] = localNotificationDict[kSettingPasswordLNName] ?: @(-1);
@@ -467,7 +465,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         // 检测版本更新
         [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
         [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];
-        
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -476,7 +474,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
                 logParams[kActionALCName] = @"解屏";
                 [APIHelper actionLog:logParams];
-                
+
                 /**
                  *  解屏验证用户信息，更新用户权限
                  *  若难失败，则在下次解屏检测时进入登录界面
@@ -486,12 +484,12 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
                 if(!userDict[kUserNumCUName]) {
                     return;
                 }
-                
+
                 NSString *msg = [APIHelper userAuthentication:userDict[kUserNumCUName] password:userDict[kPasswordCUName]];
                 if(msg.length == 0) {
                     return;
                 }
-                
+
                 userDict[kIsLoginCUName] = @(NO);
                 [userDict writeToFile:userConfigPath atomically:YES];
             }
@@ -519,7 +517,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     if(![self.user.password isEqualToString:kInitPassword.md5]) {
         return;
     }
-   
+
     [ViewUtils simpleAlertView:self Title:kWarmTitleText Message:kWarningInitPwdText ButtonTitle:kIAlreadyKnownText];
 }
 
@@ -528,9 +526,9 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         responseCallback(@"DashboardViewController - Response for message from ObjC");
     }];
-    
-    [self addWebViewJavascriptBridge]; 
-    
+
+    [self addWebViewJavascriptBridge];
+
     UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     [refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
@@ -539,40 +537,39 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 - (void)initDropMenu {
     NSMutableArray *tmpTitles = [NSMutableArray array];
     NSMutableArray *tmpIcons = [NSMutableArray array];
-    
+
     if(kDropMenuScan) {
         [tmpTitles addObject:kDropMentScanText];
         [tmpIcons addObject:@"DropMenu-Scan"];
     }
-    
+
     if(kDropMenuVoice) {
         [tmpTitles addObject:kDropMentVoiceText];
         [tmpIcons addObject:@"DropMenu-Voice"];
     }
-    
+
     if(kDropMenuSearch) {
         [tmpTitles addObject:kDropMentSearchText];
         [tmpIcons addObject:@"DropMenu-Search"];
     }
-    
+
     if(kDropMenuUserInfo) {
         [tmpTitles addObject:kDropMentUserInfoText];
         [tmpIcons addObject:@"DropMenu-UserInfo"];
     }
-    
+
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
 
-
 #pragma mark - UIWebview pull down to refresh
 - (void)handleRefresh:(UIRefreshControl *)refresh {
     [self addWebViewJavascriptBridge];
-    
+
     [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
     [self loadHtml];
     [refresh endRefreshing];
-    
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
          * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -596,32 +593,32 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
                 break;
             }
         }
-        
+
         heightConstraint.constant = 0;
         self.tabBar.hidden = !kTabBar;
-        
+
         return;
     }
-    
+
     NSArray *allItems = self.tabBar.items;
     NSMutableArray *displayItems = [NSMutableArray array];
-    
+
     if(kTabBarKPI) {
         [displayItems addObject:allItems[0]];
     }
-    
+
     if(kTabBarAnalyse) {
         [displayItems addObject:allItems[1]];
     }
-    
+
     if(kTabBarApp) {
         [displayItems addObject:allItems[2]];
     }
-    
+
     if(kTabBarMessage) {
         [displayItems addObject:allItems[3]];
     }
-    
+
     self.tabBar.items = displayItems;
 }
 
@@ -643,22 +640,22 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             }
         });
     }];
-    
+
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
-        
+
         [self loadHtml];
     }];
-    
+
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
         if ([data[@"link"] isEqualToString:@""]) {
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
                                                                            message:@"该功能正在开发中"
                                                                     preferredStyle:UIAlertControllerStyleAlert];
-            
+
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {}];
-            
+
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
@@ -670,27 +667,27 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             }];
         }
     }];
-    
+
     [self.bridge registerHandler:@"dashboardDataCount" handler:^(id data, WVJBResponseCallback responseCallback) {
         // NSString *tabType = data[@"tabType"];
         // NSNumber *dataCount = data[@"dataCount"];
     }];
-    
+
     [self.bridge registerHandler:@"hideAd" handler:^(id data, WVJBResponseCallback responseCallback) {
         [self hideAdertWebView];
     }];
-    
+
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSString *action = data[@"action"];
         NSNumber *tabIndex = data[@"tabIndex"];
-        
+
         if([action isEqualToString:@"store"]) {
             self.behaviorDict[kMessageUBCName][kTabIndexUBCName] = tabIndex;
             [self.behaviorDict writeToFile:self.behaviorPath atomically:YES];
         }
         else if([action isEqualToString:@"restore"]) {
             tabIndex = self.behaviorDict[kMessageUBCName][kTabIndexUBCName];
-            
+
             responseCallback(tabIndex);
         }
         else {
@@ -711,7 +708,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         [alert addButton:kIAlreadyKnownText actionBlock:^(void) {
             [self jumpToLogin];
         }];
-        
+
         [alert showError:self title:kWarmTitleText subTitle:kAppForbiedUseText closeButtonTitle:nil duration:0.0f];
     }
     else {
@@ -725,10 +722,10 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 - (void)_loadHtml {
     [self clearBrowserCache];
     [self showLoading:LoadingLoad];
-    
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
-        
+
         __block NSString *htmlPath;
         if([httpResponse.statusCode isEqualToNumber:@(200)]) {
             htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
@@ -737,12 +734,12 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
             htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
         }
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [self clearBrowserCache];
             NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
-            
+
             [NSTimer scheduledTimerWithTimeInterval:.2 target:self selector:@selector(enableTabBar) userInfo:nil repeats:NO];
         });
     });
@@ -753,7 +750,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 /**
  *  标题栏设置按钮点击显示下拉菜单
  *
- *  @param sender 
+ *  @param sender
  */
 -(void)dropTableView:(UIButton *)sender {
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
@@ -775,12 +772,12 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 # pragma mark - UITableView Delgate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
+
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
+
     return self.dropMenuTitles.count;
 }
 
@@ -791,8 +788,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     }
     cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
     cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
-    
-    
+
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
@@ -802,12 +798,12 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             [cell.tittleLabel showRedIcon];
         }
     }
-    
+
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     return 150 / 4;
 }
 
@@ -820,22 +816,22 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     if(!userDict[kStoreIDsCUName] || [userDict[kStoreIDsCUName] count] == 0) {
         [[[UIAlertView alloc] initWithTitle:kWarningTitleText message:kWarningNoStoreText delegate:nil cancelButtonTitle:kSureBtnText otherButtonTitles:nil] show];
-        
+
         return;
     }
-    
+
     if(![self cameraPemission]) {
         [[[UIAlertView alloc] initWithTitle:kWarningTitleText message:kWarningNoCaremaText delegate:nil cancelButtonTitle:kSureBtnText otherButtonTitles:nil] show];
-        
+
         return;
     }
-    
+
     [self qqStyle];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-    
+
     if([segue.identifier isEqualToString:kSubjectSegueIdentifier]) {
         NSInteger objectType = self.commentObjectType;
         if(sender[kObjTypeSubjectColumn]) {
@@ -846,7 +842,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         subjectViewController.link              = sender[kLinkSubjectColumn];
         subjectViewController.objectID          = sender[kObjIDSubjectColumn];
         subjectViewController.commentObjectType = objectType;
-        
+
         logParams[kActionALCName]   = @"点击/主页面/浏览器";
         logParams[kObjIDALCName]    = sender[@"objectID"];
         logParams[kObjTypeALCName]  = @(objectType);
@@ -855,7 +851,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     else if([segue.identifier isEqualToString:kSettingSegueIdentifier]) {
         logParams[kActionALCName]   = @"点击/主页面/设置";
     }
-    
+
     /*
      * 用户行为记录, 单独异常处理，不可影响用户体验
      */
@@ -876,7 +872,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     if ([AVCaptureDevice respondsToSelector:@selector(authorizationStatusForMediaType:)]) {
         AVAuthorizationStatus permission =
         [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-        
+
         switch (permission) {
             case AVAuthorizationStatusAuthorized:
                 isHavePemission = YES;
@@ -889,7 +885,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
                 break;
         }
     }
-    
+
     return isHavePemission;
 }
 
@@ -899,7 +895,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     //设置扫码区域参数设置
     //创建参数对象
     LBXScanViewStyle *style = [[LBXScanViewStyle alloc]init];
-    
+
     //矩形区域中心上移，默认中心点为屏幕中心点
     style.centerUpOffset = 44;
     //扫码框周围4个角的类型,设置为外挂式
@@ -917,10 +913,10 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     //SubLBXScanViewController继承自LBXScanViewController
     //添加一些扫码或相册结果处理
     SubLBXScanViewController *vc = [SubLBXScanViewController new];
-    vc.style = style; 
+    vc.style = style;
     vc.isQQSimulator = YES;
     vc.isVideoZoom = YES;
-    
+
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -940,7 +936,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     if([error code] == NSURLErrorCancelled) {
         return;
     }
-    
+
     NSLog(@"dvc: %@", error.description);
 }
 
@@ -961,10 +957,10 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
      *  2. _loadhtml 加载 html 再激活所有标签项
      */
     [self tabBarState: NO];
-    
+
     self.behaviorDict[kDashboardUBCName][kTabIndexUBCName] = @(index);
     [self.behaviorDict writeToFile:self.behaviorPath atomically:YES];
-    
+
     /**
      *  仅仪表盘显示广告位
      */
@@ -1001,10 +997,10 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             break;
         }
     }
-    
+
     [self loadHtml];
     [self resetTabLocalNotificationState:index];
-    
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
          * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -1074,30 +1070,30 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     if(!response || !response[kDownloadURLCPCName] || !response[kVersionCodeCPCName] || !response[kVersionNameCPCName]) {
         return;
     }
-    
+
     NSString *pgyerVersionPath = [[FileUtils basePath] stringByAppendingPathComponent:kPgyerVersionConfigFileName];
     [FileUtils writeJSON:[NSMutableDictionary dictionaryWithDictionary:response] Into:pgyerVersionPath];
-    
+
     Version *version = [[Version alloc] init];
     NSInteger currentVersionCode = [version.build integerValue];
     NSInteger responseVersionCode = [response[kVersionCodeCPCName] integerValue];
-    
+
     // 对比 build 值，只准正向安装提示
     if(responseVersionCode <= currentVersionCode) {
         return;
     }
-    
+
     NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
     localNotificationDict[kSettingPgyerLNName] = @(1);
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
-    
+
     if(responseVersionCode % 2 == 0) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         [alert addButton:kUpgradeBtnText actionBlock:^(void) {
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:response[kDownloadURLCPCName]]];
             [[PgyUpdateManager sharedPgyManager] updateLocalBuildNumber];
         }];
-        
+
         NSString *subTitle = [NSString stringWithFormat:kUpgradeWarnText, response[kVersionNameCPCName], response[kVersionCodeCPCName]];
         [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
     }
@@ -1112,7 +1108,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     dispatch_source_set_event_handler(_timer, ^{
         [self extractDataCountFromUrlStrings];
     });
-    
+
     dispatch_resume(_timer);
    // [NSTimer scheduledTimerWithTimeInterval:60 * 30  target:self selector:@selector(extractDataCountFromUrlStrings) userInfo:nil repeats:YES];
 }
@@ -1123,14 +1119,14 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         HttpResponse *httpResponse;
         NSString *versionString = [NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
         NSString *externParams = [NSString stringWithFormat:@"os=ios&version=%@&inteval=%li&udi=%@", versionString, (long)kTimerInterval, self.user.deviceID];
-        
+
         for (NSInteger index = 0, len = self.urlStrings.count; index < len; index ++) {
             urlString = self.urlStrings[index];
             paramsSplit = [urlString containsString:@"?"] ? @"&" : @"?";
             urlString = [NSString stringWithFormat:@"%@%@%@", urlString, paramsSplit, externParams];
-            
+
             httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:self.assetsPath];
-            
+
             if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
                 [HttpUtils urlConvertToLocal:urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
                 [self extractDataCountFromHtmlContent:httpResponse.string Index:index];
@@ -1146,13 +1142,13 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     if (range.location == NSNotFound) {
         return;
     }
-    
+
     scriptContent = [htmlContent substringWithRange:range];
     NSRange range2 = [scriptContent rangeOfString:@"\\bMobileBridge.setDashboardDataCount.+" options:NSRegularExpressionSearch];
     if (range2.location == NSNotFound) {
         return;
     }
-    
+
     NSRange range3 = [[scriptContent substringWithRange:range2] rangeOfString:@"\\(.+\\)" options:NSRegularExpressionSearch];
     NSArray  *noticeArray = [[[scriptContent substringWithRange:range2] substringWithRange:range3] componentsSeparatedByString:@","];
     NSString *keyString1 = [noticeArray[0] substringFromIndex:2];
@@ -1162,7 +1158,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     if (valueString == nil || [valueString integerValue] < 0) {
         return;
     }
-    
+
     /**
      *  - 如果 `tab_*_last = -1` 时，表示第一次加载， `tab_*_last = dataCount; tab_* = 0`
      *  - 如果 `tab_*_last > 0 && tab_*_last != dataCount`
@@ -1174,7 +1170,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
     NSString *keyWord = self.localNotificationKeys[index];
     NSString *lastKeyWord = [self lastLocalNotification:keyWord];
-    
+
     if ([localNotificationDict[lastKeyWord] integerValue] < 0) {
         localNotificationDict[keyWord] = @(1);
     }
@@ -1182,18 +1178,18 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         localNotificationDict[keyWord] = @(labs(dataCount - [localNotificationDict[lastKeyWord] integerValue]));
     }
     localNotificationDict[lastKeyWord] = @(dataCount);
-    
+
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
 }
 
 - (void)setLocalNotifications {
     NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
-    
+
     if ([localNotificationDict[kAppLNName] intValue] > 0) {
         UIApplication *application = [UIApplication sharedApplication];
         application.applicationIconBadgeNumber = [localNotificationDict[kAppLNName] integerValue];
     }
-    
+
     /**
      *  底部标签页四个 tab 通知样式
      */
@@ -1202,29 +1198,29 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     for (NSInteger index = 0; index < 4; index ++) {
         keyWord = self.localNotificationKeys[index];
         dataCount = [localNotificationDict[keyWord] integerValue];
-        
+
         if (dataCount <= 0) { continue; }
-  
+
         BOOL isCurrentSelectedItem = self.tabBar.selectedItem.tag == index;
         [self displayTabBarBadgeOnItemIndex:index orNot:isCurrentSelectedItem];
     }
-    
+
     /**
      *  右上角设置界面通知样式
      */
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    
+
     localNotificationDict[kSettingPasswordLNName] = @([userDict[kPasswordCUName] isEqualToString:kInitPassword.md5] ? 1 : 0);
 
-    
+
     NSInteger settingCount = ([localNotificationDict[kSettingPgyerLNName] integerValue] > 0 ||
                               [localNotificationDict[kSettingPasswordLNName] integerValue] > 0 ||
                               [localNotificationDict[kSettingThursdaySayLNName] integerValue] > 0) ? 1 : 0;
     localNotificationDict[kSettingLNName] = @(settingCount);
-    
+
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
-    
+
     dispatch_async(dispatch_get_main_queue(), ^{
         settingCount > 0 ? [self.setting showRedIcon] : [self.setting hideRedIcon];
     });
@@ -1240,7 +1236,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
     localNotificationDict[self.localNotificationKeys[index]] = @(0);
     [FileUtils writeJSON:localNotificationDict Into:self.localNotificationPath];
-    
+
     [self displayTabBarBadgeOnItemIndex:index orNot:YES];
 }
 @end

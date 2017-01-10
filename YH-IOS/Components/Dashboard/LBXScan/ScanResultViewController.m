@@ -34,6 +34,16 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self idColor];
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
+    [WebViewJavascriptBridge enableLogging];
+    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        responseCallback(@"DashboardViewController - Response for message from ObjC");
+    }];
+    
+    [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
+        
+        [self loadHtml];
+    }];
     
     self.htmlPath = [FileUtils sharedDirPath:kBarCodeScanFolderName FileName:kBarCodeScanFileName];
     self.htmlContent = [NSString stringWithContentsOfFile:self.htmlPath encoding:NSUTF8StringEncoding error:nil];
@@ -107,7 +117,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         NSDictionary *storeDict = [NSDictionary dictionary];
         for(NSInteger i = 0, len = [userDict[kStoreIDsCUName] count]; i < len; i++) {
             storeDict = userDict[kStoreIDsCUName][i];
-            if(storeDict[@"name"] && storeDict[@"id"] && [storeDict[@"id"] integerValue] == [cacheDict[@"store"][@"id"] integerValue]) {
+            if(storeDict[@"name"] && storeDict[@"id"] && ([storeDict[@"id"] integerValue] == [cacheDict[@"store"][@"id"] integerValue])) {
                 isExpired = NO;
                 break;
             }
@@ -120,14 +130,19 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     
     storeID = cacheDict[@"store"][@"id"];
-    self.labelTheme.text =cacheDict[@"store"][@"name"];
+    self.labelTheme.text = cacheDict[@"store"][@"name"];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];
+      BOOL jsonFormateRight = [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self clearBrowserCache];
-            [self.browser loadHTMLString:[self htmlContentWithTimestamp] baseURL:[NSURL fileURLWithPath:self.htmlPath]];
+            if (jsonFormateRight) {
+                [self.browser loadHTMLString:[self htmlContentWithTimestamp] baseURL:[NSURL fileURLWithPath:self.htmlPath]];
+            }
+            else {
+                [self showLoading:LoadingRefresh];
+            }
         });
     });
 }
@@ -220,7 +235,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     UIImage *image;
     NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     betaDict = [FileUtils readConfigFile:settingsConfigPath];
-    if (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) {
+    if (!betaDict[@"image_within_screen"] || [betaDict[@"image_within_screen"] boolValue]) {
         image = [self saveWebViewAsImage];
     }
     else {

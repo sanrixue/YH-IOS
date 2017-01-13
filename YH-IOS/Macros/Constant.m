@@ -26,6 +26,7 @@ NSString *const kCommentAPIPath          = @"%@/api/v1/user/%@/id/%@/type/%@";
 NSString *const kScreenLockAPIPath       = @"%@/api/v1/user_device/%@/screen_lock";
 NSString *const kDeviceStateAPIPath      = @"%@/api/v1/user_device/%@/state";
 NSString *const kResetPwdAPIPath         = @"%@/api/v1/update/%@/password";
+NSString *const KFindPwdAPIPath          = @"%@/api/v1/ios/reset_password";
 NSString *const kActionLogAPIPath        = @"%@/api/v1/ios/logger";
 NSString *const kPushDeviceTokenAPIPath  = @"%@/api/v1/device/%@/push_token/%@";
 NSString *const kBarCodeScanAPIPath      = @"%@/api/v1/group/%@/role/%@/user/%@/store/%@/barcode_scan?code_info=%@&code_type=%@";

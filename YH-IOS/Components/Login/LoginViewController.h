@@ -12,7 +12,7 @@
 
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UITextField *userPasswordText;
-
+@property (nonatomic, strong) UIButton *findPassword;
 
 @end
 

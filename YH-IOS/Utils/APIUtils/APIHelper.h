@@ -91,4 +91,7 @@
  *  @param codeType   条形码或二维码
  */
 + (BOOL)barCodeScan:(NSString *)userNum group:(NSNumber *)groupID  role:(NSNumber *)roleID store:(NSString *)storeID code:(NSString *)codeInfo type:(NSString *)codeType;
+
++ (HttpResponse *)findPassword:(NSString *)userNum withMobile:(NSString *)moblieNum;
+
 @end

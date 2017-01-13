@@ -313,4 +313,17 @@
     }
     return isJsonRight;
 }
+
++ (HttpResponse *)findPassword:(NSString *)userNum withMobile:(NSString *)moblieNum {
+    
+    NSString *urlString = [NSString stringWithFormat:KFindPwdAPIPath, kBaseUrl];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"user_num"] = userNum;
+    params[@"mobile"] = moblieNum;
+    HttpResponse *httpResponse = [HttpUtils httpPost:urlString Params:params];
+    
+    return httpResponse;
+}
+
 @end

@@ -85,6 +85,7 @@ extern NSString *const kAnalyseMobilePath;
 extern NSString *const kCommentMobilePath;
 extern NSString *const kResetPwdMobilePath;
 extern NSString *const kThursdaySayMobilePath;
+extern NSString *const KFindPwdAPIPath;
 
 /**
  *  Config#Push Message

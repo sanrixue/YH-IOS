@@ -100,6 +100,7 @@
 		F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F64903BB1DB5CD9B0001DD2B /* UserInfoViewController.m */; };
 		F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68089531D8930C400CDBAF8 /* DropViewController.m */; };
 		F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB9E81DB74CB40020DD17 /* LoadingView.m */; };
+		F691E5E11E275A1800BDC73E /* SendResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F691E5E01E275A1800BDC73E /* SendResetPasswordViewController.m */; };
 		F692A1581E2375FC007FAFC5 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F692A1571E2375FB007FAFC5 /* MediaPlayer.framework */; };
 		F692A15A1E23760D007FAFC5 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F692A1591E23760D007FAFC5 /* CoreMedia.framework */; };
 		F6B0F1591DEEA0440094FDB6 /* VoicePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6B0F1581DEEA0440094FDB6 /* VoicePlayViewController.m */; };
@@ -283,6 +284,8 @@
 		F68089531D8930C400CDBAF8 /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
 		F68EB9E71DB74CB40020DD17 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		F68EB9E81DB74CB40020DD17 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
+		F691E5DF1E275A1800BDC73E /* SendResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SendResetPasswordViewController.h; sourceTree = "<group>"; };
+		F691E5E01E275A1800BDC73E /* SendResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SendResetPasswordViewController.m; sourceTree = "<group>"; };
 		F692A1571E2375FB007FAFC5 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		F692A1591E23760D007FAFC5 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		F6B0F1571DEEA0440094FDB6 /* VoicePlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoicePlayViewController.h; sourceTree = "<group>"; };
@@ -607,6 +610,8 @@
 			children = (
 				C4C628411C0C1ED6000AD5D8 /* LoginViewController.h */,
 				C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */,
+				F691E5DF1E275A1800BDC73E /* SendResetPasswordViewController.h */,
+				F691E5E01E275A1800BDC73E /* SendResetPasswordViewController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1156,6 +1161,7 @@
 				F630B2E61D98FAB600CAA6A0 /* SearchTableViewCell.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
 				C48924E61D858F0A00859411 /* GestureTableViewCell.m in Sources */,
+				F691E5E11E275A1800BDC73E /* SendResetPasswordViewController.m in Sources */,
 				C48924EC1D858F0A00859411 /* UserHeadView.m in Sources */,
 				C42ECED41D66EE8E00C5F762 /* DropTableViewCell.m in Sources */,
 				C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */,

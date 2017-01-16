@@ -10,9 +10,4 @@
 
 @interface FindPasswordViewController : UIViewController
 
-@property (nonatomic, strong) UITextField *userNumber;
-@property (nonatomic, strong) UITextField *userPhoneNumber;
-@property (nonatomic, strong) UIButton *submitBtn;
-@property (nonatomic, strong) UILabel *reminderLabel;
-
 @end

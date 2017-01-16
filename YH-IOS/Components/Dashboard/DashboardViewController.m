@@ -30,8 +30,6 @@
 #import "VoicePlayViewController.h"
 #import <Reachability/Reachability.h>
 
-
-
 static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
 

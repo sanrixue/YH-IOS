@@ -11,12 +11,17 @@
 #import "UIColor+Hex.h"
 #import "HttpResponse.h"
 #import "Version.h"
+#import <SCLAlertView.h>
+#import "WebViewJavascriptBridge.h"
+#import "FileUtils.h"
 
-@interface FindPasswordViewController ()<UITextFieldDelegate>
+@interface FindPasswordViewController ()<UIWebViewDelegate>
 
 @property (nonatomic, strong) UIView *navBar;
 @property (nonatomic, strong) UILabel *versionLabel;
 @property (nonatomic, strong) Version *version;
+@property (nonatomic, strong) UIWebView *webView;
+@property WebViewJavascriptBridge* bridge;
 
 @end
 
@@ -24,7 +29,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.navBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width,60)];
     self.navBar.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
@@ -40,108 +44,134 @@
     [self.navBar addSubview:titleLabel];
     [self.view addSubview:self.navBar];
     
-    self.reminderLabel = [[UILabel alloc]initWithFrame:CGRectMake(40, 100, self.view.frame.size.width - 80, 30)];
-    self.reminderLabel.font = [UIFont systemFontOfSize:12];
-    self.reminderLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:self.reminderLabel];
+    self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height - 60)];
+    self.webView.delegate = self;
+    [self.view addSubview:self.webView];
     
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.userNumber = [[UITextField alloc]initWithFrame:CGRectMake(40, 130, self.view.frame.size.width - 80, 50)];
-    self.userNumber.placeholder = @"请输入帐号";
-    [self.userNumber becomeFirstResponder];
-    self.userNumber.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    self.userNumber.delegate = self;
-    self.userNumber.returnKeyType = UIReturnKeyDone;
-    [self.view addSubview:_userNumber];
+    [WebViewJavascriptBridge enableLogging];
+    self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"ResetPasswordViewController - ObjC received message from JS: %@", data);
+        responseCallback(@"ResetPasswordViewController - Response for message from ObjC");
+    }];
     
-    UIView *sepLine1 = [[UIView alloc]initWithFrame:CGRectMake(40, 180, self.view.frame.size.width - 80, 2)];
-    sepLine1.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:sepLine1];
+    [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"] = @"JS异常";
+                logParams[@"obj_title"] = [NSString stringWithFormat:@"重置密码页面/%@", data[@"ex"]];
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
+    }];
     
-    self.userPhoneNumber = [[UITextField alloc]initWithFrame:CGRectMake(40, 200, self.view.frame.size.width - 80, 50)];
-    self.userPhoneNumber.placeholder = @"手机号码";
-    self.userPhoneNumber.delegate = self;
-    self.userPhoneNumber.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    self.userPhoneNumber.returnKeyType = UIReturnKeyDone;
-    [self.view addSubview:_userPhoneNumber];
-    
-    UIView *sepLine2 = [[UIView alloc]initWithFrame:CGRectMake(40, 250, self.view.frame.size.width - 80, 2)];
-    sepLine2.backgroundColor = [UIColor lightGrayColor];
-    [self.view addSubview:sepLine2];
-    
-    self.submitBtn = [[UIButton alloc]initWithFrame:CGRectMake(80, 270, self.view.frame.size.width - 160, 40)];
-    [self.submitBtn setTitle:@"提交" forState:UIControlStateNormal];
-    self.submitBtn.layer.borderWidth = 2;
-    self.submitBtn.layer.borderColor = [UIColor grayColor].CGColor;
-    self.submitBtn.layer.cornerRadius = 4;
-    [self.submitBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-    [self.submitBtn addTarget:self action:@selector(submitToFindPasswd) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:_submitBtn];
-    
-    self.versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - 40, self.view.frame.size.width, 30)];
-    self.version = [[Version alloc] init];
-    self.versionLabel.textColor = [UIColor lightGrayColor];
-    self.versionLabel.font = [UIFont systemFontOfSize:12];
-    self.versionLabel.text = [NSString stringWithFormat:@"i%@(%@)", self.version.current, self.version.build];
-    self.versionLabel.textAlignment = NSTextAlignmentCenter;
-    self.versionLabel.adjustsFontSizeToFitWidth = YES;
-    [self.view addSubview:self.versionLabel];
-    // Do any additional setup after loading the view.
+    [self.bridge registerHandler:@"ForgetPassword" handler:^(id data, WVJBResponseCallback responseCallback){
+       
+        NSString *userNum = data[@"usernum"];
+        NSString *userPhone = data[@"mobile"];
+        NSLog(@"%@%@",userNum,userPhone);
+        
+       if (![_userNumber.text isEqualToString:@""] && ![_userPhoneNumber.text isEqualToString:@""]) {
+            HttpResponse *reponse =  [APIHelper findPassword:userNum withMobile:userPhone];
+            NSString *message = [NSString stringWithFormat:@"%@",reponse.data[@"info"]];
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            if ([reponse.statusCode isEqualToNumber:@(201)]) {
+                [alert addButton:@"重新登录" actionBlock:^(void){
+                    [self dismissFindPwd];
+                }];
+                
+                [alert showSuccess:self title:@"温馨提示" subTitle:message closeButtonTitle:nil duration:0.0f];
+                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    /*
+                     * 用户行为记录, 单独异常处理，不可影响用户体验
+                     */
+                    @try {
+                        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                        logParams[@"action"] = @"找回密码";
+                        [APIHelper actionLog:logParams];
+                    }
+                    @catch (NSException *exception) {
+                        NSLog(@"%@", exception);
+                    }
+                });
+                
+            }
+            else {
+                // [self changLocalPwd:newPassword];
+                [alert addButton:@"好的" actionBlock:^(void) {
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        self.webView.delegate = nil;
+                        self.webView = nil;
+                        self.bridge = nil;
+                    }];
+                }];
+                [alert showWarning:self title:@"温馨提示" subTitle:message closeButtonTitle:nil duration:0.0f];
+            }
+       }
+    }];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-- (void) submitToFindPasswd {
-    self.reminderLabel.text = NULL;
-    if (![_userNumber.text isEqualToString:@""] && ![_userPhoneNumber.text isEqualToString:@""]) {
-       HttpResponse *reponse =  [APIHelper findPassword:self.userNumber.text withMobile:self.userPhoneNumber.text];
-        if ([reponse.statusCode isEqualToNumber:@(201)]) {
-            self.reminderLabel.textColor = [UIColor greenColor];
-            NSString *message = [NSString stringWithFormat:@"%@",reponse.data[@"info"]];
-            self.reminderLabel.text = message;
-            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"重置成功"
-                                                                           message:message
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {
-                                                                      [self dismissFindPwd];
-                                                                  }];
-            
-            [alert addAction:defaultAction];
-            [self presentViewController:alert animated:YES completion:nil];
-        }
-        else {
-            self.reminderLabel.textColor = [UIColor redColor];
-            self.reminderLabel.text = [NSString stringWithFormat:@"%@",reponse.data[@"info"]];
-        }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    [self loadHtml];
+}
+
+#pragma mark - assistant methods
+- (void)loadHtml {
+    DeviceState deviceState = [APIHelper deviceState];
+    if(deviceState == StateOK) {
+        [self _loadHtml];
+    }
+    else if(deviceState == StateForbid) {
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        [alert addButton:@"知道了" actionBlock:^(void) {
+            [self dismissFindPwd];
+        }];
+        
+        [alert showError:self title:@"温馨提示" subTitle:@"您被禁止在该设备使用本应用" closeButtonTitle:nil duration:0.0f];
     }
     else {
-        self.reminderLabel.textColor = [UIColor redColor];
-        self.reminderLabel.text = @"信息未填写完整";
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self showLoading:LoadingRefresh];
+        });
     }
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
-    [textField resignFirstResponder];
-    return YES;
+- (void)showLoading:(LoadingType)loadingType {
+    NSString *loadingPath = [FileUtils loadingPath:loadingType];
+    NSString *loadingContent = [NSString stringWithContentsOfFile:loadingPath encoding:NSUTF8StringEncoding error:nil];
+    [self.webView loadHTMLString:loadingContent baseURL:[NSURL fileURLWithPath:loadingPath]];
+    
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
+
+- (void)_loadHtml {
+    [self showLoading:LoadingLoad];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/mobile/v2/forget_user_password",kBaseUrl]]]];
+}
+
 
 - (void)dismissFindPwd {
     self.reminderLabel.text = @"";
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.webView.delegate = nil;
+        self.webView = nil;
+        self.bridge = nil;
+    }];
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

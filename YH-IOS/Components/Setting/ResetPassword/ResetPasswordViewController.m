@@ -107,7 +107,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [self loadHtml];
 }
 
@@ -153,6 +152,7 @@
         });
     }
 }
+
 - (void)_loadHtml {
     [self clearBrowserCache];
     [self showLoading:LoadingLoad];

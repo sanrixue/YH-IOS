@@ -73,12 +73,12 @@
     }];
     
     [self.bridge registerHandler:@"ForgetPassword" handler:^(id data, WVJBResponseCallback responseCallback){
-       
+        
         NSString *userNum = data[@"usernum"];
         NSString *userPhone = data[@"mobile"];
         NSLog(@"%@%@",userNum,userPhone);
         
-       if (![_userNumber.text isEqualToString:@""] && ![_userPhoneNumber.text isEqualToString:@""]) {
+        if (![_userNumber.text isEqualToString:@""] && ![_userPhoneNumber.text isEqualToString:@""]) {
             HttpResponse *reponse =  [APIHelper findPassword:userNum withMobile:userPhone];
             NSString *message = [NSString stringWithFormat:@"%@",reponse.data[@"info"]];
             SCLAlertView *alert = [[SCLAlertView alloc] init];
@@ -114,7 +114,7 @@
                 }];
                 [alert showWarning:self title:@"温馨提示" subTitle:message closeButtonTitle:nil duration:0.0f];
             }
-       }
+        }
     }];
 }
 

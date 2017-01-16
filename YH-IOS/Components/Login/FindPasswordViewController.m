@@ -14,6 +14,9 @@
 #import <SCLAlertView.h>
 #import "WebViewJavascriptBridge.h"
 #import "FileUtils.h"
+#import "HttpUtils.h"
+#import "User.h"
+#import "FileUtils+Assets.h"
 
 @interface FindPasswordViewController ()<UIWebViewDelegate>
 
@@ -22,6 +25,8 @@
 @property (nonatomic, strong) Version *version;
 @property (nonatomic, strong) UIWebView *webView;
 @property WebViewJavascriptBridge* bridge;
+@property (strong, nonatomic) User *user;
+@property (strong, nonatomic) NSString *assetsPath;
 
 @end
 
@@ -29,6 +34,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.user = [[User alloc] init];
+    if(self.user.userID) {
+        self.assetsPath = [FileUtils dirPath:kHTMLDirName];
+    }
     self.navBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width,60)];
     self.navBar.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
@@ -73,12 +82,12 @@
     }];
     
     [self.bridge registerHandler:@"ForgetPassword" handler:^(id data, WVJBResponseCallback responseCallback){
-       
+        
         NSString *userNum = data[@"usernum"];
         NSString *userPhone = data[@"mobile"];
         NSLog(@"%@%@",userNum,userPhone);
         
-       if (![_userNumber.text isEqualToString:@""] && ![_userPhoneNumber.text isEqualToString:@""]) {
+        if (userNum && userPhone) {
             HttpResponse *reponse =  [APIHelper findPassword:userNum withMobile:userPhone];
             NSString *message = [NSString stringWithFormat:@"%@",reponse.data[@"info"]];
             SCLAlertView *alert = [[SCLAlertView alloc] init];
@@ -114,7 +123,7 @@
                 }];
                 [alert showWarning:self title:@"温馨提示" subTitle:message closeButtonTitle:nil duration:0.0f];
             }
-       }
+        }
     }];
 }
 
@@ -160,13 +169,35 @@
 }
 
 - (void)_loadHtml {
+    [self clearBrowserCache];
     [self showLoading:LoadingLoad];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/mobile/v2/forget_user_password",kBaseUrl]]]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *urlstring = [NSString stringWithFormat:@"%@/mobile/v2/forget_user_password",kBaseUrl];
+        HttpResponse *httpResponse = [HttpUtils checkResponseHeader:urlstring assetsPath:self.assetsPath];
+        
+        __block NSString *htmlPath;
+        if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+            htmlPath = [HttpUtils urlConvertToLocal:urlstring content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
+        }
+        else {
+            NSString *htmlName = [HttpUtils urlTofilename:urlstring suffix:@".html"][0];
+            htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self clearBrowserCache];
+            NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
+            [self.webView loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:[FileUtils sharedPath]]];
+        });
+    });
+}
+
+- (void)clearBrowserCache {
+    [self.webView stopLoading];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
 
 - (void)dismissFindPwd {
-    self.reminderLabel.text = @"";
     [self dismissViewControllerAnimated:YES completion:^{
         self.webView.delegate = nil;
         self.webView = nil;

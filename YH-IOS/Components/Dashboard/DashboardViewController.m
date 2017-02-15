@@ -722,9 +722,24 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         if([httpResponse.statusCode isEqualToNumber:@(200)]) {
             htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
         }
-        else {
+        else if([httpResponse.statusCode isEqualToNumber:@(304)]){
             NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
             htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
+        }
+        else {
+           /* UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"更新出错"
+                                                                           message:httpResponse.errors[0]
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {
+                                                                      [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
+                                                                      [self loadHtml];
+                                                                       }];
+            
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];*/
+            [self showLoading:LoadingRefresh];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{

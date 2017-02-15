@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		740C1AA2A72CD990063C9BE2 /* libPods-YH-IOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C953F159F46DB4D2BB1AE9 /* libPods-YH-IOSTests.a */; };
 		9E9EEC1875A034202F52C155 /* libPods-YH-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A867606F7216FABE6624278 /* libPods-YH-IOS.a */; };
 		C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343371D6ADEAB00625D53 /* UIButton+Badge.m */; };
 		C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343391D6ADEAB00625D53 /* UILabel+Badge.m */; };
@@ -97,11 +98,13 @@
 		F63A5BC11DCAE3520092FC24 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63A5BC01DCAE3520092FC24 /* AddressBook.framework */; };
 		F63A5BC31DCAE6BF0092FC24 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63A5BC21DCAE6BF0092FC24 /* iflyMSC.framework */; };
 		F63A5BC71DCB17980092FC24 /* VoiceSpeechView.m in Sources */ = {isa = PBXBuildFile; fileRef = F63A5BC61DCB17980092FC24 /* VoiceSpeechView.m */; };
+		F63E03301E52AEE5009B231C /* LoginTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F63E032F1E52AEE5009B231C /* LoginTest.m */; };
 		F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F64903BB1DB5CD9B0001DD2B /* UserInfoViewController.m */; };
 		F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68089531D8930C400CDBAF8 /* DropViewController.m */; };
 		F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB9E81DB74CB40020DD17 /* LoadingView.m */; };
 		F691E5E41E28835C00BDC73E /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F691E5E31E28835C00BDC73E /* FindPasswordViewController.m */; };
 		F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D749E81DCC767300921C76 /* PcmPlayer.m */; };
+		F6EC68D01E53F560008E0B5F /* ManualInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6EC68CF1E53F560008E0B5F /* ManualInputViewController.m */; };
 		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
 /* End PBXBuildFile section */
 
@@ -125,6 +128,7 @@
 /* Begin PBXFileReference section */
 		12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.release.xcconfig"; sourceTree = "<group>"; };
 		185BA5271DB2573500EE9ADD /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
+		51B30316CB2C7693BDC0538D /* Pods-YH-IOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A867606F7216FABE6624278 /* libPods-YH-IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.debug.xcconfig"; sourceTree = "<group>"; };
 		C40343361D6ADEAB00625D53 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
@@ -277,6 +281,7 @@
 		F63A5BC21DCAE6BF0092FC24 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = Frameworks/iflyMSC.framework; sourceTree = "<group>"; };
 		F63A5BC51DCB17980092FC24 /* VoiceSpeechView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceSpeechView.h; sourceTree = "<group>"; };
 		F63A5BC61DCB17980092FC24 /* VoiceSpeechView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceSpeechView.m; sourceTree = "<group>"; };
+		F63E032F1E52AEE5009B231C /* LoginTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginTest.m; sourceTree = "<group>"; };
 		F64903BA1DB5CD9B0001DD2B /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
 		F64903BB1DB5CD9B0001DD2B /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		F68089521D8930C400CDBAF8 /* DropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropViewController.h; sourceTree = "<group>"; };
@@ -289,8 +294,11 @@
 		F6D749E71DCC767300921C76 /* PcmPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcmPlayer.h; sourceTree = "<group>"; };
 		F6D749E81DCC767300921C76 /* PcmPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PcmPlayer.m; sourceTree = "<group>"; };
 		F6D749E91DCC767300921C76 /* PcmPlayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcmPlayerDelegate.h; sourceTree = "<group>"; };
+		F6EC68CE1E53F560008E0B5F /* ManualInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManualInputViewController.h; sourceTree = "<group>"; };
+		F6EC68CF1E53F560008E0B5F /* ManualInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManualInputViewController.m; sourceTree = "<group>"; };
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
+		F7C80CB213762BF0CA94E45F /* Pods-YH-IOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -327,6 +335,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				740C1AA2A72CD990063C9BE2 /* libPods-YH-IOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +354,8 @@
 			children = (
 				766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */,
 				12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */,
+				F7C80CB213762BF0CA94E45F /* Pods-YH-IOSTests.debug.xcconfig */,
+				51B30316CB2C7693BDC0538D /* Pods-YH-IOSTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -407,6 +418,8 @@
 				C46F6A9A1D0673AB00C561CE /* MyQRViewController.m */,
 				C46F6A941D0671C900C561CE /* SubLBXScanViewController.h */,
 				C46F6A951D0671C900C561CE /* SubLBXScanViewController.m */,
+				F6EC68CE1E53F560008E0B5F /* ManualInputViewController.h */,
+				F6EC68CF1E53F560008E0B5F /* ManualInputViewController.m */,
 			);
 			name = BarCodeScan;
 			path = LBXScan;
@@ -672,6 +685,7 @@
 			isa = PBXGroup;
 			children = (
 				C4DB7D901C02EC0600DA534E /* YH_IOSTests.m */,
+				F63E032F1E52AEE5009B231C /* LoginTest.m */,
 				C4DB7D921C02EC0600DA534E /* Info.plist */,
 			);
 			path = "YH-IOSTests";
@@ -921,9 +935,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C4DB7DA31C02EC0600DA534E /* Build configuration list for PBXNativeTarget "YH-IOSTests" */;
 			buildPhases = (
+				5B1B282147565B7FC182D5F3 /* [CP] Check Pods Manifest.lock */,
 				C4DB7D881C02EC0600DA534E /* Sources */,
 				C4DB7D891C02EC0600DA534E /* Frameworks */,
 				C4DB7D8A1C02EC0600DA534E /* Resources */,
+				7153A1858D4CAD210BB8B9B1 /* [CP] Embed Pods Frameworks */,
+				C0214DAB09FD1E3C21254AE3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1043,6 +1060,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		5B1B282147565B7FC182D5F3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		6458DD0A1FE328C89B4914BC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1071,6 +1103,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7153A1858D4CAD210BB8B9B1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C0214DAB09FD1E3C21254AE3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E32AEDE46CFB22176110AA88 /* [CP] Embed Pods Frameworks */ = {
@@ -1141,6 +1203,7 @@
 				C4DEBB5A1D3CD22D00EEBC29 /* FileUtils+Report.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,
 				C46903971D5CC81A00233D05 /* SelectStoreViewController.m in Sources */,
+				F6EC68D01E53F560008E0B5F /* ManualInputViewController.m in Sources */,
 				F691E5E41E28835C00BDC73E /* FindPasswordViewController.m in Sources */,
 				C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */,
 				C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */,
@@ -1163,6 +1226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4DB7D911C02EC0600DA534E /* YH_IOSTests.m in Sources */,
+				F63E03301E52AEE5009B231C /* LoginTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1324,7 +1388,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.qiyoutong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1358,7 +1422,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.qiyoutong;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1368,6 +1432,7 @@
 		};
 		C4DB7DA41C02EC0600DA534E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F7C80CB213762BF0CA94E45F /* Pods-YH-IOSTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1388,6 +1453,7 @@
 		};
 		C4DB7DA51C02EC0600DA534E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 51B30316CB2C7693BDC0538D /* Pods-YH-IOSTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";

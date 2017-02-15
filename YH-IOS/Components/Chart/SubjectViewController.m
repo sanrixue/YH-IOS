@@ -16,7 +16,6 @@
 #import "DropTableViewCell.h"
 #import "DropViewController.h"
 
-
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 

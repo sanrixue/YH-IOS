@@ -23,7 +23,6 @@
 @property (nonatomic, strong) UIImageView *logoView;
 @property (nonatomic, strong) UILabel *sloganLabel;
 @property (nonatomic, strong) UIImageView *loginUserImage;
-@property (nonatomic, strong) UITextField *userNameText;
 @property (nonatomic, strong) UIView *seperateView1;
 @property (nonatomic, strong) UIImageView *loginPasswordImage;
 @property (nonatomic, strong) UIView *seperateView2;

@@ -12,6 +12,8 @@
 #import "DropViewController.h"
 #import "DropTableViewCell.h"
 #import "UMSocial.h"
+#import "ManualInputViewController.h"
+#import "SubLBXScanViewController.h"
 
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
@@ -301,6 +303,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
     [super dismissViewControllerAnimated:YES completion:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"CLOSE_VIEW" object:nil userInfo:nil];
         [self.browser stopLoading];
         [self.browser cleanForDealloc];
         self.browser.delegate = nil;
@@ -310,6 +313,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         self.bridge = nil;
     }];
 }
+
 
 #pragma mark - UMSocialUIDelegate
 -(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {

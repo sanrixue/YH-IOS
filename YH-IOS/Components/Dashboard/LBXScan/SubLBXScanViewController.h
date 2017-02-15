@@ -33,7 +33,8 @@
 @property (nonatomic, strong) UIButton *btnFlash;
 //我的二维码
 @property (nonatomic, strong) UIButton *btnMyQR;
-
+//手动输入
+@property (nonatomic, strong) UIButton *btnManualInput;
 
 
 

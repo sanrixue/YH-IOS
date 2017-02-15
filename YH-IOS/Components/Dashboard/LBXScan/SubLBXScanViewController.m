@@ -12,6 +12,7 @@
 #import "LBXScanWrapper.h"
 #import <SCLAlertView.h>
 #import "ScanResultViewController.h"
+#import "ManualInputViewController.h"
 
 @interface SubLBXScanViewController ()
 @end
@@ -85,30 +86,47 @@
     
     [self.view addSubview:_bottomItemsView];
     
-    CGSize size = CGSizeMake(65, 87);
+    CGSize size = CGSizeMake(60, 60);
     self.btnFlash = [[UIButton alloc] init];
     _btnFlash.bounds = CGRectMake(0, 0, size.width, size.height);
     _btnFlash.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame)/2, CGRectGetHeight(_bottomItemsView.frame)/2);
-     [_btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_nor"] forState:UIControlStateNormal];
+    [_btnFlash setTitle:@"开灯" forState:UIControlStateNormal];
+    _btnFlash.titleLabel.font = [UIFont systemFontOfSize:14];
+    _btnFlash.layer.borderWidth = 1;
+    _btnFlash.layer.cornerRadius = 30;
+    _btnFlash.layer.borderColor = [UIColor whiteColor].CGColor;
+   //  [_btnFlash setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_flash_nor"] forState:UIControlStateNormal];
     [_btnFlash addTarget:self action:@selector(openOrCloseFlash) forControlEvents:UIControlEventTouchUpInside];
     
     self.btnPhoto = [[UIButton alloc] init];
     _btnPhoto.bounds = _btnFlash.bounds;
     _btnPhoto.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame)/4, CGRectGetHeight(_bottomItemsView.frame)/2);
-    [_btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_nor"] forState:UIControlStateNormal];
-    [_btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_down"] forState:UIControlStateHighlighted];
+    [_btnPhoto setTitle:@"相册" forState:UIControlStateNormal];
+    _btnPhoto.titleLabel.font = [UIFont systemFontOfSize:14];
+    _btnPhoto.layer.borderWidth = 1;
+    _btnPhoto.layer.cornerRadius = 30;
+    _btnPhoto.layer.borderColor = [UIColor whiteColor].CGColor;
+   // [_btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_nor"] forState:UIControlStateNormal];
+   // [_btnPhoto setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_photo_down"] forState:UIControlStateHighlighted];
     [_btnPhoto addTarget:self action:@selector(openPhoto) forControlEvents:UIControlEventTouchUpInside];
     
-    self.btnMyQR = [[UIButton alloc] init];
-    _btnMyQR.bounds = _btnFlash.bounds;
-    _btnMyQR.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame) * 3/4, CGRectGetHeight(_bottomItemsView.frame)/2);
-    [_btnMyQR setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_myqrcode_nor"] forState:UIControlStateNormal];
-    [_btnMyQR setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_myqrcode_down"] forState:UIControlStateHighlighted];
-    [_btnMyQR addTarget:self action:@selector(myQRCode) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.btnManualInput = [[UIButton alloc] init];
+    _btnManualInput.bounds = _btnFlash.bounds;
+    _btnManualInput.center = CGPointMake(CGRectGetWidth(_bottomItemsView.frame) *3/4 , CGRectGetHeight(_bottomItemsView.frame)/2);
+    [_btnManualInput setTitle:@"手工录入" forState:UIControlStateNormal];
+    _btnManualInput.titleLabel.font = [UIFont systemFontOfSize:14];
+    _btnManualInput.layer.cornerRadius = 30;
+    _btnManualInput.layer.borderWidth = 1;
+    _btnManualInput.layer.borderColor = [UIColor whiteColor].CGColor;
+    [_btnManualInput setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+   // [_btnManualInput setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_myqrcode_nor"] forState:UIControlStateNormal];
+    //[_btnManualInput setImage:[UIImage imageNamed:@"CodeScan.bundle/qrcode_scan_btn_myqrcode_nor÷"] forState:UIControlStateHighlighted];
+    [_btnManualInput addTarget:self action:@selector(manualInput) forControlEvents:UIControlEventTouchUpInside];
     
     [_bottomItemsView addSubview:_btnFlash];
     [_bottomItemsView addSubview:_btnPhoto];
-    [_bottomItemsView addSubview:_btnMyQR];
+    [_bottomItemsView addSubview:_btnManualInput];
 }
 
 - (void)showError:(NSString*)str {
@@ -177,8 +195,8 @@
 - (void)openOrCloseFlash {
     [super openOrCloseFlash];
     
-    NSString *imageName = [NSString stringWithFormat:@"CodeScan.bundle/qrcode_scan_btn_flash_%@", self.isOpenFlash ? @"down" : @"nor"];
-    [_btnFlash setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
+  //  NSString *imageName = [NSString stringWithFormat:@"CodeScan.bundle/qrcode_scan_btn_flash_%@", self.isOpenFlash ? @"down" : @"nor"];
+  //  [_btnFlash setImage:[UIImage imageNamed:imageName] forState:UIControlStateNormal];
 }
 
 #pragma mark -底部功能项
@@ -186,6 +204,13 @@
 - (void)myQRCode {
     MyQRViewController *vc = [MyQRViewController new];
     [self presentViewController:vc animated:YES completion:nil];
+}
+
+// 手动输入
+- (void)manualInput {
+    ManualInputViewController *manualInput = [[ManualInputViewController alloc]init];
+    manualInput.fromViewController = @"click";
+    [self presentViewController:manualInput animated:YES completion:nil];
 }
 
 @end

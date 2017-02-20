@@ -40,7 +40,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         responseCallback(@"DashboardViewController - Response for message from ObjC");
     }];
-    
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
         

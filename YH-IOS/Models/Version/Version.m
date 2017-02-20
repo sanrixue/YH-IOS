@@ -110,6 +110,11 @@
     else if ([device isEqualToString:@"iPhone6,2"]) human =  @"iPhone 5s (A1457/A1518/A1528/A1530)";
     else if ([device isEqualToString:@"iPhone7,1"]) human =  @"iPhone 6 Plus (A1522/A1524)";
     else if ([device isEqualToString:@"iPhone7,2"]) human =  @"iPhone 6 (A1549/A1586)";
+    else if ([device isEqualToString:@"iPhone8,1"]) human = @"iPhone 6s";
+    else if ([device isEqualToString:@"iPhone8,2"]) human = @"iPhone 6s Plus";
+    else if ([device isEqualToString:@"iPhone8,4"]) human = @"iPhone SE";
+    else if ([device isEqualToString:@"iPhone9,1"]) human = @"iPhone 7";
+    else if ([device isEqualToString:@"iPhone9,2"]) human = @"iPhone 7Plus";
     
     else if ([device isEqualToString:@"iPod1,1"]) human = @"iPod Touch 1G";
     else if ([device isEqualToString:@"iPod2,1"]) human = @"iPod Touch 2G";

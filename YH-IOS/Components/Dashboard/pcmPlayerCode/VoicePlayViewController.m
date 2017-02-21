@@ -57,8 +57,8 @@
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
     [backBtn addTarget:self action:@selector(dismissPlay) forControlEvents:UIControlEventTouchUpInside];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [backBtn setImage:[UIImage imageNamed:@"Banner-Back"] forState:UIControlStateNormal];
+    [backBtn setTitleColor:[UIColor colorWithHexString:@"304369"] forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"backreport"] forState:UIControlStateNormal];
     [self.view addSubview:backBtn];
     
     //分割线
@@ -237,6 +237,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
       //  [_iFlySppechSynthesizer stopSpeaking];
+    [self dismissViewControllerAnimated:YES completion:nil];
      [self.playerBtn setImage:[UIImage imageNamed:@"playing"] forState:UIControlStateNormal];
     _isSpeaking = YES;
     self.loopTime = (int)indexPath.row;
@@ -426,10 +427,9 @@
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
-    self.reportID = self.loopTime;
     if (self.loopTime >= self.reporStringtArray.count) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"stopPlay" object:nil];
-       // [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
+        [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     }
     else{
         [self playReportData];

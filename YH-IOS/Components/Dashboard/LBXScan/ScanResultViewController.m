@@ -139,8 +139,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         dispatch_async(dispatch_get_main_queue(), ^{
             [self clearBrowserCache];
             if (jsonFormateRight) {
-                [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://www.baidu.com"]]];
-               // [self.browser loadHTMLString:[self htmlContentWithTimestamp] baseURL:[NSURL fileURLWithPath:self.htmlPath]];
+                [self.browser loadHTMLString:[self htmlContentWithTimestamp] baseURL:[NSURL fileURLWithPath:self.htmlPath]];
             }
             else {
                 [self showLoading:LoadingRefresh];

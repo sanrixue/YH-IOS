@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "shang一曲.png",
+      "filename" : "9.pic.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "9.pic-1.jpg",
       "scale" : "2x"
     },
     {

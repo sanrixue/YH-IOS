@@ -22,6 +22,7 @@
 #import "UIColor+Hex.h"
 #import "PcmPlayerDelegate.h"
 #import <MediaPlayer/MediaPlayer.h>
+#import "DropTableViewCell.h"
 
 
 @interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,PcmPlayerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate,UIPopoverPresentationControllerDelegate>{
@@ -60,20 +61,16 @@
     
     //分割线
     UIView *sepertView = [[UIView alloc]initWithFrame:CGRectMake(0, 98, self.view.frame.size.width, 2)];
-    sepertView.backgroundColor = [UIColor whiteColor];
+    sepertView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:sepertView];
     
-    //播放列表
-    self.playListTableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-    self.playListTableView.dataSource = self;
-    self.playListTableView.delegate = self;
     
     // 播放列表
-    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, 50, 25, 25)];
+    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 77, 25, 25)];
     [self.listBtn setImage:[UIImage imageNamed:@"playlist"] forState:UIControlStateNormal];
     self.listBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:self.listBtn];
-    [self.listBtn addTarget:self action:@selector(showListTable) forControlEvents:UIControlEventTouchUpInside];
+    [self.listBtn addTarget:self action:@selector(showTableView:) forControlEvents:UIControlEventTouchUpInside];
     
     // 初始化语音播放
     _iFlySppechSynthesizer = [IFlySpeechSynthesizer sharedInstance];
@@ -89,29 +86,31 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playNextReport) name:@"Playforward" object:nil];
     
     // 播报内容
-    self.contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(0, 100, self.view.frame.size.width, self.view.frame.size.height - 100)];
-    self.contentTextView.backgroundColor = [UIColor darkGrayColor];
+    self.contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(80, 100, self.view.frame.size.width-160, self.view.frame.size.height - 190)];
+    self.contentTextView.backgroundColor = [UIColor whiteColor];
     self.contentTextView.userInteractionEnabled = YES;
     self.contentTextView.editable = NO;
-    self.contentTextView.textColor = [UIColor whiteColor];
+    self.contentTextView.textColor = [UIColor darkGrayColor];
     [self.view addSubview:self.contentTextView];
+    self.contentTextView.layer.cornerRadius = 10;
+    self.contentTextView.font = [UIFont systemFontOfSize:18];
     [self pinchGestureRecognizer];
     [self.contentTextView addSubview:self.playListTableView];
     
     self.isSpeaking = [_iFlySppechSynthesizer isSpeaking];
-    self.view.backgroundColor = [UIColor darkGrayColor];
-    self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 20, 40, 40, 40)];
+    self.view.backgroundColor = [UIColor grayColor];
+    self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 20, self.view.frame.size.height - 80, 40, 40)];
     [self.view addSubview:self.playerBtn];
     self.playerBtn.layer.cornerRadius = 20;
     
     // 上一曲
-    UIButton *lastBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 80, 46, 30, 30)];
+    UIButton *lastBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 80, self.view.frame.size.height - 75, 30, 30)];
     [self.view addSubview:lastBtn];
     [lastBtn setImage:[UIImage imageNamed:@"lastplay"] forState:UIControlStateNormal];
     [lastBtn addTarget:self action:@selector(playlastReport) forControlEvents:UIControlEventTouchUpInside];
     
     // 下一曲
-    UIButton *nextBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 + 50, 46, 30, 30)];
+    UIButton *nextBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 + 50, self.view.frame.size.height - 75, 30, 30)];
     [self.view addSubview:nextBtn];
     [nextBtn setImage:[UIImage imageNamed:@"nextplay"] forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(playNextReport) forControlEvents:UIControlEventTouchUpInside];
@@ -185,26 +184,62 @@
     }];
 }
 
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.reportListArray.count;
+/**
+ *  标题栏设置按钮点击显示下拉菜单
+ *
+ *  @param sender
+ */
+-(void)showTableView:(UIButton *)sender {
+    DropViewController *dropTableViewController = [[DropViewController alloc]init];
+    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3, 150 / 4 * self.reportListArray.count);
+    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
+    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3, 150 / 4 * self.reportListArray.count)];
+    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    dropTableViewController.dropTableView.delegate = self;
+    dropTableViewController.dropTableView.dataSource =self;
+    
+    UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
+    popover.permittedArrowDirections = UIPopoverArrowDirectionDown;
+    popover.delegate = self;
+    [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
+    [popover setSourceView:self.view];
+    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    [self presentViewController:dropTableViewController animated:YES completion:nil];
 }
+# pragma mark - UITableView Delgate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
     return 1;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
+    return self.reportListArray.count;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"reportcell"];
-    cell.textLabel.text = self.reportListArray[indexPath.row];
-    if (indexPath.row == self.loopTime) {
-        cell.backgroundColor = [UIColor lightGrayColor];
+    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
+    if (!cell) {
+        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
     }
+    cell.tittleLabel.text = self.reportListArray[indexPath.row];
+    
+    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
+    cellBackView.backgroundColor = [UIColor darkGrayColor];
+    cell.selectedBackgroundView = cellBackView;
+    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return  40;
+    
+    return 150 / 4;
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    
+    return UIModalPresentationNone;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

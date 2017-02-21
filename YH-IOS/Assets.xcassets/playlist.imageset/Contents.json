@@ -2,11 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "播放列表.png",
+      "filename" : "5.pic.jpg",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
+      "filename" : "5.pic-1.jpg",
       "scale" : "2x"
     },
     {

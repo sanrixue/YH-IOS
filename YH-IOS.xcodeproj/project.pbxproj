@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		740C1AA2A72CD990063C9BE2 /* libPods-YH-IOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4C953F159F46DB4D2BB1AE9 /* libPods-YH-IOSTests.a */; };
 		9E9EEC1875A034202F52C155 /* libPods-YH-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A867606F7216FABE6624278 /* libPods-YH-IOS.a */; };
 		C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343371D6ADEAB00625D53 /* UIButton+Badge.m */; };
 		C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343391D6ADEAB00625D53 /* UILabel+Badge.m */; };
@@ -126,7 +125,6 @@
 /* Begin PBXFileReference section */
 		12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.release.xcconfig"; sourceTree = "<group>"; };
 		185BA5271DB2573500EE9ADD /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
-		51B30316CB2C7693BDC0538D /* Pods-YH-IOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		6A867606F7216FABE6624278 /* libPods-YH-IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.debug.xcconfig"; sourceTree = "<group>"; };
 		C40343361D6ADEAB00625D53 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
@@ -294,7 +292,6 @@
 		F6EC68CF1E53F560008E0B5F /* ManualInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManualInputViewController.m; sourceTree = "<group>"; };
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
-		F7C80CB213762BF0CA94E45F /* Pods-YH-IOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -331,7 +328,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				740C1AA2A72CD990063C9BE2 /* libPods-YH-IOSTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,8 +346,6 @@
 			children = (
 				766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */,
 				12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */,
-				F7C80CB213762BF0CA94E45F /* Pods-YH-IOSTests.debug.xcconfig */,
-				51B30316CB2C7693BDC0538D /* Pods-YH-IOSTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -929,12 +923,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C4DB7DA31C02EC0600DA534E /* Build configuration list for PBXNativeTarget "YH-IOSTests" */;
 			buildPhases = (
-				5B1B282147565B7FC182D5F3 /* [CP] Check Pods Manifest.lock */,
 				C4DB7D881C02EC0600DA534E /* Sources */,
 				C4DB7D891C02EC0600DA534E /* Frameworks */,
 				C4DB7D8A1C02EC0600DA534E /* Resources */,
-				7153A1858D4CAD210BB8B9B1 /* [CP] Embed Pods Frameworks */,
-				C0214DAB09FD1E3C21254AE3 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1054,21 +1045,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5B1B282147565B7FC182D5F3 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
 		6458DD0A1FE328C89B4914BC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1097,36 +1073,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7153A1858D4CAD210BB8B9B1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		C0214DAB09FD1E3C21254AE3 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YH-IOSTests/Pods-YH-IOSTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E32AEDE46CFB22176110AA88 /* [CP] Embed Pods Frameworks */ = {
@@ -1424,7 +1370,6 @@
 		};
 		C4DB7DA41C02EC0600DA534E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F7C80CB213762BF0CA94E45F /* Pods-YH-IOSTests.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
@@ -1447,7 +1392,6 @@
 		};
 		C4DB7DA51C02EC0600DA534E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 51B30316CB2C7693BDC0538D /* Pods-YH-IOSTests.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;

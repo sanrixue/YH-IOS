@@ -24,6 +24,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "DropTableViewCell.h"
 
+#define KWIDTH self.view.frame.size.width
 
 @interface VoicePlayViewController () <IFlySpeechSynthesizerDelegate,PcmPlayerDelegate,UITableViewDelegate,UITableViewDataSource,AVAudioPlayerDelegate,UIPopoverPresentationControllerDelegate>{
     CGFloat _scale;
@@ -55,18 +56,18 @@
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
     [backBtn addTarget:self action:@selector(dismissPlay) forControlEvents:UIControlEventTouchUpInside];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setTintColor:[UIColor whiteColor]];
+    [backBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [backBtn setImage:[UIImage imageNamed:@"Banner-Back"] forState:UIControlStateNormal];
     [self.view addSubview:backBtn];
     
     //分割线
-    UIView *sepertView = [[UIView alloc]initWithFrame:CGRectMake(0, 98, self.view.frame.size.width, 2)];
+    UIView *sepertView = [[UIView alloc]initWithFrame:CGRectMake(0, 78, self.view.frame.size.width, 2)];
     sepertView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:sepertView];
     
     
     // 播放列表
-    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 77, 25, 25)];
+    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 60, 25, 25)];
     [self.listBtn setImage:[UIImage imageNamed:@"playlist"] forState:UIControlStateNormal];
     self.listBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:self.listBtn];
@@ -86,31 +87,30 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playNextReport) name:@"Playforward" object:nil];
     
     // 播报内容
-    self.contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(80, 100, self.view.frame.size.width-160, self.view.frame.size.height - 190)];
+    self.contentTextView = [[UITextView alloc]initWithFrame:CGRectMake(KWIDTH/8, 100, self.view.frame.size.width*3/4, self.view.frame.size.height - 190)];
     self.contentTextView.backgroundColor = [UIColor whiteColor];
     self.contentTextView.userInteractionEnabled = YES;
     self.contentTextView.editable = NO;
-    self.contentTextView.textColor = [UIColor darkGrayColor];
+    self.contentTextView.textColor = [UIColor colorWithHexString:@"333333"];
     [self.view addSubview:self.contentTextView];
     self.contentTextView.layer.cornerRadius = 10;
     self.contentTextView.font = [UIFont systemFontOfSize:18];
-    [self pinchGestureRecognizer];
     [self.contentTextView addSubview:self.playListTableView];
     
     self.isSpeaking = [_iFlySppechSynthesizer isSpeaking];
-    self.view.backgroundColor = [UIColor grayColor];
-    self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 20, self.view.frame.size.height - 80, 40, 40)];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"EEF0F1"];
+    self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 20, self.view.frame.size.height - 70, 40, 40)];
     [self.view addSubview:self.playerBtn];
     self.playerBtn.layer.cornerRadius = 20;
     
     // 上一曲
-    UIButton *lastBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 80, self.view.frame.size.height - 75, 30, 30)];
+    UIButton *lastBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 80, self.view.frame.size.height - 65, 30, 30)];
     [self.view addSubview:lastBtn];
     [lastBtn setImage:[UIImage imageNamed:@"lastplay"] forState:UIControlStateNormal];
     [lastBtn addTarget:self action:@selector(playlastReport) forControlEvents:UIControlEventTouchUpInside];
     
     // 下一曲
-    UIButton *nextBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 + 50, self.view.frame.size.height - 75, 30, 30)];
+    UIButton *nextBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 + 50, self.view.frame.size.height - 65, 30, 30)];
     [self.view addSubview:nextBtn];
     [nextBtn setImage:[UIImage imageNamed:@"nextplay"] forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(playNextReport) forControlEvents:UIControlEventTouchUpInside];
@@ -142,18 +142,6 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-}
-
-// 添加聚合手势
-- (void)pinchGestureRecognizer {
-    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(pinchAction:)];
-    [self.view addGestureRecognizer:pinch];
-}
-
-// 手势判断
-- (void)pinchAction:(UIPinchGestureRecognizer *)sender {
-    NSLog(@"捏合手势 %f", sender.scale);
-    (sender.scale > 1) ? [self hideListTable] : [self showListTable];
 }
 
 // 显示播放列表
@@ -191,10 +179,10 @@
  */
 -(void)showTableView:(UIButton *)sender {
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3, 150 / 4 * self.reportListArray.count);
+    dropTableViewController.view.frame = CGRectMake(0, 0, 100, 150 / 4 * self.reportListArray.count);
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3, 150 / 4 * self.reportListArray.count)];
-    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    [dropTableViewController setPreferredContentSize:CGSizeMake(100, 150 / 4 * self.reportListArray.count)];
+    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:@"304269"];
     dropTableViewController.dropTableView.delegate = self;
     dropTableViewController.dropTableView.dataSource =self;
     
@@ -203,7 +191,7 @@
     popover.delegate = self;
     [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
     [popover setSourceView:self.view];
-    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    popover.backgroundColor = [UIColor colorWithHexString:@"304269"];
     [self presentViewController:dropTableViewController animated:YES completion:nil];
 }
 # pragma mark - UITableView Delgate
@@ -219,14 +207,18 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
     if (!cell) {
-        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
     }
-    cell.tittleLabel.text = self.reportListArray[indexPath.row];
+    cell.textLabel.text = self.reportListArray[indexPath.row];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    cell.textLabel.textAlignment = NSTextAlignmentLeft;
+    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.backgroundColor = [UIColor clearColor];
+    
     
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
-    cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
     
     return cell;

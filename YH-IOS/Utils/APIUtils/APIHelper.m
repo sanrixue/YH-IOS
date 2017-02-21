@@ -295,12 +295,23 @@
  *  @param codeString 条形码信息
  *  @param codeType   条形码或二维码
  */
-+ (void)barCodeScan:(NSString *)userNum group:(NSNumber *)groupID  role:(NSNumber *)roleID store:(NSString *)storeID code:(NSString *)codeInfo type:(NSString *)codeType {
++ (BOOL)barCodeScan:(NSString *)userNum group:(NSNumber *)groupID  role:(NSNumber *)roleID store:(NSString *)storeID code:(NSString *)codeInfo type:(NSString *)codeType {
     NSString * urlstring = [NSString stringWithFormat:kBarCodeScanAPIPath, kBaseUrl, groupID, roleID, userNum, storeID, codeInfo, codeType];
     
     HttpResponse *response = [HttpUtils httpGet:urlstring];
     NSString *responseString = response.string;
-    [FileUtils barcodeScanResult:responseString];
+    NSData *jsonData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
+    NSError *err;
+    BOOL isJsonRight;
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingMutableContainers error:&err];
+    if (err || (dic.count == 0)) {
+        isJsonRight = NO;
+    }
+    else {
+        [FileUtils barcodeScanResult:responseString];
+        isJsonRight = YES;
+    }
+    return isJsonRight;
 }
 
 + (HttpResponse *)findPassword:(NSString *)userNum withMobile:(NSString *)moblieNum {

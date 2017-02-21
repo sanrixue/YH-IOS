@@ -158,7 +158,7 @@ end
 #
 if slop_opts[:pgyer]
   def upload_ipa(ipa_path, retry_num = 0)
-    command = %(curl --silent -F "file=@#{ipa_path}" -F "uKey=#{Settings.pgyer.user_key}" -F "_api_key=#{Settings.pgyer.api_key}" https://www.pgyer.com/apiv1/app/upload)
+    command = %(curl -F "file=@#{ipa_path}" -F "uKey=#{Settings.pgyer.user_key}" -F "_api_key=#{Settings.pgyer.api_key}" https://www.pgyer.com/apiv1/app/upload)
     response = `#{command}`
 
     hash = JSON.parse(response).deep_symbolize_keys[:data]
@@ -182,7 +182,7 @@ end
 
 if slop_opts[:view]
   def view_pgyer_version
-    api_url = 'http://www.pgyer.com/apiv1/app/getAppKeyByShortcut'
+    api_url = 'https://www.pgyer.com/apiv1/app/getAppKeyByShortcut'
     command = format('curl --silent --data "shortcut=%s&_api_key=%s" %s', Settings.pgyer.shortcut , Settings.pgyer.api_key, api_url)
     response = `#{command}`
 

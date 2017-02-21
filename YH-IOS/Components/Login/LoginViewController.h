@@ -12,7 +12,10 @@
 
 @property (nonatomic, strong) UIButton *loginButton;
 @property (nonatomic, strong) UITextField *userPasswordText;
+@property (nonatomic, strong) UITextField *userNameText;
 @property (nonatomic, strong) UIButton *findPassword;
+
+- (void)loginBtnClick;
 
 @end
 

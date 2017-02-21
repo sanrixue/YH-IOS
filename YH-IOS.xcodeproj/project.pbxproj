@@ -106,6 +106,7 @@
 		F6B0F1591DEEA0440094FDB6 /* VoicePlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6B0F1581DEEA0440094FDB6 /* VoicePlayViewController.m */; };
 		F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D749E81DCC767300921C76 /* PcmPlayer.m */; };
 		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
+		F6FB3E8C1E5C34E700928953 /* ManualInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6FB3E8B1E5C34E700928953 /* ManualInputViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -297,6 +298,8 @@
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
 		F6F7315B1E01328300C5D9D3 /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
+		F6FB3E8A1E5C34E700928953 /* ManualInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManualInputViewController.h; sourceTree = "<group>"; };
+		F6FB3E8B1E5C34E700928953 /* ManualInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManualInputViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -411,6 +414,8 @@
 				C46903961D5CC81A00233D05 /* SelectStoreViewController.m */,
 				C4C284E51D06BB1A009458E6 /* ScanResultViewController.h */,
 				C4C284E41D06BB1A009458E6 /* ScanResultViewController.m */,
+				F6FB3E8A1E5C34E700928953 /* ManualInputViewController.h */,
+				F6FB3E8B1E5C34E700928953 /* ManualInputViewController.m */,
 				C46F6A991D0673AB00C561CE /* MyQRViewController.h */,
 				C46F6A9A1D0673AB00C561CE /* MyQRViewController.m */,
 				C46F6A941D0671C900C561CE /* SubLBXScanViewController.h */,
@@ -1116,6 +1121,7 @@
 				C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */,
 				F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */,
 				C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */,
+				F6FB3E8C1E5C34E700928953 /* ManualInputViewController.m in Sources */,
 				F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */,
 				C48924EA1D858F0A00859411 /* SwitchTableViewCell.m in Sources */,
 				F63A5BC71DCB17980092FC24 /* VoiceSpeechView.m in Sources */,

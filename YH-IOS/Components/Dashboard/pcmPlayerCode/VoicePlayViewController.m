@@ -190,9 +190,9 @@
  */
 -(void)showTableView:(UIButton *)sender {
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, 140, 150 / 4 * self.reportListArray.count);
+    dropTableViewController.view.frame = CGRectMake(0, 0, KWIDTH / 3, 150 / 4 * self.reportListArray.count);
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(140, 150 / 4 * self.reportListArray.count)];
+    [dropTableViewController setPreferredContentSize:CGSizeMake(KWIDTH / 3, 150 / 4 * self.reportListArray.count)];
     dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:@"304269"];
     dropTableViewController.dropTableView.delegate = self;
     dropTableViewController.dropTableView.dataSource =self;
@@ -211,6 +211,7 @@
     
     return 1;
 }
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
@@ -264,6 +265,7 @@
     _loopTime = 0;
     _isSpeaking = NO;
     [self.audioPlayer stop];
+    [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     NSNumber *interger =[NSNumber numberWithInt:self.loopTime];
     NSNumber *number = [NSNumber numberWithBool:self.isSpeaking];
     [[NSUserDefaults standardUserDefaults] setObject:number forKey:@"playState"];

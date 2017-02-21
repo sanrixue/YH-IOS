@@ -731,11 +731,14 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         if([httpResponse.statusCode isEqualToNumber:@(200)]) {
             htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
         }
-        else {
+        else if([httpResponse.statusCode isEqualToNumber:@(304)]){
             NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
             htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
         }
-
+        else {
+            [self showLoading:LoadingRefresh];
+        }
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self clearBrowserCache];
             NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];

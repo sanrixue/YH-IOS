@@ -47,28 +47,38 @@
 @property (nonatomic, assign) BOOL isNeedGetNewReport;
 @property (nonatomic, strong) NSMutableArray *reportIdArray;
 @property (nonatomic, assign) NSInteger reportID;
+@property (nonatomic, strong) UIView *navBar;
 @end
 
 @implementation VoicePlayViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.navBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
+    self.navBar.backgroundColor = [UIColor whiteColor];
     //返回按钮
     UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
     [backBtn addTarget:self action:@selector(dismissPlay) forControlEvents:UIControlEventTouchUpInside];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
     [backBtn setTitleColor:[UIColor colorWithHexString:@"304369"] forState:UIControlStateNormal];
     [backBtn setImage:[UIImage imageNamed:@"backreport"] forState:UIControlStateNormal];
-    [self.view addSubview:backBtn];
+    [self.navBar addSubview:backBtn];
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, self.view.frame.size.width, 30)];
+    titleLabel.text = @"语音播报";
+    titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.navBar addSubview:titleLabel];
+    [self.view addSubview:self.navBar];
     
     //分割线
-    UIView *sepertView = [[UIView alloc]initWithFrame:CGRectMake(0, 78, self.view.frame.size.width, 2)];
+    UIView *sepertView = [[UIView alloc]initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, 2)];
     sepertView.backgroundColor = [UIColor blackColor];
     [self.view addSubview:sepertView];
     
     
     // 播放列表
-    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 60, 25, 25)];
+    self.listBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 60, 30, 30)];
     [self.listBtn setImage:[UIImage imageNamed:@"playlist"] forState:UIControlStateNormal];
     self.listBtn.imageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.view addSubview:self.listBtn];
@@ -100,18 +110,18 @@
     
     self.isSpeaking = [_iFlySppechSynthesizer isSpeaking];
     self.view.backgroundColor = [UIColor colorWithHexString:@"EEF0F1"];
-    self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 20, self.view.frame.size.height - 70, 40, 40)];
+    self.playerBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 25, self.view.frame.size.height - 70, 50, 50)];
     [self.view addSubview:self.playerBtn];
-    self.playerBtn.layer.cornerRadius = 20;
+    self.playerBtn.layer.cornerRadius = 25;
     
     // 上一曲
-    UIButton *lastBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 80, self.view.frame.size.height - 65, 30, 30)];
+    UIButton *lastBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 - 75, self.view.frame.size.height - 57, 24, 24)];
     [self.view addSubview:lastBtn];
     [lastBtn setImage:[UIImage imageNamed:@"lastplay"] forState:UIControlStateNormal];
     [lastBtn addTarget:self action:@selector(playlastReport) forControlEvents:UIControlEventTouchUpInside];
     
     // 下一曲
-    UIButton *nextBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 + 50, self.view.frame.size.height - 65, 30, 30)];
+    UIButton *nextBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width / 2 + 45, self.view.frame.size.height - 57, 24, 24)];
     [self.view addSubview:nextBtn];
     [nextBtn setImage:[UIImage imageNamed:@"nextplay"] forState:UIControlStateNormal];
     [nextBtn addTarget:self action:@selector(playNextReport) forControlEvents:UIControlEventTouchUpInside];

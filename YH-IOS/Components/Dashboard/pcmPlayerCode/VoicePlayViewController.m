@@ -46,6 +46,7 @@
 @property (nonatomic, assign) BOOL isShowList;
 @property (nonatomic, assign) BOOL isNeedGetNewReport;
 @property (nonatomic, strong) NSMutableArray *reportIdArray;
+@property (nonatomic, assign) NSInteger reportID;
 @end
 
 @implementation VoicePlayViewController
@@ -179,9 +180,9 @@
  */
 -(void)showTableView:(UIButton *)sender {
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, 100, 150 / 4 * self.reportListArray.count);
+    dropTableViewController.view.frame = CGRectMake(0, 0, 140, 150 / 4 * self.reportListArray.count);
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(100, 150 / 4 * self.reportListArray.count)];
+    [dropTableViewController setPreferredContentSize:CGSizeMake(140, 150 / 4 * self.reportListArray.count)];
     dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:@"304269"];
     dropTableViewController.dropTableView.delegate = self;
     dropTableViewController.dropTableView.dataSource =self;
@@ -425,7 +426,8 @@
         [self presentViewController:alert animated:YES completion:nil];
         return;
     }
-    if (self.loopTime == self.reporStringtArray.count) {
+    self.reportID = self.loopTime;
+    if (self.loopTime >= self.reporStringtArray.count) {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"stopPlay" object:nil];
        // [self.playerBtn setImage:[UIImage imageNamed:@"stopplay"] forState:UIControlStateNormal];
     }
@@ -454,7 +456,7 @@
 - (void)playNextReport {
     [self.audioPlayer pause];
     self.loopTime ++;
-    if (_loopTime == self.reportListArray.count) {
+    if (_loopTime >= self.reportListArray.count) {
         _loopTime = 0;
     }
     NSLog(@"下一曲");
@@ -507,5 +509,6 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
 
 @end

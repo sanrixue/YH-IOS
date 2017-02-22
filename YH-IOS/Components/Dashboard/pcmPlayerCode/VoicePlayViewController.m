@@ -208,7 +208,6 @@
 # pragma mark - UITableView Delgate
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
     return 1;
 }
 
@@ -226,8 +225,9 @@
     cell.textLabel.text = self.reportListArray[indexPath.row];
     cell.textLabel.textColor = [UIColor whiteColor];
     cell.textLabel.textAlignment = NSTextAlignmentLeft;
-    cell.textLabel.font = [UIFont systemFontOfSize:16];
+    cell.textLabel.font = [UIFont systemFontOfSize:12];
     cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.adjustsFontSizeToFitWidth = YES;
     
     
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];

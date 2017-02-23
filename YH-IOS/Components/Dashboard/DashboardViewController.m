@@ -761,9 +761,9 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
  */
 -(void)dropTableView:(UIButton *)sender {
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count);
+    dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150 / 4 * self.dropMenuTitles.count);
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 2.5, 150 / 4 * self.dropMenuTitles.count)];
+    [dropTableViewController setPreferredContentSize:CGSizeMake(150, 150 / 4 * self.dropMenuTitles.count)];
     dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     dropTableViewController.dropTableView.delegate = self;
     dropTableViewController.dropTableView.dataSource =self;
@@ -799,6 +799,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
+    cell.tittleLabel.adjustsFontSizeToFitWidth = YES;
     if (indexPath.row == 3) {
         NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
         if([localNotificationDict[kSettingLNName] integerValue] > 0) {

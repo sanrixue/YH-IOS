@@ -166,9 +166,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     [self initDropMenu];
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count);
+    dropTableViewController.view.frame = CGRectMake(0, 0, 100, 150 / 4 * self.dropMenuTitles.count);
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count)];
+    [dropTableViewController setPreferredContentSize:CGSizeMake(100, 150 / 4 * self.dropMenuTitles.count)];
     dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     dropTableViewController.dropTableView.delegate = self;
     dropTableViewController.dropTableView.dataSource =self;
@@ -203,6 +203,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
     cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
+    cell.tittleLabel.adjustsFontSizeToFitWidth = YES;
     
     return cell;
 }

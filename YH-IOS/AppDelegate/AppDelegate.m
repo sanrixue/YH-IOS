@@ -15,6 +15,7 @@
 #import <PgySDK/PgyManager.h>
 #import "Version.h"
 #import "FileUtils+Assets.h"
+#import "MianTabBarViewController.h"
 
 #import "DashboardViewController.h"
 #import "LoginViewController.h"
@@ -62,9 +63,11 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *initViewController = [storyBoard instantiateInitialViewController];
-    [self.window setRootViewController:initViewController];
+   /* UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *initViewController = [storyBoard instantiateInitialViewController];*/
+    MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
+    
+    [self.window setRootViewController:mainTabbar];
     [self.window makeKeyAndVisible];
     NSString *initString  = [NSString stringWithFormat:@"appid = %@",@"581aad1c"];
     [IFlySpeechUtility createUtility:initString];

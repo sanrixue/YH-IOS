@@ -116,6 +116,11 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     //如果注册不成功，打印错误信息，可以在网上找到对应的解决方案
     //如果注册成功，可以删掉这个方法
+    NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];
+    NSMutableDictionary *pushDict = [FileUtils readConfigFile:pushConfigPath];
+    pushDict[@"push_valid"] = @"false";
+    [FileUtils writeJSON:pushDict Into:pushConfigPath];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"registerFall" object:nil];
     NSLog(@"application:didFailToRegisterForRemoteNotificationsWithError: %@", error);
 }
 
@@ -133,6 +138,17 @@ void UncaughtExceptionHandler(NSException * exception) {
  */
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self savePushDict:userInfo];
+    
+    NSString *pushDataPath = [[FileUtils userspace] stringByAppendingPathComponent:@"pushData.plist"];
+    if (![FileUtils checkFileExist:pushDataPath isDir:NO]) {
+        [[NSFileManager defaultManager] createFileAtPath:pushDataPath contents:nil attributes:nil];
+    }
+    
+    NSMutableArray *pushDataArray = [[NSMutableArray alloc]init];
+    [pushDataArray addObject:userInfo];
+    NSMutableDictionary *dict = [FileUtils readConfigFile:pushDataPath];
+    dict[@"info"] = pushDataArray;
+    [FileUtils writeJSON:dict Into:pushDataPath];
     
     // 关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
@@ -181,7 +197,9 @@ void UncaughtExceptionHandler(NSException * exception) {
 }
 
 - (void)checkIsLoginThenJump {
+    
     [self isLogin] ? [self jumpToThurSay] : [self jumpToLogin];
+    
 }
 
 #pragma mark - 跳转至仪表盘
@@ -211,6 +229,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     return [userDict[@"is_login"] boolValue];
+   // return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

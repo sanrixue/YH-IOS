@@ -102,6 +102,12 @@
 		F691E5E41E28835C00BDC73E /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F691E5E31E28835C00BDC73E /* FindPasswordViewController.m */; };
 		F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D749E81DCC767300921C76 /* PcmPlayer.m */; };
 		F6EC68D01E53F560008E0B5F /* ManualInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6EC68CF1E53F560008E0B5F /* ManualInputViewController.m */; };
+		F6F1C8741E8A0A6300754034 /* NewSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F1C8731E8A0A6300754034 /* NewSettingViewController.m */; };
+		F6F1C8791E8A236200754034 /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F1C8781E8A236200754034 /* UserInfoModel.m */; };
+		F6F1C87D1E8A314B00754034 /* OptionConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F1C87C1E8A314B00754034 /* OptionConfigViewController.m */; };
+		F6F1C8801E8A34FF00754034 /* SettingNormalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F1C87F1E8A34FF00754034 /* SettingNormalViewController.m */; };
+		F6F1C88A1E8B5D0B00754034 /* PushDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F1C8891E8B5D0B00754034 /* PushDevice.m */; };
+		F6F1C88D1E8B84A600754034 /* SettingArrayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F1C88C1E8B84A600754034 /* SettingArrayViewController.m */; };
 		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
 /* End PBXBuildFile section */
 
@@ -193,8 +199,8 @@
 		C48924DD1D858F0A00859411 /* SwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchTableViewCell.m; sourceTree = "<group>"; };
 		C48924DE1D858F0A00859411 /* ThurSayTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThurSayTableViewCell.h; sourceTree = "<group>"; };
 		C48924DF1D858F0A00859411 /* ThurSayTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThurSayTableViewCell.m; sourceTree = "<group>"; };
-		C48924E01D858F0A00859411 /* UserHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHeadView.h; sourceTree = "<group>"; };
-		C48924E11D858F0A00859411 /* UserHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeadView.m; sourceTree = "<group>"; };
+		C48924E01D858F0A00859411 /* UserHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserHeadView.h; path = SettingTableViewCell/UserHeadView.h; sourceTree = "<group>"; };
+		C48924E11D858F0A00859411 /* UserHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserHeadView.m; path = SettingTableViewCell/UserHeadView.m; sourceTree = "<group>"; };
 		C48924E31D858F0A00859411 /* ThurSayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThurSayViewController.h; sourceTree = "<group>"; };
 		C48924E41D858F0A00859411 /* ThurSayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThurSayViewController.m; sourceTree = "<group>"; };
 		C48C03C81CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
@@ -290,6 +296,18 @@
 		F6D749E91DCC767300921C76 /* PcmPlayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcmPlayerDelegate.h; sourceTree = "<group>"; };
 		F6EC68CE1E53F560008E0B5F /* ManualInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManualInputViewController.h; sourceTree = "<group>"; };
 		F6EC68CF1E53F560008E0B5F /* ManualInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManualInputViewController.m; sourceTree = "<group>"; };
+		F6F1C8721E8A0A6300754034 /* NewSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NewSettingViewController.h; path = ThursdaySay/NewSettingViewController.h; sourceTree = "<group>"; };
+		F6F1C8731E8A0A6300754034 /* NewSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NewSettingViewController.m; path = ThursdaySay/NewSettingViewController.m; sourceTree = "<group>"; };
+		F6F1C8771E8A236200754034 /* UserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
+		F6F1C8781E8A236200754034 /* UserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
+		F6F1C87B1E8A314B00754034 /* OptionConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionConfigViewController.h; sourceTree = "<group>"; };
+		F6F1C87C1E8A314B00754034 /* OptionConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionConfigViewController.m; sourceTree = "<group>"; };
+		F6F1C87E1E8A34FF00754034 /* SettingNormalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingNormalViewController.h; sourceTree = "<group>"; };
+		F6F1C87F1E8A34FF00754034 /* SettingNormalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingNormalViewController.m; sourceTree = "<group>"; };
+		F6F1C8881E8B5D0B00754034 /* PushDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushDevice.h; sourceTree = "<group>"; };
+		F6F1C8891E8B5D0B00754034 /* PushDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushDevice.m; sourceTree = "<group>"; };
+		F6F1C88B1E8B84A600754034 /* SettingArrayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingArrayViewController.h; sourceTree = "<group>"; };
+		F6F1C88C1E8B84A600754034 /* SettingArrayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingArrayViewController.m; sourceTree = "<group>"; };
 		F6F5CBC31D7C157100A1E779 /* UIButton+SettingBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+SettingBadge.h"; sourceTree = "<group>"; };
 		F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+SettingBadge.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -460,8 +478,6 @@
 				C48924DD1D858F0A00859411 /* SwitchTableViewCell.m */,
 				C48924DE1D858F0A00859411 /* ThurSayTableViewCell.h */,
 				C48924DF1D858F0A00859411 /* ThurSayTableViewCell.m */,
-				C48924E01D858F0A00859411 /* UserHeadView.h */,
-				C48924E11D858F0A00859411 /* UserHeadView.m */,
 			);
 			path = SettingTableViewCell;
 			sourceTree = "<group>";
@@ -507,8 +523,10 @@
 		C49E1AB01C1962F200CFFE3C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				F6F1C87A1E8A2D5700754034 /* Controller */,
+				F6F1C8761E8A1FD600754034 /* Model */,
+				F6F1C8751E8A146600754034 /* View */,
 				C48924D01D858F0A00859411 /* ResetPassword */,
-				C48924D31D858F0A00859411 /* SettingTableViewCell */,
 				C48924E21D858F0A00859411 /* ThursdaySay */,
 				C49E1AB11C19632000CFFE3C /* SettingViewController.h */,
 				C49E1AB21C19632000CFFE3C /* SettingViewController.m */,
@@ -896,6 +914,42 @@
 			path = pcmPlayerCode;
 			sourceTree = "<group>";
 		};
+		F6F1C8751E8A146600754034 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C48924E01D858F0A00859411 /* UserHeadView.h */,
+				C48924E11D858F0A00859411 /* UserHeadView.m */,
+				C48924D31D858F0A00859411 /* SettingTableViewCell */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		F6F1C8761E8A1FD600754034 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				F6F1C8771E8A236200754034 /* UserInfoModel.h */,
+				F6F1C8781E8A236200754034 /* UserInfoModel.m */,
+				F6F1C8881E8B5D0B00754034 /* PushDevice.h */,
+				F6F1C8891E8B5D0B00754034 /* PushDevice.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		F6F1C87A1E8A2D5700754034 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F6F1C8721E8A0A6300754034 /* NewSettingViewController.h */,
+				F6F1C8731E8A0A6300754034 /* NewSettingViewController.m */,
+				F6F1C87B1E8A314B00754034 /* OptionConfigViewController.h */,
+				F6F1C87C1E8A314B00754034 /* OptionConfigViewController.m */,
+				F6F1C87E1E8A34FF00754034 /* SettingNormalViewController.h */,
+				F6F1C87F1E8A34FF00754034 /* SettingNormalViewController.m */,
+				F6F1C88B1E8B84A600754034 /* SettingArrayViewController.h */,
+				F6F1C88C1E8B84A600754034 /* SettingArrayViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1102,11 +1156,13 @@
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
 				C46F6A961D0671C900C561CE /* SubLBXScanViewController.m in Sources */,
 				C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */,
+				F6F1C87D1E8A314B00754034 /* OptionConfigViewController.m in Sources */,
 				F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */,
 				C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */,
 				F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */,
 				C48924EA1D858F0A00859411 /* SwitchTableViewCell.m in Sources */,
 				F63A5BC71DCB17980092FC24 /* VoiceSpeechView.m in Sources */,
+				F6F1C88A1E8B5D0B00754034 /* PushDevice.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
@@ -1126,15 +1182,18 @@
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */,
 				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
+				F6F1C8791E8A236200754034 /* UserInfoModel.m in Sources */,
 				C40D06B21C917BF80029D142 /* TFHpple.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
 				F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */,
 				F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */,
 				C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */,
 				C48924E81D858F0A00859411 /* PgyUpdateTableViewCell.m in Sources */,
+				F6F1C8801E8A34FF00754034 /* SettingNormalViewController.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
 				C45D27121C23FC490087C6F2 /* README.md in Sources */,
+				F6F1C88D1E8B84A600754034 /* SettingArrayViewController.m in Sources */,
 				C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */,
 				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,
 				C4BA6EA41C7DB24A0059F101 /* FileUtils+Assets.m in Sources */,
@@ -1153,6 +1212,7 @@
 				C49BB9AA1D8C2538004C9F70 /* Constant.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				F630B2E61D98FAB600CAA6A0 /* SearchTableViewCell.m in Sources */,
+				F6F1C8741E8A0A6300754034 /* NewSettingViewController.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
 				C48924E61D858F0A00859411 /* GestureTableViewCell.m in Sources */,
 				C48924EC1D858F0A00859411 /* UserHeadView.m in Sources */,
@@ -1326,7 +1386,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1360,7 +1420,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";

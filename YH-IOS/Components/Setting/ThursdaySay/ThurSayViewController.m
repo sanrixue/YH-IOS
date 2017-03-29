@@ -21,28 +21,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.navBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, kBannerHeight)];
-    self.navBar.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
-    UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
-    [backBtn addTarget:self action:@selector(dismissThurSay) forControlEvents:UIControlEventTouchUpInside];
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setTintColor:[UIColor whiteColor]];
-    [backBtn setImage:[UIImage imageNamed:@"Banner-Back"] forState:UIControlStateNormal];
-    [self.navBar addSubview:backBtn];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, self.view.frame.size.width, 30)];
-    titleLabel.text = @"小四说";
-    titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.navBar addSubview:titleLabel];
-    
-    [self.view addSubview:self.navBar];
-    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(0, kBannerHeight, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight)];
+
+    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height )];
     [self.view addSubview:self.browser];
     
     self.urlString = [NSString stringWithFormat:kThursdaySayMobilePath, kBaseUrl, [FileUtils currentUIVersion]];
     self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     [self loadHtml];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:NO];
 }
 
 - (void)loadHtml {
@@ -64,10 +53,6 @@
         });
     });
  }
-
-- (void)dismissThurSay {
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

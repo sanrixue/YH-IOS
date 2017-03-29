@@ -119,7 +119,7 @@
     [self.registerBtn setTitle:@"申请注册" forState:UIControlStateNormal];
     [self.registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     self.registerBtn.backgroundColor = [UIColor clearColor];
-    self.registerBtn.titleLabel.font = [UIFont systemFontOfSize:11];
+    self.registerBtn.titleLabel.font = [UIFont systemFontOfSize:10];
     [self.registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
     [self.bgView addSubview:self.registerBtn];
     

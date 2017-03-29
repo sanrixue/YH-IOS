@@ -19,6 +19,15 @@
     return[NSString stringWithFormat:kReportDataAPIPath, kBaseUrl, groupID, templateID, reportID];
 }
 
++ (void)deleteUserDevice:(NSString *)platform withDeviceID:(NSString*)deviceid {
+    NSString *deleteString = [NSString  stringWithFormat:@"%@/api/v1/%@/%@/logout",kBaseUrl,platform,deviceid];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:deleteString]];
+    [request setHTTPMethod:@"POST"];
+    NSError *error;
+    NSURLResponse *response;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+}
+
 #pragma todo: pass assetsPath as parameter
 + (void)reportData:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID {
     NSString *urlString = [self reportDataUrlString:groupID templateID:templateID reportID:reportID];

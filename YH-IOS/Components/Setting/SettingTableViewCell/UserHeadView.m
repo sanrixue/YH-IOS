@@ -7,19 +7,31 @@
 //
 
 #import "UserHeadView.h"
+#import "User.h"
+#import "HttpUtils.h"
+#import "FileUtils.h"
+
+@interface UserHeadView()
+@property(nonatomic,strong)UIImage* userIconImage;
+@property(nonatomic,strong)User* user;
+
+@end
 
 @implementation UserHeadView
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+
+-(instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame: frame];
     if (self) {
-        [self initWithSubview];
+        [self initWithview];
     }
     return self;
 }
 
-- (void)initWithSubview {
-    UIImageView *backImage = [[UIImageView alloc] initWithFrame:CGRectMake(self.frame.origin.x, self.frame.origin.y, mWIDTH, 150)];
+- (void)initWithview {
+    
+    self.user = [[User alloc]init];
+    UIImageView *backImage = [[UIImageView alloc] initWithFrame:self.frame];
     backImage.backgroundColor = [UIColor grayColor];
     UIImage *backimage= [UIImage imageNamed:@"UserHead-Background"];
     UIImage *userHeadImage = [self handleImage:backimage withSize:CGSizeMake(mWIDTH, 150)];
@@ -27,7 +39,7 @@
     backImage.contentMode = UIViewContentModeScaleToFill;
     backImage.backgroundColor = [UIColor colorWithRed:100 green:100 blue:100 alpha:1];
     backImage.userInteractionEnabled = YES;
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake( self.frame.origin.x,self.frame.origin.y,mWIDTH,150)];
+    UIView *backView = [[UIView alloc] initWithFrame:self.frame];
     backView.backgroundColor = [UIColor grayColor];
     backView.alpha = 0.2;
     [backImage addSubview:backView];
@@ -35,12 +47,13 @@
     self.userIcon = [[UIButton alloc] initWithFrame:CGRectMake(mWIDTH / 2 - 30, 20, 60, 60)];
     self.userIcon.layer.cornerRadius = 30;
     self.userIcon.backgroundColor = [UIColor whiteColor];
+    [self.userIcon addTarget:self action:@selector(uploadusericon:) forControlEvents:UIControlEventTouchUpInside];
     [self.userIcon.layer setMasksToBounds:YES];
     [self addSubview:self.userIcon];
-    
     self.userName  = [[UILabel alloc] initWithFrame:CGRectMake(mWIDTH / 2 - 40,CGRectGetMaxY(self.userIcon.frame) + 10,80,20)];
     self.userName.textColor = [UIColor whiteColor];
     self.userName.adjustsFontSizeToFitWidth = YES;
+    self.userName.text = [NSString stringWithFormat:@"%@(%@)", _user.userName, _user.userID];
     [self addSubview:self.userName];
     
     self.userRole = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.userName.frame) + 5,mWIDTH - 20 , 20)];
@@ -48,7 +61,13 @@
     self.userRole.textColor = [UIColor whiteColor];
     self.userRole.font = [UIFont systemFontOfSize:12];
     self.userRole.adjustsFontSizeToFitWidth = YES;
+    self.userRole.text = [NSString stringWithFormat:@"%@ | %@", _user.roleName, _user.groupName];
     [self addSubview:self.userRole];
+    
+}
+
+- (void)uploadusericon:(UIButton *)button {
+  [_delegate usericonClick:button];
 }
 
 - (UIImage *)handleImage:(UIImage *)originalImage withSize:(CGSize)size {

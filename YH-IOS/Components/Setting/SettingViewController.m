@@ -176,7 +176,9 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     //用户个人信息
     if (indexPath.section == 0) {
-        UserHeadView *cell = [[UserHeadView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"userId"];
+        UITableViewCell *cell = [[UITableViewCell alloc]init];
+        return cell;
+      /*  UserHeadView *cell = [[UserHeadView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"userId"];
         [cell.userIcon addTarget:self action:@selector(addUserIcon) forControlEvents:UIControlEventTouchUpInside];
         self.settingTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
@@ -185,7 +187,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
         UIImage *userHead = self.userIconImage ?: [UIImage imageNamed:@"AppIcon"];
         [cell.userIcon setBackgroundImage:userHead forState:UIControlStateNormal];
 
-        return cell;
+        return cell;*/
     }
     //应用信息
     if (indexPath.section == 1) {

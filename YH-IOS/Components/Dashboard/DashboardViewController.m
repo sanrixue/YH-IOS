@@ -27,6 +27,8 @@
 #import "DropViewController.h"
 #import "ThurSayViewController.h"
 #import "LoadingView.h"
+#import "SettingViewController.h"
+#import "NewSettingViewController.h"
 #import <Reachability/Reachability.h>
 
 
@@ -1054,7 +1056,9 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
         }
         else if([itemName isEqualToString:kDropMentUserInfoText]) {
-            [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
+            NewSettingViewController *settingViewController = [[NewSettingViewController alloc]init];
+             UINavigationController *userInfoViewControlller = [[UINavigationController alloc]initWithRootViewController:settingViewController];
+            [self presentViewController:userInfoViewControlller animated:YES completion:nil];
         }
     }];
 }

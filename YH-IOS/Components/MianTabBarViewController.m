@@ -23,24 +23,31 @@
     [self addchildControllers];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
+}
 
 - (void)addchildControllers{
-    ApplicationViewController *applicationRootViewController = [[ApplicationViewController alloc]init];
+    ApplicationViewController *applicationRootView = [[ApplicationViewController alloc]init];
+    UINavigationController *applicationRootViewController = [[UINavigationController alloc]initWithRootViewController:applicationRootView];
     applicationRootViewController.tabBarItem.title = @"应用";
     applicationRootViewController.tabBarItem.image = [UIImage imageNamed:@"TabBar-App"];
     applicationRootViewController.tabBarItem.selectedImage = [UIImage imageNamed:@"TabBar-App-Selected"];
     
-    MessageViewController *messageRootViewController = [[MessageViewController alloc]init];
+    MessageViewController *messageRootView= [[MessageViewController alloc]init];
+    UINavigationController *messageRootViewController = [[UINavigationController alloc]initWithRootViewController:messageRootView];
     messageRootViewController.tabBarItem.title = @"消息";
     messageRootViewController.tabBarItem.image = [UIImage imageNamed:@"TabBar-Message"];
     messageRootViewController.tabBarItem.selectedImage = [UIImage imageNamed:@"TabBar-Message-Selected"];
     
-    AnalysisViewController *analysisRootViewController = [[AnalysisViewController alloc]init];
+    AnalysisViewController *analysisRootView = [[AnalysisViewController alloc]init];
+    UINavigationController *analysisRootViewController = [[UINavigationController alloc]initWithRootViewController:analysisRootView];
     analysisRootViewController.tabBarItem.title = @"分析";
     analysisRootViewController.tabBarItem.image = [UIImage imageNamed:@"TabBar-Analyse"];
     analysisRootViewController.tabBarItem.selectedImage = [UIImage imageNamed:@"TabBar-Analyse-Selected"];
     
-    KPIViewController *kpiRootViewController = [[KPIViewController alloc]init];
+    KPIViewController *kpiRootView = [[KPIViewController alloc]init];
+    UINavigationController *kpiRootViewController  = [[UINavigationController alloc]initWithRootViewController:kpiRootView];
     kpiRootViewController.tabBarItem.title = @"仪表盘";
     kpiRootViewController.tabBarItem.image = [UIImage imageNamed:@"TabBar-KPI"];
     kpiRootViewController.tabBarItem.selectedImage = [UIImage imageNamed:@"TabBar-KPI-Selected"];

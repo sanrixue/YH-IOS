@@ -19,4 +19,5 @@ target 'YH-IOS' do
     # pod 'Pgyer'
     # pod 'PgyUpdate'
     pod 'UMengSocialCOM', '~> 5.2.1'
+    pod 'FMDB'
 end

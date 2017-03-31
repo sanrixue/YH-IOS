@@ -10,6 +10,7 @@
 
 @implementation SwitchTableViewCell
 
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -20,10 +21,14 @@
 
 #pragma mark 初始化视图
 - (void)initWithSubview {
-    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 5, 120, self.frame.size.height - 20)];
+    self.messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(16, 5, 120, self.frame.size.height - 20)];
     [self.contentView addSubview:self.messageLabel];
     self.changStatusBtn = [[UISwitch alloc] initWithFrame:CGRectMake(mWIDTH - 70, 5, 50, self.frame.size.height - 10)];
+    [self.changStatusBtn addTarget:self action:@selector(UISwitchValueChange:) forControlEvents:UIControlEventValueChanged];
     [self addSubview:self.changStatusBtn];
 }
 
+- (void)UISwitchValueChange:(UISwitch *)changeStatueButton {
+    [_delegate SwitchTableViewCellButtonClick:changeStatueButton with:self.cellId];
+}
 @end

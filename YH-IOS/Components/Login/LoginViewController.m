@@ -14,6 +14,7 @@
 #import "UMessage.h"
 #import "Version.h"
 #import "FindPasswordViewController.h"
+#import "MianTabBarViewController.h"
 
 #define kSloganHeight [[UIScreen mainScreen]bounds].size.height / 6
 
@@ -29,6 +30,7 @@
 @property (nonatomic, strong) UILabel *versionLabel;
 @property (nonatomic, assign) int sideblank;
 @property (nonatomic, strong) Version *version;
+@property (nonatomic, strong) UIButton *registerBtn;
 
 @end
 
@@ -106,6 +108,14 @@
     [self.bgView addSubview:self.loginButton];
     
     
+    self.registerBtn = [[UIButton alloc]init];
+    [self.registerBtn setTitle:@"申请注册" forState:UIControlStateNormal];
+    [self.registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.registerBtn.backgroundColor = [UIColor clearColor];
+    self.registerBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+    [self.registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.bgView addSubview:self.registerBtn];
+    
     self.findPassword = [[UIButton alloc]init];
     [self.findPassword setTitle:@"忘记密码" forState:UIControlStateNormal];
     [self.findPassword setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -136,6 +146,7 @@
     isPad ? [self layoutWithIpad] : [self layoutView];
 }
 
+
 //布局视图
 - (void)layoutView {
     for (UIView *view in [self.bgView subviews]) {
@@ -143,7 +154,7 @@
     }
     self.sideblank = (self.view.frame.size.width - 40) / 2;
     
-    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel,_findPassword);
+    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel,_findPassword,_registerBtn);
     // [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_logoView]-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bgView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0]];
     NSString *strl =[NSString stringWithFormat: @"V:|-100-[_logoView(42)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-10-[_findPassword]-10-[_loginButton(40)]-(>=50)-[_versionLabel(20)]-10-|", kSloganHeight];
@@ -156,11 +167,13 @@
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_versionLabel]-120-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginPasswordImage(30)]-10-[_userPasswordText]-80-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_loginButton]-40-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_findPassword(70)]-40-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_registerBtn(70)]-(>=50)-[_findPassword(70)]-40-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_registerBtn attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_findPassword attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_registerBtn attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_findPassword attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
 }
 
 - (void)layoutWithIpad {
@@ -182,11 +195,13 @@
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_versionLabel]-120-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_loginPasswordImage(30)]-10-[_userPasswordText]-120-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_loginButton]-120-|" options:0 metrics:nil views:ViewDict]];
-    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_findPassword(70)]-120-|" options:0 metrics:nil views:ViewDict]];
+    [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-120-[_registerBtn(70)]-(>=50)-[_findPassword(70)]-120-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginUserImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userNameText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_loginPasswordImage attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_userPasswordText attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_registerBtn attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:_findPassword attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_registerBtn attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_findPassword attribute:NSLayoutAttributeTop multiplier:1.0 constant:0]];
 }
 
 - (void)userinfomoveToTop:(NSNotification *)aNotification {
@@ -206,6 +221,20 @@
     FindPasswordViewController *findPwdViewController = [[FindPasswordViewController alloc]init];
     [self presentViewController:findPwdViewController animated:YES completion:nil];
 }
+
+// 点击注册按钮
+-(void)clickRegisterBtn {
+    UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"申请注册"
+                                                                   message:@"请到数据化运营平台申请开通账号"
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                          handler:^(UIAlertAction * action) {}];
+    
+    [alert addAction:defaultAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 
 //add: 登录按钮事件
 - (void)loginBtnClick {
@@ -244,9 +273,10 @@
     LoginViewController *previousRootViewController = (LoginViewController *)window.rootViewController;
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
-    dashboardViewController.fromViewController = @"LoginViewController";
-    window.rootViewController = dashboardViewController;
+   // DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+    //dashboardViewController.fromViewController = @"LoginViewController";
+    MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
+    window.rootViewController = mainTabbar;
     // Nasty hack to fix http://stackoverflow.com/questions/26763020/leaking-views-when-changing-rootviewcontroller-inside-transitionwithview
     // The presenting view controllers view doesn't get removed from the window as its currently transistioning and presenting a view controller
     for (UIView *subview in window.subviews) {

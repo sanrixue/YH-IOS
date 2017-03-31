@@ -6,8 +6,8 @@
 //  Copyright © 2017年 com.intfocus. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "MainBaseViewController.h"
 
-@interface MessageViewController : BaseViewController
+@interface MessageViewController :MainBaseViewController
 
 @end

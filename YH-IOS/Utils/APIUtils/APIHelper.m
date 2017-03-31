@@ -160,6 +160,15 @@
     return [httpResponse.statusCode isEqual:@(201)];
 }
 
++ (void)deleteUserDevice:(NSString *)platform withDeviceID:(NSString*)deviceid {
+    NSString *deleteString = [NSString  stringWithFormat:@"%@/api/v1/%@/%@/logout",kBaseUrl,platform,deviceid];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:deleteString]];
+    [request setHTTPMethod:@"POST"];
+    NSError *error;
+    NSURLResponse *response;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+}
+
 /**
  *  消息推送， 设备标识
  *

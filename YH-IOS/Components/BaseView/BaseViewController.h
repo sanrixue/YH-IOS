@@ -25,7 +25,7 @@
 
 @property WebViewJavascriptBridge* bridge;
 @property (weak, nonatomic) IBOutlet UIView *bannerView;
-@property (weak, nonatomic) IBOutlet UIWebView *browser;
+@property (strong, nonatomic) UIWebView *browser;
 @property (weak, nonatomic) IBOutlet UILabel *labelTheme;
 @property (weak, nonatomic) IBOutlet UIView *idView;
 @property (weak, nonatomic) IBOutlet UIImageView *idColor0;

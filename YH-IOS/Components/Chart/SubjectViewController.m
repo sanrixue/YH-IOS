@@ -48,7 +48,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     /**
      * 被始化页面样式
      */
-    [self idColor];
+    //[self idColor];
+    self.tabBarController.tabBar.hidden = YES;
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     /**
@@ -56,6 +57,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     self.urlString   = self.link;
+    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height + 40)];
+    [self.view addSubview:self.browser];
     self.browser.delegate = self;
     self.browser.delegate = self;
     if(self.isInnerLink) {
@@ -84,7 +87,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     /*
      * 主题页面,允许横屏
      */

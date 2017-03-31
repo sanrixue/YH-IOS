@@ -63,11 +63,10 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-   /* UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *initViewController = [storyBoard instantiateInitialViewController];*/
-    MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *initViewController = [storyBoard instantiateInitialViewController];
     
-    [self.window setRootViewController:mainTabbar];
+    [self.window setRootViewController:initViewController];
     [self.window makeKeyAndVisible];
     NSString *initString  = [NSString stringWithFormat:@"appid = %@",@"581aad1c"];
     [IFlySpeechUtility createUtility:initString];
@@ -191,10 +190,11 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (void)jumpToDashboardView {
     LoginViewController *previousRootViewController = (LoginViewController *)_window.rootViewController;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+  //  DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     // dashboardViewController.clickTab = self.clickTab;
-    dashboardViewController.fromViewController = @"LoginViewController";
-    _window.rootViewController = dashboardViewController;
+    //dashboardViewController.fromViewController = @"LoginViewController";
+      MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
+    _window.rootViewController = mainTabbar;
     // Nasty hack to fix http://stackoverflow.com/questions/26763020/leaking-views-when-changing-rootviewcontroller-inside-transitionwithview
     // The presenting view controllers view doesn't get removed from the window as its currently transistioning and presenting a view controller
     for (UIView *subview in _window.subviews) {
@@ -233,7 +233,6 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -251,10 +250,8 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (void)passcodeWasEnteredSuccessfully {
     NSLog(@"AppDelegate - Passcode Was Entered Successfully");
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
-    dashboardViewController.fromViewController = @"AppDelegate";
-    self.window.rootViewController = dashboardViewController;
+    MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
+    _window.rootViewController = mainTabbar;
 }
 
 - (BOOL)didPasscodeTimerEnd {

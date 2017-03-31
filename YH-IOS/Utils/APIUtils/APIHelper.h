@@ -24,7 +24,10 @@
 
 + (NSString *)userAuthentication:(NSString *)username password:(NSString *)password;
 
-
+/**
+ * 删除用户和设备的关联
+ */
++ (void)deleteUserDevice:(NSString *)platform withDeviceID:(NSString*)deviceid;
 /**
  *  创建评论
  *

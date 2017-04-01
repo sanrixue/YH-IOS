@@ -21,6 +21,7 @@
 #import "LBXScanWrapper.h"
 #import "SubLBXScanViewController.h"
 #import "NewSettingViewController.h"
+#import "SettingViewController.h"
 
 @interface MainBaseViewController ()<LTHPasscodeViewControllerDelegate,UINavigationControllerDelegate>
 

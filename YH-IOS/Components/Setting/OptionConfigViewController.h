@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
 
 @interface OptionConfigViewController : UIViewController
+
+@property(nonatomic,strong) NSDictionary *arraydict;
 
 @end

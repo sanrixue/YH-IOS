@@ -48,7 +48,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -65,14 +66,13 @@
 
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"cellid"];
+    UITableViewCell* cell;
     if ([[_infodict allKeys][indexPath.row] isEqualToString:@"消息推送"]){
         SwitchTableViewCell*  cell = [[SwitchTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellidcell"];
         cell.messageLabel.text = [_infodict allKeys][indexPath.row];
         cell.changStatusBtn.on = [[_infodict allValues][indexPath.row] boolValue];
         cell.delegate = self;
         return cell;
-        
     }
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cellid"];
@@ -81,7 +81,6 @@
     if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSDictionary class]]) {
         cell.detailTextLabel.text = @"";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
     }
     else if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSArray class]]) {
         cell.detailTextLabel.text = @"";
@@ -157,7 +156,6 @@
     NSURL *url = [NSURL URLWithString:[kPgyerUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     [[UIApplication sharedApplication] openURL:url];
 }
-
 
 - (void)actionCheckUpgrade {
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];

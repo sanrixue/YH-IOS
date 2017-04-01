@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor grayColor];
-    userInfoArray = @[@"基本信息",@"选项配置",@"应用信息",@"消息推送",@"更新日志"];
+    userInfoArray = @[@"基本信息",@"应用信息",@"选项配置",@"消息推送",@"更新日志"];
     user =[[User alloc]init];
     [self loadUserGravatar];
     [self setupUI];
@@ -294,7 +294,7 @@
             [self.navigationController pushViewController:settingNormalView animated:YES];
         }
             break;
-        case 1:{
+        case 2:{
             NSDictionary *infodict = @{@"锁屏设置": @{@"启用锁屏":@YES,@"修改锁屏密码":@{}}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{}};
             NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
@@ -309,7 +309,7 @@
         }
             break;
             
-        case 2:{
+        case 1:{
             Version *version = [[Version alloc]init];
             NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];
             NSDictionary *infodict = @{@"名称":version.appName,@"版本号":[NSString stringWithFormat:@"%@(%@)", version.current, version.build],@"设备型号":[NSString stringWithFormat: @"%@ (%@)",[[Version machineHuman]componentsSeparatedByString:@" ("][0], phoneVersion], @"数据接口":kBaseUrl,@"应用标识":version.bundleID,@"应用详情":@{@"检查新版本":@"已是最新版本",@"蒲公英下载":kPgyerUrl}};
@@ -340,7 +340,7 @@
             break;
         case 4:{
             ThurSayViewController *thurSayView = [[ThurSayViewController alloc]init];
-            thurSayView.title = @"小四说";
+            thurSayView.title = @"更新日志";
             [self.navigationController pushViewController:thurSayView animated:YES];
         }
             break;

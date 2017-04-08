@@ -24,8 +24,29 @@
     [self.view addSubview: self.browser];
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self loadWebView];
-    [self loadHtml];
+    [self isLoadHtmlFromService];
     // Do any additional setup after loading the view.
+}
+
+-(void)isLoadHtmlFromService {
+    if ([HttpUtils isNetworkAvailable2]) {
+        [self loadHtml];
+    }
+    else{
+        [self clearBrowserCache];
+        NSString *filename = [self urlTofilename:self.urlString suffix:@".html"][0];
+        NSString *filepath = [self.assetsPath stringByAppendingPathComponent:filename];
+        if (![FileUtils checkFileExist:filepath isDir:NO]) {
+            
+        }
+        NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:filepath];
+        if (![FileUtils checkFileExist:filepath isDir:NO] || ([htmlContent length] == 0 )) {
+            [self showLoading:LoadingRefresh];
+        }
+        else {
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -48,7 +69,7 @@
 #pragma mark - UIWebview pull down to refresh
 -(void)handleRefresh:(UIRefreshControl *)refresh {
     [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
-    [self loadHtml];
+    [self isLoadHtmlFromService];
     [refresh endRefreshing];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -85,7 +106,7 @@
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
         
-        [self loadHtml];
+        [self isLoadHtmlFromService];
     }];
     
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -188,7 +209,12 @@
              
              [alert addAction:defaultAction];
              [self presentViewController:alert animated:YES completion:nil];*/
-            [self showLoading:LoadingRefresh];
+            [ViewUtils showPopupView:self.view Info:@"加载最新失败，请手动刷新"];
+            [self clearBrowserCache];
+            NSString *filename = [self urlTofilename:self.urlString suffix:@".html"][0];
+            NSString *filepath = [self.assetsPath stringByAppendingPathComponent:filename];
+            NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:filepath];
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{

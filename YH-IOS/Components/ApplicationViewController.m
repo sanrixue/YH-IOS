@@ -20,12 +20,13 @@
 
     NSString *uiVersion = [FileUtils currentUIVersion];
     self.urlString = [NSString stringWithFormat:kAppMobilePath, kBaseUrl, uiVersion, self.user.roleID];
+   // self.urlString = @"http://tkm.shengyiplus.com/pc/search?sso_cookie=nm6586tst";
     self.commentObjectType = ObjectTypeApp;
     self.browser = [[UIWebView alloc]initWithFrame:self.view.frame];
     [self.view addSubview: self.browser];
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self loadWebView];
-    [self loadHtml];
+    [self isLoadHtmlFromService];
     
     /*UIButton *addBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, 80, 30, 30)];
     addBtn.backgroundColor = [UIColor redColor];
@@ -37,6 +38,23 @@
     self.tabBarController.tabBar.hidden = NO;
 }
 
+-(void)isLoadHtmlFromService {
+    if ([HttpUtils isNetworkAvailable2]) {
+        [self loadHtml];
+    }
+    else{
+        [self clearBrowserCache];
+        NSString *filename = [self urlTofilename:self.urlString suffix:@".html"][0];
+        NSString *filepath = [self.assetsPath stringByAppendingPathComponent:filename];
+        NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:filepath];
+        if (![FileUtils checkFileExist:filepath isDir:NO] || ([htmlContent length] == 0 )) {
+            [self showLoading:LoadingRefresh];
+        }
+        else {
+          [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+        }
+    }
+}
 
 - (void)loadWebView {
     [WebViewJavascriptBridge enableLogging];
@@ -54,7 +72,7 @@
 #pragma mark - UIWebview pull down to refresh
 -(void)handleRefresh:(UIRefreshControl *)refresh {
     [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
-    [self loadHtml];
+    [self isLoadHtmlFromService];
     [refresh endRefreshing];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -91,7 +109,7 @@
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
         
-        [self loadHtml];
+        [self isLoadHtmlFromService];
     }];
     
     [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -194,9 +212,15 @@
              
              [alert addAction:defaultAction];
              [self presentViewController:alert animated:YES completion:nil];*/
-            [self showLoading:LoadingRefresh];
+           // [self showLoading:LoadingRefresh];
+            [ViewUtils showPopupView:self.view Info:@"加载最新失败，请手动刷新"];
+            [self clearBrowserCache];
+            NSString *filename = [self urlTofilename:self.urlString suffix:@".html"][0];
+            NSString *filepath = [self.assetsPath stringByAppendingPathComponent:filename];
+            NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:filepath];
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
         }
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [self clearBrowserCache];
             NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
@@ -204,6 +228,7 @@
             
         });
     });
+ //   [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
 }
 
 

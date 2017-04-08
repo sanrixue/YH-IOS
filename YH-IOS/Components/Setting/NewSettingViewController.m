@@ -52,9 +52,30 @@
     
     [UIApplication sharedApplication].applicationSupportsShakeToEdit = YES;
     [self becomeFirstResponder];
+    [self getDocumentName];
     // Do any additional setup after loading the view.
 }
 
+- (NSArray *)getDocumentName{
+    NSArray *firstSavePathArray=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    for (NSString *path in firstSavePathArray) {
+        NSLog(@"%@",path);
+    }
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error = nil;
+    NSArray *fileList = [[NSArray alloc] init];
+    fileList = [fileManager contentsOfDirectoryAtPath:firstSavePathArray[0] error:&error];
+    NSMutableArray* cleanArray = [[NSMutableArray alloc]init];
+    NSLog(@"%@",fileList);
+    NSString *userFileName = [NSString stringWithFormat:@"user-%@",user.userID];
+    for (NSString* value in fileList) {
+        if ([value hasPrefix:@"user-"] && ![value isEqualToString:userFileName]) {
+            [cleanArray addObject:value];
+        }
+    }
+    return cleanArray;
+}
 
 //惰性获取推送设备
 -(NSDictionary*)pushdeviceDict{
@@ -78,7 +99,8 @@
     if (event.subtype == UIEventSubtypeMotionShake) { // 判断是否是摇动结束
         NSString* settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kSettingConfigFileName];
         NSDictionary* betaDict = [FileUtils readConfigFile:settingsConfigPath];
-        NSDictionary *infodict = @{@"报表缓存数据列表":@" ",@"请求头缓存列表":@"",@"配置文件列表":@"",@"扫码响应数据":@"",@"静态资源列表":@{@"手工清理":@"",@"重新下载":@""},@"个人资料":betaDict};
+        NSArray* fileArray = [self getDocumentName];
+        NSDictionary *infodict = @{@"报表缓存数据列表":@" ",@"请求头缓存列表":@"",@"配置文件列表":@"",@"扫码响应数据":@"",@"静态资源列表":@{@"手工清理":fileArray ,@"重新下载":@""},@"个人资料":betaDict};
         SettingNormalViewController *settingNormalView = [[SettingNormalViewController alloc]init];
         settingNormalView.infodict  = infodict;
         settingNormalView.title = @"开发者选项";
@@ -287,7 +309,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0:{
-            NSDictionary *infodict = @{@"用户名":user.userName,@"邮箱":@"intfocus@gmail.com",@"电话":@"110110110",@"用户商行":[NSString stringWithFormat:@"%@", user.groupName],@"部门":[NSString stringWithFormat:@"%@", user.roleName],@"用户ID":[NSString  stringWithFormat:@"%@",user.userID]};
+            NSDictionary *infodict = @{@"用户名":user.userName,@"邮箱":@"intfocus@gmail.com",@"电话":@"110110110",@"用户商行":[NSString stringWithFormat:@"%@", user.groupName],@"部门":[NSString stringWithFormat:@"%@", user.roleName],@"用户ID":[NSString  stringWithFormat:@"%@",user.userID],@"修改密码":@""};
             SettingNormalViewController *settingNormalView = [[SettingNormalViewController alloc]init];
             settingNormalView.infodict  = infodict;
             settingNormalView.title = userInfoArray[indexPath.row];

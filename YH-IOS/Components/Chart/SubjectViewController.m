@@ -50,6 +50,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     //[self idColor];
     self.tabBarController.tabBar.hidden = YES;
+    self.bannerView  = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     /**
@@ -57,7 +58,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     self.urlString   = self.link;
-    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height + 40)];
+    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, 60, self.view.frame.size.width, self.view.frame.size.height + 40)];
     [self.view addSubview:self.browser];
     self.browser.delegate = self;
     self.browser.delegate = self;
@@ -85,6 +86,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self addWebViewJavascriptBridge];
 }
 
+-(void)awakeFromNib{
+    [super awakeFromNib];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     /*
@@ -100,6 +105,64 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self displayBannerViewButtonsOrNot];
     [self loadHtml];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+-(void)isLoadHtmlFromService {
+    if ([HttpUtils isNetworkAvailable2]) {
+        [self loadInnerLink];
+    }
+    else{
+        [self clearBrowserCache];
+        NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
+        NSString* htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
+        NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
+        if (![FileUtils checkFileExist:htmlPath isDir:NO] || ([htmlContent length] == 0 )) {
+            [self showLoading:LoadingRefresh];
+        }
+        else {
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+        }
+    }
+}
+
+- (NSArray *)urlTofilename:(NSString *)url suffix:(NSString *)suffix {
+    NSArray *blackList = @[@".", @":", @"/", @"?"];
+    
+    url = [url stringByReplacingOccurrencesOfString:kBaseUrl withString:@""];
+    NSArray *parts = [url componentsSeparatedByString:@"?"];
+    
+    NSString *timestamp = nil;
+    if([parts count] > 1) {
+        url = parts[0];
+        timestamp = parts[1];
+    }
+    
+    
+    if([url hasSuffix:suffix]) {
+        url = [url stringByDeletingPathExtension];
+    }
+    
+    while([url hasPrefix:@"/"]) {
+        url = [url substringWithRange:NSMakeRange(1,url.length-1)];
+    }
+    
+    for(NSString *str in blackList) {
+        url = [url stringByReplacingOccurrencesOfString:str withString:@"_"];
+    }
+    
+    if(![url hasSuffix:suffix]) {
+        url = [NSString stringWithFormat:@"%@%@", url, suffix];
+    }
+    
+    NSArray *result = [NSArray array];
+    if(timestamp) {
+        result = @[url, timestamp];
+    }
+    else {
+        result = @[url];
+    }
+    
+    return result;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -247,7 +310,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)loadHtml {
     DeviceState deviceState = [APIHelper deviceState];
     if(deviceState == StateOK) {
-        self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
+        self.isInnerLink ? [self isLoadHtmlFromService] : [self loadOuterLink];
     }
     else if(deviceState == StateForbid) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];

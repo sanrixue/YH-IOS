@@ -16,6 +16,7 @@
 #import <PgyUpdate/PgyUpdateManager.h>
 #import "SettingArrayViewController.h"
 #import "SwitchTableViewCell.h"
+#import "ResetPasswordViewController.h"
 
 
 @interface SettingNormalViewController ()<UITableViewDelegate,UITableViewDataSource,SwitchTableViewCellDelegate>
@@ -109,7 +110,7 @@
         [self.navigationController pushViewController:thirdView animated:YES];
     }
     
-    if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSArray class]]) {
+   else if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSArray class]]) {
         SettingArrayViewController *thirdView = [[SettingArrayViewController alloc]init];
         thirdView.title = [_infodict allKeys][indexPath.row];
         thirdView.array = [_infodict allValues][indexPath.row];
@@ -122,7 +123,31 @@
     else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"蒲公英下载"]) {
         [self actionOpenLink];
     }
+    else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"修改密码"]){
+        [self ResetPassword];
+    }
 }
+
+// 修改密码
+- (void)ResetPassword {
+    ResetPasswordViewController *resertPwdViewController = [[ResetPasswordViewController alloc]init];
+    resertPwdViewController.title = @"修改密码";
+    [self.navigationController pushViewController:resertPwdViewController animated:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[kActionALCName] = @"点击/设置页面/修改密码";
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
+}
+
 
 -(void)SwitchTableViewCellButtonClick:(UISwitch *)button with:(NSInteger)cellId; {
     NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];

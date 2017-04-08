@@ -9,7 +9,6 @@
 #import "MainBaseViewController.h"
 #import "LoginViewController.h"
 #import <PgyUpdate/PgyUpdateManager.h>
-#import "ViewUtils.h"
 #import "AppDelegate.h"
 #import "AFNetworking.h"
 #import <SSZipArchive.h>
@@ -48,6 +47,47 @@
     [self checkAssetsUpdate];
        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Banner-Setting"] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
 }
+
+- (NSArray *)urlTofilename:(NSString *)url suffix:(NSString *)suffix {
+    NSArray *blackList = @[@".", @":", @"/", @"?"];
+    
+    url = [url stringByReplacingOccurrencesOfString:kBaseUrl withString:@""];
+    NSArray *parts = [url componentsSeparatedByString:@"?"];
+    
+    NSString *timestamp = nil;
+    if([parts count] > 1) {
+        url = parts[0];
+        timestamp = parts[1];
+    }
+    
+    
+    if([url hasSuffix:suffix]) {
+        url = [url stringByDeletingPathExtension];
+    }
+    
+    while([url hasPrefix:@"/"]) {
+        url = [url substringWithRange:NSMakeRange(1,url.length-1)];
+    }
+    
+    for(NSString *str in blackList) {
+        url = [url stringByReplacingOccurrencesOfString:str withString:@"_"];
+    }
+    
+    if(![url hasSuffix:suffix]) {
+        url = [NSString stringWithFormat:@"%@%@", url, suffix];
+    }
+    
+    NSArray *result = [NSArray array];
+    if(timestamp) {
+        result = @[url, timestamp];
+    }
+    else {
+        result = @[url];
+    }
+    
+    return result;
+}
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

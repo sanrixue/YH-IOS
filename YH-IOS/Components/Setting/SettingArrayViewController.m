@@ -8,9 +8,12 @@
 
 #import "SettingArrayViewController.h"
 #import "SettingNormalViewController.h"
+#import "FileUtils.h"
+#import "User.h"
 
 @interface SettingArrayViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView* tableView;
+@property(nonatomic,assign) BOOL isUserable;
 
 @end
 
@@ -64,6 +67,11 @@
         cell.textLabel.adjustsFontSizeToFitWidth = YES;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
+    else if ([_array[indexPath.row] isKindOfClass:[NSString class]]){
+        cell.textLabel.text = _array[indexPath.row];
+        cell.detailTextLabel.text = @"手动删除";
+        self.isUserable = YES;
+    }
     return cell;
 }
 
@@ -76,12 +84,40 @@
         [self.navigationController pushViewController:thirdView animated:YES];
     }
     
-    if ([_array[indexPath.row] isKindOfClass:[NSArray class]]) {
+    if ([_array[indexPath.row] isKindOfClass:[NSDictionary class]]) {
         SettingArrayViewController *thirdView = [[SettingArrayViewController alloc]init];
         thirdView.title = self.title;
         thirdView.array = _array[indexPath.row];
         [self.navigationController pushViewController:thirdView animated:YES];
     }
+    if (self.isUserable && [_array[indexPath.row] isKindOfClass:[NSString class]]) {
+        NSString* filePath = [[FileUtils basePath] stringByAppendingPathComponent:_array[indexPath.row]];
+        [FileUtils removeFile:filePath];
+        [self getDocumentName];
+    }
+}
+
+- (void)getDocumentName{
+    NSArray *firstSavePathArray=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    for (NSString *path in firstSavePathArray) {
+        NSLog(@"%@",path);
+    }
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error = nil;
+    NSArray *fileList = [[NSArray alloc] init];
+    fileList = [fileManager contentsOfDirectoryAtPath:firstSavePathArray[0] error:&error];
+    NSMutableArray* cleanArray = [[NSMutableArray alloc]init];
+    NSLog(@"%@",fileList);
+    User* user = [[User alloc]init];
+    NSString *userFileName = [NSString stringWithFormat:@"user-%@",user.userID];
+    for (NSString* value in fileList) {
+        if ([value hasPrefix:@"user-"] && ![value isEqualToString:userFileName]) {
+            [cleanArray addObject:value];
+        }
+    }
+    self.array = cleanArray;
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {

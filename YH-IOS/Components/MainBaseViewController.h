@@ -28,6 +28,7 @@
 #import "LBXScanWrapper.h"
 #import "SubLBXScanViewController.h"
 #import "NewSettingViewController.h"
+#import "ViewUtils.h"
 
 static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
@@ -77,4 +78,5 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 - (BOOL)didPasscodeTimerEnd;
 - (NSString *)passcode;
 - (void)savePasscode:(NSString *)passcode;
+- (NSArray *)urlTofilename:(NSString *)url suffix:(NSString *)suffix;
 @end

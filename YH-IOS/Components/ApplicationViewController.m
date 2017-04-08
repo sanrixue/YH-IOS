@@ -125,11 +125,15 @@
             [self presentViewController:alert animated:YES completion:nil];
         }
         else {
-            SubjectViewController *subjectView = [[SubjectViewController alloc]init];
+            UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            
+            SubjectViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"SubjectViewController"];
             subjectView.bannerName = data[@"bannerName"];
             subjectView.link = data[@"link"];
             subjectView.objectID = data[@"objectID"];
-            [self.navigationController pushViewController:subjectView animated:YES];
+            
+            //跳转事件
+            [self.navigationController presentViewController:subjectView animated:YES completion:nil];
         }
     }];
     

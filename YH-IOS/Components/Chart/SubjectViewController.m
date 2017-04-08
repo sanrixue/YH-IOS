@@ -50,7 +50,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     //[self idColor];
     self.tabBarController.tabBar.hidden = YES;
-    self.bannerView  = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
+    //self.bannerName = self.bannerName;
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
     self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     /**
@@ -103,13 +103,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
     [self displayBannerViewButtonsOrNot];
-    [self loadHtml];
+    [self isLoadHtmlFromService];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
 -(void)isLoadHtmlFromService {
-    if ([HttpUtils isNetworkAvailable2]) {
-        [self loadInnerLink];
+    if (([HttpUtils isNetworkAvailable2] &&  self.isInnerLink) || !self.isInnerLink ) {
+        [self loadHtml];
     }
     else{
         [self clearBrowserCache];
@@ -197,7 +197,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
     }
     
-    [self loadHtml];
+    [self isLoadHtmlFromService];
     //[refresh endRefreshing];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -310,7 +310,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)loadHtml {
     DeviceState deviceState = [APIHelper deviceState];
     if(deviceState == StateOK) {
-        self.isInnerLink ? [self isLoadHtmlFromService] : [self loadOuterLink];
+        self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
     }
     else if(deviceState == StateForbid) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
@@ -607,7 +607,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if(self.isInnerLink) {
-        [self loadHtml];
+        [self isLoadHtmlFromService];
         [self.browser stopLoading];
     }
     if([segue.identifier isEqualToString:kCommentSegueIdentifier]) {
@@ -668,7 +668,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self checkInterfaceOrientation:toInterfaceOrientation];
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self loadHtml];
+    [self isLoadHtmlFromService];
 }
 
 /**

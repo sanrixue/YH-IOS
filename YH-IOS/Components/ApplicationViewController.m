@@ -217,12 +217,14 @@
              [alert addAction:defaultAction];
              [self presentViewController:alert animated:YES completion:nil];*/
            // [self showLoading:LoadingRefresh];
-            [ViewUtils showPopupView:self.view Info:@"加载最新失败，请手动刷新"];
-            [self clearBrowserCache];
-            NSString *filename = [self urlTofilename:self.urlString suffix:@".html"][0];
-            NSString *filepath = [self.assetsPath stringByAppendingPathComponent:filename];
-            NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:filepath];
-            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [ViewUtils showPopupView:self.view Info:@"加载最新失败，请手动刷新"];
+                [self clearBrowserCache];
+                NSString *filename = [self urlTofilename:self.urlString suffix:@".html"][0];
+                NSString *filepath = [self.assetsPath stringByAppendingPathComponent:filename];
+                NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:filepath];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+            });
         }
 
         dispatch_async(dispatch_get_main_queue(), ^{

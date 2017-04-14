@@ -19,11 +19,18 @@
     NSString *uiVersion = [FileUtils currentUIVersion];
     self.urlString = [NSString stringWithFormat:kKPIMobilePath, kBaseUrl, uiVersion, self.user.groupID, self.user.roleID];
     self.commentObjectType = ObjectTypeKpi;
-    self.browser = [[UIWebView alloc]initWithFrame:self.view.frame];
+    self.browser = [[UIWebView alloc]initWithFrame:self.view.bounds];
     [self.view addSubview: self.browser];
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self loadWebView];
     [self isLoadHtmlFromService];
+    if (([[[UIDevice currentDevice] systemVersion]doubleValue] >= 7.0)) {
+        
+        self.edgesForExtendedLayout =UIRectEdgeNone;
+        
+        self.automaticallyAdjustsScrollViewInsets =NO;
+        
+    }
     // Do any additional setup after loading the view.
 }
 
@@ -209,12 +216,15 @@
              
              [alert addAction:defaultAction];
              [self presentViewController:alert animated:YES completion:nil];*/
-            [ViewUtils showPopupView:self.view Info:@"加载最新失败，请手动刷新"];
-            [self clearBrowserCache];
-            NSString *filename = [self urlTofilename:self.urlString suffix:@".html"][0];
-            NSString *filepath = [self.assetsPath stringByAppendingPathComponent:filename];
-            NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:filepath];
-            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+               [ViewUtils showPopupView:self.view Info:@"加载最新失败，请手动刷新"];
+                [self clearBrowserCache];
+                NSString *filename = [self urlTofilename:self.urlString suffix:@".html"][0];
+                NSString *filepath = [self.assetsPath stringByAppendingPathComponent:filename];
+                NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:filepath];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+            });
+
         }
         
         dispatch_async(dispatch_get_main_queue(), ^{

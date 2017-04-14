@@ -17,11 +17,14 @@
 #import "SettingArrayViewController.h"
 #import "SwitchTableViewCell.h"
 #import "ResetPasswordViewController.h"
+#import <AFNetworking.h>
+#import "User.h"
+#import "FileUtils+Assets.h"
 
 
 @interface SettingNormalViewController ()<UITableViewDelegate,UITableViewDataSource,SwitchTableViewCellDelegate>
-@property(nonatomic,strong)UITableView *tableView;
-@property (strong, nonatomic) NSString *pgyLinkString;
+@property (nonatomic,strong)UITableView *tableView;
+@property (copy, nonatomic) NSString *pgyLinkString;
 @property (strong, nonatomic) NSMutableDictionary *noticeDict;
 @property (strong, nonnull) Version *version;
 
@@ -31,18 +34,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
      [self setupUI];
      NSString* noticeFilePath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     self.noticeDict = [FileUtils readConfigFile:noticeFilePath];
     self.version = [[Version alloc]init];
-    self.pgyLinkString =  [NSString stringWithFormat:@"i%@(%@)", _version.current, _version.build];
+ //   self.pgyLinkString =  [NSString stringWithFormat:@"i%@(%@)", _version.current, _version.build];
     // Do any additional setup after loading the view.
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:false];
+    if ([self.title isEqualToString:@"应用详情"]) {
+        [self actionCheckUpgrade];
+    }
 }
 
+     
 -(void)setupUI{
     self.tableView = [[UITableView alloc]initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [self.view addSubview:_tableView];
@@ -91,7 +99,7 @@
      else if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSString class]]){
         cell.detailTextLabel.text = [_infodict allValues][indexPath.row];
         cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
-         if ([[_infodict allValues][indexPath.row] isEqualToString:@"检查新版本"]) {
+         if ([[_infodict allKeys][indexPath.row] isEqualToString:@"检查新版本"]) {
              cell.detailTextLabel.text = self.pgyLinkString;
              cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
          }
@@ -117,8 +125,8 @@
         [self.navigationController pushViewController:thirdView animated:YES];
     }
     
-    if ([[_infodict allKeys][indexPath.row] isEqualToString:@"检查新版本"]) {
-        [self actionCheckUpgrade];
+    else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"检查新版本"]) {
+             [self actionCheckUpgrade];
     }
     else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"蒲公英下载"]) {
         [self actionOpenLink];
@@ -126,6 +134,78 @@
     else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"修改密码"]){
         [self ResetPassword];
     }
+    else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"校正"]){
+        [self actionCheckAssets];
+    }
+    else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"手工清理"]){
+        SettingArrayViewController *settingArrayCtrl = [[SettingArrayViewController alloc]init];
+        if ([self getDocumentName] && [[self getPathFileName] count]) {
+          // settingArrayCtrl.array = [self getPathFileName];
+          // settingArrayCtrl.titleArray = [self getDocumentName];
+        }
+        settingArrayCtrl.array = [self getPathFileName];
+        settingArrayCtrl.titleArray = [self getDocumentName];
+        settingArrayCtrl.title = @"手工清理";
+        [self.navigationController pushViewController:settingArrayCtrl animated:YES];
+    }
+}
+
+
+// 手工清理
+- (NSArray *)getPathFileName{
+    NSArray *firstSavePathArray=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    for (NSString *path in firstSavePathArray) {
+        NSLog(@"%@",path);
+    }
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error = nil;
+    NSArray *fileList = [[NSArray alloc] init];
+    fileList = [fileManager contentsOfDirectoryAtPath:firstSavePathArray[0] error:&error];
+    NSMutableArray* cleanArray = [[NSMutableArray alloc]init];
+    NSLog(@"%@",fileList);
+    User *user = [[User alloc]init];
+    NSString *userFileName = [NSString stringWithFormat:@"user-%@",user.userID];
+    for (NSString* value in fileList) {
+        if  ([value hasPrefix:@"user-"] && ![value isEqualToString:userFileName] && ![value isEqualToString:@"user-(null)"]) {
+            [cleanArray addObject:value];
+        }
+    }
+    return cleanArray;
+}
+
+// 获取清理文件
+- (NSArray*)getDocumentName{
+    NSArray *firstSavePathArray=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    for (NSString *path in firstSavePathArray) {
+        NSLog(@"%@",path);
+    }
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error = nil;
+    NSArray *fileList = [[NSArray alloc] init];
+    fileList = [fileManager contentsOfDirectoryAtPath:firstSavePathArray[0] error:&error];
+    NSMutableArray* cleanArray = [[NSMutableArray alloc]init];
+    NSLog(@"%@",fileList);
+    User* user = [[User alloc]init];
+    NSString *userFileName = [NSString stringWithFormat:@"user-%@",user.userID];
+    for (NSString* value in fileList) {
+        if ([value hasPrefix:@"user-"] && ![value isEqualToString:userFileName] && ![value isEqualToString:@"user-(null)"]) {
+            NSMutableDictionary *userDict;
+            NSString *userPath = [[FileUtils basePath] stringByAppendingPathComponent:value];
+            if ([FileUtils checkFileExist:userPath isDir:YES]) {
+                NSString *userConfigPath = [userPath stringByAppendingPathComponent:@"Configs"];
+                if ([FileUtils checkFileExist:userConfigPath isDir:YES]) {
+                    NSString *userInfoPath = [userConfigPath stringByAppendingPathComponent:@"setting.plist"];
+                    userDict = [FileUtils readConfigFile:userInfoPath];
+                    if (userDict[@"user_name"] && ![userDict[@"user_name"] isEqualToString:@""]) {
+                        [cleanArray addObject:userDict[@"user_name"]];
+                    }
+                }
+            }
+        }
+    }
+    return cleanArray;
 }
 
 // 修改密码
@@ -147,6 +227,102 @@
         }
     });
 }
+
+
+//校正
+- (void)actionCheckAssets {
+    User* user = [[User alloc] init];
+    NSString* sharedPath = [FileUtils sharedPath];
+    NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", sharedPath, kCachedHeaderConfigFileName];
+    [FileUtils removeFile:cachedHeaderPath];
+    cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
+    [FileUtils removeFile:cachedHeaderPath];
+    
+    [APIHelper userAuthentication:user.userNum password:user.password];
+    
+    [self checkAssetsUpdate];
+    
+    // 第三方消息推送，设备标识
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    [APIHelper pushDeviceToken:userDict[kDeviceUUIDCUName]];
+    [ViewUtils showPopupView:self.view Info:@"校正完成"];
+}
+
+
+/**
+ *  检测服务器端静态文件是否更新
+ */
+- (void)checkAssetsUpdate {
+    // 初始化队列
+    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    AFHTTPRequestOperation *op;
+    op = [self checkAssetUpdate:kLoadingAssetsName info:kLoadingPopupText isInAssets: NO];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kFontsAssetsName info:kFontsPopupText isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kImagesAssetsName info:kImagesPopupText isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kStylesheetsAssetsName info:kStylesheetsPopupText isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kJavascriptsAssetsName info:kJavascriptsPopupText isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kBarCodeScanAssetsName info:kBarCodeScanPopupText isInAssets: NO];
+    if(op) { [queue addOperation:op]; }
+    // op = [self checkAssetUpdate:kAdvertisementAssetsName info:kAdvertisementPopupText isInAssets: NO];
+    // if(op) { [queue addOperation:op]; }
+}
+
+- (AFHTTPRequestOperation *)checkAssetUpdate:(NSString *)assetName info:(NSString *)info isInAssets:(BOOL)isInAssets {
+    BOOL isShouldUpdateAssets = NO;
+    __block NSString *sharedPath = [FileUtils sharedPath];
+    
+    NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", assetName]];
+    if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
+        isShouldUpdateAssets = YES;
+    }
+    
+    __block NSString *assetKey = [NSString stringWithFormat:@"%@_md5", assetName];
+    __block  NSString *localAssetKey = [NSString stringWithFormat:@"local_%@_md5", assetName];
+    __block NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    __block NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    if(!isShouldUpdateAssets && ![userDict[assetKey] isEqualToString:userDict[localAssetKey]]) {
+        isShouldUpdateAssets = YES;
+        NSLog(@"%@ - local: %@, server: %@", assetName, userDict[localAssetKey], userDict[assetKey]);
+    }
+    
+    if(!isShouldUpdateAssets) { return nil; }
+    
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    HUD.tag       = 1000;
+    HUD.mode      = MBProgressHUDModeDeterminate;
+    HUD.labelText = [NSString stringWithFormat:@"更新%@", info];
+    HUD.square    = YES;
+    [HUD show:YES];
+    
+    // 下载地址
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:kDownloadAssetsAPIPath, kBaseUrl, assetName]];
+    // 保存路径
+    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:url]];
+    op.outputStream = [NSOutputStream outputStreamToFileAtPath:assetsZipPath append:NO];
+    // 根据下载量设置进度条的百分比
+    [op setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        CGFloat precent = (CGFloat)totalBytesRead / totalBytesExpectedToRead;
+        HUD.progress = precent;
+    }];
+    
+    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [FileUtils checkAssets:assetName isInAssets:isInAssets bundlePath:[[NSBundle mainBundle] bundlePath]];
+        
+        [HUD removeFromSuperview];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@" 下载失败 ");
+        [HUD removeFromSuperview];
+    }];
+    return op;
+}
+
 
 
 -(void)SwitchTableViewCellButtonClick:(UISwitch *)button with:(NSInteger)cellId; {
@@ -197,12 +373,13 @@
         if (!isPygerUpgrade) {
             self.noticeDict[kSettingPgyerLNName] = @NO;
         }
-        if(isPygerUpgrade) {
+        else {
             NSString *betaName = ([pgyerResponse[kVersionCodeCPCName] integerValue] % 2 == 0) ? @"" : @"测试";
             self.pgyLinkString= [NSString stringWithFormat:@"%@版本:%@(%@)", betaName, pgyerResponse[kVersionNameCPCName],  pgyerResponse[kVersionCodeCPCName]];
         }
     }
-     [self.tableView reloadData];
+    //self.infodict[@"检查新版本"] = self.pgyLinkString;
+   [self.tableView reloadData];
 }
 
 
@@ -234,6 +411,8 @@
     
     // 对比 build 值，只准正向安装提示
     if(responseVersionCode <= currentVersionCode) {
+        self.pgyLinkString = @"已是最新版本";
+        [self.tableView reloadData];
         return;
     }
     

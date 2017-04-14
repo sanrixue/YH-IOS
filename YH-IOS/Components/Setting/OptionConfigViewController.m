@@ -99,6 +99,13 @@
         _arraydict =   @{@"启用锁屏":@YES,@"修改锁屏密码":@{}};
         [self.tableView reloadData];
     }
+    
+    else if ([[_arraydict allKeys][indexPath.row] isEqualToString:@"清理缓存"]){
+        SettingNormalViewController *settingNormalCtrl = [[SettingNormalViewController alloc]init];
+        settingNormalCtrl.infodict = [_arraydict allValues][indexPath.row];
+        settingNormalCtrl.title = @"清理缓存";
+        [self.navigationController pushViewController:settingNormalCtrl animated:YES];
+    }
 }
 
 - (void)actionChangeGesturePassword {

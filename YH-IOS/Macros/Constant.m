@@ -139,6 +139,7 @@ NSString *const kDropSearchText  = @"筛选";
 NSString *const kDropShareText   = @"分享";
 NSString *const kDropCommentText = @"评论";
 NSString *const kDropRefreshText = @"刷新";
+NSString *const kDropCopyLinkText = @"拷贝链接";
 
 /**
  * Assets file name

@@ -44,7 +44,6 @@
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
-    [self checkAssetsUpdate];
        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Banner-Setting"] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
 }
 
@@ -91,10 +90,9 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [LTHPasscodeViewController sharedUser].delegate = self;
-    [LTHPasscodeViewController useKeychain:NO];
-    [LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
+   // [LTHPasscodeViewController useKeychain:NO];
+    //[LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
 }
 
 - (void)initDropMenu {

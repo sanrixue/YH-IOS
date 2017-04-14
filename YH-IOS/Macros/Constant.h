@@ -146,6 +146,7 @@ extern NSString *const kDropMentScanText;
 extern NSString *const kDropMentVoiceText;
 extern NSString *const kDropMentSearchText;
 extern NSString *const kDropMentUserInfoText;
+extern NSString *const kDropCopyLinkText;
 
 /**
  *  Subject#DropMenu

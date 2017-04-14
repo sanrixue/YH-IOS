@@ -11,6 +11,9 @@
 #import "MessageViewController.h"
 #import "AnalysisViewController.h"
 #import "KPIViewController.h"
+#import <MBProgressHUD.h>
+#import "AFNetworking.h"
+
 
 @interface MianTabBarViewController ()
 
@@ -24,7 +27,13 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
+    [self checkAssetsUpdate];
+    if (![HttpUtils isNetworkAvailable2]) {
+        [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:@"CB891C"]];
+    }
+    else{
+        [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
+    }
 }
 
 - (void)addchildControllers{
@@ -51,11 +60,86 @@
     kpiRootViewController.tabBarItem.title = @"仪表盘";
     kpiRootViewController.tabBarItem.image = [UIImage imageNamed:@"TabBar-KPI"];
     kpiRootViewController.tabBarItem.selectedImage = [UIImage imageNamed:@"TabBar-KPI-Selected"];
-                                                           
     
     self.viewControllers = @[kpiRootViewController,analysisRootViewController,applicationRootViewController,messageRootViewController];
     
 }
+
+
+/**
+ *  检测服务器端静态文件是否更新
+ */
+- (void)checkAssetsUpdate {
+    // 初始化队列
+    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+    AFHTTPRequestOperation *op;
+    op = [self checkAssetUpdate:kLoadingAssetsName info:kLoadingPopupText isInAssets: NO];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kFontsAssetsName info:kFontsPopupText isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kImagesAssetsName info:kImagesPopupText isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kStylesheetsAssetsName info:kStylesheetsPopupText isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kJavascriptsAssetsName info:kJavascriptsPopupText isInAssets: YES];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kBarCodeScanAssetsName info:kBarCodeScanPopupText isInAssets: NO];
+    if(op) { [queue addOperation:op]; }
+    // op = [self checkAssetUpdate:kAdvertisementAssetsName info:kAdvertisementPopupText isInAssets: NO];
+    // if(op) { [queue addOperation:op]; }
+}
+
+- (AFHTTPRequestOperation *)checkAssetUpdate:(NSString *)assetName info:(NSString *)info isInAssets:(BOOL)isInAssets {
+    BOOL isShouldUpdateAssets = NO;
+    __block NSString *sharedPath = [FileUtils sharedPath];
+    
+    NSString *assetsZipPath = [sharedPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", assetName]];
+    if(![FileUtils checkFileExist:assetsZipPath isDir:NO]) {
+        isShouldUpdateAssets = YES;
+    }
+    
+    __block NSString *assetKey = [NSString stringWithFormat:@"%@_md5", assetName];
+    __block  NSString *localAssetKey = [NSString stringWithFormat:@"local_%@_md5", assetName];
+    __block NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    __block NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    if(!isShouldUpdateAssets && ![userDict[assetKey] isEqualToString:userDict[localAssetKey]]) {
+        isShouldUpdateAssets = YES;
+        NSLog(@"%@ - local: %@, server: %@", assetName, userDict[localAssetKey], userDict[assetKey]);
+    }
+    
+    if(!isShouldUpdateAssets) { return nil; }
+    
+    MBProgressHUD *HUD = [[MBProgressHUD alloc] initWithView:self.view];
+    [self.view addSubview:HUD];
+    HUD.tag       = 1000;
+    HUD.mode      = MBProgressHUDModeDeterminate;
+    HUD.labelText = [NSString stringWithFormat:@"更新%@", info];
+    HUD.square    = YES;
+    [HUD show:YES];
+    
+    // 下载地址
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:kDownloadAssetsAPIPath, kBaseUrl, assetName]];
+    // 保存路径
+    AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:url]];
+    op.outputStream = [NSOutputStream outputStreamToFileAtPath:assetsZipPath append:NO];
+    // 根据下载量设置进度条的百分比
+    [op setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        CGFloat precent = (CGFloat)totalBytesRead / totalBytesExpectedToRead;
+        HUD.progress = precent;
+    }];
+    
+    [op setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [FileUtils checkAssets:assetName isInAssets:isInAssets bundlePath:[[NSBundle mainBundle] bundlePath]];
+        
+        [HUD removeFromSuperview];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@" 下载失败 ");
+        [HUD removeFromSuperview];
+    }];
+    return op;
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

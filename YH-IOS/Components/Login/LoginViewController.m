@@ -60,13 +60,17 @@
     [self.bgView addSubview:self.loginUserImage];
     
     UIColor *placeHoderColor = [UIColor whiteColor];
-    
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     self.userNameText = [[UITextField alloc] init];
     self.userNameText.textAlignment = NSTextAlignmentCenter;
     self.userNameText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入帐名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userNameText.borderStyle = UITextBorderStyleNone;
     self.userNameText.delegate = self;
+    if (![userDict[@"user_name"] isEqualToString:@""] && userDict[@"user_name"]) {
+        self.userNameText.text = userDict[@"user_num"];
+    }
     self.userNameText.textColor = [UIColor whiteColor];
     self.userNameText.userInteractionEnabled = YES;
     self.userNameText.returnKeyType = UIReturnKeyDone;

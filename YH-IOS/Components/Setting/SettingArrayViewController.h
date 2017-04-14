@@ -11,5 +11,6 @@
 @interface SettingArrayViewController : UIViewController
 
 @property(nonatomic, strong)NSArray *array;
+@property(nonatomic,strong)NSArray *titleArray;
 
 @end

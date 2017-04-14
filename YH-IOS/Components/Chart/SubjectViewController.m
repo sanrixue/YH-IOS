@@ -15,6 +15,7 @@
 #import "ReportSelectorViewController.h"
 #import "DropTableViewCell.h"
 #import "DropViewController.h"
+#import "ViewUtils.h"
 
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
@@ -58,8 +59,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     self.urlString   = self.link;
-    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, 60, self.view.frame.size.width, self.view.frame.size.height + 40)];
-    [self.view addSubview:self.browser];
+   // self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, 60, self.view.frame.size.width, self.view.frame.size.height + 40)];
+   // [self.view addSubview:self.browser];
     self.browser.delegate = self;
     self.browser.delegate = self;
     if(self.isInnerLink) {
@@ -112,6 +113,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [self loadHtml];
     }
     else{
+        self.labelTheme.textColor = [UIColor colorWithHexString:@"CB891C"];
         [self clearBrowserCache];
         NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
         NSString* htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
@@ -426,6 +428,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [tmpTitles addObject:kDropSearchText];
         [tmpIcons addObject:@"Subject-Search"];
     }
+    if (!self.isInnerLink) {
+        [tmpTitles addObject:kDropCopyLinkText];
+        [tmpIcons addObject:@"Subject_Copylink"];
+    }
     [tmpTitles addObject:kDropRefreshText];
     [tmpIcons addObject:@"Subject-Refresh"];
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
@@ -440,9 +446,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 -(void)showTableView:(UIButton *)sender {
     [self initDropMenu];
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, 100, 150 / 4 * self.dropMenuTitles.count);
+    dropTableViewController.view.frame = CGRectMake(0, 0, 120, 150 / 4 * self.dropMenuTitles.count);
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(100, 150 / 4 * self.dropMenuTitles.count)];
+    [dropTableViewController setPreferredContentSize:CGSizeMake(120, 150 / 4 * self.dropMenuTitles.count)];
     dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     dropTableViewController.dropTableView.delegate = self;
     dropTableViewController.dropTableView.dataSource =self;
@@ -508,6 +514,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         }
         else if ([itemName isEqualToString:kDropRefreshText]){
             [self handleRefresh];
+        }
+        else if ([itemName isEqualToString:kDropCopyLinkText]){
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            pasteboard.string = self.link;
+            if (![pasteboard.string isEqualToString:@""]) {
+                [ViewUtils showPopupView:self.view Info:@"链接复制成功"];
+            }
         }
     }];
 }
@@ -668,7 +681,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self checkInterfaceOrientation:toInterfaceOrientation];
     [self dismissViewControllerAnimated:YES completion:nil];
-    [self isLoadHtmlFromService];
+    [self loadHtml];
 }
 
 /**

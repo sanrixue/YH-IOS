@@ -52,7 +52,6 @@
     
     [UIApplication sharedApplication].applicationSupportsShakeToEdit = YES;
     [self becomeFirstResponder];
-    [self getDocumentName];
     // Do any additional setup after loading the view.
 }
 
@@ -233,7 +232,7 @@
     UIView *sepertatorView1 = [[UIView alloc]initWithFrame:CGRectMake(0, 90, self.view.bounds.size.width, 1)];
     sepertatorView1.backgroundColor = [ UIColor lightGrayColor];
     sepertatorView1.alpha = 0.6;
-    UIView *settingFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 40, self.view.bounds.size.width, 100)];
+    UIView *settingFooterView = [[UIView alloc]initWithFrame:CGRectMake(0,  40, self.view.bounds.size.width, 100)];
     UIButton *logoutBtn = [[UIButton alloc]initWithFrame:CGRectMake(0, 40, settingFooterView.frame.size.width, settingFooterView.frame.size.height - 60)];
     [settingFooterView addSubview:sepertatorView];
     [settingFooterView addSubview:sepertatorView1];
@@ -303,13 +302,13 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return 160.0;
+    return 140.0;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0:{
-            NSDictionary *infodict = @{@"用户名":user.userName,@"邮箱":@"intfocus@gmail.com",@"电话":@"110110110",@"用户商行":[NSString stringWithFormat:@"%@", user.groupName],@"部门":[NSString stringWithFormat:@"%@", user.roleName],@"用户ID":[NSString  stringWithFormat:@"%@",user.userID],@"修改密码":@""};
+            NSDictionary *infodict = @{@"用户名":user.userName,@"邮箱":@"",@"电话":@"",@"用户商行":[NSString stringWithFormat:@"%@", user.groupName],@"部门":[NSString stringWithFormat:@"%@", user.roleName],@"用户ID":[NSString  stringWithFormat:@"%@",user.userID],@"修改密码":@""};
             SettingNormalViewController *settingNormalView = [[SettingNormalViewController alloc]init];
             settingNormalView.infodict  = infodict;
             settingNormalView.title = userInfoArray[indexPath.row];
@@ -317,12 +316,12 @@
         }
             break;
         case 2:{
-            NSDictionary *infodict = @{@"锁屏设置": @{@"启用锁屏":@YES,@"修改锁屏密码":@{}}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{}};
+            NSDictionary *infodict = @{@"锁屏设置": @{@"启用锁屏":@YES,@"修改锁屏密码":@{}}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
             NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
             BOOL isUseGesturePassword = [userDict[kIsUseGesturePasswordCUName] boolValue];
             if (!isUseGesturePassword) {
-                infodict = @{@"锁屏设置": @{@"启用锁屏":@NO}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{} };
+                infodict = @{@"锁屏设置": @{@"启用锁屏":@NO}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""} };
             }
             OptionConfigViewController *optionView = [[OptionConfigViewController alloc]init];
             optionView.title = userInfoArray[indexPath.row];

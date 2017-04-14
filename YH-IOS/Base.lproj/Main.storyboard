@@ -339,7 +339,7 @@
                     </view>
                     <connections>
                         <outlet property="bannerView" destination="jiD-n2-AKa" id="JKP-Ys-KZk"/>
-                        <outlet property="browser" destination="UNg-xt-Kyh" id="pTZ-2h-Qep"/>
+                        <outlet property="browser" destination="UNg-xt-Kyh" id="0Tl-VS-v35"/>
                         <outlet property="idColor0" destination="L62-w8-wJH" id="YQN-Ht-PDT"/>
                         <outlet property="idColor1" destination="xLY-ps-8ks" id="3wq-t9-XJr"/>
                         <outlet property="idColor2" destination="h64-rz-hIL" id="Ncc-Ob-Yz0"/>
@@ -465,7 +465,7 @@
                                 <frame key="frameInset" minY="85" width="600" height="515"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="separatorColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="sectionIndexColor" patternImage="40938797-B747-445B-8211-473F75547653" colorSpace="pattern"/>
+                                <color key="sectionIndexColor" patternImage="3F1628A5-2E93-494A-9B31-9D15847DCC15" colorSpace="pattern"/>
                                 <color key="sectionIndexBackgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <sections/>
                             </tableView>
@@ -916,7 +916,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="40938797-B747-445B-8211-473F75547653" width="168" height="49">
+        <image name="3F1628A5-2E93-494A-9B31-9D15847DCC15" width="168" height="49">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGOzxYJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK0HCBMU
 GR4fJSYsLzU4VSRudWxs1QkKCwwNDg8QERJWTlNTaXplViRjbGFzc1xOU0ltYWdlRmxhZ3NWTlNSZXBz

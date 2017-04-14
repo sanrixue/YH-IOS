@@ -11,6 +11,7 @@
 #import "FileUtils.h"
 #import "User.h"
 
+
 @interface SettingArrayViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView* tableView;
 @property(nonatomic,assign) BOOL isUserable;
@@ -68,7 +69,7 @@
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else if ([_array[indexPath.row] isKindOfClass:[NSString class]]){
-        cell.textLabel.text = _array[indexPath.row];
+        cell.textLabel.text = _titleArray[indexPath.row];
         cell.detailTextLabel.text = @"手动删除";
         self.isUserable = YES;
     }
@@ -76,28 +77,56 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     if ([_array[indexPath.row] isKindOfClass:[NSDictionary class]]) {
         SettingNormalViewController *thirdView = [[SettingNormalViewController alloc]init];
-        thirdView.title = _array[indexPath.row][@"name"];
+        thirdView.title = self.title;
         thirdView.infodict = _array[indexPath.row];
         [self.navigationController pushViewController:thirdView animated:YES];
     }
-    
-    if ([_array[indexPath.row] isKindOfClass:[NSDictionary class]]) {
-        SettingArrayViewController *thirdView = [[SettingArrayViewController alloc]init];
-        thirdView.title = self.title;
-        thirdView.array = _array[indexPath.row];
-        [self.navigationController pushViewController:thirdView animated:YES];
-    }
     if (self.isUserable && [_array[indexPath.row] isKindOfClass:[NSString class]]) {
-        NSString* filePath = [[FileUtils basePath] stringByAppendingPathComponent:_array[indexPath.row]];
-        [FileUtils removeFile:filePath];
-        [self getDocumentName];
+        NSString *messageInfo = [NSString stringWithFormat:@"删除%@",_array[indexPath.row]];
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                       message:messageInfo
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"确认删除" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  NSString* filePath = [[FileUtils basePath] stringByAppendingPathComponent:_array[indexPath.row]];
+                                                                  [FileUtils removeFile:filePath];
+                                                                  [self getDocumentName];}];
+        
+        [alert addAction:defaultAction];
+        UIAlertAction* defaultActioncancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+         [alert addAction:defaultActioncancel];
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 
-- (void)getDocumentName{
+- (NSArray *)getPathFileName{
+    NSArray *firstSavePathArray=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
+    for (NSString *path in firstSavePathArray) {
+        NSLog(@"%@",path);
+    }
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSError *error = nil;
+    NSArray *fileList = [[NSArray alloc] init];
+    fileList = [fileManager contentsOfDirectoryAtPath:firstSavePathArray[0] error:&error];
+    NSMutableArray* cleanArray = [[NSMutableArray alloc]init];
+    NSLog(@"%@",fileList);
+    User *user = [[User alloc]init];
+    NSString *userFileName = [NSString stringWithFormat:@"user-%@",user.userID];
+    for (NSString* value in fileList) {
+        if ([value hasPrefix:@"user-"] && ![value isEqualToString:userFileName] && ![value isEqualToString:@"user-(null)"]) {
+            [cleanArray addObject:value];
+        }
+    }
+    return cleanArray;
+}
+
+// 获取清理文件
+- (NSArray*)getDocumentName{
     NSArray *firstSavePathArray=NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES);
     for (NSString *path in firstSavePathArray) {
         NSLog(@"%@",path);
@@ -112,12 +141,24 @@
     User* user = [[User alloc]init];
     NSString *userFileName = [NSString stringWithFormat:@"user-%@",user.userID];
     for (NSString* value in fileList) {
-        if ([value hasPrefix:@"user-"] && ![value isEqualToString:userFileName]) {
-            [cleanArray addObject:value];
+        if ([value hasPrefix:@"user-"] && ![value isEqualToString:userFileName] && ![value isEqualToString:@"user-(null)"]) {
+            NSMutableDictionary *userDict;
+            NSString *userPath = [[FileUtils basePath] stringByAppendingPathComponent:value];
+            if ([FileUtils checkFileExist:userPath isDir:YES]) {
+                NSString *userConfigPath = [userPath stringByAppendingPathComponent:@"Configs"];
+                if ([FileUtils checkFileExist:userConfigPath isDir:YES]) {
+                    NSString *userInfoPath = [userConfigPath stringByAppendingPathComponent:@"setting.plist"];
+                    userDict = [FileUtils readConfigFile:userInfoPath];
+                    if (userDict[@"user_name"] && ![userDict[@"user_name"] isEqualToString:@""]) {
+                        [cleanArray addObject:userDict[@"user_name"]];
+                    }
+                }
+            }
         }
     }
     self.array = cleanArray;
     [self.tableView reloadData];
+    return cleanArray;
 }
 
 - (void)didReceiveMemoryWarning {

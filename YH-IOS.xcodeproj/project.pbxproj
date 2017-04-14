@@ -1088,7 +1088,7 @@
 					C4DB7D721C02EC0500DA534E = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = WV94P663S4;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1442,8 +1442,8 @@
 				BUNDLE_LOADER = "";
 				CODE_SIGN_ENTITLEMENTS = "YH-IOS/YH-IOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1461,10 +1461,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "68f76d13-e17f-4845-b32a-3f32837eca75";
+				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: com.intfocus.YongHuiChart";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1477,8 +1477,8 @@
 				BUNDLE_LOADER = "";
 				CODE_SIGN_ENTITLEMENTS = "YH-IOS/YH-IOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1496,10 +1496,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "68f76d13-e17f-4845-b32a-3f32837eca75";
+				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: com.intfocus.YongHuiChart";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

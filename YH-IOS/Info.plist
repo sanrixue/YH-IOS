@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDisplayName</key>
-	<string>永辉应用(测试)</string>
+	<string>企邮通</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 		<string>zh_CN</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>永辉应用(测试)</string>
+	<string>企邮通</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -31,7 +31,7 @@
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxc48d00458356ccb6</string>
+				<string>wxaedb8945bde9df1d</string>
 			</array>
 		</dict>
 	</array>

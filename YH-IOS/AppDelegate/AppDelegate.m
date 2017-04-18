@@ -60,6 +60,10 @@ void UncaughtExceptionHandler(NSException * exception) {
     
 }
 
++ (AppDelegate *)shareAppdelegate{
+    return [UIApplication sharedApplication].delegate;
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     

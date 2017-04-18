@@ -106,6 +106,166 @@
 		F65548511E8CE21E00B4048C /* MainBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F65548501E8CE21E00B4048C /* MainBaseViewController.m */; };
 		F65548541E8CE3B400B4048C /* UserHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = F65548531E8CE3B400B4048C /* UserHeadView.m */; };
 		F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68089531D8930C400CDBAF8 /* DropViewController.m */; };
+		F684BE911EA5E0F700DBDBD4 /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BE851EA5E0F700DBDBD4 /* BaseNavigationController.m */; };
+		F684BE921EA5E0F700DBDBD4 /* BaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BE871EA5E0F700DBDBD4 /* BaseRequest.m */; };
+		F684BE931EA5E0F700DBDBD4 /* MainTabbarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BE8A1EA5E0F700DBDBD4 /* MainTabbarViewController.m */; };
+		F684BE941EA5E0F700DBDBD4 /* TCBaseAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = F684BE8C1EA5E0F700DBDBD4 /* TCBaseAppDelegate.mm */; };
+		F684BE951EA5E0F700DBDBD4 /* TPKeyboardAvoidingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BE8E1EA5E0F700DBDBD4 /* TPKeyboardAvoidingScrollView.m */; };
+		F684BE961EA5E0F700DBDBD4 /* YHBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BE901EA5E0F700DBDBD4 /* YHBaseViewController.m */; };
+		F684BECE1EA5E15100DBDBD4 /* BasicTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = F684BE9A1EA5E15100DBDBD4 /* BasicTool.mm */; };
+		F684BECF1EA5E15100DBDBD4 /* NSDate+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BE9C1EA5E15100DBDBD4 /* NSDate+Category.m */; };
+		F684BED01EA5E15100DBDBD4 /* NSObject+NSObject.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BE9E1EA5E15100DBDBD4 /* NSObject+NSObject.m */; };
+		F684BED11EA5E15100DBDBD4 /* NSString+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEA01EA5E15100DBDBD4 /* NSString+Category.m */; };
+		F684BED21EA5E15100DBDBD4 /* NSString+verification.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEA21EA5E15100DBDBD4 /* NSString+verification.m */; };
+		F684BED31EA5E15100DBDBD4 /* PinYinUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEA41EA5E15100DBDBD4 /* PinYinUtil.m */; };
+		F684BED41EA5E15100DBDBD4 /* UIAlertView+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEA61EA5E15100DBDBD4 /* UIAlertView+Category.m */; };
+		F684BED51EA5E15100DBDBD4 /* UIBarButtonItem+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEA81EA5E15100DBDBD4 /* UIBarButtonItem+Category.m */; };
+		F684BED61EA5E15100DBDBD4 /* UIButton+FillColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEAA1EA5E15100DBDBD4 /* UIButton+FillColor.m */; };
+		F684BED71EA5E15100DBDBD4 /* UICollectionViewCell+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEAC1EA5E15100DBDBD4 /* UICollectionViewCell+Category.m */; };
+		F684BED81EA5E15100DBDBD4 /* UIColor+Utilities.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEAE1EA5E15100DBDBD4 /* UIColor+Utilities.m */; };
+		F684BED91EA5E15100DBDBD4 /* UICustomLineLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEB11EA5E15100DBDBD4 /* UICustomLineLabel.m */; };
+		F684BEDA1EA5E15100DBDBD4 /* UIImage+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEB31EA5E15100DBDBD4 /* UIImage+Category.m */; };
+		F684BEDB1EA5E15100DBDBD4 /* UILabel+ContentSize.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEB51EA5E15100DBDBD4 /* UILabel+ContentSize.m */; };
+		F684BEDC1EA5E15100DBDBD4 /* UINavigationBar+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEB71EA5E15100DBDBD4 /* UINavigationBar+Category.m */; };
+		F684BEDD1EA5E15100DBDBD4 /* UIScrollView+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEB91EA5E15100DBDBD4 /* UIScrollView+Size.m */; };
+		F684BEDE1EA5E15100DBDBD4 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEBB1EA5E15100DBDBD4 /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
+		F684BEDF1EA5E15100DBDBD4 /* UITabBar+TabBarTip.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEBD1EA5E15100DBDBD4 /* UITabBar+TabBarTip.m */; };
+		F684BEE01EA5E15100DBDBD4 /* UITabBarControllerAdditionals.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEBF1EA5E15100DBDBD4 /* UITabBarControllerAdditionals.m */; };
+		F684BEE11EA5E15100DBDBD4 /* UITableViewCell+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEC11EA5E15100DBDBD4 /* UITableViewCell+Category.m */; };
+		F684BEE21EA5E15100DBDBD4 /* UITextField+Additionals.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEC31EA5E15100DBDBD4 /* UITextField+Additionals.m */; };
+		F684BEE31EA5E15100DBDBD4 /* UITextView+Placeholder.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEC51EA5E15100DBDBD4 /* UITextView+Placeholder.m */; };
+		F684BEE41EA5E15100DBDBD4 /* UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEC71EA5E15100DBDBD4 /* UIView.m */; };
+		F684BEE51EA5E15100DBDBD4 /* UIView+border.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEC91EA5E15100DBDBD4 /* UIView+border.m */; };
+		F684BEE61EA5E15100DBDBD4 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BECB1EA5E15100DBDBD4 /* UIView+MJExtension.m */; };
+		F684BEE71EA5E15100DBDBD4 /* UIViewController+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BECD1EA5E15100DBDBD4 /* UIViewController+Category.m */; };
+		F684BF2E1EA5E1A900DBDBD4 /* AnotherBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEEA1EA5E1A900DBDBD4 /* AnotherBarChartViewController.m */; };
+		F684BF2F1EA5E1A900DBDBD4 /* AnotherBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BEEB1EA5E1A900DBDBD4 /* AnotherBarChartViewController.xib */; };
+		F684BF301EA5E1A900DBDBD4 /* BarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEED1EA5E1A900DBDBD4 /* BarChartViewController.m */; };
+		F684BF311EA5E1A900DBDBD4 /* BarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BEEE1EA5E1A900DBDBD4 /* BarChartViewController.xib */; };
+		F684BF321EA5E1A900DBDBD4 /* BubbleChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEF01EA5E1A900DBDBD4 /* BubbleChartViewController.m */; };
+		F684BF331EA5E1A900DBDBD4 /* BubbleChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BEF11EA5E1A900DBDBD4 /* BubbleChartViewController.xib */; };
+		F684BF341EA5E1A900DBDBD4 /* CandleStickChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEF31EA5E1A900DBDBD4 /* CandleStickChartViewController.m */; };
+		F684BF351EA5E1A900DBDBD4 /* CandleStickChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BEF41EA5E1A900DBDBD4 /* CandleStickChartViewController.xib */; };
+		F684BF361EA5E1A900DBDBD4 /* ColoredLineChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEF61EA5E1A900DBDBD4 /* ColoredLineChartViewController.m */; };
+		F684BF371EA5E1A900DBDBD4 /* ColoredLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BEF71EA5E1A900DBDBD4 /* ColoredLineChartViewController.xib */; };
+		F684BF381EA5E1A900DBDBD4 /* CombinedChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEF91EA5E1A900DBDBD4 /* CombinedChartViewController.m */; };
+		F684BF391EA5E1A900DBDBD4 /* CombinedChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BEFA1EA5E1A900DBDBD4 /* CombinedChartViewController.xib */; };
+		F684BF3A1EA5E1A900DBDBD4 /* CubicLineChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEFC1EA5E1A900DBDBD4 /* CubicLineChartViewController.m */; };
+		F684BF3B1EA5E1A900DBDBD4 /* CubicLineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BEFD1EA5E1A900DBDBD4 /* CubicLineChartViewController.xib */; };
+		F684BF3C1EA5E1A900DBDBD4 /* HalfPieChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BEFF1EA5E1A900DBDBD4 /* HalfPieChartViewController.m */; };
+		F684BF3D1EA5E1A900DBDBD4 /* HalfPieChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF001EA5E1A900DBDBD4 /* HalfPieChartViewController.xib */; };
+		F684BF3E1EA5E1A900DBDBD4 /* HorizontalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF021EA5E1A900DBDBD4 /* HorizontalBarChartViewController.m */; };
+		F684BF3F1EA5E1A900DBDBD4 /* HorizontalBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF031EA5E1A900DBDBD4 /* HorizontalBarChartViewController.xib */; };
+		F684BF401EA5E1A900DBDBD4 /* LineChart1ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF051EA5E1A900DBDBD4 /* LineChart1ViewController.m */; };
+		F684BF411EA5E1A900DBDBD4 /* LineChart1ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF061EA5E1A900DBDBD4 /* LineChart1ViewController.xib */; };
+		F684BF421EA5E1A900DBDBD4 /* LineChart2ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF081EA5E1A900DBDBD4 /* LineChart2ViewController.m */; };
+		F684BF431EA5E1A900DBDBD4 /* LineChart2ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF091EA5E1A900DBDBD4 /* LineChart2ViewController.xib */; };
+		F684BF441EA5E1A900DBDBD4 /* LineChartFilledViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF0B1EA5E1A900DBDBD4 /* LineChartFilledViewController.m */; };
+		F684BF451EA5E1A900DBDBD4 /* LineChartFilledViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF0C1EA5E1A900DBDBD4 /* LineChartFilledViewController.xib */; };
+		F684BF461EA5E1A900DBDBD4 /* LineChartTimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF0E1EA5E1A900DBDBD4 /* LineChartTimeViewController.m */; };
+		F684BF471EA5E1A900DBDBD4 /* LineChartTimeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF0F1EA5E1A900DBDBD4 /* LineChartTimeViewController.xib */; };
+		F684BF481EA5E1A900DBDBD4 /* MultipleBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF111EA5E1A900DBDBD4 /* MultipleBarChartViewController.m */; };
+		F684BF491EA5E1A900DBDBD4 /* MultipleBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF121EA5E1A900DBDBD4 /* MultipleBarChartViewController.xib */; };
+		F684BF4A1EA5E1A900DBDBD4 /* MultipleLinesChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF141EA5E1A900DBDBD4 /* MultipleLinesChartViewController.m */; };
+		F684BF4B1EA5E1A900DBDBD4 /* MultipleLinesChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF151EA5E1A900DBDBD4 /* MultipleLinesChartViewController.xib */; };
+		F684BF4C1EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF171EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.m */; };
+		F684BF4D1EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF181EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.xib */; };
+		F684BF4E1EA5E1A900DBDBD4 /* PieChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF1A1EA5E1A900DBDBD4 /* PieChartViewController.m */; };
+		F684BF4F1EA5E1A900DBDBD4 /* PieChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF1B1EA5E1A900DBDBD4 /* PieChartViewController.xib */; };
+		F684BF501EA5E1A900DBDBD4 /* PiePolylineChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF1D1EA5E1A900DBDBD4 /* PiePolylineChartViewController.m */; };
+		F684BF511EA5E1A900DBDBD4 /* PiePolylineChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF1E1EA5E1A900DBDBD4 /* PiePolylineChartViewController.xib */; };
+		F684BF521EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF201EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.m */; };
+		F684BF531EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF211EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.xib */; };
+		F684BF541EA5E1A900DBDBD4 /* RadarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF231EA5E1A900DBDBD4 /* RadarChartViewController.m */; };
+		F684BF551EA5E1A900DBDBD4 /* RadarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF241EA5E1A900DBDBD4 /* RadarChartViewController.xib */; };
+		F684BF561EA5E1A900DBDBD4 /* ScatterChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF261EA5E1A900DBDBD4 /* ScatterChartViewController.m */; };
+		F684BF571EA5E1A900DBDBD4 /* ScatterChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF271EA5E1A900DBDBD4 /* ScatterChartViewController.xib */; };
+		F684BF581EA5E1A900DBDBD4 /* SinusBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF291EA5E1A900DBDBD4 /* SinusBarChartViewController.m */; };
+		F684BF591EA5E1A900DBDBD4 /* SinusBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF2A1EA5E1A900DBDBD4 /* SinusBarChartViewController.xib */; };
+		F684BF5A1EA5E1A900DBDBD4 /* StackedBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF2C1EA5E1A900DBDBD4 /* StackedBarChartViewController.m */; };
+		F684BF5B1EA5E1A900DBDBD4 /* StackedBarChartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF2D1EA5E1A900DBDBD4 /* StackedBarChartViewController.xib */; };
+		F684BF611EA5E1CC00DBDBD4 /* DateValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF5E1EA5E1CC00DBDBD4 /* DateValueFormatter.m */; };
+		F684BF621EA5E1CC00DBDBD4 /* IntAxisValueFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF601EA5E1CC00DBDBD4 /* IntAxisValueFormatter.m */; };
+		F684BF671EA5E1EA00DBDBD4 /* DemoListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF651EA5E1EA00DBDBD4 /* DemoListViewController.m */; };
+		F684BF681EA5E1EA00DBDBD4 /* DemoListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF661EA5E1EA00DBDBD4 /* DemoListViewController.xib */; };
+		F684BF9C1EA5E21800DBDBD4 /* ChartHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF6C1EA5E21800DBDBD4 /* ChartHeaderView.m */; };
+		F684BF9D1EA5E21800DBDBD4 /* ChartHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF6D1EA5E21800DBDBD4 /* ChartHeaderView.xib */; };
+		F684BF9E1EA5E21800DBDBD4 /* ChartHeaderViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF6F1EA5E21800DBDBD4 /* ChartHeaderViewCell.m */; };
+		F684BF9F1EA5E21800DBDBD4 /* ChartHeaderViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF701EA5E21800DBDBD4 /* ChartHeaderViewCell.xib */; };
+		F684BFA01EA5E21800DBDBD4 /* ChartHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF721EA5E21800DBDBD4 /* ChartHudView.m */; };
+		F684BFA11EA5E21800DBDBD4 /* ChartHudView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF731EA5E21800DBDBD4 /* ChartHudView.xib */; };
+		F684BFA21EA5E21800DBDBD4 /* ChartModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF751EA5E21800DBDBD4 /* ChartModel.m */; };
+		F684BFA31EA5E21800DBDBD4 /* HomeIndexCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF771EA5E21800DBDBD4 /* HomeIndexCollectionCell.m */; };
+		F684BFA41EA5E21800DBDBD4 /* HomeIndexCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF781EA5E21800DBDBD4 /* HomeIndexCollectionCell.xib */; };
+		F684BFA51EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF7A1EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.m */; };
+		F684BFA61EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF7B1EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.xib */; };
+		F684BFA71EA5E21800DBDBD4 /* HomeIndexCollectionVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF7D1EA5E21800DBDBD4 /* HomeIndexCollectionVC.m */; };
+		F684BFA81EA5E21800DBDBD4 /* HomeIndexDetailListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF7F1EA5E21800DBDBD4 /* HomeIndexDetailListCell.m */; };
+		F684BFA91EA5E21800DBDBD4 /* HomeIndexDetailListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF801EA5E21800DBDBD4 /* HomeIndexDetailListCell.xib */; };
+		F684BFAA1EA5E21800DBDBD4 /* HomeIndexDetailListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF821EA5E21800DBDBD4 /* HomeIndexDetailListVC.m */; };
+		F684BFAB1EA5E21800DBDBD4 /* HomeIndexDetailListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF831EA5E21800DBDBD4 /* HomeIndexDetailListVC.xib */; };
+		F684BFAC1EA5E21800DBDBD4 /* HomeIndexItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF851EA5E21800DBDBD4 /* HomeIndexItemModel.m */; };
+		F684BFAD1EA5E21800DBDBD4 /* HomeIndexModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF871EA5E21800DBDBD4 /* HomeIndexModel.m */; };
+		F684BFAE1EA5E21800DBDBD4 /* HomeIndexVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF891EA5E21800DBDBD4 /* HomeIndexVC.m */; };
+		F684BFAF1EA5E21800DBDBD4 /* HomeIndexVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF8A1EA5E21800DBDBD4 /* HomeIndexVC.xib */; };
+		F684BFB01EA5E21800DBDBD4 /* OneLableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF8C1EA5E21800DBDBD4 /* OneLableCell.m */; };
+		F684BFB11EA5E21800DBDBD4 /* OneLableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF8D1EA5E21800DBDBD4 /* OneLableCell.xib */; };
+		F684BFB21EA5E21800DBDBD4 /* ScrollChartsVc.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF8F1EA5E21800DBDBD4 /* ScrollChartsVc.m */; };
+		F684BFB31EA5E21800DBDBD4 /* ScrollChartsVc.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF901EA5E21800DBDBD4 /* ScrollChartsVc.xib */; };
+		F684BFB41EA5E21800DBDBD4 /* YH_BarView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF921EA5E21800DBDBD4 /* YH_BarView.m */; };
+		F684BFB51EA5E21800DBDBD4 /* YH_LineAndBarVc.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF941EA5E21800DBDBD4 /* YH_LineAndBarVc.m */; };
+		F684BFB61EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF961EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.m */; };
+		F684BFB71EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF971EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.xib */; };
+		F684BFB81EA5E21800DBDBD4 /* YHLinechart1Vc.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BF991EA5E21800DBDBD4 /* YHLinechart1Vc.m */; };
+		F684BFB91EA5E21800DBDBD4 /* YHMarkerV.swift in Sources */ = {isa = PBXBuildFile; fileRef = F684BF9A1EA5E21800DBDBD4 /* YHMarkerV.swift */; };
+		F684BFBA1EA5E21800DBDBD4 /* YHMarkerV.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684BF9B1EA5E21800DBDBD4 /* YHMarkerV.xib */; };
+		F684BFDE1EA5E24400DBDBD4 /* AppCacheManger.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFBD1EA5E24400DBDBD4 /* AppCacheManger.m */; };
+		F684BFDF1EA5E24400DBDBD4 /* AppColor.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFBF1EA5E24400DBDBD4 /* AppColor.m */; };
+		F684BFE01EA5E24400DBDBD4 /* CommonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFC11EA5E24400DBDBD4 /* CommonTableViewCell.m */; };
+		F684BFE11EA5E24400DBDBD4 /* DataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFC41EA5E24400DBDBD4 /* DataManager.m */; };
+		F684BFE21EA5E24400DBDBD4 /* PermissionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFC61EA5E24400DBDBD4 /* PermissionManager.m */; };
+		F684BFE31EA5E24400DBDBD4 /* ALView+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFC91EA5E24400DBDBD4 /* ALView+PureLayout.m */; };
+		F684BFE41EA5E24400DBDBD4 /* NSArray+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFCB1EA5E24400DBDBD4 /* NSArray+PureLayout.m */; };
+		F684BFE51EA5E24400DBDBD4 /* NSLayoutConstraint+PureLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFCD1EA5E24400DBDBD4 /* NSLayoutConstraint+PureLayout.m */; };
+		F684BFE61EA5E24400DBDBD4 /* TableViewAndCollectionPackage.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFD21EA5E24400DBDBD4 /* TableViewAndCollectionPackage.m */; };
+		F684BFE71EA5E24400DBDBD4 /* AddShopCarsAnimationTool.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFD51EA5E24400DBDBD4 /* AddShopCarsAnimationTool.m */; };
+		F684BFE81EA5E24400DBDBD4 /* GifRefreshHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFD71EA5E24400DBDBD4 /* GifRefreshHeader.m */; };
+		F684BFE91EA5E24400DBDBD4 /* PointHudTool.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFD91EA5E24400DBDBD4 /* PointHudTool.m */; };
+		F684BFEA1EA5E24400DBDBD4 /* TPKeyboardAvoidingTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFDB1EA5E24400DBDBD4 /* TPKeyboardAvoidingTableView.m */; };
+		F684BFEB1EA5E24400DBDBD4 /* UINavigationBar+Awesome.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFDD1EA5E24400DBDBD4 /* UINavigationBar+Awesome.m */; };
+		F684C0391EA5E26800DBDBD4 /* BHInfiniteScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFF01EA5E26800DBDBD4 /* BHInfiniteScrollView.m */; };
+		F684C03A1EA5E26800DBDBD4 /* FXPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFF31EA5E26800DBDBD4 /* FXPageControl.m */; };
+		F684C03B1EA5E26800DBDBD4 /* BHInfiniteScrollViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFF61EA5E26800DBDBD4 /* BHInfiniteScrollViewCell.m */; };
+		F684C03C1EA5E26800DBDBD4 /* BHInfiniteScrollViewTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFF81EA5E26800DBDBD4 /* BHInfiniteScrollViewTitleView.m */; };
+		F684C03D1EA5E26800DBDBD4 /* Foundation + Log.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFF91EA5E26800DBDBD4 /* Foundation + Log.m */; };
+		F684C03E1EA5E26800DBDBD4 /* GJAutoCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFFC1EA5E26800DBDBD4 /* GJAutoCycleScrollView.m */; };
+		F684C03F1EA5E26800DBDBD4 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = F684BFFF1EA5E26800DBDBD4 /* iCarousel.m */; };
+		F684C0401EA5E26800DBDBD4 /* IQNSArray+Sort.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0031EA5E26800DBDBD4 /* IQNSArray+Sort.m */; };
+		F684C0411EA5E26800DBDBD4 /* IQUIScrollView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0051EA5E26800DBDBD4 /* IQUIScrollView+Additions.m */; };
+		F684C0421EA5E26800DBDBD4 /* IQUITextFieldView+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0071EA5E26800DBDBD4 /* IQUITextFieldView+Additions.m */; };
+		F684C0431EA5E26800DBDBD4 /* IQUIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0091EA5E26800DBDBD4 /* IQUIView+Hierarchy.m */; };
+		F684C0441EA5E26800DBDBD4 /* IQUIViewController+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C00B1EA5E26800DBDBD4 /* IQUIViewController+Additions.m */; };
+		F684C0451EA5E26800DBDBD4 /* IQUIWindow+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C00D1EA5E26800DBDBD4 /* IQUIWindow+Hierarchy.m */; };
+		F684C0461EA5E26800DBDBD4 /* IQKeyboardManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0121EA5E26800DBDBD4 /* IQKeyboardManager.m */; };
+		F684C0471EA5E26800DBDBD4 /* IQKeyboardReturnKeyHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0141EA5E26800DBDBD4 /* IQKeyboardReturnKeyHandler.m */; };
+		F684C0481EA5E26800DBDBD4 /* IQTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0171EA5E26800DBDBD4 /* IQTextView.m */; };
+		F684C0491EA5E26800DBDBD4 /* IQBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C01A1EA5E26800DBDBD4 /* IQBarButtonItem.m */; };
+		F684C04A1EA5E26800DBDBD4 /* IQPreviousNextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C01C1EA5E26800DBDBD4 /* IQPreviousNextView.m */; };
+		F684C04B1EA5E26800DBDBD4 /* IQTitleBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C01E1EA5E26800DBDBD4 /* IQTitleBarButtonItem.m */; };
+		F684C04C1EA5E26800DBDBD4 /* IQToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0201EA5E26800DBDBD4 /* IQToolbar.m */; };
+		F684C04D1EA5E26800DBDBD4 /* IQUIView+IQKeyboardToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0221EA5E26800DBDBD4 /* IQUIView+IQKeyboardToolbar.m */; };
+		F684C04E1EA5E26800DBDBD4 /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = F684C0241EA5E26800DBDBD4 /* IQKeyboardManager.bundle */; };
+		F684C04F1EA5E26900DBDBD4 /* CommonAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0271EA5E26800DBDBD4 /* CommonAlertView.m */; };
+		F684C0501EA5E26900DBDBD4 /* CommonAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684C0281EA5E26800DBDBD4 /* CommonAlertView.xib */; };
+		F684C0511EA5E26900DBDBD4 /* CommonPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C02A1EA5E26800DBDBD4 /* CommonPopupView.m */; };
+		F684C0521EA5E26900DBDBD4 /* GUATool.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C02C1EA5E26800DBDBD4 /* GUATool.m */; };
+		F684C0531EA5E26900DBDBD4 /* PSTAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C02F1EA5E26800DBDBD4 /* PSTAlertController.m */; };
+		F684C0541EA5E26900DBDBD4 /* UpdateVersionAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0321EA5E26800DBDBD4 /* UpdateVersionAlertView.m */; };
+		F684C0551EA5E26900DBDBD4 /* UpdateVersionAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F684C0331EA5E26800DBDBD4 /* UpdateVersionAlertView.xib */; };
+		F684C0561EA5E26900DBDBD4 /* WynCountDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0351EA5E26800DBDBD4 /* WynCountDownView.m */; };
+		F684C0571EA5E26900DBDBD4 /* ZoomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F684C0381EA5E26800DBDBD4 /* ZoomView.m */; };
+		F684C0751EA5F16700DBDBD4 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F684C0701EA5F15500DBDBD4 /* Charts.framework */; };
+		F684C0761EA5F16700DBDBD4 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F684C0701EA5F15500DBDBD4 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB9E81DB74CB40020DD17 /* LoadingView.m */; };
 		F691E5E41E28835C00BDC73E /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F691E5E31E28835C00BDC73E /* FindPasswordViewController.m */; };
 		F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D749E81DCC767300921C76 /* PcmPlayer.m */; };
@@ -133,7 +293,49 @@
 			remoteGlobalIDString = C4DB7D721C02EC0500DA534E;
 			remoteInfo = "YH-IOS";
 		};
+		F684C06F1EA5F15500DBDBD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F684C0691EA5F15400DBDBD4 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06165F241D8110E600722320;
+			remoteInfo = Charts;
+		};
+		F684C0711EA5F15500DBDBD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F684C0691EA5F15400DBDBD4 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06B120D51D811E6200D14B02;
+			remoteInfo = ChartsRealm;
+		};
+		F684C0731EA5F15500DBDBD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F684C0691EA5F15400DBDBD4 /* Charts.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 06165F2E1D8110E600722320;
+			remoteInfo = ChartsTests;
+		};
+		F684C0771EA5F16700DBDBD4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F684C0691EA5F15400DBDBD4 /* Charts.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 06165F231D8110E600722320;
+			remoteInfo = Charts;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F684C0681EA5F0C800DBDBD4 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F684C0761EA5F16700DBDBD4 /* Charts.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.release.xcconfig"; sourceTree = "<group>"; };
@@ -309,6 +511,290 @@
 		F65548531E8CE3B400B4048C /* UserHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeadView.m; sourceTree = "<group>"; };
 		F68089521D8930C400CDBAF8 /* DropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropViewController.h; sourceTree = "<group>"; };
 		F68089531D8930C400CDBAF8 /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
+		F684BE841EA5E0F700DBDBD4 /* BaseNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseNavigationController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/BaseNavigationController.h"; sourceTree = "<group>"; };
+		F684BE851EA5E0F700DBDBD4 /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseNavigationController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/BaseNavigationController.m"; sourceTree = "<group>"; };
+		F684BE861EA5E0F700DBDBD4 /* BaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseRequest.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/BaseRequest.h"; sourceTree = "<group>"; };
+		F684BE871EA5E0F700DBDBD4 /* BaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseRequest.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/BaseRequest.m"; sourceTree = "<group>"; };
+		F684BE891EA5E0F700DBDBD4 /* MainTabbarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainTabbarViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/MainTabbarViewController.h"; sourceTree = "<group>"; };
+		F684BE8A1EA5E0F700DBDBD4 /* MainTabbarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainTabbarViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/MainTabbarViewController.m"; sourceTree = "<group>"; };
+		F684BE8B1EA5E0F700DBDBD4 /* TCBaseAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCBaseAppDelegate.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/TCBaseAppDelegate.h"; sourceTree = "<group>"; };
+		F684BE8C1EA5E0F700DBDBD4 /* TCBaseAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TCBaseAppDelegate.mm; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/TCBaseAppDelegate.mm"; sourceTree = "<group>"; };
+		F684BE8D1EA5E0F700DBDBD4 /* TPKeyboardAvoidingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingScrollView.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/TPKeyboardAvoidingScrollView.h"; sourceTree = "<group>"; };
+		F684BE8E1EA5E0F700DBDBD4 /* TPKeyboardAvoidingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingScrollView.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/TPKeyboardAvoidingScrollView.m"; sourceTree = "<group>"; };
+		F684BE8F1EA5E0F700DBDBD4 /* YHBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YHBaseViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/YHBaseViewController.h"; sourceTree = "<group>"; };
+		F684BE901EA5E0F700DBDBD4 /* YHBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YHBaseViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Base/YHBaseViewController.m"; sourceTree = "<group>"; };
+		F684BE991EA5E15100DBDBD4 /* BasicTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BasicTool.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/BasicTool.h"; sourceTree = "<group>"; };
+		F684BE9A1EA5E15100DBDBD4 /* BasicTool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = BasicTool.mm; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/BasicTool.mm"; sourceTree = "<group>"; };
+		F684BE9B1EA5E15100DBDBD4 /* NSDate+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+Category.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/NSDate+Category.h"; sourceTree = "<group>"; };
+		F684BE9C1EA5E15100DBDBD4 /* NSDate+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+Category.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/NSDate+Category.m"; sourceTree = "<group>"; };
+		F684BE9D1EA5E15100DBDBD4 /* NSObject+NSObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+NSObject.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/NSObject+NSObject.h"; sourceTree = "<group>"; };
+		F684BE9E1EA5E15100DBDBD4 /* NSObject+NSObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+NSObject.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/NSObject+NSObject.m"; sourceTree = "<group>"; };
+		F684BE9F1EA5E15100DBDBD4 /* NSString+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Category.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/NSString+Category.h"; sourceTree = "<group>"; };
+		F684BEA01EA5E15100DBDBD4 /* NSString+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Category.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/NSString+Category.m"; sourceTree = "<group>"; };
+		F684BEA11EA5E15100DBDBD4 /* NSString+verification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+verification.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/NSString+verification.h"; sourceTree = "<group>"; };
+		F684BEA21EA5E15100DBDBD4 /* NSString+verification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+verification.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/NSString+verification.m"; sourceTree = "<group>"; };
+		F684BEA31EA5E15100DBDBD4 /* PinYinUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PinYinUtil.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/PinYinUtil.h"; sourceTree = "<group>"; };
+		F684BEA41EA5E15100DBDBD4 /* PinYinUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PinYinUtil.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/PinYinUtil.m"; sourceTree = "<group>"; };
+		F684BEA51EA5E15100DBDBD4 /* UIAlertView+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIAlertView+Category.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIAlertView+Category.h"; sourceTree = "<group>"; };
+		F684BEA61EA5E15100DBDBD4 /* UIAlertView+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIAlertView+Category.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIAlertView+Category.m"; sourceTree = "<group>"; };
+		F684BEA71EA5E15100DBDBD4 /* UIBarButtonItem+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIBarButtonItem+Category.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIBarButtonItem+Category.h"; sourceTree = "<group>"; };
+		F684BEA81EA5E15100DBDBD4 /* UIBarButtonItem+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIBarButtonItem+Category.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIBarButtonItem+Category.m"; sourceTree = "<group>"; };
+		F684BEA91EA5E15100DBDBD4 /* UIButton+FillColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIButton+FillColor.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIButton+FillColor.h"; sourceTree = "<group>"; };
+		F684BEAA1EA5E15100DBDBD4 /* UIButton+FillColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIButton+FillColor.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIButton+FillColor.m"; sourceTree = "<group>"; };
+		F684BEAB1EA5E15100DBDBD4 /* UICollectionViewCell+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UICollectionViewCell+Category.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UICollectionViewCell+Category.h"; sourceTree = "<group>"; };
+		F684BEAC1EA5E15100DBDBD4 /* UICollectionViewCell+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UICollectionViewCell+Category.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UICollectionViewCell+Category.m"; sourceTree = "<group>"; };
+		F684BEAD1EA5E15100DBDBD4 /* UIColor+Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Utilities.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIColor+Utilities.h"; sourceTree = "<group>"; };
+		F684BEAE1EA5E15100DBDBD4 /* UIColor+Utilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Utilities.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIColor+Utilities.m"; sourceTree = "<group>"; };
+		F684BEB01EA5E15100DBDBD4 /* UICustomLineLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICustomLineLabel.h; sourceTree = "<group>"; };
+		F684BEB11EA5E15100DBDBD4 /* UICustomLineLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICustomLineLabel.m; sourceTree = "<group>"; };
+		F684BEB21EA5E15100DBDBD4 /* UIImage+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Category.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIImage+Category.h"; sourceTree = "<group>"; };
+		F684BEB31EA5E15100DBDBD4 /* UIImage+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Category.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIImage+Category.m"; sourceTree = "<group>"; };
+		F684BEB41EA5E15100DBDBD4 /* UILabel+ContentSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UILabel+ContentSize.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UILabel+ContentSize.h"; sourceTree = "<group>"; };
+		F684BEB51EA5E15100DBDBD4 /* UILabel+ContentSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UILabel+ContentSize.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UILabel+ContentSize.m"; sourceTree = "<group>"; };
+		F684BEB61EA5E15100DBDBD4 /* UINavigationBar+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationBar+Category.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UINavigationBar+Category.h"; sourceTree = "<group>"; };
+		F684BEB71EA5E15100DBDBD4 /* UINavigationBar+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+Category.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UINavigationBar+Category.m"; sourceTree = "<group>"; };
+		F684BEB81EA5E15100DBDBD4 /* UIScrollView+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+Size.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIScrollView+Size.h"; sourceTree = "<group>"; };
+		F684BEB91EA5E15100DBDBD4 /* UIScrollView+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+Size.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIScrollView+Size.m"; sourceTree = "<group>"; };
+		F684BEBA1EA5E15100DBDBD4 /* UIScrollView+TPKeyboardAvoidingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIScrollView+TPKeyboardAvoidingAdditions.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIScrollView+TPKeyboardAvoidingAdditions.h"; sourceTree = "<group>"; };
+		F684BEBB1EA5E15100DBDBD4 /* UIScrollView+TPKeyboardAvoidingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIScrollView+TPKeyboardAvoidingAdditions.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIScrollView+TPKeyboardAvoidingAdditions.m"; sourceTree = "<group>"; };
+		F684BEBC1EA5E15100DBDBD4 /* UITabBar+TabBarTip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITabBar+TabBarTip.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UITabBar+TabBarTip.h"; sourceTree = "<group>"; };
+		F684BEBD1EA5E15100DBDBD4 /* UITabBar+TabBarTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITabBar+TabBarTip.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UITabBar+TabBarTip.m"; sourceTree = "<group>"; };
+		F684BEBE1EA5E15100DBDBD4 /* UITabBarControllerAdditionals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITabBarControllerAdditionals.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UITabBarControllerAdditionals.h"; sourceTree = "<group>"; };
+		F684BEBF1EA5E15100DBDBD4 /* UITabBarControllerAdditionals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITabBarControllerAdditionals.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UITabBarControllerAdditionals.m"; sourceTree = "<group>"; };
+		F684BEC01EA5E15100DBDBD4 /* UITableViewCell+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITableViewCell+Category.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UITableViewCell+Category.h"; sourceTree = "<group>"; };
+		F684BEC11EA5E15100DBDBD4 /* UITableViewCell+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITableViewCell+Category.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UITableViewCell+Category.m"; sourceTree = "<group>"; };
+		F684BEC21EA5E15100DBDBD4 /* UITextField+Additionals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextField+Additionals.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UITextField+Additionals.h"; sourceTree = "<group>"; };
+		F684BEC31EA5E15100DBDBD4 /* UITextField+Additionals.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextField+Additionals.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UITextField+Additionals.m"; sourceTree = "<group>"; };
+		F684BEC41EA5E15100DBDBD4 /* UITextView+Placeholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UITextView+Placeholder.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UITextView+Placeholder.h"; sourceTree = "<group>"; };
+		F684BEC51EA5E15100DBDBD4 /* UITextView+Placeholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UITextView+Placeholder.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UITextView+Placeholder.m"; sourceTree = "<group>"; };
+		F684BEC61EA5E15100DBDBD4 /* UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIView.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIView.h"; sourceTree = "<group>"; };
+		F684BEC71EA5E15100DBDBD4 /* UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIView.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIView.m"; sourceTree = "<group>"; };
+		F684BEC81EA5E15100DBDBD4 /* UIView+border.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+border.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIView+border.h"; sourceTree = "<group>"; };
+		F684BEC91EA5E15100DBDBD4 /* UIView+border.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+border.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIView+border.m"; sourceTree = "<group>"; };
+		F684BECA1EA5E15100DBDBD4 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+MJExtension.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIView+MJExtension.h"; sourceTree = "<group>"; };
+		F684BECB1EA5E15100DBDBD4 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+MJExtension.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIView+MJExtension.m"; sourceTree = "<group>"; };
+		F684BECC1EA5E15100DBDBD4 /* UIViewController+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Category.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIViewController+Category.h"; sourceTree = "<group>"; };
+		F684BECD1EA5E15100DBDBD4 /* UIViewController+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Category.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UIViewController+Category.m"; sourceTree = "<group>"; };
+		F684BEE91EA5E1A900DBDBD4 /* AnotherBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnotherBarChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/AnotherBarChartViewController.h"; sourceTree = "<group>"; };
+		F684BEEA1EA5E1A900DBDBD4 /* AnotherBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnotherBarChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/AnotherBarChartViewController.m"; sourceTree = "<group>"; };
+		F684BEEB1EA5E1A900DBDBD4 /* AnotherBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AnotherBarChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/AnotherBarChartViewController.xib"; sourceTree = "<group>"; };
+		F684BEEC1EA5E1A900DBDBD4 /* BarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BarChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/BarChartViewController.h"; sourceTree = "<group>"; };
+		F684BEED1EA5E1A900DBDBD4 /* BarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BarChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/BarChartViewController.m"; sourceTree = "<group>"; };
+		F684BEEE1EA5E1A900DBDBD4 /* BarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BarChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/BarChartViewController.xib"; sourceTree = "<group>"; };
+		F684BEEF1EA5E1A900DBDBD4 /* BubbleChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BubbleChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/BubbleChartViewController.h"; sourceTree = "<group>"; };
+		F684BEF01EA5E1A900DBDBD4 /* BubbleChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BubbleChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/BubbleChartViewController.m"; sourceTree = "<group>"; };
+		F684BEF11EA5E1A900DBDBD4 /* BubbleChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BubbleChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/BubbleChartViewController.xib"; sourceTree = "<group>"; };
+		F684BEF21EA5E1A900DBDBD4 /* CandleStickChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CandleStickChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/CandleStickChartViewController.h"; sourceTree = "<group>"; };
+		F684BEF31EA5E1A900DBDBD4 /* CandleStickChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CandleStickChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/CandleStickChartViewController.m"; sourceTree = "<group>"; };
+		F684BEF41EA5E1A900DBDBD4 /* CandleStickChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CandleStickChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/CandleStickChartViewController.xib"; sourceTree = "<group>"; };
+		F684BEF51EA5E1A900DBDBD4 /* ColoredLineChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColoredLineChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/ColoredLineChartViewController.h"; sourceTree = "<group>"; };
+		F684BEF61EA5E1A900DBDBD4 /* ColoredLineChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColoredLineChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/ColoredLineChartViewController.m"; sourceTree = "<group>"; };
+		F684BEF71EA5E1A900DBDBD4 /* ColoredLineChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ColoredLineChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/ColoredLineChartViewController.xib"; sourceTree = "<group>"; };
+		F684BEF81EA5E1A900DBDBD4 /* CombinedChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CombinedChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/CombinedChartViewController.h"; sourceTree = "<group>"; };
+		F684BEF91EA5E1A900DBDBD4 /* CombinedChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CombinedChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/CombinedChartViewController.m"; sourceTree = "<group>"; };
+		F684BEFA1EA5E1A900DBDBD4 /* CombinedChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CombinedChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/CombinedChartViewController.xib"; sourceTree = "<group>"; };
+		F684BEFB1EA5E1A900DBDBD4 /* CubicLineChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CubicLineChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/CubicLineChartViewController.h"; sourceTree = "<group>"; };
+		F684BEFC1EA5E1A900DBDBD4 /* CubicLineChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CubicLineChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/CubicLineChartViewController.m"; sourceTree = "<group>"; };
+		F684BEFD1EA5E1A900DBDBD4 /* CubicLineChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CubicLineChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/CubicLineChartViewController.xib"; sourceTree = "<group>"; };
+		F684BEFE1EA5E1A900DBDBD4 /* HalfPieChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HalfPieChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/HalfPieChartViewController.h"; sourceTree = "<group>"; };
+		F684BEFF1EA5E1A900DBDBD4 /* HalfPieChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HalfPieChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/HalfPieChartViewController.m"; sourceTree = "<group>"; };
+		F684BF001EA5E1A900DBDBD4 /* HalfPieChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HalfPieChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/HalfPieChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF011EA5E1A900DBDBD4 /* HorizontalBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HorizontalBarChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/HorizontalBarChartViewController.h"; sourceTree = "<group>"; };
+		F684BF021EA5E1A900DBDBD4 /* HorizontalBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HorizontalBarChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/HorizontalBarChartViewController.m"; sourceTree = "<group>"; };
+		F684BF031EA5E1A900DBDBD4 /* HorizontalBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HorizontalBarChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/HorizontalBarChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF041EA5E1A900DBDBD4 /* LineChart1ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineChart1ViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChart1ViewController.h"; sourceTree = "<group>"; };
+		F684BF051EA5E1A900DBDBD4 /* LineChart1ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineChart1ViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChart1ViewController.m"; sourceTree = "<group>"; };
+		F684BF061EA5E1A900DBDBD4 /* LineChart1ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LineChart1ViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChart1ViewController.xib"; sourceTree = "<group>"; };
+		F684BF071EA5E1A900DBDBD4 /* LineChart2ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineChart2ViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChart2ViewController.h"; sourceTree = "<group>"; };
+		F684BF081EA5E1A900DBDBD4 /* LineChart2ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineChart2ViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChart2ViewController.m"; sourceTree = "<group>"; };
+		F684BF091EA5E1A900DBDBD4 /* LineChart2ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LineChart2ViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChart2ViewController.xib"; sourceTree = "<group>"; };
+		F684BF0A1EA5E1A900DBDBD4 /* LineChartFilledViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineChartFilledViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChartFilledViewController.h"; sourceTree = "<group>"; };
+		F684BF0B1EA5E1A900DBDBD4 /* LineChartFilledViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineChartFilledViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChartFilledViewController.m"; sourceTree = "<group>"; };
+		F684BF0C1EA5E1A900DBDBD4 /* LineChartFilledViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LineChartFilledViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChartFilledViewController.xib"; sourceTree = "<group>"; };
+		F684BF0D1EA5E1A900DBDBD4 /* LineChartTimeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LineChartTimeViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChartTimeViewController.h"; sourceTree = "<group>"; };
+		F684BF0E1EA5E1A900DBDBD4 /* LineChartTimeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LineChartTimeViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChartTimeViewController.m"; sourceTree = "<group>"; };
+		F684BF0F1EA5E1A900DBDBD4 /* LineChartTimeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LineChartTimeViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/LineChartTimeViewController.xib"; sourceTree = "<group>"; };
+		F684BF101EA5E1A900DBDBD4 /* MultipleBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultipleBarChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/MultipleBarChartViewController.h"; sourceTree = "<group>"; };
+		F684BF111EA5E1A900DBDBD4 /* MultipleBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultipleBarChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/MultipleBarChartViewController.m"; sourceTree = "<group>"; };
+		F684BF121EA5E1A900DBDBD4 /* MultipleBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MultipleBarChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/MultipleBarChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF131EA5E1A900DBDBD4 /* MultipleLinesChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultipleLinesChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/MultipleLinesChartViewController.h"; sourceTree = "<group>"; };
+		F684BF141EA5E1A900DBDBD4 /* MultipleLinesChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultipleLinesChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/MultipleLinesChartViewController.m"; sourceTree = "<group>"; };
+		F684BF151EA5E1A900DBDBD4 /* MultipleLinesChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MultipleLinesChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/MultipleLinesChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF161EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NegativeStackedBarChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/NegativeStackedBarChartViewController.h"; sourceTree = "<group>"; };
+		F684BF171EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NegativeStackedBarChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/NegativeStackedBarChartViewController.m"; sourceTree = "<group>"; };
+		F684BF181EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NegativeStackedBarChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/NegativeStackedBarChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF191EA5E1A900DBDBD4 /* PieChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PieChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/PieChartViewController.h"; sourceTree = "<group>"; };
+		F684BF1A1EA5E1A900DBDBD4 /* PieChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PieChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/PieChartViewController.m"; sourceTree = "<group>"; };
+		F684BF1B1EA5E1A900DBDBD4 /* PieChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PieChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/PieChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF1C1EA5E1A900DBDBD4 /* PiePolylineChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PiePolylineChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/PiePolylineChartViewController.h"; sourceTree = "<group>"; };
+		F684BF1D1EA5E1A900DBDBD4 /* PiePolylineChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PiePolylineChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/PiePolylineChartViewController.m"; sourceTree = "<group>"; };
+		F684BF1E1EA5E1A900DBDBD4 /* PiePolylineChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PiePolylineChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/PiePolylineChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF1F1EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PositiveNegativeBarChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/PositiveNegativeBarChartViewController.h"; sourceTree = "<group>"; };
+		F684BF201EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PositiveNegativeBarChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/PositiveNegativeBarChartViewController.m"; sourceTree = "<group>"; };
+		F684BF211EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PositiveNegativeBarChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/PositiveNegativeBarChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF221EA5E1A900DBDBD4 /* RadarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RadarChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/RadarChartViewController.h"; sourceTree = "<group>"; };
+		F684BF231EA5E1A900DBDBD4 /* RadarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RadarChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/RadarChartViewController.m"; sourceTree = "<group>"; };
+		F684BF241EA5E1A900DBDBD4 /* RadarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = RadarChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/RadarChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF251EA5E1A900DBDBD4 /* ScatterChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScatterChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/ScatterChartViewController.h"; sourceTree = "<group>"; };
+		F684BF261EA5E1A900DBDBD4 /* ScatterChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScatterChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/ScatterChartViewController.m"; sourceTree = "<group>"; };
+		F684BF271EA5E1A900DBDBD4 /* ScatterChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScatterChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/ScatterChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF281EA5E1A900DBDBD4 /* SinusBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SinusBarChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/SinusBarChartViewController.h"; sourceTree = "<group>"; };
+		F684BF291EA5E1A900DBDBD4 /* SinusBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SinusBarChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/SinusBarChartViewController.m"; sourceTree = "<group>"; };
+		F684BF2A1EA5E1A900DBDBD4 /* SinusBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SinusBarChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/SinusBarChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF2B1EA5E1A900DBDBD4 /* StackedBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StackedBarChartViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/StackedBarChartViewController.h"; sourceTree = "<group>"; };
+		F684BF2C1EA5E1A900DBDBD4 /* StackedBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StackedBarChartViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/StackedBarChartViewController.m"; sourceTree = "<group>"; };
+		F684BF2D1EA5E1A900DBDBD4 /* StackedBarChartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StackedBarChartViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/demos/StackedBarChartViewController.xib"; sourceTree = "<group>"; };
+		F684BF5D1EA5E1CC00DBDBD4 /* DateValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DateValueFormatter.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Formatters/DateValueFormatter.h"; sourceTree = "<group>"; };
+		F684BF5E1EA5E1CC00DBDBD4 /* DateValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DateValueFormatter.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Formatters/DateValueFormatter.m"; sourceTree = "<group>"; };
+		F684BF5F1EA5E1CC00DBDBD4 /* IntAxisValueFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntAxisValueFormatter.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Formatters/IntAxisValueFormatter.h"; sourceTree = "<group>"; };
+		F684BF601EA5E1CC00DBDBD4 /* IntAxisValueFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntAxisValueFormatter.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Formatters/IntAxisValueFormatter.m"; sourceTree = "<group>"; };
+		F684BF641EA5E1EA00DBDBD4 /* DemoListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DemoListViewController.h; path = "../../画图demo/SwiftCharts/SwiftCharts/main/DemoListViewController.h"; sourceTree = "<group>"; };
+		F684BF651EA5E1EA00DBDBD4 /* DemoListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DemoListViewController.m; path = "../../画图demo/SwiftCharts/SwiftCharts/main/DemoListViewController.m"; sourceTree = "<group>"; };
+		F684BF661EA5E1EA00DBDBD4 /* DemoListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DemoListViewController.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/main/DemoListViewController.xib"; sourceTree = "<group>"; };
+		F684BF6A1EA5E21100DBDBD4 /* YH-IOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YH-IOS-Bridging-Header.h"; sourceTree = "<group>"; };
+		F684BF6B1EA5E21800DBDBD4 /* ChartHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartHeaderView.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartHeaderView.h"; sourceTree = "<group>"; };
+		F684BF6C1EA5E21800DBDBD4 /* ChartHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartHeaderView.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartHeaderView.m"; sourceTree = "<group>"; };
+		F684BF6D1EA5E21800DBDBD4 /* ChartHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChartHeaderView.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartHeaderView.xib"; sourceTree = "<group>"; };
+		F684BF6E1EA5E21800DBDBD4 /* ChartHeaderViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartHeaderViewCell.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartHeaderViewCell.h"; sourceTree = "<group>"; };
+		F684BF6F1EA5E21800DBDBD4 /* ChartHeaderViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartHeaderViewCell.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartHeaderViewCell.m"; sourceTree = "<group>"; };
+		F684BF701EA5E21800DBDBD4 /* ChartHeaderViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChartHeaderViewCell.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartHeaderViewCell.xib"; sourceTree = "<group>"; };
+		F684BF711EA5E21800DBDBD4 /* ChartHudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartHudView.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartHudView.h"; sourceTree = "<group>"; };
+		F684BF721EA5E21800DBDBD4 /* ChartHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartHudView.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartHudView.m"; sourceTree = "<group>"; };
+		F684BF731EA5E21800DBDBD4 /* ChartHudView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChartHudView.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartHudView.xib"; sourceTree = "<group>"; };
+		F684BF741EA5E21800DBDBD4 /* ChartModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChartModel.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartModel.h"; sourceTree = "<group>"; };
+		F684BF751EA5E21800DBDBD4 /* ChartModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChartModel.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ChartModel.m"; sourceTree = "<group>"; };
+		F684BF761EA5E21800DBDBD4 /* HomeIndexCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeIndexCollectionCell.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexCollectionCell.h"; sourceTree = "<group>"; };
+		F684BF771EA5E21800DBDBD4 /* HomeIndexCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeIndexCollectionCell.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexCollectionCell.m"; sourceTree = "<group>"; };
+		F684BF781EA5E21800DBDBD4 /* HomeIndexCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeIndexCollectionCell.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexCollectionCell.xib"; sourceTree = "<group>"; };
+		F684BF791EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeIndexCollectionCellContentView.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexCollectionCellContentView.h"; sourceTree = "<group>"; };
+		F684BF7A1EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeIndexCollectionCellContentView.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexCollectionCellContentView.m"; sourceTree = "<group>"; };
+		F684BF7B1EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeIndexCollectionCellContentView.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexCollectionCellContentView.xib"; sourceTree = "<group>"; };
+		F684BF7C1EA5E21800DBDBD4 /* HomeIndexCollectionVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeIndexCollectionVC.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexCollectionVC.h"; sourceTree = "<group>"; };
+		F684BF7D1EA5E21800DBDBD4 /* HomeIndexCollectionVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeIndexCollectionVC.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexCollectionVC.m"; sourceTree = "<group>"; };
+		F684BF7E1EA5E21800DBDBD4 /* HomeIndexDetailListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeIndexDetailListCell.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexDetailListCell.h"; sourceTree = "<group>"; };
+		F684BF7F1EA5E21800DBDBD4 /* HomeIndexDetailListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeIndexDetailListCell.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexDetailListCell.m"; sourceTree = "<group>"; };
+		F684BF801EA5E21800DBDBD4 /* HomeIndexDetailListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeIndexDetailListCell.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexDetailListCell.xib"; sourceTree = "<group>"; };
+		F684BF811EA5E21800DBDBD4 /* HomeIndexDetailListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeIndexDetailListVC.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexDetailListVC.h"; sourceTree = "<group>"; };
+		F684BF821EA5E21800DBDBD4 /* HomeIndexDetailListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeIndexDetailListVC.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexDetailListVC.m"; sourceTree = "<group>"; };
+		F684BF831EA5E21800DBDBD4 /* HomeIndexDetailListVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeIndexDetailListVC.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexDetailListVC.xib"; sourceTree = "<group>"; };
+		F684BF841EA5E21800DBDBD4 /* HomeIndexItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeIndexItemModel.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexItemModel.h"; sourceTree = "<group>"; };
+		F684BF851EA5E21800DBDBD4 /* HomeIndexItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeIndexItemModel.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexItemModel.m"; sourceTree = "<group>"; };
+		F684BF861EA5E21800DBDBD4 /* HomeIndexModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeIndexModel.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexModel.h"; sourceTree = "<group>"; };
+		F684BF871EA5E21800DBDBD4 /* HomeIndexModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeIndexModel.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexModel.m"; sourceTree = "<group>"; };
+		F684BF881EA5E21800DBDBD4 /* HomeIndexVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeIndexVC.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexVC.h"; sourceTree = "<group>"; };
+		F684BF891EA5E21800DBDBD4 /* HomeIndexVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeIndexVC.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexVC.m"; sourceTree = "<group>"; };
+		F684BF8A1EA5E21800DBDBD4 /* HomeIndexVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = HomeIndexVC.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/HomeIndexVC.xib"; sourceTree = "<group>"; };
+		F684BF8B1EA5E21800DBDBD4 /* OneLableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OneLableCell.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/OneLableCell.h"; sourceTree = "<group>"; };
+		F684BF8C1EA5E21800DBDBD4 /* OneLableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OneLableCell.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/OneLableCell.m"; sourceTree = "<group>"; };
+		F684BF8D1EA5E21800DBDBD4 /* OneLableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OneLableCell.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/OneLableCell.xib"; sourceTree = "<group>"; };
+		F684BF8E1EA5E21800DBDBD4 /* ScrollChartsVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ScrollChartsVc.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ScrollChartsVc.h"; sourceTree = "<group>"; };
+		F684BF8F1EA5E21800DBDBD4 /* ScrollChartsVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ScrollChartsVc.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ScrollChartsVc.m"; sourceTree = "<group>"; };
+		F684BF901EA5E21800DBDBD4 /* ScrollChartsVc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ScrollChartsVc.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/ScrollChartsVc.xib"; sourceTree = "<group>"; };
+		F684BF911EA5E21800DBDBD4 /* YH_BarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YH_BarView.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YH_BarView.h"; sourceTree = "<group>"; };
+		F684BF921EA5E21800DBDBD4 /* YH_BarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YH_BarView.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YH_BarView.m"; sourceTree = "<group>"; };
+		F684BF931EA5E21800DBDBD4 /* YH_LineAndBarVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YH_LineAndBarVc.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YH_LineAndBarVc.h"; sourceTree = "<group>"; };
+		F684BF941EA5E21800DBDBD4 /* YH_LineAndBarVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YH_LineAndBarVc.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YH_LineAndBarVc.m"; sourceTree = "<group>"; };
+		F684BF951EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YH_ScrollTitleLineAndBarVC.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YH_ScrollTitleLineAndBarVC.h"; sourceTree = "<group>"; };
+		F684BF961EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YH_ScrollTitleLineAndBarVC.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YH_ScrollTitleLineAndBarVC.m"; sourceTree = "<group>"; };
+		F684BF971EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YH_ScrollTitleLineAndBarVC.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YH_ScrollTitleLineAndBarVC.xib"; sourceTree = "<group>"; };
+		F684BF981EA5E21800DBDBD4 /* YHLinechart1Vc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YHLinechart1Vc.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YHLinechart1Vc.h"; sourceTree = "<group>"; };
+		F684BF991EA5E21800DBDBD4 /* YHLinechart1Vc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YHLinechart1Vc.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YHLinechart1Vc.m"; sourceTree = "<group>"; };
+		F684BF9A1EA5E21800DBDBD4 /* YHMarkerV.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YHMarkerV.swift; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YHMarkerV.swift"; sourceTree = "<group>"; };
+		F684BF9B1EA5E21800DBDBD4 /* YHMarkerV.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = YHMarkerV.xib; path = "../../画图demo/SwiftCharts/SwiftCharts/Controller/YHMarkerV.xib"; sourceTree = "<group>"; };
+		F684BFBC1EA5E24400DBDBD4 /* AppCacheManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppCacheManger.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/AppCacheManger.h"; sourceTree = "<group>"; };
+		F684BFBD1EA5E24400DBDBD4 /* AppCacheManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppCacheManger.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/AppCacheManger.m"; sourceTree = "<group>"; };
+		F684BFBE1EA5E24400DBDBD4 /* AppColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppColor.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/AppColor.h"; sourceTree = "<group>"; };
+		F684BFBF1EA5E24400DBDBD4 /* AppColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppColor.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/AppColor.m"; sourceTree = "<group>"; };
+		F684BFC01EA5E24400DBDBD4 /* CommonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonTableViewCell.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/CommonTableViewCell.h"; sourceTree = "<group>"; };
+		F684BFC11EA5E24400DBDBD4 /* CommonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonTableViewCell.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/CommonTableViewCell.m"; sourceTree = "<group>"; };
+		F684BFC31EA5E24400DBDBD4 /* DataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataManager.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/DataManager.h"; sourceTree = "<group>"; };
+		F684BFC41EA5E24400DBDBD4 /* DataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataManager.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/DataManager.m"; sourceTree = "<group>"; };
+		F684BFC51EA5E24400DBDBD4 /* PermissionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PermissionManager.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/PermissionManager.h"; sourceTree = "<group>"; };
+		F684BFC61EA5E24400DBDBD4 /* PermissionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PermissionManager.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/PermissionManager.m"; sourceTree = "<group>"; };
+		F684BFC81EA5E24400DBDBD4 /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };
+		F684BFC91EA5E24400DBDBD4 /* ALView+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALView+PureLayout.m"; sourceTree = "<group>"; };
+		F684BFCA1EA5E24400DBDBD4 /* NSArray+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+PureLayout.h"; sourceTree = "<group>"; };
+		F684BFCB1EA5E24400DBDBD4 /* NSArray+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+PureLayout.m"; sourceTree = "<group>"; };
+		F684BFCC1EA5E24400DBDBD4 /* NSLayoutConstraint+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+PureLayout.h"; sourceTree = "<group>"; };
+		F684BFCD1EA5E24400DBDBD4 /* NSLayoutConstraint+PureLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+PureLayout.m"; sourceTree = "<group>"; };
+		F684BFCE1EA5E24400DBDBD4 /* PureLayout+Internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PureLayout+Internal.h"; sourceTree = "<group>"; };
+		F684BFCF1EA5E24400DBDBD4 /* PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayout.h; sourceTree = "<group>"; };
+		F684BFD01EA5E24400DBDBD4 /* PureLayoutDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PureLayoutDefines.h; sourceTree = "<group>"; };
+		F684BFD11EA5E24400DBDBD4 /* TableViewAndCollectionPackage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TableViewAndCollectionPackage.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/TableViewAndCollectionPackage.h"; sourceTree = "<group>"; };
+		F684BFD21EA5E24400DBDBD4 /* TableViewAndCollectionPackage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TableViewAndCollectionPackage.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/TableViewAndCollectionPackage.m"; sourceTree = "<group>"; };
+		F684BFD41EA5E24400DBDBD4 /* AddShopCarsAnimationTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddShopCarsAnimationTool.h; sourceTree = "<group>"; };
+		F684BFD51EA5E24400DBDBD4 /* AddShopCarsAnimationTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddShopCarsAnimationTool.m; sourceTree = "<group>"; };
+		F684BFD61EA5E24400DBDBD4 /* GifRefreshHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifRefreshHeader.h; sourceTree = "<group>"; };
+		F684BFD71EA5E24400DBDBD4 /* GifRefreshHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifRefreshHeader.m; sourceTree = "<group>"; };
+		F684BFD81EA5E24400DBDBD4 /* PointHudTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointHudTool.h; sourceTree = "<group>"; };
+		F684BFD91EA5E24400DBDBD4 /* PointHudTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointHudTool.m; sourceTree = "<group>"; };
+		F684BFDA1EA5E24400DBDBD4 /* TPKeyboardAvoidingTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPKeyboardAvoidingTableView.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/TPKeyboardAvoidingTableView.h"; sourceTree = "<group>"; };
+		F684BFDB1EA5E24400DBDBD4 /* TPKeyboardAvoidingTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TPKeyboardAvoidingTableView.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/TPKeyboardAvoidingTableView.m"; sourceTree = "<group>"; };
+		F684BFDC1EA5E24400DBDBD4 /* UINavigationBar+Awesome.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UINavigationBar+Awesome.h"; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/UINavigationBar+Awesome.h"; sourceTree = "<group>"; };
+		F684BFDD1EA5E24400DBDBD4 /* UINavigationBar+Awesome.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UINavigationBar+Awesome.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Common/UINavigationBar+Awesome.m"; sourceTree = "<group>"; };
+		F684BFEF1EA5E26800DBDBD4 /* BHInfiniteScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHInfiniteScrollView.h; sourceTree = "<group>"; };
+		F684BFF01EA5E26800DBDBD4 /* BHInfiniteScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHInfiniteScrollView.m; sourceTree = "<group>"; };
+		F684BFF21EA5E26800DBDBD4 /* FXPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXPageControl.h; sourceTree = "<group>"; };
+		F684BFF31EA5E26800DBDBD4 /* FXPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FXPageControl.m; sourceTree = "<group>"; };
+		F684BFF51EA5E26800DBDBD4 /* BHInfiniteScrollViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHInfiniteScrollViewCell.h; sourceTree = "<group>"; };
+		F684BFF61EA5E26800DBDBD4 /* BHInfiniteScrollViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHInfiniteScrollViewCell.m; sourceTree = "<group>"; };
+		F684BFF71EA5E26800DBDBD4 /* BHInfiniteScrollViewTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BHInfiniteScrollViewTitleView.h; sourceTree = "<group>"; };
+		F684BFF81EA5E26800DBDBD4 /* BHInfiniteScrollViewTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BHInfiniteScrollViewTitleView.m; sourceTree = "<group>"; };
+		F684BFF91EA5E26800DBDBD4 /* Foundation + Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "Foundation + Log.m"; path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/Foundation + Log.m"; sourceTree = "<group>"; };
+		F684BFFB1EA5E26800DBDBD4 /* GJAutoCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJAutoCycleScrollView.h; sourceTree = "<group>"; };
+		F684BFFC1EA5E26800DBDBD4 /* GJAutoCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJAutoCycleScrollView.m; sourceTree = "<group>"; };
+		F684BFFE1EA5E26800DBDBD4 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		F684BFFF1EA5E26800DBDBD4 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
+		F684C0021EA5E26800DBDBD4 /* IQNSArray+Sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQNSArray+Sort.h"; sourceTree = "<group>"; };
+		F684C0031EA5E26800DBDBD4 /* IQNSArray+Sort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQNSArray+Sort.m"; sourceTree = "<group>"; };
+		F684C0041EA5E26800DBDBD4 /* IQUIScrollView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQUIScrollView+Additions.h"; sourceTree = "<group>"; };
+		F684C0051EA5E26800DBDBD4 /* IQUIScrollView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQUIScrollView+Additions.m"; sourceTree = "<group>"; };
+		F684C0061EA5E26800DBDBD4 /* IQUITextFieldView+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQUITextFieldView+Additions.h"; sourceTree = "<group>"; };
+		F684C0071EA5E26800DBDBD4 /* IQUITextFieldView+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQUITextFieldView+Additions.m"; sourceTree = "<group>"; };
+		F684C0081EA5E26800DBDBD4 /* IQUIView+Hierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQUIView+Hierarchy.h"; sourceTree = "<group>"; };
+		F684C0091EA5E26800DBDBD4 /* IQUIView+Hierarchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQUIView+Hierarchy.m"; sourceTree = "<group>"; };
+		F684C00A1EA5E26800DBDBD4 /* IQUIViewController+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQUIViewController+Additions.h"; sourceTree = "<group>"; };
+		F684C00B1EA5E26800DBDBD4 /* IQUIViewController+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQUIViewController+Additions.m"; sourceTree = "<group>"; };
+		F684C00C1EA5E26800DBDBD4 /* IQUIWindow+Hierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQUIWindow+Hierarchy.h"; sourceTree = "<group>"; };
+		F684C00D1EA5E26800DBDBD4 /* IQUIWindow+Hierarchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQUIWindow+Hierarchy.m"; sourceTree = "<group>"; };
+		F684C00F1EA5E26800DBDBD4 /* IQKeyboardManagerConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQKeyboardManagerConstants.h; sourceTree = "<group>"; };
+		F684C0101EA5E26800DBDBD4 /* IQKeyboardManagerConstantsInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQKeyboardManagerConstantsInternal.h; sourceTree = "<group>"; };
+		F684C0111EA5E26800DBDBD4 /* IQKeyboardManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQKeyboardManager.h; sourceTree = "<group>"; };
+		F684C0121EA5E26800DBDBD4 /* IQKeyboardManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQKeyboardManager.m; sourceTree = "<group>"; };
+		F684C0131EA5E26800DBDBD4 /* IQKeyboardReturnKeyHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQKeyboardReturnKeyHandler.h; sourceTree = "<group>"; };
+		F684C0141EA5E26800DBDBD4 /* IQKeyboardReturnKeyHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQKeyboardReturnKeyHandler.m; sourceTree = "<group>"; };
+		F684C0161EA5E26800DBDBD4 /* IQTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTextView.h; sourceTree = "<group>"; };
+		F684C0171EA5E26800DBDBD4 /* IQTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTextView.m; sourceTree = "<group>"; };
+		F684C0191EA5E26800DBDBD4 /* IQBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQBarButtonItem.h; sourceTree = "<group>"; };
+		F684C01A1EA5E26800DBDBD4 /* IQBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQBarButtonItem.m; sourceTree = "<group>"; };
+		F684C01B1EA5E26800DBDBD4 /* IQPreviousNextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQPreviousNextView.h; sourceTree = "<group>"; };
+		F684C01C1EA5E26800DBDBD4 /* IQPreviousNextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQPreviousNextView.m; sourceTree = "<group>"; };
+		F684C01D1EA5E26800DBDBD4 /* IQTitleBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQTitleBarButtonItem.h; sourceTree = "<group>"; };
+		F684C01E1EA5E26800DBDBD4 /* IQTitleBarButtonItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQTitleBarButtonItem.m; sourceTree = "<group>"; };
+		F684C01F1EA5E26800DBDBD4 /* IQToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IQToolbar.h; sourceTree = "<group>"; };
+		F684C0201EA5E26800DBDBD4 /* IQToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IQToolbar.m; sourceTree = "<group>"; };
+		F684C0211EA5E26800DBDBD4 /* IQUIView+IQKeyboardToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "IQUIView+IQKeyboardToolbar.h"; sourceTree = "<group>"; };
+		F684C0221EA5E26800DBDBD4 /* IQUIView+IQKeyboardToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "IQUIView+IQKeyboardToolbar.m"; sourceTree = "<group>"; };
+		F684C0241EA5E26800DBDBD4 /* IQKeyboardManager.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IQKeyboardManager.bundle; sourceTree = "<group>"; };
+		F684C0261EA5E26800DBDBD4 /* CommonAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonAlertView.h; sourceTree = "<group>"; };
+		F684C0271EA5E26800DBDBD4 /* CommonAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonAlertView.m; sourceTree = "<group>"; };
+		F684C0281EA5E26800DBDBD4 /* CommonAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommonAlertView.xib; sourceTree = "<group>"; };
+		F684C0291EA5E26800DBDBD4 /* CommonPopupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonPopupView.h; sourceTree = "<group>"; };
+		F684C02A1EA5E26800DBDBD4 /* CommonPopupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonPopupView.m; sourceTree = "<group>"; };
+		F684C02B1EA5E26800DBDBD4 /* GUATool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GUATool.h; sourceTree = "<group>"; };
+		F684C02C1EA5E26800DBDBD4 /* GUATool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GUATool.m; sourceTree = "<group>"; };
+		F684C02E1EA5E26800DBDBD4 /* PSTAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSTAlertController.h; sourceTree = "<group>"; };
+		F684C02F1EA5E26800DBDBD4 /* PSTAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSTAlertController.m; sourceTree = "<group>"; };
+		F684C0311EA5E26800DBDBD4 /* UpdateVersionAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateVersionAlertView.h; sourceTree = "<group>"; };
+		F684C0321EA5E26800DBDBD4 /* UpdateVersionAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateVersionAlertView.m; sourceTree = "<group>"; };
+		F684C0331EA5E26800DBDBD4 /* UpdateVersionAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UpdateVersionAlertView.xib; sourceTree = "<group>"; };
+		F684C0341EA5E26800DBDBD4 /* WynCountDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WynCountDownView.h; path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/WynCountDownView.h"; sourceTree = "<group>"; };
+		F684C0351EA5E26800DBDBD4 /* WynCountDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WynCountDownView.m; path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/WynCountDownView.m"; sourceTree = "<group>"; };
+		F684C0371EA5E26800DBDBD4 /* ZoomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZoomView.h; sourceTree = "<group>"; };
+		F684C0381EA5E26800DBDBD4 /* ZoomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZoomView.m; sourceTree = "<group>"; };
+		F684C0581EA5E27B00DBDBD4 /* YHConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YHConstant.h; path = "../../画图demo/SwiftCharts/SwiftCharts/YHConstant.h"; sourceTree = "<group>"; };
+		F684C05A1EA5E34900DBDBD4 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		F684C0691EA5F15400DBDBD4 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Charts-master/Charts.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		F68EB9E71DB74CB40020DD17 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		F68EB9E81DB74CB40020DD17 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		F691E5E21E28835C00BDC73E /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
@@ -350,6 +836,7 @@
 				C41D78981D2B83E400D0B8F4 /* Security.framework in Frameworks */,
 				C41E4FA61C0FE00A00E1B514 /* PgySDK.framework in Frameworks */,
 				C48C03CA1CABB27B000D9D22 /* libUMessage_Sdk_1.2.6.a in Frameworks */,
+				F684C0751EA5F16700DBDBD4 /* Charts.framework in Frameworks */,
 				C4771BB41C058C8400AAF44F /* OpenGLES.framework in Frameworks */,
 				C4771BB21C058C7C00AAF44F /* CoreMotion.framework in Frameworks */,
 				C4771BB01C058C6F00AAF44F /* AudioToolbox.framework in Frameworks */,
@@ -690,6 +1177,7 @@
 		C4DB7D751C02EC0500DA534E /* YH-IOS */ = {
 			isa = PBXGroup;
 			children = (
+				F684BE821EA5E0D100DBDBD4 /* SCReport */,
 				F6C5562A1DC19E5C0058F6EC /* YH-IOS.entitlements */,
 				C49BB9A81D8C24F4004C9F70 /* Macros */,
 				C4C628381C0C1ED6000AD5D8 /* Components */,
@@ -711,6 +1199,7 @@
 			children = (
 				C4DB7D871C02EC0500DA534E /* Info.plist */,
 				C4DB7D771C02EC0500DA534E /* main.m */,
+				F684C05A1EA5E34900DBDBD4 /* PrefixHeader.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -939,6 +1428,543 @@
 			name = Model;
 			sourceTree = "<group>";
 		};
+		F684BE821EA5E0D100DBDBD4 /* SCReport */ = {
+			isa = PBXGroup;
+			children = (
+				F684C0691EA5F15400DBDBD4 /* Charts.xcodeproj */,
+				F684C0581EA5E27B00DBDBD4 /* YHConstant.h */,
+				F684BFEC1EA5E24900DBDBD4 /* SCWidgets */,
+				F684BFBB1EA5E22C00DBDBD4 /* SCCommon */,
+				F684BF691EA5E1EF00DBDBD4 /* SCController */,
+				F684BF631EA5E1D000DBDBD4 /* SCMain */,
+				F684BF5C1EA5E1B400DBDBD4 /* SCFormatters */,
+				F684BEE81EA5E18800DBDBD4 /* SCdemos */,
+				F684BE981EA5E12300DBDBD4 /* SCCategory */,
+				F684BE971EA5E10100DBDBD4 /* SCBase */,
+			);
+			name = SCReport;
+			sourceTree = "<group>";
+		};
+		F684BE831EA5E0F700DBDBD4 /* BaseNavigationController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = BaseNavigationController;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Base/BaseNavigationController";
+			sourceTree = "<group>";
+		};
+		F684BE881EA5E0F700DBDBD4 /* BaseViewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = BaseViewController;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Base/BaseViewController";
+			sourceTree = "<group>";
+		};
+		F684BE971EA5E10100DBDBD4 /* SCBase */ = {
+			isa = PBXGroup;
+			children = (
+				F684BE831EA5E0F700DBDBD4 /* BaseNavigationController */,
+				F684BE841EA5E0F700DBDBD4 /* BaseNavigationController.h */,
+				F684BE851EA5E0F700DBDBD4 /* BaseNavigationController.m */,
+				F684BE861EA5E0F700DBDBD4 /* BaseRequest.h */,
+				F684BE871EA5E0F700DBDBD4 /* BaseRequest.m */,
+				F684BE881EA5E0F700DBDBD4 /* BaseViewController */,
+				F684BE891EA5E0F700DBDBD4 /* MainTabbarViewController.h */,
+				F684BE8A1EA5E0F700DBDBD4 /* MainTabbarViewController.m */,
+				F684BE8B1EA5E0F700DBDBD4 /* TCBaseAppDelegate.h */,
+				F684BE8C1EA5E0F700DBDBD4 /* TCBaseAppDelegate.mm */,
+				F684BE8D1EA5E0F700DBDBD4 /* TPKeyboardAvoidingScrollView.h */,
+				F684BE8E1EA5E0F700DBDBD4 /* TPKeyboardAvoidingScrollView.m */,
+				F684BE8F1EA5E0F700DBDBD4 /* YHBaseViewController.h */,
+				F684BE901EA5E0F700DBDBD4 /* YHBaseViewController.m */,
+			);
+			name = SCBase;
+			sourceTree = "<group>";
+		};
+		F684BE981EA5E12300DBDBD4 /* SCCategory */ = {
+			isa = PBXGroup;
+			children = (
+				F684BE991EA5E15100DBDBD4 /* BasicTool.h */,
+				F684BE9A1EA5E15100DBDBD4 /* BasicTool.mm */,
+				F684BE9B1EA5E15100DBDBD4 /* NSDate+Category.h */,
+				F684BE9C1EA5E15100DBDBD4 /* NSDate+Category.m */,
+				F684BE9D1EA5E15100DBDBD4 /* NSObject+NSObject.h */,
+				F684BE9E1EA5E15100DBDBD4 /* NSObject+NSObject.m */,
+				F684BE9F1EA5E15100DBDBD4 /* NSString+Category.h */,
+				F684BEA01EA5E15100DBDBD4 /* NSString+Category.m */,
+				F684BEA11EA5E15100DBDBD4 /* NSString+verification.h */,
+				F684BEA21EA5E15100DBDBD4 /* NSString+verification.m */,
+				F684BEA31EA5E15100DBDBD4 /* PinYinUtil.h */,
+				F684BEA41EA5E15100DBDBD4 /* PinYinUtil.m */,
+				F684BEA51EA5E15100DBDBD4 /* UIAlertView+Category.h */,
+				F684BEA61EA5E15100DBDBD4 /* UIAlertView+Category.m */,
+				F684BEA71EA5E15100DBDBD4 /* UIBarButtonItem+Category.h */,
+				F684BEA81EA5E15100DBDBD4 /* UIBarButtonItem+Category.m */,
+				F684BEA91EA5E15100DBDBD4 /* UIButton+FillColor.h */,
+				F684BEAA1EA5E15100DBDBD4 /* UIButton+FillColor.m */,
+				F684BEAB1EA5E15100DBDBD4 /* UICollectionViewCell+Category.h */,
+				F684BEAC1EA5E15100DBDBD4 /* UICollectionViewCell+Category.m */,
+				F684BEAD1EA5E15100DBDBD4 /* UIColor+Utilities.h */,
+				F684BEAE1EA5E15100DBDBD4 /* UIColor+Utilities.m */,
+				F684BEAF1EA5E15100DBDBD4 /* UICustomLineLabel */,
+				F684BEB21EA5E15100DBDBD4 /* UIImage+Category.h */,
+				F684BEB31EA5E15100DBDBD4 /* UIImage+Category.m */,
+				F684BEB41EA5E15100DBDBD4 /* UILabel+ContentSize.h */,
+				F684BEB51EA5E15100DBDBD4 /* UILabel+ContentSize.m */,
+				F684BEB61EA5E15100DBDBD4 /* UINavigationBar+Category.h */,
+				F684BEB71EA5E15100DBDBD4 /* UINavigationBar+Category.m */,
+				F684BEB81EA5E15100DBDBD4 /* UIScrollView+Size.h */,
+				F684BEB91EA5E15100DBDBD4 /* UIScrollView+Size.m */,
+				F684BEBA1EA5E15100DBDBD4 /* UIScrollView+TPKeyboardAvoidingAdditions.h */,
+				F684BEBB1EA5E15100DBDBD4 /* UIScrollView+TPKeyboardAvoidingAdditions.m */,
+				F684BEBC1EA5E15100DBDBD4 /* UITabBar+TabBarTip.h */,
+				F684BEBD1EA5E15100DBDBD4 /* UITabBar+TabBarTip.m */,
+				F684BEBE1EA5E15100DBDBD4 /* UITabBarControllerAdditionals.h */,
+				F684BEBF1EA5E15100DBDBD4 /* UITabBarControllerAdditionals.m */,
+				F684BEC01EA5E15100DBDBD4 /* UITableViewCell+Category.h */,
+				F684BEC11EA5E15100DBDBD4 /* UITableViewCell+Category.m */,
+				F684BEC21EA5E15100DBDBD4 /* UITextField+Additionals.h */,
+				F684BEC31EA5E15100DBDBD4 /* UITextField+Additionals.m */,
+				F684BEC41EA5E15100DBDBD4 /* UITextView+Placeholder.h */,
+				F684BEC51EA5E15100DBDBD4 /* UITextView+Placeholder.m */,
+				F684BEC61EA5E15100DBDBD4 /* UIView.h */,
+				F684BEC71EA5E15100DBDBD4 /* UIView.m */,
+				F684BEC81EA5E15100DBDBD4 /* UIView+border.h */,
+				F684BEC91EA5E15100DBDBD4 /* UIView+border.m */,
+				F684BECA1EA5E15100DBDBD4 /* UIView+MJExtension.h */,
+				F684BECB1EA5E15100DBDBD4 /* UIView+MJExtension.m */,
+				F684BECC1EA5E15100DBDBD4 /* UIViewController+Category.h */,
+				F684BECD1EA5E15100DBDBD4 /* UIViewController+Category.m */,
+			);
+			name = SCCategory;
+			sourceTree = "<group>";
+		};
+		F684BEAF1EA5E15100DBDBD4 /* UICustomLineLabel */ = {
+			isa = PBXGroup;
+			children = (
+				F684BEB01EA5E15100DBDBD4 /* UICustomLineLabel.h */,
+				F684BEB11EA5E15100DBDBD4 /* UICustomLineLabel.m */,
+			);
+			name = UICustomLineLabel;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Category/UICustomLineLabel";
+			sourceTree = "<group>";
+		};
+		F684BEE81EA5E18800DBDBD4 /* SCdemos */ = {
+			isa = PBXGroup;
+			children = (
+				F684BEE91EA5E1A900DBDBD4 /* AnotherBarChartViewController.h */,
+				F684BEEA1EA5E1A900DBDBD4 /* AnotherBarChartViewController.m */,
+				F684BEEB1EA5E1A900DBDBD4 /* AnotherBarChartViewController.xib */,
+				F684BEEC1EA5E1A900DBDBD4 /* BarChartViewController.h */,
+				F684BEED1EA5E1A900DBDBD4 /* BarChartViewController.m */,
+				F684BEEE1EA5E1A900DBDBD4 /* BarChartViewController.xib */,
+				F684BEEF1EA5E1A900DBDBD4 /* BubbleChartViewController.h */,
+				F684BEF01EA5E1A900DBDBD4 /* BubbleChartViewController.m */,
+				F684BEF11EA5E1A900DBDBD4 /* BubbleChartViewController.xib */,
+				F684BEF21EA5E1A900DBDBD4 /* CandleStickChartViewController.h */,
+				F684BEF31EA5E1A900DBDBD4 /* CandleStickChartViewController.m */,
+				F684BEF41EA5E1A900DBDBD4 /* CandleStickChartViewController.xib */,
+				F684BEF51EA5E1A900DBDBD4 /* ColoredLineChartViewController.h */,
+				F684BEF61EA5E1A900DBDBD4 /* ColoredLineChartViewController.m */,
+				F684BEF71EA5E1A900DBDBD4 /* ColoredLineChartViewController.xib */,
+				F684BEF81EA5E1A900DBDBD4 /* CombinedChartViewController.h */,
+				F684BEF91EA5E1A900DBDBD4 /* CombinedChartViewController.m */,
+				F684BEFA1EA5E1A900DBDBD4 /* CombinedChartViewController.xib */,
+				F684BEFB1EA5E1A900DBDBD4 /* CubicLineChartViewController.h */,
+				F684BEFC1EA5E1A900DBDBD4 /* CubicLineChartViewController.m */,
+				F684BEFD1EA5E1A900DBDBD4 /* CubicLineChartViewController.xib */,
+				F684BEFE1EA5E1A900DBDBD4 /* HalfPieChartViewController.h */,
+				F684BEFF1EA5E1A900DBDBD4 /* HalfPieChartViewController.m */,
+				F684BF001EA5E1A900DBDBD4 /* HalfPieChartViewController.xib */,
+				F684BF011EA5E1A900DBDBD4 /* HorizontalBarChartViewController.h */,
+				F684BF021EA5E1A900DBDBD4 /* HorizontalBarChartViewController.m */,
+				F684BF031EA5E1A900DBDBD4 /* HorizontalBarChartViewController.xib */,
+				F684BF041EA5E1A900DBDBD4 /* LineChart1ViewController.h */,
+				F684BF051EA5E1A900DBDBD4 /* LineChart1ViewController.m */,
+				F684BF061EA5E1A900DBDBD4 /* LineChart1ViewController.xib */,
+				F684BF071EA5E1A900DBDBD4 /* LineChart2ViewController.h */,
+				F684BF081EA5E1A900DBDBD4 /* LineChart2ViewController.m */,
+				F684BF091EA5E1A900DBDBD4 /* LineChart2ViewController.xib */,
+				F684BF0A1EA5E1A900DBDBD4 /* LineChartFilledViewController.h */,
+				F684BF0B1EA5E1A900DBDBD4 /* LineChartFilledViewController.m */,
+				F684BF0C1EA5E1A900DBDBD4 /* LineChartFilledViewController.xib */,
+				F684BF0D1EA5E1A900DBDBD4 /* LineChartTimeViewController.h */,
+				F684BF0E1EA5E1A900DBDBD4 /* LineChartTimeViewController.m */,
+				F684BF0F1EA5E1A900DBDBD4 /* LineChartTimeViewController.xib */,
+				F684BF101EA5E1A900DBDBD4 /* MultipleBarChartViewController.h */,
+				F684BF111EA5E1A900DBDBD4 /* MultipleBarChartViewController.m */,
+				F684BF121EA5E1A900DBDBD4 /* MultipleBarChartViewController.xib */,
+				F684BF131EA5E1A900DBDBD4 /* MultipleLinesChartViewController.h */,
+				F684BF141EA5E1A900DBDBD4 /* MultipleLinesChartViewController.m */,
+				F684BF151EA5E1A900DBDBD4 /* MultipleLinesChartViewController.xib */,
+				F684BF161EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.h */,
+				F684BF171EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.m */,
+				F684BF181EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.xib */,
+				F684BF191EA5E1A900DBDBD4 /* PieChartViewController.h */,
+				F684BF1A1EA5E1A900DBDBD4 /* PieChartViewController.m */,
+				F684BF1B1EA5E1A900DBDBD4 /* PieChartViewController.xib */,
+				F684BF1C1EA5E1A900DBDBD4 /* PiePolylineChartViewController.h */,
+				F684BF1D1EA5E1A900DBDBD4 /* PiePolylineChartViewController.m */,
+				F684BF1E1EA5E1A900DBDBD4 /* PiePolylineChartViewController.xib */,
+				F684BF1F1EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.h */,
+				F684BF201EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.m */,
+				F684BF211EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.xib */,
+				F684BF221EA5E1A900DBDBD4 /* RadarChartViewController.h */,
+				F684BF231EA5E1A900DBDBD4 /* RadarChartViewController.m */,
+				F684BF241EA5E1A900DBDBD4 /* RadarChartViewController.xib */,
+				F684BF251EA5E1A900DBDBD4 /* ScatterChartViewController.h */,
+				F684BF261EA5E1A900DBDBD4 /* ScatterChartViewController.m */,
+				F684BF271EA5E1A900DBDBD4 /* ScatterChartViewController.xib */,
+				F684BF281EA5E1A900DBDBD4 /* SinusBarChartViewController.h */,
+				F684BF291EA5E1A900DBDBD4 /* SinusBarChartViewController.m */,
+				F684BF2A1EA5E1A900DBDBD4 /* SinusBarChartViewController.xib */,
+				F684BF2B1EA5E1A900DBDBD4 /* StackedBarChartViewController.h */,
+				F684BF2C1EA5E1A900DBDBD4 /* StackedBarChartViewController.m */,
+				F684BF2D1EA5E1A900DBDBD4 /* StackedBarChartViewController.xib */,
+			);
+			name = SCdemos;
+			sourceTree = "<group>";
+		};
+		F684BF5C1EA5E1B400DBDBD4 /* SCFormatters */ = {
+			isa = PBXGroup;
+			children = (
+				F684BF5D1EA5E1CC00DBDBD4 /* DateValueFormatter.h */,
+				F684BF5E1EA5E1CC00DBDBD4 /* DateValueFormatter.m */,
+				F684BF5F1EA5E1CC00DBDBD4 /* IntAxisValueFormatter.h */,
+				F684BF601EA5E1CC00DBDBD4 /* IntAxisValueFormatter.m */,
+			);
+			name = SCFormatters;
+			sourceTree = "<group>";
+		};
+		F684BF631EA5E1D000DBDBD4 /* SCMain */ = {
+			isa = PBXGroup;
+			children = (
+				F684BF641EA5E1EA00DBDBD4 /* DemoListViewController.h */,
+				F684BF651EA5E1EA00DBDBD4 /* DemoListViewController.m */,
+				F684BF661EA5E1EA00DBDBD4 /* DemoListViewController.xib */,
+			);
+			name = SCMain;
+			sourceTree = "<group>";
+		};
+		F684BF691EA5E1EF00DBDBD4 /* SCController */ = {
+			isa = PBXGroup;
+			children = (
+				F684BF6B1EA5E21800DBDBD4 /* ChartHeaderView.h */,
+				F684BF6C1EA5E21800DBDBD4 /* ChartHeaderView.m */,
+				F684BF6D1EA5E21800DBDBD4 /* ChartHeaderView.xib */,
+				F684BF6E1EA5E21800DBDBD4 /* ChartHeaderViewCell.h */,
+				F684BF6F1EA5E21800DBDBD4 /* ChartHeaderViewCell.m */,
+				F684BF701EA5E21800DBDBD4 /* ChartHeaderViewCell.xib */,
+				F684BF711EA5E21800DBDBD4 /* ChartHudView.h */,
+				F684BF721EA5E21800DBDBD4 /* ChartHudView.m */,
+				F684BF731EA5E21800DBDBD4 /* ChartHudView.xib */,
+				F684BF741EA5E21800DBDBD4 /* ChartModel.h */,
+				F684BF751EA5E21800DBDBD4 /* ChartModel.m */,
+				F684BF761EA5E21800DBDBD4 /* HomeIndexCollectionCell.h */,
+				F684BF771EA5E21800DBDBD4 /* HomeIndexCollectionCell.m */,
+				F684BF781EA5E21800DBDBD4 /* HomeIndexCollectionCell.xib */,
+				F684BF791EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.h */,
+				F684BF7A1EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.m */,
+				F684BF7B1EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.xib */,
+				F684BF7C1EA5E21800DBDBD4 /* HomeIndexCollectionVC.h */,
+				F684BF7D1EA5E21800DBDBD4 /* HomeIndexCollectionVC.m */,
+				F684BF7E1EA5E21800DBDBD4 /* HomeIndexDetailListCell.h */,
+				F684BF7F1EA5E21800DBDBD4 /* HomeIndexDetailListCell.m */,
+				F684BF801EA5E21800DBDBD4 /* HomeIndexDetailListCell.xib */,
+				F684BF811EA5E21800DBDBD4 /* HomeIndexDetailListVC.h */,
+				F684BF821EA5E21800DBDBD4 /* HomeIndexDetailListVC.m */,
+				F684BF831EA5E21800DBDBD4 /* HomeIndexDetailListVC.xib */,
+				F684BF841EA5E21800DBDBD4 /* HomeIndexItemModel.h */,
+				F684BF851EA5E21800DBDBD4 /* HomeIndexItemModel.m */,
+				F684BF861EA5E21800DBDBD4 /* HomeIndexModel.h */,
+				F684BF871EA5E21800DBDBD4 /* HomeIndexModel.m */,
+				F684BF881EA5E21800DBDBD4 /* HomeIndexVC.h */,
+				F684BF891EA5E21800DBDBD4 /* HomeIndexVC.m */,
+				F684BF8A1EA5E21800DBDBD4 /* HomeIndexVC.xib */,
+				F684BF8B1EA5E21800DBDBD4 /* OneLableCell.h */,
+				F684BF8C1EA5E21800DBDBD4 /* OneLableCell.m */,
+				F684BF8D1EA5E21800DBDBD4 /* OneLableCell.xib */,
+				F684BF8E1EA5E21800DBDBD4 /* ScrollChartsVc.h */,
+				F684BF8F1EA5E21800DBDBD4 /* ScrollChartsVc.m */,
+				F684BF901EA5E21800DBDBD4 /* ScrollChartsVc.xib */,
+				F684BF911EA5E21800DBDBD4 /* YH_BarView.h */,
+				F684BF921EA5E21800DBDBD4 /* YH_BarView.m */,
+				F684BF931EA5E21800DBDBD4 /* YH_LineAndBarVc.h */,
+				F684BF941EA5E21800DBDBD4 /* YH_LineAndBarVc.m */,
+				F684BF951EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.h */,
+				F684BF961EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.m */,
+				F684BF971EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.xib */,
+				F684BF981EA5E21800DBDBD4 /* YHLinechart1Vc.h */,
+				F684BF991EA5E21800DBDBD4 /* YHLinechart1Vc.m */,
+				F684BF9A1EA5E21800DBDBD4 /* YHMarkerV.swift */,
+				F684BF9B1EA5E21800DBDBD4 /* YHMarkerV.xib */,
+				F684BF6A1EA5E21100DBDBD4 /* YH-IOS-Bridging-Header.h */,
+			);
+			name = SCController;
+			sourceTree = "<group>";
+		};
+		F684BFBB1EA5E22C00DBDBD4 /* SCCommon */ = {
+			isa = PBXGroup;
+			children = (
+				F684BFBC1EA5E24400DBDBD4 /* AppCacheManger.h */,
+				F684BFBD1EA5E24400DBDBD4 /* AppCacheManger.m */,
+				F684BFBE1EA5E24400DBDBD4 /* AppColor.h */,
+				F684BFBF1EA5E24400DBDBD4 /* AppColor.m */,
+				F684BFC01EA5E24400DBDBD4 /* CommonTableViewCell.h */,
+				F684BFC11EA5E24400DBDBD4 /* CommonTableViewCell.m */,
+				F684BFC31EA5E24400DBDBD4 /* DataManager.h */,
+				F684BFC41EA5E24400DBDBD4 /* DataManager.m */,
+				F684BFC51EA5E24400DBDBD4 /* PermissionManager.h */,
+				F684BFC61EA5E24400DBDBD4 /* PermissionManager.m */,
+				F684BFC71EA5E24400DBDBD4 /* PureLayout */,
+				F684BFD11EA5E24400DBDBD4 /* TableViewAndCollectionPackage.h */,
+				F684BFD21EA5E24400DBDBD4 /* TableViewAndCollectionPackage.m */,
+				F684BFD31EA5E24400DBDBD4 /* Tools */,
+				F684BFDA1EA5E24400DBDBD4 /* TPKeyboardAvoidingTableView.h */,
+				F684BFDB1EA5E24400DBDBD4 /* TPKeyboardAvoidingTableView.m */,
+				F684BFDC1EA5E24400DBDBD4 /* UINavigationBar+Awesome.h */,
+				F684BFDD1EA5E24400DBDBD4 /* UINavigationBar+Awesome.m */,
+			);
+			name = SCCommon;
+			sourceTree = "<group>";
+		};
+		F684BFC71EA5E24400DBDBD4 /* PureLayout */ = {
+			isa = PBXGroup;
+			children = (
+				F684BFC81EA5E24400DBDBD4 /* ALView+PureLayout.h */,
+				F684BFC91EA5E24400DBDBD4 /* ALView+PureLayout.m */,
+				F684BFCA1EA5E24400DBDBD4 /* NSArray+PureLayout.h */,
+				F684BFCB1EA5E24400DBDBD4 /* NSArray+PureLayout.m */,
+				F684BFCC1EA5E24400DBDBD4 /* NSLayoutConstraint+PureLayout.h */,
+				F684BFCD1EA5E24400DBDBD4 /* NSLayoutConstraint+PureLayout.m */,
+				F684BFCE1EA5E24400DBDBD4 /* PureLayout+Internal.h */,
+				F684BFCF1EA5E24400DBDBD4 /* PureLayout.h */,
+				F684BFD01EA5E24400DBDBD4 /* PureLayoutDefines.h */,
+			);
+			name = PureLayout;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Common/PureLayout";
+			sourceTree = "<group>";
+		};
+		F684BFD31EA5E24400DBDBD4 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				F684BFD41EA5E24400DBDBD4 /* AddShopCarsAnimationTool.h */,
+				F684BFD51EA5E24400DBDBD4 /* AddShopCarsAnimationTool.m */,
+				F684BFD61EA5E24400DBDBD4 /* GifRefreshHeader.h */,
+				F684BFD71EA5E24400DBDBD4 /* GifRefreshHeader.m */,
+				F684BFD81EA5E24400DBDBD4 /* PointHudTool.h */,
+				F684BFD91EA5E24400DBDBD4 /* PointHudTool.m */,
+			);
+			name = Tools;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Common/Tools";
+			sourceTree = "<group>";
+		};
+		F684BFEC1EA5E24900DBDBD4 /* SCWidgets */ = {
+			isa = PBXGroup;
+			children = (
+				F684BFEE1EA5E26800DBDBD4 /* 轮播图与文字控件 */,
+				F684BFF91EA5E26800DBDBD4 /* Foundation + Log.m */,
+				F684BFFA1EA5E26800DBDBD4 /* GJAutoCycleScrollView */,
+				F684BFFD1EA5E26800DBDBD4 /* iCarousel */,
+				F684C0001EA5E26800DBDBD4 /* IQKeyboardManager */,
+				F684C0251EA5E26800DBDBD4 /* PopMsgView */,
+				F684C02D1EA5E26800DBDBD4 /* PSTAlertController */,
+				F684C0301EA5E26800DBDBD4 /* VersionControl */,
+				F684C0341EA5E26800DBDBD4 /* WynCountDownView.h */,
+				F684C0351EA5E26800DBDBD4 /* WynCountDownView.m */,
+				F684C0361EA5E26800DBDBD4 /* ZoomView */,
+			);
+			name = SCWidgets;
+			sourceTree = "<group>";
+		};
+		F684BFEE1EA5E26800DBDBD4 /* 轮播图与文字控件 */ = {
+			isa = PBXGroup;
+			children = (
+				F684BFEF1EA5E26800DBDBD4 /* BHInfiniteScrollView.h */,
+				F684BFF01EA5E26800DBDBD4 /* BHInfiniteScrollView.m */,
+				F684BFF11EA5E26800DBDBD4 /* FXPageControl */,
+				F684BFF41EA5E26800DBDBD4 /* Views */,
+			);
+			name = "轮播图与文字控件";
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/轮播图与文字控件";
+			sourceTree = "<group>";
+		};
+		F684BFF11EA5E26800DBDBD4 /* FXPageControl */ = {
+			isa = PBXGroup;
+			children = (
+				F684BFF21EA5E26800DBDBD4 /* FXPageControl.h */,
+				F684BFF31EA5E26800DBDBD4 /* FXPageControl.m */,
+			);
+			path = FXPageControl;
+			sourceTree = "<group>";
+		};
+		F684BFF41EA5E26800DBDBD4 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F684BFF51EA5E26800DBDBD4 /* BHInfiniteScrollViewCell.h */,
+				F684BFF61EA5E26800DBDBD4 /* BHInfiniteScrollViewCell.m */,
+				F684BFF71EA5E26800DBDBD4 /* BHInfiniteScrollViewTitleView.h */,
+				F684BFF81EA5E26800DBDBD4 /* BHInfiniteScrollViewTitleView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F684BFFA1EA5E26800DBDBD4 /* GJAutoCycleScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				F684BFFB1EA5E26800DBDBD4 /* GJAutoCycleScrollView.h */,
+				F684BFFC1EA5E26800DBDBD4 /* GJAutoCycleScrollView.m */,
+			);
+			name = GJAutoCycleScrollView;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/GJAutoCycleScrollView";
+			sourceTree = "<group>";
+		};
+		F684BFFD1EA5E26800DBDBD4 /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				F684BFFE1EA5E26800DBDBD4 /* iCarousel.h */,
+				F684BFFF1EA5E26800DBDBD4 /* iCarousel.m */,
+			);
+			name = iCarousel;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/iCarousel";
+			sourceTree = "<group>";
+		};
+		F684C0001EA5E26800DBDBD4 /* IQKeyboardManager */ = {
+			isa = PBXGroup;
+			children = (
+				F684C0011EA5E26800DBDBD4 /* Categories */,
+				F684C00E1EA5E26800DBDBD4 /* Constants */,
+				F684C0111EA5E26800DBDBD4 /* IQKeyboardManager.h */,
+				F684C0121EA5E26800DBDBD4 /* IQKeyboardManager.m */,
+				F684C0131EA5E26800DBDBD4 /* IQKeyboardReturnKeyHandler.h */,
+				F684C0141EA5E26800DBDBD4 /* IQKeyboardReturnKeyHandler.m */,
+				F684C0151EA5E26800DBDBD4 /* IQTextView */,
+				F684C0181EA5E26800DBDBD4 /* IQToolbar */,
+				F684C0231EA5E26800DBDBD4 /* Resources */,
+			);
+			name = IQKeyboardManager;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/IQKeyboardManager";
+			sourceTree = "<group>";
+		};
+		F684C0011EA5E26800DBDBD4 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				F684C0021EA5E26800DBDBD4 /* IQNSArray+Sort.h */,
+				F684C0031EA5E26800DBDBD4 /* IQNSArray+Sort.m */,
+				F684C0041EA5E26800DBDBD4 /* IQUIScrollView+Additions.h */,
+				F684C0051EA5E26800DBDBD4 /* IQUIScrollView+Additions.m */,
+				F684C0061EA5E26800DBDBD4 /* IQUITextFieldView+Additions.h */,
+				F684C0071EA5E26800DBDBD4 /* IQUITextFieldView+Additions.m */,
+				F684C0081EA5E26800DBDBD4 /* IQUIView+Hierarchy.h */,
+				F684C0091EA5E26800DBDBD4 /* IQUIView+Hierarchy.m */,
+				F684C00A1EA5E26800DBDBD4 /* IQUIViewController+Additions.h */,
+				F684C00B1EA5E26800DBDBD4 /* IQUIViewController+Additions.m */,
+				F684C00C1EA5E26800DBDBD4 /* IQUIWindow+Hierarchy.h */,
+				F684C00D1EA5E26800DBDBD4 /* IQUIWindow+Hierarchy.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		F684C00E1EA5E26800DBDBD4 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				F684C00F1EA5E26800DBDBD4 /* IQKeyboardManagerConstants.h */,
+				F684C0101EA5E26800DBDBD4 /* IQKeyboardManagerConstantsInternal.h */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		F684C0151EA5E26800DBDBD4 /* IQTextView */ = {
+			isa = PBXGroup;
+			children = (
+				F684C0161EA5E26800DBDBD4 /* IQTextView.h */,
+				F684C0171EA5E26800DBDBD4 /* IQTextView.m */,
+			);
+			path = IQTextView;
+			sourceTree = "<group>";
+		};
+		F684C0181EA5E26800DBDBD4 /* IQToolbar */ = {
+			isa = PBXGroup;
+			children = (
+				F684C0191EA5E26800DBDBD4 /* IQBarButtonItem.h */,
+				F684C01A1EA5E26800DBDBD4 /* IQBarButtonItem.m */,
+				F684C01B1EA5E26800DBDBD4 /* IQPreviousNextView.h */,
+				F684C01C1EA5E26800DBDBD4 /* IQPreviousNextView.m */,
+				F684C01D1EA5E26800DBDBD4 /* IQTitleBarButtonItem.h */,
+				F684C01E1EA5E26800DBDBD4 /* IQTitleBarButtonItem.m */,
+				F684C01F1EA5E26800DBDBD4 /* IQToolbar.h */,
+				F684C0201EA5E26800DBDBD4 /* IQToolbar.m */,
+				F684C0211EA5E26800DBDBD4 /* IQUIView+IQKeyboardToolbar.h */,
+				F684C0221EA5E26800DBDBD4 /* IQUIView+IQKeyboardToolbar.m */,
+			);
+			path = IQToolbar;
+			sourceTree = "<group>";
+		};
+		F684C0231EA5E26800DBDBD4 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F684C0241EA5E26800DBDBD4 /* IQKeyboardManager.bundle */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F684C0251EA5E26800DBDBD4 /* PopMsgView */ = {
+			isa = PBXGroup;
+			children = (
+				F684C0261EA5E26800DBDBD4 /* CommonAlertView.h */,
+				F684C0271EA5E26800DBDBD4 /* CommonAlertView.m */,
+				F684C0281EA5E26800DBDBD4 /* CommonAlertView.xib */,
+				F684C0291EA5E26800DBDBD4 /* CommonPopupView.h */,
+				F684C02A1EA5E26800DBDBD4 /* CommonPopupView.m */,
+				F684C02B1EA5E26800DBDBD4 /* GUATool.h */,
+				F684C02C1EA5E26800DBDBD4 /* GUATool.m */,
+			);
+			name = PopMsgView;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/PopMsgView";
+			sourceTree = "<group>";
+		};
+		F684C02D1EA5E26800DBDBD4 /* PSTAlertController */ = {
+			isa = PBXGroup;
+			children = (
+				F684C02E1EA5E26800DBDBD4 /* PSTAlertController.h */,
+				F684C02F1EA5E26800DBDBD4 /* PSTAlertController.m */,
+			);
+			name = PSTAlertController;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/PSTAlertController";
+			sourceTree = "<group>";
+		};
+		F684C0301EA5E26800DBDBD4 /* VersionControl */ = {
+			isa = PBXGroup;
+			children = (
+				F684C0311EA5E26800DBDBD4 /* UpdateVersionAlertView.h */,
+				F684C0321EA5E26800DBDBD4 /* UpdateVersionAlertView.m */,
+				F684C0331EA5E26800DBDBD4 /* UpdateVersionAlertView.xib */,
+			);
+			name = VersionControl;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/VersionControl";
+			sourceTree = "<group>";
+		};
+		F684C0361EA5E26800DBDBD4 /* ZoomView */ = {
+			isa = PBXGroup;
+			children = (
+				F684C0371EA5E26800DBDBD4 /* ZoomView.h */,
+				F684C0381EA5E26800DBDBD4 /* ZoomView.m */,
+			);
+			name = ZoomView;
+			path = "../../画图demo/SwiftCharts/SwiftCharts/Widgets/ZoomView";
+			sourceTree = "<group>";
+		};
+		F684C06A1EA5F15400DBDBD4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F684C0701EA5F15500DBDBD4 /* Charts.framework */,
+				F684C0721EA5F15500DBDBD4 /* ChartsRealm.framework */,
+				F684C0741EA5F15500DBDBD4 /* ChartsTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		F68EB9E61DB74CA10020DD17 /* LoadingView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1030,10 +2056,12 @@
 				C4DB7D711C02EC0500DA534E /* Resources */,
 				E32AEDE46CFB22176110AA88 /* [CP] Embed Pods Frameworks */,
 				6C1B698DDFC5C340B1595665 /* [CP] Copy Pods Resources */,
+				F684C0681EA5F0C800DBDBD4 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F684C0781EA5F16700DBDBD4 /* PBXTargetDependency */,
 			);
 			name = "YH-IOS";
 			productName = "YH-IOS";
@@ -1088,7 +2116,8 @@
 					C4DB7D721C02EC0500DA534E = {
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = WV94P663S4;
-						ProvisioningStyle = Manual;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -1120,6 +2149,12 @@
 			mainGroup = C4DB7D6A1C02EC0500DA534E;
 			productRefGroup = C4DB7D741C02EC0500DA534E /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = F684C06A1EA5F15400DBDBD4 /* Products */;
+					ProjectRef = F684C0691EA5F15400DBDBD4 /* Charts.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C4DB7D721C02EC0500DA534E /* YH-IOS */,
@@ -1129,23 +2164,86 @@
 		};
 /* End PBXProject section */
 
+/* Begin PBXReferenceProxy section */
+		F684C0701EA5F15500DBDBD4 /* Charts.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Charts.framework;
+			remoteRef = F684C06F1EA5F15500DBDBD4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F684C0721EA5F15500DBDBD4 /* ChartsRealm.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ChartsRealm.framework;
+			remoteRef = F684C0711EA5F15500DBDBD4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F684C0741EA5F15500DBDBD4 /* ChartsTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ChartsTests.xctest;
+			remoteRef = F684C0731EA5F15500DBDBD4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
 /* Begin PBXResourcesBuildPhase section */
 		C4DB7D711C02EC0500DA534E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				C4EFE4BC1C99812B0009411A /* WebViewJavascriptBridge.js.txt in Resources */,
+				F684BF4B1EA5E1A900DBDBD4 /* MultipleLinesChartViewController.xib in Resources */,
+				F684C0551EA5E26900DBDBD4 /* UpdateVersionAlertView.xib in Resources */,
+				F684BFB71EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.xib in Resources */,
+				F684BF451EA5E1A900DBDBD4 /* LineChartFilledViewController.xib in Resources */,
+				F684C04E1EA5E26800DBDBD4 /* IQKeyboardManager.bundle in Resources */,
 				C4EFE4B21C98F60A0009411A /* images.zip in Resources */,
+				F684BF431EA5E1A900DBDBD4 /* LineChart2ViewController.xib in Resources */,
 				C46903941D5CC75F00233D05 /* BarCodeScan.zip in Resources */,
+				F684BF371EA5E1A900DBDBD4 /* ColoredLineChartViewController.xib in Resources */,
+				F684BF391EA5E1A900DBDBD4 /* CombinedChartViewController.xib in Resources */,
+				F684BF551EA5E1A900DBDBD4 /* RadarChartViewController.xib in Resources */,
+				F684BFA41EA5E21800DBDBD4 /* HomeIndexCollectionCell.xib in Resources */,
 				C4EFE4B01C98F60A0009411A /* stylesheets.zip in Resources */,
+				F684BF471EA5E1A900DBDBD4 /* LineChartTimeViewController.xib in Resources */,
+				F684BFB11EA5E21800DBDBD4 /* OneLableCell.xib in Resources */,
+				F684BF4D1EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.xib in Resources */,
+				F684BFB31EA5E21800DBDBD4 /* ScrollChartsVc.xib in Resources */,
 				C4EFE4AF1C98F60A0009411A /* fonts.zip in Resources */,
+				F684BF3B1EA5E1A900DBDBD4 /* CubicLineChartViewController.xib in Resources */,
 				C46F6A981D06720A00C561CE /* CodeScan.bundle in Resources */,
 				C4EFE4B11C98F60A0009411A /* javascripts.zip in Resources */,
 				C4EFE4B31C98F60A0009411A /* assets.zip in Resources */,
+				F684BF411EA5E1A900DBDBD4 /* LineChart1ViewController.xib in Resources */,
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
+				F684BFA61EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.xib in Resources */,
+				F684BF331EA5E1A900DBDBD4 /* BubbleChartViewController.xib in Resources */,
+				F684BFAB1EA5E21800DBDBD4 /* HomeIndexDetailListVC.xib in Resources */,
+				F684BF9F1EA5E21800DBDBD4 /* ChartHeaderViewCell.xib in Resources */,
+				F684BF591EA5E1A900DBDBD4 /* SinusBarChartViewController.xib in Resources */,
+				F684BF491EA5E1A900DBDBD4 /* MultipleBarChartViewController.xib in Resources */,
+				F684BF3F1EA5E1A900DBDBD4 /* HorizontalBarChartViewController.xib in Resources */,
+				F684BF3D1EA5E1A900DBDBD4 /* HalfPieChartViewController.xib in Resources */,
+				F684BF571EA5E1A900DBDBD4 /* ScatterChartViewController.xib in Resources */,
+				F684BF311EA5E1A900DBDBD4 /* BarChartViewController.xib in Resources */,
+				F684C0501EA5E26900DBDBD4 /* CommonAlertView.xib in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
+				F684BF511EA5E1A900DBDBD4 /* PiePolylineChartViewController.xib in Resources */,
+				F684BF9D1EA5E21800DBDBD4 /* ChartHeaderView.xib in Resources */,
+				F684BF5B1EA5E1A900DBDBD4 /* StackedBarChartViewController.xib in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
+				F684BF4F1EA5E1A900DBDBD4 /* PieChartViewController.xib in Resources */,
+				F684BFBA1EA5E21800DBDBD4 /* YHMarkerV.xib in Resources */,
+				F684BFA11EA5E21800DBDBD4 /* ChartHudView.xib in Resources */,
+				F684BF681EA5E1EA00DBDBD4 /* DemoListViewController.xib in Resources */,
+				F684BF531EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.xib in Resources */,
+				F684BFA91EA5E21800DBDBD4 /* HomeIndexDetailListCell.xib in Resources */,
+				F684BF351EA5E1A900DBDBD4 /* CandleStickChartViewController.xib in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
+				F684BFAF1EA5E21800DBDBD4 /* HomeIndexVC.xib in Resources */,
+				F684BF2F1EA5E1A900DBDBD4 /* AnotherBarChartViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1219,78 +2317,197 @@
 			buildActionMask = 2147483647;
 			files = (
 				C4DB7DC21C02EE3800DA534E /* ExtendNSLogFunctionality.m in Sources */,
+				F684C0411EA5E26800DBDBD4 /* IQUIScrollView+Additions.m in Sources */,
+				F684BF4E1EA5E1A900DBDBD4 /* PieChartViewController.m in Sources */,
 				F630499B1E9CAFB000831413 /* MainViewController.m in Sources */,
 				C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */,
 				F65548541E8CE3B400B4048C /* UserHeadView.m in Sources */,
+				F684BFE51EA5E24400DBDBD4 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
+				F684C03B1EA5E26800DBDBD4 /* BHInfiniteScrollViewCell.m in Sources */,
+				F684BEDB1EA5E15100DBDBD4 /* UILabel+ContentSize.m in Sources */,
+				F684C04C1EA5E26800DBDBD4 /* IQToolbar.m in Sources */,
+				F684BF4C1EA5E1A900DBDBD4 /* NegativeStackedBarChartViewController.m in Sources */,
 				C46F6A961D0671C900C561CE /* SubLBXScanViewController.m in Sources */,
+				F684BF441EA5E1A900DBDBD4 /* LineChartFilledViewController.m in Sources */,
+				F684BFE81EA5E24400DBDBD4 /* GifRefreshHeader.m in Sources */,
+				F684BFDE1EA5E24400DBDBD4 /* AppCacheManger.m in Sources */,
+				F684BEE01EA5E15100DBDBD4 /* UITabBarControllerAdditionals.m in Sources */,
+				F684BF671EA5E1EA00DBDBD4 /* DemoListViewController.m in Sources */,
 				C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */,
+				F684C04D1EA5E26800DBDBD4 /* IQUIView+IQKeyboardToolbar.m in Sources */,
+				F684BED11EA5E15100DBDBD4 /* NSString+Category.m in Sources */,
 				F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */,
 				F655483B1E8CDF5600B4048C /* NewSettingViewController.m in Sources */,
+				F684BFEB1EA5E24400DBDBD4 /* UINavigationBar+Awesome.m in Sources */,
 				C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */,
+				F684BFE21EA5E24400DBDBD4 /* PermissionManager.m in Sources */,
+				F684C0521EA5E26900DBDBD4 /* GUATool.m in Sources */,
+				F684BFAA1EA5E21800DBDBD4 /* HomeIndexDetailListVC.m in Sources */,
+				F684C0451EA5E26800DBDBD4 /* IQUIWindow+Hierarchy.m in Sources */,
+				F684BFB41EA5E21800DBDBD4 /* YH_BarView.m in Sources */,
+				F684BF581EA5E1A900DBDBD4 /* SinusBarChartViewController.m in Sources */,
+				F684BFA21EA5E21800DBDBD4 /* ChartModel.m in Sources */,
+				F684BF3C1EA5E1A900DBDBD4 /* HalfPieChartViewController.m in Sources */,
 				F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */,
+				F684C0541EA5E26900DBDBD4 /* UpdateVersionAlertView.m in Sources */,
 				C48924EA1D858F0A00859411 /* SwitchTableViewCell.m in Sources */,
+				F684BE961EA5E0F700DBDBD4 /* YHBaseViewController.m in Sources */,
 				F63A5BC71DCB17980092FC24 /* VoiceSpeechView.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
+				F684C0561EA5E26900DBDBD4 /* WynCountDownView.m in Sources */,
+				F684C0531EA5E26900DBDBD4 /* PSTAlertController.m in Sources */,
+				F684BF9E1EA5E21800DBDBD4 /* ChartHeaderViewCell.m in Sources */,
 				C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */,
+				F684BFDF1EA5E24400DBDBD4 /* AppColor.m in Sources */,
+				F684BEE41EA5E15100DBDBD4 /* UIView.m in Sources */,
+				F684BFE31EA5E24400DBDBD4 /* ALView+PureLayout.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
+				F684BED91EA5E15100DBDBD4 /* UICustomLineLabel.m in Sources */,
 				C48924E91D858F0A00859411 /* SettingDefaultTableViewCell.m in Sources */,
+				F684BED51EA5E15100DBDBD4 /* UIBarButtonItem+Category.m in Sources */,
+				F684BFE71EA5E24400DBDBD4 /* AddShopCarsAnimationTool.m in Sources */,
+				F684BFB21EA5E21800DBDBD4 /* ScrollChartsVc.m in Sources */,
+				F684BFAE1EA5E21800DBDBD4 /* HomeIndexVC.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
+				F684BEDA1EA5E15100DBDBD4 /* UIImage+Category.m in Sources */,
 				C48924EB1D858F0A00859411 /* ThurSayTableViewCell.m in Sources */,
+				F684BED21EA5E15100DBDBD4 /* NSString+verification.m in Sources */,
+				F684BF2E1EA5E1A900DBDBD4 /* AnotherBarChartViewController.m in Sources */,
 				C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */,
 				F655484A1E8CE04200B4048C /* PushDevice.m in Sources */,
+				F684BEE61EA5E15100DBDBD4 /* UIView+MJExtension.m in Sources */,
+				F684BF461EA5E1A900DBDBD4 /* LineChartTimeViewController.m in Sources */,
+				F684BF301EA5E1A900DBDBD4 /* BarChartViewController.m in Sources */,
 				F65548431E8CE02100B4048C /* SettingArrayViewController.m in Sources */,
+				F684C03E1EA5E26800DBDBD4 /* GJAutoCycleScrollView.m in Sources */,
 				C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */,
+				F684BEDF1EA5E15100DBDBD4 /* UITabBar+TabBarTip.m in Sources */,
+				F684C0461EA5E26800DBDBD4 /* IQKeyboardManager.m in Sources */,
+				F684C0441EA5E26800DBDBD4 /* IQUIViewController+Additions.m in Sources */,
 				C48924E71D858F0A00859411 /* OneButtonTableViewCell.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
+				F684C0571EA5E26900DBDBD4 /* ZoomView.m in Sources */,
 				F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */,
 				C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */,
+				F684BE911EA5E0F700DBDBD4 /* BaseNavigationController.m in Sources */,
 				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
 				F6F1C84F1E88BD8C00754034 /* KPIViewController.m in Sources */,
+				F684BFEA1EA5E24400DBDBD4 /* TPKeyboardAvoidingTableView.m in Sources */,
+				F684BE931EA5E0F700DBDBD4 /* MainTabbarViewController.m in Sources */,
+				F684BE921EA5E0F700DBDBD4 /* BaseRequest.m in Sources */,
+				F684BFB81EA5E21800DBDBD4 /* YHLinechart1Vc.m in Sources */,
 				F6F1C8551E88BEB900754034 /* AnalysisViewController.m in Sources */,
 				C48924E51D858F0A00859411 /* ResetPasswordViewController.m in Sources */,
+				F684BFB61EA5E21800DBDBD4 /* YH_ScrollTitleLineAndBarVC.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */,
 				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
+				F684BFB51EA5E21800DBDBD4 /* YH_LineAndBarVc.m in Sources */,
 				C40D06B21C917BF80029D142 /* TFHpple.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
+				F684C0471EA5E26800DBDBD4 /* IQKeyboardReturnKeyHandler.m in Sources */,
 				F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */,
+				F684BEE11EA5E15100DBDBD4 /* UITableViewCell+Category.m in Sources */,
 				F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */,
+				F684C03D1EA5E26800DBDBD4 /* Foundation + Log.m in Sources */,
+				F684BFAD1EA5E21800DBDBD4 /* HomeIndexModel.m in Sources */,
+				F684BECE1EA5E15100DBDBD4 /* BasicTool.mm in Sources */,
+				F684BF341EA5E1A900DBDBD4 /* CandleStickChartViewController.m in Sources */,
+				F684BFB01EA5E21800DBDBD4 /* OneLableCell.m in Sources */,
 				F655484B1E8CE04200B4048C /* UserInfoModel.m in Sources */,
 				C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */,
+				F684BEE21EA5E15100DBDBD4 /* UITextField+Additionals.m in Sources */,
+				F684C03C1EA5E26800DBDBD4 /* BHInfiniteScrollViewTitleView.m in Sources */,
+				F684C03A1EA5E26800DBDBD4 /* FXPageControl.m in Sources */,
 				C48924E81D858F0A00859411 /* PgyUpdateTableViewCell.m in Sources */,
+				F684BFA71EA5E21800DBDBD4 /* HomeIndexCollectionVC.m in Sources */,
+				F684C0391EA5E26800DBDBD4 /* BHInfiniteScrollView.m in Sources */,
+				F684BF481EA5E1A900DBDBD4 /* MultipleBarChartViewController.m in Sources */,
 				F65548511E8CE21E00B4048C /* MainBaseViewController.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
+				F684BED81EA5E15100DBDBD4 /* UIColor+Utilities.m in Sources */,
 				C45D27121C23FC490087C6F2 /* README.md in Sources */,
+				F684BE941EA5E0F700DBDBD4 /* TCBaseAppDelegate.mm in Sources */,
 				F65548441E8CE02100B4048C /* SettingNormalViewController.m in Sources */,
 				F655483E1E8CDF7C00B4048C /* OptionConfigViewController.m in Sources */,
 				C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */,
+				F684BF5A1EA5E1A900DBDBD4 /* StackedBarChartViewController.m in Sources */,
 				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,
+				F684BFAC1EA5E21800DBDBD4 /* HomeIndexItemModel.m in Sources */,
 				C4BA6EA41C7DB24A0059F101 /* FileUtils+Assets.m in Sources */,
+				F684BFA31EA5E21800DBDBD4 /* HomeIndexCollectionCell.m in Sources */,
+				F684C0401EA5E26800DBDBD4 /* IQNSArray+Sort.m in Sources */,
+				F684BF381EA5E1A900DBDBD4 /* CombinedChartViewController.m in Sources */,
+				F684C04F1EA5E26900DBDBD4 /* CommonAlertView.m in Sources */,
+				F684BFA81EA5E21800DBDBD4 /* HomeIndexDetailListCell.m in Sources */,
+				F684C0481EA5E26800DBDBD4 /* IQTextView.m in Sources */,
+				F684BFE61EA5E24400DBDBD4 /* TableViewAndCollectionPackage.m in Sources */,
+				F684C04A1EA5E26800DBDBD4 /* IQPreviousNextView.m in Sources */,
 				C4C628431C0C1ED6000AD5D8 /* SubjectViewController.m in Sources */,
 				C4C628441C0C1ED6000AD5D8 /* DashboardViewController.m in Sources */,
 				F6F1C85B1E88BFB000754034 /* ApplicationViewController.m in Sources */,
 				C4DEBB5A1D3CD22D00EEBC29 /* FileUtils+Report.m in Sources */,
+				F684BEE31EA5E15100DBDBD4 /* UITextView+Placeholder.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,
+				F684BF3E1EA5E1A900DBDBD4 /* HorizontalBarChartViewController.m in Sources */,
+				F684C0431EA5E26800DBDBD4 /* IQUIView+Hierarchy.m in Sources */,
+				F684BFA01EA5E21800DBDBD4 /* ChartHudView.m in Sources */,
+				F684BF621EA5E1CC00DBDBD4 /* IntAxisValueFormatter.m in Sources */,
+				F684BEE51EA5E15100DBDBD4 /* UIView+border.m in Sources */,
 				C46903971D5CC81A00233D05 /* SelectStoreViewController.m in Sources */,
+				F684BF541EA5E1A900DBDBD4 /* RadarChartViewController.m in Sources */,
+				F684BF3A1EA5E1A900DBDBD4 /* CubicLineChartViewController.m in Sources */,
+				F684BED41EA5E15100DBDBD4 /* UIAlertView+Category.m in Sources */,
 				F6EC68D01E53F560008E0B5F /* ManualInputViewController.m in Sources */,
+				F684BFE41EA5E24400DBDBD4 /* NSArray+PureLayout.m in Sources */,
 				F691E5E41E28835C00BDC73E /* FindPasswordViewController.m in Sources */,
 				C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */,
+				F684BFE91EA5E24400DBDBD4 /* PointHudTool.m in Sources */,
+				F684BF9C1EA5E21800DBDBD4 /* ChartHeaderView.m in Sources */,
 				C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */,
+				F684BF401EA5E1A900DBDBD4 /* LineChart1ViewController.m in Sources */,
 				C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */,
+				F684BFE01EA5E24400DBDBD4 /* CommonTableViewCell.m in Sources */,
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				F6F1C85F1E88C03900754034 /* MianTabBarViewController.m in Sources */,
 				F6F1C8581E88BFA100754034 /* MessageViewController.m in Sources */,
+				F684C0421EA5E26800DBDBD4 /* IQUITextFieldView+Additions.m in Sources */,
+				F684BEE71EA5E15100DBDBD4 /* UIViewController+Category.m in Sources */,
+				F684C0511EA5E26900DBDBD4 /* CommonPopupView.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,
 				C49BB9AA1D8C2538004C9F70 /* Constant.m in Sources */,
+				F684BF501EA5E1A900DBDBD4 /* PiePolylineChartViewController.m in Sources */,
+				F684BEDC1EA5E15100DBDBD4 /* UINavigationBar+Category.m in Sources */,
+				F684BF421EA5E1A900DBDBD4 /* LineChart2ViewController.m in Sources */,
+				F684BF321EA5E1A900DBDBD4 /* BubbleChartViewController.m in Sources */,
+				F684C03F1EA5E26800DBDBD4 /* iCarousel.m in Sources */,
+				F684BFA51EA5E21800DBDBD4 /* HomeIndexCollectionCellContentView.m in Sources */,
+				F684BED71EA5E15100DBDBD4 /* UICollectionViewCell+Category.m in Sources */,
+				F684BF521EA5E1A900DBDBD4 /* PositiveNegativeBarChartViewController.m in Sources */,
+				F684BF4A1EA5E1A900DBDBD4 /* MultipleLinesChartViewController.m in Sources */,
+				F684BED61EA5E15100DBDBD4 /* UIButton+FillColor.m in Sources */,
+				F684BED31EA5E15100DBDBD4 /* PinYinUtil.m in Sources */,
+				F684BF611EA5E1CC00DBDBD4 /* DateValueFormatter.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
+				F684BEDE1EA5E15100DBDBD4 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
+				F684BFB91EA5E21800DBDBD4 /* YHMarkerV.swift in Sources */,
+				F684BE951EA5E0F700DBDBD4 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				F630B2E61D98FAB600CAA6A0 /* SearchTableViewCell.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
+				F684C04B1EA5E26800DBDBD4 /* IQTitleBarButtonItem.m in Sources */,
+				F684BFE11EA5E24400DBDBD4 /* DataManager.m in Sources */,
+				F684BED01EA5E15100DBDBD4 /* NSObject+NSObject.m in Sources */,
+				F684BF361EA5E1A900DBDBD4 /* ColoredLineChartViewController.m in Sources */,
 				C48924E61D858F0A00859411 /* GestureTableViewCell.m in Sources */,
+				F684C0491EA5E26800DBDBD4 /* IQBarButtonItem.m in Sources */,
+				F684BEDD1EA5E15100DBDBD4 /* UIScrollView+Size.m in Sources */,
 				C42ECED41D66EE8E00C5F762 /* DropTableViewCell.m in Sources */,
+				F684BF561EA5E1A900DBDBD4 /* ScatterChartViewController.m in Sources */,
+				F684BECF1EA5E15100DBDBD4 /* NSDate+Category.m in Sources */,
 				C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1322,6 +2539,11 @@
 			isa = PBXTargetDependency;
 			target = C4DB7D721C02EC0500DA534E /* YH-IOS */;
 			targetProxy = C4DB7D981C02EC0600DA534E /* PBXContainerItemProxy */;
+		};
+		F684C0781EA5F16700DBDBD4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Charts;
+			targetProxy = F684C0771EA5F16700DBDBD4 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1438,18 +2660,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "YH-IOS/YH-IOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = WV94P663S4;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/YH-IOS/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/include/libxml2,
@@ -1461,10 +2687,13 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "68f76d13-e17f-4845-b32a-3f32837eca75";
-				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: com.intfocus.YongHuiChart";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "YH-IOS/YH-IOS-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1473,18 +2702,22 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				BUNDLE_LOADER = "";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "YH-IOS/YH-IOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = WV94P663S4;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Frameworks",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/YH-IOS/PrefixHeader.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/usr/include/libxml2,
@@ -1496,10 +2729,12 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.YongHuiChart;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "68f76d13-e17f-4845-b32a-3f32837eca75";
-				PROVISIONING_PROFILE_SPECIFIER = "XC Ad Hoc: com.intfocus.YongHuiChart";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "YH-IOS/YH-IOS-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1507,6 +2742,7 @@
 		C4DB7DA41C02EC0600DA534E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1529,6 +2765,7 @@
 		C4DB7DA51C02EC0600DA534E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1551,6 +2788,7 @@
 		C4DB7DA71C02EC0600DA534E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
 				INFOPLIST_FILE = "YH-IOSUITests/Info.plist";
@@ -1565,6 +2803,7 @@
 		C4DB7DA81C02EC0600DA534E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = WV94P663S4;
 				INFOPLIST_FILE = "YH-IOSUITests/Info.plist";

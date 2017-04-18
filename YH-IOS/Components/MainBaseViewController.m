@@ -21,6 +21,8 @@
 #import "SubLBXScanViewController.h"
 #import "NewSettingViewController.h"
 #import "SettingViewController.h"
+#import "HomeIndexVC.h"
+#import "HomeIndexModel.h"
 
 @interface MainBaseViewController ()<LTHPasscodeViewControllerDelegate,UINavigationControllerDelegate>
 
@@ -118,7 +120,8 @@
         [tmpTitles addObject:kDropMentUserInfoText];
         [tmpIcons addObject:@"DropMenu-UserInfo"];
     }
-    
+    [tmpTitles addObject:@"原生报表"];
+    [tmpIcons addObject:@"DropMenu-UserInfo"];
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
@@ -161,7 +164,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    return 4;
+    return self.dropMenuTitles.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -231,6 +234,12 @@
             UINavigationController *userInfoViewControlller = [[UINavigationController alloc]initWithRootViewController:settingViewController];
             [self presentViewController:userInfoViewControlller animated:YES completion:nil];
         }
+         else if([itemName isEqualToString:@"原生报表"]) {
+             NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil];
+             HomeIndexVC *vc = [[HomeIndexVC alloc] init];
+             [vc setWithHomeIndexArray:models];
+             [self presentViewController:vc animated:YES completion:nil];
+         }
     }];
 }
 

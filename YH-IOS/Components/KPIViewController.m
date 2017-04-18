@@ -114,9 +114,15 @@
                 subjectView.bannerName = data[@"bannerName"];
                 subjectView.link = data[@"link"];
                 subjectView.objectID = data[@"objectID"];
-                
-                //跳转事件
+              if ([data[@"link"] hasSuffix:@"template/3/report/9904"]) {
+                NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil];
+                HomeIndexVC *vc = [[HomeIndexVC alloc] init];
+                [vc setWithHomeIndexArray:models];
+                [self.navigationController pushViewController:vc animated:YES];
+             }
+              else{ //跳转事件
                 [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+              }
         }
     }];
     

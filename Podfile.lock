@@ -26,11 +26,20 @@ PODS:
   - LBXScan (1.1.2):
     - ZXingObjC (~> 3.0)
   - LTHPasscodeViewController (3.7.1)
+  - Masonry (1.0.2)
   - MBProgressHUD (0.9.1)
+  - MJExtension (3.0.13)
+  - MJRefresh (3.1.12)
   - Reachability (3.2)
   - SCLAlertView-Objective-C (0.7.9)
+  - SDWebImage (4.0.0):
+    - SDWebImage/Core (= 4.0.0)
+  - SDWebImage/Core (4.0.0)
   - SSZipArchive (0.3.3)
   - UMengSocialCOM (5.2.1)
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
   - ZXingObjC (3.1.0):
     - ZXingObjC/All (= 3.1.0)
   - ZXingObjC/All (3.1.0)
@@ -41,11 +50,16 @@ DEPENDENCIES:
   - FMDB
   - LBXScan (from `https://github.com/MxABC/LBXScan.git`)
   - LTHPasscodeViewController (~> 3.7.1)
+  - Masonry (~> 1.0.1)
   - MBProgressHUD (~> 0.9.1)
+  - MJExtension
+  - MJRefresh
   - Reachability (~> 3.2)
   - SCLAlertView-Objective-C (~> 0.7.9)
+  - SDWebImage
   - SSZipArchive (~> 0.3.2)
   - UMengSocialCOM (~> 5.2.1)
+  - YYKit
   - ZYCornerRadius (from `https://github.com/liuzhiyi1992/ZYCornerRadius.git`, tag `0.9.1`)
 
 EXTERNAL SOURCES:
@@ -68,14 +82,19 @@ SPEC CHECKSUMS:
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   LBXScan: 30153fa9c57bbe63d93cc6bf35c047ec1b63260c
   LTHPasscodeViewController: 93a2438709e2affda710ad53081810d12d3081ff
+  Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
+  MJExtension: 5932755f451458eefa24239358817f8d291240c7
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SCLAlertView-Objective-C: e36ab12dc1ec4ff6f932888083b21d71a3a1ad23
+  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   SSZipArchive: 2cf2a6d3ac9f03252b7d96f93728b9b983be9afb
   UMengSocialCOM: 074c135ce349aa4c8848d3fb8458757bcb6ffb67
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
   ZYCornerRadius: 485a8e9304d16d1620641054a08b9c0f55dd512c
 
-PODFILE CHECKSUM: d4c85a0717e8661cd4a1a8c29f5c12ddf47fe49f
+PODFILE CHECKSUM: b77f0d23432f62881ea4782ae5af89d5699b98c9
 
 COCOAPODS: 1.1.1

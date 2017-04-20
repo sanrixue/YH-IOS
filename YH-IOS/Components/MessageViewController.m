@@ -123,7 +123,28 @@
             subjectView.bannerName = data[@"bannerName"];
             subjectView.link = data[@"link"];
             subjectView.objectID = data[@"objectID"];
-            [self.navigationController pushViewController:subjectView animated:YES];
+            subjectView.bannerName = data[@"bannerName"];
+            subjectView.link = data[@"link"];
+            subjectView.objectID = data[@"objectID"];
+            if ([data[@"link"] rangeOfString:@"template/3/"].location != NSNotFound) {
+                NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
+                HomeIndexVC *vc = [[HomeIndexVC alloc] init];
+                [vc setWithHomeIndexArray:models];
+                UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
+                [self presentViewController:rootchatNav animated:YES completion:nil];
+            }
+            else if ([data[@"link"] rangeOfString:@"template/5/"].location != NSNotFound) {
+                SCLAlertView *alert = [[SCLAlertView alloc] init];
+                [alert addButton:@"下一次" actionBlock:^(void) {}];
+                [alert addButton:@"立刻升级" actionBlock:^(void) {
+                    NSURL *url = [NSURL URLWithString:[kPgyerUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                    [[UIApplication sharedApplication] openURL:url];
+                }];
+                [alert showSuccess:self title:@"温馨提示" subTitle:@"您当前的版本暂不支持该模块，请升级之后查看" closeButtonTitle:nil duration:0.0f];
+            }
+            else{ //跳转事件
+                [self.navigationController pushViewController:subjectView animated:YES];
+            }
         }
     }];
     

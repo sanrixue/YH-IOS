@@ -28,38 +28,49 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [self checkAssetsUpdate];
-    if (![HttpUtils isNetworkAvailable2]) {
-        [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:@"CB891C"]];
-    }
-    else{
-        [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
-    }
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)addchildControllers{
+    
     ApplicationViewController *applicationRootView = [[ApplicationViewController alloc]init];
     UINavigationController *applicationRootViewController = [[UINavigationController alloc]initWithRootViewController:applicationRootView];
     applicationRootViewController.tabBarItem.title = @"应用";
-    applicationRootViewController.tabBarItem.image = [UIImage imageNamed:@"TabBar-App"];
-    applicationRootViewController.tabBarItem.selectedImage = [UIImage imageNamed:@"TabBar-App-Selected"];
+    [applicationRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
+    applicationRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-App"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    applicationRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-App-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     MessageViewController *messageRootView= [[MessageViewController alloc]init];
     UINavigationController *messageRootViewController = [[UINavigationController alloc]initWithRootViewController:messageRootView];
     messageRootViewController.tabBarItem.title = @"消息";
-    messageRootViewController.tabBarItem.image = [UIImage imageNamed:@"TabBar-Message"];
-    messageRootViewController.tabBarItem.selectedImage = [UIImage imageNamed:@"TabBar-Message-Selected"];
+    [messageRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
+    messageRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-Message"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    messageRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-Message-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     AnalysisViewController *analysisRootView = [[AnalysisViewController alloc]init];
     UINavigationController *analysisRootViewController = [[UINavigationController alloc]initWithRootViewController:analysisRootView];
     analysisRootViewController.tabBarItem.title = @"分析";
-    analysisRootViewController.tabBarItem.image = [UIImage imageNamed:@"TabBar-Analyse"];
-    analysisRootViewController.tabBarItem.selectedImage = [UIImage imageNamed:@"TabBar-Analyse-Selected"];
+    [analysisRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
+    analysisRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-Analyse"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    analysisRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-Analyse-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     KPIViewController *kpiRootView = [[KPIViewController alloc]init];
     UINavigationController *kpiRootViewController  = [[UINavigationController alloc]initWithRootViewController:kpiRootView];
     kpiRootViewController.tabBarItem.title = @"仪表盘";
-    kpiRootViewController.tabBarItem.image = [UIImage imageNamed:@"TabBar-KPI"];
-    kpiRootViewController.tabBarItem.selectedImage = [UIImage imageNamed:@"TabBar-KPI-Selected"];
+    [kpiRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
+    kpiRootViewController.edgesForExtendedLayout = UIRectEdgeNone;
+    kpiRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-KPI"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    kpiRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-KPI-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     self.viewControllers = @[kpiRootViewController,analysisRootViewController,applicationRootViewController,messageRootViewController];
     

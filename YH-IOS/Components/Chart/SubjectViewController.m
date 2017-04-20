@@ -1,4 +1,4 @@
-//
+ //
 //  ChartViewController.m
 //  YH-IOS
 //
@@ -108,12 +108,32 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持横屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    // 如果该界面需要支持横竖屏切换
+    return UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskPortrait;
+    // 如果该界面仅支持横屏
+    // return UIInterfaceOrientationMaskLandscapeRight；
+}
+
 -(void)isLoadHtmlFromService {
     if (([HttpUtils isNetworkAvailable2] &&  self.isInnerLink) || !self.isInnerLink ) {
         [self loadHtml];
     }
     else{
-        self.labelTheme.textColor = [UIColor colorWithHexString:@"CB891C"];
+        self.labelTheme.text = [NSString stringWithFormat:@"%@(离线)",self.bannerName];
         [self clearBrowserCache];
         NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
         NSString* htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
@@ -230,7 +250,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self showLoading:LoadingRefresh];
+       // [self showLoading:LoadingRefresh];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -346,7 +366,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      *  only inner link clean browser cache
      */
     [self clearBrowserCache];
-    [self showLoading:LoadingLoad];
+  //  [self showLoading:LoadingLoad];
     
     /*
      * format: /mobile/v1/group/:group_id/template/:template_id/report/:report_id
@@ -669,14 +689,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     NSLog(@"dvc: %@", error.description);
 }
 
-# pragma mark - 支持旋转 屏幕旋转 刷新页面
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-}
 
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
     [self checkInterfaceOrientation:toInterfaceOrientation];
@@ -722,7 +734,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSURL *url = [request URL];
-        if (![[url scheme] hasPrefix:@";file"]) {
+        if (![[url scheme] hasPrefix:@";file"] && ![[url relativeString] hasPrefix:@"http://222.76.27.51"]) {
             [[UIApplication sharedApplication] openURL:url];
             return NO;
         }

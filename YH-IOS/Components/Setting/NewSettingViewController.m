@@ -192,6 +192,7 @@
     
     if([FileUtils checkFileExist:gravatarPath isDir:NO]) {
         self.userIconImage = [UIImage imageWithContentsOfFile:gravatarPath];
+        [self.tableView reloadData];
     }
     else {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -202,7 +203,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if([FileUtils checkFileExist:gravatarPath isDir:NO]) {
                     self.userIconImage = [UIImage imageWithContentsOfFile:gravatarPath];
-                    
+                    [self.tableView reloadData];
                     NSString *gravatarConfigPath = [FileUtils dirPath:kConfigDirName FileName:kGravatarConfigFileName];
                     BOOL uploadState = [FileUtils checkFileExist:gravatarConfigPath isDir:YES];
                     NSMutableDictionary *gravatarDict = [FileUtils readConfigFile:gravatarConfigPath];
@@ -308,7 +309,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0:{
-            NSDictionary *infodict = @{@"用户名":user.userName,@"邮箱":@"",@"电话":@"",@"用户商行":[NSString stringWithFormat:@"%@", user.groupName],@"部门":[NSString stringWithFormat:@"%@", user.roleName],@"用户ID":[NSString  stringWithFormat:@"%@",user.userID],@"修改密码":@""};
+            NSDictionary *infodict = @{@"用户名":user.userName,@"用户角色":[NSString stringWithFormat:@"%@", user.roleName],@"所属商行":[NSString stringWithFormat:@"%@", user.groupName],@"手机电话":@"",@"邮箱":@"",@"修改密码":@""};
             SettingNormalViewController *settingNormalView = [[SettingNormalViewController alloc]init];
             settingNormalView.infodict  = infodict;
             settingNormalView.title = userInfoArray[indexPath.row];
@@ -316,7 +317,7 @@
         }
             break;
         case 2:{
-            NSDictionary *infodict = @{@"锁屏设置": @{@"启用锁屏":@YES,@"修改锁屏密码":@{}}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
+            NSDictionary *infodict = @{@"锁屏设置": @{@"启用锁屏":@YES,@"修改锁屏密码":@{}}, @"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
             NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
             BOOL isUseGesturePassword = [userDict[kIsUseGesturePasswordCUName] boolValue];
@@ -333,7 +334,7 @@
         case 1:{
             Version *version = [[Version alloc]init];
             NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];
-            NSDictionary *infodict = @{@"名称":version.appName,@"版本号":[NSString stringWithFormat:@"%@(%@)", version.current, version.build],@"设备型号":[NSString stringWithFormat: @"%@ (%@)",[[Version machineHuman]componentsSeparatedByString:@" ("][0], phoneVersion], @"数据接口":kBaseUrl,@"应用标识":version.bundleID,@"应用详情":@{@"检查新版本":@"已是最新版本",@"蒲公英下载":kPgyerUrl}};
+            NSDictionary *infodict = @{@"应用名称":version.appName,@"设备型号":[NSString stringWithFormat: @"%@ (%@)",[[Version machineHuman]componentsSeparatedByString:@" ("][0], phoneVersion], @"数据接口":kBaseUrl,@"应用标识":version.bundleID,@"检测更新":@{@"检查新版本":@"已是最新版本",@"蒲公英下载":kPgyerUrl}};
             SettingNormalViewController *settingNormalView = [[SettingNormalViewController alloc]init];
             settingNormalView.infodict  = infodict;
             settingNormalView.title = userInfoArray[indexPath.row];
@@ -352,7 +353,13 @@
                 pushDatavalue = @{@"暂无数据":@"0"};
             }
             
-            NSDictionary *infodict = @{@"消息推送":pushstate,@"关联设备列表":devideDict[@"devices"] ,@"推送的消息列表":pushDatavalue};
+             NSDictionary *infodict;
+            if (!devideDict || [devideDict allKeys].count == 0) {
+                infodict = @{@"消息推送":pushstate,@"关联的设备列表":@"" ,@"推送的消息列表":pushDatavalue};
+            }
+            else{
+                infodict = @{@"消息推送":pushstate,@"关联的设备列表":devideDict[@"devices"] ,@"推送的消息列表":pushDatavalue};
+            }
             SettingNormalViewController *settingNormalView = [[SettingNormalViewController alloc]init];
             settingNormalView.infodict  = infodict;
             settingNormalView.title = userInfoArray[indexPath.row];
@@ -368,6 +375,18 @@
         default:
             break;
     }
+}
+
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 

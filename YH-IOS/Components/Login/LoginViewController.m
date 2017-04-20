@@ -65,7 +65,7 @@
     self.userNameText = [[UITextField alloc] init];
     self.userNameText.textAlignment = NSTextAlignmentCenter;
     self.userNameText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入帐名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
+    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入帐户名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userNameText.borderStyle = UITextBorderStyleNone;
     self.userNameText.delegate = self;
     if (![userDict[@"user_name"] isEqualToString:@""] && userDict[@"user_name"]) {
@@ -150,6 +150,17 @@
     isPad ? [self layoutWithIpad] : [self layoutView];
 }
 
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 //布局视图
 - (void)layoutView {

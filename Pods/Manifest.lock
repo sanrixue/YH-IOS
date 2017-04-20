@@ -51,7 +51,7 @@ DEPENDENCIES:
   - LBXScan (from `https://github.com/MxABC/LBXScan.git`)
   - LTHPasscodeViewController (~> 3.7.1)
   - Masonry (~> 1.0.1)
-  - MBProgressHUD (~> 0.9.1)
+  - MBProgressHUD
   - MJExtension
   - MJRefresh
   - Reachability (~> 3.2)
@@ -95,6 +95,6 @@ SPEC CHECKSUMS:
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
   ZYCornerRadius: 485a8e9304d16d1620641054a08b9c0f55dd512c
 
-PODFILE CHECKSUM: b77f0d23432f62881ea4782ae5af89d5699b98c9
+PODFILE CHECKSUM: d432f5aabfc000d1694d8f8dbbf88c97ee935801
 
 COCOAPODS: 1.1.1

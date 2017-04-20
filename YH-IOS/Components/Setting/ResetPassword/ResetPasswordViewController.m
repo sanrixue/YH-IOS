@@ -122,6 +122,18 @@
     self.urlString = [NSString stringWithFormat:kResetPwdMobilePath, kBaseUrl, [FileUtils currentUIVersion]];
 }
 
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self loadHtml];

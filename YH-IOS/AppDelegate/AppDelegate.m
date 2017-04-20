@@ -254,8 +254,8 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (void)passcodeWasEnteredSuccessfully {
     NSLog(@"AppDelegate - Passcode Was Entered Successfully");
     
-    MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
-    _window.rootViewController = mainTabbar;
+  //  MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
+    //_window.rootViewController = mainTabbar;
 }
 
 - (BOOL)didPasscodeTimerEnd {

@@ -55,6 +55,17 @@
     });
  }
 
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

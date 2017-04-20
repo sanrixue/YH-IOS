@@ -37,6 +37,7 @@
  */
 + (HttpResponse *)httpGet:(NSString *)urlString;
 
+
 /**
  *  Http#Post功能代码封装
  *

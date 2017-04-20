@@ -34,7 +34,7 @@
     [super viewDidLoad];
     UIImageView* imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Banner-Logo"]];
     imageView.contentMode =UIViewContentModeScaleAspectFit;
-    imageView.frame = CGRectMake(self.view.frame.size.width/2-30, 0, 60, 40);
+    imageView.frame = CGRectMake(self.view.frame.size.width/2-50, 0, 100, 50);
     [self.navigationController.navigationBar addSubview:imageView];
     self.user = [[User alloc] init];
     [self initDropMenu];
@@ -47,6 +47,17 @@
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Banner-Setting"] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (NSArray *)urlTofilename:(NSString *)url suffix:(NSString *)suffix {
@@ -120,8 +131,8 @@
         [tmpTitles addObject:kDropMentUserInfoText];
         [tmpIcons addObject:@"DropMenu-UserInfo"];
     }
-    [tmpTitles addObject:@"原生报表"];
-    [tmpIcons addObject:@"DropMenu-UserInfo"];
+   // [tmpTitles addObject:@"原生报表"];
+    //[tmpIcons addObject:@"DropMenu-UserInfo"];
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
@@ -235,7 +246,7 @@
             [self presentViewController:userInfoViewControlller animated:YES completion:nil];
         }
          else if([itemName isEqualToString:@"原生报表"]) {
-             NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil];
+             NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:nil];
              HomeIndexVC *vc = [[HomeIndexVC alloc] init];
              [vc setWithHomeIndexArray:models];
              [self presentViewController:vc animated:YES completion:nil];

@@ -25,6 +25,17 @@
     [self setupUI];
     // Do any additional setup after loading the view.
 }
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 -(void)viewWillAppear:(BOOL)animated {
     [self.navigationController setNavigationBarHidden:false];

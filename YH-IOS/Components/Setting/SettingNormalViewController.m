@@ -90,6 +90,10 @@
     if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSDictionary class]]) {
         cell.detailTextLabel.text = @"";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+         if ([[_infodict allKeys][indexPath.row] isEqualToString:@"检测更新"]) {
+            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@)", _version.current, _version.build];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
     }
     else if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSArray class]]) {
         cell.detailTextLabel.text = @"";
@@ -99,11 +103,32 @@
      else if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSString class]]){
         cell.detailTextLabel.text = [_infodict allValues][indexPath.row];
         cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
+         cell.userInteractionEnabled = NO;
          if ([[_infodict allKeys][indexPath.row] isEqualToString:@"检查新版本"]) {
              cell.detailTextLabel.text = self.pgyLinkString;
              cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
+             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+             cell.userInteractionEnabled = YES;
+         }
+         else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"蒲公英下载"]) {
+             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+             cell.userInteractionEnabled = YES;
+         }
+         else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"修改密码"]) {
+             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+             cell.userInteractionEnabled = YES;
+         }
+         else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"校正"]) {
+             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+             cell.userInteractionEnabled = YES;
+         }
+         else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"手工清理"]) {
+             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+             cell.userInteractionEnabled = YES;
+             
          }
     }
+    
     else {
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",[_infodict allValues][indexPath.row]];
     }
@@ -358,6 +383,17 @@
     [[UIApplication sharedApplication] openURL:url];
 }
 
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 - (void)actionCheckUpgrade {
     [[PgyUpdateManager sharedPgyManager] startManagerWithAppId:kPgyerAppId];
     [[PgyUpdateManager sharedPgyManager] checkUpdateWithDelegete:self selector:@selector(appUpgradeMethod:)];

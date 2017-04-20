@@ -33,8 +33,30 @@
     self.settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     // Do any additional setup after loading the view.
 }
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 -(void)viewWillAppear:(BOOL)animated {
+    if ([self.title isEqualToString:@"选项配置"]) {
+        NSDictionary *infodict = @{@"锁屏设置": @{@"启用锁屏":@YES,@"修改锁屏密码":@{}}, @"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
+        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+        NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+        BOOL isUseGesturePassword = [userDict[kIsUseGesturePasswordCUName] boolValue];
+        if (!isUseGesturePassword) {
+            infodict = @{@"锁屏设置": @{@"启用锁屏":@NO}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""} };
+        }
+        self.arraydict = infodict;
+        [self.tableView reloadData];
+    }
     [self.navigationController setNavigationBarHidden:false];
 }
 

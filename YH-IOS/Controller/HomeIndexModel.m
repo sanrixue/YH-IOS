@@ -30,7 +30,7 @@ NSString *jsons = @"[{\"period\":\"201605\",\"xaxis_order\":\"201605\",\"head\":
     NSString *newjson;
     User* user = [[User alloc]init];
     NSString *baseString = [NSString stringWithFormat:urlString,user.groupID];
-    NSString *jsonURL = [NSString stringWithFormat:@"%@%@",kBaseUrl,baseString];
+    NSString *jsonURL = [NSString stringWithFormat:@"%@",baseString];
     HttpResponse *reponse = [HttpUtils httpGet:jsonURL];
     newjson = reponse.data[@"data"];
     BOOL isYes = [NSJSONSerialization isValidJSONObject:reponse.data];

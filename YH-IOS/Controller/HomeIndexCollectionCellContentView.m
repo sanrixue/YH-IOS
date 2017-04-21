@@ -19,6 +19,8 @@
     _titleLab.text = model.name;
     _valueLab.text = [NSString stringWithFormat:@"%.2f",model.main_data.data];
     _secondValueLab.text = [NSString stringWithFormat:@"%.2f",model.sub_data.data];
+    NSString* arrowString = [NSString stringWithFormat:@"%@_%@",model.state.arrow,model.state.color];
+    _tipImageV.image = [UIImage imageNamed:arrowString];
     if (model.select) {
         [self setBorderColor:[AppColor app_1color] width:1];
 

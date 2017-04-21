@@ -36,6 +36,9 @@
             [self.delegate HomeIndexDetailListVCSortDown:YES model:_data vc:self];
         }
     }];
+    if (![_data.head isEqualToString:@""]) {
+         [self.topNamebtn setTitle:_data.head forState:UIControlStateNormal];
+    }
 }
 -(void)initPackage{
     __WEAKSELF;

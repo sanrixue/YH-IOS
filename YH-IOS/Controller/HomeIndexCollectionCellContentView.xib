@@ -30,7 +30,7 @@
                     <color key="textColor" red="0.34901960784313724" green="0.35686274509803922" blue="0.3411764705882353" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_redarrow" translatesAutoresizingMaskIntoConstraints="NO" id="y0k-jz-M8M"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="up_yellowarrow_F2E1AC" translatesAutoresizingMaskIntoConstraints="NO" id="y0k-jz-M8M"/>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -55,6 +55,6 @@
         </view>
     </objects>
     <resources>
-        <image name="icon_redarrow" width="15" height="13"/>
+        <image name="up_yellowarrow_F2E1AC" width="22" height="19"/>
     </resources>
 </document>

@@ -48,6 +48,8 @@
     }
     if (_indexPath.row==2) {
         self.tipImageV.hidden = NO;
+        NSString* arrowString = [NSString stringWithFormat:@"%@_%@",item.state.arrow,item.state.color];
+        _tipImageV.image = [UIImage imageNamed:arrowString];
         self.valueRightLayout.constant = 23;
         self.valueLab.text = [NSString stringWithFormat:@"%.2f",item.main_data.data/item.sub_data.data-1];
     }

@@ -23,6 +23,7 @@
 #import "SettingViewController.h"
 #import "HomeIndexVC.h"
 #import "HomeIndexModel.h"
+#import "SuperChartVc.h"
 
 @interface MainBaseViewController ()<LTHPasscodeViewControllerDelegate,UINavigationControllerDelegate>
 
@@ -238,7 +239,10 @@
             [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
         }
         else if([itemName isEqualToString:kDropMentSearchText]) {
-            [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+          //  [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+            SuperChartVc *superChaerCtrl = [[SuperChartVc alloc]init];
+            UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
+            [self presentViewController:superChartNavCtrl animated:YES completion:nil];
         }
         else if([itemName isEqualToString:kDropMentUserInfoText]) {
             NewSettingViewController *settingViewController = [[NewSettingViewController alloc]init];

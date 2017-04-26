@@ -37,6 +37,7 @@ typedef void(^CommonBack)(id item);
 
 - (void)creatBackItem;
 
+- (void)popNeedAnimation:(BOOL)needAnimation;
 /**
  *  是否全屏布局
  *

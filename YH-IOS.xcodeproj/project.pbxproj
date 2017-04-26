@@ -254,6 +254,29 @@
 		F63A5BC11DCAE3520092FC24 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63A5BC01DCAE3520092FC24 /* AddressBook.framework */; };
 		F63A5BC31DCAE6BF0092FC24 /* iflyMSC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F63A5BC21DCAE6BF0092FC24 /* iflyMSC.framework */; };
 		F63A5BC71DCB17980092FC24 /* VoiceSpeechView.m in Sources */ = {isa = PBXBuildFile; fileRef = F63A5BC61DCB17980092FC24 /* VoiceSpeechView.m */; };
+		F63D49551EB0A49F0004BCC8 /* ChangeLineSpaceVc.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D492C1EB0A49F0004BCC8 /* ChangeLineSpaceVc.m */; };
+		F63D49561EB0A49F0004BCC8 /* DoubleClickSuperChartCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D492E1EB0A49F0004BCC8 /* DoubleClickSuperChartCell.m */; };
+		F63D49571EB0A49F0004BCC8 /* DoubleClickSuperChartCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F63D492F1EB0A49F0004BCC8 /* DoubleClickSuperChartCell.xib */; };
+		F63D49581EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D49311EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.m */; };
+		F63D49591EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F63D49321EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.xib */; };
+		F63D495A1EB0A49F0004BCC8 /* DoubleClickSuperChartVc.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D49341EB0A49F0004BCC8 /* DoubleClickSuperChartVc.m */; };
+		F63D495B1EB0A49F0004BCC8 /* DoubleClickSuperChartVc.xib in Resources */ = {isa = PBXBuildFile; fileRef = F63D49351EB0A49F0004BCC8 /* DoubleClickSuperChartVc.xib */; };
+		F63D495C1EB0A49F0004BCC8 /* FormScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D49381EB0A49F0004BCC8 /* FormScrollView.m */; };
+		F63D495D1EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D493A1EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.m */; };
+		F63D495E1EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F63D493B1EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.xib */; };
+		F63D495F1EB0A49F0004BCC8 /* FilterSuperChartVc.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D493D1EB0A49F0004BCC8 /* FilterSuperChartVc.m */; };
+		F63D49601EB0A49F0004BCC8 /* CommonMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D49401EB0A49F0004BCC8 /* CommonMenuView.m */; };
+		F63D49611EB0A49F0004BCC8 /* MenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D49421EB0A49F0004BCC8 /* MenuModel.m */; };
+		F63D49621EB0A49F0004BCC8 /* MenuTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D49441EB0A49F0004BCC8 /* MenuTableViewCell.m */; };
+		F63D49631EB0A49F0004BCC8 /* UIView+AdjustFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D49461EB0A49F0004BCC8 /* UIView+AdjustFrame.m */; };
+		F63D49641EB0A49F0004BCC8 /* RTDragCellTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D49491EB0A49F0004BCC8 /* RTDragCellTableView.m */; };
+		F63D49651EB0A49F0004BCC8 /* SelectListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D494B1EB0A49F0004BCC8 /* SelectListCell.m */; };
+		F63D49661EB0A49F0004BCC8 /* SelectListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F63D494C1EB0A49F0004BCC8 /* SelectListCell.xib */; };
+		F63D49671EB0A49F0004BCC8 /* SelectListVc.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D494E1EB0A49F0004BCC8 /* SelectListVc.m */; };
+		F63D49681EB0A49F0004BCC8 /* SelectListVc.xib in Resources */ = {isa = PBXBuildFile; fileRef = F63D494F1EB0A49F0004BCC8 /* SelectListVc.xib */; };
+		F63D49691EB0A49F0004BCC8 /* SuperChartModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D49511EB0A49F0004BCC8 /* SuperChartModel.m */; };
+		F63D496A1EB0A49F0004BCC8 /* SuperChartVc.m in Sources */ = {isa = PBXBuildFile; fileRef = F63D49531EB0A49F0004BCC8 /* SuperChartVc.m */; };
+		F63D496B1EB0A49F0004BCC8 /* SuperChartVc.xib in Resources */ = {isa = PBXBuildFile; fileRef = F63D49541EB0A49F0004BCC8 /* SuperChartVc.xib */; };
 		F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F64903BB1DB5CD9B0001DD2B /* UserInfoViewController.m */; };
 		F655483B1E8CDF5600B4048C /* NewSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F655483A1E8CDF5600B4048C /* NewSettingViewController.m */; };
 		F655483E1E8CDF7C00B4048C /* OptionConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F655483D1E8CDF7C00B4048C /* OptionConfigViewController.m */; };
@@ -772,6 +795,46 @@
 		F63A5BC21DCAE6BF0092FC24 /* iflyMSC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iflyMSC.framework; path = Frameworks/iflyMSC.framework; sourceTree = "<group>"; };
 		F63A5BC51DCB17980092FC24 /* VoiceSpeechView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VoiceSpeechView.h; sourceTree = "<group>"; };
 		F63A5BC61DCB17980092FC24 /* VoiceSpeechView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VoiceSpeechView.m; sourceTree = "<group>"; };
+		F63D492B1EB0A49F0004BCC8 /* ChangeLineSpaceVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeLineSpaceVc.h; sourceTree = "<group>"; };
+		F63D492C1EB0A49F0004BCC8 /* ChangeLineSpaceVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeLineSpaceVc.m; sourceTree = "<group>"; };
+		F63D492D1EB0A49F0004BCC8 /* DoubleClickSuperChartCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleClickSuperChartCell.h; sourceTree = "<group>"; };
+		F63D492E1EB0A49F0004BCC8 /* DoubleClickSuperChartCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubleClickSuperChartCell.m; sourceTree = "<group>"; };
+		F63D492F1EB0A49F0004BCC8 /* DoubleClickSuperChartCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DoubleClickSuperChartCell.xib; sourceTree = "<group>"; };
+		F63D49301EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleClickSuperChartHeaderCell.h; sourceTree = "<group>"; };
+		F63D49311EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubleClickSuperChartHeaderCell.m; sourceTree = "<group>"; };
+		F63D49321EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DoubleClickSuperChartHeaderCell.xib; sourceTree = "<group>"; };
+		F63D49331EB0A49F0004BCC8 /* DoubleClickSuperChartVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleClickSuperChartVc.h; sourceTree = "<group>"; };
+		F63D49341EB0A49F0004BCC8 /* DoubleClickSuperChartVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubleClickSuperChartVc.m; sourceTree = "<group>"; };
+		F63D49351EB0A49F0004BCC8 /* DoubleClickSuperChartVc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DoubleClickSuperChartVc.xib; sourceTree = "<group>"; };
+		F63D49371EB0A49F0004BCC8 /* FormScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormScrollView.h; sourceTree = "<group>"; };
+		F63D49381EB0A49F0004BCC8 /* FormScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormScrollView.m; sourceTree = "<group>"; };
+		F63D49391EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterSuperChartHeaderCell.h; sourceTree = "<group>"; };
+		F63D493A1EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterSuperChartHeaderCell.m; sourceTree = "<group>"; };
+		F63D493B1EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterSuperChartHeaderCell.xib; sourceTree = "<group>"; };
+		F63D493C1EB0A49F0004BCC8 /* FilterSuperChartVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterSuperChartVc.h; sourceTree = "<group>"; };
+		F63D493D1EB0A49F0004BCC8 /* FilterSuperChartVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterSuperChartVc.m; sourceTree = "<group>"; };
+		F63D493F1EB0A49F0004BCC8 /* CommonMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonMenuView.h; sourceTree = "<group>"; };
+		F63D49401EB0A49F0004BCC8 /* CommonMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonMenuView.m; sourceTree = "<group>"; };
+		F63D49411EB0A49F0004BCC8 /* MenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuModel.h; sourceTree = "<group>"; };
+		F63D49421EB0A49F0004BCC8 /* MenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuModel.m; sourceTree = "<group>"; };
+		F63D49431EB0A49F0004BCC8 /* MenuTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuTableViewCell.h; sourceTree = "<group>"; };
+		F63D49441EB0A49F0004BCC8 /* MenuTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuTableViewCell.m; sourceTree = "<group>"; };
+		F63D49451EB0A49F0004BCC8 /* UIView+AdjustFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+AdjustFrame.h"; sourceTree = "<group>"; };
+		F63D49461EB0A49F0004BCC8 /* UIView+AdjustFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+AdjustFrame.m"; sourceTree = "<group>"; };
+		F63D49481EB0A49F0004BCC8 /* RTDragCellTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTDragCellTableView.h; sourceTree = "<group>"; };
+		F63D49491EB0A49F0004BCC8 /* RTDragCellTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTDragCellTableView.m; sourceTree = "<group>"; };
+		F63D494A1EB0A49F0004BCC8 /* SelectListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectListCell.h; sourceTree = "<group>"; };
+		F63D494B1EB0A49F0004BCC8 /* SelectListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectListCell.m; sourceTree = "<group>"; };
+		F63D494C1EB0A49F0004BCC8 /* SelectListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectListCell.xib; sourceTree = "<group>"; };
+		F63D494D1EB0A49F0004BCC8 /* SelectListVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectListVc.h; sourceTree = "<group>"; };
+		F63D494E1EB0A49F0004BCC8 /* SelectListVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectListVc.m; sourceTree = "<group>"; };
+		F63D494F1EB0A49F0004BCC8 /* SelectListVc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SelectListVc.xib; sourceTree = "<group>"; };
+		F63D49501EB0A49F0004BCC8 /* SuperChartModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperChartModel.h; sourceTree = "<group>"; };
+		F63D49511EB0A49F0004BCC8 /* SuperChartModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperChartModel.m; sourceTree = "<group>"; };
+		F63D49521EB0A49F0004BCC8 /* SuperChartVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperChartVc.h; sourceTree = "<group>"; };
+		F63D49531EB0A49F0004BCC8 /* SuperChartVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperChartVc.m; sourceTree = "<group>"; };
+		F63D49541EB0A49F0004BCC8 /* SuperChartVc.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SuperChartVc.xib; sourceTree = "<group>"; };
+		F63D496F1EB0A7470004BCC8 /* EnumConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnumConstant.h; sourceTree = "<group>"; };
 		F64903BA1DB5CD9B0001DD2B /* UserInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoViewController.h; sourceTree = "<group>"; };
 		F64903BB1DB5CD9B0001DD2B /* UserInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoViewController.m; sourceTree = "<group>"; };
 		F65548391E8CDF5600B4048C /* NewSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewSettingViewController.h; sourceTree = "<group>"; };
@@ -1580,6 +1643,7 @@
 		F62456881EA5FB21006834D2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				F63D492A1EB0A49F0004BCC8 /* 超级报表 */,
 				F62456891EA5FB21006834D2 /* ChartHeaderView.h */,
 				F624568A1EA5FB21006834D2 /* ChartHeaderView.m */,
 				F624568B1EA5FB21006834D2 /* ChartHeaderView.xib */,
@@ -1859,6 +1923,76 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		F63D492A1EB0A49F0004BCC8 /* 超级报表 */ = {
+			isa = PBXGroup;
+			children = (
+				F63D492B1EB0A49F0004BCC8 /* ChangeLineSpaceVc.h */,
+				F63D492C1EB0A49F0004BCC8 /* ChangeLineSpaceVc.m */,
+				F63D492D1EB0A49F0004BCC8 /* DoubleClickSuperChartCell.h */,
+				F63D492E1EB0A49F0004BCC8 /* DoubleClickSuperChartCell.m */,
+				F63D492F1EB0A49F0004BCC8 /* DoubleClickSuperChartCell.xib */,
+				F63D49301EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.h */,
+				F63D49311EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.m */,
+				F63D49321EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.xib */,
+				F63D49331EB0A49F0004BCC8 /* DoubleClickSuperChartVc.h */,
+				F63D49341EB0A49F0004BCC8 /* DoubleClickSuperChartVc.m */,
+				F63D49351EB0A49F0004BCC8 /* DoubleClickSuperChartVc.xib */,
+				F63D49361EB0A49F0004BCC8 /* excelView */,
+				F63D49391EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.h */,
+				F63D493A1EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.m */,
+				F63D493B1EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.xib */,
+				F63D493C1EB0A49F0004BCC8 /* FilterSuperChartVc.h */,
+				F63D493D1EB0A49F0004BCC8 /* FilterSuperChartVc.m */,
+				F63D493E1EB0A49F0004BCC8 /* menu */,
+				F63D49471EB0A49F0004BCC8 /* RTDragCellTableView */,
+				F63D494A1EB0A49F0004BCC8 /* SelectListCell.h */,
+				F63D494B1EB0A49F0004BCC8 /* SelectListCell.m */,
+				F63D494C1EB0A49F0004BCC8 /* SelectListCell.xib */,
+				F63D494D1EB0A49F0004BCC8 /* SelectListVc.h */,
+				F63D494E1EB0A49F0004BCC8 /* SelectListVc.m */,
+				F63D494F1EB0A49F0004BCC8 /* SelectListVc.xib */,
+				F63D49501EB0A49F0004BCC8 /* SuperChartModel.h */,
+				F63D49511EB0A49F0004BCC8 /* SuperChartModel.m */,
+				F63D49521EB0A49F0004BCC8 /* SuperChartVc.h */,
+				F63D49531EB0A49F0004BCC8 /* SuperChartVc.m */,
+				F63D49541EB0A49F0004BCC8 /* SuperChartVc.xib */,
+			);
+			path = "超级报表";
+			sourceTree = "<group>";
+		};
+		F63D49361EB0A49F0004BCC8 /* excelView */ = {
+			isa = PBXGroup;
+			children = (
+				F63D49371EB0A49F0004BCC8 /* FormScrollView.h */,
+				F63D49381EB0A49F0004BCC8 /* FormScrollView.m */,
+			);
+			path = excelView;
+			sourceTree = "<group>";
+		};
+		F63D493E1EB0A49F0004BCC8 /* menu */ = {
+			isa = PBXGroup;
+			children = (
+				F63D493F1EB0A49F0004BCC8 /* CommonMenuView.h */,
+				F63D49401EB0A49F0004BCC8 /* CommonMenuView.m */,
+				F63D49411EB0A49F0004BCC8 /* MenuModel.h */,
+				F63D49421EB0A49F0004BCC8 /* MenuModel.m */,
+				F63D49431EB0A49F0004BCC8 /* MenuTableViewCell.h */,
+				F63D49441EB0A49F0004BCC8 /* MenuTableViewCell.m */,
+				F63D49451EB0A49F0004BCC8 /* UIView+AdjustFrame.h */,
+				F63D49461EB0A49F0004BCC8 /* UIView+AdjustFrame.m */,
+			);
+			path = menu;
+			sourceTree = "<group>";
+		};
+		F63D49471EB0A49F0004BCC8 /* RTDragCellTableView */ = {
+			isa = PBXGroup;
+			children = (
+				F63D49481EB0A49F0004BCC8 /* RTDragCellTableView.h */,
+				F63D49491EB0A49F0004BCC8 /* RTDragCellTableView.m */,
+			);
+			path = RTDragCellTableView;
+			sourceTree = "<group>";
+		};
 		F64068B01D8E87FE003396B0 /* DropView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1903,6 +2037,7 @@
 			children = (
 				F62457BE1EA5FCF0006834D2 /* SCCommon */,
 				F62457BC1EA5FC48006834D2 /* YHConstant.h */,
+				F63D496F1EB0A7470004BCC8 /* EnumConstant.h */,
 				F684BE981EA5E12300DBDBD4 /* SCCategory */,
 				F684C0691EA5F15400DBDBD4 /* Charts.xcodeproj */,
 				F684BFEC1EA5E24900DBDBD4 /* SCWidgets */,
@@ -2225,11 +2360,14 @@
 				F62457431EA5FBB2006834D2 /* LineChartFilledViewController.xib in Resources */,
 				F624574B1EA5FBB2006834D2 /* NegativeStackedBarChartViewController.xib in Resources */,
 				F62456511EA5FACD006834D2 /* UpdateVersionAlertView.xib in Resources */,
+				F63D49591EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.xib in Resources */,
+				F63D495B1EB0A49F0004BCC8 /* DoubleClickSuperChartVc.xib in Resources */,
 				F62456CF1EA5FB21006834D2 /* OneLableCell.xib in Resources */,
 				F624574D1EA5FBB2006834D2 /* PieChartViewController.xib in Resources */,
 				F62456DE1EA5FB3F006834D2 /* DemoListViewController.xib in Resources */,
 				F62456C21EA5FB21006834D2 /* HomeIndexCollectionCell.xib in Resources */,
 				F624564A1EA5FACD006834D2 /* IQKeyboardManager.bundle in Resources */,
+				F63D496B1EB0A49F0004BCC8 /* SuperChartVc.xib in Resources */,
 				F62457591EA5FBB2006834D2 /* StackedBarChartViewController.xib in Resources */,
 				F62456C41EA5FB21006834D2 /* HomeIndexCollectionCellContentView.xib in Resources */,
 				C4EFE4B21C98F60A0009411A /* images.zip in Resources */,
@@ -2241,14 +2379,17 @@
 				F62457331EA5FBB1006834D2 /* CandleStickChartViewController.xib in Resources */,
 				F62456D11EA5FB21006834D2 /* ScrollChartsVc.xib in Resources */,
 				F62457571EA5FBB2006834D2 /* SinusBarChartViewController.xib in Resources */,
+				F63D49571EB0A49F0004BCC8 /* DoubleClickSuperChartCell.xib in Resources */,
 				F624574F1EA5FBB2006834D2 /* PiePolylineChartViewController.xib in Resources */,
 				F62457391EA5FBB2006834D2 /* CubicLineChartViewController.xib in Resources */,
 				F62457551EA5FBB2006834D2 /* ScatterChartViewController.xib in Resources */,
+				F63D49681EB0A49F0004BCC8 /* SelectListVc.xib in Resources */,
 				C4EFE4AF1C98F60A0009411A /* fonts.zip in Resources */,
 				F62457491EA5FBB2006834D2 /* MultipleLinesChartViewController.xib in Resources */,
 				F62457371EA5FBB2006834D2 /* CombinedChartViewController.xib in Resources */,
 				C46F6A981D06720A00C561CE /* CodeScan.bundle in Resources */,
 				F62457531EA5FBB2006834D2 /* RadarChartViewController.xib in Resources */,
+				F63D49661EB0A49F0004BCC8 /* SelectListCell.xib in Resources */,
 				F62457511EA5FBB2006834D2 /* PositiveNegativeBarChartViewController.xib in Resources */,
 				C4EFE4B11C98F60A0009411A /* javascripts.zip in Resources */,
 				F62457471EA5FBB2006834D2 /* MultipleBarChartViewController.xib in Resources */,
@@ -2258,6 +2399,7 @@
 				F62456BD1EA5FB21006834D2 /* ChartHeaderViewCell.xib in Resources */,
 				C4EFE4B31C98F60A0009411A /* assets.zip in Resources */,
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
+				F63D495E1EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.xib in Resources */,
 				F624573B1EA5FBB2006834D2 /* HalfPieChartViewController.xib in Resources */,
 				F62456C91EA5FB21006834D2 /* HomeIndexDetailListVC.xib in Resources */,
 				F624573F1EA5FBB2006834D2 /* LineChart1ViewController.xib in Resources */,
@@ -2357,11 +2499,15 @@
 				F62457E61EA5FD01006834D2 /* PermissionManager.m in Sources */,
 				F624579E1EA5FBE1006834D2 /* UINavigationBar+Category.m in Sources */,
 				F62456391EA5FACD006834D2 /* Foundation + Log.m in Sources */,
+				F63D495C1EB0A49F0004BCC8 /* FormScrollView.m in Sources */,
+				F63D49551EB0A49F0004BCC8 /* ChangeLineSpaceVc.m in Sources */,
 				C4DB7DCE1C02EE8E00DA534E /* BaseModel.m in Sources */,
 				F62457A61EA5FBE1006834D2 /* UIView+border.m in Sources */,
+				F63D49621EB0A49F0004BCC8 /* MenuTableViewCell.m in Sources */,
 				F62457421EA5FBB2006834D2 /* LineChartFilledViewController.m in Sources */,
 				C46F6A961D0671C900C561CE /* SubLBXScanViewController.m in Sources */,
 				F624573A1EA5FBB2006834D2 /* HalfPieChartViewController.m in Sources */,
+				F63D495D1EB0A49F0004BCC8 /* FilterSuperChartHeaderCell.m in Sources */,
 				F62457461EA5FBB2006834D2 /* MultipleBarChartViewController.m in Sources */,
 				C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */,
 				F62457401EA5FBB2006834D2 /* LineChart2ViewController.m in Sources */,
@@ -2377,8 +2523,10 @@
 				F62456C51EA5FB21006834D2 /* HomeIndexCollectionVC.m in Sources */,
 				C48924EA1D858F0A00859411 /* SwitchTableViewCell.m in Sources */,
 				F624563D1EA5FACD006834D2 /* IQUIScrollView+Additions.m in Sources */,
+				F63D496A1EB0A49F0004BCC8 /* SuperChartVc.m in Sources */,
 				F63A5BC71DCB17980092FC24 /* VoiceSpeechView.m in Sources */,
 				F624574A1EA5FBB2006834D2 /* NegativeStackedBarChartViewController.m in Sources */,
+				F63D49601EB0A49F0004BCC8 /* CommonMenuView.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */,
 				F62457E21EA5FD01006834D2 /* AppCacheManger.m in Sources */,
@@ -2404,6 +2552,7 @@
 				F62457941EA5FBE0006834D2 /* NSString+verification.m in Sources */,
 				F62456431EA5FACD006834D2 /* IQKeyboardReturnKeyHandler.m in Sources */,
 				F62457381EA5FBB2006834D2 /* CubicLineChartViewController.m in Sources */,
+				F63D495F1EB0A49F0004BCC8 /* FilterSuperChartVc.m in Sources */,
 				F65548431E8CE02100B4048C /* SettingArrayViewController.m in Sources */,
 				C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */,
 				F624579F1EA5FBE1006834D2 /* UIScrollView+Size.m in Sources */,
@@ -2415,11 +2564,14 @@
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
 				F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */,
+				F63D49631EB0A49F0004BCC8 /* UIView+AdjustFrame.m in Sources */,
+				F63D49671EB0A49F0004BCC8 /* SelectListVc.m in Sources */,
 				C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */,
 				F62457E91EA5FD01006834D2 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
 				F6F1C84F1E88BD8C00754034 /* KPIViewController.m in Sources */,
 				F624579A1EA5FBE0006834D2 /* UIColor+Utilities.m in Sources */,
+				F63D49641EB0A49F0004BCC8 /* RTDragCellTableView.m in Sources */,
 				F6F1C8551E88BEB900754034 /* AnalysisViewController.m in Sources */,
 				C48924E51D858F0A00859411 /* ResetPasswordViewController.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
@@ -2430,6 +2582,7 @@
 				F62457A41EA5FBE1006834D2 /* UITextField+Additionals.m in Sources */,
 				F62457A71EA5FBE1006834D2 /* UIView+MJExtension.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
+				F63D495A1EB0A49F0004BCC8 /* DoubleClickSuperChartVc.m in Sources */,
 				F62456551EA5FACD006834D2 /* FXPageControl.m in Sources */,
 				F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */,
 				F62456471EA5FACD006834D2 /* IQTitleBarButtonItem.m in Sources */,
@@ -2444,6 +2597,7 @@
 				C48924E81D858F0A00859411 /* PgyUpdateTableViewCell.m in Sources */,
 				F62456501EA5FACD006834D2 /* UpdateVersionAlertView.m in Sources */,
 				F62457921EA5FBE0006834D2 /* NSObject+NSObject.m in Sources */,
+				F63D49691EB0A49F0004BCC8 /* SuperChartModel.m in Sources */,
 				F62456531EA5FACD006834D2 /* ZoomView.m in Sources */,
 				F62456CB1EA5FB21006834D2 /* HomeIndexModel.m in Sources */,
 				F624563A1EA5FACD006834D2 /* GJAutoCycleScrollView.m in Sources */,
@@ -2476,6 +2630,7 @@
 				F62457ED1EA5FD01006834D2 /* PointHudTool.m in Sources */,
 				F62457EE1EA5FD01006834D2 /* TPKeyboardAvoidingTableView.m in Sources */,
 				F624563E1EA5FACD006834D2 /* IQUITextFieldView+Additions.m in Sources */,
+				F63D49651EB0A49F0004BCC8 /* SelectListCell.m in Sources */,
 				F62457A21EA5FBE1006834D2 /* UITabBarControllerAdditionals.m in Sources */,
 				F624574C1EA5FBB2006834D2 /* PieChartViewController.m in Sources */,
 				F6F1C85B1E88BFB000754034 /* ApplicationViewController.m in Sources */,
@@ -2486,12 +2641,14 @@
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,
 				F62456BA1EA5FB21006834D2 /* ChartHeaderView.m in Sources */,
 				F624563B1EA5FACD006834D2 /* iCarousel.m in Sources */,
+				F63D49611EB0A49F0004BCC8 /* MenuModel.m in Sources */,
 				F62457991EA5FBE0006834D2 /* UICollectionViewCell+Category.m in Sources */,
 				F62456481EA5FACD006834D2 /* IQToolbar.m in Sources */,
 				F624563F1EA5FACD006834D2 /* IQUIView+Hierarchy.m in Sources */,
 				F62456E51EA5FB5D006834D2 /* IntAxisValueFormatter.m in Sources */,
 				F624563C1EA5FACD006834D2 /* IQNSArray+Sort.m in Sources */,
 				F62456D71EA5FB21006834D2 /* YHMarkerV.swift in Sources */,
+				F63D49581EB0A49F0004BCC8 /* DoubleClickSuperChartHeaderCell.m in Sources */,
 				F62456E41EA5FB5D006834D2 /* DateValueFormatter.m in Sources */,
 				C46903971D5CC81A00233D05 /* SelectStoreViewController.m in Sources */,
 				F6EC68D01E53F560008E0B5F /* ManualInputViewController.m in Sources */,
@@ -2530,6 +2687,7 @@
 				F630B2E61D98FAB600CAA6A0 /* SearchTableViewCell.m in Sources */,
 				F62457561EA5FBB2006834D2 /* SinusBarChartViewController.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
+				F63D49561EB0A49F0004BCC8 /* DoubleClickSuperChartCell.m in Sources */,
 				C48924E61D858F0A00859411 /* GestureTableViewCell.m in Sources */,
 				F62456BE1EA5FB21006834D2 /* ChartHudView.m in Sources */,
 				F624579D1EA5FBE1006834D2 /* UILabel+ContentSize.m in Sources */,

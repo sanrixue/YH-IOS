@@ -66,6 +66,9 @@
         self.extendedLayoutIncludesOpaqueBars = NO;
     }
 }
+- (void)popNeedAnimation:(BOOL)needAnimation{
+    [self.navigationController popViewControllerAnimated:needAnimation];
+}
 
 - (NSInvocation *)callClassName:(NSString *)className staticMethodSelector:(SEL)aSelector params:(void*[])params paramsSize:(int)size {
     Class cellClass =NSClassFromString(className);
@@ -102,9 +105,6 @@
     [self.navigationController pushViewController:vc animated:needAnimation];
 }
 
-- (void)popNeedAnimation:(BOOL)needAnimation{
-    [self.navigationController popViewControllerAnimated:needAnimation];
-}
 
 - (void)setUIRectEdge:(BOOL)edge
 {

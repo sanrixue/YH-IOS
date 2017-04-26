@@ -20,6 +20,7 @@
 #import "Constant.h"
 #import "YHBaseViewController.h"
 #import "BaseNavigationController.h"
+#import "EnumConstant.h"
 #import "MainTabbarViewController.h"
 
 #pragma mark - 分类

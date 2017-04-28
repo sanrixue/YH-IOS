@@ -25,7 +25,7 @@
     _lineView = lineView;
     _lineView.hidden = YES;
     [self addSubview:lineView];
-    self.backgroundColor = [AppColor app_6color];
+    self.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     self.textLabel.font = [UIFont systemFontOfSize:14];
     self.textLabel.textColor = [UIColor whiteColor];
 //    self.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -49,7 +49,7 @@
     if (selected) {
         self.backgroundColor = [AppColor app_5color];
     }else{
-        self.backgroundColor = [AppColor app_6color];
+        self.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     }
 }
 

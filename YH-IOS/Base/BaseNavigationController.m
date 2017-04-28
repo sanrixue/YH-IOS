@@ -40,18 +40,18 @@
     //    [self.navigationBar.layer addSublayer:gradientLayer];
     self.interactivePopGestureRecognizer.delegate = self;
     self.navigationBar.opaque = NO;
-//    self.navigationBar.barTintColor = [AppColor oneColor];
+    //    self.navigationBar.barTintColor = [AppColor oneColor];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]}];
-//    [self.navigationBar setBackgroundImage:[UIImage imageWithColor:[AppColor oneColor]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    //    [self.navigationBar setBackgroundImage:[UIImage imageWithColor:[AppColor oneColor]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     
-//    [self.navigationBar.layer insertSublayer:self.gradientLayer atIndex:0];
+    //    [self.navigationBar.layer insertSublayer:self.gradientLayer atIndex:0];
     
     [self.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:16],NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self.navigationBar lt_setBackgroundColor:[AppColor app_1color]];
-//    [self.navigationBar setBackIndicatorTransitionMaskImage:[UIImage imageWithColor:[UIColor clearColor]]];
+    //    [self.navigationBar setBackIndicatorTransitionMaskImage:[UIImage imageWithColor:[UIColor clearColor]]];
     [self.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor clearColor]]];
-//    [self.navigationBar insertSubview:self.barBg atIndex:0];
-
+    //    [self.navigationBar insertSubview:self.barBg atIndex:0];
+    
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
@@ -66,7 +66,7 @@
 
 - (void)customBackItem:(UIViewController *)viewController {
     if ([self.viewControllers count] > 1) {
-      //  UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"返回"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+        UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"返回"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
         UIBarButtonItem *button = [UIBarButtonItem createBarButtonItemWithString:@"返回" font:14 color:[UIColor whiteColor] target:self action:@selector(backAction)];
         viewController.navigationItem.leftBarButtonItem = button;
     }
@@ -86,5 +86,4 @@
     }else{
         return NO;
     };
-}
-@end
+}@end

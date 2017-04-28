@@ -19,6 +19,10 @@
 @implementation YHBaseViewController
 
 
++ (MainTabbarViewController *)getMainTabController{
+    return ((MainTabbarViewController*)[AppDelegate shareAppdelegate].window.rootViewController);
+}
+
 + (BaseNavigationController *)getRootNavController{
     return [YHBaseViewController getMainTabController].selectedViewController;
 }
@@ -66,9 +70,6 @@
         self.extendedLayoutIncludesOpaqueBars = NO;
     }
 }
-- (void)popNeedAnimation:(BOOL)needAnimation{
-    [self.navigationController popViewControllerAnimated:needAnimation];
-}
 
 - (NSInvocation *)callClassName:(NSString *)className staticMethodSelector:(SEL)aSelector params:(void*[])params paramsSize:(int)size {
     Class cellClass =NSClassFromString(className);
@@ -100,11 +101,19 @@
     return UIStatusBarStyleDefault;
 }
 
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
 - (void)pushViewController:(UIViewController *)vc animation:(BOOL)needAnimation hideBottom:(BOOL)hideBottom{
     [vc setHidesBottomBarWhenPushed:hideBottom];
     [self.navigationController pushViewController:vc animated:needAnimation];
 }
 
+- (void)popNeedAnimation:(BOOL)needAnimation{
+    [self.navigationController popViewControllerAnimated:needAnimation];
+}
 
 - (void)setUIRectEdge:(BOOL)edge
 {
@@ -216,5 +225,6 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
+
 
 @end

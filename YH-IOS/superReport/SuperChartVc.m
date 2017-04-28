@@ -56,6 +56,22 @@ const static CGFloat lineHeight = 40; //一行的高度
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(2, 0, 70, 40)];
+    UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 15, 25)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addSubview:bakImage];
+    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 50, 25)];
+    backLabel.text = @"返回";
+    backLabel.textColor = [UIColor whiteColor];
+    [backBtn addSubview:backLabel];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem createBarButtonItemWithImage:@"nav_more" target:self action:@selector(showMenu:)];
 }
 /** 展示菜单 */
@@ -277,6 +293,7 @@ const static CGFloat lineHeight = 40; //一行的高度
             
         }];
     }
+    _menuView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     return _menuView;
 }
 

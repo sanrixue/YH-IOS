@@ -37,6 +37,7 @@
 
 @implementation TableViewAndCollectionPackage
 
+
 #pragma mark - puclic方法
 + (instancetype)instanceWithScrollView:(UIScrollView *)scrollView delegate:(id<TableViewAndCollectionPackageDelegate>)delegate cellBack:(CellBack)cellback sectionNumBack:(SectionNumBack)sectionNumBack cellSizeBack:(CellSizeBack)cellSizeBack cellNumBack:(CellNumBack)cellNumBack selectedBack:(SelectedBack)selectedBack{
     TableViewAndCollectionPackage *package = [[TableViewAndCollectionPackage alloc] init];
@@ -223,7 +224,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-//    self.packageConfig.itemSize = CGSizeZero;
+    //    self.packageConfig.itemSize = CGSizeZero;
     if (self.cellSizeBack) {
         __WEAKSELF;
         self.cellSizeBack(indexPath, weakSelf.packageConfig);

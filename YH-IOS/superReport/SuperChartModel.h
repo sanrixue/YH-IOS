@@ -26,6 +26,8 @@
 
 @interface ChartConfig : NSObject
 @property (nonatomic, strong) NSArray<TableDataModel*>* filter;
+@property (nonatomic, strong) NSArray<TableDataModel*>* area_filter;
+@property (nonatomic, strong) NSArray<TableDataModel*>* sale_filter;
 @property (nonatomic, strong) NSArray<NSString*>* color;
 @end
 

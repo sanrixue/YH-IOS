@@ -14,7 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UIButton *cancleBtn;
 @property (weak, nonatomic) IBOutlet UIButton *confirmBtn;
-@property (nonatomic, strong) TableDataModel* tableData;
+@property (nonatomic, strong) TableDataBaseModel* tableData;
 @end
 
 @implementation SelectListVc
@@ -40,10 +40,12 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     });
 }
+
 - (IBAction)confirmAction:(id)sender {
     _tableData.keyHead = [NSArray getObjectInArray:_tableData.head keyPath:@"isKey" equalValue:@(YES)];
     [_tableData.selectSet removeAllObjects];
-    for (TableDataItemModel* item in _dataList) {
+    [_tableData.selectRowSet removeAllObjects];
+    for (TableDataBaseItemModel* item in _dataList) {
         if (item.select) {
             NSInteger index = [_tableData.head indexOfObject:item];
             [_tableData.selectSet addObject:@(index)];
@@ -65,8 +67,10 @@
     [_tableView reloadData];
 }
 
-- (void)setWithTableData:(TableDataModel *)tableData{
+- (void)setWithTableData:(TableDataBaseModel*)tableData{
     _tableData = tableData;
+   // _dataList = tableData.
+    //_dataList = [NSMutableArray arrayWithArray:tableData.head];
     [self sortArray:tableData.head];
 }
 
@@ -92,7 +96,7 @@
     [cell.titleBtn setTitle:@"全选" forState:UIControlStateNormal];
     cell.keyBtn.hidden= YES;
     cell.desLab.hidden = YES;
-    cell.titleBtn.selected = allSelected;
+   cell.titleBtn.selected = allSelected;
     cell.selectBack = ^(id item){
         if (_dataList.count) {
             [NSArray setValue:@(!allSelected) keyPath:@"select" deafaultValue:@(!allSelected) index:0 inArray:_dataList];

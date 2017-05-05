@@ -20,7 +20,7 @@
  */
 + (NSMutableArray*)sortArray:(NSArray*)array
                   key:(NSString*)keyPath
-                 down:(BOOL)down;
+                 down:(BOOL)down; 
 /**
  给数组元素制定下标对象的某个属性赋值
 

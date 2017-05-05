@@ -9,6 +9,7 @@
 #import "BaseViewController.h"
 #import "RTDragCellTableView.h"
 #import "SuperChartModel.h"
+#import "SuperChartMainModel.h"
 
 @interface SelectListVc : BaseViewController <RTDragCellTableViewDataSource,RTDragCellTableViewDelegate>
 @property (weak, nonatomic) IBOutlet RTDragCellTableView *tableView;
@@ -20,6 +21,6 @@
 - (IBAction)cancleAction:(id)sender;
 - (IBAction)confirmAction:(id)sender;
 
-- (void)setWithTableData:(TableDataModel*)tableData;
+- (void)setWithTableData:(TableDataBaseModel*)tableData;
 
 @end

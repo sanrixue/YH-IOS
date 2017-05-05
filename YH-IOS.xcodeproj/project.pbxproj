@@ -286,6 +286,9 @@
 		F655484B1E8CE04200B4048C /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F65548491E8CE04200B4048C /* UserInfoModel.m */; };
 		F65548511E8CE21E00B4048C /* MainBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F65548501E8CE21E00B4048C /* MainBaseViewController.m */; };
 		F65548541E8CE3B400B4048C /* UserHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = F65548531E8CE3B400B4048C /* UserHeadView.m */; };
+		F660A3DA1EB9A9F100C6C510 /* DACircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F660A3D71EB9A9F100C6C510 /* DACircularProgressView.m */; };
+		F660A3DB1EB9A9F100C6C510 /* DALabeledCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = F660A3D91EB9A9F100C6C510 /* DALabeledCircularProgressView.m */; };
+		F660A3EC1EBAD69B00C6C510 /* SuperChartMainModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F660A3EB1EBAD69B00C6C510 /* SuperChartMainModel.m */; };
 		F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68089531D8930C400CDBAF8 /* DropViewController.m */; };
 		F684C0751EA5F16700DBDBD4 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F684C0701EA5F15500DBDBD4 /* Charts.framework */; };
 		F684C0761EA5F16700DBDBD4 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F684C0701EA5F15500DBDBD4 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -853,6 +856,12 @@
 		F65548501E8CE21E00B4048C /* MainBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainBaseViewController.m; sourceTree = "<group>"; };
 		F65548521E8CE3B400B4048C /* UserHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserHeadView.h; sourceTree = "<group>"; };
 		F65548531E8CE3B400B4048C /* UserHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserHeadView.m; sourceTree = "<group>"; };
+		F660A3D61EB9A9F100C6C510 /* DACircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACircularProgressView.h; sourceTree = "<group>"; };
+		F660A3D71EB9A9F100C6C510 /* DACircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACircularProgressView.m; sourceTree = "<group>"; };
+		F660A3D81EB9A9F100C6C510 /* DALabeledCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALabeledCircularProgressView.h; sourceTree = "<group>"; };
+		F660A3D91EB9A9F100C6C510 /* DALabeledCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALabeledCircularProgressView.m; sourceTree = "<group>"; };
+		F660A3EA1EBAD69B00C6C510 /* SuperChartMainModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperChartMainModel.h; sourceTree = "<group>"; };
+		F660A3EB1EBAD69B00C6C510 /* SuperChartMainModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperChartMainModel.m; sourceTree = "<group>"; };
 		F68089521D8930C400CDBAF8 /* DropViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropViewController.h; sourceTree = "<group>"; };
 		F68089531D8930C400CDBAF8 /* DropViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropViewController.m; sourceTree = "<group>"; };
 		F684BF6A1EA5E21100DBDBD4 /* YH-IOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YH-IOS-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1296,6 +1305,7 @@
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				F660A3D51EB9A9A100C6C510 /* Loading */,
 				C40343351D6ADEAB00625D53 /* ViewBadge */,
 				C4ECB27D1C3119B200F7947B /* NSString+MD5 */,
 				C4A564DA1C2CECC10067516F /* NSData+MD5 */,
@@ -1961,6 +1971,8 @@
 				F63D49F21EB329A20004BCC8 /* SelectListVc.xib */,
 				F63D49F31EB329A20004BCC8 /* SuperChartModel.h */,
 				F63D49F41EB329A20004BCC8 /* SuperChartModel.m */,
+				F660A3EA1EBAD69B00C6C510 /* SuperChartMainModel.h */,
+				F660A3EB1EBAD69B00C6C510 /* SuperChartMainModel.m */,
 				F63D49F51EB329A20004BCC8 /* SuperChartVc.h */,
 				F63D49F61EB329A20004BCC8 /* SuperChartVc.m */,
 				F63D49F71EB329A20004BCC8 /* SuperChartVc.xib */,
@@ -2005,6 +2017,17 @@
 				F65548491E8CE04200B4048C /* UserInfoModel.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		F660A3D51EB9A9A100C6C510 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				F660A3D61EB9A9F100C6C510 /* DACircularProgressView.h */,
+				F660A3D71EB9A9F100C6C510 /* DACircularProgressView.m */,
+				F660A3D81EB9A9F100C6C510 /* DALabeledCircularProgressView.h */,
+				F660A3D91EB9A9F100C6C510 /* DALabeledCircularProgressView.m */,
+			);
+			name = Loading;
 			sourceTree = "<group>";
 		};
 		F684BE821EA5E0D100DBDBD4 /* SCReport */ = {
@@ -2569,6 +2592,7 @@
 				F624572C1EA5FBB1006834D2 /* AnotherBarChartViewController.m in Sources */,
 				C48924E81D858F0A00859411 /* PgyUpdateTableViewCell.m in Sources */,
 				F62456501EA5FACD006834D2 /* UpdateVersionAlertView.m in Sources */,
+				F660A3EC1EBAD69B00C6C510 /* SuperChartMainModel.m in Sources */,
 				F62457921EA5FBE0006834D2 /* NSObject+NSObject.m in Sources */,
 				F62456531EA5FACD006834D2 /* ZoomView.m in Sources */,
 				F62456CB1EA5FB21006834D2 /* HomeIndexModel.m in Sources */,
@@ -2607,6 +2631,7 @@
 				F624574C1EA5FBB2006834D2 /* PieChartViewController.m in Sources */,
 				F6F1C85B1E88BFB000754034 /* ApplicationViewController.m in Sources */,
 				F62456561EA5FACD006834D2 /* BHInfiniteScrollViewCell.m in Sources */,
+				F660A3DA1EB9A9F100C6C510 /* DACircularProgressView.m in Sources */,
 				C4DEBB5A1D3CD22D00EEBC29 /* FileUtils+Report.m in Sources */,
 				F624564D1EA5FACD006834D2 /* CommonPopupView.m in Sources */,
 				F62457581EA5FBB2006834D2 /* StackedBarChartViewController.m in Sources */,
@@ -2651,6 +2676,7 @@
 				F624564E1EA5FACD006834D2 /* GUATool.m in Sources */,
 				F62456421EA5FACD006834D2 /* IQKeyboardManager.m in Sources */,
 				F62456571EA5FACD006834D2 /* BHInfiniteScrollViewTitleView.m in Sources */,
+				F660A3DB1EB9A9F100C6C510 /* DALabeledCircularProgressView.m in Sources */,
 				F63D4A1D1EB32A570004BCC8 /* FormScrollView.m in Sources */,
 				F62457A81EA5FBE1006834D2 /* UIView.m in Sources */,
 				F62456541EA5FACD006834D2 /* BHInfiniteScrollView.m in Sources */,

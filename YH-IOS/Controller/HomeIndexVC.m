@@ -12,10 +12,15 @@
 #import "YH_ScrollTitleLineAndBarVC.h"
 #import "UIBarButtonItem+Category.h"
 #import "ChartHudView.h"
+#import "DALabeledCircularProgressView.h"
+#import "ViewUtils.h"
 
 #define CollectionHeight (640.0*SCREEN_WIDTH/750.0)
 
 @interface HomeIndexVC () <HomeIndexCollectionVCDelegate,HomeIndexDetailListVCDelegate>
+{
+    UIView* shadowView;
+}
 @property (weak, nonatomic) IBOutlet UIView *topView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLab;
 @property (weak, nonatomic) IBOutlet UILabel *topTimeLab;
@@ -28,6 +33,8 @@
 @property (nonatomic, assign) NSInteger curIndex; // 外层product选中下标
 @property (nonatomic, assign) NSInteger curItemIndex; // items数组选中下标
 @property (nonatomic, assign) CGFloat collectionOffset; // tableView和collection的偏移量
+@property (nonatomic, strong) DACircularProgressView *progressView;
+@property (strong, nonatomic) NSTimer *timer;
 
 @end
 
@@ -44,6 +51,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:self.dataLink];
+    [self setWithHomeIndexArray:models];
      [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self.view addSubview:self.collectionVc.view];
     [self.view addSubview:self.tableViewVc.view];
@@ -80,6 +89,7 @@
     }];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
@@ -95,15 +105,70 @@
     [backBtn addSubview:backLabel];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
-   // self.navigationItem.leftBarButtonItem = [UIBarButtonItem createBarButtonItemWithString:@"返回" font:14 color:[UIColor whiteColor] target:self action:@selector(backAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Subject-Refresh"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(refreshView)];
 }
+
+-(void)refreshView {
+    //[self addShadowView];
+    NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:self.dataLink];
+    [self setWithHomeIndexArray:models];
+    [self setWithHomeIndexModel:_data animation:YES];
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [ViewUtils showPopupView:self.view Info:@"刷新完成"];
+         self.navigationItem.rightBarButtonItem.enabled = YES;
+    });
+}
+
+-(void)addShadowView {
+    shadowView = [[UIView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+    shadowView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.0];
+    shadowView.opaque = NO;
+    
+    [self.view addSubview:shadowView];
+    self.progressView = [[DACircularProgressView alloc] initWithFrame:CGRectMake(shadowView.frame.size.width/2 -20, shadowView.frame.size.height/2-10,40.0f, 40.0f)];
+    self.progressView.roundedCorners = YES;
+    self.progressView.trackTintColor = [UIColor whiteColor];
+    [shadowView addSubview:self.progressView];
+    [UIView animateWithDuration:0.1 animations:^{
+        [self startAnimation];
+        shadowView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
+    }];
+}
+
+
+- (void)progressChange
+{
+    CGFloat progress = self.progressView.progress + 0.01f;
+    [self.progressView setProgress:progress animated:YES];
+        
+    if (self.progressView.progress >= 1.0f && [self.timer isValid]) {
+        [self.progressView setProgress:0.f animated:YES];
+    }
+}
+
+- (void)startAnimation
+{
+     _timer = [NSTimer scheduledTimerWithTimeInterval:0.3
+                                                  target:self
+                                                selector:@selector(progressChange)
+                                                userInfo:nil
+                                                 repeats:YES];
+}
+
+- (void)stopAnimation
+{
+    [self.timer invalidate];
+    self.timer = nil;
+}
+
 
 - (void)setWithHomeIndexArray:(NSArray *)array{
     if (array.count) {
         _dataArray = array;
         HomeIndexModel* model = [NSArray getObjectInArray:array keyPath:@"select" equalValue:@(YES)];
         if (!model) {
-            model = array[0];
+            model = array[_dataArray.count-1];
             model.select = YES;
         }
         [self setWithHomeIndexModel:model animation:YES];

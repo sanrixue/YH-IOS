@@ -17,9 +17,12 @@
 @property (nonatomic, strong) NSArray* dataList;
 @property (nonatomic, assign) NSInteger column;
 //@property (nonatomic, strong) NSArray* heads;
-@property (nonatomic, strong) TableDataItemModel* maxItem;
-@property (nonatomic, strong) SuperChartModel* superModel;
+@property (nonatomic, strong) TableDataBaseItemModel* maxItem;
+@property (nonatomic, strong) SuperChartMainModel* superModel;
 @property (nonatomic, strong) UIButton* clearBackBtn;
+@property (nonatomic, strong) NSMutableArray* array;
+@property (nonatomic, strong) NSMutableArray* baseArray;
+
 @end
 
 @implementation DoubleClickSuperChartVc
@@ -30,21 +33,39 @@
     [self initPackage];
 }
 
-- (void)setWithSuperModel:(SuperChartModel*)superModel column:(NSInteger)column{
+- (void)setWithSuperModel:(SuperChartMainModel*)superModel column:(NSInteger)column{
 //    _heads = heades;
     _superModel = superModel;
     _dataList = [superModel.table showData];
     _column = column;
-    NSMutableArray* array = [NSMutableArray array];
-    for (TableDataItemModel* table in _dataList) {
-        [array addObject:table.showData[column]];
+    _array = [NSMutableArray array];
+    NSMutableArray *demoArray = [NSMutableArray array];
+    for (NSArray* array in _dataList) {
+        TableDataBaseItemModel *item = array[column];
+       // for (TableDataBaseItemModel* table in demoArray) {
+            [_array addObject:item];
+        //}
     }
-    array = [NSArray sortArray:array key:@"value" down:YES];
-    if (array.count) {
-        self.maxItem = array[0];
+    self.baseArray = [NSMutableArray arrayWithArray:_array];
+    _array = [NSArray sortArray:_array key:@"value" down:YES];
+  /*  [_superModel.table.dataSet removeAllObjects];
+    for (TableDataBaseItemModel* item in _array) {
+        int index = item.lineTag;
+        [_superModel.table.dataSet addObject:@(index)];
+    }*/
+    if (_array.count) {
+        self.maxItem = _array[0];
     }
+    NSMutableArray *inModelArray = [[NSMutableArray alloc]init];
+    for (int i = 0; i < [_superModel.table showData].count; i++) {
+        NSArray *modelArray = [_superModel.table showData][i];
+        TableDataBaseItemModel* demo = modelArray[0];
+        [inModelArray addObject:demo];
+    }
+    _keyArray = inModelArray;
     [self.tableView reloadData];
 }
+
 
 -(void)initPackage{
     __WEAKSELF;
@@ -52,17 +73,19 @@
         
         DoubleClickSuperChartCell* cell = [DoubleClickSuperChartCell cellWithTableView:weakSelf.tableView needXib:YES];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        TableDataItemModel* table = weakSelf.dataList[indexPath.row];
-        TableDataItemModel* item = table.showData[weakSelf.column];
+        TableDataBaseItemModel* table = weakSelf.array[indexPath.row];
+    
+        TableDataBaseItemModel* item = _baseArray[indexPath.row];
         CGFloat scale = 0.0;
-        if (weakSelf.maxItem) {
+        if (weakSelf.maxItem && item.value.doubleValue) {
             scale = item.value.doubleValue/weakSelf.maxItem.value.doubleValue;
             scale = scale<0? 0:scale;
         }
-        [cell.titleBtn setTitle:table.name forState:UIControlStateNormal];
+        [cell.titleBtn setTitle:self.keyArray[indexPath.row].value forState:UIControlStateNormal];
         cell.valueLab.text = item.value;
         cell.barView.scale = scale;
-        NSString* color = weakSelf.superModel.config.color[table.color[weakSelf.column].integerValue];
+       // NSString* color = item.color;
+        NSString* color = weakSelf.superModel.config.color[table.color.integerValue];
         cell.barView.barColor = color.toColor;//[UIColor redColor];
         
         cell.doubleBack = ^(id item){
@@ -86,15 +109,34 @@
         
         DoubleClickSuperChartHeaderCell* header = [DoubleClickSuperChartHeaderCell cellWithTableView:weakSelf.tableView needXib:YES];
         header.frame = CGRectMake(0, 0, SCREEN_WIDTH, 45);
-        [header.titleBtn setTitle:weakSelf.superModel.name forState:UIControlStateNormal];
+        header.userInteractionEnabled=YES;
+        [header.titleBtn setTitle:weakSelf.titleString forState:UIControlStateNormal];
+       // [header.titleBtn setTitle:@"这个人" forState:UIControlStateNormal];
         [header.rightBtn setTitle:weakSelf.superModel.table.showhead[weakSelf.column].value forState:UIControlStateNormal];
+        [header.rightBtn addTarget:weakSelf action:@selector(changeImage:) forControlEvents:UIControlEventTouchUpInside];
+      //  [header.rightBtn setTitle:weakSelf.keyArray[weakSelf.column].value forState:UIControlStateNormal];
         header.sortBack = weakSelf.sortBack;
         [header.rightBtn layoutButtonWithEdgeInsetsStyle:ButtonEdgeInsetsStyleRight imageTitleSpace:5];
         config.header = header;
-        
+        if (weakSelf.isdownImage) {
+            [header.rightBtn setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+        }
+        else {
+            [header.rightBtn setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
+        }
     } headerSizeBack:^(NSInteger section, PackageConfig *config) {
         config.headerHeight = 45;
     } orFooterBack:nil footerSizeBack:nil];
+}
+
+-(void)changeImage:(UIButton*)sender{
+    _isdownImage = !_isdownImage;
+    if (_isdownImage) {
+        [sender setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+    }
+    else {
+        [sender setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
+    }
 }
 
 @end

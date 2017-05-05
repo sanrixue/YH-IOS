@@ -32,6 +32,7 @@
 #import "MainViewController.h"
 #import "HomeIndexVC.h"
 #import "HomeIndexModel.h"
+#import "SuperChartVc.h"
 
 static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";

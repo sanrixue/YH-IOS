@@ -10,9 +10,11 @@
 #import "HomeIndexModel.h"
 
 @interface HomeIndexVC : YHBaseViewController
+@property(nonatomic,strong)NSString* dataLink;
 
 - (void)setWithHomeIndexArray:(NSArray *)array;
 
 - (void)setWithHomeIndexModel:(HomeIndexModel *)model animation:(BOOL)animation;
+
 
 @end

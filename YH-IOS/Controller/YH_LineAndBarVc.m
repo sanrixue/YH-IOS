@@ -17,18 +17,22 @@
 }
 
 @property (nonatomic, strong) CombinedChartView* chartView;
+@property (nonatomic, strong) BarChartDataSet *set1;
+@property (nonatomic, assign) BOOL isSelected;
 @end
 
 @implementation YH_LineAndBarVc
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    self.isSelected = NO;
     [self addSubViews];
-//    [self setData];
+//    [self setData]; 
 }
 
 - (void)setWithLineData:(NSArray*)lineData barData:(NSArray*)barData animation:(BOOL)animation{
     CombinedChartData *data = [[CombinedChartData alloc] init];
+    
     data.lineData = [self generateLineData:lineData];
     data.barData = [self generateBarData:barData];
     
@@ -53,6 +57,7 @@
     
     LineChartDataSet *set = [[LineChartDataSet alloc] initWithValues:entries label:@"Line DataSet"];
     [set setColors:@[[AppColor app_9color]]];
+    //[set setColor:[UIColor redColor]];
     set.lineWidth = 2.5;
     [set setCircleColor:[AppColor twoColor]];
     set.circleRadius = 5.0;
@@ -78,6 +83,8 @@
     barArray = barData;
     NSMutableArray *yVals = [[NSMutableArray alloc] init];
     UIColor* selectColor;
+     //= [[BarChartDataSet alloc] initWithValues:entries1 label:@"Bar 1"];
+    NSMutableArray *colorArray = [[NSMutableArray alloc]init];
     for (int index = 0; index < barData.count; index++)
     {
 //        double mult = (range + 1);
@@ -86,19 +93,29 @@
         ChartModel* model = barArray[index];
         selectColor = model.selectColor;
         [yVals addObject:[[BarChartDataEntry alloc] initWithX:model.x+1 y:model.y]];
+        self.set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"The year 2017"];
+        if (index == (barData.count -1)) {
+            _isSelected?[colorArray addObject:[AppColor app_9color]]:[colorArray addObject:selectColor];
+        }
+        else {
+            [colorArray addObject:[AppColor app_9color]];
+        }
     }
+    [_set1 setColors:colorArray];
     
-    BarChartDataSet *set1; //= [[BarChartDataSet alloc] initWithValues:entries1 label:@"Bar 1"];
+  /*  BarChartDataSet *set1; //= [[BarChartDataSet alloc] initWithValues:entries1 label:@"Bar 1"];
     set1 = [[BarChartDataSet alloc] initWithValues:yVals label:@"The year 2017"];
-    [set1 setColors:@[[AppColor app_9color]]];
+    [set1 setColors:@[[AppColor app_9color]]];*/
+    
+    //[set1 setColor:[UIColor redColor]];
     if (selectColor) {
-        [set1 setHighlightColor:selectColor];
+        [_set1 setHighlightColor:selectColor];
     }
-    set1.drawValuesEnabled = NO;
-    set1.axisDependency = AxisDependencyLeft;
+    _set1.drawValuesEnabled = NO;
+    _set1.axisDependency = AxisDependencyLeft;
 
     NSMutableArray *dataSets = [[NSMutableArray alloc] init];
-    [dataSets addObject:set1];
+    [dataSets addObject:_set1];
     
 //    BarChartData *data = [[BarChartData alloc] initWithDataSets:dataSets];
 //    [data setValueFont:[UIFont fontWithName:@"HelveticaNeue-Light" size:10.f]];
@@ -106,7 +123,7 @@
 //    data.barWidth = 0.45f;
 //    data.barWidth = 0.5f;
 
-    BarChartData *d = [[BarChartData alloc] initWithDataSets:@[set1]];
+    BarChartData *d = [[BarChartData alloc] initWithDataSets:@[_set1]];
     d.barWidth = 0.5;
     // make this BarData object grouped
 //    [d groupBarsFromX:10.0 groupSpace:1 barSpace:1]; // start at x = 0
@@ -202,6 +219,7 @@
 
 - (void)chartValueSelected:(ChartViewBase * __nonnull)chartView entry:(ChartDataEntry * __nonnull)entry highlight:(ChartHighlight * __nonnull)highlight
 {
+    self.isSelected = true;
     DLog(@"chartValueSelected");
     double value = highlight.x;
     NSInteger index = (int)value;
@@ -214,6 +232,7 @@
 
 - (void)chartValueNothingSelected:(ChartViewBase * __nonnull)chartView
 {
+    
     DLog(@"chartValueNothingSelected");
 }
 

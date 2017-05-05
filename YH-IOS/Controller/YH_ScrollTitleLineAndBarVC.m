@@ -55,16 +55,27 @@
         NSMutableArray* lineData = [NSMutableArray array];
         NSMutableArray* BarData = [NSMutableArray array];
         [self.dataList removeAllObjects];
+        int count = 0;
         for (HomeIndexModel* indexModel in dataList) {
             double i = (double)[dataList indexOfObject:indexModel];
             HomeIndexItemModel* model = indexModel.products[index1].items[index2];
             [self.dataList addObject:model];
-            ChartModel* lineModel = [[ChartModel alloc] initWithX:i y:model.sub_data.data xString:indexModel.period];
-            ChartModel* BarModel = [[ChartModel alloc] initWithX:i y:model.main_data.data xString:indexModel.period];
+            ChartModel* lineModel;
+            ChartModel* BarModel;
+            if (count == 0 || count == (dataList.count - 1)) {
+                lineModel = [[ChartModel alloc] initWithX:i y:model.sub_data.data xString:indexModel.period];
+                BarModel = [[ChartModel alloc] initWithX:i y:model.main_data.data xString:indexModel.period];
+            }
+            else {
+                lineModel = [[ChartModel alloc] initWithX:i y:model.sub_data.data xString:nil];
+                BarModel = [[ChartModel alloc] initWithX:i y:model.main_data.data xString:nil];
+            }
+            count ++;
             BarModel.selectColor = _topItem.state.color.toColor;//[UIColor colorWithHexString:model.state.color];
             [lineData addObject:lineModel];
             [BarData addObject:BarModel];
         }
+        
         [self.lineAndBarVc setWithLineData:lineData barData:BarData animation:animation];
         [self.collection reloadData];
     }

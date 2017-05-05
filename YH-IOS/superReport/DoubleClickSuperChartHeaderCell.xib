@@ -35,7 +35,7 @@
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bGc-Qe-JS0">
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <state key="normal" title="Button" image="icon_array">
+                        <state key="normal" title="Button">
                             <color key="titleColor" red="0.34901960780000002" green="0.35686274509999999" blue="0.3411764706" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
@@ -65,7 +65,4 @@
             <point key="canvasLocation" x="-13" y="93"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="icon_array" width="6" height="11"/>
-    </resources>
 </document>

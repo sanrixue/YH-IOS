@@ -8,10 +8,14 @@
 
 #import "YHBaseViewController.h"
 #import "SuperChartModel.h"
+#import "SuperChartMainModel.h"
 
 @interface DoubleClickSuperChartVc : YHBaseViewController
 @property (nonatomic, strong) CommonBack sortBack;
+@property (nonatomic, strong) NSString* titleString;
+@property (nonatomic, strong) NSArray<TableDataBaseItemModel*>* keyArray;
+@property (nonatomic, assign) BOOL isdownImage;
 
-- (void)setWithSuperModel:(SuperChartModel*)superModel column:(NSInteger)column;
+- (void)setWithSuperModel:(SuperChartMainModel*)superModel column:(NSInteger)column;
 
 @end

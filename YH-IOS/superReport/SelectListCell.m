@@ -7,6 +7,7 @@
 //
 
 #import "SelectListCell.h"
+#import "SuperChartMainModel.h"
 
 @interface SelectListCell ()
 
@@ -26,15 +27,15 @@
     }
 }
 
-- (void)setItem:(TableDataItemModel*)item{
-    if (item.isKey) { //关键列无法取消选中
+- (void)setItem:(TableDataBaseItemModel*)item{
+  /* if (item.isKey) { //关键列无法取消选中
         item.select = YES;
-    }
+    }*/
     [self.titleBtn setTitle:item.value forState:UIControlStateNormal];
     self.titleBtn.selected = item.select;
     self.desLab.hidden = !item.isKey;
     self.keyBtn.selected = item.isKey;
-    self.titleBtn.userInteractionEnabled = !item.isKey;
+   // self.titleBtn.userInteractionEnabled = !item.isKey;
 
 }
 

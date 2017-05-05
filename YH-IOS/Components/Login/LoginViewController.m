@@ -275,6 +275,7 @@
     
     [self showProgressHUD:@"跳转中"];
     [self jumpToDashboardView];
+    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

@@ -15,6 +15,7 @@
 #import "ChangeLineSpaceVc.h"
 #import "FilterSuperChartVc.h"
 #import "DoubleClickSuperChartVc.h"
+#import "SuperChartMainModel.h"
 
 const static CGFloat lineHeight = 40; //一行的高度
 
@@ -26,14 +27,19 @@ const static CGFloat lineHeight = 40; //一行的高度
 @property (nonatomic, strong) NSArray* data; //报表数据
 @property (nonatomic, strong) NSArray* headerData; //头部数据
 @property (nonatomic, strong) SuperChartModel* superModel;
+@property (nonatomic, strong) SuperChartMainModel *mainmeode;
+@property (nonatomic, assign) BOOL isdownImage;
 @end
 
 @implementation SuperChartVc
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _isdownImage = YES;
+     _mainmeode = [SuperChartMainModel testModel];
     _superModel = [SuperChartModel testModel];
-    [self setForSuperChartModel:_superModel];
+    [self setForSuperChartModel:_mainmeode];
+    //[self setForSuperChartModel:_superModel];
     self.title = _superModel.name;
     [self formView];
     [CommonMenuView clearMenu]; // 清除window菜单
@@ -42,10 +48,12 @@ const static CGFloat lineHeight = 40; //一行的高度
     [self.formView reloadData];
 }
 
-- (void)setForSuperChartModel:(SuperChartModel*)superModel{
-    _superModel = superModel;
-    _headerData = [superModel.table showhead];
-    _data = [superModel.table showData];
+- (void)setForSuperChartModel:(SuperChartMainModel*)superModel{
+   // _superModel = superModel;
+   // _headerData = [superModel.table showhead];
+   // _data = [superModel.table showData];
+    _headerData = [_mainmeode.table showhead];
+    _data = [_mainmeode.table showData];
     [self.formView reloadData];
 }
 
@@ -85,23 +93,24 @@ const static CGFloat lineHeight = 40; //一行的高度
     if ([title isEqualToString:@"语音播报"]) {
         
     }
-    if ([title isEqualToString:@"列表"]) {
+    if ([title isEqualToString:@"选列"]) {
         [self selectList];
     }
     if ([title isEqualToString:@"行距"]) {
         [self selectLineSpace];
     }
     if ([title isEqualToString:@"过滤"]) {
-        [self FilterAction];
+       // [self FilterAction];
     }
 }
 
 - (void)selectList{ // 选择列表
     SelectListVc* vc = [[SelectListVc alloc] init];
-    [vc setWithTableData:_superModel.table];
-//    __weak typeof(vc) weakVc = vc;
+   // [vc setWithTableData:_superModel.table];
+    [vc setWithTableData:_mainmeode.table];
+  //  __weak typeof(vc) weakVc = vc;
     vc.usedBack = ^(id item){
-        [self setForSuperChartModel:_superModel];
+        [self setForSuperChartModel:_mainmeode];
     };
     dispatch_async(dispatch_get_main_queue(), ^{
         [self presentViewController:vc animated:YES completion:nil];
@@ -124,7 +133,7 @@ const static CGFloat lineHeight = 40; //一行的高度
     FilterSuperChartVc* vc = [[FilterSuperChartVc alloc] init];
     vc.superModel = _superModel;
     vc.usedBack = ^(FilterSuperChartVc* item){
-        [self setForSuperChartModel:_superModel];
+       // [self setForSuperChartModel:_superModel];
     };
     [self presentViewController:vc animated:YES completion:nil];
 }
@@ -136,7 +145,8 @@ const static CGFloat lineHeight = 40; //一行的高度
         view = [[FTopLeftHeaderView alloc] initWithSectionTitle:@"行数" columnTitle:@"列数"];
         UILabel* lab = [[UILabel alloc] init];
         lab.backgroundColor = [UIColor whiteColor];
-        lab.text = _superModel.name;
+        TableDataBaseItemModel* model = _headerData[0];
+        lab.text = model.value;
         lab.font = [UIFont systemFontOfSize:12];
         lab.textColor = [AppColor app_3color];
         lab.textAlignment = NSTextAlignmentCenter;
@@ -153,32 +163,42 @@ const static CGFloat lineHeight = 40; //一行的高度
     return _data.count;
 }
 - (NSInteger)numberOfColumn:(FormScrollView *)formScrollView {
-    return _headerData.count;
+    return _headerData.count-1;
 }
 - (CGFloat)heightForSection:(FormScrollView *)formScrollView {
     return lineHeight*_curLineNum;
 }
 - (CGFloat)heightForSectionHeader:(FormScrollView *)formScrollView{
     return lineHeight;
+   // return 0;
 }
 - (CGFloat)widthForColumn:(FormScrollView *)formScrollView {
-    return 80;
+    return 120;
 }
+
 - (CGFloat)widthForColumnHeader:(FormScrollView *)formScrollView{
     return 120;
 }
+
 - (FormSectionHeaderView *)form:(FormScrollView *)formScrollView sectionHeaderAtSection:(NSInteger)section {
     FormSectionHeaderView *header = [formScrollView dequeueReusableSectionWithIdentifier:@"Section"];
     if (header == NULL) {
         header = [[FormSectionHeaderView alloc] initWithIdentifier:@"Section"];
     }
-    TableDataItemModel* model = _data[section];
+    TableDataBaseItemModel* model;
+    NSMutableArray *inModelArray = [[NSMutableArray alloc]init];
+    for (int i = 0; i < _data.count; i++) {
+        NSArray *modelArray = _data[i];
+        [inModelArray addObject:modelArray[0]];
+    }
+    model = inModelArray[section];
     header.titleLabel.font = [UIFont systemFontOfSize:12];
     [header setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
-    [header setTitle:[NSString stringWithFormat:@"%@", model.name] forState:UIControlStateNormal];
+    [header setTitle:[NSString stringWithFormat:@"%@", model.value] forState:UIControlStateNormal];
     return header;
 }
-- (FormColumnHeaderView *)form:(FormScrollView *)formScrollView columnHeaderAtColumn:(NSInteger)column {
+
+/*- (FormColumnHeaderView *)form:(FormScrollView *)formScrollView columnHeaderAtColumn:(NSInteger)column {
     FormColumnHeaderView *header = [formScrollView dequeueReusableColumnWithIdentifier:@"Column"];
     if (header == NULL) {
         header = [[FormColumnHeaderView alloc] initWithIdentifier:@"Column"];
@@ -197,6 +217,39 @@ const static CGFloat lineHeight = 40; //一行的高度
     });
     return header;
 }
+*/
+- (FormColumnHeaderView *)form:(FormScrollView *)formScrollView columnHeaderAtColumn:(NSInteger)column {
+    FormColumnHeaderView *header = [formScrollView dequeueReusableColumnWithIdentifier:@"Column"];
+    if (header == NULL) {
+        header = [[FormColumnHeaderView alloc] initWithIdentifier:@"Column"];
+        header.clipsToBounds = YES;
+        header.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+        header.contentEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
+        [header setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+    }
+    header.userInteractionEnabled = YES;
+    [header addTarget:self action:@selector(changeImage:) forControlEvents:UIControlEventTouchUpInside];
+    TableDataBaseItemModel* model = _headerData[column+1];
+    [header setTitle:[NSString stringWithFormat:@"%@",model.value] forState:UIControlStateNormal];
+    header.titleLabel.font = [UIFont systemFontOfSize:12];
+    [header setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
+    [header layoutButtonWithEdgeInsetsStyle:ButtonEdgeInsetsStyleRight imageTitleSpace:5];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [header layoutButtonWithEdgeInsetsStyle:ButtonEdgeInsetsStyleRight imageTitleSpace:5];
+    });
+    return header;
+}
+
+-(void)changeImage:(UIButton*)sender{
+    _isdownImage = !_isdownImage;
+    if (_isdownImage) {
+         [sender setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+    }
+    else {
+       [sender setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
+    }
+}
+
 - (FormCell *)form:(FormScrollView *)formScrollView cellForColumnAtIndexPath:(FIndexPath *)indexPath {
     FormCell *cell = [formScrollView dequeueReusableCellWithIdentifier:@"Cell"];
     NSLog(@"%@", cell);
@@ -206,25 +259,33 @@ const static CGFloat lineHeight = 40; //一行的高度
         i++;
         NSLog(@"%d--%ld", i, (long)indexPath.section);
     }
-    TableDataItemModel* model = _data[indexPath.section];
-    NSString* value = model.showData[indexPath.column].value;
-    [cell setTitle:value forState:UIControlStateNormal];
-    cell.titleLabel.font = [UIFont systemFontOfSize:12];
-    [cell setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
+        TableDataBaseItemModel* model;
+        NSArray *modelArray = _data[indexPath.section];
+        model = modelArray[indexPath.column+1];
+        NSString* value = model.value;
+        cell.titleLabel.adjustsFontSizeToFitWidth = YES;
+        [cell setTitle:value forState:UIControlStateNormal];
+        cell.titleLabel.font = [UIFont systemFontOfSize:12];
+        [cell setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
+   // TableDataBaseItemModel* model = _data[indexPath.section];
     /*[cell setBackgroundColor:[UIColor yellowColor]];*/
     return cell;
 }
+
 - (void)form:(FormScrollView *)formScrollView didSelectCellAtIndexPath:(FIndexPath *)indexPath{ // 单击
 
 }
 
 - (void)form:(FormScrollView *)formScrollView didDoubleClickCellAtIndexPath:(FIndexPath *)indexPath{ //双击
     DoubleClickSuperChartVc* vc = [[DoubleClickSuperChartVc alloc] init];
+    TableDataBaseItemModel* model = _headerData[0];
+    vc.titleString = model.value;
+    vc.isdownImage = _isdownImage;
     __weak typeof(vc) weakVc = vc;
-    [vc setWithSuperModel:_superModel column:indexPath.column];
+    [vc setWithSuperModel:_mainmeode column:indexPath.column+1];
     vc.sortBack = ^(id item){
         [self form:formScrollView didSelectColumnAtIndex:indexPath.column];
-        [weakVc setWithSuperModel:_superModel column:indexPath.column];
+        [weakVc setWithSuperModel:_mainmeode column:indexPath.column+1];
     };
     [self pushViewController:vc animation:YES hideBottom:YES];
 }
@@ -237,21 +298,21 @@ const static CGFloat lineHeight = 40; //一行的高度
     DLog(@"column index == %zd",column);
     
     NSMutableArray* sortArray = [NSMutableArray array];
-    for (TableDataItemModel* item in _data) {
-        item.showData[column].superTableDataItem = item;
-        [sortArray addObject:item.showData[column]];
+    for (NSArray *array in _data) {
+        TableDataBaseItemModel *item = array[column+1];
+        [sortArray addObject:item];
     }
     
     TableDataItemModel* head = _headerData[column];
     head.sortType = head.sortType==SortTypeUp? SortTypeDown:SortTypeUp;
     sortArray = [NSArray sortArray:sortArray key:@"value" down:head.sortType];
     
-    [_superModel.table.dataSet removeAllObjects];
-    for (TableDataItemModel* item in sortArray) {
-        NSInteger index = [_superModel.table.main_data indexOfObject:item.superTableDataItem];
-        [_superModel.table.dataSet addObject:@(index)];
+    [_mainmeode.table.dataSet removeAllObjects];
+    for (TableDataBaseItemModel* item in sortArray) {
+        int index = item.lineTag;
+        [_mainmeode.table.dataSet addObject:@(index)];
     }
-    [self setForSuperChartModel:_superModel];
+    [self setForSuperChartModel:_mainmeode];
 }
 
 #pragma mark - lazy init-UI
@@ -271,15 +332,15 @@ const static CGFloat lineHeight = 40; //一行的高度
                                 @"itemName" : @"筛选"
                                 };
         NSDictionary *dict3 = @{@"imageName" : @"选列",
-                                @"itemName" : @"列表"
+                                @"itemName" : @"选列"
                                 };
-        NSDictionary *dict4 = @{@"imageName" : @"过滤",
+       /* NSDictionary *dict4 = @{@"imageName" : @"过滤",
                                 @"itemName" : @"过滤"
-                                };
+                                };*/
         NSDictionary *dict5 = @{@"imageName" : @"行距",
                                 @"itemName" : @"行距"
                                 };
-        _menuArray = @[dict1,dict2,dict3,dict4,dict5];
+        _menuArray = @[dict1,dict2,dict3,dict5];
     }
     return _menuArray;
 }

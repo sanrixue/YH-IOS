@@ -87,6 +87,7 @@
     }
     return sectionHeader;
 }
+
 - (FormCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier {
     FormCell *cell = nil;
     for (FormCell *reusableCell in _reusableCells) {

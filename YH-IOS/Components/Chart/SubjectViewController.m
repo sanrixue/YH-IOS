@@ -37,6 +37,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (strong, nonatomic) NSArray *dropMenuTitles;
 @property (strong, nonatomic) NSArray *dropMenuIcons;
 @property (assign, nonatomic) BOOL isLoadFinish;
+@property (strong, nonatomic) UIAlertView* myAlert;
 
 @end
 
@@ -350,6 +351,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)loadOuterLink {
+    
     NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     
     NSString *splitString = [self.urlString containsString:@"?"] ? @"&" : @"?";
@@ -366,7 +368,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      *  only inner link clean browser cache
      */
     [self clearBrowserCache];
-  //  [self showLoading:LoadingLoad];
+    [self showLoading:LoadingLoad];
     
     /*
      * format: /mobile/v1/group/:group_id/template/:template_id/report/:report_id
@@ -671,6 +673,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     NSDictionary *browerDict = [FileUtils readConfigFile:[FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName]];
     self.isLoadFinish = YES;
+    [_myAlert dismissWithClickedButtonIndex:0 animated:YES];
     if ([browerDict[@"allow_brower_copy"] boolValue]) {
         return;
     }
@@ -742,6 +745,24 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     return YES;
 }
+
+- (void)webViewDidStartLoad:(UIWebView *)webView{
+    if (_myAlert==nil){
+        _myAlert = [[UIAlertView alloc] initWithTitle:nil
+                                             message: @"Loading..."
+                                            delegate: self
+                                   cancelButtonTitle: @"取消"
+                                   otherButtonTitles: nil];
+        _myAlert.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
+        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        activityView.frame = CGRectMake(120.f, 48.0f, 38.0f, 38.0f);
+        [_myAlert addSubview:activityView];
+        [activityView startAnimating];
+        [_myAlert show];
+    }
+}
+
+
 
 #pragma mark - UMSocialUIDelegate
 -(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {

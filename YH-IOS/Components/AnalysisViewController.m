@@ -8,6 +8,7 @@
 
 #import "AnalysisViewController.h"
 
+
 @interface AnalysisViewController ()
 
 @end
@@ -129,17 +130,27 @@
             subjectView.link = data[@"link"];
             subjectView.objectID = data[@"objectID"];
             if ([data[@"link"] rangeOfString:@"template/3/"].location != NSNotFound) {
-                //NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
+              //  NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
                 
                 HomeIndexVC *vc = [[HomeIndexVC alloc] init];
+                vc.bannerTitle = data[@"bannerName"];
                 vc.dataLink = data[@"link"];
-              //  [vc setWithHomeIndexArray:models];
+               // [vc setWithHomeIndexArray:models];
                 UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
                 [self presentViewController:rootchatNav animated:YES completion:nil];
             }
             else if ([data[@"link"] rangeOfString:@"template/5/"].location != NSNotFound) {
                 SuperChartVc *superChaerCtrl = [[SuperChartVc alloc]init];
+                superChaerCtrl.bannerTitle = data[@"bannerName"];
+                superChaerCtrl.dataLink = data[@"link"];
                 UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
+                [self presentViewController:superChartNavCtrl animated:YES completion:nil];
+            }
+            else if ([data[@"link"] rangeOfString:@"/testOriginKpi"].location != NSNotFound){
+                JYHomeViewController *jyHome = [[JYHomeViewController alloc]init];
+                jyHome.bannerTitle = data[@"bannerName"];
+                jyHome.dataLink = data[@"link"];
+                UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:jyHome];
                 [self presentViewController:superChartNavCtrl animated:YES completion:nil];
             }
             else{ //跳转事件

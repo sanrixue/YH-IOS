@@ -35,6 +35,7 @@
 @property (nonatomic, assign) CGFloat collectionOffset; // tableView和collection的偏移量
 @property (nonatomic, strong) DACircularProgressView *progressView;
 @property (strong, nonatomic) NSTimer *timer;
+@property (strong, nonatomic) UIAlertView* myAlert;
 
 @end
 
@@ -51,8 +52,22 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (_myAlert==nil){
+        _myAlert = [[UIAlertView alloc] initWithTitle:nil
+                                              message: @"Loading..."
+                                             delegate: self
+                                    cancelButtonTitle: @"取消"
+                                    otherButtonTitles: nil];
+        _myAlert.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
+        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        activityView.frame = CGRectMake(120.f, 48.0f, 38.0f, 38.0f);
+        [_myAlert addSubview:activityView];
+        [activityView startAnimating];
+        [_myAlert show];
+    }
     NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:self.dataLink];
     [self setWithHomeIndexArray:models];
+     [_myAlert dismissWithClickedButtonIndex:0 animated:YES];
      [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self.view addSubview:self.collectionVc.view];
     [self.view addSubview:self.tableViewVc.view];
@@ -106,6 +121,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Subject-Refresh"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(refreshView)];
+    self.title =self.bannerTitle;
 }
 
 -(void)refreshView {

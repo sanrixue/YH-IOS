@@ -24,6 +24,7 @@
 #import "HomeIndexVC.h"
 #import "HomeIndexModel.h"
 
+
 @interface MainBaseViewController ()<LTHPasscodeViewControllerDelegate,UINavigationControllerDelegate>
 
 @end

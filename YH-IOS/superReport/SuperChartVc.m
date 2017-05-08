@@ -29,6 +29,7 @@ const static CGFloat lineHeight = 40; //一行的高度
 @property (nonatomic, strong) SuperChartModel* superModel;
 @property (nonatomic, strong) SuperChartMainModel *mainmeode;
 @property (nonatomic, assign) BOOL isdownImage;
+@property (nonatomic, assign) NSInteger clickBtn;
 @end
 
 @implementation SuperChartVc
@@ -36,8 +37,9 @@ const static CGFloat lineHeight = 40; //一行的高度
 - (void)viewDidLoad {
     [super viewDidLoad];
     _isdownImage = YES;
+    _clickBtn = -1;
      _mainmeode = [SuperChartMainModel testModel];
-    _superModel = [SuperChartModel testModel];
+   // _superModel = [SuperChartModel testModel];
     [self setForSuperChartModel:_mainmeode];
     //[self setForSuperChartModel:_superModel];
     self.title = _superModel.name;
@@ -81,6 +83,7 @@ const static CGFloat lineHeight = 40; //一行的高度
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [UIBarButtonItem createBarButtonItemWithImage:@"nav_more" target:self action:@selector(showMenu:)];
+    self.title = self.bannerTitle;
 }
 /** 展示菜单 */
 - (void)showMenu:(UIButton*)sender{
@@ -90,17 +93,11 @@ const static CGFloat lineHeight = 40; //一行的高度
 #pragma mark - 处理菜单点击
 - (void)menuActionTitle:(NSString*)title{
     [CommonMenuView hidden];
-    if ([title isEqualToString:@"语音播报"]) {
-        
-    }
     if ([title isEqualToString:@"选列"]) {
         [self selectList];
     }
     if ([title isEqualToString:@"行距"]) {
         [self selectLineSpace];
-    }
-    if ([title isEqualToString:@"过滤"]) {
-       // [self FilterAction];
     }
 }
 
@@ -219,20 +216,34 @@ const static CGFloat lineHeight = 40; //一行的高度
 }
 */
 - (FormColumnHeaderView *)form:(FormScrollView *)formScrollView columnHeaderAtColumn:(NSInteger)column {
-    FormColumnHeaderView *header = [formScrollView dequeueReusableColumnWithIdentifier:@"Column"];
-    if (header == NULL) {
-        header = [[FormColumnHeaderView alloc] initWithIdentifier:@"Column"];
-        header.clipsToBounds = YES;
-        header.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
-        header.contentEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
-        [header setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
-    }
+    FormColumnHeaderView*  header = [[FormColumnHeaderView alloc] initWithIdentifier:@"Column"];
+    header.clipsToBounds = YES;
+    header.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    header.contentEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
     header.userInteractionEnabled = YES;
+    if (_clickBtn < 0) {
+        [header setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
+    }
+    else  {
+        if ((column != _clickBtn)) {
+            [header setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
+        }
+        else {
+            _isdownImage = !_isdownImage;
+            if (_isdownImage) {
+                [header setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+            }
+            else {
+                [header setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
+            }
+        }
+    }
     [header addTarget:self action:@selector(changeImage:) forControlEvents:UIControlEventTouchUpInside];
     TableDataBaseItemModel* model = _headerData[column+1];
     [header setTitle:[NSString stringWithFormat:@"%@",model.value] forState:UIControlStateNormal];
     header.titleLabel.font = [UIFont systemFontOfSize:12];
     [header setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
+   // [header setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
     [header layoutButtonWithEdgeInsetsStyle:ButtonEdgeInsetsStyleRight imageTitleSpace:5];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [header layoutButtonWithEdgeInsetsStyle:ButtonEdgeInsetsStyleRight imageTitleSpace:5];
@@ -248,6 +259,7 @@ const static CGFloat lineHeight = 40; //一行的高度
     else {
        [sender setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
     }
+    //[sender removeAllTargets];
 }
 
 - (FormCell *)form:(FormScrollView *)formScrollView cellForColumnAtIndexPath:(FIndexPath *)indexPath {
@@ -296,7 +308,7 @@ const static CGFloat lineHeight = 40; //一行的高度
 
 - (void)form:(FormScrollView *)formScrollView didSelectColumnAtIndex:(NSInteger)column{ //排序
     DLog(@"column index == %zd",column);
-    
+    _clickBtn = column;
     NSMutableArray* sortArray = [NSMutableArray array];
     for (NSArray *array in _data) {
         TableDataBaseItemModel *item = array[column+1];
@@ -325,12 +337,12 @@ const static CGFloat lineHeight = 40; //一行的高度
 
 - (NSArray *)menuArray{
     if (!_menuArray) {
-        NSDictionary *dict1 = @{@"imageName" : @"icon_sound",
-                                @"itemName" : @"语音播报"
-                                };
-        NSDictionary *dict2 = @{@"imageName" : @"筛选",
-                                @"itemName" : @"筛选"
-                                };
+      //  NSDictionary *dict1 = @{@"imageName" : @"icon_sound",
+          //                      @"itemName" : @"语音播报"
+        //                        };
+        //NSDictionary *dict2 = @{@"imageName" : @"筛选",
+          //                      @"itemName" : @"筛选"
+            //                    };
         NSDictionary *dict3 = @{@"imageName" : @"选列",
                                 @"itemName" : @"选列"
                                 };
@@ -340,7 +352,7 @@ const static CGFloat lineHeight = 40; //一行的高度
         NSDictionary *dict5 = @{@"imageName" : @"行距",
                                 @"itemName" : @"行距"
                                 };
-        _menuArray = @[dict1,dict2,dict3,dict5];
+        _menuArray = @[dict3,dict5];
     }
     return _menuArray;
 }

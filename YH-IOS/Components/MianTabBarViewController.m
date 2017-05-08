@@ -13,6 +13,7 @@
 #import "KPIViewController.h"
 #import <MBProgressHUD.h>
 #import "AFNetworking.h"
+#import "JYHomeViewController.h"
 
 
 @interface MianTabBarViewController ()
@@ -66,6 +67,8 @@
     
     KPIViewController *kpiRootView = [[KPIViewController alloc]init];
     UINavigationController *kpiRootViewController  = [[UINavigationController alloc]initWithRootViewController:kpiRootView];
+   // JYHomeViewController *kpiRootView = [[JYHomeViewController alloc]init];
+    //UINavigationController *kpiRootViewController  = [[UINavigationController alloc]initWithRootViewController:kpiRootView];
     kpiRootViewController.tabBarItem.title = @"仪表盘";
     [kpiRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
     kpiRootViewController.edgesForExtendedLayout = UIRectEdgeNone;

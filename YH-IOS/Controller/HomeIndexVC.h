@@ -11,6 +11,7 @@
 
 @interface HomeIndexVC : YHBaseViewController
 @property(nonatomic,strong)NSString* dataLink;
+@property(nonatomic, strong)NSString* bannerTitle;
 
 - (void)setWithHomeIndexArray:(NSArray *)array;
 

@@ -48,4 +48,33 @@
 #import <YYKit/YYKit.h>
 #import "Charts/Charts.h"
 
+#pragma mark -  仪表盘
+
+#import "UIColor+Utility.h"
+
+#define kSUnit @"unit"
+#define kSGroupName @"group_name"
+#define KSStick @"is_stick"
+#define kSNumber @"number"
+
+
+#define JYScreenWidth [[UIScreen mainScreen] bounds].size.width
+#define JYScreenHeight [[UIScreen mainScreen] bounds].size.height
+#define JYViewWidth CGRectGetWidth(self.bounds)
+#define JYViewHeight CGRectGetHeight(self.bounds)
+#define JYVCWidth CGRectGetWidth(self.view.bounds)
+#define JYVCHeight CGRectGetHeight(self.view.bounds)
+
+
+#define JYDefaultMargin (8.0)
+#define kBarHeight (JYDefaultMargin * 3)
+
+
+#define JYColor_LightGray_White ([UIColor colorWithRed:250/255.0 green:250/255.0 blue:250/255.0 alpha:1.0])
+#define JYColor_TextColor_Gray ([UIColor colorWithHexString:@"#999999"])
+#define JYColor_ArrowColor_Red ([UIColor colorWithHexString:@"EA4335"])
+#define JYColor_ArrowColor_Yellow ([UIColor colorWithHexString:@"FBBC05"])
+#define JYColor_ArrowColor_Green ([UIColor colorWithHexString:@"34AB53"])
+
+
 #endif /* PrefixHeader_pch */

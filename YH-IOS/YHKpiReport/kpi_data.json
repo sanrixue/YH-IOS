@@ -1,0 +1,225 @@
+ [
+  {
+  "is_stick":1,
+  "title":"第二集群实时数据",
+  "group_name":"实时数据",
+  "dashboard_type":"line",
+  "target_url":"www.shengyiplus.com",
+  "unit":"万元" ,
+  "data":{
+	 "high_light":{
+	 "percentage": 1 ,
+	 "number":2141,
+	 "compare":2.4,
+	 "arrow":1
+	 },
+	 "chart_data":[
+                   1,2,3,5435,232,23
+                   ]
+  }
+  },
+  {
+  "is_stick": 1,
+  "title":"第一集群实时数据",
+  "group_name":"实时数据",
+  "dashboard_type":"bar",
+  "target_url":"www.shengyiplus.com",
+  "unit":"万元" ,
+  "data":{
+	 "high_light":{
+	 "percentage": 1 ,
+	 "number":2141,
+	 "compare":2.4,
+	 "arrow":3
+	 },
+	 "chart_data":[
+                   14,21,32,545,23,232
+                   ]
+  }
+  },
+  {
+  "is_stick": 1,
+  "title":"门店实时数据",
+  "group_name":"实时数据",
+  "dashboard_type":"ring",
+  "target_url":"www.shengyiplus.com",
+  "unit":"%" ,
+  "data":{
+	 "high_light":{
+	 "percentage": 0 ,
+	 "number":2332,
+	 "arrow":0
+	 }
+  }
+  },
+  {
+  "is_stick": 1,
+  "title":"小店实时数据",
+  "group_name":"实时数据",
+  "dashboard_type":"number",
+  "target_url":"www.shengyiplus.com",
+  "unit":"%" ,
+  "data":{
+	 "high_light":{
+	 "percentage": 0 ,
+	 "number":243,
+	 "arrow":3
+	 },
+	 "chart_data":[
+                   14,21,32,545,23,232
+                   ]
+  }
+  },
+  {
+  "is_stick": 1,
+  "title":"第二集群库存",
+  "group_name":"库存数据",
+  "dashboard_type":"line",
+  "target_url":"www.baidu.com",
+  "unit":"万个" ,
+  "data":{
+	 "high_light":{
+	 "percentage": 1 ,
+	 "number":214,
+	 "compare":2.4,
+	 "arrow":3
+	 },
+	 "chart_data":[
+                   12,22,32,545,232,234
+                   ]
+  }
+  },
+  {
+  "is_stick": 0,
+  "title":"第一集群库存数据",
+  "group_name":"库存数据",
+  "dashboard_type":"bar",
+  "target_url":"www.shengyiplus.com",
+  "unit":"万元" ,
+  "data":{
+	 "high_light":{
+  "percentage": 1 ,
+  "number":211,
+  "compare":2.4,
+  "arrow":5
+	 },
+	 "chart_data":[
+                   141,211,312,545,213,232
+                   ]
+  }
+  },
+  {
+  "is_stick": 0,
+  "title":"门店库存数据",
+  "group_name":"库存数据",
+  "dashboard_type":"ring",
+  "target_url":"www.shengyiplus.com",
+  "unit":"%" ,
+  "data":{
+	 "high_light":{
+  "percentage": 0 ,
+  "number":2332,
+  "arrow":0
+	 }
+  }
+  },
+  {
+  "is_stick": 0,
+  "title":"小店库存数据",
+  "group_name":"库存数据",
+  "dashboard_type":"number",
+  "target_url":"www.shengyiplus.com",
+  "unit":"%" ,
+  "data":{
+	 "high_light":{
+  "percentage": 0 ,
+  "number":243,
+  "arrow":3
+	 }
+  }
+  },
+  {
+  "is_stick": 0,
+  "title":"一级采购 数据",
+  "group_name":"采购 数据",
+  "dashboard_type":"ring",
+  "target_url":"www.shengyiplus.com",
+  "unit":"万元" ,
+  "data":{
+	 "high_light":{
+  "percentage": 0 ,
+  "number":2332,
+  "arrow":0
+	 }
+  }
+  },
+  {
+  "is_stick": 0,
+  "title":"二级采购数据",
+  "group_name":"采购数据",
+  "dashboard_type":"number",
+  "target_url":"www.shengyiplus.com",
+  "unit":"个" ,
+  "data":{
+	 "high_light":{
+  "percentage": 0 ,
+  "number":243,
+  "arrow":3
+	 },
+	 "chart_data":[
+                   141,21,31,54,32
+                   ]
+  }
+  },
+  {
+  "is_stick": 0,
+  "title":"负毛利",
+  "group_name":"异常数据",
+  "dashboard_type":"ring",
+  "target_url":"www.shengyiplus.com",
+  "unit":"万元" ,
+  "data":{
+	 "high_light":{
+  "percentage": 0 ,
+  "number":2332,
+  "arrow":0
+	 }
+  }
+  },
+  {
+  "is_stick": 0,
+  "title":"负库存",
+  "group_name":"异常数据",
+  "dashboard_type":"line",
+  "target_url":"www.shengyiplus.com",
+  "unit":"个" ,
+  "data":{
+	 "high_light":{
+  "percentage": 0 ,
+  "number":243,
+  "arrow":3
+	 },
+	 "chart_data":[
+                   141,21,31,54,32
+                   ]
+  }
+  },
+  {
+  "is_stick": 0,
+  "title":"负库存",
+  "group_name":"异常数据",
+  "dashboard_type":"line",
+  "target_url":"www.shengyiplus.com",
+  "unit":"个" ,
+  "data":{
+	 "high_light":{
+  "percentage": 0 ,
+  "number":243,
+  "arrow":3
+	 },
+	 "chart_data":[
+                   141,21,31,54,32
+                   ]
+  }
+  }
+  ]

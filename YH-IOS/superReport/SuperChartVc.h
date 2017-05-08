@@ -10,4 +10,7 @@
 
 @interface SuperChartVc : YHBaseViewController
 
+@property(nonatomic,strong)NSString* dataLink;
+@property(nonatomic, strong)NSString* bannerTitle;
+
 @end

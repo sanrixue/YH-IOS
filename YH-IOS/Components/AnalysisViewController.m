@@ -130,14 +130,22 @@
             subjectView.link = data[@"link"];
             subjectView.objectID = data[@"objectID"];
             if ([data[@"link"] rangeOfString:@"template/3/"].location != NSNotFound) {
-              //  NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
+                [MRProgressOverlayView showOverlayAddedTo:self.view title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+               NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
                 
                 HomeIndexVC *vc = [[HomeIndexVC alloc] init];
                 vc.bannerTitle = data[@"bannerName"];
                 vc.dataLink = data[@"link"];
-               // [vc setWithHomeIndexArray:models];
-                UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
-                [self presentViewController:rootchatNav animated:YES completion:nil];
+                [vc setWithHomeIndexArray:models];
+                [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
+                if (models.count <= 0 || !models) {
+                    [ViewUtils showPopupView:self.view Info:@"数据为空"];
+                }
+                else{
+                    UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
+                    [self presentViewController:rootchatNav animated:YES completion:nil];
+                }
+                
             }
             else if ([data[@"link"] rangeOfString:@"template/5/"].location != NSNotFound) {
                 SuperChartVc *superChaerCtrl = [[SuperChartVc alloc]init];
@@ -146,7 +154,18 @@
                 UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
                 [self presentViewController:superChartNavCtrl animated:YES completion:nil];
             }
-            else if ([data[@"link"] rangeOfString:@"/testOriginKpi"].location != NSNotFound){
+           /* else if ([data[@"link"] rangeOfString:@"template/"].location != NSNotFound){
+                if ([data[@"link"] rangeOfString:@"template/5/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/1/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/2/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/3/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/4/"].location == NSNotFound) {
+                    SCLAlertView *alert = [[SCLAlertView alloc] init];
+                    [alert addButton:@"下一次" actionBlock:^(void) {}];
+                    [alert addButton:@"立刻升级" actionBlock:^(void) {
+                        NSURL *url = [NSURL URLWithString:[kPgyerUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                        [[UIApplication sharedApplication] openURL:url];
+                    }];
+                    [alert showSuccess:self title:@"温馨提示" subTitle:@"您当前的版本暂不支持该模块，请升级之后查看" closeButtonTitle:nil duration:0.0f];
+                }
+            }*/
+            else if ([data[@"link"] rangeOfString:@"www.baidu.com"].location != NSNotFound){
                 JYHomeViewController *jyHome = [[JYHomeViewController alloc]init];
                 jyHome.bannerTitle = data[@"bannerName"];
                 jyHome.dataLink = data[@"link"];

@@ -118,11 +118,16 @@
         header.sortBack = weakSelf.sortBack;
         [header.rightBtn layoutButtonWithEdgeInsetsStyle:ButtonEdgeInsetsStyleRight imageTitleSpace:5];
         config.header = header;
-        if (weakSelf.isdownImage) {
-            [header.rightBtn setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+        if (!weakSelf.isSort) {
+               [header.rightBtn setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
         }
-        else {
-            [header.rightBtn setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
+        else{
+            if (weakSelf.isdownImage) {
+                [header.rightBtn setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
+            }
+            else if(!weakSelf.isdownImage){
+                [header.rightBtn setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+            }
         }
     } headerSizeBack:^(NSInteger section, PackageConfig *config) {
         config.headerHeight = 45;
@@ -130,12 +135,13 @@
 }
 
 -(void)changeImage:(UIButton*)sender{
+    _isSort = YES;
     _isdownImage = !_isdownImage;
     if (_isdownImage) {
-        [sender setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+        [sender setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
     }
     else {
-        [sender setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
+        [sender setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
     }
 }
 

@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSString* titleString;
 @property (nonatomic, strong) NSArray<TableDataBaseItemModel*>* keyArray;
 @property (nonatomic, assign) BOOL isdownImage;
+@property (nonatomic, assign) BOOL isSort;
 
 - (void)setWithSuperModel:(SuperChartMainModel*)superModel column:(NSInteger)column;
 

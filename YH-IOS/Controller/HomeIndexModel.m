@@ -29,15 +29,27 @@ NSString *jsons = @"[{\"period\":\"201605\",\"xaxis_order\":\"201605\",\"head\":
     // 暂时写死json
     NSString *newjson;
     User* user = [[User alloc]init];
-    NSString *baseString = [NSString stringWithFormat:urlString,user.groupID];
-    NSString *jsonURL = [NSString stringWithFormat:@"%@",baseString];
-    HttpResponse *reponse = [HttpUtils httpGet:jsonURL];
-    newjson = reponse.data[@"data"];
-    BOOL isYes = [NSJSONSerialization isValidJSONObject:reponse.data];
-    if (!newjson || !isYes) {
-        newjson = jsons;
+    NSString *jsonURL;
+    if ([urlString hasPrefix:@"http"]) {
+         NSString *baseString = [NSString stringWithFormat:urlString,user.groupID];
+        jsonURL = [NSString stringWithFormat:@"%@",baseString];
     }
-    NSArray *models = [HomeIndexModel mj_objectArrayWithKeyValuesArray:newjson];
+    else{
+        NSArray *urlArray = [urlString componentsSeparatedByString:@"/"];
+         NSString *baseString = [NSString stringWithFormat:@"/api/v1/group/%@/template/%@/report/%@/json",user.groupID,urlArray[6],urlArray[8]];
+        jsonURL = [NSString stringWithFormat:@"%@%@",kBaseUrl,baseString];
+        
+    }
+    HttpResponse *reponse = [HttpUtils httpGet:jsonURL];
+    newjson = reponse.string;
+    BOOL isYes = [NSJSONSerialization isValidJSONObject:reponse.data];
+    NSMutableArray *models;
+    if (isYes) {
+        models = [HomeIndexModel mj_objectArrayWithKeyValuesArray:newjson];
+    }
+    else{
+        models = [[NSMutableArray alloc]init];
+    }
     return models;
 }
 

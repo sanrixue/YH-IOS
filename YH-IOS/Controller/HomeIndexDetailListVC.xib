@@ -41,7 +41,6 @@
                                 <constraint firstAttribute="height" constant="11" id="JnS-kM-E9Q"/>
                                 <constraint firstAttribute="width" constant="6" id="n1i-AU-CtC"/>
                             </constraints>
-                            <state key="normal" image="icon_array"/>
                         </button>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Tt-tv-mKR">
                             <fontDescription key="fontDescription" type="system" pointSize="12"/>

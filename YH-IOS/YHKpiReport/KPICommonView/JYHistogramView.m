@@ -91,7 +91,7 @@
 
 - (void)refreshSubViewData {
     
-    histogram.dataSource = @[@"33", @"5", @"7", @"3", @"33", @"0", @"10"];
+    histogram.dataSource = self.model.chartData; //@[@"33", @"5", @"7", @"3", @"33", @"0", @"10"];
     groupType.text = self.model.title;
     trendType.arrow = self.model.arrow;
     ratio.text = self.model.floatRate;

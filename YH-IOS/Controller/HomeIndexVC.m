@@ -35,7 +35,7 @@
 @property (nonatomic, assign) CGFloat collectionOffset; // tableView和collection的偏移量
 @property (nonatomic, strong) DACircularProgressView *progressView;
 @property (strong, nonatomic) NSTimer *timer;
-@property (strong, nonatomic) UIAlertView* myAlert;
+
 
 @end
 
@@ -52,22 +52,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (_myAlert==nil){
-        _myAlert = [[UIAlertView alloc] initWithTitle:nil
-                                              message: @"Loading..."
-                                             delegate: self
-                                    cancelButtonTitle: @"取消"
-                                    otherButtonTitles: nil];
-        _myAlert.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height);
-        UIActivityIndicatorView *activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-        activityView.frame = CGRectMake(120.f, 48.0f, 38.0f, 38.0f);
-        [_myAlert addSubview:activityView];
-        [activityView startAnimating];
-        [_myAlert show];
-    }
-    NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:self.dataLink];
-    [self setWithHomeIndexArray:models];
-     [_myAlert dismissWithClickedButtonIndex:0 animated:YES];
      [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self.view addSubview:self.collectionVc.view];
     [self.view addSubview:self.tableViewVc.view];
@@ -87,7 +71,6 @@
         make.width.mas_equalTo(self.view);
         make.left.mas_equalTo(self.view).offset(SCREEN_WIDTH);
     }];
-    
   //UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithActionBlock:^(id  _Nonnull sender) {
     //    [self setWithHomeIndexModel:self.dataArray[arc4random()%4] needRefeshChartData:YES];
     //}];
@@ -104,6 +87,9 @@
     }];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+}
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -126,13 +112,13 @@
 
 -(void)refreshView {
     //[self addShadowView];
+    [MRProgressOverlayView showOverlayAddedTo:self.view title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
     NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:self.dataLink];
     [self setWithHomeIndexArray:models];
     [self setWithHomeIndexModel:_data animation:YES];
     self.navigationItem.rightBarButtonItem.enabled = NO;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [ViewUtils showPopupView:self.view Info:@"刷新完成"];
-         self.navigationItem.rightBarButtonItem.enabled = YES;
+        [MRProgressOverlayView dismissAllOverlaysForView:self.view animated:YES];
     });
 }
 

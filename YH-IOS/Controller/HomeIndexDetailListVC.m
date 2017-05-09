@@ -38,6 +38,8 @@
     }];
     if (![_data.head isEqualToString:@""]) {
          [self.topNamebtn setTitle:_data.head forState:UIControlStateNormal];
+    //    [self.topNameTipBtn setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
+        [self.topDescripeTipBtn  setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
     }
 }
 -(void)initPackage{
@@ -85,13 +87,19 @@
         [self.topDescripeBtn setTitle:model.products[0].selctItem.name forState:UIControlStateNormal];
     }
     if (self.sortType==HomeIndexDetailListVCSortTypeDown) {
+       // [self.topNameTipBtn setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+        [self.topDescripeTipBtn  setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
         _dataList = [NSArray sortArray:_data.products key:@"selctItem.main_data.data" down:YES];
     }
     if (self.sortType==HomeIndexDetailListVCSortTypeUp) {
+       // [self.topNameTipBtn setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
+        [self.topDescripeTipBtn  setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
         _dataList = [NSArray sortArray:_data.products key:@"selctItem.main_data.data" down:NO];
     }
     if (self.sortType==HomeIndexDetailListVCSortTypeDefault) {
         _dataList = _data.products;
+       // [self.topNameTipBtn setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
+        [self.topDescripeTipBtn  setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
     }
     [self.package reloadData];
 }

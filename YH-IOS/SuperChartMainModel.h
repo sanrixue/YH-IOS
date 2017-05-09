@@ -19,7 +19,7 @@
 @property(nonatomic, strong) ChartBaseConfig* config;
 @property(nonatomic, strong) TableDataBaseModel* table;
 
-+ (instancetype)testModel;
++ (instancetype)testModel:(NSString *)urlString;
 
 @end
 

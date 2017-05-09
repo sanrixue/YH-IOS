@@ -1,6 +1,6 @@
  [
   {
-  "is_stick":1,
+  "is_stick":true,
   "title":"第二集群实时数据",
   "group_name":"实时数据",
   "dashboard_type":"line",
@@ -8,10 +8,10 @@
   "unit":"万元" ,
   "data":{
 	 "high_light":{
-	 "percentage": 1 ,
+	 "percentage": false ,
 	 "number":2141,
 	 "compare":2.4,
-	 "arrow":1
+	 "arrow":5
 	 },
 	 "chart_data":[
                    1,2,3,5435,232,23
@@ -162,11 +162,11 @@
   "unit":"个" ,
   "data":{
 	 "high_light":{
-  "percentage": 0 ,
-  "number":243,
-  "arrow":3
+       "percentage": 0 ,
+       "number":243,
+       "arrow":3
 	 },
-	 "chart_data":[
+    "chart_data":[
                    141,21,31,54,32
                    ]
   }
@@ -195,8 +195,8 @@
   "unit":"个" ,
   "data":{
 	 "high_light":{
-  "percentage": 0 ,
-  "number":243,
+  "percentage": 1 ,
+  "number":234,
   "arrow":3
 	 },
 	 "chart_data":[

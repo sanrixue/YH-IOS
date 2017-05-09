@@ -23,17 +23,25 @@ NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
              };
 }
 
-+ (instancetype)testModel{
++ (instancetype)testModel:(NSString *)urlString{
     //return [SuperChartModel mj_objectWithKeyValues:json1];
     NSString *newjson;
     User* user = [[User alloc]init];
-    NSString *baseString = [NSString stringWithFormat:@"http://development.shengyiplus.com/api/v1/group/%@/template/5/report/9903/json",user.groupID];
-    NSString *jsonURL = [NSString stringWithFormat:@"%@",baseString];
+    NSString* jsonURL;
+    if ([urlString hasPrefix:@"http"]) {
+        NSString *baseString = [NSString stringWithFormat:urlString,user.groupID];
+        jsonURL = [NSString stringWithFormat:@"%@",baseString];
+    }
+    else{
+        NSArray *urlArray = [urlString componentsSeparatedByString:@"/"];
+        NSString *baseString = [NSString stringWithFormat:@"/api/v1/group/%@/template/%@/report/%@/json",user.groupID,urlArray[6],urlArray[8]];
+        jsonURL = [NSString stringWithFormat:@"%@%@",kBaseUrl,baseString];
+    }
     HttpResponse *reponse = [HttpUtils httpGet:jsonURL];
     newjson = reponse.string;
     BOOL isYes = [NSJSONSerialization isValidJSONObject:reponse.data];
     if (!newjson || !isYes) {
-        newjson = json3;
+        newjson = @"{}";
     }
     //return [SuperChartModel mj_objectWithKeyValues:json1];
     return [SuperChartMainModel mj_objectWithKeyValues:newjson];
@@ -51,7 +59,7 @@ NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
 }
 
 -(void)mj_keyValuesDidFinishConvertingToObject {
-    self.color = @[@"#F2836B",@"F2836B",@"#F2E1AC",@"#F2E1AC",@"#63A69F",@"#63A69F"];
+    self.color = @[@"#F2836B",@"#F2836B",@"#F2E1AC",@"#F2E1AC",@"#63A69F",@"#63A69F"];
 }
 
 @end

@@ -126,6 +126,17 @@
                   UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
                   [self presentViewController:superChartNavCtrl animated:YES completion:nil];
               }
+              /*else if ([data[@"link"] rangeOfString:@"template/"].location != NSNotFound){
+                  if ([data[@"link"] rangeOfString:@"template/5/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/1/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/2/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/3/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/4/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/-1/"].location == NSNotFound) {
+                      SCLAlertView *alert = [[SCLAlertView alloc] init];
+                      [alert addButton:@"下一次" actionBlock:^(void) {}];
+                      [alert addButton:@"立刻升级" actionBlock:^(void) {
+                          NSURL *url = [NSURL URLWithString:[kPgyerUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                          [[UIApplication sharedApplication] openURL:url];
+                      }];
+                      [alert showSuccess:self title:@"温馨提示" subTitle:@"您当前的版本暂不支持该模块，请升级之后查看" closeButtonTitle:nil duration:0.0f];
+                  }
+              }*/
               else{ //跳转事件
                 [self.navigationController presentViewController:subjectView animated:YES completion:nil];
               }

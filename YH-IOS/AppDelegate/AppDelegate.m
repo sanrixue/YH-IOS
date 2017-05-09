@@ -30,6 +30,7 @@
 #define _IPHONE80_ 80000
 
 @interface AppDelegate ()<LTHPasscodeViewControllerDelegate>
+@property (nonatomic,assign) BOOL isReApp;
 @end
 
 @implementation AppDelegate
@@ -66,7 +67,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+    _isReApp = YES;
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
     
@@ -254,6 +255,15 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (void)passcodeWasEnteredSuccessfully {
     NSLog(@"AppDelegate - Passcode Was Entered Successfully");
     
+    if (![self isLogin]) {
+        [self jumpToLogin];
+    }
+    else {
+        if (_isReApp) {
+           [self jumpToDashboardView];
+            _isReApp = NO;
+        }
+    }
   //  MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
     //_window.rootViewController = mainTabbar;
 }

@@ -28,17 +28,29 @@ const static CGFloat lineHeight = 40; //一行的高度
 @property (nonatomic, strong) NSArray* headerData; //头部数据
 @property (nonatomic, strong) SuperChartModel* superModel;
 @property (nonatomic, strong) SuperChartMainModel *mainmeode;
+@property (nonatomic, strong) NSArray* colorArray;
 @property (nonatomic, assign) BOOL isdownImage;
 @property (nonatomic, assign) NSInteger clickBtn;
+@property (nonatomic, assign) BOOL isSort;
 @end
 
 @implementation SuperChartVc
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _isSort = NO;
     _isdownImage = YES;
     _clickBtn = -1;
-     _mainmeode = [SuperChartMainModel testModel];
+     _mainmeode = [SuperChartMainModel testModel:_dataLink];
+    if (!_mainmeode || !_mainmeode.name) {
+        UIView *refreshView = [[UIView alloc]initWithFrame:CGRectMake(0, 94, SCREEN_WIDTH, SCREEN_HEIGHT-64 )];
+        [self.navigationController.view addSubview:refreshView];
+        refreshView.backgroundColor = [UIColor whiteColor];
+        [MRProgressOverlayView showOverlayAddedTo:refreshView title:@"暂无数据" mode:MRProgressOverlayViewModeCross animated:YES];
+    }
+    else{
+         [MRProgressOverlayView showOverlayAddedTo:self.view title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    }
    // _superModel = [SuperChartModel testModel];
     [self setForSuperChartModel:_mainmeode];
     //[self setForSuperChartModel:_superModel];
@@ -56,6 +68,7 @@ const static CGFloat lineHeight = 40; //一行的高度
    // _data = [superModel.table showData];
     _headerData = [_mainmeode.table showhead];
     _data = [_mainmeode.table showData];
+    _colorArray = [NSArray  arrayWithArray:_mainmeode.config.color];
     [self.formView reloadData];
 }
 
@@ -101,6 +114,10 @@ const static CGFloat lineHeight = 40; //一行的高度
     }
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    [MRProgressOverlayView dismissAllOverlaysForView:self.view animated:YES];
+}
 - (void)selectList{ // 选择列表
     SelectListVc* vc = [[SelectListVc alloc] init];
    // [vc setWithTableData:_superModel.table];
@@ -221,25 +238,27 @@ const static CGFloat lineHeight = 40; //一行的高度
     header.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
     header.contentEdgeInsets = UIEdgeInsetsMake(0, 3, 0, 3);
     header.userInteractionEnabled = YES;
+    TableDataBaseItemModel* model = _headerData[column+1];
     if (_clickBtn < 0) {
+
         [header setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
     }
     else  {
         if ((column != _clickBtn)) {
+            
             [header setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
         }
         else {
-            _isdownImage = !_isdownImage;
             if (_isdownImage) {
-                [header setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+                [header setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
             }
             else {
-                [header setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
+                [header setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
             }
         }
     }
     [header addTarget:self action:@selector(changeImage:) forControlEvents:UIControlEventTouchUpInside];
-    TableDataBaseItemModel* model = _headerData[column+1];
+   // TableDataBaseItemModel* model = _headerData[column+1];
     [header setTitle:[NSString stringWithFormat:@"%@",model.value] forState:UIControlStateNormal];
     header.titleLabel.font = [UIFont systemFontOfSize:12];
     [header setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
@@ -252,12 +271,11 @@ const static CGFloat lineHeight = 40; //一行的高度
 }
 
 -(void)changeImage:(UIButton*)sender{
-    _isdownImage = !_isdownImage;
     if (_isdownImage) {
-         [sender setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
+         [sender setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
     }
     else {
-       [sender setImage:@"icon_array".imageFromSelf forState:UIControlStateNormal];
+       [sender setImage:@"icondown_array".imageFromSelf forState:UIControlStateNormal];
     }
     //[sender removeAllTargets];
 }
@@ -278,7 +296,16 @@ const static CGFloat lineHeight = 40; //一行的高度
         cell.titleLabel.adjustsFontSizeToFitWidth = YES;
         [cell setTitle:value forState:UIControlStateNormal];
         cell.titleLabel.font = [UIFont systemFontOfSize:12];
-        [cell setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
+      int colorNum ;
+      if ([model.color intValue] && [model.color intValue] < 6) {
+         colorNum= [model.color intValue];
+           NSString *colorString = _colorArray[colorNum];
+           [cell setTitleColor:[UIColor colorWithHexString:colorString] forState:UIControlStateNormal];
+      }
+      else {
+           [cell setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
+      }
+       // [cell setTitleColor:[UIColor colorWithHexString:colorString] forState:UIControlStateNormal];
    // TableDataBaseItemModel* model = _data[indexPath.section];
     /*[cell setBackgroundColor:[UIColor yellowColor]];*/
     return cell;
@@ -293,6 +320,8 @@ const static CGFloat lineHeight = 40; //一行的高度
     TableDataBaseItemModel* model = _headerData[0];
     vc.titleString = model.value;
     vc.isdownImage = _isdownImage;
+    vc.isSort = _isSort;
+   // vc.isdownImage = _isdownImage;
     __weak typeof(vc) weakVc = vc;
     [vc setWithSuperModel:_mainmeode column:indexPath.column+1];
     vc.sortBack = ^(id item){
@@ -309,16 +338,21 @@ const static CGFloat lineHeight = 40; //一行的高度
 - (void)form:(FormScrollView *)formScrollView didSelectColumnAtIndex:(NSInteger)column{ //排序
     DLog(@"column index == %zd",column);
     _clickBtn = column;
+    _isSort = YES;
     NSMutableArray* sortArray = [NSMutableArray array];
     for (NSArray *array in _data) {
         TableDataBaseItemModel *item = array[column+1];
         [sortArray addObject:item];
     }
-    
+    _isdownImage = !_isdownImage;
     TableDataItemModel* head = _headerData[column];
-    head.sortType = head.sortType==SortTypeUp? SortTypeDown:SortTypeUp;
+    if (_isdownImage) {
+        head.sortType = 0;
+    }
+    else{
+        head.sortType = 1;
+    }
     sortArray = [NSArray sortArray:sortArray key:@"value" down:head.sortType];
-    
     [_mainmeode.table.dataSet removeAllObjects];
     for (TableDataBaseItemModel* item in sortArray) {
         int index = item.lineTag;

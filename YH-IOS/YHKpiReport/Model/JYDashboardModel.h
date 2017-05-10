@@ -8,23 +8,11 @@
 
 #import "JYBaseModel.h"
 
-
-
 typedef NS_ENUM(NSUInteger, DashBoardType) {
-    DashBoardTypeBar        = 0,
-    DashBoardTypeLine       = 1,
-    DashBoardTypeRing       = 2,
-    DashBoardTypeNumber     = 3,
-};
-
-
-typedef NS_ENUM(NSUInteger, TrendTypeArrow) {
-    TrendTypeArrowUpRed         = 0,
-    TrendTypeArrowUpYellow      = 1,
-    TrendTypeArrowUpGreen       = 2,
-    TrendTypeArrowDownRed       = 3,
-    TrendTypeArrowDownYellow    = 4,
-    TrendTypeArrowDownGreen     = 5,
+    DashBoardTypeBar        = 1,
+    DashBoardTypeLine       = 2,
+    DashBoardTypeRing       = 3,
+    DashBoardTypeNumber     = 4,
 };
 
 
@@ -42,13 +30,10 @@ typedef NS_ENUM(NSUInteger, TrendTypeArrow) {
 @property (nonatomic, strong, readonly) NSDictionary *hightLightData; // 高亮数据
 // 下三项为高亮数据中附属的值
 @property (nonatomic, strong, readonly) NSString *floatRate; // 浮动率
-@property (nonatomic, assign, readonly) TrendTypeArrow arrow; // 箭头类型
 @property (nonatomic, strong, readonly) NSString *saleNumber; // 销售金额
+@property (nonatomic, assign, readonly) BOOL percentage; // 销售金额
 
 
-
-- (UIColor *)arrowToColor;
-+ (UIColor *)arrowToColor:(TrendTypeArrow)arrow;
 
 
 @end

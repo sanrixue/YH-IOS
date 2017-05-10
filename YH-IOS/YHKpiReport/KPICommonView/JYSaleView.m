@@ -76,7 +76,7 @@
 - (void)refreshSubViewData {
     self.groupNameLB.text = self.model.title;
     self.saleNumberLB.text = self.model.saleNumber;
-    unit.text = self.model.unit;    
+    unit.text = self.model.percentage ? @"%" : self.model.unit;    
 }
 
 @end

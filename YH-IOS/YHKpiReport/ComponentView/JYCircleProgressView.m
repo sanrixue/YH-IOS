@@ -46,7 +46,7 @@
         _circle.backgroundColor = [UIColor clearColor].CGColor;
         _circle.lineCap = kCALineCapRound;
         
-        [self relayoutLayer];
+        [self relayoutLayer];// 更新位置
         
         UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:_circle.bounds];
         _circle.path = path.CGPath;
@@ -134,8 +134,11 @@
     }
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
     animation.fromValue = @0.0;
-    animation.toValue = @(self.percent ?: 0.5);
+    animation.toValue = @(self.percent);
     animation.duration = self.interval;
+    animation.autoreverses = NO;
+    animation.fillMode = kCAFillModeForwards;
+    animation.removedOnCompletion = NO;
     [_circle addAnimation:animation forKey:@"MPStroke"];
     
 }

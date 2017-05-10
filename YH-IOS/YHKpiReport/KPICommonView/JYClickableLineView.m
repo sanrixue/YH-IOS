@@ -25,7 +25,6 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         [self initializeSubVeiw];
-        [self addGesture];
     }
     return self;
 }
@@ -34,14 +33,7 @@
     
     [self initializeTitle];
     [self initializeAxis];
-}
-
-- (void)addGesture {
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizer:)];
-    [self addGestureRecognizer:tap];
     
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizer:)];
-    [self addGestureRecognizer:pan];
 }
 
 - (void)initializeTitle {
@@ -109,7 +101,7 @@
     for (int i = 0; i < 4; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, 0, 50, scaleHeight)];
         CGPoint center = label.center;
-        center.y = scaleHeight * i + JYDefaultMargin;
+        center.y = scaleHeight * i + JYDefaultMargin + JYDefaultMargin;
         label.center = center;
         label.font = [UIFont systemFontOfSize:12];
         label.text = [NSString stringWithFormat:@"第%d周", i];
@@ -118,15 +110,16 @@
     
     // 横坐标
     UIView *axisXView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(lineView1.frame), CGRectGetWidth(infoView.bounds), kAxisXViewHeight)];
-    axisXView.backgroundColor = JYColor_ArrowColor_Yellow;
+    //axisXView.backgroundColor = JYColor_ArrowColor_Yellow;
     [infoView addSubview:axisXView];
     for (int i = 0; i < lineView1.points.count; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kBarHeight * 2, 30)];
         CGPoint center = label.center;
-        center.x = CGPointFromString(lineView1.points[i]).x + CGRectGetWidth(axisYView.frame) + JYDefaultMargin;
+        center.x = CGPointFromString(lineView1.points[i]).x + CGRectGetWidth(axisYView.frame);// + JYDefaultMargin;
         center.y = CGRectGetHeight(axisXView.bounds) / 2.0;
         label.center = center;
         label.font = [UIFont systemFontOfSize:12];
+        label.textAlignment = NSTextAlignmentCenter;
         label.text = [NSString stringWithFormat:@"W%d", i];
         [axisXView addSubview:label];
     }
@@ -137,16 +130,25 @@
 }
 
 
-- (void)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
-    
-    [lineView1 findNearestKeyPointOfPoint:[gestureRecognizer locationInView:lineView1]];
-    [lineView2 findNearestKeyPointOfPoint:[gestureRecognizer locationInView:lineView2]];
-}
-
 #pragma mark - <JYClickableLineDelegate>
 - (void)clickableLine:(JYClickableLine *)clickableLine didSelected:(NSInteger)index data:(id)data {
     
-    NSLog(@"%@", data);
+    if (self.delegate && [self.delegate respondsToSelector:@selector(moduleTwoBaseView:didSelectedAtIndex:data:)]) {
+        [self.delegate moduleTwoBaseView:self didSelectedAtIndex:index data:data];
+    }
+}
+
+- (void)clickableLine:(JYClickableLine *)clickableLine didSelected:(CGPoint)keyPoint {
+    if ([lineView2 isEqual:clickableLine]) {
+        [lineView1 findNearestKeyPointOfPoint:keyPoint];
+    }
+    else if ([lineView1 isEqual:clickableLine]) {
+        [lineView2 findNearestKeyPointOfPoint:keyPoint];
+    }
+}
+
+- (CGFloat)estimateViewHeight:(JYModuleTwoBaseModel *)model {
+    return JYViewWidth * 0.9;
 }
 
 @end

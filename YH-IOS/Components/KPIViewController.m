@@ -111,11 +111,11 @@
                 subjectView.link = data[@"link"];
                 subjectView.objectID = data[@"objectID"];
               if ([data[@"link"] rangeOfString:@"template/3/"].location != NSNotFound) {
-               // NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
+                NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
                 HomeIndexVC *vc = [[HomeIndexVC alloc] init];
                 vc.dataLink = data[@"link"];
                 vc.bannerTitle = data[@"bannerName"];
-              //  [vc setWithHomeIndexArray:models];
+                 [vc setWithHomeIndexArray:models];
                   UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
                 [self presentViewController:rootchatNav animated:YES completion:nil];
               }

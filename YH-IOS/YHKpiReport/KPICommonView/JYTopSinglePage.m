@@ -109,7 +109,7 @@
 
 - (JYHistogram *)histogram {
     if (!_histogram) {
-        _histogram = [[JYHistogram alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(ratio.frame) + JYDefaultMargin, JYScreenWidth * 0.88, 218 - CGRectGetMaxY(ratio.frame) - 2 * JYDefaultMargin)];
+        _histogram = [[JYHistogram alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(money.frame) + JYDefaultMargin, JYScreenWidth * 0.88, 218 - CGRectGetMaxY(ratio.frame) - 2 * JYDefaultMargin)];
         _histogram.barColor = [UIColor colorWithHexString:@"#40BBD5"];
         _histogram.lastBarColor = [UIColor colorWithHexString:@"#FBBC05"];
         [self addSubview:_histogram];
@@ -119,10 +119,11 @@
 
 - (JYCircleProgressView *)progress {
     if (!_progress) {
-        _progress = [[JYCircleProgressView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(ratio.frame) + JYDefaultMargin, JYScreenWidth * 0.88, 218 - CGRectGetMaxY(ratio.frame) - 2 * JYDefaultMargin)];
+        _progress = [[JYCircleProgressView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(ratio.frame) + JYDefaultMargin, JYScreenWidth * 0.88, kJYPageHeight - CGRectGetMaxY(ratio.frame) - 2 * JYDefaultMargin)];
         _progress.progressColor = [UIColor colorWithHexString:@"#FBBC05"];
         _progress.progressBackColor = [UIColor colorWithHexString:@"#E1E5E6"];
-        _progress.percent = 0.5;
+       // _progress.percent = [[self.model.floatRate substringFromIndex:2] floatValue];
+        _progress.percent = [self.model.saleNumber floatValue]/[self.model.hightLightData[@"compare"] floatValue];
         _progress.progressWidth = 8;
         _progress.interval = 1;
         [self addSubview:_progress];
@@ -182,6 +183,10 @@
     self.componentView.model = self.model;
     
     CGRect frame = CGRectMake(0, CGRectGetMaxY(ratio.frame) + JYDefaultMargin, width, height);
+    if (self.model.dashboardType == DashBoardTypeBar) {
+        frame.origin.y += (CGRectGetHeight(money.frame) + JYDefaultMargin / 2);
+        frame.size.height -= (CGRectGetHeight(money.frame) + JYDefaultMargin / 2);
+    }
     self.componentView.frame = frame;
     CGPoint center = self.componentView.center;
     center.x = CGRectGetWidth(self.bounds) / 2;

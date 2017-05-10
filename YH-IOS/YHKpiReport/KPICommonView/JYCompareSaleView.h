@@ -6,8 +6,8 @@
 //  Copyright © 2017年 YMS. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "JYModuleTwoBaseView.h"
 
-@interface JYCompareSaleView : UIView
+@interface JYCompareSaleView : JYModuleTwoBaseView
 
 @end

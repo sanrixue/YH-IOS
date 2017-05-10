@@ -165,7 +165,7 @@
                     [alert showSuccess:self title:@"温馨提示" subTitle:@"您当前的版本暂不支持该模块，请升级之后查看" closeButtonTitle:nil duration:0.0f];
                 }
             }*/
-            else if ([data[@"link"] rangeOfString:@"www.baidu.com"].location != NSNotFound){
+            else if ([data[@"link"] rangeOfString:@"whatever/group/1/original/kpi"].location != NSNotFound){
                 JYHomeViewController *jyHome = [[JYHomeViewController alloc]init];
                 jyHome.bannerTitle = data[@"bannerName"];
                 jyHome.dataLink = data[@"link"];

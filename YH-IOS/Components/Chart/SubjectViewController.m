@@ -367,7 +367,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      *  only inner link clean browser cache
      */
     [self clearBrowserCache];
-    [self showLoading:LoadingLoad];
+  //  [self showLoading:LoadingLoad];
     
     /*
      * format: /mobile/v1/group/:group_id/template/:template_id/report/:report_id
@@ -409,6 +409,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             [self clearBrowserCache];
             NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+            [MRProgressOverlayView dismissOverlayForView:self.browser animated:YES];
             self.isLoadFinish = !self.browser.isLoading;
         });
     });

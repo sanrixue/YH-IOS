@@ -20,7 +20,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, 0, frame.size.width - 7, frame.size.height / 2)];
+        _contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(7, frame.size.height / 4, frame.size.width - 7, frame.size.height / 2)];
         [self addSubview:_contentLabel];
     }
     return self;

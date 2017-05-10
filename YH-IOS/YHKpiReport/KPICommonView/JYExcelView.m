@@ -23,28 +23,24 @@
     return self;
 }
 
-- (void)dealloc {
-    
-}
-
 - (void)initializeSubView {
     
     JYFreezeWindowView *freezeView = [[JYFreezeWindowView alloc] initWithFrame:self.bounds FreezePoint:CGPointMake(54, 30) cellViewSize:CGSizeMake(100, 44)];
     freezeView.delegate = self;
     freezeView.dataSource = self;
     [freezeView setSignViewWithContent:@"冻结"];
-    freezeView.bounceStyle = JYFreezeWindowViewBounceStyleMain;
+    freezeView.bounceStyle = JYFreezeWindowViewBounceStyleNone;
     [self addSubview:freezeView];
 }
 
 
 #pragma mark - <JYFreezeWindowViewDataSource>
 - (NSInteger)numberOfSectionsInFreezeWindowView:(JYFreezeWindowView *)freezeWindowView {
-    return 100;
+    return 5;
 }
 
 - (NSInteger)numberOfRowsInFreezeWindowView:(JYFreezeWindowView *)freezeWindowView {
-    return 100;
+    return 5;
 }
 // mianCell
 - (JYMainViewCell *)freezeWindowView:(JYFreezeWindowView *)freezeWindowView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -70,7 +66,7 @@
             NSLog(@"重新排列 %@", title);
         }];
     }
-    cell.title = [NSString stringWithFormat:@"%zi", section];
+    cell.title = [NSString stringWithFormat:@"S %zi", section];
     return cell;
 }
 
@@ -85,7 +81,7 @@
         }];
     }
     
-    cell.title = [NSString stringWithFormat:@"%zi", row];
+    cell.title = [NSString stringWithFormat:@"R %zi", row];
     return cell;
 }
 
@@ -93,6 +89,12 @@
 #pragma mark - <JYFreezeWindowViewDelegate>
 - (void)freezeWindowView:(JYFreezeWindowView *)freezeWindowView didSelectIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%@", [NSString stringWithFormat:@"did seleced at section %zi row %zi", indexPath.section, indexPath.row]);
+    NSLog(@"%@", [NSString stringWithFormat:@"需要修改为点击侧边栏事件"]);
+}
+
+
+- (CGFloat)estimateViewHeight:(JYModuleTwoBaseModel *)model {
+    return 5 * 44 + 30;
 }
 
 

@@ -45,7 +45,7 @@
     
     NSInteger barCount = _dataSource.count * 2;
     __block CGFloat max = 0;
-    CGFloat widthPerBar = CGRectGetWidth(self.frame) / barCount;
+    CGFloat widthPerBar = CGRectGetWidth(self.frame) / (14.0 * 2);// !!!: 最大支持14条柱子
     [_dataSource enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         max = [obj floatValue] > max ? [obj floatValue] : max;
     }];
@@ -55,8 +55,10 @@
         CGFloat height = CGRectGetHeight(self.frame) * ([_dataSource[i / 2] floatValue] / max);
         CGRect frame = CGRectMake(i * widthPerBar + widthPerBar / 2, CGRectGetHeight(self.frame) - height, widthPerBar, height);
         UIBezierPath *path = [UIBezierPath bezierPath];
-        [path moveToPoint:CGPointMake(frame.origin.x + widthPerBar / 2, CGRectGetHeight(self.frame))];
-        [path addLineToPoint:CGPointMake(frame.origin.x + widthPerBar / 2, frame.origin.y / 2)];
+        CGPoint start = CGPointMake(frame.origin.x + widthPerBar / 2, CGRectGetHeight(self.frame));
+        CGPoint end = CGPointMake(frame.origin.x + widthPerBar / 2, frame.origin.y);
+        [path moveToPoint:start];
+        [path addLineToPoint:end];
         
         CAShapeLayer *barLayer = [CAShapeLayer layer];
         barLayer.path = path.CGPath;

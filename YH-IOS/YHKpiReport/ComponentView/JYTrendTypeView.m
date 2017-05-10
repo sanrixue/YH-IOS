@@ -49,6 +49,9 @@
         case TrendTypeArrowDownGreen:
             imageName = @"down_greenarrow";
             break;
+        case TrendTypeArrowNoArrow:
+            imageName = @"";
+            break;
             
         default:
             break;

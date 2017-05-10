@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JYDashboardModel.h"
+#import "JYComponentModel.h"
 
 @protocol JYBaseComponentViewProtocal <NSObject>
 

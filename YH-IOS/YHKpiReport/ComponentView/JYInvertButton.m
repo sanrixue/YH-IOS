@@ -29,7 +29,7 @@
 
 - (void)initializeSubView {
     
-    title = [[UILabel alloc] initWithFrame:CGRectMake((JYViewWidth - 60) / 2.0, (CGRectGetHeight(self.bounds) - 30) / 2.0, 60, 30)];
+    title = [[UILabel alloc] initWithFrame:CGRectMake(0, (CGRectGetHeight(self.bounds) - 30) / 2.0, 60, 30)];
     title.text = @"增长率";
     title.font = [UIFont systemFontOfSize:14];
     title.textAlignment = NSTextAlignmentCenter;

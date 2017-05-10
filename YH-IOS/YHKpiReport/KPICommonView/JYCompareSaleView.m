@@ -27,6 +27,7 @@
 }
 
 - (void)initializeSubView {
+    
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake((JYViewWidth - JYViewWidth * 0.6) / 2.0, 0, JYViewWidth * 0.6, JYViewHeight / 2.0)];
     //topView.backgroundColor = JYColor_ArrowColor_Red;
     [self addSubview:topView];
@@ -41,7 +42,7 @@
         if (i == 0) actualLB = number;
         else if (i == 2) targetLB = number;
             
-        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(number.frame), i==1?(CGRectGetMaxY(number.frame) - JYDefaultMargin):CGRectGetMaxY(number.frame), widthPer, 20)];
+        UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(number.frame), i==1?(CGRectGetMaxY(number.frame) - JYDefaultMargin):CGRectGetMaxY(number.frame), widthPer + JYDefaultMargin, 20)];
         title.text = titles[i];
         title.font = [UIFont systemFontOfSize:(i == 1?13:11)];
         //title.adjustsFontSizeToFitWidth = YES;
@@ -76,9 +77,11 @@
     frame.origin.x = CGRectGetMaxX(ratio.frame) + JYDefaultMargin;
     IV.frame = frame;
     
-    
-    
 }
 
+
+- (CGFloat)estimateViewHeight:(JYModuleTwoBaseModel *)model {
+    return JYViewWidth * 0.4;
+}
 
 @end

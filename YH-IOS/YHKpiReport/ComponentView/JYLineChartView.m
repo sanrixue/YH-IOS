@@ -11,6 +11,7 @@
 @interface JYLineChartView () <CAAnimationDelegate> {
     
     NSArray<NSString *> *keyPoints;
+    CGPoint partitionPoint;
 }
 
 @property (nonatomic, strong) CAShapeLayer *linelayer;
@@ -22,6 +23,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor whiteColor];
+        partitionPoint = CGPointZero;
     }
     return self;
 }
@@ -43,17 +45,31 @@
     }
     _dataSource = dataSource;
     
-    __block CGFloat maxValue = 0.0;
+    __block CGFloat maxValue = 0.0, minValue = NSNotFound;
     [dataSource enumerateObjectsUsingBlock:^(NSNumber * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         maxValue = maxValue > [obj floatValue] ? maxValue : [obj floatValue];
+        minValue = minValue < [obj floatValue] ? minValue : [obj floatValue];
     }];
     
-    CGFloat margin = CGRectGetWidth(self.frame) / (dataSource.count - 1);
+    // 考虑负数
+    CGFloat unitValue = minValue > 0 ? maxValue : (fabs(minValue) + maxValue);
+    partitionPoint.y = maxValue / unitValue;
+    
+    CGFloat margin = JYViewWidth / (dataSource.count - 1);
     NSMutableArray *points = [NSMutableArray arrayWithCapacity:dataSource.count];
+    CGFloat topHeight = (JYViewHeight * maxValue / unitValue);
+    CGFloat buttomHeight = JYViewHeight * fabs(minValue / unitValue);
     for (int i = 0; i < dataSource.count; i++) {
-        CGFloat y = CGRectGetHeight(self.frame) * (1 - [dataSource[i] floatValue] / maxValue);
+        CGFloat value = [dataSource[i] floatValue];
+        CGFloat y = 0;
+        if (value >= 0) {
+            
+            y = topHeight * (1 - value / unitValue);
+        }
+        else if (value < 0) {
+            y = topHeight + buttomHeight * fabs(value / minValue);
+        }
         CGFloat x = margin * i;
-        
         CGPoint point = CGPointMake(x, y);
         [points addObject:NSStringFromCGPoint(point)];
     }
@@ -70,9 +86,7 @@
 
 - (void)addLine {
     
-    for (CALayer *layer in self.layer.sublayers) {
-        [layer removeFromSuperlayer];
-    }
+    [self.layer.sublayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
     
     UIBezierPath *path = [UIBezierPath bezierPath];
     for (int i = 0; i < keyPoints.count; i++) {

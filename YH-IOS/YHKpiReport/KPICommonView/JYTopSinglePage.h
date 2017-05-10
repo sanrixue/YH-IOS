@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "JYDashboardModel.h"
 
+#define kJYPageHeight 218
+
 @interface JYTopSinglePage : UIView
 
 @property (nonatomic, copy) JYDashboardModel *model;

@@ -30,13 +30,21 @@
         self.backgroundColor = [UIColor clearColor];
         self.clipsToBounds = YES;
         [self refreshSubViewData];
-        self.userInteractionEnabled = NO;
+        [self addGesture];
     }
     return self;
 }
 
 - (void)dealloc {
     NSLog(@"%d -- %s", __LINE__, __func__);
+}
+
+- (void)addGesture {
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizer:)];
+    [self addGestureRecognizer:tap];
+    
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(gestureRecognizer:)];
+    [self addGestureRecognizer:pan];
 }
 
 - (void)drawRect:(CGRect)rect {
@@ -142,6 +150,15 @@
     animation.duration = 0.5;
     [linelayer addAnimation:animation forKey:nil];
     
+}
+
+
+- (void)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer {
+    
+    [self findNearestKeyPointOfPoint:[gestureRecognizer locationInView:self]];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(clickableLine:didSelected:)]) {
+        [self.delegate clickableLine:self didSelected:[gestureRecognizer locationInView:self]];
+    }
 }
 
 // 寻找最近的点

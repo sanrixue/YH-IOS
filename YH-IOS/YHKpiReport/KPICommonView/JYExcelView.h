@@ -6,21 +6,10 @@
 //  Copyright © 2017年 YMS. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-@class JYExcelView;
-
-@protocol JYExcelViewDelegate <NSObject>
-
-@optional
-- (void)excelView:(JYExcelView *)landscapeBarView didSelectedAtIndex:(NSInteger)idx data:(id)data;
+#import "JYModuleTwoBaseView.h"
 
 
-@end
+@interface JYExcelView : JYModuleTwoBaseView
 
-
-@interface JYExcelView : UIView
-
-@property (nonatomic, assign) id<JYExcelViewDelegate> delegate;
 
 @end

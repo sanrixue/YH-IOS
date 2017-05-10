@@ -15,7 +15,6 @@
 #import "JYTopSinglePage.h"
 #import "JYFallsView.h"
 
-#define kJYPageHeight 218
 #define kJYNotifyHeight 30
 
 @interface JYHomeViewController () <UITableViewDelegate, UITableViewDataSource, PagedFlowViewDelegate, PagedFlowViewDataSource, JYNotifyDelegate, JYFallsViewDelegate,UINavigationBarDelegate,UINavigationControllerDelegate> {
@@ -40,6 +39,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = JYColor_LightGray_White;
@@ -50,42 +50,14 @@
     
     [self.view addSubview:self.notifyView];
     [self.view addSubview:self.rootSCView];
-}
-
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:YES];
-    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-    //@{}代表Dictionary
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
-    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(2, 0, 70, 40)];
-    UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
-    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 15, 25)];
-    bakImage.image = imageback;
-    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
-    [backBtn addSubview:bakImage];
-    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 50, 25)];
-    backLabel.text = @"返回";
-    backLabel.textColor = [UIColor whiteColor];
-    [backBtn addSubview:backLabel];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
-    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
-    self.title = self.bannerTitle;
-}
-
-- (void)backAction{
-    if (self.navigationController && self.childViewControllers.count > 1) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }else{
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
+    
 }
 
 - (void)loadData {
     // 数据准备
     NSString *path = [[NSBundle mainBundle] pathForResource:@"kpi_data" ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:path];
-    NSArray *arraySource = [NSJSONSerialization JSONObjectWithData:data options:0 error:NULL];
+    NSArray *arraySource = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
     NSMutableArray<JYDashboardModel *> *arr = [NSMutableArray arrayWithCapacity:arraySource.count];
     [arraySource enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         JYDashboardModel *model = [JYDashboardModel modelWithParams:obj];
@@ -106,7 +78,7 @@
     }];
     dataListTop = [topList copy];
     
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];// 数据分组
     for (int i = 0; i < buttomList.count; i++) {
         NSMutableArray *arr = [NSMutableArray arrayWithArray:[dic objectForKey:buttomList[i].groupName]];
         [arr addObject:buttomList[i]];
@@ -115,15 +87,44 @@
     dataListButtom = [dic allValues];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(2, 0, 70, 40)];
+    UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 15, 25)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addSubview:bakImage];
+    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 50, 25)];
+    backLabel.text = @"返回";
+    backLabel.textColor = [UIColor whiteColor];
+    [backBtn addSubview:backLabel];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+  //  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Subject-Refresh"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(refreshView)];
+    self.title =self.bannerTitle;
+}
+
+
+- (void)backAction{
+    if (self.navigationController && self.childViewControllers.count > 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
 - (UIScrollView *)rootSCView {
     
     if (!_rootTBView) {
         //给通知视图预留40height
-        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight + 64, JYVCWidth, JYVCHeight - (kJYNotifyHeight + 64 + 49)) style:UITableViewStylePlain];
+        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight + 64, JYVCWidth, JYVCHeight - (kJYNotifyHeight + 64)) style:UITableViewStylePlain];
         _rootTBView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _rootTBView.showsVerticalScrollIndicator = NO;
         _rootTBView.dataSource = self;
         _rootTBView.delegate = self;
+        _rootTBView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _rootTBView.backgroundColor = JYColor_LightGray_White;
     }
     return _rootTBView;
@@ -131,7 +132,7 @@
 
 - (JYNotifyView *)notifyView {
     if (!_notifyView) {
-        NSArray *nots = @[@"模板3配置成功", @"模板5配置成功", @"KPI 页面配置成功"];
+        NSArray *nots = @[@"模板5以上线", @"模板三以上线", @"模板2以上线"];
         _notifyView = [[JYNotifyView alloc] initWithFrame:CGRectMake(0, 64, JYVCWidth, kJYNotifyHeight - 2)];
         _notifyView.notifications = nots;
         _notifyView.delegate = self;
@@ -157,11 +158,11 @@
 - (NSArray *)pages {
     NSMutableArray *temp = [NSMutableArray array];
     if (!_pages) {
-        for (int i = 0; i < dataList.count; i++) {
+        for (int i = 0; i < dataListTop.count; i++) {
             JYTopSinglePage *singlePage = [[JYTopSinglePage alloc] init];
             singlePage.backgroundColor = [UIColor whiteColor];
             singlePage.layer.cornerRadius = JYDefaultMargin;
-            singlePage.model = dataList[i];
+            singlePage.model = dataListTop[i];
             [temp addObject:singlePage];
         }
         _pages = [temp copy];
@@ -220,7 +221,7 @@
 
 #pragma mark - <PagedFlowViewDataSource>
 - (NSInteger)numberOfPagesInFlowView:(JYPagedFlowView *)flowView {
-    return dataList.count;
+    return dataListTop.count;
 }
 
 - (UIView *)flowView:(JYPagedFlowView *)flowView cellForPageAtIndex:(NSInteger)index {

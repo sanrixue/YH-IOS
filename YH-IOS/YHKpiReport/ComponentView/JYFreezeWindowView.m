@@ -301,6 +301,10 @@
     [self.mainScrollView setContentSize:CGSizeMake(self.cellViewSize.width * sectionNumber, self.cellViewSize.height * rowNumber)];
     [self.sectionScrollView setContentSize:CGSizeMake(self.cellViewSize.width * sectionNumber, 0)];
     [self.rowScrollView setContentSize:CGSizeMake(0, self.cellViewSize.height * rowNumber)];
+    if (self.bounceStyle == JYFreezeWindowViewBounceStyleNone) {
+        self.mainScrollView.bounds = CGRectMake(0, 0, self.mainScrollView.frame.size.width, self.mainScrollView.contentSize.height);
+        self.rowScrollView.bounds = CGRectMake(0, 0, self.rowScrollView.frame.size.width, self.rowScrollView.contentSize.height);
+    }
 }
 
 

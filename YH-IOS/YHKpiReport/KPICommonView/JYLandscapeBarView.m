@@ -11,7 +11,10 @@
 #import "JYInvertButton.h"
 #import "JYBlockButton.h"
 
-@interface JYLandscapeBarView ()
+@interface JYLandscapeBarView () {
+    JYLandscapeBar *bar;
+    UIView *titleView;
+}
 
 @property (nonatomic, strong) NSArray *dataSource;
 
@@ -32,14 +35,19 @@
 
 - (NSArray *)dataSource {
     if (!_dataSource) {
-        _dataSource = @[@"2050德芙丝滑巧克力", @"201523可比克薯片", @"201521圣诞苹果", @"20245大荔枝", @"20863德州大扒鸡", @"20823黄金弥胡桃"];
+        _dataSource = @[];
     }
     return _dataSource;
 }
 
 - (void)initializeSubVeiw {
     
-    UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JYViewWidth, 40)];
+    [self initializeTitle];
+    [self initializeAxis];
+}
+
+- (void)initializeTitle {
+    titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JYViewWidth, 40)];
     [self addSubview:titleView];
     
     for (int i = 0; i < 2; i++) {
@@ -53,10 +61,15 @@
     UIView *sepLine = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(titleView.frame), JYViewWidth, 0.5)];
     sepLine.backgroundColor = JYColor_TextColor_Gray;
     [titleView addSubview:sepLine];
-    JYLandscapeBar *bar = [[JYLandscapeBar alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.bounds) / 2.0, CGRectGetMaxY(titleView.frame), CGRectGetWidth(self.bounds) / 2.0, CGRectGetHeight(self.frame))];
+
+}
+
+- (void)initializeAxis {
+    
+    bar = [[JYLandscapeBar alloc] initWithFrame:CGRectMake(CGRectGetWidth(self.bounds) / 2.0, CGRectGetMaxY(titleView.frame), CGRectGetWidth(self.bounds) / 2.0, CGRectGetHeight(self.frame))];
     //bar.backgroundColor = JYColor_ArrowColor_Yellow;
     [self addSubview:bar];
-
+    
     UIView *proInfoView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMinY(bar.frame), JYViewWidth / 2.0, CGRectGetHeight(bar.frame))];
     [self addSubview:proInfoView];
     
@@ -91,15 +104,18 @@
         ratio.font = [UIFont systemFontOfSize:12];
         [proInfoView addSubview:ratio];
     }
-    
 }
 
 - (void)clickActive:(UIButton *)sender {
     NSInteger i = sender.tag + 10000;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(landscapeBarView:didSelectedAtIndex:data:)]) {
-        [self.delegate landscapeBarView:self didSelectedAtIndex:i data:self.dataSource[i]];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(moduleTwoBaseView:didSelectedAtIndex:data:)]) {
+        [self.delegate moduleTwoBaseView:self didSelectedAtIndex:i data:self.dataSource[i]];
     }
 }
 
+- (CGFloat)estimateViewHeight:(JYModuleTwoBaseModel *)model {
+    
+    return CGRectGetHeight(bar.frame) + CGRectGetHeight(titleView.frame);
+}
 
 @end

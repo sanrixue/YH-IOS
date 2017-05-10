@@ -27,16 +27,22 @@
     return self;
 }
 
+
+- (JYModuleTwoBaseModel *)moduleModel {
+    return [JYModuleTwoBaseModel modelWithParams:@{@"data": @{@"data": @[@"0.9", @"0.9", @"0.9", @"0.8", @"0.1", @"0.169", @"0.23", @"0.283"]}}];
+}
+
+
 - (void)initializeSubVeiw {
     
     [self initializeTitle];
     [self initializeAxis];
+    
 }
 
 - (void)initializeTitle {
     
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, JYViewWidth, JYViewHeight * 0.3)];
-    //titleView.backgroundColor = JYColor_LightGray_White;
     [self addSubview:titleView];
     
     UILabel *timeLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin / 2, 50, 20)];
@@ -47,12 +53,10 @@
     UILabel *title;
     for (int i = 0; i < 3; i++) {
         UILabel *number = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(timeLB.frame) + ((3 * JYDefaultMargin) + 50) * i, CGRectGetMaxY(timeLB.frame) + 4, 50, 20)];
-        //number.backgroundColor = JYColor_LightGray_White;
         number.text = @"2030";
         [titleView addSubview:number];
         
         title = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(number.frame), CGRectGetMaxY(number.frame), 50, 20)];
-        //title.backgroundColor = JYColor_LightGray_White;
         title.text = @"指标1";
         title.font = [UIFont systemFontOfSize:12];
         [titleView addSubview:title];
@@ -73,27 +77,26 @@
 - (void)initializeAxis {
     
     UIView *infoView = [[UIView alloc] initWithFrame:CGRectMake(0, JYViewHeight*0.3, JYViewWidth, JYViewHeight*0.7)];
-    //infoView.backgroundColor = JYColor_LightGray_White;
     [self addSubview:infoView];
     
     JYPortraitBar *portraitBar = [[JYPortraitBar alloc] initWithFrame:CGRectMake(CGRectGetWidth(infoView.bounds) / 5, JYDefaultMargin, CGRectGetWidth(infoView.bounds) * 4 / 5, CGRectGetHeight(infoView.bounds) - kAxisXViewHeight - JYDefaultMargin)];
-    //portraitBar.backgroundColor = JYColor_LightGray_White;
+    portraitBar.model = self.moduleModel.commponentModel;
     [infoView addSubview:portraitBar];
+    
     // 添加点击
     for (int i = 0; i < portraitBar.pionts.count; i++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(0, 0, kBarHeight, CGRectGetHeight(portraitBar.bounds));
         [btn addTarget:self action:@selector(clickActive:) forControlEvents:UIControlEventTouchUpInside];
         CGPoint center = btn.center;
+        btn.tag = -10000 + i;
         center.x = CGPointFromString(portraitBar.pionts[i]).x;
         btn.center = center;
-        //btn.backgroundColor = [UIColor colorWithRed:0.84 green:0.30 blue:0.19 alpha:0.1];
         [portraitBar addSubview:btn];
     }
     
     // 纵坐标
     UIView *axisYView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(infoView.bounds) / 5, CGRectGetHeight(infoView.bounds))];
-    //axisYView.backgroundColor = JYColor_ArrowColor_Red;
     [infoView addSubview:axisYView];
     CGFloat scaleHeight = (CGRectGetHeight(axisYView.bounds) - kAxisXViewHeight) / 4;
     for (int i = 0; i < 4; i++) {
@@ -108,7 +111,6 @@
     
     // 横坐标
     UIView *axisXView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(portraitBar.frame), CGRectGetWidth(infoView.bounds), kAxisXViewHeight)];
-    //axisXView.backgroundColor = JYColor_ArrowColor_Yellow;
     [infoView addSubview:axisXView];
     for (int i = 0; i < portraitBar.pionts.count; i++) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kBarHeight * 2, 30)];
@@ -128,9 +130,13 @@
 
 - (void)clickActive:(UIButton *)sender {
     NSInteger i = sender.tag + 10000;
-    if (self.delegate && [self.delegate respondsToSelector:@selector(portraitBarView:didSelectedAtIndex:data:)]) {
-        [self.delegate portraitBarView:self didSelectedAtIndex:i data:self.dataSource[i]];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(moduleTwoBaseView:didSelectedAtIndex:data:)]) {
+        [self.delegate moduleTwoBaseView:self didSelectedAtIndex:i data:self.moduleModel.commponentModel.chartData[i]];
     }
+}
+
+- (CGFloat)estimateViewHeight:(JYModuleTwoBaseModel *)model {
+    return JYViewWidth * 0.9;
 }
 
 @end

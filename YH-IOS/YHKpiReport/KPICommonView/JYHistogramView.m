@@ -58,6 +58,7 @@
     groupType.text = @"第二集群月累计同店比";
     groupType.numberOfLines = 2;
     groupType.textColor = [UIColor colorWithHexString:@"#323232"];
+    groupType.adjustsFontSizeToFitWidth = YES;
     groupType.font = [UIFont systemFontOfSize:14];
     [self addSubview:groupType];
     
@@ -75,6 +76,7 @@
     money.text = @"2,353";
     money.textColor = [UIColor colorWithHexString:@"#FBBC05"];
     money.font = [UIFont systemFontOfSize:30];
+    money.adjustsFontSizeToFitWidth = YES;
     money.textAlignment = NSTextAlignmentCenter;
     [self addSubview:money];
     
@@ -91,14 +93,14 @@
 
 - (void)refreshSubViewData {
     
-    histogram.dataSource = self.model.chartData; //@[@"33", @"5", @"7", @"3", @"33", @"0", @"10"];
+    histogram.dataSource = self.model.chartData;
     groupType.text = self.model.title;
     trendType.arrow = self.model.arrow;
     ratio.text = self.model.floatRate;
     ratio.textColor = self.model.arrowToColor;
     money.text = self.model.saleNumber;
     money.textColor = self.model.arrowToColor;
-    unit.text = self.model.unit;
+    unit.text = self.model.percentage ? @"%" : self.model.unit;
     
 }
 

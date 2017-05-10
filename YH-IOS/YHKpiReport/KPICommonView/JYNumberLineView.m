@@ -79,10 +79,10 @@
 
 - (UILabel *)groupNameLB {
     if (!_groupNameLB) {
-        _groupNameLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, CGRectGetMaxY(self.lineView.frame) + JYDefaultMargin * 2, JYViewWidth, 20)];
+        _groupNameLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, CGRectGetMaxY(self.lineView.frame) + JYDefaultMargin * 2, JYViewWidth - JYDefaultMargin * 2 - 15, 15)];
         _groupNameLB.textColor = [UIColor colorWithHexString:@"#323232"];
         _groupNameLB.text = @"第二集群销售额";
-        
+        _groupNameLB.adjustsFontSizeToFitWidth = YES;
     }
     return _groupNameLB;
 }
@@ -107,11 +107,12 @@
 
 - (UILabel *)saleNumberLB {
     if (!_saleNumberLB) {
-        _saleNumberLB = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.trendTypeView.frame) + JYDefaultMargin + 20 + JYDefaultMargin, JYViewWidth, 33)];
+        _saleNumberLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, CGRectGetMaxY(self.trendTypeView.frame) + JYDefaultMargin + 20 + JYDefaultMargin, JYViewWidth - JYDefaultMargin * 2, 33)];
         _saleNumberLB.text = @"2,460";
         _saleNumberLB.textAlignment = NSTextAlignmentCenter;
         _saleNumberLB.font = [UIFont systemFontOfSize:30];
         _saleNumberLB.textColor = JYColor_TextColor_Gray;
+        _saleNumberLB.adjustsFontSizeToFitWidth = YES;
     }
     return _saleNumberLB;
 }
@@ -128,7 +129,7 @@
     self.saleNumberLB.text = self.model.saleNumber;
     self.saleNumberLB.textColor = self.model.arrowToColor;
     
-    unit.text = self.model.unit;
+    unit.text = self.model.percentage ? @"%" : self.model.unit;
 }
 
 @end

@@ -62,13 +62,19 @@
 }
 
 - (NSString *)floatRate {
-    CGFloat flt = [self.hightLightData[@"compare"] floatValue];
-    NSString *rate = flt >= 0 ? [NSString stringWithFormat:@"+ %.1f", flt] : [NSString stringWithFormat:@"- %f", flt];
+    CGFloat flt = ([self.hightLightData[@"number"] floatValue] - [self.hightLightData[@"compare"] floatValue])/([self.hightLightData[@"compare"] floatValue]);
+    flt = !isnan(flt) ? flt : 0.0;
+    flt = !isinf(flt) ? flt : [self.hightLightData[@"number"] floatValue];
+    NSString *rate = [NSString stringWithFormat:@"%.2f", flt];
     return rate;
 }
 
 - (TrendTypeArrow)arrow {
-    return [self.hightLightData[@"arrow"] integerValue];
+    TrendTypeArrow arrow = [self.hightLightData[@"arrow"] integerValue];
+    if ([self.hightLightData[@"arrow"] isKindOfClass:[NSString class]]) {
+        arrow = TrendTypeArrowNoArrow;
+    }
+    return arrow;
 }
 
 - (NSString *)saleNumber {
@@ -79,36 +85,8 @@ NSString * numberToString(NSNumber *number) {
     return [NSString stringWithFormat:@"%@", number];
 }
 
-- (UIColor *)arrowToColor {
-    
-    return [[self class] arrowToColor:self.arrow];
-}
-
-+ (UIColor *)arrowToColor:(TrendTypeArrow)arrow {
-    UIColor *color;
-    
-    switch (arrow) {
-        case TrendTypeArrowUpRed:
-        case TrendTypeArrowDownRed:
-            color = [UIColor colorWithHexString:@"EA4335"];
-            break;
-            
-        case TrendTypeArrowUpGreen:
-        case TrendTypeArrowDownGreen:
-            color = [UIColor colorWithHexString:@"34AB53"];
-            break;
-            
-        case TrendTypeArrowUpYellow:
-        case TrendTypeArrowDownYellow:
-            color = [UIColor colorWithHexString:@"FBBC05"];
-            break;
-            
-        default:
-            color = [UIColor lightGrayColor]; // 灰色表示未定义
-            break;
-    }
-    
-    return color;
+- (BOOL)percentage {
+    return [self.hightLightData[@"percentage"] boolValue];
 }
 
 @end

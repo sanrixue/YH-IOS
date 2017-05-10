@@ -10,10 +10,10 @@
 
 @implementation JYBaseComponentView
 
-- (void)setModel:(JYDashboardModel *)model {
+- (void)setModel:(JYBaseModel *)model {
     if (![_model isEqual:model]) {
         _model = model;
-        //[self refreshSubViewData];
+        [self refreshSubViewData];
     }
 }
 

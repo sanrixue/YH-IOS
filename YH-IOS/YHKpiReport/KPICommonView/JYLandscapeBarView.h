@@ -6,19 +6,9 @@
 //  Copyright © 2017年 YMS. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "JYModuleTwoBaseView.h"
 
-@class JYLandscapeBarView;
+@interface JYLandscapeBarView : JYModuleTwoBaseView
 
-@protocol JYLandscapeBarViewDelegate <NSObject>
-
-- (void)landscapeBarView:(JYLandscapeBarView *)landscapeBarView didSelectedAtIndex:(NSInteger)idx data:(id)data;
-
-
-@end
-
-@interface JYLandscapeBarView : UIView
-
-@property (nonatomic, assign) id<JYLandscapeBarViewDelegate> delegate;
 
 @end

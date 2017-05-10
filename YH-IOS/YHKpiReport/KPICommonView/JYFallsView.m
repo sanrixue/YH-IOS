@@ -37,21 +37,6 @@
 
 - (UICollectionView *)collectView {
     if (!_collectView) {
-//        __weak typeof(self) weakSelf = self;
-//        JYFallsLayout *layout = [[JYFallsLayout alloc] init];// 全部属性默认
-//        layout.delegate = self;
-//        [layout computeIndexCellHeightWithWidthBlock:^CGFloat(NSIndexPath *indexPath) {
-//            __strong typeof(weakSelf) inStrongSelf = weakSelf;
-//            CGFloat itemH;
-//            if ((inStrongSelf.dataSource[indexPath.row]).dashboardType == DashBoardTypeLine ||
-//                (inStrongSelf.dataSource[indexPath.row]).dashboardType == DashBoardTypeBar) {
-//                itemH = 263;
-//            }
-//            else {
-//                itemH = (263 - JYDefaultMargin) / 2.0;
-//            }
-//            return itemH;
-//        }];
         
         JYWaterLayout *layout = [[JYWaterLayout alloc] init];
         layout.delegate = self;
@@ -65,6 +50,7 @@
         _collectView.dataSource = self;
         _collectView.delegate = self;
         _collectView.scrollEnabled = NO;
+        
     }
     
     return _collectView;
@@ -90,6 +76,7 @@
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return self.dataSource.count;
 }
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     JYFallsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JYFallsCell" forIndexPath:indexPath];
@@ -123,14 +110,13 @@
     CGFloat itemH;
     if (([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeLine ||
         ([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeBar) {
-        itemH = 263;
+        itemH = 280;
     }
     else {
         itemH = (263 - JYDefaultMargin) / 2.0;
     }
     return itemH;
 }
-
 
 
 @end

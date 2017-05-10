@@ -98,9 +98,9 @@
 - (void)refreshSubViewData {
     
     self.title.text = self.model.title;
-    self.progressView.percent = 0.8;
+    self.progressView.percent =[self.model.saleNumber floatValue]/[self.model.hightLightData[@"compare"] floatValue];
     self.saleNumberLB.text = self.model.saleNumber;
-    unit.text = self.model.unit;
+    unit.text = self.model.percentage ? @"%" : self.model.unit;
 }
 
 

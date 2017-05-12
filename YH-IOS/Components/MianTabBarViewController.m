@@ -25,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self addchildControllers];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -35,6 +36,15 @@
 {
     return YES;
 }
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 
 // 支持竖屏显示
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations

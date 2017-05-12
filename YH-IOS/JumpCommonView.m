@@ -1,32 +1,31 @@
 //
-//  CommonMenuView.m
-//  PopMenuTableView
+//  JumpCommonView.m
+//  YH-IOS
 //
-//  Created by 孔繁武 on 2016/12/1.
-//  Copyright © 2016年 KongPro. All rights reserved.
+//  Created by li hao on 17/5/12.
+//  Copyright © 2017年 com.intfocus. All rights reserved.
 //
 
-#import "CommonMenuView.h"
+#import "JumpCommonView.h"
 #import "UIView+AdjustFrame.h"
 #import "MenuModel.h"
 #import "MenuTableViewCell.h"
 
-#define kScreenHeight [UIScreen mainScreen].bounds.size.height
-#define kScreenWidth [UIScreen mainScreen].bounds.size.width
-#define kMenuTag 201712
-#define kCoverViewTag 201722
+
+#define kMenuTag1 201713
+#define kCoverViewTag1 201723
 #define kMargin 8
 #define kTriangleHeight 10 // 三角形的高
 #define kRadius 5 // 圆角半径
 #define KDefaultMaxValue 6  // 菜单项最大值
 
-@interface CommonMenuView () <UITableViewDataSource, UITableViewDelegate>
-@property (nonatomic,strong) CommonMenuView * selfMenu;
+@interface JumpCommonView () <UITableViewDataSource, UITableViewDelegate>
+@property (nonatomic,strong) JumpCommonView* selfMenu;
 @property (nonatomic,strong) UITableView * contentTableView;;
 @property (nonatomic,copy) NSMutableArray * menuDataArray;
 @end
 
-@implementation CommonMenuView {
+@implementation JumpCommonView{
     UIView *_backView;
     CGFloat arrowPointX; // 箭头位置
 }
@@ -60,7 +59,7 @@
 }
 
 - (void)setUpUI{
-  //  self.backgroundColor = [UIColor colorWithRed:61/255.0 green:61/255.0 blue:61/255.0 alpha:1];
+    //  self.backgroundColor = [UIColor colorWithRed:61/255.0 green:61/255.0 blue:61/255.0 alpha:1];
     self.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     arrowPointX = self.width * 0.5;
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, kTriangleHeight, self.width, self.height)];
@@ -81,13 +80,13 @@
     backView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.3];
     [backView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)]];
     backView.alpha = 0;
-    backView.tag = kCoverViewTag;
+    backView.tag = kCoverViewTag1;
     _backView = backView;
     [[UIApplication sharedApplication].keyWindow addSubview:backView];
     [backView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(backView.superview);
     }];
-
+    
     CAShapeLayer *lay = [self getBorderLayer];
     self.layer.mask = lay;
     [self addSubview:tableView];
@@ -102,7 +101,7 @@
     MenuModel *model = self.menuDataArray[indexPath.row];
     MenuTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass([MenuTableViewCell class]) forIndexPath:indexPath];
     cell.menuModel = model;
-//    cell.backgroundColor = [UIColor clearColor];
+    //    cell.backgroundColor = [UIColor clearColor];
     return cell;
 }
 
@@ -172,7 +171,7 @@
 }
 
 - (void)updateFrameForMenu{
-    CommonMenuView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag];
+    JumpCommonView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:+1];
     menuView.maxValueForItemCount = menuView.menuDataArray.count;
     menuView.transform = CGAffineTransformMakeScale(1.0, 1.0);;
     menuView.contentTableView.height = 40 * menuView.maxValueForItemCount;
@@ -226,40 +225,40 @@
 }
 
 #pragma mark --- 类方法封装
-+ (CommonMenuView *)createMenuWithFrame:(CGRect)frame target:(UIViewController *)target dataArray:(NSArray *)dataArray itemsClickBlock:(void(^)(NSString *str, NSInteger tag))itemsClickBlock backViewTap:(void(^)())backViewTapBlock{
++ (JumpCommonView *)createMenuWithFrame:(CGRect)frame target:(UIViewController *)target dataArray:(NSArray *)dataArray itemsClickBlock:(void(^)(NSString *str, NSInteger tag))itemsClickBlock backViewTap:(void(^)())backViewTapBlock{
     
     CGFloat menuWidth = frame.size.width ? frame.size.width : 140;
-    CommonMenuView *menuView = [[CommonMenuView alloc] initWithFrame:CGRectMake(0, 0, menuWidth, 40 * dataArray.count)];
+    JumpCommonView *menuView = [[JumpCommonView alloc] initWithFrame:CGRectMake(0, 0, menuWidth, 40 * dataArray.count)];
     menuView.menuDataArray = [[NSMutableArray alloc]init];
     menuView.selfMenu = menuView;
     menuView.itemsClickBlock = itemsClickBlock;
     menuView.backViewTapBlock = backViewTapBlock;
     menuView.menuDataArray = [NSMutableArray arrayWithArray:dataArray];
     menuView.maxValueForItemCount = 6;
-    menuView.tag = kMenuTag;
+    menuView.tag = kMenuTag1;
     return menuView;
 }
 
 + (void)showMenuAtPoint:(CGPoint)point{
-    CommonMenuView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag];
+    JumpCommonView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag1];
     [menuView displayAtPoint:point];
 }
 
 + (void)hidden{
-    CommonMenuView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag];
+    JumpCommonView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag1];
     [menuView hiddenMenu];
 }
 
 + (void)clearMenu{
-    [CommonMenuView hidden];
-    CommonMenuView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag];
-    UIView *coverView = [[UIApplication sharedApplication].keyWindow viewWithTag:kCoverViewTag];
+    [JumpCommonView hidden];
+    JumpCommonView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag1];
+    UIView *coverView = [[UIApplication sharedApplication].keyWindow viewWithTag:kCoverViewTag1];
     [menuView removeFromSuperview];
     [coverView removeFromSuperview];
 }
 
 + (void)appendMenuItemsWith:(NSArray *)appendItemsArray{
-    CommonMenuView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag];
+    JumpCommonView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag1];
     NSMutableArray *tempMutableArr = [NSMutableArray arrayWithArray:menuView.menuDataArray];
     [tempMutableArr addObjectsFromArray:appendItemsArray];
     menuView.menuDataArray = tempMutableArr;
@@ -268,7 +267,7 @@
 }
 
 + (void)updateMenuItemsWith:(NSArray *)newItemsArray{
-    CommonMenuView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag];
+    JumpCommonView *menuView = [[UIApplication sharedApplication].keyWindow viewWithTag:kMenuTag1];
     [menuView.menuDataArray removeAllObjects];
     menuView.menuDataArray = [NSMutableArray arrayWithArray:newItemsArray];
     [menuView.contentTableView reloadData];

@@ -60,6 +60,8 @@
     for (int i = 0; i < ntCount; i++) {
         
         UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(8, height * i, wight, height)];
+        lb.font = [UIFont systemFontOfSize:13];
+        lb.textColor = [UIColor colorWithHexString:@"999"];
         [sc addSubview:lb];
         
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];

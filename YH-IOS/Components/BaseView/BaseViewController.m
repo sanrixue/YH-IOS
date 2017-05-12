@@ -31,6 +31,14 @@
     }
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.idView setHidden:YES];
@@ -173,10 +181,6 @@
 //- (BOOL)prefersStatusBarHidden {
 //    return NO;
 //}
-
--(UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

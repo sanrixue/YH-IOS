@@ -41,6 +41,8 @@ const static CGFloat lineHeight = 40; //一行的高度
     _isSort = NO;
     _isdownImage = YES;
     _clickBtn = -1;
+     self.menuArray = [self getMymenuArray];
+      self.menuView = [self getMymenuView];
      _mainmeode = [SuperChartMainModel testModel:_dataLink];
     if (!_mainmeode || !_mainmeode.name) {
         UIView *refreshView = [[UIView alloc]initWithFrame:CGRectMake(0, 94, SCREEN_WIDTH, SCREEN_HEIGHT-64 )];
@@ -57,7 +59,7 @@ const static CGFloat lineHeight = 40; //一行的高度
     self.title = _superModel.name;
     [self formView];
     [CommonMenuView clearMenu]; // 清除window菜单
-    [self menuView]; //重新生成菜单
+    [self getMymenuView]; //重新生成菜单
     _curLineNum = 1;
     [self.formView reloadData];
 }
@@ -100,7 +102,13 @@ const static CGFloat lineHeight = 40; //一行的高度
 }
 /** 展示菜单 */
 - (void)showMenu:(UIButton*)sender{
+    self.menuView = nil;
+    self.menuArray = [self getMymenuArray];
     [CommonMenuView showMenuAtPoint:CGPointMake(sender.centerX, sender.bottom)];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
 }
 
 #pragma mark - 处理菜单点击
@@ -369,8 +377,7 @@ const static CGFloat lineHeight = 40; //一行的高度
 //    }];
 }
 
-- (NSArray *)menuArray{
-    if (!_menuArray) {
+- (NSArray *)getMymenuArray{
       //  NSDictionary *dict1 = @{@"imageName" : @"icon_sound",
           //                      @"itemName" : @"语音播报"
         //                        };
@@ -387,19 +394,17 @@ const static CGFloat lineHeight = 40; //一行的高度
                                 @"itemName" : @"行距"
                                 };
         _menuArray = @[dict3,dict5];
-    }
     return _menuArray;
 }
 
-- (CommonMenuView *)menuView{
-    if (!_menuView) {
+- (CommonMenuView *)getMymenuView{
+    self.menuArray = [self getMymenuArray];
         MJWeakSelf;
         _menuView = [CommonMenuView createMenuWithFrame:CGRectZero target:self dataArray:self.menuArray itemsClickBlock:^(NSString *str, NSInteger tag) {
             [weakSelf menuActionTitle:str];
         } backViewTap:^{
             
         }];
-    }
     _menuView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     return _menuView;
 }

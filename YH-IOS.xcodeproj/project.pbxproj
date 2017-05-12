@@ -91,6 +91,7 @@
 		C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */; };
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
 		F6025C8D1EC4477B0025CC71 /* JYBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6025C8C1EC4477B0025CC71 /* JYBaseViewController.m */; };
+		F6025CB31EC5E2CE0025CC71 /* JumpCommonView.m in Sources */ = {isa = PBXBuildFile; fileRef = F6025CB21EC5E2CE0025CC71 /* JumpCommonView.m */; };
 		F62456391EA5FACD006834D2 /* Foundation + Log.m in Sources */ = {isa = PBXBuildFile; fileRef = F62455EE1EA5FACD006834D2 /* Foundation + Log.m */; };
 		F624563A1EA5FACD006834D2 /* GJAutoCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F62455F11EA5FACD006834D2 /* GJAutoCycleScrollView.m */; };
 		F624563B1EA5FACD006834D2 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = F62455F41EA5FACD006834D2 /* iCarousel.m */; };
@@ -560,6 +561,8 @@
 		F4C953F159F46DB4D2BB1AE9 /* libPods-YH-IOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6025C8B1EC4477B0025CC71 /* JYBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYBaseViewController.h; sourceTree = "<group>"; };
 		F6025C8C1EC4477B0025CC71 /* JYBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYBaseViewController.m; sourceTree = "<group>"; };
+		F6025CB11EC5E2CE0025CC71 /* JumpCommonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JumpCommonView.h; sourceTree = "<group>"; };
+		F6025CB21EC5E2CE0025CC71 /* JumpCommonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JumpCommonView.m; sourceTree = "<group>"; };
 		F62455EE1EA5FACD006834D2 /* Foundation + Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation + Log.m"; sourceTree = "<group>"; };
 		F62455F01EA5FACD006834D2 /* GJAutoCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJAutoCycleScrollView.h; sourceTree = "<group>"; };
 		F62455F11EA5FACD006834D2 /* GJAutoCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJAutoCycleScrollView.m; sourceTree = "<group>"; };
@@ -2128,6 +2131,8 @@
 				F660A3EB1EBAD69B00C6C510 /* SuperChartMainModel.m */,
 				F63D49F51EB329A20004BCC8 /* SuperChartVc.h */,
 				F63D49F61EB329A20004BCC8 /* SuperChartVc.m */,
+				F6025CB11EC5E2CE0025CC71 /* JumpCommonView.h */,
+				F6025CB21EC5E2CE0025CC71 /* JumpCommonView.m */,
 				F63D49F71EB329A20004BCC8 /* SuperChartVc.xib */,
 			);
 			name = SuperReport;
@@ -2909,6 +2914,7 @@
 				F62457E71EA5FD01006834D2 /* ALView+PureLayout.m in Sources */,
 				F68C25DE1EC2D4790069C041 /* JYLineChartView.m in Sources */,
 				F62457501EA5FBB2006834D2 /* PositiveNegativeBarChartViewController.m in Sources */,
+				F6025CB31EC5E2CE0025CC71 /* JumpCommonView.m in Sources */,
 				F624564F1EA5FACD006834D2 /* PSTAlertController.m in Sources */,
 				C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */,
 				F624572C1EA5FBB1006834D2 /* AnotherBarChartViewController.m in Sources */,

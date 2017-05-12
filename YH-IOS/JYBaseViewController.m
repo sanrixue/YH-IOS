@@ -16,7 +16,7 @@
 #import "LBXScanWrapper.h"
 #import "SubLBXScanViewController.h"
 #import "User.h"
-#import "CommonMenuView.h"
+#import "JumpCommonView.h"
 @interface JYBaseViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate>
 // 设置按钮点击下拉菜单
 @property (nonatomic, strong) NSArray *dropMenuTitles;
@@ -27,7 +27,7 @@
 @property (strong, nonatomic) NSString *sharedPath;
 @property (nonatomic, strong) NSMutableArray* menuArray;
 @property (nonatomic, assign) NSInteger curLineNum;
-@property (nonatomic, strong) CommonMenuView* menuView;
+@property (nonatomic, strong) JumpCommonView* menuView;
 
 @end
 
@@ -41,23 +41,29 @@
     [self.navigationController.navigationBar addSubview:imageView];
     self.user = [[User alloc] init];
     [self initDropMenu];
+    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
-    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     //@{}代表Dictionary
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.sharedPath = [FileUtils sharedPath];
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
-    [CommonMenuView clearMenu]; // 清除window菜单
+    [JumpCommonView clearMenu]; // 清除window菜单
     [self menuView]; //重新生成菜单
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem createBarButtonItemWithImage:@"Banner-Setting" target:self action:@selector(showMenu:)];
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem createBarButtonItemWithImage:@"Banner-Setting" target:self action:@selector(showMyMenu:)];
+
     // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
 }
 
 
@@ -91,12 +97,11 @@
 }
 
 /** 展示菜单 */
-- (void)showMenu:(UIButton*)sender{
-    [CommonMenuView showMenuAtPoint:CGPointMake(sender.centerX, sender.bottom+10)];
+- (void)showMyMenu:(UIButton*)sender{
+    [JumpCommonView showMenuAtPoint:CGPointMake(sender.centerX, sender.bottom+10)];
 }
 
 - (NSArray *)menuArray{
-    if (!_menuArray) {
         _menuArray = [[NSMutableArray alloc]init];
         if (kDropMentScanText) {
             NSDictionary *dict1 = @{@"imageName" :@"DropMenu-Scan",
@@ -122,26 +127,31 @@
                                     };
             [_menuArray addObject:dict4];
         }
-    }
     return _menuArray;
 }
 
-- (CommonMenuView *)menuView{
-    if (!_menuView) {
+- (JumpCommonView *)menuView{
         MJWeakSelf;
-        _menuView = [CommonMenuView createMenuWithFrame:CGRectZero target:self dataArray:self.menuArray itemsClickBlock:^(NSString *str, NSInteger tag) {
+        _menuView = [JumpCommonView createMenuWithFrame:CGRectZero target:self dataArray:self.menuArray itemsClickBlock:^(NSString *str, NSInteger tag) {
             [weakSelf menuActionTitle:str];
         } backViewTap:^{
-            
+    
         }];
-    }
     _menuView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     return _menuView;
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - 处理菜单点击
 - (void)menuActionTitle:(NSString*)title{
-    [CommonMenuView hidden];
+    [JumpCommonView hidden];
     if([title isEqualToString:kDropMentScanText]) {
         [self actionBarCodeScanView:nil];
     }
@@ -345,6 +355,9 @@
     [self presentViewController:vc animated:YES completion:nil];
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+}
 
 /*
 #pragma mark - Navigation

@@ -97,10 +97,6 @@
     [self.view endEditing:YES];
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
-}
-
 - (BOOL)prefersStatusBarHidden
 {
     return NO;

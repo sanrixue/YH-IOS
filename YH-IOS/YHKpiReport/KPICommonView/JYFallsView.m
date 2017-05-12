@@ -113,7 +113,7 @@
         itemH = 280;
     }
     else {
-        itemH = (263 - JYDefaultMargin) / 2.0;
+        itemH = (280 - JYDefaultMargin) / 2.0;
     }
     return itemH;
 }

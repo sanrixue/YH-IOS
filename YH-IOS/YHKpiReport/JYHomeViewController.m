@@ -68,6 +68,7 @@
 
 -(void)loadNewData{
     [self.rootTBView.mj_header beginRefreshing];
+    [self loadData];
     [self.rootTBView reloadData];
    // _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight, JYVCWidth, JYVCHeight - (kJYNotifyHeight)) style:UITableViewStylePlain];
     [_rootTBView.mj_header endRefreshing];
@@ -130,6 +131,8 @@
     [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
   //  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Subject-Refresh"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(refreshView)];
     self.title =self.bannerTitle;*/
+    
+
 }
 
 
@@ -163,6 +166,7 @@
         _notifyView.notifications = nots;
         _notifyView.delegate = self;
         _notifyView.interval = 2.0;
+        _notifyView.notifyColor = [UIColor colorWithHexString:@"#999"];
         _notifyView.closeBtnColor = [UIColor colorWithRed:0.84 green:0.30 blue:0.19 alpha:1.00];
     }
     return _notifyView;
@@ -218,7 +222,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([_pages count] >0) {
+    if ([dataListTop count] >0 || dataListTop != nil) {
        return indexPath.section == 0 ? kJYPageHeight : bottomViewHeight;
     }
     else{
@@ -228,15 +232,18 @@
 
 #pragma mark - <UITableViewDelegate>
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    
+    UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.contentView.backgroundColor = JYColor_LightGray_White;
-    }
-    
     if (indexPath.section == 0) {
-        [cell.contentView addSubview:self.pageView];
+        if ([dataListTop count] >0 || dataListTop != nil){
+          [cell.contentView addSubview:self.pageView];
+        }
+        else{
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+            cell.height = 0;
+        }
     }
     else {
         [cell.contentView addSubview:self.fallsView];

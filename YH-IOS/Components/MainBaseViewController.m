@@ -27,7 +27,7 @@
 
 
 @interface MainBaseViewController ()<LTHPasscodeViewControllerDelegate,UINavigationControllerDelegate>
-@property (nonatomic, strong) NSMutableArray* menuArray;
+@property (nonatomic, copy) NSMutableArray* menuArray;
 @property (nonatomic, assign) NSInteger curLineNum;
 @property (nonatomic, strong) CommonMenuView* menuView;
 @end
@@ -38,10 +38,12 @@
     [super viewDidLoad];
     UIImageView* imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Banner-Logo"]];
     imageView.contentMode =UIViewContentModeScaleAspectFit;
+    imageView.backgroundColor = [UIColor clearColor];
     imageView.frame = CGRectMake(self.view.frame.size.width/2-50, 0, 100, 50);
     [self.navigationController.navigationBar addSubview:imageView];
     self.user = [[User alloc] init];
     [self initDropMenu];
+    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     //@{}代表Dictionary
@@ -50,9 +52,14 @@
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
-    [CommonMenuView clearMenu]; // 清除window菜单
-    [self menuView]; //重新生成菜单
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem createBarButtonItemWithImage:@"Banner-Setting" target:self action:@selector(showMenu:)];
+  //  [CommonMenuView clearMenu]; // 清除window菜单
+   // [self getHomemenuView]; //重新生成菜单
+     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:YES];
+    [LTHPasscodeViewController sharedUser].delegate = self;
 }
 
 - (BOOL)shouldAutorotate
@@ -60,53 +67,62 @@
     return YES;
 }
 
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 /** 展示菜单 */
+/*
 - (void)showMenu:(UIButton*)sender{
+    self.menuArray = [self getHomemenuArray];
+    self.menuView = [self getHomemenuView];
     [CommonMenuView showMenuAtPoint:CGPointMake(sender.centerX, sender.bottom+10)];
 }
 
-- (NSArray *)menuArray{
-    if (!_menuArray) {
+- (NSMutableArray *)getHomemenuArray{
+      NSMutableArray* menuArray = [[NSMutableArray alloc]init];
         if (kDropMentScanText) {
-            _menuArray = [[NSMutableArray alloc]init];
             NSDictionary *dict1 = @{@"imageName" :@"DropMenu-Scan",
                                     @"itemName" : kDropMentScanText
                                     };
-            [_menuArray addObject:dict1];
+            [menuArray addObject:dict1];
         }
         if (kDropMentVoiceText) {
             NSDictionary *dict2 = @{@"imageName" : @"DropMenu-Voice",
                                     @"itemName" : kDropMentVoiceText
                                     };
-            [_menuArray addObject:dict2];
+            [menuArray addObject:dict2];
         }
         if (kDropMentSearchText) {
             NSDictionary *dict3 = @{@"imageName" : @"DropMenu-Search",
                                     @"itemName" :kDropMentSearchText
                                     };
-            [_menuArray addObject:dict3];
+            [menuArray addObject:dict3];
         }
         if (kDropMenuUserInfo) {
             NSDictionary *dict4 = @{@"imageName" : @"DropMenu-UserInfo",
                                     @"itemName" : kDropMentUserInfoText
                                     };
-            [_menuArray addObject:dict4];
+            [menuArray addObject:dict4];
         }
-    }
-    return _menuArray;
+    return menuArray;
 }
 
-- (CommonMenuView *)menuView{
-    if (!_menuView) {
+- (CommonMenuView *)getHomemenuView{
+    self.menuArray = [self getHomemenuArray];
         MJWeakSelf;
-        _menuView = [CommonMenuView createMenuWithFrame:CGRectZero target:self dataArray:self.menuArray itemsClickBlock:^(NSString *str, NSInteger tag) {
+       CommonMenuView* menuView = [CommonMenuView createMenuWithFrame:CGRectZero target:self dataArray:self.menuArray itemsClickBlock:^(NSString *str, NSInteger tag) {
             [weakSelf menuActionTitle:str];
         } backViewTap:^{
             
         }];
-    }
-    _menuView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    return _menuView;
+    menuView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    return menuView;
 }
 
 #pragma mark - 处理菜单点击
@@ -128,7 +144,7 @@
     }
     
 }
-
+*/
 // 支持竖屏显示
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
@@ -176,12 +192,6 @@
 }
 
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [LTHPasscodeViewController sharedUser].delegate = self;
-   // [LTHPasscodeViewController useKeychain:NO];
-    //[LTHPasscodeViewController sharedUser].allowUnlockWithTouchID = NO;
-}
 
 - (void)initDropMenu {
     NSMutableArray *tmpTitles = [NSMutableArray array];
@@ -454,10 +464,6 @@
 //    return NO;
 //}
 
--(UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     
@@ -637,6 +643,9 @@
 }
 
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:YES];
+}
 
 
 @end

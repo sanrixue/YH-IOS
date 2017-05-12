@@ -90,6 +90,7 @@
 		C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B71C99812B0009411A /* WebViewJavascriptBridge.m */; };
 		C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4B91C99812B0009411A /* WebViewJavascriptBridgeBase.m */; };
 		C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */; };
+		F6025C8D1EC4477B0025CC71 /* JYBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6025C8C1EC4477B0025CC71 /* JYBaseViewController.m */; };
 		F62456391EA5FACD006834D2 /* Foundation + Log.m in Sources */ = {isa = PBXBuildFile; fileRef = F62455EE1EA5FACD006834D2 /* Foundation + Log.m */; };
 		F624563A1EA5FACD006834D2 /* GJAutoCycleScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = F62455F11EA5FACD006834D2 /* GJAutoCycleScrollView.m */; };
 		F624563B1EA5FACD006834D2 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = F62455F41EA5FACD006834D2 /* iCarousel.m */; };
@@ -557,6 +558,8 @@
 		C4EFE4BA1C99812B0009411A /* WKWebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WKWebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		C4EFE4BB1C99812B0009411A /* WKWebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WKWebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		F4C953F159F46DB4D2BB1AE9 /* libPods-YH-IOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F6025C8B1EC4477B0025CC71 /* JYBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYBaseViewController.h; sourceTree = "<group>"; };
+		F6025C8C1EC4477B0025CC71 /* JYBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYBaseViewController.m; sourceTree = "<group>"; };
 		F62455EE1EA5FACD006834D2 /* Foundation + Log.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Foundation + Log.m"; sourceTree = "<group>"; };
 		F62455F01EA5FACD006834D2 /* GJAutoCycleScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GJAutoCycleScrollView.h; sourceTree = "<group>"; };
 		F62455F11EA5FACD006834D2 /* GJAutoCycleScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GJAutoCycleScrollView.m; sourceTree = "<group>"; };
@@ -2178,6 +2181,8 @@
 				F68C25581EC2D4420069C041 /* JYDemoViewController.m */,
 				F68C25591EC2D4420069C041 /* JYHomeViewController.h */,
 				F68C255A1EC2D4420069C041 /* JYHomeViewController.m */,
+				F6025C8B1EC4477B0025CC71 /* JYBaseViewController.h */,
+				F6025C8C1EC4477B0025CC71 /* JYBaseViewController.m */,
 				F656DF781EC016C400DECD7F /* kpi_data.json */,
 				F656DF3E1EC0140600DECD7F /* YHKpiCommon */,
 				F656DF2E1EC013D600DECD7F /* YHKpiCategory */,
@@ -2968,6 +2973,7 @@
 				F62456BA1EA5FB21006834D2 /* ChartHeaderView.m in Sources */,
 				F624563B1EA5FACD006834D2 /* iCarousel.m in Sources */,
 				F62457991EA5FBE0006834D2 /* UICollectionViewCell+Category.m in Sources */,
+				F6025C8D1EC4477B0025CC71 /* JYBaseViewController.m in Sources */,
 				F68C258A1EC2D44F0069C041 /* JYFallsCell.m in Sources */,
 				F62456481EA5FACD006834D2 /* IQToolbar.m in Sources */,
 				F624563F1EA5FACD006834D2 /* IQUIView+Hierarchy.m in Sources */,

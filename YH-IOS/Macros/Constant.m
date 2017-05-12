@@ -11,8 +11,8 @@
 /**
  *  Config#Color
  */
-NSString *const kThemeColor       = @"#53a93f"; //31809f
-NSString *const kBannerBgColor    = @"#53a93f";
+NSString *const kThemeColor       = @"#51aa33"; //31809f
+NSString *const kBannerBgColor    = @"#51aa33";
 NSString *const kBannerTextColor  = @"#ffffff";
 NSString *const kIsUrlWrite2Local = @"1";
 NSInteger const kTimerInterval    = 30;

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "JYBaseViewController.h"
 
-@interface JYHomeViewController : UIViewController
+@interface JYHomeViewController : JYBaseViewController
 
 @property (nonatomic,strong) NSString* bannerTitle;
 @property (nonatomic,strong) NSString* dataLink;

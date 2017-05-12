@@ -65,10 +65,10 @@
     analysisRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-Analyse"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     analysisRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-Analyse-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    KPIViewController *kpiRootView = [[KPIViewController alloc]init];
-    UINavigationController *kpiRootViewController  = [[UINavigationController alloc]initWithRootViewController:kpiRootView];
-   // JYHomeViewController *kpiRootView = [[JYHomeViewController alloc]init];
+   // KPIViewController *kpiRootView = [[KPIViewController alloc]init];
     //UINavigationController *kpiRootViewController  = [[UINavigationController alloc]initWithRootViewController:kpiRootView];
+    JYHomeViewController *kpiRootView = [[JYHomeViewController alloc]init];
+    UINavigationController *kpiRootViewController  = [[UINavigationController alloc]initWithRootViewController:kpiRootView];
     kpiRootViewController.tabBarItem.title = @"仪表盘";
     [kpiRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
     kpiRootViewController.edgesForExtendedLayout = UIRectEdgeNone;

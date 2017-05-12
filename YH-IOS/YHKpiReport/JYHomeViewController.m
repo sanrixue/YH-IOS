@@ -14,6 +14,13 @@
 #import "JYNotifyView.h"
 #import "JYTopSinglePage.h"
 #import "JYFallsView.h"
+#import "SubjectViewController.h"
+#import "HomeIndexVC.h"
+#import "SuperChartVc.h"
+#import "ViewUtils.h"
+#import "HttpResponse.h"
+#import "HttpUtils.h"
+#import "User.h"
 
 #define kJYNotifyHeight 30
 
@@ -31,6 +38,8 @@
 @property (nonatomic, copy) NSArray *pages;
 @property (nonatomic, strong) JYPagedFlowView *pageView;
 @property (nonatomic, strong) JYFallsView *fallsView;
+@property (nonatomic, strong) MJRefreshGifHeader *header;
+@property (nonatomic, strong) User* user;
 
 
 @end
@@ -39,24 +48,41 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     // Do any additional setup after loading the view.
-    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.automaticallyAdjustsScrollViewInsets = YES;
     self.view.backgroundColor = JYColor_LightGray_White;
     
     [self loadData];
+   // self.edgesForExtendedLayout = UIRectEdgeNone;
     
     bottomViewHeight = JYVCHeight;
     
     [self.view addSubview:self.notifyView];
     [self.view addSubview:self.rootSCView];
     
+    _header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
+    _header.lastUpdatedTimeLabel.hidden = YES;
+    self.rootTBView.mj_header = _header;
+    
 }
+
+-(void)loadNewData{
+    [self.rootTBView.mj_header beginRefreshing];
+    [self.rootTBView reloadData];
+   // _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight, JYVCWidth, JYVCHeight - (kJYNotifyHeight)) style:UITableViewStylePlain];
+    [_rootTBView.mj_header endRefreshing];
+}
+
 
 - (void)loadData {
     // 数据准备
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"kpi_data" ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:path];
+    _user = [[User alloc]init];
+    NSString *kpiUrl = [NSString stringWithFormat:@"%@/mobile/v2/data/group/%@/role/%@/kpi",kBaseUrl,self.user.groupID,self.user.roleID];
+    HttpResponse *response = [HttpUtils httpGet:kpiUrl header:nil timeoutInterval:10];
+    
+    //NSString *path = [[NSBundle mainBundle] pathForResource:@"kpi_data" ofType:@"json"];
+  //  NSData *data = [NSData dataWithContentsOfFile:path];
+    NSData *data = response.received;
     NSArray *arraySource = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
     NSMutableArray<JYDashboardModel *> *arr = [NSMutableArray arrayWithCapacity:arraySource.count];
     [arraySource enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -89,7 +115,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+  /*  self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(2, 0, 70, 40)];
     UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
     UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 15, 25)];
@@ -103,7 +129,7 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
   //  self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Subject-Refresh"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(refreshView)];
-    self.title =self.bannerTitle;
+    self.title =self.bannerTitle;*/
 }
 
 
@@ -119,7 +145,7 @@
     
     if (!_rootTBView) {
         //给通知视图预留40height
-        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight + 64, JYVCWidth, JYVCHeight - (kJYNotifyHeight + 64)) style:UITableViewStylePlain];
+        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight + 64, JYVCWidth, JYVCHeight - (kJYNotifyHeight + 64 + 40)) style:UITableViewStylePlain];
         _rootTBView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _rootTBView.showsVerticalScrollIndicator = NO;
         _rootTBView.dataSource = self;
@@ -132,7 +158,7 @@
 
 - (JYNotifyView *)notifyView {
     if (!_notifyView) {
-        NSArray *nots = @[@"模板5以上线", @"模板三以上线", @"模板2以上线"];
+        NSArray *nots = @[@"暂无数据"];
         _notifyView = [[JYNotifyView alloc] initWithFrame:CGRectMake(0, 64, JYVCWidth, kJYNotifyHeight - 2)];
         _notifyView.notifications = nots;
         _notifyView.delegate = self;
@@ -192,7 +218,12 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return indexPath.section == 0 ? kJYPageHeight : bottomViewHeight;
+    if ([_pages count] >0) {
+       return indexPath.section == 0 ? kJYPageHeight : bottomViewHeight;
+    }
+    else{
+        return indexPath.section == 0 ? 0: bottomViewHeight;
+    }
 }
 
 #pragma mark - <UITableViewDelegate>
@@ -208,7 +239,6 @@
         [cell.contentView addSubview:self.pageView];
     }
     else {
-        
         [cell.contentView addSubview:self.fallsView];
     }
     
@@ -235,6 +265,14 @@
 
 - (void)flowView:(JYPagedFlowView *)flowView didTapPageAtIndex:(NSInteger)index {
     NSLog(@"seleted index:%zi", index);
+    JYDashboardModel *model = dataListTop[index];
+    NSLog(@"%@",model.targeturl);
+    NSString *targetString = [NSString stringWithFormat:@"%@",model.targeturl];
+    if (![model.targeturl hasPrefix:@"http"]) {
+        targetString = [NSString stringWithFormat:@"/%@",model.targeturl];
+    }
+    [self jumpToDetailView:targetString viewTitle:model.title];
+    
 }
 
 #pragma mark - <JYNotifyDelegate>
@@ -263,8 +301,83 @@
 
 - (void)fallsView:(JYFallsView *)fallsView didSelectedItemAtIndex:(NSInteger)idx data:(id)data{
     NSLog(@"seleted index:%zi data:%@", idx, data);
+    JYDashboardModel *model = data;
+    NSLog(@"%@",model.targeturl);
+     NSString *targetString = [NSString stringWithFormat:@"%@",model.targeturl];
+    if (![model.targeturl hasPrefix:@"http"]) {
+      targetString = [NSString stringWithFormat:@"/%@",model.targeturl];
+    }
+    [self jumpToDetailView:targetString viewTitle:model.title];
 }
 
+
+-(void)jumpToDetailView:(NSString*)targeturl viewTitle:(NSString*)title{
+    if ([targeturl isEqualToString:@""] || targeturl == nil) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                       message:@"该功能正在开发中"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    else{
+        UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+       SubjectViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"SubjectViewController"];
+       subjectView.bannerName =title;
+       subjectView.link = targeturl;
+    // subjectView.objectID = data[@"objectID"];
+       if ([targeturl rangeOfString:@"template/3/"].location != NSNotFound) {
+          [MRProgressOverlayView showOverlayAddedTo:self.view title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+          NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:targeturl];
+        
+          HomeIndexVC *vc = [[HomeIndexVC alloc] init];
+          vc.bannerTitle = title;
+          vc.dataLink = targeturl;
+          [vc setWithHomeIndexArray:models];
+          [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
+          if (models.count <= 0 || !models) {
+             [ViewUtils showPopupView:self.view Info:@"数据为空"];
+         }
+         else{
+             UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
+             [self presentViewController:rootchatNav animated:YES completion:nil];
+         }
+        
+     }
+     else if ([targeturl rangeOfString:@"template/5/"].location != NSNotFound) {
+         SuperChartVc *superChaerCtrl = [[SuperChartVc alloc]init];
+         superChaerCtrl.bannerTitle = title;
+         superChaerCtrl.dataLink = targeturl;
+         UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
+         [self presentViewController:superChartNavCtrl animated:YES completion:nil];
+     }
+    /* else if ([data[@"link"] rangeOfString:@"template/"].location != NSNotFound){
+     if ([data[@"link"] rangeOfString:@"template/5/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/1/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/2/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/3/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/4/"].location == NSNotFound) {
+     SCLAlertView *alert = [[SCLAlertView alloc] init];
+     [alert addButton:@"下一次" actionBlock:^(void) {}];
+     [alert addButton:@"立刻升级" actionBlock:^(void) {
+     NSURL *url = [NSURL URLWithString:[kPgyerUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+     [[UIApplication sharedApplication] openURL:url];
+     }];
+     [alert showSuccess:self title:@"温馨提示" subTitle:@"您当前的版本暂不支持该模块，请升级之后查看" closeButtonTitle:nil duration:0.0f];
+     }
+     }*/
+       else if ([targeturl rangeOfString:@"whatever/group/1/original/kpi"].location != NSNotFound){
+          JYHomeViewController *jyHome = [[JYHomeViewController alloc]init];
+          jyHome.bannerTitle = title;
+          jyHome.dataLink = targeturl;
+          UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:jyHome];
+          [self presentViewController:superChartNavCtrl animated:YES completion:nil];
+      }
+      else{ //跳转事件
+          [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+      }
+    }
+}
 @end
 
 

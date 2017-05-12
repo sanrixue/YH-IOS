@@ -23,10 +23,13 @@
 #import "SettingViewController.h"
 #import "HomeIndexVC.h"
 #import "HomeIndexModel.h"
+#import "CommonMenuView.h"
 
 
 @interface MainBaseViewController ()<LTHPasscodeViewControllerDelegate,UINavigationControllerDelegate>
-
+@property (nonatomic, strong) NSMutableArray* menuArray;
+@property (nonatomic, assign) NSInteger curLineNum;
+@property (nonatomic, strong) CommonMenuView* menuView;
 @end
 
 @implementation MainBaseViewController
@@ -47,12 +50,83 @@
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
-       self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Banner-Setting"] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
+    [CommonMenuView clearMenu]; // 清除window菜单
+    [self menuView]; //重新生成菜单
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem createBarButtonItemWithImage:@"Banner-Setting" target:self action:@selector(showMenu:)];
 }
 
 - (BOOL)shouldAutorotate
 {
     return YES;
+}
+
+/** 展示菜单 */
+- (void)showMenu:(UIButton*)sender{
+    [CommonMenuView showMenuAtPoint:CGPointMake(sender.centerX, sender.bottom+10)];
+}
+
+- (NSArray *)menuArray{
+    if (!_menuArray) {
+        if (kDropMentScanText) {
+            _menuArray = [[NSMutableArray alloc]init];
+            NSDictionary *dict1 = @{@"imageName" :@"DropMenu-Scan",
+                                    @"itemName" : kDropMentScanText
+                                    };
+            [_menuArray addObject:dict1];
+        }
+        if (kDropMentVoiceText) {
+            NSDictionary *dict2 = @{@"imageName" : @"DropMenu-Voice",
+                                    @"itemName" : kDropMentVoiceText
+                                    };
+            [_menuArray addObject:dict2];
+        }
+        if (kDropMentSearchText) {
+            NSDictionary *dict3 = @{@"imageName" : @"DropMenu-Search",
+                                    @"itemName" :kDropMentSearchText
+                                    };
+            [_menuArray addObject:dict3];
+        }
+        if (kDropMenuUserInfo) {
+            NSDictionary *dict4 = @{@"imageName" : @"DropMenu-UserInfo",
+                                    @"itemName" : kDropMentUserInfoText
+                                    };
+            [_menuArray addObject:dict4];
+        }
+    }
+    return _menuArray;
+}
+
+- (CommonMenuView *)menuView{
+    if (!_menuView) {
+        MJWeakSelf;
+        _menuView = [CommonMenuView createMenuWithFrame:CGRectZero target:self dataArray:self.menuArray itemsClickBlock:^(NSString *str, NSInteger tag) {
+            [weakSelf menuActionTitle:str];
+        } backViewTap:^{
+            
+        }];
+    }
+    _menuView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    return _menuView;
+}
+
+#pragma mark - 处理菜单点击
+- (void)menuActionTitle:(NSString*)title{
+    [CommonMenuView hidden];
+    if([title isEqualToString:kDropMentScanText]) {
+        [self actionBarCodeScanView:nil];
+    }
+    else if([title isEqualToString:kDropMentVoiceText]) {
+        [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+    }
+    else if([title isEqualToString:kDropMentSearchText]) {
+        [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+    }
+    else if([title isEqualToString:kDropMentUserInfoText]) {
+        NewSettingViewController *settingViewController = [[NewSettingViewController alloc]init];
+        UINavigationController *userInfoViewControlller = [[UINavigationController alloc]initWithRootViewController:settingViewController];
+        [self presentViewController:userInfoViewControlller animated:YES completion:nil];
+    }
+    
 }
 
 // 支持竖屏显示

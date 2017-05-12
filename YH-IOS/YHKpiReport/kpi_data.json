@@ -1,42 +1,25 @@
 {
     "data": [
              {
-             "is_stick": true,
-             "title": "实时数据",
-             "group_name": "仪表盘测试一",
+             "is_stick": false,
+             "title": "实时数据一",
+             "group_name": "仪表盘",
              "dashboard_type": "ring",
              "target_url": "https://www.baidu.com",
-             "unit": "元",
+             "unit": "万",
              "data": {
              "high_light": {
              "percentage": false,
-             "number": "10000",
-             "compare": "28800",
+             "number": "88",
+             "compare": "100",
              "arrow": null
              },
              "chart_data": []
              }
              },
              {
-             "is_stick": true,
-             "title": "实时数据",
-             "group_name": "仪表盘测试四",
-             "dashboard_type": "number",
-             "target_url": "https://www.baidu.com",
-             "unit": "万",
-             "data": {
-             "high_light": {
-             "percentage": false,
-             "number": "456",
-             "compare": "666",
-             "arrow": 3
-             },
-             "chart_data": []
-             }
-             },
-             {
              "is_stick": false,
-             "title": "实时数据一",
+             "title": "实时数据二",
              "group_name": "仪表盘",
              "dashboard_type": "bar",
              "target_url": "https://www.baidu.com",
@@ -46,29 +29,6 @@
              "percentage": false,
              "number": "29900",
              "compare": "28800",
-             "arrow": 1
-             },
-             "chart_data": [
-                            32300,
-                            2800,
-                            27600,
-                            29900,
-                            28800
-                            ]
-             }
-             },
-             {
-             "is_stick": true,
-             "title": "实时数据",
-             "group_name": "仪表盘测试二",
-             "dashboard_type": "bar",
-             "target_url": "{kpi_id:67,template_id:2}",
-             "unit": "元",
-             "data": {
-             "high_light": {
-             "percentage": false,
-             "number": "29900",
-             "compare": "27700",
              "arrow": 1
              },
              "chart_data": [
@@ -83,6 +43,28 @@
              {
              "is_stick": false,
              "title": "实时数据三",
+             "group_name": "仪表盘",
+             "dashboard_type": "line",
+             "target_url": "https://www.baidu.com",
+             "unit": "元",
+             "data": {
+             "high_light": {
+             "percentage": false,
+             "number": "22200",
+             "compare": "28800",
+             "arrow": 3
+             },
+             "chart_data": [
+                            32300,
+                            26800,
+                            27600,
+                            29900
+                            ]
+             }
+             },
+             {
+             "is_stick": false,
+             "title": "实时数据四",
              "group_name": "仪表盘",
              "dashboard_type": "number",
              "target_url": "https://www.baidu.com",
@@ -99,41 +81,19 @@
              },
              {
              "is_stick": false,
-             "title": "实时数据",
-             "group_name": "Bravo实时销售",
-             "dashboard_type": "ring",
-             "target_url": "https://www.baidu.com",
-             "unit": "万",
+             "title": "模板五测试",
+             "group_name": "测试",
+             "dashboard_type": "line",
+             "target_url": "mobile/v2/group/%@/template/5/report/9903",
+             "unit": null,
              "data": {
              "high_light": {
              "percentage": false,
-             "number": "50",
-             "compare": "100",
-             "arrow": null
+             "number": null,
+             "compare": null,
+             "arrow": 0
              },
              "chart_data": []
-             }
-             },
-             {
-             "is_stick": false,
-             "title": "实时数据二",
-             "group_name": "仪表盘",
-             "dashboard_type": "line",
-             "target_url": "https://www.baidu.com",
-             "unit": "元",
-             "data": {
-             "high_light": {
-             "percentage": false,
-             "number": "22200",
-             "compare": "28800",
-             "arrow": 3
-             },
-             "chart_data": [
-                            32000,
-                            26800,
-                            27600,
-                            29900
-                            ]
              }
              },
              {
@@ -155,6 +115,63 @@
                             268,
                             276,
                             299
+                            ]
+             }
+             },
+             {
+             "is_stick": true,
+             "title": "实时数据",
+             "group_name": "仪表盘测试一",
+             "dashboard_type": "ring",
+             "target_url": "https://www.baidu.com",
+             "unit": "元",
+             "data": {
+             "high_light": {
+             "percentage": false,
+             "number": "21100",
+             "compare": "28800",
+             "arrow": null
+             },
+             "chart_data": []
+             }
+             },
+             {
+             "is_stick": true,
+             "title": "实时数据",
+             "group_name": "仪表盘测试八",
+             "dashboard_type": "number",
+             "target_url": "https://www.baidu.com",
+             "unit": "万",
+             "data": {
+             "high_light": {
+             "percentage": false,
+             "number": "456",
+             "compare": "666",
+             "arrow": 3
+             },
+             "chart_data": []
+             }
+             },
+             {
+             "is_stick": true,
+             "title": "实时数据",
+             "group_name": "仪表盘测试二",
+             "dashboard_type": "bar",
+             "target_url": null,
+             "unit": "元",
+             "data": {
+             "high_light": {
+             "percentage": false,
+             "number": "29900",
+             "compare": "27700" ,
+             "arrow": 1
+             },
+             "chart_data": [
+                            32300,
+                            26800,
+                            27600,
+                            29900,
+                            28800
                             ]
              }
              }

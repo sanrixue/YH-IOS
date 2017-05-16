@@ -81,6 +81,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         responseCallback(@"SubjectViewController - Response for message from ObjC");
     }];
     [self addWebViewJavascriptBridge];
+      [self loadHtml];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -89,15 +90,14 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     /*
      * 主题页面,允许横屏
      */
-    [self setAppAllowRotation:YES];
+    //[self setAppAllowRotation:YES];
     
     /**
      *  横屏时，隐藏标题栏，增大可视区范围
      */
-    [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+   // [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
     [self displayBannerViewButtonsOrNot];
-    [self loadHtml];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
@@ -266,9 +266,12 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)loadOuterLink {
     NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     
-    NSString *splitString = [self.urlString containsString:@"?"] ? @"&" : @"?";
-    NSString *appendParams = [NSString stringWithFormat:@"user_num=%@&timestamp=%@", self.user.userNum, timestamp];
-    self.urlString = [NSString stringWithFormat:@"%@%@%@", self.urlString, splitString, appendParams];
+ //  NSString *splitString = [self.urlString containsString:@"?"] ? @"&" : @"?";
+    NSString *urlAppendStr = [NSString stringWithFormat:@"?syp_user_num=%@&syp_user_name=%@&timestamp=%@",self.user.userNum,self.user.userName,timestamp];
+    self.urlString = [NSString stringWithFormat:@"%@%@",self.urlString,urlAppendStr];
+    self.urlString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self.urlString, (CFStringRef)@"!NULL,'()*+,-./:;=?@_~%#[]", NULL, kCFStringEncodingUTF8));
+    //NSString *appendParams = [NSString stringWithFormat:@"user_num=%@&timestamp=%@", self.user.userNum, timestamp];
+   //self.urlString = [NSString stringWithFormat:@"%@%@%@", self.urlString, splitString, appendParams];
     
     NSLog(@"%@", self.urlString);
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
@@ -307,6 +310,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [APIHelper reportData:self.user.groupID templateID:self.templateID reportID:self.reportID];
     
+        NSString *urlAppendStr = [NSString stringWithFormat:@"?syp_user_num=%@&syp_user_name=%@",self.user.userNum,self.user.userName];
+        self.urlString = [NSString stringWithFormat:@"%@%@",self.urlString,urlAppendStr];
         HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
         
         __block NSString *htmlPath;

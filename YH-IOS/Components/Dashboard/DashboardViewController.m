@@ -89,8 +89,13 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     [self loadWebView];
     
     self.btnScanCode.hidden = !kDropMenuScan;
-    [self setTabBarItems];
-    [self initTabClick];
+   // [self setTabBarItems];
+    NSString *uiVersion = [FileUtils currentUIVersion];
+    self.urlString = [NSString stringWithFormat:kAppMobilePath, kBaseUrl, uiVersion, self.user.roleID];
+    self.commentObjectType = ObjectTypeApp;
+    [self.tabBar setHidden:YES];
+      [self loadHtml];
+  //  [self initTabClick];
     
     /**
      *  广告位隐藏于否

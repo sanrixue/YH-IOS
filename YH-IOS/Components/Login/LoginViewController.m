@@ -46,6 +46,7 @@
     // logoView
     self.logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Logo"]];
     self.logoView.contentMode = UIViewContentModeScaleToFill;
+    [self.logoView setHidden:YES];
     [self.bgView addSubview:self.logoView];
     
     // sloganLabel

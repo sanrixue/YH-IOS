@@ -43,25 +43,15 @@ const static CGFloat lineHeight = 40; //一行的高度
     _clickBtn = -1;
      self.menuArray = [self getMymenuArray];
       self.menuView = [self getMymenuView];
-     _mainmeode = [SuperChartMainModel testModel:_dataLink];
-    if (!_mainmeode || !_mainmeode.name) {
-        UIView *refreshView = [[UIView alloc]initWithFrame:CGRectMake(0, 94, SCREEN_WIDTH, SCREEN_HEIGHT-64 )];
-        [self.navigationController.view addSubview:refreshView];
-        refreshView.backgroundColor = [UIColor whiteColor];
-        [MRProgressOverlayView showOverlayAddedTo:refreshView title:@"暂无数据" mode:MRProgressOverlayViewModeCross animated:YES];
-    }
-    else{
-         [MRProgressOverlayView showOverlayAddedTo:self.view title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
-    }
    // _superModel = [SuperChartModel testModel];
-    [self setForSuperChartModel:_mainmeode];
+   // [self setForSuperChartModel:_mainmeode];
     //[self setForSuperChartModel:_superModel];
-    self.title = _superModel.name;
+    self.title = self.bannerTitle;
     [self formView];
     [CommonMenuView clearMenu]; // 清除window菜单
     [self getMymenuView]; //重新生成菜单
     _curLineNum = 1;
-    [self.formView reloadData];
+    [self getSuperChartData];
 }
 
 - (void)setForSuperChartModel:(SuperChartMainModel*)superModel{
@@ -72,6 +62,17 @@ const static CGFloat lineHeight = 40; //一行的高度
     _data = [_mainmeode.table showData];
     _colorArray = [NSArray  arrayWithArray:_mainmeode.config.color];
     [self.formView reloadData];
+}
+
+- (void)getSuperChartData{
+    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+      _mainmeode = [SuperChartMainModel testModel:_dataLink];
+        dispatch_async(dispatch_get_main_queue(), ^{
+                [MRProgressOverlayView dismissAllOverlaysForView:self.navigationController.view animated:YES];
+                [self setForSuperChartModel:_mainmeode];
+        });
+    });
 }
 
 - (void)viewDidLayoutSubviews{
@@ -124,7 +125,6 @@ const static CGFloat lineHeight = 40; //一行的高度
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
-    [MRProgressOverlayView dismissAllOverlaysForView:self.view animated:YES];
 }
 - (void)selectList{ // 选择列表
     SelectListVc* vc = [[SelectListVc alloc] init];
@@ -214,7 +214,9 @@ const static CGFloat lineHeight = 40; //一行的高度
         [inModelArray addObject:modelArray[0]];
     }
     model = inModelArray[section];
+   // header.titleLabel.adjustsFontSizeToFitWidth = YES;
     header.titleLabel.font = [UIFont systemFontOfSize:12];
+    header.titleLabel.numberOfLines = 0;
     [header setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
     [header setTitle:[NSString stringWithFormat:@"%@", model.value] forState:UIControlStateNormal];
     return header;

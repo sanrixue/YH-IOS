@@ -59,8 +59,6 @@
     self.layer.shadowColor = [UIColor lightGrayColor].CGColor;
     self.layer.shadowOffset = CGSizeZero;
     self.layer.shadowOpacity = 0.8;
-    
-    
 }
 
 

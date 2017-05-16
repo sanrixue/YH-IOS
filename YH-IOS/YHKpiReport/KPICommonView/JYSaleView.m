@@ -37,6 +37,7 @@
     
     unit = [[UILabel alloc] initWithFrame:CGRectMake(JYViewWidth - 30, JYViewHeight - 30, 30, 30)];
     unit.text = @"元";
+    unit.font = [UIFont systemFontOfSize:13];
     unit.textColor = [UIColor colorWithHexString:@"#999999"];
     [self addSubview:unit];
     
@@ -55,8 +56,11 @@
 
 - (UILabel *)groupNameLB {
     if (!_groupNameLB) {
-        _groupNameLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin, JYViewWidth, 20)];
+        _groupNameLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin, JYViewWidth-10, 30)];
         _groupNameLB.text = @"第二集群实时数据";
+        _groupNameLB.numberOfLines = 0;
+        _groupNameLB.font = [UIFont systemFontOfSize:14];
+       // _groupNameLB.textColor = [UIColor redColor];
         _groupNameLB.textColor = [UIColor colorWithRed:0.28 green:0.29 blue:0.29 alpha:1.00];
     }
     return _groupNameLB;
@@ -75,6 +79,8 @@
 
 - (void)refreshSubViewData {
     self.groupNameLB.text = self.model.title;
+    self.groupNameLB.numberOfLines = 0;
+   // self.groupNameLB.adjustsFontSizeToFitWidth = YES;
     self.saleNumberLB.text = self.model.saleNumber;
     unit.text = self.model.percentage ? @"%" : self.model.unit;    
 }

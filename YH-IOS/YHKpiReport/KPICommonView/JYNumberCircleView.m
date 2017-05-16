@@ -39,6 +39,7 @@
     unit = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.saleNumberLB.frame), JYViewWidth, 20)];
     unit.text = @"万";
     unit.textAlignment = NSTextAlignmentCenter;
+    unit.font = [UIFont systemFontOfSize:13];
     unit.textColor = [UIColor colorWithHexString:@"#999999"];
     [self addSubview:unit];
     
@@ -59,6 +60,8 @@
     if (!_title) {
         _title = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin, JYViewWidth, 20)];
         _title.textColor = [UIColor colorWithHexString:@"#323232"];
+        _title.numberOfLines = 0;
+        _title.font = [UIFont systemFontOfSize:14];
         _title.text = @"第二集群实时数据";
     }
     return _title;

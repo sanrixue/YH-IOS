@@ -94,6 +94,7 @@
 - (void)refreshSubViewData {
     
     histogram.dataSource = self.model.chartData;
+    histogram.lastBarColor= self.model.arrowToColor;
     groupType.text = self.model.title;
     trendType.arrow = self.model.arrow;
     ratio.text = self.model.floatRate;

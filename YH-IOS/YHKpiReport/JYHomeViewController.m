@@ -234,8 +234,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell*  cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.contentView.backgroundColor = JYColor_LightGray_White;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.contentView.backgroundColor = JYColor_LightGray_White;
     if (indexPath.section == 0) {
         if ([dataListTop count] >0 || dataListTop != nil){
           [cell.contentView addSubview:self.pageView];

@@ -56,6 +56,7 @@
     [self.view addSubview:self.collectionVc.view];
     [self.view addSubview:self.tableViewVc.view];
     [self.view addSubview: self.chartVc.view];
+    [self getData];
     [self.collectionVc.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.mas_equalTo(self.view);
         make.top.mas_equalTo(self.topView.mas_bottom).offset(-0.5);
@@ -76,7 +77,6 @@
     //}];
     //self.topTimeLab.userInteractionEnabled = YES;
 //    [self.topTimeLab addGestureRecognizer:tap];
-    [self setWithHomeIndexModel:_data animation:YES];
     
     [self.topShowBtn addBlockForControlEvents:UIControlEventTouchUpInside block:^(id  _Nonnull sender) {
         if (self.chartVc.view.hidden) {
@@ -85,6 +85,18 @@
             [self hideChartAction];
         }
     }];
+}
+
+-(void)getData{
+    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+         NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:_dataLink];
+        [self setWithHomeIndexArray:models];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MRProgressOverlayView dismissAllOverlaysForView:self.navigationController.view animated:YES];
+             [self setWithHomeIndexModel:_data animation:YES];
+        });
+    });
 }
 
 - (void)viewDidAppear:(BOOL)animated {

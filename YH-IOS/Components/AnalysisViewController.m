@@ -130,21 +130,13 @@
             subjectView.link = data[@"link"];
             subjectView.objectID = data[@"objectID"];
             if ([data[@"link"] rangeOfString:@"template/3/"].location != NSNotFound) {
-                [MRProgressOverlayView showOverlayAddedTo:self.view title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
-               NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
+              // NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
                 
                 HomeIndexVC *vc = [[HomeIndexVC alloc] init];
                 vc.bannerTitle = data[@"bannerName"];
                 vc.dataLink = data[@"link"];
-                [vc setWithHomeIndexArray:models];
-                [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
-                if (models.count <= 0 || !models) {
-                    [ViewUtils showPopupView:self.view Info:@"数据为空"];
-                }
-                else{
-                    UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
-                    [self presentViewController:rootchatNav animated:YES completion:nil];
-                }
+                UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
+                [self presentViewController:rootchatNav animated:YES completion:nil];
                 
             }
             else if ([data[@"link"] rangeOfString:@"template/5/"].location != NSNotFound) {

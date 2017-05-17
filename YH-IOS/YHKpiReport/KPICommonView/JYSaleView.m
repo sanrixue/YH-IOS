@@ -56,7 +56,7 @@
 
 - (UILabel *)groupNameLB {
     if (!_groupNameLB) {
-        _groupNameLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin, JYViewWidth-10, 30)];
+        _groupNameLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin, JYViewWidth-10, 40)];
         _groupNameLB.text = @"第二集群实时数据";
         _groupNameLB.numberOfLines = 0;
         _groupNameLB.font = [UIFont systemFontOfSize:14];

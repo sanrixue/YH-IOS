@@ -7,6 +7,7 @@
 //
 
 #import "KPIViewController.h"
+#import "ThurSayViewController.h"
 
 @interface KPIViewController ()
 
@@ -32,6 +33,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remotePushJump:) name:@"remotepush" object:nil];
     self.tabBarController.tabBar.hidden = NO;
 }
 
@@ -63,6 +65,83 @@
         logParams[kObjTitleALCName] = self.urlString;
         [APIHelper actionLog:logParams];
     });
+}
+
+-(void)remotePushJump:(NSNotification*)notification{
+    NSDictionary* userinfo = notification.userInfo;
+    NSArray* remoteMessageType = @[@"kpi",@"analyse",@"app",@"message",@"thursday_say",@"report"];
+    NSUInteger index = [remoteMessageType indexOfObject:userinfo[@"type"]];
+    switch (index) {
+        case 0:
+            self.tabBarController.selectedIndex = 0;
+            break;
+        case 1:
+            self.tabBarController.selectedIndex = 1;
+            break;
+        case 2:
+            self.tabBarController.selectedIndex = 2;
+            break;
+        case 3:
+            self.tabBarController.selectedIndex = 3;
+            break;
+        case 4:
+            [self jumpToThursday];
+            break;
+        case 5:
+            [self jumptoReport:userinfo[@"url"] reportTitle:userinfo[@"title"]];
+            break;
+        default:
+            break;
+    }
+    
+}
+
+-(void)jumpToThursday{
+    ThurSayViewController *thurSayView = [[ThurSayViewController alloc]init];
+    thurSayView.title = @"更新日志";
+    [self.navigationController pushViewController:thurSayView animated:YES];
+}
+
+-(void)jumptoReport:(NSString*)reportLink reportTitle:(NSString*)title{
+    if ([reportLink isEqualToString:@""]) {
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                       message:@"该功能正在开发中"
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    else {
+        UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        SubjectViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"SubjectViewController"];
+        subjectView.bannerName = title;
+        subjectView.link = reportLink;
+        //subjectView.objectID = data[@"objectID"];
+        if ([reportLink rangeOfString:@"template/3/"].location != NSNotFound) {
+            NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:reportLink];
+            HomeIndexVC *vc = [[HomeIndexVC alloc] init];
+            vc.dataLink = reportLink;
+            vc.bannerTitle = title;
+            [vc setWithHomeIndexArray:models];
+            UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
+            [self presentViewController:rootchatNav animated:YES completion:nil];
+        }
+        else if ([reportLink rangeOfString:@"template/5/"].location != NSNotFound) {
+            SuperChartVc *superChaerCtrl = [[SuperChartVc alloc]init];
+            superChaerCtrl.bannerTitle = title;
+            superChaerCtrl.dataLink =reportLink;
+            UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
+            [self presentViewController:superChartNavCtrl animated:YES completion:nil];
+        }
+        else{ //跳转事件
+            [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+        }
+    }
+    
 }
 
 

@@ -24,6 +24,7 @@
 #import "HomeIndexVC.h"
 #import "HomeIndexModel.h"
 #import "CommonMenuView.h"
+#import "ThurSayViewController.h"
 
 
 @interface MainBaseViewController ()<LTHPasscodeViewControllerDelegate,UINavigationControllerDelegate>
@@ -61,6 +62,7 @@
     [super viewWillAppear:YES];
     [LTHPasscodeViewController sharedUser].delegate = self;
 }
+
 
 - (BOOL)shouldAutorotate
 {

@@ -24,12 +24,18 @@
 #import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
 #import "iflyMSC/IFlySpeechSynthesizer.h"
 #import "iflyMSC/IFlySpeechUtility.h"
+#import <UserNotifications/UserNotifications.h>
 
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
 
-@interface AppDelegate ()<LTHPasscodeViewControllerDelegate>
+#define IOS10_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0)
+#define IOS9_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0)
+#define IOS8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+#define IOS7_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+
+@interface AppDelegate ()<LTHPasscodeViewControllerDelegate,UNUserNotificationCenterDelegate>
 @property (nonatomic,assign) BOOL isReApp;
 @end
 
@@ -88,6 +94,32 @@ void UncaughtExceptionHandler(NSException * exception) {
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     [self savePushDict:userInfo];
+    if (IOS10_OR_LATER) {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        center.delegate =self;
+        UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc]init];
+        content.title= @"新消息";
+        content.sound = [UNNotificationSound defaultSound];
+        
+        //  UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:5 repeats:NO];
+        
+        //  UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"com.intfocus.mcre" content:content trigger:trigger];
+        [center requestAuthorizationWithOptions:UNAuthorizationOptionCarPlay | UNAuthorizationOptionSound | UNAuthorizationOptionBadge | UNAuthorizationOptionAlert completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            
+            if (granted) {
+                NSLog(@" iOS 10 request notification success");
+            }else{
+                NSLog(@" iOS 10 request notification fail");
+            }
+        }];
+        //  [center addNotificationRequest:request withCompletionHandler:nil];
+    }
+    else if (IOS8_OR_LATER)
+    {
+        UIUserNotificationSettings *setting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeSound | UIUserNotificationTypeBadge | UIUserNotificationTypeAlert categories:nil];
+        [application registerUserNotificationSettings:setting];
+    }
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
     
     return YES;
 }
@@ -140,7 +172,7 @@ void UncaughtExceptionHandler(NSException * exception) {
  */
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self savePushDict:userInfo];
-    
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"remotepush" object:nil userInfo:userInfo];
     // 关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
@@ -148,6 +180,15 @@ void UncaughtExceptionHandler(NSException * exception) {
         UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
         [alertView show];
     }
+}
+
+
+- (void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
+{
+    /* SystemSoundID soundID = 1008;//具体参数详情下面贴出来
+     //播放声音
+     AudioServicesPlaySystemSound(soundID);*/
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"remotepush" object:nil];
 }
 
 #pragma mark - 程序在运行时候接收到通知

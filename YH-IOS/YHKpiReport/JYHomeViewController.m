@@ -222,7 +222,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([dataListTop count] >0 || dataListTop != nil) {
+    if ([dataListTop count] >0 && dataListTop != nil) {
        return indexPath.section == 0 ? kJYPageHeight : bottomViewHeight;
     }
     else{
@@ -237,7 +237,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.contentView.backgroundColor = JYColor_LightGray_White;
     if (indexPath.section == 0) {
-        if ([dataListTop count] >0 || dataListTop != nil){
+        if ([dataListTop count] >0 && dataListTop != nil){
           [cell.contentView addSubview:self.pageView];
         }
         else{

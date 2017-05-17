@@ -80,6 +80,8 @@
 
 - (void)setWithHomeIndexModel:(HomeIndexModel *)model{
     _data = model;
+    [self.topNamebtn setTitle:_data.head forState:UIControlStateNormal];
+    [self.topNamebtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     HomeIndexItemModel* maxItem = [[NSArray sortArray:self.data.products key:@"selctItem.main_data.data" down:YES] firstObject];
     DLog(@"max data== %f",maxItem.selctItem.main_data.data);
     self.maxValue = maxItem.selctItem.main_data.data;

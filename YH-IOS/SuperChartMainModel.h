@@ -39,6 +39,8 @@
 @property(nonatomic, strong) NSArray<TableDataBaseItemModel*>* items;
 
 @property (nonatomic, strong) NSString* name;
+@property (nonatomic, assign) BOOL select;
+@property (nonatomic, strong) NSString* filter_name;
 
 @property (nonatomic, strong) NSMutableArray* selectSet;//头关键列
 @property (nonatomic, strong) NSMutableArray* selectRowSet;//表关键列
@@ -55,9 +57,10 @@
 
 @interface TableDataBaseItemModel:NSObject
 
+@property (nonatomic, strong) NSString* district;
 @property (nonatomic, strong) NSString* value;
 @property (nonatomic, strong) NSString* color;
-@property (nonatomic, strong) NSString* index;
+@property (nonatomic, strong) NSNumber* index;
 @property (nonatomic, assign) BOOL show;
 @property (nonatomic, assign) BOOL isKey;
 @property (nonatomic, assign) BOOL select;

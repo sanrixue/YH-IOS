@@ -8,9 +8,10 @@
 
 #import "SelectListVc.h"
 #import "SuperChartModel.h"
+#import "SuperChartMainModel.h"
 
 @interface FilterSuperChartVc : SelectListVc
 
-@property (nonatomic, strong) SuperChartModel* superModel;
+@property (nonatomic, strong) SuperChartMainModel* superModel;
 
 @end

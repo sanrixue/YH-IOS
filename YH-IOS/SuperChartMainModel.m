@@ -15,7 +15,7 @@
 
 @implementation SuperChartMainModel
 
-NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\"#E21717\",\"#000080\",\"#51aa38\",\"#91c941\",\"#f57658\"],\"filter\":[{\"name\":\"区域\",\"items\":[{\"value\":\"区域A\",\"index\":1},{\"value\":\"区域B\",\"index\":2},{\"value\":\"区域C\",\"index\":3}]},{\"name\":\"销量\",\"items\":[{\"value\":\"过滤条件A\",\"index\":1},{\"value\":\"过滤条件B\",\"index\":1},{\"value\":\"过滤条件C\",\"index\":1}]}]},\"table\":{\"head\":[{\"value\":\"门店\",\"show\":true},{\"value\":\"区域\",\"show\":false},{\"value\":\"销量\",\"show\":true},{\"value\":\"目标销量\",\"show\":true},{\"value\":\"销量 vs 目标\",\"show\":true},{\"value\":\"去年同期\",\"show\":true},{\"value\":\"销量 vs 去年同期\",\"show\":true},{\"value\":\"上月同期\",\"show\":true},{\"value\":\"销量 vs 上月\",\"show\":true},{\"value\":\"毛利\",\"show\":true},{\"value\":\"上月毛利\",\"show\":true}],\"main_data\":[[{\"value\":\"上海\",\"color\":2,\"index\":0},{\"value\":\"区域A\",\"color\":1,\"index\":0},{\"value\":\"89,862\",\"color\":3,\"index\":0},{\"value\":\"58,491\",\"color\":3,\"index\":0},{\"value\":\"-89%\",\"color\":4,\"index\":0},{\"value\":\"37,924\",\"color\":5,\"index\":0},{\"value\":\"9%\",\"color\":5,\"index\":0},{\"value\":\"63,400\",\"color\":4,\"index\":0},{\"value\":\"-19%\",\"color\":3,\"index\":0},{\"value\":\"61,936\",\"color\":2,\"index\":0},{\"value\":\"89,862\",\"color\":1,\"index\":0}],[{\"value\":\"广州\",\"color\":1,\"index\":0},{\"value\":\"区域A\",\"color\":1,\"index\":0},{\"value\":\"70,714\",\"color\":2,\"index\":0},{\"value\":\"58,491\",\"color\":2,\"index\":0},{\"value\":\"-2%\",\"color\":4,\"index\":0},{\"value\":\"37,924\",\"color\":5,\"index\":0},{\"value\":\"9%\",\"color\":5,\"index\":0},{\"value\":\"64,400\",\"color\":4,\"index\":0},{\"value\":\"-19%\",\"color\":3,\"index\":0},{\"value\":\"61,936\",\"color\":2,\"index\":0},{\"value\":\"87,862\",\"color\":1,\"index\":0}],[{\"value\":\"北京\",\"color\":3,\"index\":0},{\"value\":\"区域A\",\"color\":1,\"index\":0},{\"value\":\"78,862\",\"color\":1,\"index\":0},{\"value\":\"58,491\",\"color\":1,\"index\":0},{\"value\":\"-29%\",\"color\":4,\"index\":0},{\"value\":\"37,924\",\"color\":5,\"index\":0},{\"value\":\"9%\",\"color\":5,\"index\":0},{\"value\":\"66,400\",\"color\":4,\"index\":0},{\"value\":\"-19%\",\"color\":3,\"index\":0},{\"value\":\"61,936\",\"color\":2,\"index\":0},{\"value\":\"88,862\",\"color\":1,\"index\":0}]]}}";
+NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\"#E21717\",\"#000080\",\"#51aa38\",\"#91c941\",\"#f57658\"],\"filter\":[{\"name\":\"区域\",\"items\":[{\"value\":\"区域A\",\"index\":0},{\"value\":\"区域B\",\"index\":2},{\"value\":\"区域C\",\"index\":1}]},{\"name\":\"销量\",\"items\":[{\"value\":\"过滤条件A\",\"index\":1},{\"value\":\"过滤条件B\",\"index\":1},{\"value\":\"过滤条件C\",\"index\":1}]}]},\"table\":{\"head\":[{\"value\":\"门店\",\"show\":true},{\"value\":\"区域\",\"show\":false},{\"value\":\"销量\",\"show\":true},{\"value\":\"目标销量\",\"show\":true},{\"value\":\"销量 vs 目标\",\"show\":true},{\"value\":\"去年同期\",\"show\":true},{\"value\":\"销量 vs 去年同期\",\"show\":true},{\"value\":\"上月同期\",\"show\":true},{\"value\":\"销量 vs 上月\",\"show\":true},{\"value\":\"毛利\",\"show\":true},{\"value\":\"上月毛利\",\"show\":true}],\"main_data\":[[{\"value\":\"上海\",\"color\":2,\"index\":0},{\"value\":\"区域A\",\"color\":1,\"index\":0},{\"value\":\"89,862\",\"color\":3,\"index\":0},{\"value\":\"58,491\",\"color\":3,\"index\":0},{\"value\":\"-89%\",\"color\":4,\"index\":0},{\"value\":\"37,924\",\"color\":5,\"index\":0},{\"value\":\"9%\",\"color\":5,\"index\":0},{\"value\":\"63,400\",\"color\":4,\"index\":0},{\"value\":\"-19%\",\"color\":3,\"index\":0},{\"value\":\"61,936\",\"color\":2,\"index\":0},{\"value\":\"89,862\",\"color\":1,\"index\":0}],[{\"value\":\"广州\",\"color\":1,\"index\":1},{\"value\":\"区域A\",\"color\":1,\"index\":1},{\"value\":\"70,714\",\"color\":2,\"index\":1},{\"value\":\"58,491\",\"color\":2,\"index\":1},{\"value\":\"-2%\",\"color\":4,\"index\":1},{\"value\":\"37,924\",\"color\":5,\"index\":1},{\"value\":\"9%\",\"color\":5,\"index\":1},{\"value\":\"64,400\",\"color\":4,\"index\":1},{\"value\":\"-19%\",\"color\":3,\"index\":1},{\"value\":\"61,936\",\"color\":2,\"index\":1},{\"value\":\"87,862\",\"color\":1,\"index\":1}],[{\"value\":\"北京\",\"color\":3,\"index\":2},{\"value\":\"区域A\",\"color\":1,\"index\":2},{\"value\":\"78,862\",\"color\":1,\"index\":2},{\"value\":\"58,491\",\"color\":1,\"index\":2},{\"value\":\"-29%\",\"color\":4,\"index\":2},{\"value\":\"37,924\",\"color\":5,\"index\":2},{\"value\":\"9%\",\"color\":5,\"index\":2},{\"value\":\"66,400\",\"color\":4,\"index\":2},{\"value\":\"-19%\",\"color\":3,\"index\":2},{\"value\":\"61,936\",\"color\":2,\"index\":2},{\"value\":\"88,862\",\"color\":1,\"index\":2}]]}}";
 
 + (NSDictionary *)mj_objectClassInArray{
     return @{
@@ -38,7 +38,8 @@ NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
         jsonURL = [NSString stringWithFormat:@"%@%@",kBaseUrl,baseString];
     }
     HttpResponse *reponse = [HttpUtils httpGet:jsonURL];
-    newjson = reponse.string;
+    //newjson = json3;
+   newjson = reponse.string;
     BOOL isYes = [NSJSONSerialization isValidJSONObject:reponse.data];
     if (!newjson || !isYes) {
         newjson = @"{}";
@@ -137,10 +138,16 @@ NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
 
 - (NSArray<TableDataBaseItemModel*>*)showAllData{
     NSMutableArray* array=  [TableDataBaseItemModel mj_objectArrayWithKeyValuesArray:self.main_data];
+    
+    NSMutableArray* lineArray =[[NSMutableArray alloc]init];
+    [lineArray removeAllObjects];
+    for (NSNumber* number in _dataSet) {
+        [lineArray addObject:array[number.integerValue]];
+    }
     NSMutableArray* modelArraytest = [[NSMutableArray alloc]init];
     [modelArraytest removeAllObjects];
     // [self mj_objectArrayWithKeyValuesArray];
-    for (int i=0; i < array.count; i++) {
+    for (int i=0; i < lineArray.count; i++) {
         NSMutableArray* insideArray = [[NSMutableArray alloc]initWithArray:array[i]];
         for (NSNumber* number in _selectSet) {
             TableDataBaseItemModel *item = insideArray[number.integerValue];
@@ -162,6 +169,9 @@ NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
     
     [self.dataSet removeAllObjects];
     for (int i=0; i<self.main_data.count; i++) { // 默认全部行
+       /* for (TableDataBaseItemModel* item in self.main_data[i] ) {
+            item.select = YES;
+        }*/
         [self.dataSet addObject:@(i)];
     }
     

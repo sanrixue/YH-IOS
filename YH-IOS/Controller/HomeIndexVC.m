@@ -48,7 +48,7 @@
         _curItemIndex = -1;
     }
     return self;
-}
+} 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -192,7 +192,7 @@
 
 - (void)setWithHomeIndexModel:(HomeIndexModel *)model animation:(BOOL)animation{
     _data = model;
-    self.title = model.head;
+   // self.title = model.head;
     self.topTimeLab.text = model.period;
     HomeIndexItemModel* oneItem = [NSArray getObjectInArray:model.products keyPath:@"select" equalValue:@(YES)];
     if (!oneItem) {

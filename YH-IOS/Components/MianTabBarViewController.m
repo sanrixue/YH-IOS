@@ -24,6 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remotrPushJump:) name:@"remotepush" object:nil];
     [self addchildControllers];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  
 }
@@ -44,6 +45,8 @@
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
+
+
 
 
 // 支持竖屏显示

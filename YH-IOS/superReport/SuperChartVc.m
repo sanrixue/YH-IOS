@@ -121,6 +121,9 @@ const static CGFloat lineHeight = 40; //一行的高度
     if ([title isEqualToString:@"行距"]) {
         [self selectLineSpace];
     }
+    if ([title isEqualToString:@"过滤"]) {
+        [self FilterAction];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -150,12 +153,13 @@ const static CGFloat lineHeight = 40; //一行的高度
     };
     [self presentViewController:vc animated:YES completion:nil];
 }
+
 /** 过滤 */
 - (void)FilterAction{
     FilterSuperChartVc* vc = [[FilterSuperChartVc alloc] init];
-    vc.superModel = _superModel;
+    vc.superModel = _mainmeode;
     vc.usedBack = ^(FilterSuperChartVc* item){
-       // [self setForSuperChartModel:_superModel];
+       [self setForSuperChartModel:_mainmeode];
     };
     [self presentViewController:vc animated:YES completion:nil];
 }
@@ -389,13 +393,13 @@ const static CGFloat lineHeight = 40; //一行的高度
         NSDictionary *dict3 = @{@"imageName" : @"选列",
                                 @"itemName" : @"选列"
                                 };
-       /* NSDictionary *dict4 = @{@"imageName" : @"过滤",
+        NSDictionary *dict4 = @{@"imageName" : @"过滤",
                                 @"itemName" : @"过滤"
-                                };*/
+                                };
         NSDictionary *dict5 = @{@"imageName" : @"行距",
                                 @"itemName" : @"行距"
                                 };
-        _menuArray = @[dict3,dict5];
+        _menuArray = @[dict3,dict5,dict4];
     return _menuArray;
 }
 

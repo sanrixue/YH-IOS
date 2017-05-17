@@ -35,6 +35,7 @@
 #import "SuperChartVc.h"
 #import "JYHomeViewController.h"
 
+
 static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
 
@@ -42,6 +43,8 @@ static NSString *const kBannerNameSubjectColumn = @"bannerName";
 static NSString *const kLinkSubjectColumn       = @"link";
 static NSString *const kObjIDSubjectColumn      = @"objectID";
 static NSString *const kObjTypeSubjectColumn    = @"objectType";
+
+
 
 @interface MainBaseViewController : MainViewController<UIWebViewDelegate,UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate>
 @property WebViewJavascriptBridge* bridge;

@@ -65,7 +65,8 @@
     CGFloat flt = ([self.hightLightData[@"number"] floatValue] - [self.hightLightData[@"compare"] floatValue])/([self.hightLightData[@"compare"] floatValue]);
     flt = !isnan(flt) ? flt : 0.0;
     flt = !isinf(flt) ? flt : [self.hightLightData[@"number"] floatValue];
-    NSString *rate = [NSString stringWithFormat:@"%.2f", flt];
+    flt = flt*100;
+    NSString *rate = [NSString stringWithFormat:@"%.2f%@", flt,@"%"];
     return rate;
 }
 

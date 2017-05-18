@@ -136,6 +136,17 @@ NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
     return sortArray;
 }
 
+- (NSArray<TableDataBaseItemModel*>*)showAllItem{
+    NSMutableArray* array=  [TableDataBaseItemModel mj_objectArrayWithKeyValuesArray:self.main_data];
+    
+    NSMutableArray* lineArray =[[NSMutableArray alloc]init];
+    [lineArray removeAllObjects];
+    for (NSNumber* number in _dataSet) {
+        [lineArray addObject:array[number.integerValue]];
+    }
+    return lineArray;
+}
+
 - (NSArray<TableDataBaseItemModel*>*)showAllData{
     NSMutableArray* array=  [TableDataBaseItemModel mj_objectArrayWithKeyValuesArray:self.main_data];
     
@@ -197,7 +208,8 @@ NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
 + (NSDictionary *)mj_objectClassInArray{
     return @{
              @"head":@"TableDataBaseItemModel",
-             @"items":@"TableDataBaseItemModel"
+             @"items":@"TableDataBaseItemModel",
+             @"main_data":@"TableDataBaseItemModel"
              };
 }
 

@@ -180,6 +180,11 @@ void UncaughtExceptionHandler(NSException * exception) {
         UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
         [alertView show];
     }
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *initViewController = [storyBoard instantiateInitialViewController];
+    
+    [self.window setRootViewController:initViewController];
+    [self.window makeKeyAndVisible];
 }
 
 

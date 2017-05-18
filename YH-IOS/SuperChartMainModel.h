@@ -48,7 +48,8 @@
 
 @property (nonatomic, strong) TableDataBaseItemModel* keyHead;
 
-- (NSArray*)showData;
+- (NSArray<TableDataBaseItemModel*>*)showAllItem;
+- (NSArray<TableDataBaseItemModel*>*)showData;
 - (NSArray<TableDataBaseItemModel*>*)showhead;
 - (NSArray<TableDataBaseItemModel*>*)showAllData;
 

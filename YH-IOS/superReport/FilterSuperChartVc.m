@@ -12,6 +12,7 @@
 
 @interface FilterSuperChartVc ()
 @property(nonatomic,strong)NSMutableArray* filterArray;
+@property(nonatomic,assign)BOOL isfirst;
 
 @end
 
@@ -20,10 +21,15 @@
 - (instancetype)init{
     self.filterArray = [[NSMutableArray alloc]init];
     self.title = @"筛选";
+    _isfirst = YES;
     self = [super initWithNibName:NSStringFromClass([self.superclass class]) bundle:nil];
     return self;
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    self.title = @"筛选";
+}
 -  (void)setSuperModel:(SuperChartMainModel *)superModel{
     _superModel = superModel;
     self.dataList = [NSMutableArray arrayWithArray:superModel.config.filter];
@@ -34,41 +40,69 @@
 }
 
 - (void)confirmAction:(id)sender{
-   /* for (TableDataBaseModel* data in self.dataList) {
-         [_superModel.table.dataSet removeAllObjects];
-      / if (data.select) {
+   /* [_superModel.table.dataSet removeAllObjects];
+    for (int i = 0; i<self.superModel.table.main_data.count; i++) {
+        [_superModel.table.dataSet addObject:@(i)];
+    }*/
+    [self.superModel.table.dataSet removeAllObjects];
+    for (TableDataBaseModel* data in self.dataList) {
+        if (data.select) {
             for (TableDataBaseItemModel* filter in data.items) {
                 if (filter.select) {
-                    for (int i = 0;i<self.superModel.table.main_data.count;i++) {
-                        NSMutableArray* demolArray = [NSMutableArray arrayWithArray:self.superModel.table.main_data[i]];
-                        NSDictionary* dataItem = demolArray[0];
-                        if (filter.index == dataItem[@"index"]) {
-                             [_superModel.table.dataSet addObject:@(i)];
+                   /* NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
+                    for (TableDataBaseItemModel* item in headArray) {
+                        if ([item.value isEqualToString:data.name]) {
+                             NSUInteger rowNum = [headArray indexOfObject:item];
+                            for (NSDictionary* dataItem in self.superModel.table.main_data[rowNum]) {
+                                if (dataItem[@"index"] == filter.index) {
+                                    NSInteger index = [self.superModel.table.main_data[rowNum] indexOfObject:dataItem];
+                                    [_superModel.table.dataSet addObject:@(index)];
+                                }
+                            }
                         }
+                    }*/
+                    NSMutableArray *dataArray;
+                    NSMutableArray* selectArray;
+                    if (_isfirst) {
+                        dataArray = [NSMutableArray arrayWithArray:self.superModel.table.main_data];
                     }
-       
-                    for (TableDataBaseItemModel* dataItem in self.superModel.table.main_data) {
-                        if ([dataItem.index isEqualToString:filter.index]) {
-                            NSInteger index = [self.superModel.table.main_data indexOfObject:dataItem];
-                            [_superModel.table.dataSet addObject:@(index)];
+                    else {
+                        dataArray =  [NSMutableArray arrayWithArray:self.superModel.table.showAllItem];
+                         selectArray = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
+                        [_superModel.table.dataSet removeAllObjects];
+                    }
+                     NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
+                    for (int i=0; i< dataArray.count; i++) {
+                       // NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
+                        for (TableDataBaseItemModel* item in headArray) {
+                            if ([item.value isEqualToString:data.name]) {
+                                NSUInteger rowNum = [headArray indexOfObject:item];
+                                NSMutableArray* rowArray = [dataArray[i] copy];
+                                TableDataBaseItemModel* rowindexItem = rowArray[rowNum];
+                               if (rowindexItem.index == filter.index) {
+                                   if (!_isfirst) {
+                                      // NSMutableArray* selectedArray = [[NSMutableArray alloc]init];
+
+                                       [_superModel.table.dataSet addObject:selectArray[i]];
+                                   }
+                                   else{
+                                      [_superModel.table.dataSet addObject:@(i)];
+                                   }
+                                }
+                            }
                         }
                     }
                 }
             }
-        }else{
-            [_superModel.table.dataSet removeAllObjects];
-            for (TableDataBaseItemModel* dataItem in self.superModel.table.main_data) {
-                NSInteger index = [self.superModel.table.main_data indexOfObject:dataItem];
-                [_superModel.table.dataSet addObject:@(index)];
-            }
+             _isfirst = NO;
         }
-        
-    }*/
-    if (_filterArray.count>0) {
-         [_superModel.table.dataSet removeAllObjects];
+           }
+    
+  /* if (_filterArray.count>0) {
+        [_superModel.table.dataSet removeAllObjects];
         for (int j = 0; j< _filterArray.count; j++) {
             for (int i = 0;i<self.superModel.table.main_data.count;i++) {
-                NSMutableArray* demolArray = [NSMutableArray arrayWithArray:self.superModel.table.main_data[i]];
+              //  NSMutableArray* demolArray = [NSMutableArray arrayWithArray:self.superModel.table.main_data[i]];
                // NSInteger *rowNum = [self.superModel.table.showhead indexOfObject:self.superModel.]
                 for (TableDataBaseModel *item in self.superModel.config.filter) {
                     int rowNum = 0;
@@ -78,14 +112,15 @@
                             rowNum = k;
                         }
                     }
-                    NSDictionary* dataItem = demolArray[rowNum];
-                    if (_filterArray[j] == dataItem[@"index"]) {
+                    TableDataBaseItemModel *baseItem = self.superModel.table.main_data[rowNum];
+                   // NSDictionary* dataItem = demolArray[rowNum];
+                    if (_filterArray[j] == baseItem.index) {
                         [_superModel.table.dataSet addObject:@(i)];
                     }
                 }
             }
         }
-    }
+    }*/
     [self dismissViewControllerAnimated:YES completion:nil];
     if (self.usedBack) {
         self.usedBack(self);
@@ -107,7 +142,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
    TableDataBaseModel* model = self.dataList[section];
-    return model.items.count+1;
+   return model.select? model.items.count+1:0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -150,11 +185,10 @@
     FilterSuperChartHeaderCell* header = [FilterSuperChartHeaderCell cellWithTableView:tableView needXib:YES];
     header.backgroundColor = [UIColor whiteColor];
     TableDataBaseModel* data = self.dataList[section];
-    header.titleLab.text = data.filter_name;
+    header.titleLab.text = data.name;
     header.swichBtn.selected = data.select;
     header.swichBack = ^(id view){
-        data.select = !data.select;
-         [_filterArray removeAllObjects];
+         data.select = !data.select;
         [tableView reloadData];
     };
     return header;

@@ -10,6 +10,7 @@
 #import "User.h"
 #import "HttpResponse.h"
 #import "HttpUtils.h"
+#import "APIHelper.h"
 
 //NSString *json = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\"#E21717\",\"#000080\",\"#51aa38\",\"#91c941\",\"#f57658\"],\"filter\":[{\"name\":\"区域\",\"items\":[{\"value\":\"区域A\",\"index\":1},{\"value\":\"区域B\",\"index\":2},{\"value\":\"区域C\",\"index\":3}]},{\"name\":\"销量\",\"items\":[{\"value\":\"过滤条件A\",\"index\":1},{\"value\":\"过滤条件B\",\"index\":1},{\"value\":\"过滤条件C\",\"index\":1}]}]},\"table\":{\"head\":[{\"value\":\"门店\",\"show\":true},{\"value\":\"区域\",\"show\":false},{\"value\":\"销量\",\"show\":true},{\"value\":\"目标销量\",\"show\":true},{\"value\":\"销量 vs 目标\",\"show\":true},{\"value\":\"去年同期\",\"show\":true},{\"value\":\"销量 vs 去年同期\",\"show\":true},{\"value\":\"上月同期\",\"show\":true},{\"value\":\"销量 vs 上月\",\"show\":true},{\"value\":\"毛利\",\"show\":true},{\"value\":\"上月毛利\",\"show\":true}],\"main_data\":[[{\"value\":\"上海\",\"color\":0,\"index\":0},{\"value\":\"区域A\",\"color\":1,\"index\":0},{\"value\":\"70,714\",\"color\":2,\"index\":0},{\"value\":\"58,291\",\"color\":3,\"index\":0},{\"value\":\"-24%\",\"color\":4,\"index\":0},{\"value\":\"37,924\",\"color\":5,\"index\":0},{\"value\":\"9%\",\"color\":5,\"index\":0},{\"value\":\"63,400\",\"color\":4,\"index\":0},{\"value\":\"-19%\",\"color\":3,\"index\":0},{\"value\":\"61,936\",\"color\":2,\"index\":0},{\"value\":\"87,862\",\"color\":1,\"index\":0}]]}}";
 
@@ -28,22 +29,22 @@ NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
     NSString *newjson;
     User* user = [[User alloc]init];
     NSString* jsonURL;
+    NSString *baseString;
     if ([urlString hasPrefix:@"http"]) {
-        NSString *baseString = [NSString stringWithFormat:urlString,user.groupID];
+        baseString = [NSString stringWithFormat:urlString,user.groupID];
         jsonURL = [NSString stringWithFormat:@"%@",baseString];
     }
     else{
         NSArray *urlArray = [urlString componentsSeparatedByString:@"/"];
-        NSString *baseString = [NSString stringWithFormat:@"/api/v1/group/%@/template/%@/report/%@/json",user.groupID,urlArray[6],urlArray[8]];
+        baseString = [NSString stringWithFormat:@"/api/v1/group/%@/template/%@/report/%@/jzip",user.groupID,urlArray[6],urlArray[8]];
         jsonURL = [NSString stringWithFormat:@"%@%@",kBaseUrl,baseString];
     }
-    HttpResponse *reponse = [HttpUtils httpGet:jsonURL];
+   // HttpResponse *reponse = [HttpUtils httpGet:jsonURL];
+     NSArray *urlArray = [urlString componentsSeparatedByString:@"/"];
+    NSString *filePath = [APIHelper getJsonDataWithZip:user.groupID templateID:urlArray[6] reportID:urlArray[8]];
     //newjson = json3;
-   newjson = reponse.string;
-    BOOL isYes = [NSJSONSerialization isValidJSONObject:reponse.data];
-    if (!newjson || !isYes) {
-        newjson = @"{}";
-    }
+    newjson = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+   // BOOL isYes = [NSJSONSerialization isValidJSONObject:newjson];
     //return [SuperChartModel mj_objectWithKeyValues:json1];
     return [SuperChartMainModel mj_objectWithKeyValues:newjson];
 }

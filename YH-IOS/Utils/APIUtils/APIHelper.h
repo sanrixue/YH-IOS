@@ -10,6 +10,8 @@
 #import "HttpResponse.h"
 
 @interface APIHelper : NSObject
+
++(NSString*)getJsonDataWithZip:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID;
 + (NSString *)reportDataUrlString:(NSNumber *)groupID templateID:(NSString *)tempalteID reportID:(NSString *)reportID ;
 + (void)reportData:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID;
 

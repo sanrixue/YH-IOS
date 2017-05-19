@@ -27,6 +27,7 @@
    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remotePushJump:) name:@"remotepush" object:nil];
    // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remotrPushJump:) name:@"remotepush" object:nil];
     [self addchildControllers];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:NO];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];  
 }
 

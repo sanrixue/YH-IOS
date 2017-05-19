@@ -65,11 +65,15 @@ const static CGFloat lineHeight = 40; //一行的高度
 }
 
 - (void)getSuperChartData{
-    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    UIView *bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    [self.view addSubview: bgView];
+    bgView.backgroundColor = [UIColor clearColor];
+    [MRProgressOverlayView showOverlayAddedTo:bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       _mainmeode = [SuperChartMainModel testModel:_dataLink];
         dispatch_async(dispatch_get_main_queue(), ^{
-                [MRProgressOverlayView dismissAllOverlaysForView:self.navigationController.view animated:YES];
+                [MRProgressOverlayView dismissAllOverlaysForView:bgView animated:YES];
+            [bgView setHidden:YES];
                 [self setForSuperChartModel:_mainmeode];
         });
     });

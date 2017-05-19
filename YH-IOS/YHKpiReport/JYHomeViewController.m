@@ -40,6 +40,7 @@
 @property (nonatomic, strong) JYFallsView *fallsView;
 @property (nonatomic, strong) MJRefreshGifHeader *header;
 @property (nonatomic, strong) User* user;
+@property (nonatomic, strong) NSMutableArray* noticeArray;
 
 
 @end
@@ -51,7 +52,7 @@
     // Do any additional setup after loading the view.
     self.automaticallyAdjustsScrollViewInsets = YES;
     self.view.backgroundColor = JYColor_LightGray_White;
-    
+    _noticeArray = [[NSMutableArray alloc]init];
     [self loadData];
    // self.edgesForExtendedLayout = UIRectEdgeNone;
     
@@ -112,6 +113,23 @@
         [dic setObject:arr forKey:buttomList[i].groupName];
     }
     dataListButtom = [dic allValues];
+    
+    NSString *messageUrl = [NSString stringWithFormat:@"%@/api/v1/role/%@/group/%@/user/%@/message",kBaseUrl,self.user.roleID,self.user.groupID,self.user.userID];
+    HttpResponse *responsemessage = [HttpUtils httpGet:messageUrl header:nil timeoutInterval:10];
+    if ([responsemessage.statusCode isEqualToNumber:@(200)]) {
+        [_noticeArray removeAllObjects];
+        NSData *data = responsemessage.received;
+         NSArray *arraySource = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
+        for (NSDictionary* dict in arraySource) {
+            if(![dict[@"title"] isEqual:nil] && ![dict[@"title"] isEqualToString:@""]){
+                [_noticeArray addObject:dict[@"title"]];
+            }
+        }
+    }
+    
+    //NSString *path = [[NSBundle mainBundle] pathForResource:@"kpi_data" ofType:@"json"];
+    //  NSData *data = [NSData dataWithContentsOfFile:path];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -161,9 +179,19 @@
 
 - (JYNotifyView *)notifyView {
     if (!_notifyView) {
-        NSArray *nots = @[@"暂无数据"];
+        NSMutableArray* noticearray = [[NSMutableArray alloc]init];
         _notifyView = [[JYNotifyView alloc] initWithFrame:CGRectMake(0, 64, JYVCWidth, kJYNotifyHeight - 2)];
-        _notifyView.notifications = nots;
+        if (_noticeArray.count >=2) {
+            [noticearray addObject:_noticeArray[0]];
+            [noticearray addObject:_noticeArray[1]];
+        }
+        else if (_noticeArray.count ==1){
+            [noticearray addObject:_noticeArray[0]];
+        }
+        else{
+            [noticearray addObject:@"暂无公告"];
+        }
+        _notifyView.notifications = noticearray;
         _notifyView.delegate = self;
         _notifyView.interval = 2.0;
         _notifyView.notifyColor = [UIColor colorWithHexString:@"#999"];
@@ -285,6 +313,7 @@
 #pragma mark - <JYNotifyDelegate>
 - (void)notifyView:(JYNotifyView *)notify didSelected:(NSInteger)idx selectedData:(id)data {
     NSLog(@"seleted index:%zi data:%@", idx, data);
+    self.tabBarController.selectedIndex = 3;
 }
 
 - (void)closeNotifyView:(JYNotifyView *)notify {

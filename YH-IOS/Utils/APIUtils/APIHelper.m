@@ -47,6 +47,35 @@
     }
 }
 
+
++(NSString*)getJsonDataWithZip:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID{
+    
+   NSString* jsonString = [NSString stringWithFormat:@"%@/api/v1/group/%@/template/%@/report/%@/jzip",kBaseUrl,groupID,templateID,reportID];
+    
+   // NSString *assetsPath = [FileUtils dirPath:kHTMLDirName];
+    NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
+    HttpResponse *httpResponse = [HttpUtils httpGet:jsonString];
+    if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
+        NSDictionary *httpHeader = [httpResponse.response allHeaderFields];
+        NSString *disposition = httpHeader[@"Content-Disposition"];
+        NSArray *array = [disposition componentsSeparatedByString:@"\""];
+        NSString *cacheFilePath = array[1];
+        NSString *reportFileName = [cacheFilePath stringByReplacingOccurrencesOfString:@"json.zip" withString:@"json"];
+        NSString *cachePath = [FileUtils dirPath:kCachedDirName];
+        NSString *fullFileCachePath = [cachePath stringByAppendingPathComponent:cacheFilePath];
+        javascriptPath = [javascriptPath stringByAppendingPathComponent:reportFileName];
+        [httpResponse.received writeToFile:fullFileCachePath atomically:YES];
+        [SSZipArchive unzipFileAtPath:fullFileCachePath toDestination: cachePath];
+        [FileUtils removeFile:fullFileCachePath];
+        if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
+            [FileUtils removeFile:javascriptPath];
+        }
+        [[NSFileManager defaultManager] copyItemAtPath:[cachePath stringByAppendingPathComponent:reportFileName] toPath:javascriptPath error:nil];
+        [FileUtils removeFile:[cachePath stringByAppendingPathComponent:reportFileName]];
+    }
+    return javascriptPath;
+}
+
 /**
  *  登录验证
  *

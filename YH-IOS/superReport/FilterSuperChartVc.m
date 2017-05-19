@@ -13,7 +13,10 @@
 @interface FilterSuperChartVc ()
 @property(nonatomic,strong)NSMutableArray* filterArray;
 @property(nonatomic,assign)BOOL isfirst;
-
+@property(nonatomic,assign)BOOL ischoiceSub;
+@property (nonatomic,assign)BOOL isfirstSubchoice;
+@property(nonatomic,strong) NSMutableArray *firstDataSet;
+@property(nonatomic,strong)NSMutableArray *selectedSet;
 @end
 
 @implementation FilterSuperChartVc
@@ -21,6 +24,7 @@
 - (instancetype)init{
     self.filterArray = [[NSMutableArray alloc]init];
     self.title = @"筛选";
+    _selectedSet = [[NSMutableArray alloc]init];
     _isfirst = YES;
     self = [super initWithNibName:NSStringFromClass([self.superclass class]) bundle:nil];
     return self;
@@ -44,9 +48,11 @@
     for (int i = 0; i<self.superModel.table.main_data.count; i++) {
         [_superModel.table.dataSet addObject:@(i)];
     }*/
-    [self.superModel.table.dataSet removeAllObjects];
+   // [self.superModel.table.dataSet removeAllObjects];
+    [_selectedSet removeAllObjects];
     for (TableDataBaseModel* data in self.dataList) {
         if (data.select) {
+             _ischoiceSub = NO;
             for (TableDataBaseItemModel* filter in data.items) {
                 if (filter.select) {
                    /* NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
@@ -63,13 +69,32 @@
                     }*/
                     NSMutableArray *dataArray;
                     NSMutableArray* selectArray;
+                    //如果是第一级别获取全部数据
                     if (_isfirst) {
                         dataArray = [NSMutableArray arrayWithArray:self.superModel.table.main_data];
                     }
-                    else {
-                        dataArray =  [NSMutableArray arrayWithArray:self.superModel.table.showAllItem];
-                         selectArray = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
-                        [_superModel.table.dataSet removeAllObjects];
+                    //筛选副级别，获取上一级别的数据
+                    else{
+                        //是否是该级别的第一次选择，如果是将从上一级别获取的数据保存下来，清理数据，然后添加
+                        if (!_ischoiceSub) {
+                            _firstDataSet = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
+                            dataArray =  [NSMutableArray arrayWithArray:self.superModel.table.showAllItem];
+                            selectArray = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
+                           // [_superModel.table.dataSet removeAllObjects];
+                            [_selectedSet removeAllObjects];
+                            _ischoiceSub = YES;
+                            _isfirstSubchoice = YES;
+                        }
+                        else{//判断是否是第一次选择该级别中，如果并将获取上层的数据一直保持住
+                            if (_isfirstSubchoice) {
+                                _superModel.table.dataSet = _firstDataSet;
+                                _isfirstSubchoice = NO;
+                            }
+                            //获取上层数据
+                            dataArray =  [NSMutableArray arrayWithArray:self.superModel.table.showAllItem];
+                            selectArray = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
+                           // [_superModel.table.dataSet removeAllObjects];
+                        }
                     }
                      NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
                     for (int i=0; i< dataArray.count; i++) {
@@ -82,19 +107,21 @@
                                if (rowindexItem.index == filter.index) {
                                    if (!_isfirst) {
                                       // NSMutableArray* selectedArray = [[NSMutableArray alloc]init];
-
-                                       [_superModel.table.dataSet addObject:selectArray[i]];
+                                       [_selectedSet addObject:selectArray[i]];
+                                      // [_superModel.table.dataSet addObject:selectArray[i]];
                                    }
                                    else{
-                                      [_superModel.table.dataSet addObject:@(i)];
+                                       [_selectedSet addObject:@(i)];
+                                      //[_superModel.table.dataSet addObject:@(i)];
                                    }
                                 }
                             }
                         }
                     }
-                }
+                    //在每层选择完成之后将保存好的数组赋值给dataSet
+                    _superModel.table.dataSet = [_selectedSet copy];                }
             }
-             _isfirst = NO;
+            _isfirst = NO;
         }
            }
     

@@ -32,6 +32,7 @@ const static CGFloat lineHeight = 40; //一行的高度
 @property (nonatomic, assign) BOOL isdownImage;
 @property (nonatomic, assign) NSInteger clickBtn;
 @property (nonatomic, assign) BOOL isSort;
+@property (nonatomic, strong)  UIView *bgView;
 @end
 
 @implementation SuperChartVc
@@ -65,15 +66,15 @@ const static CGFloat lineHeight = 40; //一行的高度
 }
 
 - (void)getSuperChartData{
-    UIView *bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
-    [self.view addSubview: bgView];
-    bgView.backgroundColor = [UIColor clearColor];
-    [MRProgressOverlayView showOverlayAddedTo:bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    self.bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    [self.view addSubview: _bgView];
+    _bgView.backgroundColor = [UIColor clearColor];
+    [MRProgressOverlayView showOverlayAddedTo:_bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       _mainmeode = [SuperChartMainModel testModel:_dataLink];
         dispatch_async(dispatch_get_main_queue(), ^{
-                [MRProgressOverlayView dismissAllOverlaysForView:bgView animated:YES];
-            [bgView setHidden:YES];
+                [MRProgressOverlayView dismissAllOverlaysForView:_bgView animated:YES];
+            [_bgView setHidden:YES];
                 [self setForSuperChartModel:_mainmeode];
         });
     });
@@ -370,13 +371,24 @@ const static CGFloat lineHeight = 40; //一行的高度
     else{
         head.sortType = 1;
     }
+    [_bgView setHidden:NO];
     sortArray = [NSArray sortArray:sortArray key:@"value" down:head.sortType];
-    [_mainmeode.table.dataSet removeAllObjects];
-    for (TableDataBaseItemModel* item in sortArray) {
-        int index = item.lineTag;
-        [_mainmeode.table.dataSet addObject:@(index)];
-    }
-    [self setForSuperChartModel:_mainmeode];
+    [MRProgressOverlayView showOverlayAddedTo:_bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSMutableArray *datasetArray = [NSMutableArray arrayWithArray:_mainmeode.table.dataSet];
+        //[_mainmeode.table.dataSet removeAllObjects];
+        [datasetArray removeAllObjects];
+        for (TableDataBaseItemModel* item in sortArray) {
+            int index = item.lineTag;
+            [datasetArray addObject:@(index)];
+        }
+        _mainmeode.table.dataSet = [datasetArray copy];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MRProgressOverlayView dismissAllOverlaysForView:_bgView animated:YES];
+            [_bgView setHidden:YES];
+            [self setForSuperChartModel:_mainmeode];
+        });
+    });
 }
 
 #pragma mark - lazy init-UI

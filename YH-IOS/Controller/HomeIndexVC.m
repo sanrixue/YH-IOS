@@ -94,11 +94,11 @@
     [MRProgressOverlayView showOverlayAddedTo:bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
          NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:_dataLink];
-        [self setWithHomeIndexArray:models];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MRProgressOverlayView dismissAllOverlaysForView:bgView animated:YES];
             [bgView setHidden:YES];
-             [self setWithHomeIndexModel:_data animation:YES];
+              [self setWithHomeIndexArray:models];
+            // [self setWithHomeIndexModel:_data animation:YES];
         });
     });
 }
@@ -237,6 +237,8 @@
 //        }
     }
     self.titleLab.text = oneItem.name;
+    [self.tableViewVc.topNamebtn setTitle:model.head forState:UIControlStateNormal];
+    [self.tableViewVc.topNamebtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.tableViewVc setWithHomeIndexModel:model];
 }
 

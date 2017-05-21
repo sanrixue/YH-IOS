@@ -30,6 +30,7 @@ typedef NS_ENUM(NSInteger, HomeIndexDetailListVCSortType) {
 
 @property (nonatomic, assign) HomeIndexDetailListVCSortType sortType;
 @property (nonatomic, weak) id<HomeIndexDetailListVCDelegate> delegate;
+@property (weak, nonatomic) IBOutlet UIButton *topNamebtn;
 
 - (void)setWithHomeIndexModel:(HomeIndexModel*)model;
 

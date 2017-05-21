@@ -39,7 +39,7 @@
     _dataList = [superModel.table showData];
     _column = column;
     _array = [NSMutableArray array];
-    NSMutableArray *demoArray = [NSMutableArray array];
+  //  NSMutableArray *demoArray = [NSMutableArray array];
     for (NSArray* array in _dataList) {
         TableDataBaseItemModel *item = array[column];
        // for (TableDataBaseItemModel* table in demoArray) {
@@ -47,7 +47,7 @@
         //}
     }
     self.baseArray = [NSMutableArray arrayWithArray:_array];
-    _array = [NSArray sortArray:_array key:@"value" down:YES];
+   _array = [NSArray sortArray:_array key:@"value" down:YES];
   /*  [_superModel.table.dataSet removeAllObjects];
     for (TableDataBaseItemModel* item in _array) {
         int index = item.lineTag;
@@ -56,13 +56,13 @@
     if (_array.count) {
         self.maxItem = _array[0];
     }
-    NSMutableArray *inModelArray = [[NSMutableArray alloc]init];
-    for (int i = 0; i < [_superModel.table showData].count; i++) {
-        NSArray *modelArray = [_superModel.table showData][i];
+   /* NSMutableArray *inModelArray = [[NSMutableArray alloc]init];
+    for (int i = 0; i < 2; i++) {
+        NSArray* modelArray = [_superModel.table showData][i];
         TableDataBaseItemModel* demo = modelArray[0];
         [inModelArray addObject:demo];
     }
-    _keyArray = inModelArray;
+    _keyArray = inModelArray;*/
     [self.tableView reloadData];
 }
 
@@ -75,14 +75,18 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         TableDataBaseItemModel* table = weakSelf.array[indexPath.row];
     
+      //  TableDataBaseItemModel* item = _baseArray[indexPath.row];
         TableDataBaseItemModel* item = _baseArray[indexPath.row];
         CGFloat scale = 0.0;
         if (weakSelf.maxItem && item.value.doubleValue) {
             scale = item.value.doubleValue/weakSelf.maxItem.value.doubleValue;
             scale = scale<0? 0:scale;
         }
-        [cell.titleBtn setTitle:self.keyArray[indexPath.row].value forState:UIControlStateNormal];
+        NSArray* modelArray = _dataList[indexPath.row];
+        TableDataBaseItemModel* demo = modelArray[0];
+        [cell.titleBtn setTitle:demo.value forState:UIControlStateNormal];
         cell.valueLab.text = item.value;
+        cell.titleBtn.titleLabel.numberOfLines = 0;
         cell.barView.scale = scale;
        // NSString* color = item.color;
         NSString* color = weakSelf.superModel.config.color[table.color.integerValue];

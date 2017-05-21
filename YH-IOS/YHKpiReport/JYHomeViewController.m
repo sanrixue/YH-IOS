@@ -193,7 +193,7 @@
         }
         _notifyView.notifications = noticearray;
         _notifyView.delegate = self;
-        _notifyView.interval = 2.0;
+        _notifyView.interval = 9.0;
         _notifyView.notifyColor = [UIColor colorWithHexString:@"#999"];
         _notifyView.closeBtnColor = [UIColor colorWithRed:0.84 green:0.30 blue:0.19 alpha:1.00];
     }

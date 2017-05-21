@@ -130,6 +130,7 @@ NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
         [modelArray addObject:modelArraytest];
     }
     NSMutableArray *sortArray = [NSMutableArray array];
+    [sortArray removeAllObjects];
     for (NSNumber *number in self.dataSet) {
         [sortArray addObject:modelArray[number.integerValue]];
     }

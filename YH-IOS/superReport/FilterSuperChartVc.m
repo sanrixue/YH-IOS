@@ -17,6 +17,7 @@
 @property (nonatomic,assign)BOOL isfirstSubchoice;
 @property(nonatomic,strong) NSMutableArray *firstDataSet;
 @property(nonatomic,strong)NSMutableArray *selectedSet;
+@property (nonatomic, strong)  UIView *bgView;
 @end
 
 @implementation FilterSuperChartVc
@@ -49,83 +50,7 @@
         [_superModel.table.dataSet addObject:@(i)];
     }*/
    // [self.superModel.table.dataSet removeAllObjects];
-    [_selectedSet removeAllObjects];
-    for (TableDataBaseModel* data in self.dataList) {
-        if (data.select) {
-             _ischoiceSub = NO;
-            for (TableDataBaseItemModel* filter in data.items) {
-                if (filter.select) {
-                   /* NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
-                    for (TableDataBaseItemModel* item in headArray) {
-                        if ([item.value isEqualToString:data.name]) {
-                             NSUInteger rowNum = [headArray indexOfObject:item];
-                            for (NSDictionary* dataItem in self.superModel.table.main_data[rowNum]) {
-                                if (dataItem[@"index"] == filter.index) {
-                                    NSInteger index = [self.superModel.table.main_data[rowNum] indexOfObject:dataItem];
-                                    [_superModel.table.dataSet addObject:@(index)];
-                                }
-                            }
-                        }
-                    }*/
-                    NSMutableArray *dataArray;
-                    NSMutableArray* selectArray;
-                    //如果是第一级别获取全部数据
-                    if (_isfirst) {
-                        dataArray = [NSMutableArray arrayWithArray:self.superModel.table.main_data];
-                    }
-                    //筛选副级别，获取上一级别的数据
-                    else{
-                        //是否是该级别的第一次选择，如果是将从上一级别获取的数据保存下来，清理数据，然后添加
-                        if (!_ischoiceSub) {
-                            _firstDataSet = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
-                            dataArray =  [NSMutableArray arrayWithArray:self.superModel.table.showAllItem];
-                            selectArray = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
-                           // [_superModel.table.dataSet removeAllObjects];
-                            [_selectedSet removeAllObjects];
-                            _ischoiceSub = YES;
-                            _isfirstSubchoice = YES;
-                        }
-                        else{//判断是否是第一次选择该级别中，如果并将获取上层的数据一直保持住
-                            if (_isfirstSubchoice) {
-                                _superModel.table.dataSet = _firstDataSet;
-                                _isfirstSubchoice = NO;
-                            }
-                            //获取上层数据
-                            dataArray =  [NSMutableArray arrayWithArray:self.superModel.table.showAllItem];
-                            selectArray = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
-                           // [_superModel.table.dataSet removeAllObjects];
-                        }
-                    }
-                     NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
-                    for (int i=0; i< dataArray.count; i++) {
-                       // NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
-                        for (TableDataBaseItemModel* item in headArray) {
-                            if ([item.value isEqualToString:data.name]) {
-                                NSUInteger rowNum = [headArray indexOfObject:item];
-                                NSMutableArray* rowArray = [dataArray[i] copy];
-                                TableDataBaseItemModel* rowindexItem = rowArray[rowNum];
-                               if (rowindexItem.index == filter.index) {
-                                   if (!_isfirst) {
-                                      // NSMutableArray* selectedArray = [[NSMutableArray alloc]init];
-                                       [_selectedSet addObject:selectArray[i]];
-                                      // [_superModel.table.dataSet addObject:selectArray[i]];
-                                   }
-                                   else{
-                                       [_selectedSet addObject:@(i)];
-                                      //[_superModel.table.dataSet addObject:@(i)];
-                                   }
-                                }
-                            }
-                        }
-                    }
-                    //在每层选择完成之后将保存好的数组赋值给dataSet
-                    _superModel.table.dataSet = [_selectedSet copy];                }
-            }
-            _isfirst = NO;
-        }
-           }
-    
-  /* if (_filterArray.count>0) {
+      /* if (_filterArray.count>0) {
         [_superModel.table.dataSet removeAllObjects];
         for (int j = 0; j< _filterArray.count; j++) {
             for (int i = 0;i<self.superModel.table.main_data.count;i++) {
@@ -148,10 +73,98 @@
             }
         }
     }*/
-    [self dismissViewControllerAnimated:YES completion:nil];
-    if (self.usedBack) {
-        self.usedBack(self);
-    }
+    
+    self.bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    [self.view addSubview: _bgView];
+    _bgView.backgroundColor = [UIColor clearColor];
+    [MRProgressOverlayView showOverlayAddedTo:_bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [_selectedSet removeAllObjects];
+        for (TableDataBaseModel* data in self.dataList) {
+            if (data.select) {
+                _ischoiceSub = NO;
+                for (TableDataBaseItemModel* filter in data.items) {
+                    if (filter.select) {
+                        /* NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
+                         for (TableDataBaseItemModel* item in headArray) {
+                         if ([item.value isEqualToString:data.name]) {
+                         NSUInteger rowNum = [headArray indexOfObject:item];
+                         for (NSDictionary* dataItem in self.superModel.table.main_data[rowNum]) {
+                         if (dataItem[@"index"] == filter.index) {
+                         NSInteger index = [self.superModel.table.main_data[rowNum] indexOfObject:dataItem];
+                         [_superModel.table.dataSet addObject:@(index)];
+                         }
+                         }
+                         }
+                         }*/
+                        NSMutableArray *dataArray;
+                        NSMutableArray* selectArray;
+                        //如果是第一级别获取全部数据
+                        if (_isfirst) {
+                            dataArray = [NSMutableArray arrayWithArray:self.superModel.table.main_data];
+                        }
+                        //筛选副级别，获取上一级别的数据
+                        else{
+                            //是否是该级别的第一次选择，如果是将从上一级别获取的数据保存下来，清理数据，然后添加
+                            if (!_ischoiceSub) {
+                                _firstDataSet = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
+                                dataArray =  [NSMutableArray arrayWithArray:self.superModel.table.showAllItem];
+                                selectArray = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
+                                // [_superModel.table.dataSet removeAllObjects];
+                                [_selectedSet removeAllObjects];
+                                _ischoiceSub = YES;
+                                _isfirstSubchoice = YES;
+                            }
+                            else{//判断是否是第一次选择该级别中，如果并将获取上层的数据一直保持住
+                                if (_isfirstSubchoice) {
+                                    _superModel.table.dataSet = _firstDataSet;
+                                    _isfirstSubchoice = NO;
+                                }
+                                //获取上层数据
+                                dataArray =  [NSMutableArray arrayWithArray:self.superModel.table.showAllItem];
+                                selectArray = [NSMutableArray arrayWithArray:_superModel.table.dataSet];
+                                // [_superModel.table.dataSet removeAllObjects];
+                            }
+                        }
+                        NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
+                        for (int i=0; i< dataArray.count; i++) {
+                            // NSArray *headArray = [NSArray arrayWithArray:self.superModel.table.head];
+                            for (TableDataBaseItemModel* item in headArray) {
+                                if ([item.value isEqualToString:data.name]) {
+                                    NSUInteger rowNum = [headArray indexOfObject:item];
+                                    NSMutableArray* rowArray = [dataArray[i] copy];
+                                    TableDataBaseItemModel* rowindexItem = rowArray[rowNum];
+                                    if (rowindexItem.index == filter.index) {
+                                        if (!_isfirst) {
+                                            // NSMutableArray* selectedArray = [[NSMutableArray alloc]init];
+                                            [_selectedSet addObject:selectArray[i]];
+                                            // [_superModel.table.dataSet addObject:selectArray[i]];
+                                        }
+                                        else{
+                                            [_selectedSet addObject:@(i)];
+                                            //[_superModel.table.dataSet addObject:@(i)];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        //在每层选择完成之后将保存好的数组赋值给dataSet
+                        _superModel.table.dataSet = [_selectedSet copy];                }
+                }
+                _isfirst = NO;
+            }
+        }
+        
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [MRProgressOverlayView dismissAllOverlaysForView:_bgView animated:YES];
+            [_bgView setHidden:YES];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            if (self.usedBack) {
+                self.usedBack(self);
+            }
+        });
+    });
 }
 
 - (void)cancleAction:(id)sender{

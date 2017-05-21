@@ -12,7 +12,6 @@
 
 @interface HomeIndexDetailListVC ()
 @property (weak, nonatomic) IBOutlet UIView *topView;
-@property (weak, nonatomic) IBOutlet UIButton *topNamebtn;
 @property (weak, nonatomic) IBOutlet UIButton *topNameTipBtn;
 @property (weak, nonatomic) IBOutlet UIButton *topDescripeBtn;
 @property (weak, nonatomic) IBOutlet UIButton *topDescripeTipBtn;
@@ -80,8 +79,6 @@
 
 - (void)setWithHomeIndexModel:(HomeIndexModel *)model{
     _data = model;
-    [self.topNamebtn setTitle:_data.head forState:UIControlStateNormal];
-    [self.topNamebtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     HomeIndexItemModel* maxItem = [[NSArray sortArray:self.data.products key:@"selctItem.main_data.data" down:YES] firstObject];
     DLog(@"max data== %f",maxItem.selctItem.main_data.data);
     self.maxValue = maxItem.selctItem.main_data.data;

@@ -62,6 +62,9 @@
 }
 
 - (NSString *)floatRate {
+    if (![self.hightLightData[@"number"] floatValue] || ![self.hightLightData[@"compare"] floatValue]) {
+        return NULL;
+    }
     CGFloat flt = ([self.hightLightData[@"number"] floatValue] - [self.hightLightData[@"compare"] floatValue])/([self.hightLightData[@"compare"] floatValue]);
     flt = !isnan(flt) ? flt : 0.0;
     flt = !isinf(flt) ? flt : [self.hightLightData[@"number"] floatValue];

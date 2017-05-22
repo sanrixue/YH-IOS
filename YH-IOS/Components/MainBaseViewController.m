@@ -228,6 +228,11 @@
     
 }
 
+// 提示用户更改密码
+-(void)NoteToChangePassword{
+   NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+   NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+}
 
 // 支持竖屏显示
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations

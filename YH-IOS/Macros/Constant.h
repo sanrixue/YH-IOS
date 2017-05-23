@@ -177,6 +177,7 @@ extern NSString *const kStylesheetsAssetsName;
 extern NSString *const kJavascriptsAssetsName;
 extern NSString *const kBarCodeScanAssetsName;
 extern NSString *const kAdvertisementAssetsName;
+extern NSString *const kIconsAssetsName;
 
 extern NSString *const kLoadingPopupText;
 extern NSString *const kFontsPopupText;

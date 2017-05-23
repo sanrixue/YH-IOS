@@ -144,6 +144,7 @@ NSString *const kDropRefreshText = @"刷新";
  */
 NSString *const kAssetsAssetsName        = @"assets";
 NSString *const kLoadingAssetsName       = @"loading";
+NSString *const kIconsAssetsName         = @"icons";
 NSString *const kFontsAssetsName         = @"fonts";
 NSString *const kImagesAssetsName        = @"images";
 NSString *const kStylesheetsAssetsName   = @"stylesheets";

@@ -214,6 +214,8 @@
     if(op) { [queue addOperation:op]; }
     op = [self checkAssetUpdate:kBarCodeScanAssetsName info:kBarCodeScanPopupText isInAssets: NO];
     if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kIconsAssetsName info:@"图标库" isInAssets: NO];
+    if(op) { [queue addOperation:op]; }
     // op = [self checkAssetUpdate:kAdvertisementAssetsName info:kAdvertisementPopupText isInAssets: NO];
     // if(op) { [queue addOperation:op]; }
 }

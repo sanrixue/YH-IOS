@@ -51,8 +51,14 @@
     if(isShouldUnZip) {
         NSString *assetsPath = sharedPath;
         if(isInAssets) {
-            assetsPath = [sharedPath stringByAppendingPathComponent:@"assets"];
-            assetsPath = [assetsPath stringByAppendingPathComponent:fileName];
+            if ([fileName isEqualToString:@"icons"]) {
+                assetsPath = [sharedPath stringByAppendingPathComponent:@"assets"];
+                assetsPath = [assetsPath stringByAppendingPathComponent:@"images"];
+            }
+            else{
+              assetsPath = [sharedPath stringByAppendingPathComponent:@"assets"];
+              assetsPath = [assetsPath stringByAppendingPathComponent:fileName];
+            }
         }
         else {
             NSString *assetFolderPath = [assetsPath stringByAppendingPathComponent:fileName];

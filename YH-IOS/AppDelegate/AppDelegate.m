@@ -339,6 +339,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     [FileUtils checkAssets:kJavascriptsAssetsName isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:kStylesheetsAssetsName isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:kBarCodeScanAssetsName isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:kIconsAssetsName isInAssets:YES bundlePath:bundlePath];
     // [FileUtils checkAssets:kAdvertisementAssetsName isInAssets:NO bundlePath:bundlePath];
 }
 

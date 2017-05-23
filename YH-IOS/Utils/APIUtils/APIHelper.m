@@ -100,6 +100,7 @@
         userDict[@"images_md5"]      = response.data[@"assets"][@"images_md5"];
         userDict[@"stylesheets_md5"] = response.data[@"assets"][@"stylesheets_md5"];
         userDict[@"javascripts_md5"] = response.data[@"assets"][@"javascripts_md5"];
+        userDict[@"icons_md5"] = response.data[@"assets"][@"icons_md5"];
         
         /**
          *  rewrite screen lock info into

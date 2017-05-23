@@ -16,10 +16,15 @@
 #import "FilterSuperChartVc.h"
 #import "DoubleClickSuperChartVc.h"
 #import "SuperChartMainModel.h"
+#import "UMSocial.h"
+#import "APIHelper.h"
+#import "DropTableViewCell.h"
+#import "DropViewController.h"
+#import "CommentViewController.h"
 
 const static CGFloat lineHeight = 40; //一行的高度
 
-@interface SuperChartVc () <FDelegate,FDataSource>
+@interface SuperChartVc () <FDelegate,FDataSource,DropViewDelegate,DropViewDataSource,UIPopoverPresentationControllerDelegate>
 @property (nonatomic, strong) NSArray* menuArray;
 @property (nonatomic, assign) NSInteger curLineNum;
 @property (nonatomic, strong) CommonMenuView* menuView;
@@ -33,6 +38,9 @@ const static CGFloat lineHeight = 40; //一行的高度
 @property (nonatomic, assign) NSInteger clickBtn;
 @property (nonatomic, assign) BOOL isSort;
 @property (nonatomic, strong)  UIView *bgView;
+@property (strong, nonatomic) NSArray *dropMenuTitles;
+@property (strong, nonatomic) NSArray *dropMenuIcons;
+
 @end
 
 @implementation SuperChartVc
@@ -52,6 +60,7 @@ const static CGFloat lineHeight = 40; //一行的高度
     [CommonMenuView clearMenu]; // 清除window菜单
     [self getMymenuView]; //重新生成菜单
     _curLineNum = 1;
+    [self initDropMenu];
     [self getSuperChartData];
 }
 
@@ -91,19 +100,15 @@ const static CGFloat lineHeight = 40; //一行的高度
     //@{}代表Dictionary
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
-    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(2, 0, 70, 40)];
-    UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
-    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 15, 25)];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(20, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     bakImage.image = imageback;
     [bakImage setContentMode:UIViewContentModeScaleAspectFit];
     [backBtn addSubview:bakImage];
-    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 50, 25)];
-    backLabel.text = @"返回";
-    backLabel.textColor = [UIColor whiteColor];
-    [backBtn addSubview:backLabel];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
     [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem createBarButtonItemWithImage:@"nav_more" target:self action:@selector(showMenu:)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
     self.title = self.bannerTitle;
 }
 /** 展示菜单 */
@@ -134,6 +139,151 @@ const static CGFloat lineHeight = 40; //一行的高度
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
 }
+
+
+#pragma 下拉菜单功能块
+- (void)initDropMenu {
+    NSMutableArray *tmpTitles = [NSMutableArray array];
+    NSMutableArray *tmpIcons = [NSMutableArray array];
+    if(kSubjectShare) {
+        [tmpTitles addObject:kDropShareText];
+        [tmpIcons addObject:@"Subject-Share"];
+    }
+    if(kSubjectComment) {
+        [tmpTitles addObject:kDropCommentText];
+        [tmpIcons addObject:@"Subject-Comment"];
+    }
+    [tmpTitles addObject:kDropRefreshText];
+    [tmpIcons addObject:@"Subject-Refresh"];
+    [tmpTitles addObject:@"选列"];
+    [tmpIcons addObject:@"选列"];
+    [tmpTitles addObject:@"过滤"];
+    [tmpIcons addObject:@"过滤"];
+    [tmpTitles addObject:@"行距"];
+    [tmpIcons addObject:@"行距"];
+
+    self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
+    self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
+}
+
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+
+#pragma mark - action methods
+
+/**
+ *  标题栏设置按钮点击显示下拉菜单
+ *
+ *  @param sender
+ */
+-(void)dropTableView:(UIBarButtonItem *)sender {
+    DropViewController *dropTableViewController = [[DropViewController alloc]init];
+    dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
+    dropTableViewController.preferredContentSize = CGSizeMake(150,self.dropMenuTitles.count*150/4);
+    dropTableViewController.dataSource = self;
+    dropTableViewController.delegate = self;
+    UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
+    popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    popover.barButtonItem = self.navigationItem.rightBarButtonItem;
+    popover.delegate = self;
+    [popover setSourceRect:sender.customView.frame];
+    [popover setSourceView:self.view];
+    popover.backgroundColor = [UIColor colorWithHexString:kDropViewColor];
+    [self presentViewController:dropTableViewController animated:YES completion:nil];
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
+}
+
+-(NSInteger)numberOfPagesIndropView:(DropViewController *)flowView{
+    return self.dropMenuTitles.count;
+}
+
+-(UITableViewCell *)dropView:(DropViewController *)flowView cellForPageAtIndex:(NSIndexPath *)index{
+    DropTableViewCell*  cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    cell.tittleLabel.text = self.dropMenuTitles[index.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[index.row]];
+    
+    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
+    cellBackView.backgroundColor = [UIColor clearColor];
+    cell.selectedBackgroundView = cellBackView;
+    cell.tittleLabel.adjustsFontSizeToFitWidth = YES;
+    
+    return cell;
+}
+
+-(void)dropView:(DropViewController *)flowView didTapPageAtIndex:(NSIndexPath *)index{
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSString *itemName = self.dropMenuTitles[index.row];
+        
+        if([itemName isEqualToString:kDropCommentText]) {
+            [self actionWriteComment];
+        }
+        else if([itemName isEqualToString:kDropShareText]) {
+            [self actionWebviewScreenShot];
+        }
+        else if ([itemName isEqualToString:kDropRefreshText]){
+            [self getSuperChartData];
+        }
+        else if ([itemName isEqualToString:@"选列"]) {
+            [self selectList];
+        }
+        else if ([itemName isEqualToString:@"行距"]) {
+            [self selectLineSpace];
+        }
+        else if ([itemName isEqualToString:@"过滤"]) {
+            [self FilterAction];
+        }
+    }];
+    
+}
+
+- (void)actionWriteComment{
+    UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    CommentViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"CommentViewController"];
+    subjectView.bannerName = self.bannerTitle;
+    [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+}
+
+
+
+#pragma 分享图片
+
+- (void)actionWebviewScreenShot{
+    UIImage *image = [self createViewImage:self.view];
+    dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1ull *NSEC_PER_SEC);
+    dispatch_after(time, dispatch_get_main_queue(), ^{
+        [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
+        [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
+        [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:kUMAppId
+                                          shareText:self.title
+                                         shareImage:image
+                                    shareToSnsNames:@[UMShareToWechatSession]
+                                           delegate:self];
+    });
+}
+
+- (UIImage *)createViewImage:(UIView *)shareView {
+    UIGraphicsBeginImageContextWithOptions(shareView.bounds.size, NO, [UIScreen mainScreen].scale);
+    [shareView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+#pragma  列表
+
 - (void)selectList{ // 选择列表
     SelectListVc* vc = [[SelectListVc alloc] init];
    // [vc setWithTableData:_superModel.table];
@@ -337,6 +487,7 @@ const static CGFloat lineHeight = 40; //一行的高度
 - (void)form:(FormScrollView *)formScrollView didDoubleClickCellAtIndexPath:(FIndexPath *)indexPath{ //双击
     DoubleClickSuperChartVc* vc = [[DoubleClickSuperChartVc alloc] init];
     TableDataBaseItemModel* model = _headerData[0];
+    vc.bannerName = self.bannerTitle;
     vc.titleString = model.value;
     vc.isdownImage = _isdownImage;
     vc.isSort = _isSort;

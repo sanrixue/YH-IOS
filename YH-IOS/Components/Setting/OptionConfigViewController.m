@@ -83,13 +83,15 @@
 
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if ([[_arraydict allValues][indexPath.row] isKindOfClass:[NSDictionary class]]) {
-        UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellid"];
+        NSString * resuIndetifier = [NSString stringWithFormat:@"cell%ld",(long)indexPath.row];
+        UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:resuIndetifier];
         cell.textLabel.text = [_arraydict allKeys][indexPath.row];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         return cell;
     }
     else {
-        SwitchTableViewCell*  cell = [[SwitchTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+      //  NSString * resuIndetifier = [NSString stringWithFormat:@"cell%ld",(long)indexPath.row];
+        SwitchTableViewCell*  cell = [[SwitchTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
         cell.messageLabel.text = [_arraydict allKeys][indexPath.row];
         cell.delegate = self;
         cell.cellId  = indexPath.row;

@@ -318,9 +318,13 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 0:{
-            NSDictionary *infodict = @{@"用户名":user.userName,@"用户角色":[NSString stringWithFormat:@"%@", user.roleName],@"所属商行":[NSString stringWithFormat:@"%@", user.groupName],@"手机电话":@"",@"邮箱":@"",@"修改密码":@""};
+            NSString *userRole =[NSString stringWithFormat:@"%@", user.roleName];
+            NSString *userGroup = [NSString stringWithFormat:@"%@", user.groupName];
+            NSArray *userBaseDictKey = @[@"用户名",@"用户角色",@"所属商行",@"手机电话",@"邮箱",@"修改密码"];
+            NSDictionary *userBaseDict = @{@"用户名":user.userName,@"用户角色":userRole,@"所属商行":userGroup,@"手机电话":@"",@"邮箱":@"",@"修改密码":@""};
             SettingNormalViewController *settingNormalView = [[SettingNormalViewController alloc]init];
-            settingNormalView.infodict  = infodict;
+            settingNormalView.infodict  = [userBaseDict copy];
+            settingNormalView.indictKey = [userBaseDictKey copy];
             settingNormalView.title = userInfoArray[indexPath.row];
             [self.navigationController pushViewController:settingNormalView animated:YES];
         }
@@ -343,9 +347,11 @@
         case 1:{
             Version *version = [[Version alloc]init];
             NSString *phoneVersion = [[UIDevice currentDevice] systemVersion];
+              NSArray *userBaseDictKey = @[@"应用名称",@"检测更新",@"设备型号",@"数据接口",@"应用标识"];
             NSDictionary *infodict = @{@"应用名称":version.appName,@"设备型号":[NSString stringWithFormat: @"%@ (%@)",[[Version machineHuman]componentsSeparatedByString:@" ("][0], phoneVersion], @"数据接口":kBaseUrl,@"应用标识":version.bundleID,@"检测更新":@{@"检查新版本":@"已是最新版本",@"蒲公英下载":kPgyerUrl}};
             SettingNormalViewController *settingNormalView = [[SettingNormalViewController alloc]init];
             settingNormalView.infodict  = infodict;
+            settingNormalView.indictKey = userBaseDictKey;
             settingNormalView.title = userInfoArray[indexPath.row];
             [self.navigationController pushViewController:settingNormalView animated:YES];
         }
@@ -363,6 +369,7 @@
             }
             
              NSDictionary *infodict;
+            NSArray* infoArray = @[@"消息推送",@"关联的设备列表",@"推送的消息列表"];
             if (!devideDict || [devideDict allKeys].count == 0) {
                 infodict = @{@"消息推送":pushstate,@"关联的设备列表":@"" ,@"推送的消息列表":pushDatavalue};
             }
@@ -371,6 +378,7 @@
             }
             SettingNormalViewController *settingNormalView = [[SettingNormalViewController alloc]init];
             settingNormalView.infodict  = infodict;
+            settingNormalView.indictKey = infoArray;
             settingNormalView.title = userInfoArray[indexPath.row];
             [self.navigationController pushViewController:settingNormalView animated:YES];
         }

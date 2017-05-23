@@ -27,7 +27,7 @@
 #import "ThurSayViewController.h"
 
 
-@interface MainBaseViewController ()<LTHPasscodeViewControllerDelegate,UINavigationControllerDelegate>
+@interface MainBaseViewController ()<LTHPasscodeViewControllerDelegate,UINavigationControllerDelegate,DropViewDataSource,DropViewDelegate>
 @property (nonatomic, copy) NSMutableArray* menuArray;
 @property (nonatomic, assign) NSInteger curLineNum;
 @property (nonatomic, strong) CommonMenuView* menuView;
@@ -322,17 +322,15 @@
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
     dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
     dropTableViewController.preferredContentSize = CGSizeMake(150,self.dropMenuTitles.count*150/4);
-    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    dropTableViewController.dropTableView.delegate = self;
-    dropTableViewController.dropTableView.dataSource = self;
+    dropTableViewController.dataSource = self;
+    dropTableViewController.delegate = self;
     UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
     popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
     popover.barButtonItem = self.navigationItem.rightBarButtonItem;
     popover.delegate = self;
     [popover setSourceRect:sender.customView.frame];
     [popover setSourceView:self.view];
-    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    popover.backgroundColor = [UIColor colorWithHexString:kDropViewColor];
     [self presentViewController:dropTableViewController animated:YES completion:nil];
 }
 
@@ -340,8 +338,46 @@
     return UIModalPresentationNone;
 }
 
-# pragma mark - UITableView Delgate
+-(NSInteger)numberOfPagesIndropView:(DropViewController *)flowView{
+    return self.dropMenuTitles.count;
+}
 
+-(UITableViewCell *)dropView:(DropViewController *)flowView cellForPageAtIndex:(NSIndexPath *)index{
+    DropTableViewCell*  cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    cell.tittleLabel.text = self.dropMenuTitles[index.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[index.row]];
+    
+    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
+    cellBackView.backgroundColor = [UIColor clearColor];
+    cell.selectedBackgroundView = cellBackView;
+    cell.tittleLabel.adjustsFontSizeToFitWidth = YES;
+    
+    return cell;
+}
+
+-(void)dropView:(DropViewController *)flowView didTapPageAtIndex:(NSIndexPath *)index{
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSString *itemName = self.dropMenuTitles[index.row];
+        
+        if([itemName isEqualToString:kDropMentScanText]) {
+            [self actionBarCodeScanView:nil];
+        }
+        else if([itemName isEqualToString:kDropMentVoiceText]) {
+            [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+        }
+        else if([itemName isEqualToString:kDropMentSearchText]) {
+            [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
+        }
+        else if([itemName isEqualToString:kDropMentUserInfoText]) {
+            NewSettingViewController *settingViewController = [[NewSettingViewController alloc]init];
+            UINavigationController *userInfoViewControlller = [[UINavigationController alloc]initWithRootViewController:settingViewController];
+            [self presentViewController:userInfoViewControlller animated:YES completion:nil];
+        }
+    }];
+}
+
+# pragma mark - UITableView Delgate
+/*
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     
     return self.dropMenuTitles.count;
@@ -372,7 +408,7 @@
     
     return 150 / 4;
 }
-
+*/
 
 #pragma mark - action methods
 
@@ -381,6 +417,7 @@
  *
  *  @param sender
  */
+/*
 -(void)dropTableView{
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
     dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
@@ -399,7 +436,7 @@
     
     [self presentViewController:dropTableViewController animated:YES completion:nil];
 }
-
+*/
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     [self dismissViewControllerAnimated:YES completion:^{

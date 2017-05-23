@@ -17,6 +17,7 @@
 #import "SubLBXScanViewController.h"
 #import "User.h"
 #import "JumpCommonView.h"
+
 @interface JYBaseViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate>
 // 设置按钮点击下拉菜单
 @property (nonatomic, strong) NSArray *dropMenuTitles;
@@ -50,8 +51,8 @@
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
     [JumpCommonView clearMenu]; // 清除window菜单
-    [self menuView]; //重新生成菜单
-    self.navigationItem.rightBarButtonItem = [UIBarButtonItem createBarButtonItemWithImage:@"Banner-Setting" target:self action:@selector(showMyMenu:)];
+    [self initDropMenu]; //重新生成菜单
+         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
 
     // Do any additional setup after loading the view.
 }
@@ -96,50 +97,6 @@
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
 
-/** 展示菜单 */
-- (void)showMyMenu:(UIButton*)sender{
-    [JumpCommonView showMenuAtPoint:CGPointMake(sender.centerX, sender.bottom+10)];
-}
-
-- (NSArray *)menuArray{
-        _menuArray = [[NSMutableArray alloc]init];
-        if (kDropMentScanText) {
-            NSDictionary *dict1 = @{@"imageName" :@"DropMenu-Scan",
-                                    @"itemName" : kDropMentScanText
-                                    };
-            [_menuArray addObject:dict1];
-        }
-        if (kDropMentVoiceText) {
-            NSDictionary *dict2 = @{@"imageName" : @"DropMenu-Voice",
-                                    @"itemName" : kDropMentVoiceText
-                                    };
-            [_menuArray addObject:dict2];
-        }
-        if (kDropMentSearchText) {
-            NSDictionary *dict3 = @{@"imageName" : @"DropMenu-Search",
-                                    @"itemName" :kDropMentSearchText
-                                    };
-            [_menuArray addObject:dict3];
-        }
-        if (kDropMenuUserInfo) {
-            NSDictionary *dict4 = @{@"imageName" : @"DropMenu-UserInfo",
-                                    @"itemName" : kDropMentUserInfoText
-                                    };
-            [_menuArray addObject:dict4];
-        }
-    return _menuArray;
-}
-
-- (JumpCommonView *)menuView{
-        MJWeakSelf;
-        _menuView = [JumpCommonView createMenuWithFrame:CGRectZero target:self dataArray:self.menuArray itemsClickBlock:^(NSString *str, NSInteger tag) {
-            [weakSelf menuActionTitle:str];
-        } backViewTap:^{
-    
-        }];
-    _menuView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    return _menuView;
-}
 
 - (BOOL)prefersStatusBarHidden {
     return NO;
@@ -149,25 +106,7 @@
     return UIStatusBarStyleLightContent;
 }
 
-#pragma mark - 处理菜单点击
-- (void)menuActionTitle:(NSString*)title{
-    [JumpCommonView hidden];
-    if([title isEqualToString:kDropMentScanText]) {
-        [self actionBarCodeScanView:nil];
-    }
-    else if([title isEqualToString:kDropMentVoiceText]) {
-        [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
-    }
-    else if([title isEqualToString:kDropMentSearchText]) {
-        [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
-    }
-    else if([title isEqualToString:kDropMentUserInfoText]) {
-        NewSettingViewController *settingViewController = [[NewSettingViewController alloc]init];
-        UINavigationController *userInfoViewControlller = [[UINavigationController alloc]initWithRootViewController:settingViewController];
-        [self presentViewController:userInfoViewControlller animated:YES completion:nil];
-    }
 
-}
 #pragma mark - action methods
 
 /**
@@ -179,17 +118,15 @@
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
     dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
     dropTableViewController.preferredContentSize = CGSizeMake(150,self.dropMenuTitles.count*150/4);
-    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    dropTableViewController.dropTableView.delegate = self;
-    dropTableViewController.dropTableView.dataSource = self;
+    dropTableViewController.dataSource = self;
+    dropTableViewController.delegate = self;
     UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
     popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
     popover.barButtonItem = self.navigationItem.rightBarButtonItem;
     popover.delegate = self;
     [popover setSourceRect:sender.customView.frame];
     [popover setSourceView:self.view];
-    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    popover.backgroundColor = [UIColor colorWithHexString:kDropViewColor];
     [self presentViewController:dropTableViewController animated:YES completion:nil];
 }
 
@@ -197,70 +134,26 @@
     return UIModalPresentationNone;
 }
 
-# pragma mark - UITableView Delgate
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
+-(NSInteger)numberOfPagesIndropView:(DropViewController *)flowView{
     return self.dropMenuTitles.count;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return self.dropMenuTitles.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
-    if (!cell) {
-        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
-    }
-    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
-    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
+-(UITableViewCell *)dropView:(DropViewController *)flowView cellForPageAtIndex:(NSIndexPath *)index{
+    DropTableViewCell*  cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    cell.tittleLabel.text = self.dropMenuTitles[index.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[index.row]];
     
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
-    cellBackView.backgroundColor = [UIColor darkGrayColor];
+    cellBackView.backgroundColor = [UIColor clearColor];
     cell.selectedBackgroundView = cellBackView;
     cell.tittleLabel.adjustsFontSizeToFitWidth = YES;
     
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return 150 / 4;
-}
-
-
-#pragma mark - action methods
-
-/**
- *  标题栏设置按钮点击显示下拉菜单
- *
- *  @param sender
- */
--(void)dropTableView{
-    DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
-    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    //dropTableViewController.dropTableView.delegate = self;
-    //dropTableViewController.dropTableView.dataSource =self;
-    dropTableViewController.popoverPresentationController.sourceRect = CGRectMake(0, 0, 150, 150);
-    UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
-    popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
-    // popover.delegate = self;
-    // popover.barButtonItem = self.navigationItem.rightBarButtonItem;
-    [popover setSourceRect:self.navigationItem.rightBarButtonItem.customView.frame];
-    [popover setSourceView:self.view];
-    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    
-    [self presentViewController:dropTableViewController animated:YES completion:nil];
-}
-
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+-(void)dropView:(DropViewController *)flowView didTapPageAtIndex:(NSIndexPath *)index{
     [self dismissViewControllerAnimated:YES completion:^{
-        NSString *itemName = self.dropMenuTitles[indexPath.row];
+        NSString *itemName = self.dropMenuTitles[index.row];
         
         if([itemName isEqualToString:kDropMentScanText]) {
             [self actionBarCodeScanView:nil];

@@ -64,10 +64,7 @@
 }
 
 - (UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellid"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cellid"];
-    }
+     UITableViewCell*  cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cellid"];
     if ([_array[indexPath.row] isKindOfClass:[NSDictionary class]]) {
         cell.textLabel.text = _array[indexPath.row][@"name"];
         if ([_array[indexPath.row][@"os"] hasPrefix:@"iPhone"]) {

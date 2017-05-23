@@ -13,6 +13,8 @@
  */
 NSString *const kThemeColor       = @"#51aa33"; //31809f
 NSString *const kBannerBgColor    = @"#51aa33";
+NSString *const kDropViewColor    = @"#434a4d"; //弹出框颜色
+NSString *const kDropClickColor   = @"#393f42"; //弹出框点击颜色
 NSString *const kBannerTextColor  = @"#ffffff";
 NSString *const kIsUrlWrite2Local = @"1";
 NSInteger const kTimerInterval    = 30;

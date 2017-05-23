@@ -10,7 +10,9 @@
 #import "HttpUtils.h"
 #import "APIHelper.h"
 #import "FileUtils+Assets.h"
+#import "DropViewController.h"
+#import "DropTableViewCell.h"
 
-@interface JYBaseViewController : UIViewController
+@interface JYBaseViewController : UIViewController<DropViewDataSource,DropViewDelegate,UIPopoverPresentationControllerDelegate>
 
 @end

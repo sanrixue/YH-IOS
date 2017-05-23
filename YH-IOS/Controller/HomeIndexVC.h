@@ -8,8 +8,9 @@
 
 #import "YHBaseViewController.h"
 #import "HomeIndexModel.h"
+#import "UMSocialControllerService.h"
 
-@interface HomeIndexVC : YHBaseViewController
+@interface HomeIndexVC : YHBaseViewController<UMSocialUIDelegate>
 @property(nonatomic,strong)NSString* dataLink;
 @property(nonatomic, strong)NSString* bannerTitle;
 

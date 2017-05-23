@@ -23,10 +23,14 @@
 
 
 @interface SettingNormalViewController ()<UITableViewDelegate,UITableViewDataSource,SwitchTableViewCellDelegate>
+{
+    int cellnum;
+}
 @property (nonatomic,strong)UITableView *tableView;
 @property (copy, nonatomic) NSString *pgyLinkString;
 @property (strong, nonatomic) NSMutableDictionary *noticeDict;
 @property (strong, nonnull) Version *version;
+
 
 @end
 
@@ -34,7 +38,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    cellnum = 0;
      [self setupUI];
      NSString* noticeFilePath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     self.noticeDict = [FileUtils readConfigFile:noticeFilePath];
@@ -66,7 +70,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_infodict allKeys].count;
+    return _indictKey.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -74,55 +78,54 @@
 }
 
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     UITableViewCell* cell;
-    if ([[_infodict allKeys][indexPath.row] isEqualToString:@"消息推送"]){
-        SwitchTableViewCell*  cell = [[SwitchTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cellidcell"];
-        cell.messageLabel.text = [_infodict allKeys][indexPath.row];
-        cell.changStatusBtn.on = [[_infodict allValues][indexPath.row] boolValue];
+    if ([_indictKey[indexPath.row] isEqualToString:@"消息推送"]){
+        SwitchTableViewCell*  cell = [[SwitchTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dictcell"];
+        cell.messageLabel.text = _indictKey[indexPath.row];
+        cell.changStatusBtn.on = [_infodict[@"消息推送"] boolValue];
         cell.delegate = self;
+        cellnum++;
         return cell;
     }
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cellid"];
-    }
-    cell.textLabel.text = [_infodict allKeys][indexPath.row];
-    if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSDictionary class]]) {
+    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+     cell.textLabel.text = _indictKey[indexPath.row];
+    NSString *key = _indictKey[indexPath.row];
+    if ([_infodict[key] isKindOfClass:[NSDictionary class]]) {
         cell.detailTextLabel.text = @"";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-         if ([[_infodict allKeys][indexPath.row] isEqualToString:@"检测更新"]) {
+         if ([key isEqualToString:@"检测更新"]) {
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@)", _version.current, _version.build];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
-    else if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSArray class]]) {
+    else if ([_infodict[key] isKindOfClass:[NSArray class]]) {
         cell.detailTextLabel.text = @"";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
-     else if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSString class]]){
-        cell.detailTextLabel.text = [_infodict allValues][indexPath.row];
+     else if ([_infodict[key] isKindOfClass:[NSString class]]){
+        cell.detailTextLabel.text = _infodict[key];
         cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
          cell.userInteractionEnabled = NO;
-         if ([[_infodict allKeys][indexPath.row] isEqualToString:@"检查新版本"]) {
+         if ([key isEqualToString:@"检查新版本"]) {
              cell.detailTextLabel.text = self.pgyLinkString;
              cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
              cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
              cell.userInteractionEnabled = YES;
          }
-         else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"蒲公英下载"]) {
+         else if ([key isEqualToString:@"蒲公英下载"]) {
              cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
              cell.userInteractionEnabled = YES;
          }
-         else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"修改密码"]) {
+         else if ([key isEqualToString:@"修改密码"]) {
              cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
              cell.userInteractionEnabled = YES;
          }
-         else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"校正"]) {
+         else if ([key isEqualToString:@"校正"]) {
              cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
              cell.userInteractionEnabled = YES;
          }
-         else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"手工清理"]) {
+         else if ([key isEqualToString:@"手工清理"]) {
              cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
              cell.userInteractionEnabled = YES;
              
@@ -130,39 +133,42 @@
     }
     
     else {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",[_infodict allValues][indexPath.row]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",_infodict[key]];
     }
+    cellnum++;
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSDictionary class]]) {
+    NSString* key = _indictKey[indexPath.row];
+    if ([_infodict[key] isKindOfClass:[NSDictionary class]]) {
         SettingNormalViewController *thirdView = [[SettingNormalViewController alloc]init];
-        thirdView.title = [_infodict allKeys][indexPath.row];
-        thirdView.infodict = [_infodict allValues][indexPath.row];
+        thirdView.title = key;
+        thirdView.indictKey = [[_infodict[key] allKeys]copy];
+        thirdView.infodict = _infodict[key];
         [self.navigationController pushViewController:thirdView animated:YES];
     }
     
-   else if ([[_infodict allValues][indexPath.row] isKindOfClass:[NSArray class]]) {
+   else if ([_infodict[key] isKindOfClass:[NSArray class]]) {
         SettingArrayViewController *thirdView = [[SettingArrayViewController alloc]init];
         thirdView.title = [_infodict allKeys][indexPath.row];
         thirdView.array = [_infodict allValues][indexPath.row];
         [self.navigationController pushViewController:thirdView animated:YES];
     }
     
-    else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"检查新版本"]) {
+    else if ([key isEqualToString:@"检查新版本"]) {
              [self actionCheckUpgrade];
     }
-    else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"蒲公英下载"]) {
+    else if ([key isEqualToString:@"蒲公英下载"]) {
         [self actionOpenLink];
     }
-    else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"修改密码"]){
+    else if ([key isEqualToString:@"修改密码"]){
         [self ResetPassword];
     }
-    else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"校正"]){
+    else if ([key isEqualToString:@"校正"]){
         [self actionCheckAssets];
     }
-    else if ([[_infodict allKeys][indexPath.row] isEqualToString:@"手工清理"]){
+    else if ([key isEqualToString:@"手工清理"]){
         SettingArrayViewController *settingArrayCtrl = [[SettingArrayViewController alloc]init];
         if ([self getDocumentName] && [[self getPathFileName] count]) {
           // settingArrayCtrl.array = [self getPathFileName];

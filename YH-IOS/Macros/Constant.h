@@ -44,6 +44,8 @@ extern NSString *const kBannerBgColor;
 extern NSString *const kBannerTextColor;
 extern NSString *const kIsUrlWrite2Local;
 extern NSInteger const kTimerInterval;
+extern NSString *const kDropViewColor;
+extern NSString *const kDropClickColor;
 
 /**
  *  API#paths

@@ -9,13 +9,15 @@
 #import "YHBaseViewController.h"
 #import "SuperChartModel.h"
 #import "SuperChartMainModel.h"
+#import "UMSocialControllerService.h"
 
-@interface DoubleClickSuperChartVc : YHBaseViewController
+@interface DoubleClickSuperChartVc : YHBaseViewController<UMSocialUIDelegate>
 @property (nonatomic, strong) CommonBack sortBack;
 @property (nonatomic, strong) NSString* titleString;
 @property (nonatomic, strong) NSArray<TableDataBaseItemModel*>* keyArray;
 @property (nonatomic, assign) BOOL isdownImage;
 @property (nonatomic, assign) BOOL isSort;
+@property (nonatomic, strong) NSString* bannerName;
 
 - (void)setWithSuperModel:(SuperChartMainModel*)superModel column:(NSInteger)column;
 

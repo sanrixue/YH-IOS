@@ -7,8 +7,9 @@
 //
 
 #import "YHBaseViewController.h"
+#import "UMSocialControllerService.h"
 
-@interface SuperChartVc : YHBaseViewController
+@interface SuperChartVc : YHBaseViewController<UMSocialUIDelegate>
 
 @property(nonatomic,strong)NSString* dataLink;
 @property(nonatomic, strong)NSString* bannerTitle;

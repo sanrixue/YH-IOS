@@ -22,6 +22,7 @@
 #import "HttpUtils.h"
 #import "User.h"
 
+
 #define kJYNotifyHeight 30
 
 @interface JYHomeViewController () <UITableViewDelegate, UITableViewDataSource, PagedFlowViewDelegate, PagedFlowViewDataSource, JYNotifyDelegate, JYFallsViewDelegate,UINavigationBarDelegate,UINavigationControllerDelegate> {
@@ -41,6 +42,9 @@
 @property (nonatomic, strong) MJRefreshGifHeader *header;
 @property (nonatomic, strong) User* user;
 @property (nonatomic, strong) NSMutableArray* noticeArray;
+@property (nonatomic, strong) NSArray *dropMenuTitles;
+@property (nonatomic, strong) NSArray *dropMenuIcons;
+@property (nonatomic, strong) UITableView *dropMenu;
 
 
 @end

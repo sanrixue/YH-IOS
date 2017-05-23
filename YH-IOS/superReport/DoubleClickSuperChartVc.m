@@ -10,8 +10,13 @@
 #import "TableViewAndCollectionPackage.h"
 #import "DoubleClickSuperChartCell.h"
 #import "DoubleClickSuperChartHeaderCell.h"
+#import "UMSocial.h"
+#import "APIHelper.h"
+#import "DropTableViewCell.h"
+#import "DropViewController.h"
+#import "CommentViewController.h"
 
-@interface DoubleClickSuperChartVc ()
+@interface DoubleClickSuperChartVc ()<DropViewDelegate,DropViewDataSource,UIPopoverPresentationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong)  TableViewAndCollectionPackage* package;
 @property (nonatomic, strong) NSArray* dataList;
@@ -22,6 +27,8 @@
 @property (nonatomic, strong) UIButton* clearBackBtn;
 @property (nonatomic, strong) NSMutableArray* array;
 @property (nonatomic, strong) NSMutableArray* baseArray;
+@property (strong, nonatomic) NSArray *dropMenuTitles;
+@property (strong, nonatomic) NSArray *dropMenuIcons;
 
 @end
 
@@ -30,6 +37,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
     [self initPackage];
 }
 
@@ -38,6 +46,7 @@
     _superModel = superModel;
     _dataList = [superModel.table showData];
     _column = column;
+    [self initDropMenu];
     _array = [NSMutableArray array];
   //  NSMutableArray *demoArray = [NSMutableArray array];
     for (NSArray* array in _dataList) {
@@ -65,6 +74,155 @@
     _keyArray = inModelArray;*/
     [self.tableView reloadData];
 }
+
+
+#pragma 下拉菜单功能块
+- (void)initDropMenu {
+    NSMutableArray *tmpTitles = [NSMutableArray array];
+    NSMutableArray *tmpIcons = [NSMutableArray array];
+    if(kSubjectShare) {
+        [tmpTitles addObject:kDropShareText];
+        [tmpIcons addObject:@"Subject-Share"];
+    }
+    if(kSubjectComment) {
+        [tmpTitles addObject:kDropCommentText];
+        [tmpIcons addObject:@"Subject-Comment"];
+    }
+    self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
+    self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
+}
+
+
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
+
+#pragma mark - action methods
+
+/**
+ *  标题栏设置按钮点击显示下拉菜单
+ *
+ *  @param sender
+ */
+-(void)dropTableView:(UIBarButtonItem *)sender {
+    DropViewController *dropTableViewController = [[DropViewController alloc]init];
+    dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
+    dropTableViewController.preferredContentSize = CGSizeMake(150,self.dropMenuTitles.count*150/4);
+    dropTableViewController.dataSource = self;
+    dropTableViewController.delegate = self;
+    UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
+    popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    popover.barButtonItem = self.navigationItem.rightBarButtonItem;
+    popover.delegate = self;
+    [popover setSourceRect:sender.customView.frame];
+    [popover setSourceView:self.view];
+    popover.backgroundColor = [UIColor colorWithHexString:kDropViewColor];
+    [self presentViewController:dropTableViewController animated:YES completion:nil];
+}
+
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
+}
+
+-(NSInteger)numberOfPagesIndropView:(DropViewController *)flowView{
+    return self.dropMenuTitles.count;
+}
+
+-(UITableViewCell *)dropView:(DropViewController *)flowView cellForPageAtIndex:(NSIndexPath *)index{
+    DropTableViewCell*  cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    cell.tittleLabel.text = self.dropMenuTitles[index.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[index.row]];
+    
+    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
+    cellBackView.backgroundColor = [UIColor clearColor];
+    cell.selectedBackgroundView = cellBackView;
+    cell.tittleLabel.adjustsFontSizeToFitWidth = YES;
+    
+    return cell;
+}
+
+-(void)dropView:(DropViewController *)flowView didTapPageAtIndex:(NSIndexPath *)index{
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSString *itemName = self.dropMenuTitles[index.row];
+        
+        if([itemName isEqualToString:kDropCommentText]) {
+            [self actionWriteComment];
+        }
+        else if([itemName isEqualToString:kDropShareText]) {
+            [self actionWebviewScreenShot];
+        }
+        else if ([itemName isEqualToString:kDropRefreshText]){
+            [self.tableView reloadData];
+        }
+    }];
+    
+}
+
+- (void)actionWriteComment{
+    UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    CommentViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"CommentViewController"];
+    subjectView.bannerName = _bannerName;
+    [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+}
+
+
+
+#pragma 分享图片
+
+- (void)actionWebviewScreenShot{
+    UIImage *image = [self createViewImage:self.view];
+    dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1ull *NSEC_PER_SEC);
+    dispatch_after(time, dispatch_get_main_queue(), ^{
+        [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;
+        [UMSocialData defaultData].extConfig.title = kWeiXinShareText;
+        [UMSocialData defaultData].extConfig.qqData.url = kBaseUrl;
+        [UMSocialSnsService presentSnsIconSheetView:self
+                                             appKey:kUMAppId
+                                          shareText:self.title
+                                         shareImage:image
+                                    shareToSnsNames:@[UMShareToWechatSession]
+                                           delegate:self];
+    });
+}
+
+- (UIImage *)createViewImage:(UIView *)shareView {
+    UIGraphicsBeginImageContextWithOptions(shareView.bounds.size, NO, [UIScreen mainScreen].scale);
+    [shareView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+// 下面得到分享完成的回调
+// {
+//    data = {
+//        wxsession = "";
+//    };
+//    responseCode = 200;
+//    responseType = 5;
+//    thirdPlatformResponse = "<SendMessageToWXResp: 0x136479db0>";
+//    viewControllerType = 3;
+// }
+-(void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response {
+    /*
+     * 用户行为记录, 单独异常处理，不可影响用户体验
+     */
+    @try {
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[kActionALCName]   = [NSString stringWithFormat:@"微信分享完成(%d)", response.viewControllerType];
+        [APIHelper actionLog:logParams];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@", exception);
+    }
+}
+
 
 
 -(void)initPackage{

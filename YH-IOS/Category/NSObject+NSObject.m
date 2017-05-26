@@ -21,10 +21,10 @@
             if ([value1 isKindOfClass:[NSString class]]) {
                 value1 = [(NSString*)value1 removeString:@","];
                 value1 = [(NSString*)value1 removeString:@"%"];
-                value1 = [(NSString*)value1 removeString:@"-"];
+               // value1 = [(NSString*)value1 removeString:@"-"];
                 value2 = [(NSString*)value2 removeString:@","];
                 value2 = [(NSString*)value2 removeString:@"%"];
-                value2 = [(NSString*)value2 removeString:@"-"];
+              //  value2 = [(NSString*)value2 removeString:@"-"];
                 if (down) {
                     if (((NSString*)value1).floatValue<((NSString*)value2).floatValue) {
                         [sortArr exchangeObjectAtIndex:j withObjectAtIndex:j+1];

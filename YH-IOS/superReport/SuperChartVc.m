@@ -40,6 +40,7 @@ const static CGFloat lineHeight = 40; //一行的高度
 @property (nonatomic, strong)  UIView *bgView;
 @property (strong, nonatomic) NSArray *dropMenuTitles;
 @property (strong, nonatomic) NSArray *dropMenuIcons;
+@property (nonatomic, assign) NSInteger rowNum;
 
 @end
 
@@ -50,18 +51,18 @@ const static CGFloat lineHeight = 40; //一行的高度
     _isSort = NO;
     _isdownImage = YES;
     _clickBtn = -1;
-     self.menuArray = [self getMymenuArray];
-      self.menuView = [self getMymenuView];
    // _superModel = [SuperChartModel testModel];
    // [self setForSuperChartModel:_mainmeode];
     //[self setForSuperChartModel:_superModel];
     self.title = self.bannerTitle;
     [self formView];
-    [CommonMenuView clearMenu]; // 清除window菜单
-    [self getMymenuView]; //重新生成菜单
-    _curLineNum = 1;
+    [CommonMenuView clearMenu]; // 清除window菜单; //重新生成菜单
+    _curLineNum = 2;
     [self initDropMenu];
     [self getSuperChartData];
+    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    appDelegate.allowRotation = YES;
 }
 
 - (void)setForSuperChartModel:(SuperChartMainModel*)superModel{
@@ -78,7 +79,7 @@ const static CGFloat lineHeight = 40; //一行的高度
     self.bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     [self.view addSubview: _bgView];
     _bgView.backgroundColor = [UIColor clearColor];
-    [MRProgressOverlayView showOverlayAddedTo:_bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    [MRProgressOverlayView showOverlayAddedTo:_bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       _mainmeode = [SuperChartMainModel testModel:_dataLink];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -106,7 +107,10 @@ const static CGFloat lineHeight = 40; //一行的高度
     bakImage.image = imageback;
     [bakImage setContentMode:UIViewContentModeScaleAspectFit];
     [backBtn addSubview:bakImage];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
     [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
     self.title = self.bannerTitle;
@@ -122,19 +126,6 @@ const static CGFloat lineHeight = 40; //一行的高度
     [super viewWillDisappear:YES];
 }
 
-#pragma mark - 处理菜单点击
-- (void)menuActionTitle:(NSString*)title{
-    [CommonMenuView hidden];
-    if ([title isEqualToString:@"选列"]) {
-        [self selectList];
-    }
-    if ([title isEqualToString:@"行距"]) {
-        [self selectLineSpace];
-    }
-    if ([title isEqualToString:@"过滤"]) {
-        [self FilterAction];
-    }
-}
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
@@ -145,6 +136,12 @@ const static CGFloat lineHeight = 40; //一行的高度
 - (void)initDropMenu {
     NSMutableArray *tmpTitles = [NSMutableArray array];
     NSMutableArray *tmpIcons = [NSMutableArray array];
+    [tmpTitles addObject:@"选列"];
+    [tmpIcons addObject:@"选列"];
+    [tmpTitles addObject:@"筛选"];
+    [tmpIcons addObject:@"筛选"];
+    [tmpTitles addObject:@"行高"];
+    [tmpIcons addObject:@"行高"];
     if(kSubjectShare) {
         [tmpTitles addObject:kDropShareText];
         [tmpIcons addObject:@"Subject-Share"];
@@ -155,12 +152,6 @@ const static CGFloat lineHeight = 40; //一行的高度
     }
     [tmpTitles addObject:kDropRefreshText];
     [tmpIcons addObject:@"Subject-Refresh"];
-    [tmpTitles addObject:@"选列"];
-    [tmpIcons addObject:@"选列"];
-    [tmpTitles addObject:@"过滤"];
-    [tmpIcons addObject:@"过滤"];
-    [tmpTitles addObject:@"行距"];
-    [tmpIcons addObject:@"行距"];
 
     self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
@@ -171,10 +162,20 @@ const static CGFloat lineHeight = 40; //一行的高度
     return NO;
 }
 
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
 }
 
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
 
 #pragma mark - action methods
 
@@ -236,10 +237,10 @@ const static CGFloat lineHeight = 40; //一行的高度
         else if ([itemName isEqualToString:@"选列"]) {
             [self selectList];
         }
-        else if ([itemName isEqualToString:@"行距"]) {
+        else if ([itemName isEqualToString:@"行高"]) {
             [self selectLineSpace];
         }
-        else if ([itemName isEqualToString:@"过滤"]) {
+        else if ([itemName isEqualToString:@"筛选"]) {
             [self FilterAction];
         }
     }];
@@ -251,7 +252,10 @@ const static CGFloat lineHeight = 40; //一行的高度
     
     CommentViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"CommentViewController"];
     subjectView.bannerName = self.bannerTitle;
-    [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+    subjectView.objectID =self.objectID;
+    subjectView.commentObjectType = self.commentObjectType;
+    UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
 }
 
 
@@ -347,14 +351,16 @@ const static CGFloat lineHeight = 40; //一行的高度
     return _headerData.count-1;
 }
 - (CGFloat)heightForSection:(FormScrollView *)formScrollView {
-    return lineHeight*_curLineNum;
+    return lineHeight+((_curLineNum-1)*14);
 }
 - (CGFloat)heightForSectionHeader:(FormScrollView *)formScrollView{
-    return lineHeight;
+    return lineHeight + 10;
    // return 0;
 }
+
+
 - (CGFloat)widthForColumn:(FormScrollView *)formScrollView {
-    return 120;
+    return 100;
 }
 
 - (CGFloat)widthForColumnHeader:(FormScrollView *)formScrollView{
@@ -375,7 +381,8 @@ const static CGFloat lineHeight = 40; //一行的高度
     model = inModelArray[section];
    // header.titleLabel.adjustsFontSizeToFitWidth = YES;
     header.titleLabel.font = [UIFont systemFontOfSize:12];
-    header.titleLabel.numberOfLines = 0;
+    //int numer = (short)_curLineNum;
+    header.titleLabel.numberOfLines = _curLineNum;
     [header setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
     [header setTitle:[NSString stringWithFormat:@"%@", model.value] forState:UIControlStateNormal];
     return header;
@@ -430,6 +437,7 @@ const static CGFloat lineHeight = 40; //一行的高度
    // TableDataBaseItemModel* model = _headerData[column+1];
     [header setTitle:[NSString stringWithFormat:@"%@",model.value] forState:UIControlStateNormal];
     header.titleLabel.font = [UIFont systemFontOfSize:12];
+    header.titleLabel.numberOfLines = 2;
     [header setTitleColor:[AppColor app_3color] forState:UIControlStateNormal];
    // [header setImage:@"icongray_array".imageFromSelf forState:UIControlStateNormal];
     [header layoutButtonWithEdgeInsetsStyle:ButtonEdgeInsetsStyleRight imageTitleSpace:5];
@@ -464,6 +472,7 @@ const static CGFloat lineHeight = 40; //一行的高度
         NSString* value = model.value;
         cell.titleLabel.adjustsFontSizeToFitWidth = YES;
         [cell setTitle:value forState:UIControlStateNormal];
+      // cell.width = 12*[value length];
         cell.titleLabel.font = [UIFont systemFontOfSize:12];
       int colorNum ;
       if ([model.color intValue] && [model.color intValue] < 6) {
@@ -491,6 +500,7 @@ const static CGFloat lineHeight = 40; //一行的高度
     vc.titleString = model.value;
     vc.isdownImage = _isdownImage;
     vc.isSort = _isSort;
+    vc.lineNumber = _curLineNum;
    // vc.isdownImage = _isdownImage;
     __weak typeof(vc) weakVc = vc;
     [vc setWithSuperModel:_mainmeode column:indexPath.column+1];
@@ -524,7 +534,7 @@ const static CGFloat lineHeight = 40; //一行的高度
     }
     [_bgView setHidden:NO];
     sortArray = [NSArray sortArray:sortArray key:@"value" down:head.sortType];
-    [MRProgressOverlayView showOverlayAddedTo:_bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    [MRProgressOverlayView showOverlayAddedTo:_bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSMutableArray *datasetArray = [NSMutableArray arrayWithArray:_mainmeode.table.dataSet];
         //[_mainmeode.table.dataSet removeAllObjects];
@@ -532,7 +542,7 @@ const static CGFloat lineHeight = 40; //一行的高度
         for (TableDataBaseItemModel* item in sortArray) {
             int index = item.lineTag;
             [datasetArray addObject:@(index)];
-        }
+       }
         _mainmeode.table.dataSet = [datasetArray copy];
         dispatch_async(dispatch_get_main_queue(), ^{
             [MRProgressOverlayView dismissAllOverlaysForView:_bgView animated:YES];
@@ -560,27 +570,16 @@ const static CGFloat lineHeight = 40; //一行的高度
         NSDictionary *dict3 = @{@"imageName" : @"选列",
                                 @"itemName" : @"选列"
                                 };
-        NSDictionary *dict4 = @{@"imageName" : @"过滤",
-                                @"itemName" : @"过滤"
+        NSDictionary *dict4 = @{@"imageName" : @"筛选",
+                                @"itemName" : @"筛选"
                                 };
-        NSDictionary *dict5 = @{@"imageName" : @"行距",
-                                @"itemName" : @"行距"
+        NSDictionary *dict5 = @{@"imageName" : @"行高",
+                                @"itemName" : @"行高"
                                 };
         _menuArray = @[dict3,dict5,dict4];
     return _menuArray;
 }
 
-- (CommonMenuView *)getMymenuView{
-    self.menuArray = [self getMymenuArray];
-        MJWeakSelf;
-        _menuView = [CommonMenuView createMenuWithFrame:CGRectZero target:self dataArray:self.menuArray itemsClickBlock:^(NSString *str, NSInteger tag) {
-            [weakSelf menuActionTitle:str];
-        } backViewTap:^{
-            
-        }];
-    _menuView.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    return _menuView;
-}
 
 - (FormScrollView *)formView{
     if (!_formView) {

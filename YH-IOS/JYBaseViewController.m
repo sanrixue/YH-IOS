@@ -44,6 +44,9 @@
     [self initDropMenu];
     self.navigationController.navigationBar.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+     //self.navigationController.navigationBar.translucent = NO;
+    self.tabBarController.tabBar.translucent = NO;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     //@{}代表Dictionary
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.sharedPath = [FileUtils sharedPath];

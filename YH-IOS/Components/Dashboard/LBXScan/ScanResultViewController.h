@@ -6,9 +6,9 @@
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import "BaseWebViewController.h"
 
-@interface ScanResultViewController: BaseViewController
+@interface ScanResultViewController: BaseWebViewController
 @property (strong, nonatomic) NSString *codeInfo;
 @property (strong, nonatomic) NSString *codeType;
 @end

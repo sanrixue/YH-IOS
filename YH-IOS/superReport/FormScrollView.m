@@ -23,7 +23,7 @@
     CGFloat _height;
     CGFloat _leftHeaderWidth; // cjg
     CGFloat _sectionHeaderHeight; // cjg
-
+    
     FIndexPath *_firstIndexPath;
     FIndexPath *_maxIndexPath;
     FTopLeftHeaderView *_topLeftView;
@@ -87,7 +87,6 @@
     }
     return sectionHeader;
 }
-
 - (FormCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier {
     FormCell *cell = nil;
     for (FormCell *reusableCell in _reusableCells) {
@@ -152,22 +151,22 @@
         return;
     }
     [[self subviews] enumerateObjectsUsingBlock:^(id obj, NSUInteger index, BOOL *stop) {
-         if ([obj isKindOfClass:[FormColumnHeaderView class]]) {
-             [self queueReusableColumnHeader:(FormColumnHeaderView *)obj];
-             [(UIView *)obj removeFromSuperview];
-         } else if ([obj isKindOfClass:[FormSectionHeaderView class]]) {
-             [self queueReusableSectionHeader:(FormSectionHeaderView *)obj];
-             [(UIView *)obj removeFromSuperview];
-         } else if ([obj isKindOfClass:[FormCell class]]) {
-             [self queueReusableCell:(FormCell *)obj];
-             [(UIView *)obj removeFromSuperview];
-         } else if ([obj isKindOfClass:[FTopLeftHeaderView class]]){
-             [self queueReusableTopLeftHeader:(FTopLeftHeaderView *)obj];
-             [(UIView *)obj removeFromSuperview];
-         } else {
-             [(UIView *)obj removeFromSuperview];
-         }
-     }];
+        if ([obj isKindOfClass:[FormColumnHeaderView class]]) {
+            [self queueReusableColumnHeader:(FormColumnHeaderView *)obj];
+            [(UIView *)obj removeFromSuperview];
+        } else if ([obj isKindOfClass:[FormSectionHeaderView class]]) {
+            [self queueReusableSectionHeader:(FormSectionHeaderView *)obj];
+            [(UIView *)obj removeFromSuperview];
+        } else if ([obj isKindOfClass:[FormCell class]]) {
+            [self queueReusableCell:(FormCell *)obj];
+            [(UIView *)obj removeFromSuperview];
+        } else if ([obj isKindOfClass:[FTopLeftHeaderView class]]){
+            [self queueReusableTopLeftHeader:(FTopLeftHeaderView *)obj];
+            [(UIView *)obj removeFromSuperview];
+        } else {
+            [(UIView *)obj removeFromSuperview];
+        }
+    }];
     
     NSInteger numberSection = [_fDataSource numberOfSection:self];
     _numberSection = numberSection;
@@ -461,15 +460,15 @@
     }
     CGContextSetLineWidth(context, 1);
     CGContextSetStrokeColorWithColor(context, BordColor.CGColor);
-//    CGPoint aPoints[6];
-//    aPoints[0] =CGPointMake(0, 0);
-//    aPoints[1] =CGPointMake(CGRectGetWidth(rect), 0);
-//    aPoints[2] =CGPointMake(CGRectGetWidth(rect), CGRectGetHeight(rect));
-//    aPoints[3] =CGPointMake(0, 0);
-//    aPoints[4] =CGPointMake(0, CGRectGetHeight(rect));
-//    aPoints[5] =CGPointMake(CGRectGetWidth(rect), CGRectGetHeight(rect));
-//    CGContextAddLines(context, aPoints, 6);
-//    CGContextDrawPath(context, kCGPathStroke);
+    //    CGPoint aPoints[6];
+    //    aPoints[0] =CGPointMake(0, 0);
+    //    aPoints[1] =CGPointMake(CGRectGetWidth(rect), 0);
+    //    aPoints[2] =CGPointMake(CGRectGetWidth(rect), CGRectGetHeight(rect));
+    //    aPoints[3] =CGPointMake(0, 0);
+    //    aPoints[4] =CGPointMake(0, CGRectGetHeight(rect));
+    //    aPoints[5] =CGPointMake(CGRectGetWidth(rect), CGRectGetHeight(rect));
+    //    CGContextAddLines(context, aPoints, 6);
+    //    CGContextDrawPath(context, kCGPathStroke);
 }
 @end
 

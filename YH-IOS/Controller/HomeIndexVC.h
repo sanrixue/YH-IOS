@@ -13,6 +13,8 @@
 @interface HomeIndexVC : YHBaseViewController<UMSocialUIDelegate>
 @property(nonatomic,strong)NSString* dataLink;
 @property(nonatomic, strong)NSString* bannerTitle;
+@property (assign, nonatomic) CommentObjectType commentObjectType;
+@property (strong, nonatomic) NSNumber *objectID;
 
 - (void)setWithHomeIndexArray:(NSArray *)array;
 

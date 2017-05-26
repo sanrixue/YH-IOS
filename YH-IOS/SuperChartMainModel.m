@@ -40,7 +40,8 @@ NSString *json3 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
         jsonURL = [NSString stringWithFormat:@"%@%@",kBaseUrl,baseString];
     }
    // HttpResponse *reponse = [HttpUtils httpGet:jsonURL];
-     NSArray *urlArray = [urlString componentsSeparatedByString:@"/"];
+    NSArray *urlArray = [urlString componentsSeparatedByString:@"/"];
+
     NSString *filePath = [APIHelper getJsonDataWithZip:user.groupID templateID:urlArray[6] reportID:urlArray[8]];
     //newjson = json3;
     newjson = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];

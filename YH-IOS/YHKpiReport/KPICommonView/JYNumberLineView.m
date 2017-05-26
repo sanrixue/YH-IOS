@@ -63,9 +63,10 @@
 - (JYLineChartView *)lineView {
     if (!_lineView) {
         _lineView = [[JYLineChartView alloc] initWithFrame:CGRectMake(0, 0, JYViewWidth, JYViewHeight / 2.0 - JYDefaultMargin)];
-        _lineView.backgroundColor = [UIColor colorWithRed:0.99 green:0.93 blue:0.92 alpha:1.00];
+        _lineView.backgroundColor = [UIColor whiteColor];
         _lineView.lineColor = [UIColor colorWithRed:0.91 green:0.27 blue:0.24 alpha:1.00];
-        _lineView.dataSource = @[@"2", @"5", @"7", @"3", @"33", @"12", @"10"];
+        //_lineView.lineColor = [UIColor whiteColor];
+        //_lineView.dataSource = @[@"2", @"5", @"7", @"3", @"33", @"12", @"10"];
         _lineView.interval = 2.0;
         
         UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:_lineView.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(5, 1)];
@@ -79,10 +80,11 @@
 
 - (UILabel *)groupNameLB {
     if (!_groupNameLB) {
-        _groupNameLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, CGRectGetMaxY(self.lineView.frame) + JYDefaultMargin * 2, JYViewWidth - JYDefaultMargin * 2 - 15, 15)];
+        _groupNameLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, CGRectGetMaxY(self.lineView.frame) + JYDefaultMargin * 2, 120, 15)];
         _groupNameLB.textColor = [UIColor colorWithHexString:@"#323232"];
-        _groupNameLB.text = @"第二集群销售额";
-        _groupNameLB.adjustsFontSizeToFitWidth = YES;
+        //_groupNameLB.text = @"第二集群销售额";
+        _groupNameLB.adjustsFontSizeToFitWidth = NO;
+        _groupNameLB.font = [UIFont systemFontOfSize:14];
     }
     return _groupNameLB;
 }

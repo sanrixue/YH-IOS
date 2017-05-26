@@ -6,10 +6,11 @@
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
 
-#import "BaseViewController.h"
-#import "UMSocialControllerService.h"
 
-@interface SubjectViewController: BaseViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UMSocialUIDelegate>
+#import "UMSocialControllerService.h"
+#import "BaseWebViewController.h"
+
+@interface SubjectViewController: BaseWebViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UMSocialUIDelegate>
 
 @property (strong, nonatomic) NSString *bannerName;
 @property (strong, nonatomic) NSString *link;

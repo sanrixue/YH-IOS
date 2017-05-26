@@ -25,6 +25,7 @@
 #import "HomeIndexModel.h"
 #import "CommonMenuView.h"
 #import "ThurSayViewController.h"
+#import "ResetPasswordViewController.h"
 
 
 @interface MainBaseViewController ()<LTHPasscodeViewControllerDelegate,UINavigationControllerDelegate,DropViewDataSource,DropViewDelegate>
@@ -44,11 +45,18 @@
     [self.navigationController.navigationBar addSubview:imageView];
     self.user = [[User alloc] init];
     [self initDropMenu];
-    self.navigationController.navigationBar.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+   // self.navigationController.navigationBar.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    //self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    //[self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     //@{}代表Dictionary
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    self.navigationController.navigationBar.translucent = NO;
+    self.tabBarController.tabBar.translucent = NO;
+
+    //@{}代表Dictionary
+   // [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.sharedPath = [FileUtils sharedPath];
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
@@ -60,9 +68,12 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
+   // [self noteToChangePwd];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(remotePushJump:) name:@"remotepush" object:nil];
     [LTHPasscodeViewController sharedUser].delegate = self;
 }
+
+
 
 
 - (BOOL)shouldAutorotate
@@ -637,6 +648,8 @@
     op = [self checkAssetUpdate:kJavascriptsAssetsName info:kJavascriptsPopupText isInAssets: YES];
     if(op) { [queue addOperation:op]; }
     op = [self checkAssetUpdate:kBarCodeScanAssetsName info:kBarCodeScanPopupText isInAssets: NO];
+    if(op) { [queue addOperation:op]; }
+    op = [self checkAssetUpdate:kIconsAssetsName info:@"图标库" isInAssets: NO];
     if(op) { [queue addOperation:op]; }
     // op = [self checkAssetUpdate:kAdvertisementAssetsName info:kAdvertisementPopupText isInAssets: NO];
     // if(op) { [queue addOperation:op]; }

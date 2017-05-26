@@ -131,23 +131,31 @@
             subjectView.bannerName = data[@"bannerName"];
             subjectView.link = data[@"link"];
             subjectView.objectID = data[@"objectID"];
+            subjectView.commentObjectType = ObjectTypeAnalyse;
             if ([data[@"link"] rangeOfString:@"template/3/"].location != NSNotFound) {
-                NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
+                // NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:data[@"link"]];
+                
                 HomeIndexVC *vc = [[HomeIndexVC alloc] init];
-                vc.dataLink = data[@"link"];
                 vc.bannerTitle = data[@"bannerName"];
-                [vc setWithHomeIndexArray:models];
+                vc.dataLink = data[@"link"];
+                vc.objectID = data[@"objectID"];
+                vc.commentObjectType = ObjectTypeAnalyse;
                 UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
                 [self presentViewController:rootchatNav animated:YES completion:nil];
+                
             }
             else if ([data[@"link"] rangeOfString:@"template/5/"].location != NSNotFound) {
                 SuperChartVc *superChaerCtrl = [[SuperChartVc alloc]init];
+                superChaerCtrl.bannerTitle = data[@"bannerName"];
+                superChaerCtrl.dataLink = data[@"link"];
+                superChaerCtrl.objectID = data[@"objectID"];
+                superChaerCtrl.commentObjectType = ObjectTypeAnalyse;
                 UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
                 [self presentViewController:superChartNavCtrl animated:YES completion:nil];
             }
             else{ //跳转事件
-                [self.navigationController presentViewController:subjectView animated:YES completion:nil];
-            }
+                UINavigationController *subjectCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+                [self presentViewController:subjectCtrl animated:YES completion:nil];            }
         }
     }];
     

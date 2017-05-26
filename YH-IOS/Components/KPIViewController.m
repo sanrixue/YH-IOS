@@ -145,7 +145,8 @@
                   }
               }*/
               else{ //跳转事件
-                [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+                  UINavigationController *subjectCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+                  [self presentViewController:subjectCtrl animated:YES completion:nil];
               }
         }
     }];

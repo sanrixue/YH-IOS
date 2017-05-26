@@ -6,11 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "down_redarrow.png",
+      "filename" : "arrow_red_down@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "arrow_red_down1.png",
       "scale" : "3x"
     }
   ],

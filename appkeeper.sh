@@ -59,6 +59,7 @@ case "$1" in
         check_assets "javascripts"
         check_assets "stylesheets"
         check_assets "loading"
+        check_assets "icons"
     ;;
     *)
         test -z "$1" && echo "current app: $(cat .current-app)" || echo "unknown argument - $1"

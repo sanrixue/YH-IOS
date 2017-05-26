@@ -53,23 +53,23 @@
 - (void)initilizeSubView {
     
     title = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin, 200, 30)];
-    title.text = @"第二集群实时数据";
+   // title.text = @"第二集群实时数据";
     [self addSubview:title];
     
     // 所属组
     groupName = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, CGRectGetMaxY(title.frame), 200, 18)];
-    groupName.text = @"商行实时销售";
+   // groupName.text = @"商行实时销售";
     groupName.font = [UIFont systemFontOfSize:12];
     [self addSubview:groupName];
     
     money = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, CGRectGetMaxY(groupName.frame) + JYDefaultMargin, 200, 18)];
-    money.text = @"23.5";
+   // money.text = @"23.5";
     money.font = [UIFont systemFontOfSize:17];
     money.textColor = JYColor_ArrowColor_Red;
     [self addSubview:money];
     
     unit = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, CGRectGetMaxY(groupName.frame) + JYDefaultMargin, 200, 18)];
-    unit.text = @"万";
+  //  unit.text = @"万";
     unit.font = [UIFont systemFontOfSize:17];
     unit.textColor = JYColor_ArrowColor_Red;
     [self addSubview:unit];
@@ -80,7 +80,7 @@
     
     ratio = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(trendType.frame) - 200 - 10, CGRectGetMaxY(trendType.frame) + JYDefaultMargin, 200, 18)];
     ratio.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
-    ratio.text = @"-1.04";
+   // ratio.text = @"-1.04";
     ratio.textAlignment = NSTextAlignmentRight;
     [self addSubview:ratio];
     
@@ -102,6 +102,7 @@
         _curveLine = [[JYCurveLineView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(ratio.frame) + JYDefaultMargin, JYScreenWidth * 0.88, 218 - CGRectGetMaxY(ratio.frame) - 2 * JYDefaultMargin)];
         _curveLine.interval = 2.0;
         _curveLine.lineColor = [UIColor colorWithHexString:@"#40BBD5"];
+        //_curveLine.lineColor = [UIColor blueColor];
         [self addSubview:_curveLine];
     }
     return _curveLine;
@@ -145,10 +146,10 @@
     title.text = self.model.title;
     
     money.text = self.model.saleNumber;
-    //money.textColor = self.model.arrowToColor;
+    money.textColor = self.model.arrowToColor;
     
     unit.text = self.model.unit;
-    //unit.textColor = self.model.arrowToColor;
+    unit.textColor = self.model.arrowToColor;
     
     ratio.text = self.model.floatRate;
     ratio.textColor = self.model.arrowToColor;
@@ -170,6 +171,7 @@
             self.componentView = self.progress;
             width = JYViewHeight - CGRectGetMaxY(ratio.frame) - 2 * JYDefaultMargin;
             width = height;
+            ratio.text = nil;
         } break;
         case DashBoardTypeNumber:
             self.componentView = self.numberView;

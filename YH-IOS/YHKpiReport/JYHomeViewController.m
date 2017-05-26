@@ -20,12 +20,13 @@
 #import "ViewUtils.h"
 #import "HttpResponse.h"
 #import "HttpUtils.h"
+#import "ResetPasswordViewController.h"
 #import "User.h"
 
 
 #define kJYNotifyHeight 30
 
-@interface JYHomeViewController () <UITableViewDelegate, UITableViewDataSource, PagedFlowViewDelegate, PagedFlowViewDataSource, JYNotifyDelegate, JYFallsViewDelegate,UINavigationBarDelegate,UINavigationControllerDelegate> {
+@interface JYHomeViewController () <UITableViewDelegate, UITableViewDataSource, PagedFlowViewDelegate, PagedFlowViewDataSource, JYNotifyDelegate, JYFallsViewDelegate> {
     
     CGFloat bottomViewHeight;
     NSArray *dataListTop;
@@ -57,24 +58,28 @@
     self.automaticallyAdjustsScrollViewInsets = YES;
     self.view.backgroundColor = JYColor_LightGray_White;
     _noticeArray = [[NSMutableArray alloc]init];
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     [self loadData];
    // self.edgesForExtendedLayout = UIRectEdgeNone;
     
     bottomViewHeight = JYVCHeight;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self.view addSubview:self.notifyView];
     [self.view addSubview:self.rootSCView];
     
     _header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     _header.lastUpdatedTimeLabel.hidden = YES;
+   self.navigationController.navigationBar.translucent = NO;
     self.rootTBView.mj_header = _header;
+    [self noteToChangePwd];
     
 }
 
 -(void)loadNewData{
     [self.rootTBView.mj_header beginRefreshing];
     [self loadData];
-    [self.rootTBView reloadData];
+   // [self.rootTBView reloadData];
    // _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight, JYVCWidth, JYVCHeight - (kJYNotifyHeight)) style:UITableViewStylePlain];
     [_rootTBView.mj_header endRefreshing];
 }
@@ -84,11 +89,25 @@
     // 数据准备
     _user = [[User alloc]init];
     NSString *kpiUrl = [NSString stringWithFormat:@"%@/mobile/v2/data/group/%@/role/%@/kpi",kBaseUrl,self.user.groupID,self.user.roleID];
-    HttpResponse *response = [HttpUtils httpGet:kpiUrl header:nil timeoutInterval:10];
+    NSData *data;
+     NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
+     NSString*fileName =  [HttpUtils urlTofilename:kpiUrl suffix:@".kpi"][0];
+     javascriptPath = [javascriptPath stringByAppendingPathComponent:fileName];
+     
+     if ([HttpUtils isNetworkAvailable2]) {
+        HttpResponse *reponse = [HttpUtils httpGet:kpiUrl];
+        if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
+            [FileUtils removeFile:javascriptPath];
+        }
+         data = reponse.received;
+         [reponse.received writeToFile:javascriptPath atomically:YES];
+       }
+    else{
+        data= [NSData dataWithContentsOfFile:javascriptPath];
+     }
     
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"kpi_data" ofType:@"json"];
   //  NSData *data = [NSData dataWithContentsOfFile:path];
-    NSData *data = response.received;
     NSArray *arraySource = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
     NSMutableArray<JYDashboardModel *> *arr = [NSMutableArray arrayWithCapacity:arraySource.count];
     [arraySource enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -170,11 +189,12 @@
     
     if (!_rootTBView) {
         //给通知视图预留40height
-        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight + 64, JYVCWidth, JYVCHeight - (kJYNotifyHeight + 64 + 40)) style:UITableViewStylePlain];
+        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight, JYVCWidth, self.view.frame.size.height - (kJYNotifyHeight + 64 + 40)) style:UITableViewStylePlain];
         _rootTBView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _rootTBView.showsVerticalScrollIndicator = NO;
         _rootTBView.dataSource = self;
         _rootTBView.delegate = self;
+        self.edgesForExtendedLayout = UIRectEdgeNone;
         _rootTBView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _rootTBView.backgroundColor = JYColor_LightGray_White;
     }
@@ -184,16 +204,16 @@
 - (JYNotifyView *)notifyView {
     if (!_notifyView) {
         NSMutableArray* noticearray = [[NSMutableArray alloc]init];
-        _notifyView = [[JYNotifyView alloc] initWithFrame:CGRectMake(0, 64, JYVCWidth, kJYNotifyHeight - 2)];
+        _notifyView = [[JYNotifyView alloc] initWithFrame:CGRectMake(0, 0, JYVCWidth, kJYNotifyHeight - 2)];
         if (_noticeArray.count >=2) {
-            [noticearray addObject:_noticeArray[0]];
-            [noticearray addObject:_noticeArray[1]];
+            [noticearray addObject:[NSString stringWithFormat:@"消息(%lu): %@", (unsigned long)_noticeArray.count,_noticeArray[0]]];
+             [noticearray addObject:[NSString stringWithFormat:@"消息(%lu): %@", (unsigned long)_noticeArray.count,_noticeArray[1]]];
         }
         else if (_noticeArray.count ==1){
-            [noticearray addObject:_noticeArray[0]];
+             [noticearray addObject:[NSString stringWithFormat:@"消息(1): %@",_noticeArray[0]]];
         }
         else{
-            [noticearray addObject:@"暂无公告"];
+            [noticearray addObject:@"暂无消息"];
         }
         _notifyView.notifications = noticearray;
         _notifyView.delegate = self;
@@ -350,8 +370,43 @@
     [self jumpToDetailView:targetString viewTitle:model.title];
 }
 
+-(void)noteToChangePwd{
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    SCLAlertView *alert = [[SCLAlertView alloc] init];
+    if ([userDict[@"password_md5"] isEqualToString:@"123456".md5]) {
+        [alert addButton:@"稍后修改" actionBlock:^(void) {
+        }];
+        [alert addButton:@"立即修改" actionBlock:^(void) {
+            [self ResetPassword];
+        }];
+        [alert showSuccess:self title:@"温馨提示" subTitle:@"安全起见，请在【个人信息】-【基本信息】-【修改登录密码】页面修改初始密码" closeButtonTitle:nil duration:0.0f];
+    }
+}
+
+// 修改密码
+- (void)ResetPassword {
+    ResetPasswordViewController *resertPwdViewController = [[ResetPasswordViewController alloc]init];
+    resertPwdViewController.title = @"修改密码";
+    UINavigationController *reserPwdCtrl = [[UINavigationController alloc]initWithRootViewController:resertPwdViewController];
+    [self.navigationController presentViewController:reserPwdCtrl animated:YES completion:nil];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[kActionALCName] = @"点击/设置页面/修改密码";
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
+}
 
 -(void)jumpToDetailView:(NSString*)targeturl viewTitle:(NSString*)title{
+    NSArray *urlArray = [targeturl componentsSeparatedByString:@"/"];
     if ([targeturl isEqualToString:@""] || targeturl == nil) {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
                                                                        message:@"该功能正在开发中"
@@ -366,32 +421,27 @@
     else{
         UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-       SubjectViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"SubjectViewController"];
-       subjectView.bannerName =title;
-       subjectView.link = targeturl;
-    // subjectView.objectID = data[@"objectID"];
+        SubjectViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"SubjectViewController"];
+        subjectView.bannerName =title;
+        subjectView.link = targeturl;
+        subjectView.commentObjectType = ObjectTypeKpi;
+        subjectView.objectID = [urlArray lastObject];
        if ([targeturl rangeOfString:@"template/3/"].location != NSNotFound) {
-          [MRProgressOverlayView showOverlayAddedTo:self.view title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
-          NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:targeturl];
-        
           HomeIndexVC *vc = [[HomeIndexVC alloc] init];
           vc.bannerTitle = title;
           vc.dataLink = targeturl;
-          [vc setWithHomeIndexArray:models];
-          [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
-          if (models.count <= 0 || !models) {
-             [ViewUtils showPopupView:self.view Info:@"数据为空"];
-         }
-         else{
-             UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
-             [self presentViewController:rootchatNav animated:YES completion:nil];
-         }
+           vc.objectID =[urlArray lastObject];
+          vc.commentObjectType = ObjectTypeAnalyse;
+          UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
+          [self presentViewController:rootchatNav animated:YES completion:nil];
         
      }
      else if ([targeturl rangeOfString:@"template/5/"].location != NSNotFound) {
          SuperChartVc *superChaerCtrl = [[SuperChartVc alloc]init];
          superChaerCtrl.bannerTitle = title;
          superChaerCtrl.dataLink = targeturl;
+         superChaerCtrl.objectID =[urlArray lastObject];
+         superChaerCtrl.commentObjectType = ObjectTypeAnalyse;
          UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
          [self presentViewController:superChartNavCtrl animated:YES completion:nil];
      }
@@ -414,7 +464,8 @@
           [self presentViewController:superChartNavCtrl animated:YES completion:nil];
       }
       else{ //跳转事件
-          [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+          UINavigationController *subjectCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+          [self presentViewController:subjectCtrl animated:YES completion:nil];
       }
     }
 }

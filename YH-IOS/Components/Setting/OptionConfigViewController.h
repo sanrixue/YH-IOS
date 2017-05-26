@@ -6,12 +6,13 @@
 //  Copyright © 2017年 com.intfocus. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <UIKit/UIKit.h>  
 #import "User.h"
 
 
 @interface OptionConfigViewController : UIViewController
 
 @property(nonatomic,strong) NSDictionary *arraydict;
+@property(nonatomic,strong) NSArray* titleArray;
 
 @end

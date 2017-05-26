@@ -73,6 +73,12 @@
         [[NSFileManager defaultManager] copyItemAtPath:[cachePath stringByAppendingPathComponent:reportFileName] toPath:javascriptPath error:nil];
         [FileUtils removeFile:[cachePath stringByAppendingPathComponent:reportFileName]];
     }
+    else{
+        NSString *htmlName = [HttpUtils urlTofilename:jsonString suffix:@".json"][0];
+        htmlName = [htmlName stringByReplacingOccurrencesOfString:@"_jzip.json" withString:@".json"];
+        htmlName = [htmlName stringByReplacingOccurrencesOfString:@"api_v1_group" withString:@"group"];
+        javascriptPath = [[FileUtils dirPath:kHTMLDirName] stringByAppendingPathComponent:htmlName];
+    }
     return javascriptPath;
 }
 
@@ -129,6 +135,8 @@
         userDict[@"images_md5"]      = response.data[@"assets"][@"images_md5"];
         userDict[@"stylesheets_md5"] = response.data[@"assets"][@"stylesheets_md5"];
         userDict[@"javascripts_md5"] = response.data[@"assets"][@"javascripts_md5"];
+        userDict[@"icons_md5"] = response.data[@"assets"][@"icons_md5"];
+        userDict[@"password_md5"]  = password;
         
         /**
          *  rewrite screen lock info into

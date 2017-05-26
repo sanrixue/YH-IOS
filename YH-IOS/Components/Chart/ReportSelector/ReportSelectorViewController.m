@@ -13,8 +13,8 @@
 @interface ReportSelectorViewController ()<UISearchBarDelegate> {
     NSString *searchingText;
 }
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UITextField *textFieldSearch;
+@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) UITextField *textFieldSearch;
 @property (strong, nonatomic) NSArray *dataList;
 @property (strong, nonatomic) NSArray *searchItems;
 @property (strong, nonatomic) NSString *selectedItem;
@@ -27,9 +27,10 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self idColor];
     self.dataList = [NSArray array];
-    
+    //self.textFieldSearch = []
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.view addSubview:_tableView];
     /**
      *  - 如果用户已设置筛选项，则 banner 显示该信息
      *  - 未设置时，默认显示第一个
@@ -47,12 +48,47 @@
     self.searchItems = [self.searchItems sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
     self.dataList = [self.searchItems copy];
-    self.labelTheme.text = self.bannerName;
+    self.title = self.bannerName;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.tableHeaderView.backgroundColor = [UIColor lightGrayColor];
     
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn addSubview:bakImage];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    self.navigationController.navigationBar.translucent = NO;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
+}
+
+- (void)backAction{
+    if (_isSearch) {
+        _isSearch = NO;
+        [self.tableView reloadData];
+    }
+    else {
+        [super dismissViewControllerAnimated:YES completion:^{
+            [self.progressHUD hide:YES];
+            self.progressHUD = nil;
+        }];
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

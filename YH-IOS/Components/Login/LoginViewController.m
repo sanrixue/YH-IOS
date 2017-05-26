@@ -235,7 +235,8 @@
 // 找回密码
 - (void)jumpToFindPassword {
     FindPasswordViewController *findPwdViewController = [[FindPasswordViewController alloc]init];
-    [self presentViewController:findPwdViewController animated:YES completion:nil];
+    UINavigationController *findPwdCtrl = [[UINavigationController alloc]initWithRootViewController:findPwdViewController];
+    [self presentViewController:findPwdCtrl animated:YES completion:nil];
 }
 
 // 点击注册按钮

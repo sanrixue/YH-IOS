@@ -77,7 +77,7 @@
     self.bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     [self.view addSubview: _bgView];
     _bgView.backgroundColor = [UIColor clearColor];
-    [MRProgressOverlayView showOverlayAddedTo:_bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    [MRProgressOverlayView showOverlayAddedTo:_bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [_selectedSet removeAllObjects];
         for (TableDataBaseModel* data in self.dataList) {

@@ -7,8 +7,9 @@
 //
 
 #import "BaseViewController.h"
+#import "BaseWebViewController.h"
 
-@interface CommentViewController : BaseViewController
+@interface CommentViewController : BaseWebViewController
 @property (strong, nonatomic) NSString *bannerName;
 @property (assign, nonatomic) CommentObjectType commentObjectType;
 @property (strong, nonatomic) NSNumber *objectID;

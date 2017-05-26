@@ -73,9 +73,9 @@
 
 #define JYColor_LightGray_White ([UIColor colorWithRed:250/255.0 green:250/255.0 blue:250/255.0 alpha:1.0])
 #define JYColor_TextColor_Gray ([UIColor colorWithHexString:@"#999999"])
-#define JYColor_ArrowColor_Red ([UIColor colorWithHexString:@"EA4335"])
-#define JYColor_ArrowColor_Yellow ([UIColor colorWithHexString:@"FBBC05"])
-#define JYColor_ArrowColor_Green ([UIColor colorWithHexString:@"34AB53"])
+#define JYColor_ArrowColor_Red ([UIColor colorWithHexString:@"F57658"])
+#define JYColor_ArrowColor_Yellow ([UIColor colorWithHexString:@"f4bc45"])
+#define JYColor_ArrowColor_Green ([UIColor colorWithHexString:@"91c941"])
 
 
 #endif /* PrefixHeader_pch */

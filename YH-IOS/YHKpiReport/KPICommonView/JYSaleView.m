@@ -61,8 +61,8 @@
 
 - (UILabel *)groupNameLB {
     if (!_groupNameLB) {
-        _groupNameLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin, JYViewWidth-30, 40)];
-        _groupNameLB.text = @"第二集群实时数据";
+        _groupNameLB = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin, 120, 40)];
+       // _groupNameLB.text = @"第二集群实时数据";
         _groupNameLB.numberOfLines = 0;
         _groupNameLB.font = [UIFont systemFontOfSize:14];
        // _groupNameLB.textColor = [UIColor redColor];
@@ -74,7 +74,7 @@
 - (UILabel *)saleNumberLB {
     if (!_saleNumberLB) {
         _saleNumberLB = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.groupNameLB.frame) + 11, JYViewWidth, 56)];
-        _saleNumberLB.text = @"25.3";
+        //_saleNumberLB.text = @"25.3";
         _saleNumberLB.textAlignment = NSTextAlignmentCenter;
         _saleNumberLB.font = [UIFont systemFontOfSize:30];
         _saleNumberLB.textColor = [UIColor colorWithHexString:@"#999999"];

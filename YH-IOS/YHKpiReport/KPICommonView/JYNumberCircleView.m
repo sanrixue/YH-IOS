@@ -58,11 +58,11 @@
 
 - (UILabel *)title {
     if (!_title) {
-        _title = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin, JYViewWidth, 20)];
+        _title = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin, 120, 20)];
         _title.textColor = [UIColor colorWithHexString:@"#323232"];
         _title.numberOfLines = 0;
         _title.font = [UIFont systemFontOfSize:14];
-        _title.text = @"第二集群实时数据";
+        //_title.text = @"第二集群实时数据";
     }
     return _title;
 }

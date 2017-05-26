@@ -71,6 +71,20 @@ void UncaughtExceptionHandler(NSException * exception) {
     return [UIApplication sharedApplication].delegate;
 }
 
+-(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    
+    if (self.allowRotation == YES) {
+        
+        return UIInterfaceOrientationMaskAll;
+        
+    }else{
+        
+        return UIInterfaceOrientationMaskPortrait;
+        
+    }
+    
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _isReApp = YES;
@@ -290,12 +304,6 @@ void UncaughtExceptionHandler(NSException * exception) {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-    if (self.allowRotation) {
-        return UIInterfaceOrientationMaskAll;
-    }
-    return (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown);
-}
 
 #pragma mark - LTHPasscodeViewControllerDelegate methods
 - (void)passcodeWasEnteredSuccessfully {
@@ -403,6 +411,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     [FileUtils checkAssets:kJavascriptsAssetsName isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:kStylesheetsAssetsName isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:kBarCodeScanAssetsName isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:kIconsAssetsName isInAssets:YES bundlePath:bundlePath];
     // [FileUtils checkAssets:kAdvertisementAssetsName isInAssets:NO bundlePath:bundlePath];
 }
 

@@ -163,7 +163,8 @@
     ScanResultViewController *scanResultVC = (ScanResultViewController*)[storyboard instantiateViewControllerWithIdentifier:@"ScanResultViewController"];
     scanResultVC.codeInfo = scanResult.strScanned;
     scanResultVC.codeType = scanResult.strBarCodeType;
-    [self presentViewController:scanResultVC animated:YES completion:nil];
+    UINavigationController *scanresult = [[UINavigationController alloc]initWithRootViewController:scanResultVC];
+    [self presentViewController:scanresult animated:YES completion:nil];
 }
 
 - (void)popAlertMsgWithScanResult:(NSString*)strResult {
@@ -210,7 +211,8 @@
 - (void)manualInput {
     ManualInputViewController *manualInput = [[ManualInputViewController alloc]init];
     manualInput.fromViewController = @"click";
-    [self presentViewController:manualInput animated:YES completion:nil];
+    UINavigationController *manulCtrl = [[UINavigationController alloc]initWithRootViewController:manualInput];
+    [self presentViewController:manulCtrl animated:YES completion:nil];
 }
 
 @end

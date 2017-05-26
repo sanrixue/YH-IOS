@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSString *settingsConfigPath;
 @property (strong, nonatomic) NSString *sharedPath;
 @property (assign, nonatomic) BOOL isSuccess;
+@property (strong, nonatomic) NSMutableDictionary *userdict;
 
 @end
 
@@ -30,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    
     self.settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     // Do any additional setup after loading the view.
 }
@@ -47,17 +49,37 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     if ([self.title isEqualToString:@"选项配置"]) {
-        NSDictionary *infodict = @{@"锁屏设置": @{@"启用锁屏":@YES,@"修改锁屏密码":@{}}, @"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
+        NSDictionary *infodict = @{@"锁屏设置": @(YES), @"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
-        NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-        BOOL isUseGesturePassword = [userDict[kIsUseGesturePasswordCUName] boolValue];
+        _userdict = [FileUtils readConfigFile:userConfigPath];
+        BOOL isUseGesturePassword = [_userdict[kIsUseGesturePasswordCUName] boolValue];
         if (!isUseGesturePassword) {
-            infodict = @{@"锁屏设置": @{@"启用锁屏":@NO}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""} };
+            infodict = @{@"锁屏设置": @(NO), @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""} };
         }
         self.arraydict = infodict;
         [self.tableView reloadData];
     }
     [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addSubview:bakImage];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
+    self.navigationController.navigationBar.translucent = NO;
+}
+
+- (void)backAction{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)setupUI{
@@ -74,7 +96,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [_arraydict allKeys].count;
+    return _titleArray.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -82,53 +104,56 @@
 }
 
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([[_arraydict allValues][indexPath.row] isKindOfClass:[NSDictionary class]]) {
+    NSString* key = _titleArray[indexPath.row];
+    if ([_arraydict[key] isKindOfClass:[NSDictionary class]]) {
         NSString * resuIndetifier = [NSString stringWithFormat:@"cell%ld",(long)indexPath.row];
         UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:resuIndetifier];
-        cell.textLabel.text = [_arraydict allKeys][indexPath.row];
+        cell.textLabel.text = key;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        return cell;
+    return cell;
     }
     else {
       //  NSString * resuIndetifier = [NSString stringWithFormat:@"cell%ld",(long)indexPath.row];
         SwitchTableViewCell*  cell = [[SwitchTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
-        cell.messageLabel.text = [_arraydict allKeys][indexPath.row];
+        cell.messageLabel.text = key;
         cell.delegate = self;
         cell.cellId  = indexPath.row;
-        if ([[_arraydict allKeys][indexPath.row] isEqualToString:@"分享微信长图"]) {
+        if ([key  isEqualToString:@"分享微信长图"]) {
             NSMutableDictionary* betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
             cell.changStatusBtn.on = (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]);
         }
-        else if ([[_arraydict allKeys][indexPath.row] isEqualToString:@"报表操作"]) {
+        else if ([key isEqualToString:@"报表操作"]) {
             NSMutableDictionary* betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
             cell.changStatusBtn.on = (betaDict[@"allow_brower_copy"] && [betaDict[@"allow_brower_copy"] boolValue]);
         }
-        else if ([[_arraydict allKeys][indexPath.row] isEqualToString:@"启用锁屏"]) {
-            cell.changStatusBtn.on =[[_arraydict allValues][indexPath.row] boolValue];
+        else if ([key  isEqualToString:@"锁屏设置"]) {
+            NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+             _userdict = [FileUtils readConfigFile:userConfigPath];
+            cell.changStatusBtn.on = [ _userdict[kIsUseGesturePasswordCUName] boolValue];
         }
         return cell;
     }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([[_arraydict allKeys][indexPath.row] isEqualToString:@"锁屏设置"]) {
-            NSDictionary *infoArray = [_arraydict allValues][indexPath.row];
+    NSString* key = _titleArray[indexPath.row];
+    if ([key isEqualToString:@"锁屏设置"]) {
+           /* NSDictionary *infoArray = [_arraydict allValues][indexPath.row];
             OptionConfigViewController *settingNormalView = [[OptionConfigViewController alloc]init];
             settingNormalView.arraydict = infoArray;
             settingNormalView.title = @"锁屏设置";
-            [self.navigationController pushViewController:settingNormalView animated:YES];
+            [self.navigationController pushViewController:settingNormalView animated:YES];*/
+         //[self actionChangeGesturePassword];
+         // [self.tableView reloadData];
         }
-    else if ([[_arraydict allKeys][indexPath.row] isEqualToString:@"修改锁屏密码"]){
+   /* else if ([[_arraydict allKeys][indexPath.row] isEqualToString:@"锁屏设置"]){
         [self actionChangeGesturePassword];
         _arraydict =   @{@"启用锁屏":@YES,@"修改锁屏密码":@{}};
         [self.tableView reloadData];
-    }
+    }*/
     
-    else if ([[_arraydict allKeys][indexPath.row] isEqualToString:@"清理缓存"]){
-        SettingNormalViewController *settingNormalCtrl = [[SettingNormalViewController alloc]init];
-        settingNormalCtrl.infodict = [_arraydict allValues][indexPath.row];
-        settingNormalCtrl.title = @"清理缓存";
-        [self.navigationController pushViewController:settingNormalCtrl animated:YES];
+    else if ([key  isEqualToString:@"清理缓存"]){
+          [self actionCheckAssets];
     }
 }
 
@@ -137,8 +162,10 @@
 }
 
 - (void)SwitchTableViewCellButtonClick:(UISwitch *)button with:(NSInteger)cellId {
-    if ([[_arraydict allKeys][cellId] isEqualToString:@"启用锁屏"]) {
+    if ([[_arraydict allKeys][cellId] isEqualToString:@"锁屏设置"]) {
+       // [self actionChangeGesturePassword];
         [self actionWehtherUseGesturePassword:button];
+        [self.tableView reloadData];
     }
     else if ([[_arraydict allKeys][cellId] isEqualToString:@"微信分享长图"]){
         [self actionSwitchToNewUI:button];
@@ -170,9 +197,7 @@
     [self checkAssetsUpdate];
     
     // 第三方消息推送，设备标识
-    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
-    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-    self.isSuccess = [APIHelper pushDeviceToken:userDict[kDeviceUUIDCUName]];
+    self.isSuccess = [APIHelper pushDeviceToken: _userdict[kDeviceUUIDCUName]];
     
     
     [ViewUtils showPopupView:self.view Info:@"清理完成"];
@@ -268,31 +293,31 @@
 - (void)actionWehtherUseGesturePassword:(UISwitch *)sender {
     if([sender isOn]) {
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
-        NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-        userDict[kIsUseGesturePasswordCUName] = @(YES);
-        [userDict writeToFile:userConfigPath atomically:YES];
-        [userDict writeToFile:self.settingsConfigPath atomically:YES];
+         _userdict = [FileUtils readConfigFile:userConfigPath];
+         _userdict[kIsUseGesturePasswordCUName] = @(1);
+        [ _userdict writeToFile:userConfigPath atomically:YES];
+        [ _userdict writeToFile:self.settingsConfigPath atomically:YES];
         self.isChangeLochPassword = YES;
         [self showLockViewForEnablingPasscode];
-        _arraydict =  @{@"启用锁屏":@1,@"修改锁屏密码":@{}};
+       // _arraydict =  @{@"启用锁屏":@1,@"修改锁屏密码":@{}};
         [self.tableView reloadData];
     }
     else {
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
-        NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
-        userDict[kIsUseGesturePasswordCUName] = @(NO);
-        [userDict writeToFile:userConfigPath atomically:YES];
-        [userDict writeToFile:self.settingsConfigPath atomically:YES];
+         _userdict = [FileUtils readConfigFile:userConfigPath];
+         _userdict[kIsUseGesturePasswordCUName] = @(0);
+        [ _userdict writeToFile:userConfigPath atomically:YES];
+        [ _userdict writeToFile:self.settingsConfigPath atomically:YES];
         
         //self.buttonChangeGesturePassword.enabled = NO;
         
         [ViewUtils showPopupView:self.view Info:@"禁用手势锁设置成功"];
         self.isChangeLochPassword = NO;
         
-        _arraydict =  @{@"启用锁屏":@NO,@"修改锁屏密码":@{}};
+       // _arraydict =  @{@"启用锁屏":@NO,@"修改锁屏密码":@{}};
         [self.tableView reloadData];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [APIHelper screenLock:userDict[kUserDeviceIDCUName] passcode:userDict[kGesturePasswordCUName] state:NO];
+            [APIHelper screenLock: _userdict[kUserDeviceIDCUName] passcode: _userdict[kGesturePasswordCUName] state:NO];
             
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验

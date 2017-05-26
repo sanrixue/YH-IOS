@@ -154,6 +154,7 @@ NSString *const kStylesheetsAssetsName   = @"stylesheets";
 NSString *const kJavascriptsAssetsName   = @"javascripts";
 NSString *const kBarCodeScanAssetsName   = @"BarCodeScan";
 NSString *const kAdvertisementAssetsName = @"advertisement";
+NSString *const kIconsAssetsName         = @"icons";
 
 NSString *const kLoadingPopupText        = @"加载库";
 NSString *const kFontsPopupText          = @"字体库";

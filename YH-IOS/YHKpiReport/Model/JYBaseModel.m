@@ -122,17 +122,17 @@
     switch (arrow) {
         case TrendTypeArrowUpRed:
         case TrendTypeArrowDownRed:
-            color = [UIColor colorWithHexString:@"EA4335"];
+            color = [UIColor colorWithHexString:@"F57658"];
             break;
             
         case TrendTypeArrowUpGreen:
         case TrendTypeArrowDownGreen:
-            color = [UIColor colorWithHexString:@"34AB53"];
+            color = [UIColor colorWithHexString:@"91c941"];
             break;
             
         case TrendTypeArrowUpYellow:
         case TrendTypeArrowDownYellow:
-            color = [UIColor colorWithHexString:@"FBBC05"];
+            color = [UIColor colorWithHexString:@"f4bc45"];
             break;
             
         case TrendTypeArrowNoArrow:

@@ -46,7 +46,7 @@
 
 - (void)initilizeSubView {
     
-    CGFloat width = (JYScreenWidth - JYDefaultMargin * 5) / 2;
+   // CGFloat width = (JYScreenWidth - JYDefaultMargin * 5) / 2;
     histogram = [[JYHistogram alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin	, JYViewWidth - 2 * JYDefaultMargin, JYViewHeight / 2.0)];
     histogram.dataSource = @[@"2", @"5", @"7", @"3", @"33", @"12", @"10"];
     histogram.lastBarColor = [UIColor colorWithHexString:@"#FBBC05"];
@@ -54,8 +54,8 @@
     histogram.interval = 1;
     [self addSubview:histogram];
     
-    groupType = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin + CGRectGetMaxY(histogram.frame), width / 2.0 , 40)];
-    groupType.text = @"第二集群月累计同店比";
+    groupType = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, JYDefaultMargin + CGRectGetMaxY(histogram.frame), 120 , 40)];
+   // groupType.text = @"第二集群月累计同店比";
     groupType.numberOfLines = 2;
     groupType.textColor = [UIColor colorWithHexString:@"#323232"];
     groupType.adjustsFontSizeToFitWidth = YES;

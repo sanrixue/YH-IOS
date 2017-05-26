@@ -18,7 +18,7 @@
 @property (nonatomic, assign) BOOL isdownImage;
 @property (nonatomic, assign) BOOL isSort;
 @property (nonatomic, strong) NSString* bannerName;
-
+@property (nonatomic, assign) NSInteger lineNumber;
 - (void)setWithSuperModel:(SuperChartMainModel*)superModel column:(NSInteger)column;
 
 @end

@@ -130,19 +130,16 @@
     UserHeadView *settingHeadView = [[UserHeadView alloc]initWithFrame:CGRectMake(0, -20, self.view.frame.size.width, 160)];
     settingHeadView.delegate  = self;
     UIImage *userHead = self.userIconImage ?: [UIImage imageNamed:@"AppIcon"];
-    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 0, 70, 40)];
-    UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
-    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 7, 15, 25)];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
     bakImage.image = imageback;
     [bakImage setContentMode:UIViewContentModeScaleAspectFit];
     [backBtn addSubview:bakImage];
-    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 7, 50, 25)];
-    backLabel.text = @"返回";
-    backLabel.textColor = [UIColor whiteColor];
-    [backBtn addSubview:backLabel];
     [settingHeadView addSubview:backBtn];
     [backBtn addTarget:self action:@selector(actionBack:) forControlEvents:UIControlEventTouchUpInside];
     [settingHeadView.userIcon setBackgroundImage:userHead forState:UIControlStateNormal];
+    self.navigationController.navigationBar.translucent = NO;
     return settingHeadView;
 }
 
@@ -330,16 +327,18 @@
         }
             break;
         case 2:{
-            NSDictionary *infodict = @{@"锁屏设置": @{@"启用锁屏":@YES,@"修改锁屏密码":@{}}, @"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
+            NSDictionary *infodict = @{@"锁屏设置":@"", @"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@""};
             NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
             BOOL isUseGesturePassword = [userDict[kIsUseGesturePasswordCUName] boolValue];
             if (!isUseGesturePassword) {
-                infodict = @{@"锁屏设置": @{@"启用锁屏":@NO}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""} };
+                infodict = @{@"锁屏设置": @{@"启用锁屏":@NO}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@""};
             }
+            NSArray* titleArray = @[@"锁屏设置",@"报表操作",@"微信分享长图",@"清理缓存"];
             OptionConfigViewController *optionView = [[OptionConfigViewController alloc]init];
             optionView.title = userInfoArray[indexPath.row];
             optionView.arraydict = infodict;
+            optionView.titleArray = titleArray;
             [self.navigationController pushViewController:optionView animated:YES];
         }
             break;

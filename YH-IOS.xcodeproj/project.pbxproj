@@ -347,6 +347,8 @@
 		F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB9E81DB74CB40020DD17 /* LoadingView.m */; };
 		F691E5E41E28835C00BDC73E /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F691E5E31E28835C00BDC73E /* FindPasswordViewController.m */; };
 		F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D749E81DCC767300921C76 /* PcmPlayer.m */; };
+		F6E1E68D1ED567890094ABA4 /* icons.zip in Resources */ = {isa = PBXBuildFile; fileRef = F6E1E68C1ED567890094ABA4 /* icons.zip */; };
+		F6E1E6901ED66F490094ABA4 /* BaseWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6E1E68F1ED66F490094ABA4 /* BaseWebViewController.m */; };
 		F6EC68D01E53F560008E0B5F /* ManualInputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6EC68CF1E53F560008E0B5F /* ManualInputViewController.m */; };
 		F6F1C84F1E88BD8C00754034 /* KPIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F1C84E1E88BD8C00754034 /* KPIViewController.m */; };
 		F6F1C8551E88BEB900754034 /* AnalysisViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F1C8541E88BEB900754034 /* AnalysisViewController.m */; };
@@ -1030,6 +1032,9 @@
 		F6D749E71DCC767300921C76 /* PcmPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcmPlayer.h; sourceTree = "<group>"; };
 		F6D749E81DCC767300921C76 /* PcmPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PcmPlayer.m; sourceTree = "<group>"; };
 		F6D749E91DCC767300921C76 /* PcmPlayerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcmPlayerDelegate.h; sourceTree = "<group>"; };
+		F6E1E68C1ED567890094ABA4 /* icons.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = icons.zip; sourceTree = "<group>"; };
+		F6E1E68E1ED66F490094ABA4 /* BaseWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseWebViewController.h; sourceTree = "<group>"; };
+		F6E1E68F1ED66F490094ABA4 /* BaseWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseWebViewController.m; sourceTree = "<group>"; };
 		F6EC68CE1E53F560008E0B5F /* ManualInputViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManualInputViewController.h; sourceTree = "<group>"; };
 		F6EC68CF1E53F560008E0B5F /* ManualInputViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManualInputViewController.m; sourceTree = "<group>"; };
 		F6F1C84D1E88BD8C00754034 /* KPIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KPIViewController.h; sourceTree = "<group>"; };
@@ -1331,6 +1336,8 @@
 				F68EB9E61DB74CA10020DD17 /* LoadingView */,
 				C488E6A41C0F03C800EB946D /* BaseViewController.h */,
 				C488E6A51C0F03C800EB946D /* BaseViewController.m */,
+				F6E1E68E1ED66F490094ABA4 /* BaseWebViewController.h */,
+				F6E1E68F1ED66F490094ABA4 /* BaseWebViewController.m */,
 				F64068B01D8E87FE003396B0 /* DropView */,
 			);
 			path = BaseView;
@@ -1512,6 +1519,7 @@
 		C4DB7DC51C02EE6000DA534E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				F6E1E68C1ED567890094ABA4 /* icons.zip */,
 				C46903931D5CC75F00233D05 /* BarCodeScan.zip */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
 				C4EFE4AB1C98F60A0009411A /* stylesheets.zip */,
@@ -2691,6 +2699,7 @@
 				F62457471EA5FBB2006834D2 /* MultipleBarChartViewController.xib in Resources */,
 				F62456BB1EA5FB21006834D2 /* ChartHeaderView.xib in Resources */,
 				F624572D1EA5FBB1006834D2 /* AnotherBarChartViewController.xib in Resources */,
+				F6E1E68D1ED567890094ABA4 /* icons.zip in Resources */,
 				F62457451EA5FBB2006834D2 /* LineChartTimeViewController.xib in Resources */,
 				F62456BD1EA5FB21006834D2 /* ChartHeaderViewCell.xib in Resources */,
 				C4EFE4B31C98F60A0009411A /* assets.zip in Resources */,
@@ -2890,6 +2899,7 @@
 				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
 				F68C25871EC2D44F0069C041 /* JYCollectionHeader.m in Sources */,
 				F6F1C84F1E88BD8C00754034 /* KPIViewController.m in Sources */,
+				F6E1E6901ED66F490094ABA4 /* BaseWebViewController.m in Sources */,
 				F624579A1EA5FBE0006834D2 /* UIColor+Utilities.m in Sources */,
 				F6F1C8551E88BEB900754034 /* AnalysisViewController.m in Sources */,
 				C48924E51D858F0A00859411 /* ResetPasswordViewController.m in Sources */,

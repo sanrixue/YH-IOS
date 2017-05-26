@@ -37,6 +37,7 @@
 @interface FormScrollView : UIScrollView
 @property (nonatomic, assign) id<FDelegate>fDelegate;
 @property (nonatomic, assign) id<FDataSource>fDataSource;
+@property (nonatomic, assign) CGFloat width;
 - (FormColumnHeaderView *)dequeueReusableColumnWithIdentifier:(NSString *)identifier;
 - (FormSectionHeaderView *)dequeueReusableSectionWithIdentifier:(NSString *)identifier;
 - (FormCell *)dequeueReusableCellWithIdentifier:(NSString *)identifier;

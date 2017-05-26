@@ -99,7 +99,7 @@
     UIView *bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
     [self.view addSubview: bgView];
     bgView.backgroundColor = [UIColor clearColor];
-    [MRProgressOverlayView showOverlayAddedTo:bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    [MRProgressOverlayView showOverlayAddedTo:bgView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
          NSArray * models = [HomeIndexModel homeIndexModelWithJson:nil withUrl:_dataLink];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -127,7 +127,10 @@
     bakImage.image = imageback;
     [bakImage setContentMode:UIViewContentModeScaleAspectFit];
     [backBtn addSubview:bakImage];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
     [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
      self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
     self.title =self.bannerTitle;
@@ -244,8 +247,11 @@
     UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     CommentViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"CommentViewController"];
-    subjectView.bannerName = self.bannerTitle;
-    [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+    subjectView.bannerName = self.title;
+    subjectView.objectID =self.objectID;
+    subjectView.commentObjectType = self.commentObjectType;
+    UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
 }
 
 

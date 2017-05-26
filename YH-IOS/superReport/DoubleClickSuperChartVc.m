@@ -38,8 +38,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
+    [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addSubview:bakImage];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
     [self initPackage];
 }
+
+- (void)backAction{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 - (void)setWithSuperModel:(SuperChartMainModel*)superModel column:(NSInteger)column{
 //    _heads = heades;
@@ -63,7 +84,7 @@
         [_superModel.table.dataSet addObject:@(index)];
     }*/
     if (_array.count) {
-        self.maxItem = _array[0];
+            self.maxItem = _array[0];
     }
    /* NSMutableArray *inModelArray = [[NSMutableArray alloc]init];
     for (int i = 0; i < 2; i++) {
@@ -232,19 +253,26 @@
         DoubleClickSuperChartCell* cell = [DoubleClickSuperChartCell cellWithTableView:weakSelf.tableView needXib:YES];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         TableDataBaseItemModel* table = weakSelf.array[indexPath.row];
-    
+        
       //  TableDataBaseItemModel* item = _baseArray[indexPath.row];
         TableDataBaseItemModel* item = _baseArray[indexPath.row];
         CGFloat scale = 0.0;
-        if (weakSelf.maxItem && item.value.doubleValue) {
+        if (weakSelf.maxItem.value.doubleValue>0 && item.value.doubleValue >0) {
             scale = item.value.doubleValue/weakSelf.maxItem.value.doubleValue;
             scale = scale<0? 0:scale;
+        }
+        else if (weakSelf.maxItem.value.doubleValue <=0 && item.value.doubleValue <=0){
+            scale =  weakSelf.maxItem.value.doubleValue/item.value.doubleValue;
+            scale = scale<0? 0:scale;
+        }
+        else if (weakSelf.maxItem.value.doubleValue >0 && item.value.doubleValue <=0){
+            scale = 0;
         }
         NSArray* modelArray = _dataList[indexPath.row];
         TableDataBaseItemModel* demo = modelArray[0];
         [cell.titleBtn setTitle:demo.value forState:UIControlStateNormal];
         cell.valueLab.text = item.value;
-        cell.titleBtn.titleLabel.numberOfLines = 0;
+        cell.titleBtn.titleLabel.numberOfLines = _lineNumber;
         cell.barView.scale = scale;
        // NSString* color = item.color;
         NSString* color = weakSelf.superModel.config.color[table.color.integerValue];
@@ -258,7 +286,7 @@
     } sectionNumBack:^(PackageConfig *config) {
         config.sectionNum = 1;
         config.estimateHeight = 50;
-        config.rowHeight = 55;
+        config.rowHeight = 40+(_lineNumber-1)*20;
         config.cellNum = weakSelf.dataList.count;
     } cellSizeBack:^(NSIndexPath *indexPath, PackageConfig *config) {
         

@@ -14,7 +14,7 @@
 + (CGSize)sizeItem:(HomeIndexItemModel*)item indexPath:(NSIndexPath *)indexPath{
     CGFloat w1 = [NSString sizeWithString:[NSString stringWithFormat:@"%.2f",item.main_data.data] font:[UIFont systemFontOfSize:20] maxSize:CGSizeMake(SCREEN_WIDTH, 15) minHeight:15].width+30+3;
     CGFloat w2 = [NSString sizeWithString:[NSString stringWithFormat:@"%.2f",item.sub_data.data] font:[UIFont systemFontOfSize:20] maxSize:CGSizeMake(SCREEN_WIDTH, 15) minHeight:15].width+30+3;
-    CGFloat w3 = [NSString sizeWithString:[NSString stringWithFormat:@"%.2f",item.main_data.data/item.sub_data.data-1] font:[UIFont systemFontOfSize:20] maxSize:CGSizeMake(SCREEN_WIDTH, 15) minHeight:15].width+43+3;
+    CGFloat w3 = [NSString sizeWithString:[NSString stringWithFormat:@"%.2f%@",(item.main_data.data/item.sub_data.data-1)*100,@"%"] font:[UIFont systemFontOfSize:20] maxSize:CGSizeMake(SCREEN_WIDTH, 15) minHeight:15].width+43+3;
     if (indexPath.row==0) {
         return CGSizeMake(w1, 75);
     }
@@ -51,7 +51,7 @@
         NSString* arrowString = [NSString stringWithFormat:@"%@_%@",item.state.arrow,item.state.color];
         _tipImageV.image = [UIImage imageNamed:arrowString];
         self.valueRightLayout.constant = 23;
-        self.valueLab.text = [NSString stringWithFormat:@"%.2f",item.main_data.data/item.sub_data.data-1];
+        self.valueLab.text = [NSString stringWithFormat:@"%.2f%@",(item.main_data.data/item.sub_data.data-1)*100,@"%"];
     }
 }
 

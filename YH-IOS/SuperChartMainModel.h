@@ -47,6 +47,7 @@
 @property (nonatomic, strong) NSMutableArray* dataSet; // 地区选中行的集合
 
 @property (nonatomic, strong) TableDataBaseItemModel* keyHead;
+@property (nonatomic, strong) NSMutableArray* rowLength;
 
 - (NSArray<TableDataBaseItemModel*>*)showAllItem;
 - (NSArray*)showData;

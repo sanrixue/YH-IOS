@@ -23,6 +23,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate>
 {
     NSMutableDictionary *betaDict;
+    NSString *originlink;
 }
 
 @property (assign, nonatomic) BOOL isInnerLink;
@@ -36,29 +37,39 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
 @property (strong, nonatomic) NSArray *dropMenuTitles;
 @property (strong, nonatomic) NSArray *dropMenuIcons;
+@property (strong, nonatomic) NSMutableArray *dropMenuLinks;
 @property (assign, nonatomic) BOOL isLoadFinish;
-
+@property (strong, nonatomic) NSMutableArray *webArray;
+@property (strong, nonatomic) NSMutableDictionary *titieDict;
+@property (weak, nonatomic) IBOutlet UIButton *backBtn;
+@property (weak, nonatomic) IBOutlet UIButton *SettingBtn;
+@property (assign, nonatomic) BOOL isDropMenu;
 @end
 
 @implementation SubjectViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookieAcceptPolicy:NSHTTPCookieAcceptPolicyAlways];
     self.isLoadFinish = NO;
-    
+    self.isDropMenu = NO;
+    [self initTitleDictionary];
     /**
      * 被始化页面样式
      */
     [self idColor];
+    // self.link = @"http://123.56.91.131:8090/syp_v1_direction";
+    self.isInnerLink = [self.link hasPrefix:@"offline://"] || (![self.link hasPrefix:@"http"] && ![self.link hasPrefix:@"https"]);
     self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
-    self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
+    self.labelTheme.textColor = [UIColor colorWithHexString:@"000000"];
     /**
      * 服务器内链接需要做缓存、点击事件处理；
      */
-    self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     self.urlString   = self.link;
+    self.webArray = [[NSMutableArray alloc]init];
+    [self.webArray addObject:self.link];
     self.browser.delegate = self;
-    self.browser.delegate = self;
+    originlink = self.link;
     if(self.isInnerLink) {
         /*
          * /mobil/report/:report_id/group/:group_id
@@ -74,42 +85,65 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         self.browser.scalesPageToFit = YES;
         self.browser.contentMode = UIViewContentModeScaleAspectFit;
     }
-    self.labelTheme.text = self.bannerName;
-    
+    [self.idView setHidden:YES];
+    // self.labelTheme.text = self.bannerName;
+    [self loadHtml];
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         responseCallback(@"SubjectViewController - Response for message from ObjC");
     }];
     [self addWebViewJavascriptBridge];
-      [self loadHtml];
+    [self.SettingBtn setImage:[UIImage imageNamed:@"subRefresh"] forState:UIControlStateNormal];
+}
+
+
+
+- (void)initTitleDictionary {
+    NSDictionary *titleDictionary = @{@"devices.html":@"设备巡检列表",@"device.new.html":@"新建巡检工单",@"device.view.html":@"设备巡检报告",@"meters.html":@"仪表盘读取列表",@"meter.view.html":@"仪表盘读数明细",@"meter.new.html":@"新建仪表盘",@"opers.html":@"运营巡检记录",@"oper.view.html":@"运营巡检详情",@"oper.new.html":@"新建运营巡检",@"repairs.html":@"设备维修列表",@"repair.view.html":@"设备维修明细",@"repair.new.html":@"设备维修新建",@"list.html":@"待办列表",@"maintain.execute.html":@"工程报修",@"oper.signin.html":@"运营巡检签收",@"complaint.execute.html": @"投诉详情",@"device.execute.html": @"设备巡检计划工单",@"oper.execute.html":@"运营巡检",@"repair.execute.html": @"设备维修",@"repair.signin.html":@"设备维修明细",@"sales.input.execute.html":@"销售录入审批",@"notice.view.html": @"公告明细",@"notices.html":@"公告",@"repair.new-from-device.execute.html":@"新建设备维修" ,@"repair.new.html" :@"设备维修新建",@"repair.new.without-back.html":@"设备维修新建"};
+    self.titieDict = [titleDictionary mutableCopy];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+    UIView *seperateView = [[UIView alloc]initWithFrame:CGRectMake(0, kBannerHeight - 1, [[UIScreen mainScreen]bounds].size.width, 1)];
+    seperateView.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
+    [self.bannerView addSubview:seperateView];
+    
     /*
      * 主题页面,允许横屏
      */
-    //[self setAppAllowRotation:YES];
+    [self setAppAllowRotation:NO];
+    if (![self.link hasPrefix:@"offline://"]) {
+        [self handleRefresh];
+    }
     
     /**
      *  横屏时，隐藏标题栏，增大可视区范围
      */
-   // [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+    // [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
     [self displayBannerViewButtonsOrNot];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [self.idView setHidden:YES];
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
+    //[self.browser stopLoading];
+    [self.idView setHidden:YES];
+    [self.browser stringByEvaluatingJavaScriptFromString:@"localStorage.clear()"];
+    
     /*
      * 其他页面,禁用横屏
      */
     [[NSNotificationCenter defaultCenter]removeObserver:self];
     [self setAppAllowRotation:NO];
 }
+
 
 - (void)dealloc {
     [self.browser cleanForDealloc];
@@ -121,10 +155,12 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     self.bridge = nil;
 }
 
+
 #pragma mark - UIWebview pull down to refresh
 
 -(void)handleRefresh {
     [self addWebViewJavascriptBridge];
+    [self checkAssetsUpdate];
     
     if(self.isInnerLink) {
         NSString *reportDataUrlString = [APIHelper reportDataUrlString:self.user.groupID templateID:self.templateID reportID:self.reportID];
@@ -164,7 +200,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self showLoading:LoadingRefresh];
+        // [self showLoading:LoadingRefresh];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -185,9 +221,32 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     [self.bridge registerHandler:@"refreshBrowser" handler:^(id data, WVJBResponseCallback responseCallback) {
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
-        
+        [self checkAssetsUpdate];
         [self handleRefresh];
     }];
+    
+    [self.bridge registerHandler:@"addSubjectMenuItems" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSMutableArray *tmpTitles = [NSMutableArray array];
+        NSMutableArray *tmpLinks = [NSMutableArray array];
+        NSArray *menuItems  = data[@"menu_items"];
+        for (NSDictionary* menuItem in menuItems) {
+            [tmpTitles addObject:menuItem[@"title"]];
+            [tmpLinks addObject:menuItem[@"link"]];
+        }
+        [tmpTitles addObject:@"刷新"];
+        [tmpLinks addObject:@"000"];
+        self.dropMenuTitles = [NSMutableArray arrayWithArray:tmpTitles];
+        self.dropMenuLinks = [NSMutableArray arrayWithArray:tmpLinks];
+        if ([self.dropMenuTitles count] >1) {
+            self.isDropMenu = YES;
+            [self.SettingBtn setImage:[UIImage imageNamed:@"Banner-Setting"] forState:UIControlStateNormal];
+        }
+        else{
+            self.isDropMenu = NO;
+            [self.SettingBtn setImage:[UIImage imageNamed:@"subRefresh"] forState:UIControlStateNormal];
+        }
+    }];
+    
     
     [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSString *behaviorPath = [FileUtils dirPath:kConfigDirName FileName:kBehaviorConfigFileName];
@@ -210,6 +269,21 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         }
     }];
     
+    
+    [self.bridge registerHandler:@"checkVersion" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+        /*UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+         message:@"中间件版本过低"
+         preferredStyle:UIAlertControllerStyleAlert];
+         
+         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+         handler:^(UIAlertAction * action) {}];
+         
+         [alert addAction:defaultAction];
+         [self presentViewController:alert animated:YES completion:nil];*/
+        NSLog(@"%@",data);
+    }];
+    
     [self.bridge registerHandler:@"searchItems" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSString *reportDataFileName = [NSString stringWithFormat:kReportDataFileName, self.user.groupID, self.templateID, self.reportID];
         NSString *javascriptFolder = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
@@ -217,11 +291,28 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         NSString *searchItemsPath = [NSString stringWithFormat:@"%@.search_items", self.javascriptPath];
         
         [data[@"items"] writeToFile:searchItemsPath atomically:YES];
-            
+        NSMutableArray *tmpTitles = [NSMutableArray array];
+        NSMutableArray *tmpIcons = [NSMutableArray array];
+        if(kSubjectShare) {
+            [tmpTitles addObject:kDropShareText];
+            [tmpIcons addObject:@"Subject-Share"];
+        }
+        if(self.isSupportSearch) {
+            [tmpTitles addObject:kDropSearchText];
+            [tmpIcons addObject:@"Subject-Search"];
+        }
+        [tmpTitles addObject:kDropRefreshText];
+        [tmpIcons addObject:@"Subject-Refresh"];
+        self.dropMenuTitles = [NSArray arrayWithArray:tmpTitles];
+        self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
+        if (self.dropMenuTitles.count > 1) {
+            self.isDropMenu = YES;
+            [self.SettingBtn setImage:[UIImage imageNamed:@"Banner-Setting"] forState:UIControlStateNormal];
+        }
         /**
-          *  判断筛选的条件: data[@"items"] 数组不为空
-          *  报表第一次加载时，此处为判断筛选功能的关键点
-          */
+         *  判断筛选的条件: data[@"items"] 数组不为空
+         *  报表第一次加载时，此处为判断筛选功能的关键点
+         */
         self.isSupportSearch = [FileUtils reportIsSupportSearch:self.user.groupID templateID:self.templateID reportID:self.reportID];
         if(self.isSupportSearch) {
             [self displayBannerTitleAndSearchIcon];
@@ -237,13 +328,194 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         responseCallback(selectedItem);
     }];
     
-   // UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    [self.bridge registerHandler:@"goBackBehavior" handler:^(id data, WVJBResponseCallback responseCallback){
+        [self.browser goBack];
+    }];
+    
+    
+    [self.bridge registerHandler:@"pageLink" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //  self.labelTheme.text = data[@"bannerName"];
+        if ([data[@"link"] isEqualToString:@""]) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                           message:@"该功能正在开发中"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        // 获取的链接为初始链接，清空栈，并加载第一个链接
+        else if ([data[@"link"] isEqualToString:originlink]){
+            [_webArray removeAllObjects];
+            self.link = data[@"link"];
+            [self.webArray addObject:data[@"link"]];
+            [self loadHtml];
+            return ;
+        }
+        // 如果获取的链接是内部连接
+        else if([data[@"link"] hasPrefix:@"offline://"]) {
+            // 返回至首页
+            if ([data[@"link"] isEqualToString:@"offline:////"]){
+                [self actionBack:self.SettingBtn];
+                return ;
+            }
+            //连接栈中存在该链接，pop 至该链接处，在返回
+            else if ([_webArray containsObject:data[@"link"]]) {
+                NSInteger i = [_webArray indexOfObject:data[@"link"]];
+                NSInteger end = [_webArray count];
+                NSRange range = {i,end};
+                [_webArray removeObjectsInRange:range];
+            }
+            /* if (![self.link isEqualToString:data[@"link"]]) {
+             self.link = data[@"link"];
+             [self.webArray addObject:self.link];
+             }*/
+            self.link = data[@"link"];
+            [_webArray addObject:data[@"link"]];
+            [self loadInnerLink];
+        }
+        else {
+            self.link = data[@"link"];
+            [self.webArray addObject:data[@"link"]];
+            [self loadHtml];
+        }
+    }];
+    
+    [self.bridge registerHandler:@"iosCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //  self.labelTheme.text = data[@"bannerName"];
+        if ([data[@"link"] isEqualToString:@""]) {
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
+                                                                           message:@"该功能正在开发中"
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        // 获取的链接为初始链接，清空栈，并加载第一个链接
+        else if ([data[@"link"] isEqualToString:originlink]){
+            [_webArray removeAllObjects];
+            self.link = data[@"link"];
+            [self.webArray addObject:data[@"link"]];
+            [self loadHtml];
+            return ;
+        }
+        // 如果获取的链接是内部连接
+        else if([data[@"link"] hasPrefix:@"offline://"]) {
+            // 返回至首页
+            if ([data[@"link"] isEqualToString:@"offline:////"]){
+                [self actionBack:self.SettingBtn];
+                return ;
+            }
+            //连接栈中存在该链接，pop 至该链接处，在返回
+            else if ([_webArray containsObject:data[@"link"]]) {
+                NSInteger i = [_webArray indexOfObject:data[@"link"]];
+                NSInteger end = [_webArray count];
+                NSRange range = {i,end};
+                [_webArray removeObjectsInRange:range];
+            }
+            /* if (![self.link isEqualToString:data[@"link"]]) {
+             self.link = data[@"link"];
+             [self.webArray addObject:self.link];
+             }*/
+            self.link = data[@"link"];
+            [_webArray addObject:data[@"link"]];
+            [self loadInnerLink];
+        }
+        else {
+            self.link = data[@"link"];
+            [self.webArray addObject:data[@"link"]];
+            [self loadHtml];
+        }
+    }];
+    
+    
+    [self.bridge registerHandler:@"setBannerTitle" handler:^(id data, WVJBResponseCallback responseCallback){
+        self.labelTheme.text = data[@"title"];
+    }];
+    
+    
+    [self.bridge registerHandler:@"toggleShowBanner" handler:^(id data, WVJBResponseCallback responseCallback){
+        if ([data[@"state"] isEqualToString:@"show"]) {
+            [self.SettingBtn setHidden:NO];
+            [self.backBtn setHidden:NO];
+        }
+        else {
+            [self.SettingBtn setHidden:YES];
+            [self.backBtn setHidden:YES];
+        }
+    }];
+    
+    [self.bridge registerHandler:@"showAlert" handler:^(id data, WVJBResponseCallback responseCallback){
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:data[@"title"]
+                                                                       message:data[@"content"]
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  
+                                                              }];
+        
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
+    
+
+    
+    [self.bridge registerHandler:@"showAlertAndRedirect" handler:^(id data, WVJBResponseCallback responseCallback){
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:data[@"title"]
+                                                                       message:data[@"content"]
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  self.link = data[@"redirectUrl"];
+                                                                  if ([data[@"cleanStack"] boolValue]) {
+                                                                      [self.webArray removeAllObjects];
+                                                                  }
+                                                                  [self.webArray addObject:self.link];
+                                                                  
+                                                                  [self loadHtml];
+                                                              }];
+        
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
+    
+    [self.bridge registerHandler:@"showAlertAndRedirectWithCleanStack" handler:^(id data, WVJBResponseCallback responseCallback){
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:data[@"title"]
+                                                                       message:data[@"content"]
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  self.link = data[@"redirectUrl"];
+                                                                  if ([data[@"cleanStack"] boolValue]) {
+                                                                      [self.webArray removeAllObjects];
+                                                                      [self.webArray addObject:self.link];
+                                                                  }
+                                                                  [self loadInnerLink];
+                                                              }];
+        
+        
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }];
+    
+    // UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     //[refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     //[self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
 }
 
 #pragma mark - assistant methods
 - (void)loadHtml {
+    self.isInnerLink = [self.link hasPrefix:@"offline://"] || (![self.link hasPrefix:@"http"] && ![self.link hasPrefix:@"https"]);
     DeviceState deviceState = [APIHelper deviceState];
     if(deviceState == StateOK) {
         self.isInnerLink ? [self loadInnerLink] : [self loadOuterLink];
@@ -263,19 +535,46 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
 }
 
+- (void)clearAllUIWebViewData {
+    // Clear the webview cache...
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [self removeApplicationLibraryDirectoryWithDirectory:@"Caches"];
+    [self removeApplicationLibraryDirectoryWithDirectory:@"WebKit"];
+    // Empty the cookie jar...
+    for (NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+    }
+    [self removeApplicationLibraryDirectoryWithDirectory:@"Cookies"];
+}
+
+- (void)removeApplicationLibraryDirectoryWithDirectory:(NSString *)dirName {
+    NSString *dir = [[[[NSSearchPathForDirectoriesInDomains(NSApplicationDirectory, NSUserDomainMask, YES) lastObject]stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:dirName];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:dir]) {
+        [[NSFileManager defaultManager] removeItemAtPath:dir error:nil];
+    }
+}
+
 - (void)loadOuterLink {
-    NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
+    //NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     
- //  NSString *splitString = [self.urlString containsString:@"?"] ? @"&" : @"?";
-    NSString *urlAppendStr = [NSString stringWithFormat:@"?syp_user_num=%@&syp_user_name=%@&timestamp=%@",self.user.userNum,self.user.userName,timestamp];
-    self.urlString = [NSString stringWithFormat:@"%@%@",self.urlString,urlAppendStr];
-    self.urlString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self.urlString, (CFStringRef)@"!NULL,'()*+,-./:;=?@_~%#[]", NULL, kCFStringEncodingUTF8));
-    //NSString *appendParams = [NSString stringWithFormat:@"user_num=%@&timestamp=%@", self.user.userNum, timestamp];
-   //self.urlString = [NSString stringWithFormat:@"%@%@%@", self.urlString, splitString, appendParams];
-    
+    // NSString *splitString = [self.urlString containsString:@"?"] ? @"&" : @"?";
+    //   NSString *appendParams = [NSString stringWithFormat:@"user_num=%@&timestamp=%@", self.user.userNum, timestamp];
+    //  self.urlString = [NSString stringWithFormat:@"%@", self.urlString];
     NSLog(@"%@", self.urlString);
-    [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
-    self.isLoadFinish = !self.browser.isLoading;
+    [self setCookie];
+    NSMutableURLRequest * request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.link]];
+    if ([[[[NSUserDefaults standardUserDefaults]dictionaryRepresentation]allKeys]containsObject:@"cookie"]) {
+        //获取cookies：程序起来之后，uiwebview加载url之前获取保存好的cookies，并设置cookies，
+        /*NSArray *cookies =[[NSUserDefaults standardUserDefaults]  objectForKey:@"cookie"];
+         NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+         [cookieProperties setObject:[cookies objectAtIndex:0] forKey:NSHTTPCookieName];
+         [cookieProperties setObject:[cookies objectAtIndex:1] forKey:NSHTTPCookieValue];
+         NSHTTPCookie *cookieuser = [NSHTTPCookie cookieWithProperties:cookieProperties];
+         [[NSHTTPCookieStorage sharedHTTPCookieStorage]  setCookie:cookieuser];*/
+        //  [request addValue:[self readCurrentCookie] forHTTPHeaderField:@"Cookie"];
+    }
+    [self.browser loadRequest:request];
+    // self.isLoadFinish = !self.browser.isLoading;
 }
 
 - (void)loadInnerLink {
@@ -283,53 +582,181 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      *  only inner link clean browser cache
      */
     [self clearBrowserCache];
-    [self showLoading:LoadingLoad];
+    self.isDropMenu = NO;
+    [self.SettingBtn setImage:[UIImage imageNamed:@"subRefresh"] forState:UIControlStateNormal];
+    
+    // [self showLoading:LoadingLoad];
     
     /*
      * format: /mobile/v1/group/:group_id/template/:template_id/report/:report_id
      * deprecated
      * format: /mobile/report/:report_id/group/:group_id
      */
-    NSArray *components = [self.link componentsSeparatedByString:@"/"];
-    self.templateID = components[6];
-    self.reportID = components[8];
-    
-    /**
-     * 内部报表具有筛选功能时
-     *   - 如果用户已选择，则 banner 显示该选项名称
-     *   - 未设置时，默认显示筛选项列表中第一个
-     *
-     *  初次加载时，判断筛选功能的条件还未生效
-     *  此处仅在第二次及以后才会生效
-     */
-    self.isSupportSearch = [FileUtils reportIsSupportSearch:self.user.groupID templateID:self.templateID reportID:self.reportID];
-    if(self.isSupportSearch) {
-        [self displayBannerTitleAndSearchIcon];
+    if ([self.link hasPrefix:@"offline"]) {
+        [[NSURLCache sharedURLCache] removeAllCachedResponses];
+        if ([self.link isEqualToString:@"offline:////"]) {
+            [self actionBack:self.SettingBtn];
+        }
+        else if ([self.link isEqualToString:@"offline:///"]){
+            self.link = originlink;
+            [_webArray removeAllObjects];
+            [_webArray addObject:self.link];
+            
+        }
+        NSArray *components = [self.link componentsSeparatedByString:@"://"];
+        NSString *filePath = [[[FileUtils sharedPath] stringByAppendingPathComponent:@"offline_pages"] stringByAppendingPathComponent:components[1]];
+        if (![FileUtils checkFileExist:filePath isDir:NO]) {
+            [self showProgressHUD:@"找不到文件路径"];
+        }
+        NSString *htmlCotent = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+        NSURL *baseUrl = [NSURL fileURLWithPath:[[[FileUtils sharedPath] stringByAppendingPathComponent:@"offline_pages"] stringByAppendingPathComponent:@"/"]];
+        NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000 + arc4random()];
+        NSString *newHtmlContent = [htmlCotent stringByReplacingOccurrencesOfString:@"TIMESTAMP" withString:timestamp];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.browser loadHTMLString:newHtmlContent baseURL:baseUrl];
+        });
+        //[self.browser loadHTMLString:newHtmlContent baseURL:baseUrl];
+        
+    }
+    else {
+        [self showLoading:LoadingLoad];
+        NSArray *components = [self.link componentsSeparatedByString:@"/"];
+        self.templateID = components[6];
+        self.reportID = components[8];
+        
+        /**
+         * 内部报表具有筛选功能时
+         *   - 如果用户已选择，则 banner 显示该选项名称
+         *   - 未设置时，默认显示筛选项列表中第一个
+         *
+         *  初次加载时，判断筛选功能的条件还未生效
+         *  此处仅在第二次及以后才会生效
+         */
+        self.isSupportSearch = [FileUtils reportIsSupportSearch:self.user.groupID templateID:self.templateID reportID:self.reportID];
+        if(self.isSupportSearch) {
+            [self displayBannerTitleAndSearchIcon];
+        }
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [APIHelper reportData:self.user.groupID templateID:self.templateID reportID:self.reportID];
+            
+            HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
+            
+            __block NSString *htmlPath;
+            if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+                htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
+            }
+            else {
+                NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
+                htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self clearBrowserCache];
+                NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
+                [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+                self.isLoadFinish = !self.browser.isLoading;
+            });
+        });
+    }
+}
+
+#pragma mark - UIWebview delegate
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    NSURL *url = [request URL];
+    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        if ([[url scheme] hasPrefix:@";file"]) {
+            [[UIApplication sharedApplication] openURL:url];
+            return NO;
+        }
+    }
+    if (navigationType == UIWebViewNavigationTypeFormSubmitted) {
+        NSLog(@"表单提交");
     }
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [APIHelper reportData:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    // 添加url 到栈中
+    //NSMutableURLRequest *urlreuqest = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:5.0];
+    // NSString *urlstring = [NSString stringWithFormat:@"%@",[[[url relativeString] componentsSeparatedByString:@"/"] lastObject]];
     
-        NSString *urlAppendStr = [NSString stringWithFormat:@"?syp_user_num=%@&syp_user_name=%@",self.user.userNum,self.user.userName];
-        self.urlString = [NSString stringWithFormat:@"%@%@",self.urlString,urlAppendStr];
-        HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
+    // 头部
+    /* if (![[url absoluteString] hasPrefix:@"http"] || ![[url absoluteString] hasPrefix:@"https"] || ![[url absoluteString] hasPrefix:@"offline"]) {
+     //NSArray *components = [[url absoluteString] componentsSeparatedByString:@"/"];
+     NSArray *titieArray = [self.titieDict allKeys];
+     NSInteger titieValueNumber = 0;
+     if ([titieArray containsObject:[[self.link componentsSeparatedByString:@"://"] lastObject]]) {
+     titieValueNumber = [titieArray indexOfObject:[[self.link componentsSeparatedByString:@"://"] lastObject]];
+     self.labelTheme.text =_titieDict[titieArray[titieValueNumber]];
+     }
+     else if([self.link hasPrefix:@"offline://"]){
+     self.labelTheme.text = [[self.link componentsSeparatedByString:@"://"] lastObject];
+     }
+     else{
+     self.labelTheme.text = self.bannerName;
+     }
+     }*/
+    //request = [urlreuqest copy];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    NSURLCache * cache = [NSURLCache sharedURLCache];
+    [cache removeAllCachedResponses];
+    [cache setDiskCapacity:0];
+    //[self.browser loadRequest:request];
+    return YES;
+}
+
+/*
+ - (NSString *)getbannerName:(NSString *)htmllink {
+ NSString *bannerstring;
+ NSArray *titieArray = [self.titieDict allKeys];
+ NSInteger titieValueNumber = 0;
+ if ([titieArray containsObject:[[self.link componentsSeparatedByString:@"://"] lastObject]]) {
+ titieValueNumber = [titieArray indexOfObject:[[self.link componentsSeparatedByString:@"://"] lastObject]];
+ bannerstring =_titieDict[titieArray[titieValueNumber]];
+ }
+ else {
+ bannerstring = [[htmllink componentsSeparatedByString:@"/"] lastObject];
+ }
+ return bannerstring;
+ }
+ */
+
+- (NSString*)readCurrentCookie{
+    /* NSArray *cookies =[[NSUserDefaults standardUserDefaults]  objectForKey:@"cookie"];
+     NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+     [cookieProperties setObject:[cookies objectAtIndex:0] forKey:NSHTTPCookieName];
+     [cookieProperties setObject:[cookies objectAtIndex:1] forKey:NSHTTPCookieValue];
+     // NSHTTPCookie *cookieuser = [NSHTTPCookie cookieWithProperties:cookieProperties];*/
+    NSMutableString *cookieString = [[NSMutableString alloc] init];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    [cookieString appendFormat:@"%@=%@",@"sessionid",userDict[@"sessionid"]];
+    return cookieString;
+}
+
+- (void)setCookie{
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
+    //[cookieProperties setObject:@"user_cookie" forKey:NSHTTPCookieName];
+    // [cookieProperties setObject:userDict[@"sessionid"] forKey:NSHTTPCookieValue];
+    NSHTTPCookie *cookieuser = [NSHTTPCookie cookieWithProperties:cookieProperties];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookieuser];
+    
+    NSArray *cookies = [NSArray arrayWithObjects:@"sessionid",userDict[@"sessionid"] ,nil];
+    [[NSUserDefaults standardUserDefaults] setObject:cookies forKey:@"cookie"];
+}
+
+- (void)deleteCookie{
+    NSHTTPCookie *cookie;
+    
+    NSHTTPCookieStorage *cookieJar = [NSHTTPCookieStorage sharedHTTPCookieStorage];
+    
+    NSArray *cookieAry = [cookieJar cookiesForURL: [NSURL URLWithString: self.urlString]];
+    
+    for (cookie in cookieAry) {
         
-        __block NSString *htmlPath;
-        if([httpResponse.statusCode isEqualToNumber:@(200)]) {
-            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
-        }
-        else {
-            NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
-            htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
-        }
+        [cookieJar deleteCookie: cookie];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self clearBrowserCache];
-            NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
-            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
-            self.isLoadFinish = !self.browser.isLoading;
-        });
-    });
+    }
 }
 
 - (void)displayBannerTitleAndSearchIcon {
@@ -348,7 +775,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     self.labelTheme.text = reportSelectedItem;
 }
 - (IBAction)dropTableView:(UIButton *)sender {
-    [self showTableView:sender];
+    _isDropMenu ? [self showTableView:sender] : [self handleRefresh];
+    //  [self handleRefresh];
 }
 
 #pragma mark
@@ -379,15 +807,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
  *  @param sender
  */
 -(void)showTableView:(UIButton *)sender {
-    [self initDropMenu];
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count);
+    dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150 / 4 * self.dropMenuTitles.count);
     dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(self.view.frame.size.width / 3.2, 150 / 4 * self.dropMenuTitles.count)];
+    [dropTableViewController setPreferredContentSize:CGSizeMake(150, 150 / 4 * self.dropMenuTitles.count)];
     dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
     dropTableViewController.dropTableView.delegate = self;
     dropTableViewController.dropTableView.dataSource =self;
-    
     UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
     popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
     popover.delegate = self;
@@ -413,11 +839,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     if (!cell) {
         cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
     }
-    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
-    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
+    cell.backgroundColor = [UIColor clearColor];
+    cell.textLabel.text = self.dropMenuTitles[indexPath.row];
+    cell.textLabel.textColor = [UIColor whiteColor];
+    // cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
     
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
-    cellBackView.backgroundColor = [UIColor darkGrayColor];
+    //  cellBackView.backgroundColor = [UIColor darkGrayColor];
     cell.selectedBackgroundView = cellBackView;
     
     return cell;
@@ -449,20 +877,43 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         else if ([itemName isEqualToString:kDropRefreshText]){
             [self handleRefresh];
         }
+        else if (indexPath.row == (self.dropMenuTitles.count - 1)) {
+            [self handleRefresh];
+        }
+        else {
+            self.isDropMenu = NO;
+            [self.SettingBtn setImage:[UIImage imageNamed:@"subRefresh"] forState:UIControlStateNormal];
+            self.link = self.dropMenuLinks[indexPath.row];
+            
+            /**
+             * 服务器内链接需要做缓存、点击事件处理；
+             */
+            self.urlString   = self.link;
+            [_webArray addObject:self.link];
+            [self loadHtml];
+        }
     }];
 }
 
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
-    [super dismissViewControllerAnimated:YES completion:^{
-        [self.browser stopLoading];
-        [self.browser cleanForDealloc];
-        self.browser.delegate = nil;
-        self.browser = nil;
-        [self.progressHUD hide:YES];
-        self.progressHUD = nil;
-        self.bridge = nil;
-    }];
+    if ([self.webArray count] > 1 ) {
+        [self.webArray removeLastObject];
+        self.link =[_webArray lastObject];
+        [self loadHtml];
+    }
+    else {
+        [super dismissViewControllerAnimated:YES completion:^{
+            [self.browser stopLoading];
+            [self clearBrowserCache];
+            [self.browser cleanForDealloc];
+            self.browser.delegate = nil;
+            self.browser = nil;
+            [self.progressHUD hide:YES];
+            self.progressHUD = nil;
+            self.bridge = nil;
+        }];
+    }
 }
 
 - (void)actionWriteComment{
@@ -483,7 +934,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
                 image = [self saveWebViewAsImage];
             }
             else {
-                 image = [self getImageFromCurrentScreen];
+                image = [self getImageFromCurrentScreen];
             }
             dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1ull *NSEC_PER_SEC);
             dispatch_after(time, dispatch_get_main_queue(), ^{
@@ -574,6 +1025,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
 }
 
+
 #pragma mark - UIWebview delegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     NSDictionary *browerDict = [FileUtils readConfigFile:[FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName]];
@@ -581,6 +1033,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     if ([browerDict[@"allow_brower_copy"] boolValue]) {
         return;
     }
+    // self.browser.delegate = nil;
     [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitUserSelect='none';"];
     [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.style.webkitTouchCallout='none';"];
 }
@@ -631,11 +1084,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 #pragma mark - bug#fix
 /**
  
-     2015-12-25 10:08:20.848 YH-IOS[52214:1924885] http://izoom.mobi/demo/upload.html?userid=3026
-     2015-12-25 10:08:27.117 YH-IOS[52214:1924885] Passed in type public.item doesn't conform to either public.content or public.data. If you are exporting a new type, please ensure that it conforms to an appropriate parent type.
-     2015-12-25 10:08:27.189 YH-IOS[52214:1924885] the behavior of the UICollectionViewFlowLayout is not defined because:
-     2015-12-25 10:08:27.190 YH-IOS[52214:1924885] the item width must be less than the width of the UICollectionView minus the section insets left and right values, minus the content insets left and right values.
-     2015-12-25 10:08:30.497 YH-IOS[52214:1924885] Warning: Attempt to present <UIImagePickerController: 0x7f857a84b000> on <ChartViewController: 0x7f857b8daa60> whose view is not in the window hierarchy!
+ 2015-12-25 10:08:20.848 YH-IOS[52214:1924885] http://izoom.mobi/demo/upload.html?userid=3026
+ 2015-12-25 10:08:27.117 YH-IOS[52214:1924885] Passed in type public.item doesn't conform to either public.content or public.data. If you are exporting a new type, please ensure that it conforms to an appropriate parent type.
+ 2015-12-25 10:08:27.189 YH-IOS[52214:1924885] the behavior of the UICollectionViewFlowLayout is not defined because:
+ 2015-12-25 10:08:27.190 YH-IOS[52214:1924885] the item width must be less than the width of the UICollectionView minus the section insets left and right values, minus the content insets left and right values.
+ 2015-12-25 10:08:30.497 YH-IOS[52214:1924885] Warning: Attempt to present <UIImagePickerController: 0x7f857a84b000> on <ChartViewController: 0x7f857b8daa60> whose view is not in the window hierarchy!
  *
  *  @return <#return value description#>
  */
@@ -645,18 +1098,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
 }
 
-#pragma mark - UIWebview delegate
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        NSURL *url = [request URL];
-        if (![[url scheme] hasPrefix:@";file"]) {
-            [[UIApplication sharedApplication] openURL:url];
-            return NO;
-        }
-    }
-    
-    return YES;
-}
 
 #pragma mark - UMSocialUIDelegate
 -(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {

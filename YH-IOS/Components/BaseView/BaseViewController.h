@@ -37,7 +37,7 @@
 @property (strong, nonatomic) NSString *assetsPath;
 @property (strong, nonatomic) NSString *sharedPath;
 @property (strong, nonatomic) User *user;
-@property (weak, nonatomic) IBOutlet UIWebView *browser;
+//@property (weak, nonatomic) IBOutlet UIWebView *browser;
 
 - (void)clearBrowserCache;
 - (void)showLoading:(LoadingType)loadingType;

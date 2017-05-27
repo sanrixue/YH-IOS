@@ -136,7 +136,7 @@
 }
 
 - (void)clearBrowserCache {
-    [self.browser stopLoading];
+  //  [self.browser stopLoading];
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     
     NSString *domain = [[NSURL URLWithString:self.urlString] host];
@@ -150,7 +150,7 @@
 - (void)showLoading:(LoadingType)loadingType {
     NSString *loadingPath = [FileUtils loadingPath:loadingType];
     NSString *loadingContent = [NSString stringWithContentsOfFile:loadingPath encoding:NSUTF8StringEncoding error:nil];
-    [self.browser loadHTMLString:loadingContent baseURL:[NSURL fileURLWithPath:loadingPath]];
+  //  [self.browser loadHTMLString:loadingContent baseURL:[NSURL fileURLWithPath:loadingPath]];
     
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
@@ -160,7 +160,7 @@
 }
 
 - (void)showProgressHUD:(NSString *)text mode:(MBProgressHUDMode)mode {
-    self.progressHUD = [MBProgressHUD showHUDAddedTo:self.browser animated:YES];
+   // self.progressHUD = [MBProgressHUD showHUDAddedTo:self.browser animated:YES];
     self.progressHUD.labelText = text;
     self.progressHUD.mode = mode;
     

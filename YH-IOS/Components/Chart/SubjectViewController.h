@@ -9,6 +9,7 @@
 
 #import "UMSocialControllerService.h"
 #import "BaseWebViewController.h"
+#import "BaseViewController.h"
 
 @interface SubjectViewController: BaseWebViewController<UIActionSheetDelegate, UIImagePickerControllerDelegate, UMSocialUIDelegate>
 

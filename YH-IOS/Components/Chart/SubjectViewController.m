@@ -63,7 +63,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     self.urlString   = self.link;
-    navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
+   // navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
     //self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, 60, self.view.frame.size.width, self.view.frame.size.height + 40)];
     //[self.view addSubview:self.browser];
     self.browser.delegate = self;
@@ -120,7 +120,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
     
     self.title =self.bannerName;
-    navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
+  //  navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
     /*
      * 主题页面,允许横屏
      */
@@ -129,7 +129,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     /**
      *  横屏时，隐藏标题栏，增大可视区范围
      */
-    [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+   // [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
     [self displayBannerViewButtonsOrNot];
     [self isLoadHtmlFromService];
@@ -168,32 +168,42 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     // return UIInterfaceOrientationMaskLandscapeRight；
 }
 
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    
+    if (size.width > size.height) { // 横屏
+        self.browser.frame = CGRectMake(0, 0,size.width,size.height);
+    } else {
+        self.browser.frame = CGRectMake(0, 0, size.width, size.height);
+    }
+}
 
+/*
 -(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [self checkInterfaceOrientation:toInterfaceOrientation];
+  //  [self checkInterfaceOrientation:toInterfaceOrientation];
     [self dismissViewControllerAnimated:YES completion:nil];
     [self loadHtml];
-}
+}*/
 
 /**
  *  横屏时，隐藏标题栏，增大可视区范围
  *
  *  @param interfaceOrientation 设备屏幕放置方向
  */
+/*
 - (void)checkInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     BOOL isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation);
     if (!isLandscape) {
-        self.browser.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height+40);
+        self.browser.frame = CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, [[UIScreen mainScreen]bounds].size.height);
     }
     else{
-         self.browser.frame = CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.height, self.view.bounds.size.width);
+         self.browser.frame = CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.height, [[UIScreen mainScreen]bounds].size.width);
     }
-    [self.view layoutIfNeeded];
+  //  [self.view layoutIfNeeded];
     
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+   // [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
 
-
+*/
 // 隐藏UINavigationBar 底部黑线
 
 - (void)hiddenShadow {
@@ -204,6 +214,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
 }
 
+//判断是否离线
 -(void)isLoadHtmlFromService {
     if (([HttpUtils isNetworkAvailable2] &&  self.isInnerLink) || !self.isInnerLink ) {
         [self loadHtml];
@@ -223,6 +234,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
 }
 
+//根据 url 获取本地文件名
 - (NSArray *)urlTofilename:(NSString *)url suffix:(NSString *)suffix {
     NSArray *blackList = @[@".", @":", @"/", @"?"];
     

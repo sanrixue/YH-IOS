@@ -115,7 +115,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     [self setAppAllowRotation:NO];
     if (![self.link hasPrefix:@"offline://"]) {
-        [self handleRefresh];
+     //  [self handleRefresh];
     }
     
     /**

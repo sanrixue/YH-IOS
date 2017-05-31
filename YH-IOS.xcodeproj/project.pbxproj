@@ -101,6 +101,13 @@
 		F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68089531D8930C400CDBAF8 /* DropViewController.m */; };
 		F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB9E81DB74CB40020DD17 /* LoadingView.m */; };
 		F69869781ED3D70A005E4A48 /* icons.zip in Resources */ = {isa = PBXBuildFile; fileRef = F69869771ED3D70A005E4A48 /* icons.zip */; };
+		F69EB9551EDEA62F00969B60 /* NewSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F69EB94A1EDEA62F00969B60 /* NewSettingViewController.m */; };
+		F69EB9561EDEA62F00969B60 /* OptionConfigViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F69EB94C1EDEA62F00969B60 /* OptionConfigViewController.m */; };
+		F69EB9571EDEA62F00969B60 /* PushDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = F69EB94E1EDEA62F00969B60 /* PushDevice.m */; };
+		F69EB9581EDEA62F00969B60 /* SettingArrayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F69EB9501EDEA62F00969B60 /* SettingArrayViewController.m */; };
+		F69EB9591EDEA62F00969B60 /* SettingNormalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F69EB9521EDEA62F00969B60 /* SettingNormalViewController.m */; };
+		F69EB95A1EDEA62F00969B60 /* UserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F69EB9541EDEA62F00969B60 /* UserInfoModel.m */; };
+		F69EB95D1EDEA72100969B60 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F69EB95C1EDEA72100969B60 /* MainViewController.m */; };
 		F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D749E81DCC767300921C76 /* PcmPlayer.m */; };
 		F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = F6F5CBC41D7C157100A1E779 /* UIButton+SettingBadge.m */; };
 /* End PBXBuildFile section */
@@ -283,6 +290,20 @@
 		F68EB9E71DB74CB40020DD17 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		F68EB9E81DB74CB40020DD17 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		F69869771ED3D70A005E4A48 /* icons.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = icons.zip; sourceTree = "<group>"; };
+		F69EB9491EDEA62F00969B60 /* NewSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewSettingViewController.h; sourceTree = "<group>"; };
+		F69EB94A1EDEA62F00969B60 /* NewSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewSettingViewController.m; sourceTree = "<group>"; };
+		F69EB94B1EDEA62F00969B60 /* OptionConfigViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionConfigViewController.h; sourceTree = "<group>"; };
+		F69EB94C1EDEA62F00969B60 /* OptionConfigViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionConfigViewController.m; sourceTree = "<group>"; };
+		F69EB94D1EDEA62F00969B60 /* PushDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PushDevice.h; sourceTree = "<group>"; };
+		F69EB94E1EDEA62F00969B60 /* PushDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PushDevice.m; sourceTree = "<group>"; };
+		F69EB94F1EDEA62F00969B60 /* SettingArrayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingArrayViewController.h; sourceTree = "<group>"; };
+		F69EB9501EDEA62F00969B60 /* SettingArrayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingArrayViewController.m; sourceTree = "<group>"; };
+		F69EB9511EDEA62F00969B60 /* SettingNormalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingNormalViewController.h; sourceTree = "<group>"; };
+		F69EB9521EDEA62F00969B60 /* SettingNormalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingNormalViewController.m; sourceTree = "<group>"; };
+		F69EB9531EDEA62F00969B60 /* UserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserInfoModel.h; sourceTree = "<group>"; };
+		F69EB9541EDEA62F00969B60 /* UserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserInfoModel.m; sourceTree = "<group>"; };
+		F69EB95B1EDEA72100969B60 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		F69EB95C1EDEA72100969B60 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		F6C5562A1DC19E5C0058F6EC /* YH-IOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "YH-IOS.entitlements"; sourceTree = "<group>"; };
 		F6D749E71DCC767300921C76 /* PcmPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PcmPlayer.h; sourceTree = "<group>"; };
 		F6D749E81DCC767300921C76 /* PcmPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PcmPlayer.m; sourceTree = "<group>"; };
@@ -502,6 +523,7 @@
 		C49E1AB01C1962F200CFFE3C /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				F69EB9481EDEA59500969B60 /* Controllers */,
 				C48924D01D858F0A00859411 /* ResetPassword */,
 				C48924D31D858F0A00859411 /* SettingTableViewCell */,
 				C48924E21D858F0A00859411 /* ThursdaySay */,
@@ -568,6 +590,8 @@
 				F68EB9E61DB74CA10020DD17 /* LoadingView */,
 				C488E6A41C0F03C800EB946D /* BaseViewController.h */,
 				C488E6A51C0F03C800EB946D /* BaseViewController.m */,
+				F69EB95B1EDEA72100969B60 /* MainViewController.h */,
+				F69EB95C1EDEA72100969B60 /* MainViewController.m */,
 				F64068B01D8E87FE003396B0 /* DropView */,
 			);
 			path = BaseView;
@@ -870,6 +894,25 @@
 			name = LoadingView;
 			sourceTree = "<group>";
 		};
+		F69EB9481EDEA59500969B60 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F69EB9491EDEA62F00969B60 /* NewSettingViewController.h */,
+				F69EB94A1EDEA62F00969B60 /* NewSettingViewController.m */,
+				F69EB94B1EDEA62F00969B60 /* OptionConfigViewController.h */,
+				F69EB94C1EDEA62F00969B60 /* OptionConfigViewController.m */,
+				F69EB94D1EDEA62F00969B60 /* PushDevice.h */,
+				F69EB94E1EDEA62F00969B60 /* PushDevice.m */,
+				F69EB94F1EDEA62F00969B60 /* SettingArrayViewController.h */,
+				F69EB9501EDEA62F00969B60 /* SettingArrayViewController.m */,
+				F69EB9511EDEA62F00969B60 /* SettingNormalViewController.h */,
+				F69EB9521EDEA62F00969B60 /* SettingNormalViewController.m */,
+				F69EB9531EDEA62F00969B60 /* UserInfoModel.h */,
+				F69EB9541EDEA62F00969B60 /* UserInfoModel.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		F6D749E51DCC765200921C76 /* VoiceSpeech */ = {
 			isa = PBXGroup;
 			children = (
@@ -1108,8 +1151,10 @@
 				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
 				C48924E91D858F0A00859411 /* SettingDefaultTableViewCell.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
+				F69EB9551EDEA62F00969B60 /* NewSettingViewController.m in Sources */,
 				C48924EB1D858F0A00859411 /* ThurSayTableViewCell.m in Sources */,
 				C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */,
+				F69EB9571EDEA62F00969B60 /* PushDevice.m in Sources */,
 				C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */,
 				C48924E71D858F0A00859411 /* OneButtonTableViewCell.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
@@ -1128,8 +1173,10 @@
 				C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */,
 				C48924E81D858F0A00859411 /* PgyUpdateTableViewCell.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
+				F69EB9561EDEA62F00969B60 /* OptionConfigViewController.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
 				C45D27121C23FC490087C6F2 /* README.md in Sources */,
+				F69EB95A1EDEA62F00969B60 /* UserInfoModel.m in Sources */,
 				C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */,
 				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,
 				C4BA6EA41C7DB24A0059F101 /* FileUtils+Assets.m in Sources */,
@@ -1143,13 +1190,16 @@
 				C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */,
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,
+				F69EB95D1EDEA72100969B60 /* MainViewController.m in Sources */,
 				C49BB9AA1D8C2538004C9F70 /* Constant.m in Sources */,
 				C4DB7DCF1C02EE8E00DA534E /* HttpResponse.m in Sources */,
 				F630B2E61D98FAB600CAA6A0 /* SearchTableViewCell.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
+				F69EB9581EDEA62F00969B60 /* SettingArrayViewController.m in Sources */,
 				C48924E61D858F0A00859411 /* GestureTableViewCell.m in Sources */,
 				C48924EC1D858F0A00859411 /* UserHeadView.m in Sources */,
 				C42ECED41D66EE8E00C5F762 /* DropTableViewCell.m in Sources */,
+				F69EB9591EDEA62F00969B60 /* SettingNormalViewController.m in Sources */,
 				C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

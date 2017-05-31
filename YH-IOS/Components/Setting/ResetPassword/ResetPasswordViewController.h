@@ -6,9 +6,10 @@
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface ResetPasswordViewController : BaseViewController
+
+@interface ResetPasswordViewController : UIViewController
 
 @property (strong, nonatomic) NSString *bannerName;
 @property (strong, nonatomic) NSString *link;

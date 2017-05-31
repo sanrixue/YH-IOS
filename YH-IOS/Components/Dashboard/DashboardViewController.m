@@ -27,7 +27,7 @@
 #import "DropViewController.h"
 #import "ThurSayViewController.h"
 #import "LoadingView.h"
-
+#import "NewSettingViewController.h"
 
 static NSString *const kSubjectSegueIdentifier = @"DashboardToChartSegueIdentifier";
 static NSString *const kSettingSegueIdentifier = @"DashboardToSettingSegueIdentifier";
@@ -1040,7 +1040,10 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             [ViewUtils showPopupView:self.view Info:@"功能开发中，敬请期待"];
         }
         else if([itemName isEqualToString:kDropMentUserInfoText]) {
-            [self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
+            //[self performSegueWithIdentifier:kSettingSegueIdentifier sender:nil];
+            NewSettingViewController *newSetting = [[NewSettingViewController alloc]init];
+            UINavigationController *SettingNavCtrl = [[UINavigationController alloc]initWithRootViewController:newSetting];
+            [self presentViewController:SettingNavCtrl animated:YES completion:nil];
         }
     }];
 }

@@ -11,23 +11,59 @@
 #import "HttpResponse.h"
 #import "NSString+MD5.h"
 #import "ViewUtils.h"
+#import "WebViewJavascriptBridge.h"
+#import "UIColor+Hex.h"
+#import <SCLAlertView.h>
+#import "FileUtils.h"
+#import "FileUtils+Assets.h"
+#import "User.h"
+#import "LoginViewController.h"
+
+@interface ResetPasswordViewController()<UIWebViewDelegate>
+@property WebViewJavascriptBridge* bridge;
+@property (strong, nonatomic) UIWebView *browser;
+@property (strong, nonatomic) MBProgressHUD *progressHUD;
+@property (strong, nonatomic) NSString *urlString;
+@property (strong, nonatomic) NSString *assetsPath;
+@property (strong, nonatomic) NSString *sharedPath;
+@property (strong, nonatomic) User* user;
+
+@end
 
 @implementation ResetPasswordViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
-    self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
-    [self idColor];
-    
+    self.browser = [[UIWebView alloc]initWithFrame:self.view.frame];
+    [self.view addSubview:self.browser];
     [WebViewJavascriptBridge enableLogging];
+    [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn addSubview:bakImage];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    self.navigationController.navigationBar.translucent = NO;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"ResetPasswordViewController - ObjC received message from JS: %@", data);
         responseCallback(@"ResetPasswordViewController - Response for message from ObjC");
     }];
-    
+    self.user = [[User alloc]init];
+    if(self.user.userID) {
+        self.assetsPath = [FileUtils dirPath:kHTMLDirName];
+    }
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
         
         /*
@@ -84,7 +120,6 @@
                // [self changLocalPwd:newPassword];
                 [alert addButton:@"好的" actionBlock:^(void) {
                     [self dismissViewControllerAnimated:YES completion:^{
-                        [self.browser cleanForDealloc];
                         self.browser.delegate = nil;
                         self.browser = nil;
                         [self.progressHUD hide:YES];
@@ -100,15 +135,46 @@
             [self loadHtml];
         }
     }];
-    
-    self.labelTheme.text = self.bannerName;
+
     self.urlString = [NSString stringWithFormat:kResetPwdMobilePath, kBaseUrl, [FileUtils currentUIVersion]];
+}
+
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     [self loadHtml];
+}
+
+
+- (void)backAction{
+    if (self.navigationController && self.childViewControllers.count > 1) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+
+- (void)jumpToLogin {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    userDict[kIsLoginCUName] = @(NO);
+    [userDict writeToFile:userConfigPath atomically:YES];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kMainSBName bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:kLoginVCName];
+    self.view.window.rootViewController = loginViewController;
 }
 
 - (void)changLocalPwd:(NSString *)newPassword {
@@ -153,8 +219,9 @@
         });
     }
 }
+
 - (void)_loadHtml {
-    [self clearBrowserCache];
+    
     [self showLoading:LoadingLoad];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -177,16 +244,24 @@
     });
 }
 
-#pragma mark - ibaction block
-- (IBAction)actionBack:(id)sender {
-    [super dismissViewControllerAnimated:YES completion:^{
-        [self.browser stopLoading];
-        [self.browser cleanForDealloc];
-        self.browser.delegate = nil;
-        self.browser = nil;
-        [self.progressHUD hide:YES];
-        self.progressHUD = nil;
-        self.bridge = nil;
-    }];
+- (void)clearBrowserCache {
+    [self.browser stopLoading];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    
+    NSString *domain = [[NSURL URLWithString:self.urlString] host];
+    for(NSHTTPCookie *cookie in [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]) {
+        if([[cookie domain] isEqualToString:domain]) {
+            [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:cookie];
+        }
+    }
 }
+
+- (void)showLoading:(LoadingType)loadingType {
+    NSString *loadingPath = [FileUtils loadingPath:loadingType];
+    NSString *loadingContent = [NSString stringWithContentsOfFile:loadingPath encoding:NSUTF8StringEncoding error:nil];
+    [self.browser loadHTMLString:loadingContent baseURL:[NSURL fileURLWithPath:loadingPath]];
+    
+    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+}
+
 @end

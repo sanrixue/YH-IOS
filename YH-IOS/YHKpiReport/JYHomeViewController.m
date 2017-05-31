@@ -61,7 +61,7 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     [self loadData];
    // self.edgesForExtendedLayout = UIRectEdgeNone;
-    
+    [self idColor];
     bottomViewHeight = JYVCHeight;
     self.automaticallyAdjustsScrollViewInsets = NO;
     
@@ -157,6 +157,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
+    
   /*  self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(2, 0, 70, 40)];
     UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
@@ -174,6 +175,68 @@
     self.title =self.bannerTitle;*/
     
 
+}
+
+//标识点
+- (void)idColor {
+    UIView* idView = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-50,34, 30, 10)];
+    //idView.backgroundColor = [UIColor redColor];
+    [self.navigationController.navigationBar addSubview:idView];
+    
+    UIImageView* idColor0 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 1, 4, 4)];
+    idColor0.layer.cornerRadius = 2;
+    [idView addSubview:idColor0];
+    
+    UIImageView* idColor1 = [[UIImageView alloc]initWithFrame:CGRectMake(6, 1, 4, 4)];
+    idColor1.layer.cornerRadius = 1;
+    [idView addSubview:idColor1];
+    
+    UIImageView* idColor2 = [[UIImageView alloc]initWithFrame:CGRectMake(12, 1, 4, 4)];
+    idColor2.layer.cornerRadius = 1;
+    [idView addSubview:idColor2];
+    
+    UIImageView* idColor3 = [[UIImageView alloc]initWithFrame:CGRectMake(18, 1, 4, 4)];
+    idColor3.layer.cornerRadius = 1;
+    [idView addSubview:idColor3];
+    
+    UIImageView* idColor4 = [[UIImageView alloc]initWithFrame:CGRectMake(24, 1, 4, 4)];
+    idColor4.layer.cornerRadius = 1;
+    [idView addSubview:idColor4];
+    
+    
+    NSArray *colors = @[@"00ffff", @"ffcd0a", @"fd9053", @"dd0929", @"016a43", @"9d203c", @"093db5", @"6a3906", @"192162", @"000000"];
+    
+    NSArray *colorViews = @[idColor0, idColor1, idColor2, idColor3, idColor4];
+    NSString *userID = [NSString stringWithFormat:@"%@", self.user.userID];
+    
+    NSString *color;
+    NSInteger userIDIndex, numDiff = colorViews.count - userID.length;
+    UIImageView *imageView;
+    
+    numDiff = numDiff < 0 ? 0 : numDiff;
+    for(NSInteger i = 0; i < colorViews.count; i++) {
+        color = colors[0];
+        if(i >= numDiff) {
+            userIDIndex = [[NSString stringWithFormat:@"%c", [userID characterAtIndex:i-numDiff]] integerValue];
+            color = colors[userIDIndex];
+        }
+        imageView = colorViews[i];
+        imageView.image = [self imageWithColor:[UIColor colorWithHexString:color] size:CGSizeMake(5.0, 5.0)];
+        imageView.layer.cornerRadius = 2.5f;
+        imageView.layer.masksToBounds = YES;
+        imageView.hidden = NO;
+    }
+    
+}
+
+- (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    UIBezierPath* rPath = [UIBezierPath bezierPathWithRect:CGRectMake(0., 0., size.width, size.height)];
+    [color setFill];
+    [rPath fill];
+    UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 

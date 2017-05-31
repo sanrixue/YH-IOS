@@ -21,10 +21,12 @@
     NSString *uiVersion = [FileUtils currentUIVersion];
     self.urlString = [NSString stringWithFormat:kAnalyseMobilePath, kBaseUrl, uiVersion, self.user.roleID];
     self.commentObjectType = ObjectTypeAnalyse;
-    self.browser = [[UIWebView alloc]initWithFrame:self.view.frame];
+     self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-84)];
     [self.view addSubview: self.browser];
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self loadWebView];
+     self.edgesForExtendedLayout = UIRectEdgeNone;
+       self.automaticallyAdjustsScrollViewInsets = NO;
     [self isLoadHtmlFromService];
     // Do any additional setup after loading the view.
 }

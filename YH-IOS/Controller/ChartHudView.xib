@@ -16,8 +16,7 @@
                     <string key="text">	-  指标对比数据, 分为两种
 	-  正向指标 (越大越好)
 	-  负向指标 (越小越好)
-
-	-  变化率 : XXXXXXXXX</string>
+</string>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                 </textView>

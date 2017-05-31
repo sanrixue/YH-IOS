@@ -41,7 +41,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.idView setHidden:YES];
+    //[self.idView setHidden:YES];
     
     [LTHPasscodeViewController sharedUser].delegate = self;
     [LTHPasscodeViewController useKeychain:NO];
@@ -99,9 +99,33 @@
 }
 
 - (void)idColor {
+    
+    UIView* idView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 15, 4)];
+    
+    UIImageView* idColor0 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 1, 2, 2)];
+    idColor0.layer.cornerRadius = 1;
+    [idView addSubview:idColor0];
+    
+    UIImageView* idColor1 = [[UIImageView alloc]initWithFrame:CGRectMake(3, 1, 2, 2)];
+    idColor1.layer.cornerRadius = 1;
+    [idView addSubview:idColor1];
+    
+    UIImageView* idColor2 = [[UIImageView alloc]initWithFrame:CGRectMake(6, 1, 2, 2)];
+    idColor2.layer.cornerRadius = 1;
+    [idView addSubview:idColor2];
+    
+    UIImageView* idColor3 = [[UIImageView alloc]initWithFrame:CGRectMake(9, 1, 2, 2)];
+    idColor3.layer.cornerRadius = 1;
+    [idView addSubview:idColor3];
+    
+    UIImageView* idColor4 = [[UIImageView alloc]initWithFrame:CGRectMake(12, 1, 2, 2)];
+    idColor4.layer.cornerRadius = 1;
+    [idView addSubview:idColor4];
+    
+    
     NSArray *colors = @[@"00ffff", @"ffcd0a", @"fd9053", @"dd0929", @"016a43", @"9d203c", @"093db5", @"6a3906", @"192162", @"000000"];
     
-    NSArray *colorViews = @[self.idColor0, self.idColor1, self.idColor2, self.idColor3, self.idColor4];
+    NSArray *colorViews = @[idColor0, idColor1, idColor2, idColor3, idColor4];
     NSString *userID = [NSString stringWithFormat:@"%@", self.user.userID];
     
     NSString *color;
@@ -122,7 +146,7 @@
         imageView.hidden = NO;
     }
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.idView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.bannerView attribute:NSLayoutAttributeTrailing multiplier:1.0f constant:-10.0f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:idView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.bannerView attribute:NSLayoutAttributeTrailing multiplier:1.0f constant:-10.0f]];
 }
 
 - (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size {

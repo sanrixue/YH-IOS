@@ -277,6 +277,8 @@
        // NSString* color = item.color;
         NSString* color = weakSelf.superModel.config.color[table.color.integerValue];
         cell.barView.barColor = color.toColor;//[UIColor redColor];
+        NSString* cellValueColor =_superModel.config.color[[demo.color integerValue]];
+        cell.valueLab.textColor = [UIColor colorWithHexString:cellValueColor];
         
         cell.doubleBack = ^(id item){
             [weakSelf popNeedAnimation:YES];

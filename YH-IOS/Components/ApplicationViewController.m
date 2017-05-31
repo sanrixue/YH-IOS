@@ -22,10 +22,12 @@
     self.urlString = [NSString stringWithFormat:kAppMobilePath, kBaseUrl, uiVersion, self.user.roleID];
    // self.urlString = @"http://tkm.shengyiplus.com/pc/search?sso_cookie=nm6586tst";
     self.commentObjectType = ObjectTypeApp;
-    self.browser = [[UIWebView alloc]initWithFrame:self.view.frame];
+    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-84)];
     [self.view addSubview: self.browser];
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self loadWebView];
+     self.edgesForExtendedLayout = UIRectEdgeNone;
+       self.automaticallyAdjustsScrollViewInsets = NO;
     [self isLoadHtmlFromService];
     
     /*UIButton *addBtn = [[UIButton alloc]initWithFrame:CGRectMake(self.view.frame.size.width - 60, 80, 30, 30)];

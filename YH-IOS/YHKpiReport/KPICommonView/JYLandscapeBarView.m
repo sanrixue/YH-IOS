@@ -26,6 +26,7 @@
     if (self = [super initWithFrame:frame]) {
         [self initializeSubVeiw];
     }
+    self.layer.borderColor = [UIColor clearColor].CGColor;
     return self;
 }
 

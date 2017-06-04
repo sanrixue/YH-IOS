@@ -67,7 +67,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 @implementation DashboardViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  /*  [super viewDidLoad];
     
     [[UITabBar appearance] setTintColor:[UIColor colorWithHexString:kThemeColor]];
     [self idColor];
@@ -91,34 +91,34 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     
     self.btnScanCode.hidden = !kDropMenuScan;
     [self setTabBarItems];
-    [self initTabClick];
+    [self initTabClick];*/
     
     /**
      *  广告位隐藏于否
      */
-    if(!kDashboardAd) { [self hideAdertWebView]; }
+   /* if(!kDashboardAd) { [self hideAdertWebView]; }
     
     [self checkAssetsUpdate];
-    [self setTabBarHeight];
+    [self setTabBarHeight];*/
     
     /*
      * 解屏进入主页面，需检测版本更新
      */
-    [self checkFromViewController];
-    
+   // [self checkFromViewController];
+   
     /**
      *  登录或解屏后，密码为初始值时提示:
      *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
      */
-    [self checkUserModifiedInitPassword];
+   // [self checkUserModifiedInitPassword];
     
     /**
      *  生命周期内仅执行一次
      */
-    [self receiveLocalNotification];
+   // [self receiveLocalNotification];
 }
 
-
+/*
 - (void)rotate360DegreeWithImageView:(UIImageView *)imageView{
     CABasicAnimation *animation = [ CABasicAnimation
                                    animationWithKeyPath: @"transform" ];
@@ -183,6 +183,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
      },
      state: true_or_false // 接收参数时设置为 `false`
  */
+/*
 - (void)checkPushMessageAction {
     NSString *pushMessagePath = [[FileUtils basePath] stringByAppendingPathComponent:kPushMessageFileName];
     NSMutableDictionary *pushMessageDict = [FileUtils readConfigFile:pushMessagePath];
@@ -299,6 +300,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
              */
+/*
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
                 logParams[kActionALCName]   = @"JS异常";
@@ -330,6 +332,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
  *  @param openType <#openType description#>
  *  @param urlLink  <#urlLink description#>
  */
+/*
 - (BOOL) checkAdParams:(NSDictionary *)data containName:(NSString *)paramName {
     BOOL isContain = [data.allKeys containsObject:paramName];
     if(!isContain) {
@@ -345,6 +348,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
  *  @param openType <#openType description#>
  *  @param data     <#data description#>
  */
+/*
 - (void) openAdClickLink:(NSString *)openType data:(NSDictionary *)data {
     NSString *actionLogTitle = @"";
     NSDictionary *tabIndexDict = @{@"tab_kpi": @0, @"tab_analyse": @1, @"tab_app": @2, @"tab_message": @3};
@@ -382,6 +386,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     /*
      * 用户行为记录, 单独异常处理，不可影响用户体验
      */
+/*
     @try {
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
         logParams[kActionALCName]   = [NSString stringWithFormat:@"点击广告#%@", openType];
@@ -424,6 +429,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 /**
  *  初始化本地通知
  */
+/*
 - (void)initLocalNotifications {
     NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
     
@@ -459,6 +465,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 /*
  * 解屏进入主页面，需检测版本更新
  */
+/*
 - (void)checkFromViewController {
     if(self.fromViewController && [self.fromViewController isEqualToString:@"AppDelegate"]) {
         self.fromViewController = @"AlreadyShow";
@@ -469,7 +476,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
-             */
+ 
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
                 logParams[kActionALCName] = @"解屏";
@@ -478,7 +485,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
                 /**
                  *  解屏验证用户信息，更新用户权限
                  *  若难失败，则在下次解屏检测时进入登录界面
-                 */
+ 
                 NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
                 NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
                 if(!userDict[kUserNumCUName]) {
@@ -505,7 +512,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 /**
  *  登录或解屏后，密码为初始值时提示:
  *      初始化密码未修改，安全起见，请在【设置】-【个人信息】-【修改密码】页面修改密码。
- */
+ 
 - (void)checkUserModifiedInitPassword {
     if(![self.user.password isEqualToString:kInitPassword.md5]) {
         return;
@@ -566,7 +573,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
          * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
+ 
         NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
         logParams[kActionALCName]   = @"刷新/主页面/浏览器";
         logParams[kObjTitleALCName] = self.urlString;
@@ -576,7 +583,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 
 /**
  *  标签栏及标签项显示隐藏设置
- */
+ 
 - (void)setTabBarItems {
     if(!kTabBar) {
         NSLayoutConstraint *heightConstraint;
@@ -620,7 +627,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
-             */
+ 
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
                 logParams[kActionALCName]   = @"JS异常";
@@ -738,7 +745,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
                                                                        }];
             
             [alert addAction:defaultAction];
-            [self presentViewController:alert animated:YES completion:nil];*/
+            [self presentViewController:alert animated:YES completion:nil];
             [self showLoading:LoadingRefresh];
         }
         
@@ -758,7 +765,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
  *  标题栏设置按钮点击显示下拉菜单
  *
  *  @param sender 
- */
+ 
 -(void)dropTableView:(UIButton *)sender {
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
     dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150 / 4 * self.dropMenuTitles.count);
@@ -862,7 +869,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     
     /*
      * 用户行为记录, 单独异常处理，不可影响用户体验
-     */
+ 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @try {
             [APIHelper actionLog:logParams];
@@ -940,7 +947,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     /**
      *  忽略 NSURLErrorDomain 错误 - 999
-     */
+ 
     if([error code] == NSURLErrorCancelled) {
         return;
     }
@@ -957,13 +964,13 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
  *  <#Description#>
  *
  *  @param index <#index description#>
- */
+ 
 - (void)tabBarClick:(NSInteger)index {
     /**
      *  避免用户极短时间内连接点击标签项:
      *  1. 点击后，禁用所有标签项
      *  2. _loadhtml 加载 html 再激活所有标签项
-     */
+ 
     [self tabBarState: NO];
     
     self.behaviorDict[kDashboardUBCName][kTabIndexUBCName] = @(index);
@@ -971,7 +978,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     
     /**
      *  仅仪表盘显示广告位
-     */
+ 
     if(kDashboardAd) {
         index == 0 ? [self addAdvertWebView] : [self hideAdertWebView];
     }
@@ -1012,7 +1019,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
          * 用户行为记录, 单独异常处理，不可影响用户体验
-         */
+ 
         @try {
             NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
             logParams[kActionALCName]  = @"点击/主页面/标签栏";
@@ -1069,7 +1076,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
   *  内容检测版本升级，判断版本号是否为偶数。以便内测
   *
   *  @param response <#response description#>
-  */
+ 
 - (void)appToUpgradeMethod:(NSDictionary *)response {
     if(!response || !response[kDownloadURLCPCName] || !response[kVersionCodeCPCName] || !response[kVersionNameCPCName]) {
         return;
@@ -1182,7 +1189,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
      *  - 如果 `tab_*_last > 0 && tab_*_last != dataCount`
      *      - 显示通知样式
      *      - `tab_* = abs(dataCount - tab_*_last); tab_*_last = dataCount`
-     */
+ 
     NSMutableDictionary *localNotificationDict = [FileUtils readConfigFile:self.localNotificationPath];
     NSInteger dataCount = [valueString integerValue];
 
@@ -1210,7 +1217,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     
     /**
      *  底部标签页四个 tab 通知样式
-     */
+ 
     NSString *keyWord;
     NSInteger dataCount = 0;
     for (NSInteger index = 0; index < 4; index ++) {
@@ -1225,7 +1232,7 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     
     /**
      *  右上角设置界面通知样式
-     */
+ 
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
@@ -1257,4 +1264,5 @@ static NSString *const kObjTypeSubjectColumn    = @"objectType";
     
     [self displayTabBarBadgeOnItemIndex:index orNot:YES];
 }
+ */
 @end

@@ -4,18 +4,32 @@
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "C98F34640CDAF8C591AEB91EEF768A6198C4416E" : 0,
-    "97C2E87C0BDD4FCBEAC578297F4D4F1F4EA8CDA7" : 0
+    "97C2E87C0BDD4FCBEAC578297F4D4F1F4EA8CDA7" : 0,
+    "9025163822AAEA7A2D8AC9210D0874A56F62B462" : 9223372036854775807,
+    "7D4A80DA99AE03B1CE8239B4875B025E4BEA7354" : 9223372036854775807,
+    "C98F34640CDAF8C591AEB91EEF768A6198C4416E" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "6EA8AD00-FEF6-4924-BEA6-4C79286B2CA1",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "C98F34640CDAF8C591AEB91EEF768A6198C4416E" : "YH-IOS\/YH-IOS\/Vendor\/hpple\/",
-    "97C2E87C0BDD4FCBEAC578297F4D4F1F4EA8CDA7" : "YH-IOS\/"
+    "97C2E87C0BDD4FCBEAC578297F4D4F1F4EA8CDA7" : "YH-IOS\/",
+    "9025163822AAEA7A2D8AC9210D0874A56F62B462" : "YH-IOS2\/Charts\/",
+    "7D4A80DA99AE03B1CE8239B4875B025E4BEA7354" : "YH-IOS2\/%E7%94%BB%E5%9B%BEdemo\/",
+    "C98F34640CDAF8C591AEB91EEF768A6198C4416E" : "YH-IOS\/YH-IOS\/Vendor\/hpple\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "YH-IOS",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
   "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "YH-IOS.xcworkspace",
   "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/git.oschina.net\/IOSMaster\/yh_shengyiren.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "7D4A80DA99AE03B1CE8239B4875B025E4BEA7354"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:danielgindi\/Charts.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "9025163822AAEA7A2D8AC9210D0874A56F62B462"
+    },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:jay16\/YongHui-IOS.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="YHMarkerV" customModule="SwiftCharts" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="120" height="100"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fOG-bS-H50"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上周: 777" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="myK-nn-7DQ">
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="W3" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OFh-OS-Lkj">
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="0.1450980392" green="0.1450980392" blue="0.1450980392" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="本周: 666" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VWu-pB-Bky">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="15" id="dm4-s8-h7S"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="-23.4 %" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2i9-ny-sCm">
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.86666666670000003" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="差异: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2OF-CH-vma">
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="0.29803922770000002" green="0.29803922770000002" blue="0.29803922770000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="myK-nn-7DQ" firstAttribute="top" secondItem="VWu-pB-Bky" secondAttribute="bottom" constant="5" id="7Fm-Jv-gph"/>
+                <constraint firstItem="2i9-ny-sCm" firstAttribute="bottom" secondItem="2OF-CH-vma" secondAttribute="bottom" id="Aj6-fB-e4Q"/>
+                <constraint firstAttribute="trailing" secondItem="fOG-bS-H50" secondAttribute="trailing" id="CzW-Db-fYv"/>
+                <constraint firstItem="fOG-bS-H50" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="DWU-oo-T2M"/>
+                <constraint firstItem="2OF-CH-vma" firstAttribute="leading" secondItem="myK-nn-7DQ" secondAttribute="leading" id="RqU-pC-f06"/>
+                <constraint firstItem="OFh-OS-Lkj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="XRN-g9-bck"/>
+                <constraint firstItem="2i9-ny-sCm" firstAttribute="top" secondItem="2OF-CH-vma" secondAttribute="top" id="ZJV-63-7L2"/>
+                <constraint firstItem="VWu-pB-Bky" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="b5h-ae-Ycy"/>
+                <constraint firstAttribute="bottom" secondItem="fOG-bS-H50" secondAttribute="bottom" id="cl6-tC-QsZ"/>
+                <constraint firstItem="2OF-CH-vma" firstAttribute="top" secondItem="myK-nn-7DQ" secondAttribute="bottom" constant="5" id="eWJ-Hv-k0M"/>
+                <constraint firstItem="fOG-bS-H50" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="hJN-6K-HND"/>
+                <constraint firstItem="myK-nn-7DQ" firstAttribute="leading" secondItem="VWu-pB-Bky" secondAttribute="leading" id="hYt-ge-SlG"/>
+                <constraint firstItem="VWu-pB-Bky" firstAttribute="top" secondItem="OFh-OS-Lkj" secondAttribute="bottom" constant="8" id="ino-Bc-55q"/>
+                <constraint firstItem="2i9-ny-sCm" firstAttribute="leading" secondItem="2OF-CH-vma" secondAttribute="trailing" constant="5" id="sBy-Ju-tPU"/>
+                <constraint firstItem="OFh-OS-Lkj" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="sdO-Ht-AXS"/>
+                <constraint firstAttribute="trailing" secondItem="VWu-pB-Bky" secondAttribute="trailing" constant="10" id="uNl-VJ-DtS"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="backImageV" destination="fOG-bS-H50" id="h5L-i2-n7v"/>
+                <outlet property="compareLab" destination="2i9-ny-sCm" id="Rrm-la-sQe"/>
+                <outlet property="lastLab" destination="myK-nn-7DQ" id="w9d-60-IAW"/>
+                <outlet property="titleLab" destination="OFh-OS-Lkj" id="wJs-Jk-wnG"/>
+                <outlet property="todayLab" destination="VWu-pB-Bky" id="YYw-XC-L6Y"/>
+            </connections>
+            <point key="canvasLocation" x="-403" y="-79.5"/>
+        </view>
+    </objects>
+</document>

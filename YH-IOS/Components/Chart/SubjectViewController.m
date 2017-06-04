@@ -15,13 +15,19 @@
 #import "ReportSelectorViewController.h"
 #import "DropTableViewCell.h"
 #import "DropViewController.h"
+#import "ViewUtils.h"
+#import "DropTableViewCell.h"
+#import "DropViewController.h"
+#import "CommentViewController.h"
 
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UINavigationControllerDelegate,UIWebViewDelegate>
+@interface SubjectViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,DropViewDelegate,DropViewDataSource,UIWebViewDelegate>
 {
     NSMutableDictionary *betaDict;
+    UIImageView *navBarHairlineImageView;
+    
 }
 
 @property (assign, nonatomic) BOOL isInnerLink;
@@ -36,6 +42,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (strong, nonatomic) NSArray *dropMenuTitles;
 @property (strong, nonatomic) NSArray *dropMenuIcons;
 @property (assign, nonatomic) BOOL isLoadFinish;
+@property (strong, nonatomic) UIView* idView;
 
 @end
 
@@ -44,20 +51,25 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isLoadFinish = NO;
+    [self hiddenShadow];
     
     /**
      * 被始化页面样式
      */
-    [self idColor];
-    self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
-    self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
+    //[self idColor];
+    self.tabBarController.tabBar.hidden = YES;
+    //self.bannerName = self.bannerName;
     /**
      * 服务器内链接需要做缓存、点击事件处理；
      */
     self.isInnerLink = !([self.link hasPrefix:@"http://"] || [self.link hasPrefix:@"https://"]);
     self.urlString   = self.link;
+   // navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
+    //self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(self.view.frame.origin.x, 60, self.view.frame.size.width, self.view.frame.size.height + 40)];
+    //[self.view addSubview:self.browser];
     self.browser.delegate = self;
     self.browser.delegate = self;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
     if(self.isInnerLink) {
         /*
          * /mobil/report/:report_id/group/:group_id
@@ -73,8 +85,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         self.browser.scalesPageToFit = YES;
         self.browser.contentMode = UIViewContentModeScaleAspectFit;
     }
-    self.labelTheme.text = self.bannerName;
-    
+    [self idColor];
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         responseCallback(@"SubjectViewController - Response for message from ObjC");
@@ -82,9 +93,37 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self addWebViewJavascriptBridge];
 }
 
+-(void)awakeFromNib{
+    [super awakeFromNib];
+}
+
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self hiddenShadow];
+    // self.bannerView.height = 0;
+   // self.browser.frame = CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, self.view.frame.size.height + 40);
+    [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addSubview:bakImage];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
     
+    self.title =self.bannerName;
+  //  navBarHairlineImageView = [self findHairlineImageViewUnder:self.navigationController.navigationBar];
     /*
      * 主题页面,允许横屏
      */
@@ -93,16 +132,221 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     /**
      *  横屏时，隐藏标题栏，增大可视区范围
      */
-    [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
+   // [self checkInterfaceOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
     
     [self displayBannerViewButtonsOrNot];
-    [self loadHtml];
+    [self isLoadHtmlFromService];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleRefresh) name:UIApplicationDidBecomeActiveNotification object:nil];
+}
+
+//标识点
+
+- (void)idColor {
+     self.idView = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-50,34, 30, 10)];
+    //idView.backgroundColor = [UIColor redColor];
+    [self.navigationController.navigationBar addSubview:_idView];
+    
+    UIImageView* idColor0 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 1, 4, 4)];
+    idColor0.layer.cornerRadius = 2;
+    [_idView addSubview:idColor0];
+    
+    UIImageView* idColor1 = [[UIImageView alloc]initWithFrame:CGRectMake(6, 1, 4, 4)];
+    idColor1.layer.cornerRadius = 1;
+    [_idView addSubview:idColor1];
+    
+    UIImageView* idColor2 = [[UIImageView alloc]initWithFrame:CGRectMake(12, 1, 4, 4)];
+    idColor2.layer.cornerRadius = 1;
+    [_idView addSubview:idColor2];
+    
+    UIImageView* idColor3 = [[UIImageView alloc]initWithFrame:CGRectMake(18, 1, 4, 4)];
+    idColor3.layer.cornerRadius = 1;
+    [_idView addSubview:idColor3];
+    
+    UIImageView* idColor4 = [[UIImageView alloc]initWithFrame:CGRectMake(24, 1, 4, 4)];
+    idColor4.layer.cornerRadius = 1;
+    [_idView addSubview:idColor4];
+    
+    
+    NSArray *colors = @[@"00ffff", @"ffcd0a", @"fd9053", @"dd0929", @"016a43", @"9d203c", @"093db5", @"6a3906", @"192162", @"000000"];
+    
+    NSArray *colorViews = @[idColor0, idColor1, idColor2, idColor3, idColor4];
+    NSString *userID = [NSString stringWithFormat:@"%@", self.user.userID];
+    
+    NSString *color;
+    NSInteger userIDIndex, numDiff = colorViews.count - userID.length;
+    UIImageView *imageView;
+    
+    numDiff = numDiff < 0 ? 0 : numDiff;
+    for(NSInteger i = 0; i < colorViews.count; i++) {
+        color = colors[0];
+        if(i >= numDiff) {
+            userIDIndex = [[NSString stringWithFormat:@"%c", [userID characterAtIndex:i-numDiff]] integerValue];
+            color = colors[userIDIndex];
+        }
+        imageView = colorViews[i];
+        imageView.image = [self imageWithColor:[UIColor colorWithHexString:color] size:CGSizeMake(5.0, 5.0)];
+        imageView.layer.cornerRadius = 2.5f;
+        imageView.layer.masksToBounds = YES;
+        imageView.hidden = NO;
+    }
+    
+}
+
+- (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    UIBezierPath* rPath = [UIBezierPath bezierPathWithRect:CGRectMake(0., 0., size.width, size.height)];
+    [color setFill];
+    [rPath fill];
+    UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+
+
+- (void)backAction{
+    [super dismissViewControllerAnimated:YES completion:^{
+        [self.browser stopLoading];
+        [self.browser cleanForDealloc];
+        self.browser.delegate = nil;
+        self.browser = nil;
+        [self.progressHUD hide:YES];
+        self.progressHUD = nil;
+        self.bridge = nil;
+    }];
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持横屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    // 如果该界面需要支持横竖屏切换
+    return UIInterfaceOrientationMaskLandscapeRight | UIInterfaceOrientationMaskPortrait;
+    // 如果该界面仅支持横屏
+    // return UIInterfaceOrientationMaskLandscapeRight；
+}
+
+- (void)viewWillTransitionToSize:(CGSize)size withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+    
+    if (size.width > size.height) { // 横屏
+        self.browser.frame = CGRectMake(0, 0,size.width,size.height+30);
+        self.idView.frame = CGRectMake(size.width-55, 34, 30, 10);
+    } else {
+        self.browser.frame = CGRectMake(0, 0, size.width, size.height-34);
+    }
+}
+
+/*
+-(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+  //  [self checkInterfaceOrientation:toInterfaceOrientation];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    [self loadHtml];
+}*/
+
+/**
+ *  横屏时，隐藏标题栏，增大可视区范围
+ *
+ *  @param interfaceOrientation 设备屏幕放置方向
+ */
+/*
+- (void)checkInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    BOOL isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation);
+    if (!isLandscape) {
+        self.browser.frame = CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.width, [[UIScreen mainScreen]bounds].size.height);
+    }
+    else{
+         self.browser.frame = CGRectMake(0, 0, [[UIScreen mainScreen]bounds].size.height, [[UIScreen mainScreen]bounds].size.width);
+    }
+  //  [self.view layoutIfNeeded];
+    
+   // [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
+}
+
+*/
+// 隐藏UINavigationBar 底部黑线
+
+- (void)hiddenShadow {
+    
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    
+    self.navigationController.navigationBar.shadowImage = [[UIImage alloc] init];
+    
+}
+
+//判断是否离线
+-(void)isLoadHtmlFromService {
+    if (([HttpUtils isNetworkAvailable2] &&  self.isInnerLink) || !self.isInnerLink ) {
+        [self loadHtml];
+    }
+    else{
+        self.title = [NSString stringWithFormat:@"%@(离线)",self.bannerName];
+        [self clearBrowserCache];
+        NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
+        NSString* htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
+        NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
+        if (![FileUtils checkFileExist:htmlPath isDir:NO] || ([htmlContent length] == 0 )) {
+            [self showLoading:LoadingRefresh];
+        }
+        else {
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+        }
+    }
+}
+
+//根据 url 获取本地文件名
+- (NSArray *)urlTofilename:(NSString *)url suffix:(NSString *)suffix {
+    NSArray *blackList = @[@".", @":", @"/", @"?"];
+    
+    url = [url stringByReplacingOccurrencesOfString:kBaseUrl withString:@""];
+    NSArray *parts = [url componentsSeparatedByString:@"?"];
+    
+    NSString *timestamp = nil;
+    if([parts count] > 1) {
+        url = parts[0];
+        timestamp = parts[1];
+    }
+    
+    
+    if([url hasSuffix:suffix]) {
+        url = [url stringByDeletingPathExtension];
+    }
+    
+    while([url hasPrefix:@"/"]) {
+        url = [url substringWithRange:NSMakeRange(1,url.length-1)];
+    }
+    
+    for(NSString *str in blackList) {
+        url = [url stringByReplacingOccurrencesOfString:str withString:@"_"];
+    }
+    
+    if(![url hasSuffix:suffix]) {
+        url = [NSString stringWithFormat:@"%@%@", url, suffix];
+    }
+    
+    NSArray *result = [NSArray array];
+    if(timestamp) {
+        result = @[url, timestamp];
+    }
+    else {
+        result = @[url];
+    }
+    
+    return result;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
+    
     /*
      * 其他页面,禁用横屏
      */
@@ -132,7 +376,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [HttpUtils clearHttpResponeHeader:self.urlString assetsPath:self.assetsPath];
     }
     
-    [self loadHtml];
+    [self isLoadHtmlFromService];
     //[refresh endRefreshing];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -163,7 +407,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)addWebViewJavascriptBridge {
     [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self showLoading:LoadingRefresh];
+        // [self showLoading:LoadingRefresh];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             /*
              * 用户行为记录, 单独异常处理，不可影响用户体验
@@ -216,11 +460,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         NSString *searchItemsPath = [NSString stringWithFormat:@"%@.search_items", self.javascriptPath];
         
         [data[@"items"] writeToFile:searchItemsPath atomically:YES];
-            
+        
         /**
-          *  判断筛选的条件: data[@"items"] 数组不为空
-          *  报表第一次加载时，此处为判断筛选功能的关键点
-          */
+         *  判断筛选的条件: data[@"items"] 数组不为空
+         *  报表第一次加载时，此处为判断筛选功能的关键点
+         */
         self.isSupportSearch = [FileUtils reportIsSupportSearch:self.user.groupID templateID:self.templateID reportID:self.reportID];
         if(self.isSupportSearch) {
             [self displayBannerTitleAndSearchIcon];
@@ -228,6 +472,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }];
     
     [self.bridge registerHandler:@"selectedItem" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *reportDataFileName = [NSString stringWithFormat:kReportDataFileName, self.user.groupID, self.templateID, self.reportID];
+        NSString *javascriptFolder = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
+        self.javascriptPath = [javascriptFolder stringByAppendingPathComponent:reportDataFileName];
         NSString *selectedItemPath = [NSString stringWithFormat:@"%@.selected_item", self.javascriptPath];
         NSString *selectedItem = NULL;
         if([FileUtils checkFileExist:selectedItemPath isDir:NO]) {
@@ -236,7 +483,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         responseCallback(selectedItem);
     }];
     
-   // UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    // UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
     //[refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
     //[self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
 }
@@ -263,6 +510,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)loadOuterLink {
+    
     NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     
     NSString *splitString = [self.urlString containsString:@"?"] ? @"&" : @"?";
@@ -279,7 +527,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      *  only inner link clean browser cache
      */
     [self clearBrowserCache];
-    [self showLoading:LoadingLoad];
+    //  [self showLoading:LoadingLoad];
     
     /*
      * format: /mobile/v1/group/:group_id/template/:template_id/report/:report_id
@@ -305,7 +553,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [APIHelper reportData:self.user.groupID templateID:self.templateID reportID:self.reportID];
-    
+        
         HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
         
         __block NSString *htmlPath;
@@ -321,6 +569,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             [self clearBrowserCache];
             NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+            [MRProgressOverlayView dismissOverlayForView:self.browser animated:YES];
             self.isLoadFinish = !self.browser.isLoading;
         });
     });
@@ -336,16 +585,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             reportSelectedItem = [reportSearchItems firstObject];
         }
         else {
-            reportSelectedItem = [NSString stringWithFormat:@"%@(NONE)", self.labelTheme.text];
+            reportSelectedItem = [NSString stringWithFormat:@"%@(NONE)", self.title];
         }
     }
-    self.labelTheme.text = reportSelectedItem;
-}
-- (IBAction)dropTableView:(UIButton *)sender {
-    [self showTableView:sender];
+    self.title = reportSelectedItem;
 }
 
-#pragma mark
+
+#pragma 下拉菜单功能块
+
 - (void)initDropMenu {
     NSMutableArray *tmpTitles = [NSMutableArray array];
     NSMutableArray *tmpIcons = [NSMutableArray array];
@@ -359,7 +607,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     if(self.isSupportSearch) {
         [tmpTitles addObject:kDropSearchText];
-        [tmpIcons addObject:@"Subject-Search"];
+        [tmpIcons addObject:@"筛选"];
+    }
+    if (!self.isInnerLink) {
+        [tmpTitles addObject:kDropCopyLinkText];
+        [tmpIcons addObject:@"Subject_Copylink"];
     }
     [tmpTitles addObject:kDropRefreshText];
     [tmpIcons addObject:@"Subject-Refresh"];
@@ -367,70 +619,53 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
 
+
 /**
  *  标题栏设置按钮点击显示下拉菜单
  *
  *  @param sender
  */
--(void)showTableView:(UIButton *)sender {
+-(void)dropTableView:(UIBarButtonItem *)sender {
     [self initDropMenu];
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, 100, 150 / 4 * self.dropMenuTitles.count);
-    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(100, 150 / 4 * self.dropMenuTitles.count)];
-    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    dropTableViewController.dropTableView.delegate = self;
-    dropTableViewController.dropTableView.dataSource =self;
-    
+    dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
+    dropTableViewController.preferredContentSize = CGSizeMake(150,self.dropMenuTitles.count*150/4);
+    dropTableViewController.dataSource = self;
+    dropTableViewController.delegate = self;
     UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
     popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    popover.barButtonItem = self.navigationItem.rightBarButtonItem;
     popover.delegate = self;
-    [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
+    [popover setSourceRect:sender.customView.frame];
     [popover setSourceView:self.view];
-    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    popover.backgroundColor = [UIColor colorWithHexString:kDropViewColor];
     [self presentViewController:dropTableViewController animated:YES completion:nil];
 }
-# pragma mark - UITableView Delgate
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    
-    return 1;
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
+    return UIModalPresentationNone;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
+-(NSInteger)numberOfPagesIndropView:(DropViewController *)flowView{
     return self.dropMenuTitles.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
-    if (!cell) {
-        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
-    }
-    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
-    cell.tittleLabel.adjustsFontSizeToFitWidth = YES;
-    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
+-(UITableViewCell *)dropView:(DropViewController *)flowView cellForPageAtIndex:(NSIndexPath *)index{
+    DropTableViewCell*  cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    cell.tittleLabel.text = self.dropMenuTitles[index.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[index.row]];
     
     UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
-    cellBackView.backgroundColor = [UIColor darkGrayColor];
+    cellBackView.backgroundColor = [UIColor clearColor];
     cell.selectedBackgroundView = cellBackView;
+    cell.tittleLabel.adjustsFontSizeToFitWidth = YES;
     
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    return 150 / 4;
-}
-
-- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
-    
-    return UIModalPresentationNone;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+-(void)dropView:(DropViewController *)flowView didTapPageAtIndex:(NSIndexPath *)index{
     [self dismissViewControllerAnimated:YES completion:^{
-        NSString *itemName = self.dropMenuTitles[indexPath.row];
+        NSString *itemName = self.dropMenuTitles[index.row];
         
         if([itemName isEqualToString:kDropCommentText]) {
             [self actionWriteComment];
@@ -444,8 +679,17 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         else if ([itemName isEqualToString:kDropRefreshText]){
             [self handleRefresh];
         }
+        else if ([itemName isEqualToString:kDropCopyLinkText]){
+            UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+            pasteboard.string = self.link;
+            if (![pasteboard.string isEqualToString:@""]) {
+                [ViewUtils showPopupView:self.view Info:@"链接复制成功"];
+            }
+        }
     }];
+    
 }
+
 
 #pragma mark - ibaction block
 - (IBAction)actionBack:(id)sender {
@@ -461,24 +705,41 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)actionWriteComment{
-    [self performSegueWithIdentifier:kCommentSegueIdentifier sender:nil];
+    UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    CommentViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"CommentViewController"];
+    subjectView.bannerName = self.bannerName;
+    subjectView.objectID = self.objectID;
+    subjectView.commentObjectType  =self.commentObjectType;
+    UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
 }
 
 - (void)actionDisplaySearchItems {
-    [self performSegueWithIdentifier:kReportSelectorSegueIdentifier sender:nil];
+    UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    ReportSelectorViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"ReportSelectorSegueIdentifier"];
+    subjectView.bannerName = self.bannerName;
+    subjectView.groupID = self.user.groupID;
+    subjectView.reportID = self.reportID;
+    subjectView.templateID  =self.templateID;
+    UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
+   // [self performSegueWithIdentifier:kReportSelectorSegueIdentifier sender:nil];
 }
 
 - (void)actionWebviewScreenShot{
     if (self.isLoadFinish) {
         @try {
             UIImage *image;
-            NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
+            NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kSettingConfigFileName];
             betaDict = [FileUtils readConfigFile:settingsConfigPath];
-            if (!betaDict[@"image_within_screen"] || [betaDict[@"image_within_screen"] boolValue]) {
+            if (betaDict[@"image_within_screen"] || [betaDict[@"image_within_screen"] boolValue]) {
                 image = [self saveWebViewAsImage];
+              //  image = [self createViewImage:self.navigationController.view];
             }
             else {
-                 image = [self getImageFromCurrentScreen];
+                image = [self createViewImage:self.navigationController.view];
             }
             dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1ull *NSEC_PER_SEC);
             dispatch_after(time, dispatch_get_main_queue(), ^{
@@ -511,14 +772,14 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
 }
 
-- (UIImage *)getImageFromCurrentScreen {
-    UIGraphicsBeginImageContext(self.view.frame.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [self.view.layer renderInContext:context];
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+- (UIImage *)createViewImage:(UIView *)shareView {
+    UIGraphicsBeginImageContextWithOptions(shareView.bounds.size, NO, [UIScreen mainScreen].scale);
+    [shareView.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage * image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
-    return theImage;
+    return image;
 }
+
 
 - (UIImage *)saveWebViewAsImage {
     UIScrollView *scrollview = self.browser.scrollView;
@@ -542,7 +803,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if(self.isInnerLink) {
-        [self loadHtml];
+        [self isLoadHtmlFromService];
         [self.browser stopLoading];
     }
     if([segue.identifier isEqualToString:kCommentSegueIdentifier]) {
@@ -573,6 +834,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     NSDictionary *browerDict = [FileUtils readConfigFile:[FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName]];
     self.isLoadFinish = YES;
+    [MRProgressOverlayView dismissOverlayForView:self.browser animated:YES];
     if ([browerDict[@"allow_brower_copy"] boolValue]) {
         return;
     }
@@ -591,46 +853,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     NSLog(@"dvc: %@", error.description);
 }
 
-# pragma mark - 支持旋转 屏幕旋转 刷新页面
-- (BOOL)shouldAutorotate {
-    return YES;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-}
-
--(void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    [self checkInterfaceOrientation:toInterfaceOrientation];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    [self loadHtml];
-}
-
-/**
- *  横屏时，隐藏标题栏，增大可视区范围
- *
- *  @param interfaceOrientation 设备屏幕放置方向
- */
-- (void)checkInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    BOOL isLandscape = UIInterfaceOrientationIsLandscape(interfaceOrientation);
-    
-    self.bannerView.hidden = isLandscape;
-    [[UIApplication sharedApplication] setStatusBarHidden:isLandscape withAnimation:NO];
-    
-    self.layoutConstraintBannerView.constant = (isLandscape ? -55 : 0);
-    [self.view layoutIfNeeded];
-    
-    [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
-}
 
 #pragma mark - bug#fix
 /**
  
-     2015-12-25 10:08:20.848 YH-IOS[52214:1924885] http://izoom.mobi/demo/upload.html?userid=3026
-     2015-12-25 10:08:27.117 YH-IOS[52214:1924885] Passed in type public.item doesn't conform to either public.content or public.data. If you are exporting a new type, please ensure that it conforms to an appropriate parent type.
-     2015-12-25 10:08:27.189 YH-IOS[52214:1924885] the behavior of the UICollectionViewFlowLayout is not defined because:
-     2015-12-25 10:08:27.190 YH-IOS[52214:1924885] the item width must be less than the width of the UICollectionView minus the section insets left and right values, minus the content insets left and right values.
-     2015-12-25 10:08:30.497 YH-IOS[52214:1924885] Warning: Attempt to present <UIImagePickerController: 0x7f857a84b000> on <ChartViewController: 0x7f857b8daa60> whose view is not in the window hierarchy!
+ 2015-12-25 10:08:20.848 YH-IOS[52214:1924885] http://izoom.mobi/demo/upload.html?userid=3026
+ 2015-12-25 10:08:27.117 YH-IOS[52214:1924885] Passed in type public.item doesn't conform to either public.content or public.data. If you are exporting a new type, please ensure that it conforms to an appropriate parent type.
+ 2015-12-25 10:08:27.189 YH-IOS[52214:1924885] the behavior of the UICollectionViewFlowLayout is not defined because:
+ 2015-12-25 10:08:27.190 YH-IOS[52214:1924885] the item width must be less than the width of the UICollectionView minus the section insets left and right values, minus the content insets left and right values.
+ 2015-12-25 10:08:30.497 YH-IOS[52214:1924885] Warning: Attempt to present <UIImagePickerController: 0x7f857a84b000> on <ChartViewController: 0x7f857b8daa60> whose view is not in the window hierarchy!
  *
  *  @return <#return value description#>
  */
@@ -642,9 +873,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 #pragma mark - UIWebview delegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    [MRProgressOverlayView showOverlayAddedTo:self.browser title:@"加载中" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSURL *url = [request URL];
-        if (![[url scheme] hasPrefix:@";file"]) {
+        if (![[url scheme] hasPrefix:@";file"] && ![[url relativeString] hasPrefix:@"http://222.76.27.51"]) {
             [[UIApplication sharedApplication] openURL:url];
             return NO;
         }
@@ -652,6 +884,9 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     
     return YES;
 }
+
+
+
 
 #pragma mark - UMSocialUIDelegate
 -(void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {

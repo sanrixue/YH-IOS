@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+
+#define CurAppDelegate [AppDelegate shareAppdelegate]
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 @property (strong, nonatomic) UIWindow *window;
 /***  是否允许横屏的标记 */
 @property (nonatomic, assign) BOOL allowRotation;
++ (AppDelegate*)shareAppdelegate;
 @end
 

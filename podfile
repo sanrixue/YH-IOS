@@ -5,7 +5,7 @@ platform :ios, '8.0'
 
 target 'YH-IOS' do 
     pod 'Reachability', '~> 3.2'
-    pod 'MBProgressHUD', '~> 0.9.1'
+    pod 'MBProgressHUD'
     pod 'SSZipArchive', '~> 0.3.2'
     pod 'SCLAlertView-Objective-C', '~> 0.7.9'
     pod 'LTHPasscodeViewController', '~> 3.7.1'
@@ -19,4 +19,11 @@ target 'YH-IOS' do
     # pod 'Pgyer'
     # pod 'PgyUpdate'
     pod 'UMengSocialCOM', '~> 5.2.1'
+    pod 'FMDB'
+    pod "Masonry",          "~> 1.0.1"
+    pod "SDWebImage"
+    pod "MJExtension"
+    pod "MJRefresh"
+    pod "YYKit" 
+    pod 'MRProgress'
 end

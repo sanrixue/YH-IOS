@@ -37,6 +37,7 @@
  */
 + (HttpResponse *)httpGet:(NSString *)urlString;
 
+
 /**
  *  Http#Post功能代码封装
  *
@@ -119,6 +120,9 @@
 
 + (void)uploadImage :(NSString *)uploadPath withImagePath:(NSString *)imagePath withImageName: (NSString *)imageName;
 + (void)downLoadFile:(NSString *)fileUrl withSavePath:(NSString *)savePath;
+
+// 测试是否有网络
+
 @end
 
 #endif

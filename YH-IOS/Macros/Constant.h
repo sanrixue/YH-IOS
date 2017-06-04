@@ -44,6 +44,8 @@ extern NSString *const kBannerBgColor;
 extern NSString *const kBannerTextColor;
 extern NSString *const kIsUrlWrite2Local;
 extern NSInteger const kTimerInterval;
+extern NSString *const kDropViewColor;
+extern NSString *const kDropClickColor;
 
 /**
  *  API#paths
@@ -146,6 +148,7 @@ extern NSString *const kDropMentScanText;
 extern NSString *const kDropMentVoiceText;
 extern NSString *const kDropMentSearchText;
 extern NSString *const kDropMentUserInfoText;
+extern NSString *const kDropCopyLinkText;
 
 /**
  *  Subject#DropMenu
@@ -178,6 +181,7 @@ extern NSString *const kStylesheetsAssetsName;
 extern NSString *const kJavascriptsAssetsName;
 extern NSString *const kBarCodeScanAssetsName;
 extern NSString *const kAdvertisementAssetsName;
+extern NSString *const kIconsAssetsName;
 
 extern NSString *const kLoadingPopupText;
 extern NSString *const kFontsPopupText;

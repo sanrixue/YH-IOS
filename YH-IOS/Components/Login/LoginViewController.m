@@ -14,6 +14,7 @@
 #import "UMessage.h"
 #import "Version.h"
 #import "FindPasswordViewController.h"
+#import "MianTabBarViewController.h"
 
 #define kSloganHeight [[UIScreen mainScreen]bounds].size.height / 6
 
@@ -59,13 +60,17 @@
     [self.bgView addSubview:self.loginUserImage];
     
     UIColor *placeHoderColor = [UIColor whiteColor];
-    
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     self.userNameText = [[UITextField alloc] init];
     self.userNameText.textAlignment = NSTextAlignmentCenter;
     self.userNameText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入帐名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
+    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入帐户名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userNameText.borderStyle = UITextBorderStyleNone;
     self.userNameText.delegate = self;
+    if (![userDict[@"user_name"] isEqualToString:@""] && userDict[@"user_name"]) {
+        self.userNameText.text = userDict[@"user_num"];
+    }
     self.userNameText.textColor = [UIColor whiteColor];
     self.userNameText.userInteractionEnabled = YES;
     self.userNameText.returnKeyType = UIReturnKeyDone;
@@ -107,6 +112,14 @@
     [self.bgView addSubview:self.loginButton];
     
     
+    self.registerBtn = [[UIButton alloc]init];
+    [self.registerBtn setTitle:@"申请注册" forState:UIControlStateNormal];
+    [self.registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.registerBtn.backgroundColor = [UIColor clearColor];
+    self.registerBtn.titleLabel.font = [UIFont systemFontOfSize:10];
+    [self.registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
+    [self.bgView addSubview:self.registerBtn];
+    
     self.findPassword = [[UIButton alloc]init];
     [self.findPassword setTitle:@"忘记密码" forState:UIControlStateNormal];
     [self.findPassword setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -115,13 +128,6 @@
     [self.findPassword addTarget:self action:@selector(jumpToFindPassword) forControlEvents:UIControlEventTouchUpInside];
     [self.bgView addSubview:self.findPassword];
     
-    self.registerBtn = [[UIButton alloc]init];
-    [self.registerBtn setTitle:@"申请注册" forState:UIControlStateNormal];
-    [self.registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.registerBtn.backgroundColor = [UIColor clearColor];
-    self.registerBtn.titleLabel.font = [UIFont systemFontOfSize:11];
-    [self.registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
-    [self.bgView addSubview:self.registerBtn];
     
     //versionLabel
     self.versionLabel = [[UILabel alloc] init];
@@ -143,6 +149,18 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     isPad ? [self layoutWithIpad] : [self layoutView];
+}
+
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 //布局视图
@@ -180,7 +198,7 @@
     }
     self.sideblank = (self.view.frame.size.width - 40) / 2;
     
-    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel,_findPassword);
+    NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel,_findPassword,_registerBtn);
     // [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_logoView]-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bgView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0]];
     NSString *strl =[NSString stringWithFormat: @"V:|-100-[_logoView(42)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-10-[_findPassword]-10-[_loginButton(40)]-(>=50)-[_versionLabel(20)]-10-|", [[UIScreen mainScreen] bounds].size.height / 5];
@@ -214,9 +232,18 @@
     self.bgView.frame = self.view.frame;
 }
 
+
+// 找回密码
+- (void)jumpToFindPassword {
+    FindPasswordViewController *findPwdViewController = [[FindPasswordViewController alloc]init];
+    UINavigationController *findPwdCtrl = [[UINavigationController alloc]initWithRootViewController:findPwdViewController];
+    [self presentViewController:findPwdCtrl animated:YES completion:nil];
+}
+
+// 点击注册按钮
 -(void)clickRegisterBtn {
     UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"申请注册"
-                                                                   message:@"请到注册中心申请注册"
+                                                                   message:@"请到数据化运营平台申请开通账号"
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
@@ -226,11 +253,6 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
-// 找回密码
-- (void)jumpToFindPassword {
-    FindPasswordViewController *findPwdViewController = [[FindPasswordViewController alloc]init];
-    [self presentViewController:findPwdViewController animated:YES completion:nil];
-}
 
 //add: 登录按钮事件
 - (void)loginBtnClick {
@@ -256,6 +278,7 @@
     
     [self showProgressHUD:@"跳转中"];
     [self jumpToDashboardView];
+    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
@@ -269,9 +292,10 @@
     LoginViewController *previousRootViewController = (LoginViewController *)window.rootViewController;
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
-    dashboardViewController.fromViewController = @"LoginViewController";
-    window.rootViewController = dashboardViewController;
+   // DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+    //dashboardViewController.fromViewController = @"LoginViewController";
+    MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
+    window.rootViewController = mainTabbar;
     // Nasty hack to fix http://stackoverflow.com/questions/26763020/leaking-views-when-changing-rootviewcontroller-inside-transitionwithview
     // The presenting view controllers view doesn't get removed from the window as its currently transistioning and presenting a view controller
     for (UIView *subview in window.subviews) {

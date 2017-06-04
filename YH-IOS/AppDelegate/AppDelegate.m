@@ -15,6 +15,7 @@
 #import <PgySDK/PgyManager.h>
 #import "Version.h"
 #import "FileUtils+Assets.h"
+#import "MianTabBarViewController.h"
 
 #import "DashboardViewController.h"
 #import "LoginViewController.h"
@@ -23,12 +24,19 @@
 #import "iflyMSC/IFlySpeechSynthesizerDelegate.h"
 #import "iflyMSC/IFlySpeechSynthesizer.h"
 #import "iflyMSC/IFlySpeechUtility.h"
+#import <UserNotifications/UserNotifications.h>
 
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 #define _IPHONE80_ 80000
 
-@interface AppDelegate ()<LTHPasscodeViewControllerDelegate>
+#define IOS10_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 10.0)
+#define IOS9_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0)
+#define IOS8_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+#define IOS7_OR_LATER ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+
+@interface AppDelegate ()<LTHPasscodeViewControllerDelegate,UNUserNotificationCenterDelegate>
+@property (nonatomic,assign) BOOL isReApp;
 @end
 
 @implementation AppDelegate
@@ -59,11 +67,30 @@ void UncaughtExceptionHandler(NSException * exception) {
     
 }
 
++ (AppDelegate *)shareAppdelegate{
+    return [UIApplication sharedApplication].delegate;
+}
+
+-(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
+    
+    if (self.allowRotation == YES) {
+        
+        return UIInterfaceOrientationMaskAll;
+        
+    }else{
+        
+        return UIInterfaceOrientationMaskPortrait;
+        
+    }
+    
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+    _isReApp = YES;
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
+    
     [self.window setRootViewController:initViewController];
     [self.window makeKeyAndVisible];
     NSString *initString  = [NSString stringWithFormat:@"appid = %@",@"581aad1c"];
@@ -81,6 +108,32 @@ void UncaughtExceptionHandler(NSException * exception) {
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
     NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
     [self savePushDict:userInfo];
+    if (IOS10_OR_LATER) {
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        center.delegate =self;
+        UNMutableNotificationContent *content = [[UNMutableNotificationContent alloc]init];
+        content.title= @"新消息";
+        content.sound = [UNNotificationSound defaultSound];
+        
+        //  UNTimeIntervalNotificationTrigger *trigger = [UNTimeIntervalNotificationTrigger triggerWithTimeInterval:5 repeats:NO];
+        
+        //  UNNotificationRequest *request = [UNNotificationRequest requestWithIdentifier:@"com.intfocus.mcre" content:content trigger:trigger];
+        [center requestAuthorizationWithOptions:UNAuthorizationOptionCarPlay | UNAuthorizationOptionSound | UNAuthorizationOptionBadge | UNAuthorizationOptionAlert completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            
+            if (granted) {
+                NSLog(@" iOS 10 request notification success");
+            }else{
+                NSLog(@" iOS 10 request notification fail");
+            }
+        }];
+        //  [center addNotificationRequest:request withCompletionHandler:nil];
+    }
+    else if (IOS8_OR_LATER)
+    {
+        UIUserNotificationSettings *setting = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeSound | UIUserNotificationTypeBadge | UIUserNotificationTypeAlert categories:nil];
+        [application registerUserNotificationSettings:setting];
+    }
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
     
     return YES;
 }
@@ -133,7 +186,7 @@ void UncaughtExceptionHandler(NSException * exception) {
  */
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self savePushDict:userInfo];
-    
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"remotepush" object:nil userInfo:userInfo];
     // 关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
@@ -141,6 +194,20 @@ void UncaughtExceptionHandler(NSException * exception) {
         UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
         [alertView show];
     }
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *initViewController = [storyBoard instantiateInitialViewController];
+    
+    [self.window setRootViewController:initViewController];
+    [self.window makeKeyAndVisible];
+}
+
+
+- (void) userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)())completionHandler
+{
+    /* SystemSoundID soundID = 1008;//具体参数详情下面贴出来
+     //播放声音
+     AudioServicesPlaySystemSound(soundID);*/
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"remotepush" object:nil];
 }
 
 #pragma mark - 程序在运行时候接收到通知
@@ -188,10 +255,11 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (void)jumpToDashboardView {
     LoginViewController *previousRootViewController = (LoginViewController *)_window.rootViewController;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+  //  DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     // dashboardViewController.clickTab = self.clickTab;
-    dashboardViewController.fromViewController = @"LoginViewController";
-    _window.rootViewController = dashboardViewController;
+    //dashboardViewController.fromViewController = @"LoginViewController";
+      MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
+    _window.rootViewController = mainTabbar;
     // Nasty hack to fix http://stackoverflow.com/questions/26763020/leaking-views-when-changing-rootviewcontroller-inside-transitionwithview
     // The presenting view controllers view doesn't get removed from the window as its currently transistioning and presenting a view controller
     for (UIView *subview in _window.subviews) {
@@ -230,28 +298,28 @@ void UncaughtExceptionHandler(NSException * exception) {
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-- (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window {
-    if (self.allowRotation) {
-        return UIInterfaceOrientationMaskAll;
-    }
-    return (UIInterfaceOrientationMaskPortrait | UIInterfaceOrientationMaskPortraitUpsideDown);
-}
 
 #pragma mark - LTHPasscodeViewControllerDelegate methods
 - (void)passcodeWasEnteredSuccessfully {
     NSLog(@"AppDelegate - Passcode Was Entered Successfully");
     
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    DashboardViewController *dashboardViewController = [storyboard instantiateViewControllerWithIdentifier:@"DashboardViewController"];
-    dashboardViewController.fromViewController = @"AppDelegate";
-    self.window.rootViewController = dashboardViewController;
+    if (![self isLogin]) {
+        [self jumpToLogin];
+    }
+    else {
+        if (_isReApp) {
+           [self jumpToDashboardView];
+            _isReApp = NO;
+        }
+    }
+  //  MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
+    //_window.rootViewController = mainTabbar;
 }
 
 - (BOOL)didPasscodeTimerEnd {
@@ -343,6 +411,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     [FileUtils checkAssets:kJavascriptsAssetsName isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:kStylesheetsAssetsName isInAssets:YES bundlePath:bundlePath];
     [FileUtils checkAssets:kBarCodeScanAssetsName isInAssets:NO bundlePath:bundlePath];
+    [FileUtils checkAssets:kIconsAssetsName isInAssets:YES bundlePath:bundlePath];
     // [FileUtils checkAssets:kAdvertisementAssetsName isInAssets:NO bundlePath:bundlePath];
 }
 

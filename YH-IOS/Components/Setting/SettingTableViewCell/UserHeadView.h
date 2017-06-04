@@ -11,8 +11,18 @@
 #define mSCREEN [[UIScreen mainScreen]bounds]
 #define mWIDTH  mSCREEN.size.width
 
-@interface UserHeadView : UITableViewCell
+@protocol UserHeadViewDelegate
+
+- (void) usericonClick:(UIButton *)button;
+
+@end
+
+@interface UserHeadView : UIView
+
 @property (strong, nonatomic)UIButton *userIcon;
 @property (strong, nonatomic)UILabel *userName;
 @property (strong, nonatomic)UILabel *userRole;
+@property (weak, nonatomic) id<UserHeadViewDelegate> delegate;
+
 @end
+

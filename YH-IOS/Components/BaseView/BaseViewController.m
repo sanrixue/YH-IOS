@@ -31,8 +31,17 @@
     }
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    //[self.idView setHidden:YES];
     
     [LTHPasscodeViewController sharedUser].delegate = self;
     [LTHPasscodeViewController useKeychain:NO];
@@ -78,9 +87,45 @@
     }
 }
 
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
+
 - (void)idColor {
+    
+    UIView* idView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 15, 4)];
+    
+    UIImageView* idColor0 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 1, 2, 2)];
+    idColor0.layer.cornerRadius = 1;
+    [idView addSubview:idColor0];
+    
+    UIImageView* idColor1 = [[UIImageView alloc]initWithFrame:CGRectMake(3, 1, 2, 2)];
+    idColor1.layer.cornerRadius = 1;
+    [idView addSubview:idColor1];
+    
+    UIImageView* idColor2 = [[UIImageView alloc]initWithFrame:CGRectMake(6, 1, 2, 2)];
+    idColor2.layer.cornerRadius = 1;
+    [idView addSubview:idColor2];
+    
+    UIImageView* idColor3 = [[UIImageView alloc]initWithFrame:CGRectMake(9, 1, 2, 2)];
+    idColor3.layer.cornerRadius = 1;
+    [idView addSubview:idColor3];
+    
+    UIImageView* idColor4 = [[UIImageView alloc]initWithFrame:CGRectMake(12, 1, 2, 2)];
+    idColor4.layer.cornerRadius = 1;
+    [idView addSubview:idColor4];
+    
+    
     NSArray *colors = @[@"00ffff", @"ffcd0a", @"fd9053", @"dd0929", @"016a43", @"9d203c", @"093db5", @"6a3906", @"192162", @"000000"];
-    NSArray *colorViews = @[self.idColor0, self.idColor1, self.idColor2, self.idColor3, self.idColor4];
+    
+    NSArray *colorViews = @[idColor0, idColor1, idColor2, idColor3, idColor4];
     NSString *userID = [NSString stringWithFormat:@"%@", self.user.userID];
     
     NSString *color;
@@ -101,7 +146,7 @@
         imageView.hidden = NO;
     }
     
-    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:self.idView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.bannerView attribute:NSLayoutAttributeTrailing multiplier:1.0f constant:-10.0f]];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:idView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self.bannerView attribute:NSLayoutAttributeTrailing multiplier:1.0f constant:-10.0f]];
 }
 
 - (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size {
@@ -115,7 +160,7 @@
 }
 
 - (void)clearBrowserCache {
-    [self.browser stopLoading];
+  //  [self.browser stopLoading];
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     
     NSString *domain = [[NSURL URLWithString:self.urlString] host];
@@ -129,7 +174,7 @@
 - (void)showLoading:(LoadingType)loadingType {
     NSString *loadingPath = [FileUtils loadingPath:loadingType];
     NSString *loadingContent = [NSString stringWithContentsOfFile:loadingPath encoding:NSUTF8StringEncoding error:nil];
-    [self.browser loadHTMLString:loadingContent baseURL:[NSURL fileURLWithPath:loadingPath]];
+  //  [self.browser loadHTMLString:loadingContent baseURL:[NSURL fileURLWithPath:loadingPath]];
     
     [[NSRunLoop currentRunLoop] runUntilDate:[NSDate date]];
 }
@@ -139,7 +184,7 @@
 }
 
 - (void)showProgressHUD:(NSString *)text mode:(MBProgressHUDMode)mode {
-    self.progressHUD = [MBProgressHUD showHUDAddedTo:self.browser animated:YES];
+   // self.progressHUD = [MBProgressHUD showHUDAddedTo:self.browser animated:YES];
     self.progressHUD.labelText = text;
     self.progressHUD.mode = mode;
     
@@ -161,10 +206,6 @@
 //- (BOOL)prefersStatusBarHidden {
 //    return NO;
 //}
-
--(UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

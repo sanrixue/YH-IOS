@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseViewController.h"
+#import "BaseWebViewController.h"
 
-@interface ReportSelectorViewController : BaseViewController <UITableViewDataSource, UITableViewDelegate>
+@interface ReportSelectorViewController : BaseWebViewController <UITableViewDataSource, UITableViewDelegate>
 @property (strong, nonatomic) NSString *bannerName;
 @property (strong, nonatomic) NSNumber *groupID;
 @property (strong, nonatomic) NSString *reportID;

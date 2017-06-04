@@ -24,20 +24,14 @@
 @interface BaseViewController : UIViewController<UIWebViewDelegate>
 
 @property WebViewJavascriptBridge* bridge;
-@property (weak, nonatomic) IBOutlet UIView *bannerView;
-@property (weak, nonatomic) IBOutlet UIWebView *browser;
-@property (weak, nonatomic) IBOutlet UILabel *labelTheme;
-@property (weak, nonatomic) IBOutlet UIView *idView;
-@property (weak, nonatomic) IBOutlet UIImageView *idColor0;
-@property (weak, nonatomic) IBOutlet UIImageView *idColor1;
-@property (weak, nonatomic) IBOutlet UIImageView *idColor2;
-@property (weak, nonatomic) IBOutlet UIImageView *idColor3;
-@property (weak, nonatomic) IBOutlet UIImageView *idColor4;
+@property (strong, nonatomic) IBOutlet UIView *bannerView;
+@property (strong, nonatomic) IBOutlet UILabel *labelTheme;
 @property (strong, nonatomic) MBProgressHUD *progressHUD;
 @property (strong, nonatomic) NSString *urlString;
 @property (strong, nonatomic) NSString *assetsPath;
 @property (strong, nonatomic) NSString *sharedPath;
 @property (strong, nonatomic) User *user;
+//@property (weak, nonatomic) IBOutlet UIWebView *browser;
 
 - (void)clearBrowserCache;
 - (void)showLoading:(LoadingType)loadingType;

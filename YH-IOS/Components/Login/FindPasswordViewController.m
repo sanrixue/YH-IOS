@@ -38,25 +38,28 @@
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
-    self.navBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width,60)];
-    self.navBar.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
-    UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
-    [backBtn addTarget:self action:@selector(dismissFindPwd) forControlEvents:UIControlEventTouchUpInside];
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setTintColor:[UIColor whiteColor]];
-    [backBtn setImage:[UIImage imageNamed:@"Banner-Back"] forState:UIControlStateNormal];
-    [self.navBar addSubview:backBtn];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, self.view.frame.size.width, 30)];
-    titleLabel.text = @"找回密码";
-    titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.navBar addSubview:titleLabel];
-    [self.view addSubview:self.navBar];
-    
-    self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 60, self.view.frame.size.width, self.view.frame.size.height - 60)];
+      self.title = @"找回密码";
+    [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn addSubview:bakImage];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    self.navigationController.navigationBar.translucent = NO;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
+    self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-60)];
     self.webView.delegate = self;
     [self.view addSubview:self.webView];
-    
+     self.edgesForExtendedLayout = UIRectEdgeNone;
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"ResetPasswordViewController - ObjC received message from JS: %@", data);
@@ -127,6 +130,23 @@
     }];
 }
 
+
+- (void)backAction{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

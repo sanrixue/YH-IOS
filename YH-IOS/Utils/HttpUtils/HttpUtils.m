@@ -141,11 +141,14 @@
  */
 + (BOOL) isNetworkAvailable2 {
     BOOL isExistenceNetwork = NO;
-    Reachability *reach = [Reachability reachabilityWithHostName:@"www.apple.com"];
+    Reachability *reach = [Reachability reachabilityWithHostName:kBaseUrl];
     switch ([reach currentReachabilityStatus]) {
         case NotReachable:
+            isExistenceNetwork = NO;
             break;
         case ReachableViaWiFi:
+            isExistenceNetwork = YES;
+            break;
         case ReachableViaWWAN:
             isExistenceNetwork = YES;
             break;
@@ -680,5 +683,7 @@
     NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileUrl]];
     [imageData writeToFile:savePath atomically:YES];
 }
+
+
 
 @end

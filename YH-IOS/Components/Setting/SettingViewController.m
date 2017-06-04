@@ -176,7 +176,7 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     
     //用户个人信息
     if (indexPath.section == 0) {
-        UserHeadView *cell = [[UserHeadView alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"userId"];
+        UserHeadView *cell = [[UserHeadView alloc]init];
         [cell.userIcon addTarget:self action:@selector(addUserIcon) forControlEvents:UIControlEventTouchUpInside];
         self.settingTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         

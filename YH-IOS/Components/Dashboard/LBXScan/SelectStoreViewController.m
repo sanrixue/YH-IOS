@@ -55,29 +55,40 @@
         self.selectedItem = [self.searchItems firstObject][@"name"];
     }
     
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 60)];
-    topView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
-    [self.view addSubview:topView];
     
-    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 70, 40)];
-    UIImage *imageback = [UIImage imageNamed:@"Banner-Back"];
-    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 15, 25)];
-    bakImage.image = imageback;
-    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
-    [backBtn addSubview:bakImage];
-    UILabel *backLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 5, 50, 25)];
-    backLabel.text = @"返回";
-    backLabel.textColor = [UIColor whiteColor];
-    [backBtn addSubview:backLabel];
-    [topView addSubview:backBtn];
-    [backBtn addTarget:self action:@selector(actionBannerBack) forControlEvents:UIControlEventTouchUpInside];
-    
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height-50) style:UITableViewStyleGrouped];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-50) style:UITableViewStyleGrouped];
     [self.view addSubview:self.tableView];
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
 }
+
+-(void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addTarget:self action:@selector(actionBannerBack) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn addSubview:bakImage];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    self.navigationController.navigationBar.translucent = NO;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
+    // backBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
+    //  [self.navigationItem.leftBarButtonItem setTitlePositionAdjustment:UIOffsetMake(-30, 0) forBarMetrics:UIBarMetricsDefault];
+    //[backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+}
+
+
+
 
 - (void)actionBannerBack {
     if (_isSearch) {

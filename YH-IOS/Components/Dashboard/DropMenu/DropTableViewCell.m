@@ -16,7 +16,6 @@
         [self initWithSubview];
     }
     return self;
-    
 }
 
 #pragma mark 初始化视图
@@ -45,5 +44,7 @@
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-10-[_iconImageView]-10-|" options:0 metrics:nil views:viewDict]];
     [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-3-[_tittleLabel]-3-|" options:0 metrics:nil views:viewDict]];
 }
+
+
 
 @end

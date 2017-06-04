@@ -8,8 +8,10 @@
 
 #import "ThurSayViewController.h"
 #import "FileUtils+Assets.h"
+#import "HttpUtils.h"
+#import "HttpResponse.h"
 
-@interface ThurSayViewController ()<UINavigationBarDelegate,UINavigationControllerDelegate>
+@interface ThurSayViewController ()
 @property (nonatomic, strong) UIWebView *browser;
 @property (nonatomic, strong) UIView *navBar;
 @property (nonatomic, strong) NSString *urlString;
@@ -21,29 +23,43 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.navBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, kBannerHeight)];
-    self.navBar.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
-    UIButton *backBtn = [[UIButton alloc]initWithFrame:CGRectMake(5, 25, 60, 30)];
-    [backBtn addTarget:self action:@selector(dismissThurSay) forControlEvents:UIControlEventTouchUpInside];
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
-    [backBtn setTintColor:[UIColor whiteColor]];
-    [backBtn setImage:[UIImage imageNamed:@"Banner-Back"] forState:UIControlStateNormal];
-    [self.navBar addSubview:backBtn];
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, self.view.frame.size.width, 30)];
-    titleLabel.text = @"小四说";
-    titleLabel.textColor = [UIColor whiteColor];
-    titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.navBar addSubview:titleLabel];
-    
-    [self.view addSubview:self.navBar];
-    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(0, kBannerHeight, self.view.frame.size.width, self.view.frame.size.height - kBannerHeight)];
+    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.view addSubview:self.browser];
     
     self.urlString = [NSString stringWithFormat:kThursdaySayMobilePath, kBaseUrl, [FileUtils currentUIVersion]];
     self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     [self loadHtml];
 }
+
+-(void)viewWillAppear:(BOOL)animated {
+    [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn addSubview:bakImage];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    self.navigationController.navigationBar.translucent = NO;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
+   // backBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
+    //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
+  //  [self.navigationItem.leftBarButtonItem setTitlePositionAdjustment:UIOffsetMake(-30, 0) forBarMetrics:UIBarMetricsDefault];
+    //[backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+}
+
+
+- (void)backAction{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 - (void)loadHtml {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -65,8 +81,16 @@
     });
  }
 
-- (void)dismissThurSay {
-    [self dismissViewControllerAnimated:YES completion:nil];
+// 支持设备自动旋转
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+// 支持竖屏显示
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)didReceiveMemoryWarning {

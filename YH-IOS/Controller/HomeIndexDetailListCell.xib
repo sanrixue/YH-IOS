@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeIndexDetailListCell" rowHeight="93" id="KGk-i7-Jjw" customClass="HomeIndexDetailListCell">
+            <rect key="frame" x="0.0" y="0.0" width="317" height="93"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <frame key="frameInset" width="317" height="92"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oGv-Y0-BkL">
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="a5Q-gP-aka"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="13"/>
+                        <inset key="contentEdgeInsets" minX="-8" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <inset key="imageEdgeInsets" minX="-5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="20520德芙丝滑巧克力" image="icon_nowt">
+                            <color key="titleColor" red="0.34901960784313724" green="0.35686274509803922" blue="0.3411764705882353" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                        <state key="selected" image="icon_herearrow">
+                            <color key="titleColor" red="0.1176470588" green="0.41568627450000001" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PND-gn-YV2">
+                        <frame key="frameInset" minX="123.5" minY="36.5" width="40" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="3ZB-F9-cVC"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <state key="normal" title="2220">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="selected">
+                            <color key="titleColor" red="0.1176470588" green="0.41568627450000001" blue="0.72549019609999998" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="oGv-Y0-BkL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="25" id="H1x-l3-FRQ"/>
+                    <constraint firstItem="PND-gn-YV2" firstAttribute="trailing" secondItem="H2p-sc-9uM" secondAttribute="centerX" constant="5" id="NEP-37-4Yy"/>
+                    <constraint firstItem="PND-gn-YV2" firstAttribute="centerY" secondItem="oGv-Y0-BkL" secondAttribute="centerY" id="RLp-gL-4Hv"/>
+                    <constraint firstItem="oGv-Y0-BkL" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="xth-J7-ioN"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="nameBtn" destination="oGv-Y0-BkL" id="aTf-ed-uVi"/>
+                <outlet property="valueBtn" destination="PND-gn-YV2" id="6wH-FG-e7F"/>
+            </connections>
+            <point key="canvasLocation" x="-136.5" y="19.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="icon_herearrow" width="7" height="8"/>
+        <image name="icon_nowt" width="8" height="8"/>
+    </resources>
+</document>

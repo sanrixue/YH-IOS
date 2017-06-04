@@ -14,10 +14,13 @@
 #import "UMSocial.h"
 #import "ManualInputViewController.h"
 #import "SubLBXScanViewController.h"
+#import "DropTableViewCell.h"
+#import "DropViewController.h"
+#import "CommentViewController.h"
 
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
 
-@interface ScanResultViewController() <UINavigationBarDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate,UMSocialDataDelegate,UMSocialUIDelegate> {
+@interface ScanResultViewController() <UINavigationBarDelegate,UINavigationControllerDelegate,UITableViewDelegate,UITableViewDataSource,DropViewDelegate,DropViewDataSource,UIPopoverPresentationControllerDelegate,UMSocialDataDelegate,UMSocialUIDelegate> {
     NSMutableDictionary *betaDict;
 }
 @property (strong, nonatomic) IBOutlet NSLayoutConstraint *layoutConstraintBannerView;
@@ -32,10 +35,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self idColor];
-    self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
-    self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         responseCallback(@"DashboardViewController - Response for message from ObjC");
@@ -45,18 +44,110 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         
         [self loadHtml];
     }];
-    
+    [self idColor];
     self.htmlPath = [FileUtils sharedDirPath:kBarCodeScanFolderName FileName:kBarCodeScanFileName];
     self.htmlContent = [NSString stringWithContentsOfFile:self.htmlPath encoding:NSUTF8StringEncoding error:nil];
-
-    [self.selectBtn addTarget:self action:@selector(actionJumpToSelectStoreViewController:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    
+    [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addSubview:bakImage];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
     [self clearBrowserCache];
     [self loadHtml];
+}
+
+
+//标识点
+- (void)idColor {
+    UIView* idView = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-50,34, 30, 10)];
+    //idView.backgroundColor = [UIColor redColor];
+    [self.navigationController.navigationBar addSubview:idView];
+    
+    UIImageView* idColor0 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 1, 4, 4)];
+    idColor0.layer.cornerRadius = 2;
+    [idView addSubview:idColor0];
+    
+    UIImageView* idColor1 = [[UIImageView alloc]initWithFrame:CGRectMake(6, 1, 4, 4)];
+    idColor1.layer.cornerRadius = 1;
+    [idView addSubview:idColor1];
+    
+    UIImageView* idColor2 = [[UIImageView alloc]initWithFrame:CGRectMake(12, 1, 4, 4)];
+    idColor2.layer.cornerRadius = 1;
+    [idView addSubview:idColor2];
+    
+    UIImageView* idColor3 = [[UIImageView alloc]initWithFrame:CGRectMake(18, 1, 4, 4)];
+    idColor3.layer.cornerRadius = 1;
+    [idView addSubview:idColor3];
+    
+    UIImageView* idColor4 = [[UIImageView alloc]initWithFrame:CGRectMake(24, 1, 4, 4)];
+    idColor4.layer.cornerRadius = 1;
+    [idView addSubview:idColor4];
+    
+    
+    NSArray *colors = @[@"00ffff", @"ffcd0a", @"fd9053", @"dd0929", @"016a43", @"9d203c", @"093db5", @"6a3906", @"192162", @"000000"];
+    
+    NSArray *colorViews = @[idColor0, idColor1, idColor2, idColor3, idColor4];
+    NSString *userID = [NSString stringWithFormat:@"%@", self.user.userID];
+    
+    NSString *color;
+    NSInteger userIDIndex, numDiff = colorViews.count - userID.length;
+    UIImageView *imageView;
+    
+    numDiff = numDiff < 0 ? 0 : numDiff;
+    for(NSInteger i = 0; i < colorViews.count; i++) {
+        color = colors[0];
+        if(i >= numDiff) {
+            userIDIndex = [[NSString stringWithFormat:@"%c", [userID characterAtIndex:i-numDiff]] integerValue];
+            color = colors[userIDIndex];
+        }
+        imageView = colorViews[i];
+        imageView.image = [self imageWithColor:[UIColor colorWithHexString:color] size:CGSizeMake(5.0, 5.0)];
+        imageView.layer.cornerRadius = 2.5f;
+        imageView.layer.masksToBounds = YES;
+        imageView.hidden = NO;
+    }
+    
+}
+
+- (UIImage*)imageWithColor:(UIColor*)color size:(CGSize)size {
+    UIGraphicsBeginImageContext(size);
+    UIBezierPath* rPath = [UIBezierPath bezierPathWithRect:CGRectMake(0., 0., size.width, size.height)];
+    [color setFill];
+    [rPath fill];
+    UIImage* image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
+
+-(void)backAction{
+    [super dismissViewControllerAnimated:YES completion:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"CLOSE_VIEW" object:nil userInfo:nil];
+        [self.browser stopLoading];
+        [self.browser cleanForDealloc];
+        self.browser.delegate = nil;
+        self.browser = nil;
+        [self.progressHUD hide:YES];
+        self.progressHUD = nil;
+        self.bridge = nil;
+    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -131,7 +222,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     }
     
     storeID = cacheDict[@"store"][@"id"];
-    self.labelTheme.text = cacheDict[@"store"][@"name"];
+    self.title = cacheDict[@"store"][@"name"];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
       BOOL jsonFormateRight = [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];
@@ -162,67 +253,59 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     self.dropMenuIcons = [NSArray arrayWithArray:tmpIcons];
 }
 
-- (void)actionJumpToSelectStoreViewController:(UIButton *)sender {
-    
+#pragma mark - action methods
+
+/**
+ *  标题栏设置按钮点击显示下拉菜单
+ *
+ *  @param sender
+ */
+-(void)dropTableView:(UIBarButtonItem *)sender {
     [self initDropMenu];
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
-    dropTableViewController.view.frame = CGRectMake(0, 0, 100, 150 / 4 * self.dropMenuTitles.count);
-    dropTableViewController.modalPresentationStyle = UIModalPresentationPopover;
-    [dropTableViewController setPreferredContentSize:CGSizeMake(100, 150 / 4 * self.dropMenuTitles.count)];
-    dropTableViewController.view.backgroundColor = [UIColor colorWithHexString:kThemeColor];
-    dropTableViewController.dropTableView.delegate = self;
-    dropTableViewController.dropTableView.dataSource =self;
-    
+    dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
+    dropTableViewController.preferredContentSize = CGSizeMake(150,self.dropMenuTitles.count*150/4);
+    dropTableViewController.dataSource = self;
+    dropTableViewController.delegate = self;
     UIPopoverPresentationController *popover = [dropTableViewController popoverPresentationController];
     popover.permittedArrowDirections = UIPopoverArrowDirectionUp;
+    popover.barButtonItem = self.navigationItem.rightBarButtonItem;
     popover.delegate = self;
-    [popover setSourceRect:CGRectMake(sender.frame.origin.x, sender.frame.origin.y + 12, sender.frame.size.width, sender.frame.size.height)];
+    [popover setSourceRect:sender.customView.frame];
     [popover setSourceView:self.view];
-    popover.backgroundColor = [UIColor colorWithHexString:kThemeColor];
+    popover.backgroundColor = [UIColor colorWithHexString:kDropViewColor];
     [self presentViewController:dropTableViewController animated:YES completion:nil];
-}
-
-# pragma mark - UITableView Delgate
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.dropMenuTitles.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    DropTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dorpcell"];
-    if (!cell) {
-        cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
-    }
-    cell.tittleLabel.text = self.dropMenuTitles[indexPath.row];
-    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[indexPath.row]];
-    
-    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
-    cellBackView.backgroundColor = [UIColor darkGrayColor];
-    cell.selectedBackgroundView = cellBackView;
-    cell.tittleLabel.adjustsFontSizeToFitWidth = YES;
-    
-    return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 150 / 4;
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
     return UIModalPresentationNone;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self dismissViewControllerAnimated:YES completion:^{
-        NSString *itemName = self.dropMenuTitles[indexPath.row];
+-(NSInteger)numberOfPagesIndropView:(DropViewController *)flowView{
+    return self.dropMenuTitles.count;
+}
 
+-(UITableViewCell *)dropView:(DropViewController *)flowView cellForPageAtIndex:(NSIndexPath *)index{
+    DropTableViewCell*  cell = [[DropTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dorpcell"];
+    cell.tittleLabel.text = self.dropMenuTitles[index.row];
+    cell.iconImageView.image = [UIImage imageNamed:self.dropMenuIcons[index.row]];
+    
+    UIView *cellBackView = [[UIView alloc]initWithFrame:cell.frame];
+    cellBackView.backgroundColor = [UIColor clearColor];
+    cell.selectedBackgroundView = cellBackView;
+    cell.tittleLabel.adjustsFontSizeToFitWidth = YES;
+    
+    return cell;
+}
+
+-(void)dropView:(DropViewController *)flowView didTapPageAtIndex:(NSIndexPath *)index{
+    [self dismissViewControllerAnimated:YES completion:^{
+        NSString *itemName = self.dropMenuTitles[index.row];
+        
         if([itemName isEqualToString:kDropSearchText]) {
             SelectStoreViewController *select = [[SelectStoreViewController alloc] init];
-             [self presentViewController:select animated:YES completion:nil];
+            UINavigationController* selectCtrl = [[UINavigationController alloc]initWithRootViewController:select];
+            [self.navigationController presentViewController:selectCtrl animated:YES completion:nil];
         }
         else if([itemName isEqualToString:kDropShareText]) {
             [self actionWebviewScreenShot];
@@ -231,6 +314,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             [self loadHtml];
         }
     }];
+    
 }
 
 - (void)actionWebviewScreenShot {

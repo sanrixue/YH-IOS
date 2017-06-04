@@ -9,19 +9,16 @@
 #import "CommentViewController.h"
 #import "APIHelper.h"
 
-@interface CommentViewController ()
+@interface CommentViewController ()<UINavigationBarDelegate,UINavigationControllerDelegate>
 @end
 
 @implementation CommentViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+     self.navigationController.navigationBar.translucent = NO;
     
-    self.bannerView.backgroundColor = [UIColor colorWithHexString:kBannerBgColor];
-    self.labelTheme.textColor = [UIColor colorWithHexString:kBannerTextColor];
-    [self idColor];
-    
-    self.labelTheme.text = self.bannerName;
+    self.title = self.bannerName;
     self.urlString = [NSString stringWithFormat:kCommentMobilePath, kBaseUrl, [FileUtils currentUIVersion], self.objectID, @(self.commentObjectType)];
     
     [WebViewJavascriptBridge enableLogging];
@@ -83,10 +80,40 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+       self.navigationController.navigationBar.translucent = NO;
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addSubview:bakImage];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    self.title =self.bannerName;
     [self loadHtml];
 }
 
+-(void)backAction {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self.browser stopLoading];
+        [self.browser cleanForDealloc];
+        self.browser.delegate = nil;
+        self.browser = nil;
+        [self.progressHUD hide:YES];
+        self.progressHUD = nil;
+        self.bridge = nil;
+        self.title = nil;
+    }];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
@@ -114,23 +141,10 @@
     [self.progressHUD hide:YES];
     self.progressHUD = nil;
     self.bridge = nil;
-    self.labelTheme = nil;
+    self.title = nil;
 }
 
 
-#pragma mark - action methods
-- (IBAction)actionBack:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:^{
-        [self.browser stopLoading];
-        [self.browser cleanForDealloc];
-        self.browser.delegate = nil;
-        self.browser = nil;
-        [self.progressHUD hide:YES];
-        self.progressHUD = nil;
-        self.bridge = nil;
-        self.labelTheme = nil;
-    }];
-}
 
 - (void)loadHtml {
     DeviceState deviceState = [APIHelper deviceState];

@@ -2,16 +2,16 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "72542cfc-2052-4ecd-62a6-887b1e06c9ed.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "3df91506-5e16-8125-5d37-593327564d90.png",
+      "filename" : "tab_analyse_h@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
+      "filename" : "tab_analyse_h@3x.png",
       "scale" : "3x"
     }
   ],

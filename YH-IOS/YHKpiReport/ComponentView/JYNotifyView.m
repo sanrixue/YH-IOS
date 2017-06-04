@@ -92,7 +92,7 @@
     closeNotify.frame = CGRectMake(wight, (height - 30) / 2.0, 30, 30);
     [closeNotify setTitle:@"ㄨ" forState:UIControlStateNormal];
     [closeNotify addTarget:self action:@selector(closeNotifyView:) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:closeNotify];
+   // [self addSubview:closeNotify];
     if (self.closeBtnColor) {
         [closeNotify setTitleColor:self.closeBtnColor forState:UIControlStateNormal];
     }

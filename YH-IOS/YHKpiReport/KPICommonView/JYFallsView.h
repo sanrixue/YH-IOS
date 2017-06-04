@@ -20,6 +20,7 @@
 
 @interface JYFallsView : UIView
 
+@property (nonatomic, strong) NSMutableArray* titleArray;
 @property (nonatomic, weak) id <JYFallsViewDelegate> delegate;
 @property (nonatomic, copy) NSArray <NSArray<JYDashboardModel *> *> *dataSource;
 

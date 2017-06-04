@@ -263,7 +263,7 @@ const static CGFloat lineHeight = 40; //一行的高度
 #pragma 分享图片
 
 - (void)actionWebviewScreenShot{
-    UIImage *image = [self createViewImage:self.view];
+    UIImage *image = [self createViewImage:self.navigationController.view];
     dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1ull *NSEC_PER_SEC);
     dispatch_after(time, dispatch_get_main_queue(), ^{
         [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;

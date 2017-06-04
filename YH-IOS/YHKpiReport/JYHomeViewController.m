@@ -46,6 +46,7 @@
 @property (nonatomic, strong) NSArray *dropMenuTitles;
 @property (nonatomic, strong) NSArray *dropMenuIcons;
 @property (nonatomic, strong) UITableView *dropMenu;
+@property (nonatomic, strong) NSMutableArray* titleArray;
 
 
 @end
@@ -88,6 +89,7 @@
 - (void)loadData {
     // 数据准备
     _user = [[User alloc]init];
+    _titleArray = [[NSMutableArray alloc]init];
     NSString *kpiUrl = [NSString stringWithFormat:@"%@/mobile/v2/data/group/%@/role/%@/kpi",kBaseUrl,self.user.groupID,self.user.roleID];
     NSData *data;
      NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
@@ -113,6 +115,7 @@
     [arraySource enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         JYDashboardModel *model = [JYDashboardModel modelWithParams:obj];
         [arr addObject:model];
+       // [_titleArray addObject:model.groupName];
     }];
     
     dataList = [arr copy];
@@ -125,6 +128,9 @@
         }
         else {
             [buttomList addObject:obj];
+            if (![_titleArray containsObject:obj.groupName]) {
+                [_titleArray addObject:obj.groupName];
+            }
         }
     }];
     dataListTop = [topList copy];
@@ -135,7 +141,12 @@
         [arr addObject:buttomList[i]];
         [dic setObject:arr forKey:buttomList[i].groupName];
     }
-    dataListButtom = [dic allValues];
+    NSMutableArray* dicArray = [[NSMutableArray alloc]init];
+    for (int i = 0; i<_titleArray.count;i++) {
+        NSString* keyString = _titleArray[i];
+        [dicArray addObject:dic[keyString]];
+    }
+    dataListButtom = [dicArray copy];
     
     NSString *messageUrl = [NSString stringWithFormat:@"%@/api/v1/role/%@/group/%@/user/%@/message",kBaseUrl,self.user.roleID,self.user.groupID,self.user.userID];
     HttpResponse *responsemessage = [HttpUtils httpGet:messageUrl header:nil timeoutInterval:10];

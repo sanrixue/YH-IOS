@@ -32,7 +32,7 @@
     [super viewDidLoad];
     [self setupUI];
     
-    self.settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
+    self.settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kSettingConfigFileName];
     // Do any additional setup after loading the view.
 }
 // 支持设备自动旋转
@@ -167,7 +167,7 @@
         [self actionWehtherUseGesturePassword:button];
         [self.tableView reloadData];
     }
-    else if ([[_arraydict allKeys][cellId] isEqualToString:@"微信分享长图"]){
+    else if ([_titleArray[cellId] isEqualToString:@"微信分享长图"]){
         [self actionSwitchToNewUI:button];
     }
     

@@ -15,6 +15,7 @@
 		911203A11EE809E600E7CFB9 /* NoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911203991EE809E600E7CFB9 /* NoticeTableViewController.swift */; };
 		911203A21EE809E600E7CFB9 /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9112039A1EE809E600E7CFB9 /* UIView + Extension.swift */; };
 		911203A31EE809E600E7CFB9 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9112039B1EE809E600E7CFB9 /* UserViewController.swift */; };
+		911203A51EE80B6F00E7CFB9 /* InstituteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911203A41EE80B6F00E7CFB9 /* InstituteViewController.swift */; };
 		9E9EEC1875A034202F52C155 /* libPods-YH-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A867606F7216FABE6624278 /* libPods-YH-IOS.a */; };
 		C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343371D6ADEAB00625D53 /* UIButton+Badge.m */; };
 		C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343391D6ADEAB00625D53 /* UILabel+Badge.m */; };
@@ -438,6 +439,7 @@
 		911203991EE809E600E7CFB9 /* NoticeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeTableViewController.swift; sourceTree = "<group>"; };
 		9112039A1EE809E600E7CFB9 /* UIView + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView + Extension.swift"; sourceTree = "<group>"; };
 		9112039B1EE809E600E7CFB9 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
+		911203A41EE80B6F00E7CFB9 /* InstituteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstituteViewController.swift; sourceTree = "<group>"; };
 		C40343361D6ADEAB00625D53 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
 		C40343371D6ADEAB00625D53 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		C40343381D6ADEAB00625D53 /* UILabel+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Badge.h"; sourceTree = "<group>"; };
@@ -1127,6 +1129,7 @@
 		911203931EE809E600E7CFB9 /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				911203A41EE80B6F00E7CFB9 /* InstituteViewController.swift */,
 				911203941EE809E600E7CFB9 /* MineConst.swift */,
 				911203951EE809E600E7CFB9 /* MineController.swift */,
 				911203961EE809E600E7CFB9 /* MineHeadView.swift */,
@@ -2890,6 +2893,7 @@
 				F62457441EA5FBB2006834D2 /* LineChartTimeViewController.m in Sources */,
 				F62457E41EA5FD01006834D2 /* CommonTableViewCell.m in Sources */,
 				F624564B1EA5FACD006834D2 /* CommonAlertView.m in Sources */,
+				911203A51EE80B6F00E7CFB9 /* InstituteViewController.swift in Sources */,
 				F62456DD1EA5FB3F006834D2 /* DemoListViewController.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
@@ -3176,6 +3180,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -3223,6 +3228,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3255,6 +3261,7 @@
 				CODE_SIGN_ENTITLEMENTS = "YH-IOS/YH-IOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -3297,6 +3304,7 @@
 				CODE_SIGN_ENTITLEMENTS = "YH-IOS/YH-IOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = WV94P663S4;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (

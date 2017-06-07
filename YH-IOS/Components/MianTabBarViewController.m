@@ -14,7 +14,7 @@
 #import <MBProgressHUD.h>
 #import "AFNetworking.h"
 #import "JYHomeViewController.h"
-
+#import "YH_IOS-Swift.h"
 
 @interface MianTabBarViewController ()
 
@@ -63,7 +63,8 @@
     applicationRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-App"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     applicationRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-App-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    MessageViewController *messageRootView= [[MessageViewController alloc]init];
+    MineController *messageRootView = [[MineController alloc]init];
+   // MessageViewController *messageRootView= [[MessageViewController alloc]init];
     UINavigationController *messageRootViewController = [[UINavigationController alloc]initWithRootViewController:messageRootView];
     messageRootViewController.tabBarItem.title = @"消息";
     [messageRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];

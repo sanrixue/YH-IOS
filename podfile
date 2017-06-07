@@ -26,4 +26,5 @@ target 'YH-IOS' do
     pod "MJRefresh"
     pod "YYKit" 
     pod 'MRProgress'
+    pod ‘Mantle’, ‘~>2.1.0’
 end

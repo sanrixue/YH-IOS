@@ -16,6 +16,7 @@
 		911203A21EE809E600E7CFB9 /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9112039A1EE809E600E7CFB9 /* UIView + Extension.swift */; };
 		911203A31EE809E600E7CFB9 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9112039B1EE809E600E7CFB9 /* UserViewController.swift */; };
 		911203A51EE80B6F00E7CFB9 /* InstituteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911203A41EE80B6F00E7CFB9 /* InstituteViewController.swift */; };
+		912833111EE868A50071CE69 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 912833101EE868A50071CE69 /* Person.m */; };
 		9E9EEC1875A034202F52C155 /* libPods-YH-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A867606F7216FABE6624278 /* libPods-YH-IOS.a */; };
 		C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343371D6ADEAB00625D53 /* UIButton+Badge.m */; };
 		C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343391D6ADEAB00625D53 /* UILabel+Badge.m */; };
@@ -430,7 +431,6 @@
 		12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.release.xcconfig"; sourceTree = "<group>"; };
 		6A867606F7216FABE6624278 /* libPods-YH-IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.debug.xcconfig"; sourceTree = "<group>"; };
-		911203921EE8099600E7CFB9 /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
 		911203941EE809E600E7CFB9 /* MineConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineConst.swift; sourceTree = "<group>"; };
 		911203951EE809E600E7CFB9 /* MineController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineController.swift; sourceTree = "<group>"; };
 		911203961EE809E600E7CFB9 /* MineHeadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineHeadView.swift; sourceTree = "<group>"; };
@@ -440,6 +440,9 @@
 		9112039A1EE809E600E7CFB9 /* UIView + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView + Extension.swift"; sourceTree = "<group>"; };
 		9112039B1EE809E600E7CFB9 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		911203A41EE80B6F00E7CFB9 /* InstituteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstituteViewController.swift; sourceTree = "<group>"; };
+		912833001EE85A830071CE69 /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
+		9128330F1EE868A50071CE69 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		912833101EE868A50071CE69 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		C40343361D6ADEAB00625D53 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
 		C40343371D6ADEAB00625D53 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		C40343381D6ADEAB00625D53 /* UILabel+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Badge.h"; sourceTree = "<group>"; };
@@ -1129,17 +1132,51 @@
 		911203931EE809E600E7CFB9 /* Mine */ = {
 			isa = PBXGroup;
 			children = (
-				911203A41EE80B6F00E7CFB9 /* InstituteViewController.swift */,
+				9128330B1EE8684A0071CE69 /* Notice */,
+				9128330A1EE868380071CE69 /* Institute */,
 				911203941EE809E600E7CFB9 /* MineConst.swift */,
 				911203951EE809E600E7CFB9 /* MineController.swift */,
-				911203961EE809E600E7CFB9 /* MineHeadView.swift */,
-				911203971EE809E600E7CFB9 /* NoticeTableViewCell.swift */,
-				911203981EE809E600E7CFB9 /* NoticeTableViewCell.xib */,
-				911203991EE809E600E7CFB9 /* NoticeTableViewController.swift */,
+				912833071EE867FE0071CE69 /* MineInfo */,
 				9112039A1EE809E600E7CFB9 /* UIView + Extension.swift */,
-				9112039B1EE809E600E7CFB9 /* UserViewController.swift */,
 			);
 			path = Mine;
+			sourceTree = "<group>";
+		};
+		912833071EE867FE0071CE69 /* MineInfo */ = {
+			isa = PBXGroup;
+			children = (
+				9128330C1EE8686F0071CE69 /* Model */,
+				911203961EE809E600E7CFB9 /* MineHeadView.swift */,
+				9112039B1EE809E600E7CFB9 /* UserViewController.swift */,
+			);
+			name = MineInfo;
+			sourceTree = "<group>";
+		};
+		9128330A1EE868380071CE69 /* Institute */ = {
+			isa = PBXGroup;
+			children = (
+				911203A41EE80B6F00E7CFB9 /* InstituteViewController.swift */,
+			);
+			name = Institute;
+			sourceTree = "<group>";
+		};
+		9128330B1EE8684A0071CE69 /* Notice */ = {
+			isa = PBXGroup;
+			children = (
+				911203991EE809E600E7CFB9 /* NoticeTableViewController.swift */,
+				911203981EE809E600E7CFB9 /* NoticeTableViewCell.xib */,
+				911203971EE809E600E7CFB9 /* NoticeTableViewCell.swift */,
+			);
+			name = Notice;
+			sourceTree = "<group>";
+		};
+		9128330C1EE8686F0071CE69 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9128330F1EE868A50071CE69 /* Person.h */,
+				912833101EE868A50071CE69 /* Person.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		C40343351D6ADEAB00625D53 /* ViewBadge */ = {
@@ -1288,8 +1325,8 @@
 			isa = PBXGroup;
 			children = (
 				C49BB9AB1D8C2548004C9F70 /* Constant.h */,
+				912833001EE85A830071CE69 /* PrivateConstants.h */,
 				C49BB9A91D8C2538004C9F70 /* Constant.m */,
-				911203921EE8099600E7CFB9 /* PrivateConstants.h */,
 			);
 			path = Macros;
 			sourceTree = "<group>";
@@ -2789,7 +2826,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		6C1B698DDFC5C340B1595665 /* [CP] Copy Pods Resources */ = {
@@ -2838,6 +2875,7 @@
 				F68C255B1EC2D4420069C041 /* JYDemoViewController.m in Sources */,
 				F62456411EA5FACD006834D2 /* IQUIWindow+Hierarchy.m in Sources */,
 				F62456C61EA5FB21006834D2 /* HomeIndexDetailListCell.m in Sources */,
+				912833111EE868A50071CE69 /* Person.m in Sources */,
 				C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */,
 				F68C25D41EC2D4790069C041 /* JYBaseComponentView.m in Sources */,
 				F65548541E8CE3B400B4048C /* UserHeadView.m in Sources */,

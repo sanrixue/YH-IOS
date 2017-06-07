@@ -12,7 +12,13 @@ class InstituteViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.blue
+        //view.backgroundColor = UIColor.blue
+        let imageAvater:UIImageView = UIImageView()
+        imageAvater.frame = CGRect(x: 0, y: 0, width: 100, height: 100)
+        let imageUrl:URL = URL(string: "http://upload-images.jianshu.io/upload_images/1567375-1d1283291a093bbc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240")!
+        imageAvater.sd_setAnimationImages(with:[imageUrl])
+        imageAvater.backgroundColor = UIColor.red
+        view.addSubview(imageAvater)
         // Do any additional setup after loading the view.
     }
 

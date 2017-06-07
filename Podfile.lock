@@ -26,6 +26,9 @@ PODS:
   - LBXScan (1.1.2):
     - ZXingObjC (~> 3.0)
   - LTHPasscodeViewController (3.7.1)
+  - Mantle (2.1.0):
+    - Mantle/extobjc (= 2.1.0)
+  - Mantle/extobjc (2.1.0)
   - Masonry (1.0.2)
   - MBProgressHUD (0.9.1)
   - MJExtension (3.0.13)
@@ -78,6 +81,7 @@ DEPENDENCIES:
   - FMDB
   - LBXScan (from `https://github.com/MxABC/LBXScan.git`)
   - LTHPasscodeViewController (~> 3.7.1)
+  - Mantle (~> 2.1.0)
   - Masonry (~> 1.0.1)
   - MBProgressHUD
   - MJExtension
@@ -111,6 +115,7 @@ SPEC CHECKSUMS:
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   LBXScan: 30153fa9c57bbe63d93cc6bf35c047ec1b63260c
   LTHPasscodeViewController: 93a2438709e2affda710ad53081810d12d3081ff
+  Mantle: 2fa750afa478cd625a94230fbf1c13462f29395b
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   MJExtension: 5932755f451458eefa24239358817f8d291240c7
@@ -125,6 +130,6 @@ SPEC CHECKSUMS:
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
   ZYCornerRadius: 485a8e9304d16d1620641054a08b9c0f55dd512c
 
-PODFILE CHECKSUM: 4a7cf8bec6274141beacd42920c1ea7fe5e8d7fe
+PODFILE CHECKSUM: 502d93463c0d341504b9dcf510037e77865ab190
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.2.1

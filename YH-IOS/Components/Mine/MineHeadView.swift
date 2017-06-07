@@ -9,6 +9,8 @@
 import UIKit
 
 class MineHeadView: UIView {
+    
+    
 
     /*
     // Only override draw() if you perform custom drawing.
@@ -17,5 +19,6 @@ class MineHeadView: UIView {
         // Drawing code
     }
     */
-
+    
+    
 }

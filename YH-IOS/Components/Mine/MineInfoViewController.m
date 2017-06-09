@@ -8,8 +8,15 @@
 
 #import "MineInfoViewController.h"
 #import "MineHeadView.h"
+#import "MineInfoTableViewCell.h"
 
 @interface MineInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
+{
+    NSArray *titleArray;
+    NSArray *secondArray;
+    NSArray *titleIameArray;
+    NSArray *seconImageArray;
+}
 
 @property (nonatomic, strong) MineHeadView *mineHeaderView;
 @property (nonatomic, strong) Person *person;
@@ -24,6 +31,11 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     //[self loadData];
+    titleArray = @[@"用户角色",@"归属部门",@"密码修改",@"问题反馈"];
+    titleIameArray = @[@"list_ic_person",@"list_ic_department",@"list_ic_lock",@"list_ic_feedback"];
+    
+    secondArray = @[@"文章收藏",@"我的设置"];
+    seconImageArray = @[@"list_ic_save",@"list_ic_set"];
      [self setupTableView];
     // Do any additional setup after loading the view.
 }
@@ -67,8 +79,7 @@
 
 
 -(void)refreshHeadView {
-   _mineHeaderView.userNameLabel.text = @"美丽美丽";
-    
+    _mineHeaderView = [[MineHeadView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 300) withPerson:self.person];
 }
 
 
@@ -84,24 +95,58 @@
      self.minetableView.tableHeaderView = _mineHeaderView;
     [self.minetableView sendSubviewToBack:_mineHeaderView];
     self.minetableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    UINib *mineInfoCell = [UINib nibWithNibName:@"MineInfoTableViewCell" bundle:nil];
+    [self.minetableView registerNib:mineInfoCell forCellReuseIdentifier:@"MineInfoTableViewCell"];
+    
   //  [self.mineHeaderView.avaterImageView sd_setImageWithURL:self.person.icon];
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
+    return 35;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    if (section == 0) {
+        return 4;
+    }
+    else{
+        return 2;
+    }
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if (section == 1) {
+          return 35;
+    }
+    else if (section == 2) {
+        return 15;
+    }
+    else {
+        return 0.01f;
+    }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+    MineInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MineInfoTableViewCell" forIndexPath:indexPath];
+    if (indexPath.section == 0) {
+        cell.userTitle.text = titleArray[indexPath.row];
+        cell.noticeIcon.image = [UIImage  imageNamed:titleIameArray[indexPath.row]];
+        cell.userDetailLable.text = @"小店长";
     }
-    cell.textLabel.text = @"我是帅哥";
+    else if (indexPath.section == 1) {
+        cell.userTitle.text = secondArray[indexPath.row];
+        cell.noticeIcon.image = [UIImage imageNamed:seconImageArray[indexPath.row]];
+        cell.userDetailLable.text = @"";
+                                 
+    }
+    if (!(indexPath.row % 2)) {
+        cell.backgroundColor = [UIColor colorWithHexString:@"fbfcf5"];
+    }
     return cell;
 }
 

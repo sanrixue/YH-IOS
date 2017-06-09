@@ -11,14 +11,16 @@
 
 @interface MineHeadView : UIView
 
+@property (nonatomic, strong)Person *person;
 @property (nonatomic, strong)UIImageView *avaterImageView;
 @property (nonatomic, strong)UILabel *userNameLabel;
 @property (nonatomic, strong)UILabel *lastLoginMessageLabel;
-@property (nonatomic, strong)UILabel *loginCountLabel;
-@property (nonatomic, strong)UILabel *reportScanCountLabel;
-@property (nonatomic, strong)UILabel *precentLable;
+@property (nonatomic, strong)UIView *loginCountView;
+@property (nonatomic, strong)UIView *reportScanCountView;
+@property (nonatomic, strong)UIView *precentView;
 
 // 刷新视图
 
 -(void)refreshViewWith:(Person *)person;
+-(instancetype)initWithFrame:(CGRect)frame withPerson:(Person*)person;
 @end

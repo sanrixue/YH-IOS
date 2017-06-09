@@ -15,6 +15,7 @@
 #import "AFNetworking.h"
 #import "JYHomeViewController.h"
 #import "YH_IOS-Swift.h"
+#import "MineController.h"
 
 @interface MianTabBarViewController ()
 

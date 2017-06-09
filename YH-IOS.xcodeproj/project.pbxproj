@@ -7,16 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9112039C1EE809E600E7CFB9 /* MineConst.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911203941EE809E600E7CFB9 /* MineConst.swift */; };
-		9112039D1EE809E600E7CFB9 /* MineController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911203951EE809E600E7CFB9 /* MineController.swift */; };
-		9112039E1EE809E600E7CFB9 /* MineHeadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911203961EE809E600E7CFB9 /* MineHeadView.swift */; };
-		9112039F1EE809E600E7CFB9 /* NoticeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911203971EE809E600E7CFB9 /* NoticeTableViewCell.swift */; };
-		911203A01EE809E600E7CFB9 /* NoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 911203981EE809E600E7CFB9 /* NoticeTableViewCell.xib */; };
-		911203A11EE809E600E7CFB9 /* NoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911203991EE809E600E7CFB9 /* NoticeTableViewController.swift */; };
-		911203A21EE809E600E7CFB9 /* UIView + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9112039A1EE809E600E7CFB9 /* UIView + Extension.swift */; };
-		911203A31EE809E600E7CFB9 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9112039B1EE809E600E7CFB9 /* UserViewController.swift */; };
-		911203A51EE80B6F00E7CFB9 /* InstituteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911203A41EE80B6F00E7CFB9 /* InstituteViewController.swift */; };
+		911291251EE8EBA900A0B529 /* YHNetworkTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 911291241EE8EBA900A0B529 /* YHNetworkTool.m */; };
 		912833111EE868A50071CE69 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 912833101EE868A50071CE69 /* Person.m */; };
+		914F3F211EE92BCE004B2C25 /* MineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F201EE92BCE004B2C25 /* MineController.m */; };
+		914F3F241EE92BE7004B2C25 /* MineInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F231EE92BE7004B2C25 /* MineInfoViewController.m */; };
+		914F3F271EE92BF8004B2C25 /* InstituteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F261EE92BF8004B2C25 /* InstituteViewController.m */; };
+		914F3F2A1EE92C08004B2C25 /* NoticeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */; };
+		914F3F301EE93C78004B2C25 /* MineHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F2F1EE93C78004B2C25 /* MineHeadView.m */; };
 		9E9EEC1875A034202F52C155 /* libPods-YH-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A867606F7216FABE6624278 /* libPods-YH-IOS.a */; };
 		C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343371D6ADEAB00625D53 /* UIButton+Badge.m */; };
 		C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343391D6ADEAB00625D53 /* UILabel+Badge.m */; };
@@ -431,18 +428,21 @@
 		12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.release.xcconfig"; sourceTree = "<group>"; };
 		6A867606F7216FABE6624278 /* libPods-YH-IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.debug.xcconfig"; sourceTree = "<group>"; };
-		911203941EE809E600E7CFB9 /* MineConst.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineConst.swift; sourceTree = "<group>"; };
-		911203951EE809E600E7CFB9 /* MineController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineController.swift; sourceTree = "<group>"; };
-		911203961EE809E600E7CFB9 /* MineHeadView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MineHeadView.swift; sourceTree = "<group>"; };
-		911203971EE809E600E7CFB9 /* NoticeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeTableViewCell.swift; sourceTree = "<group>"; };
-		911203981EE809E600E7CFB9 /* NoticeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NoticeTableViewCell.xib; sourceTree = "<group>"; };
-		911203991EE809E600E7CFB9 /* NoticeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoticeTableViewController.swift; sourceTree = "<group>"; };
-		9112039A1EE809E600E7CFB9 /* UIView + Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView + Extension.swift"; sourceTree = "<group>"; };
-		9112039B1EE809E600E7CFB9 /* UserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
-		911203A41EE80B6F00E7CFB9 /* InstituteViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstituteViewController.swift; sourceTree = "<group>"; };
+		911291231EE8EBA900A0B529 /* YHNetworkTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHNetworkTool.h; sourceTree = "<group>"; };
+		911291241EE8EBA900A0B529 /* YHNetworkTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHNetworkTool.m; sourceTree = "<group>"; };
 		912833001EE85A830071CE69 /* PrivateConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateConstants.h; sourceTree = "<group>"; };
 		9128330F1EE868A50071CE69 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		912833101EE868A50071CE69 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
+		914F3F1F1EE92BCE004B2C25 /* MineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineController.h; sourceTree = "<group>"; };
+		914F3F201EE92BCE004B2C25 /* MineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineController.m; sourceTree = "<group>"; };
+		914F3F221EE92BE7004B2C25 /* MineInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineInfoViewController.h; sourceTree = "<group>"; };
+		914F3F231EE92BE7004B2C25 /* MineInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineInfoViewController.m; sourceTree = "<group>"; };
+		914F3F251EE92BF8004B2C25 /* InstituteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InstituteViewController.h; sourceTree = "<group>"; };
+		914F3F261EE92BF8004B2C25 /* InstituteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InstituteViewController.m; sourceTree = "<group>"; };
+		914F3F281EE92C08004B2C25 /* NoticeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeTableViewController.h; sourceTree = "<group>"; };
+		914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeTableViewController.m; sourceTree = "<group>"; };
+		914F3F2E1EE93C78004B2C25 /* MineHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineHeadView.h; sourceTree = "<group>"; };
+		914F3F2F1EE93C78004B2C25 /* MineHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineHeadView.m; sourceTree = "<group>"; };
 		C40343361D6ADEAB00625D53 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
 		C40343371D6ADEAB00625D53 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		C40343381D6ADEAB00625D53 /* UILabel+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Badge.h"; sourceTree = "<group>"; };
@@ -1132,22 +1132,33 @@
 		911203931EE809E600E7CFB9 /* Mine */ = {
 			isa = PBXGroup;
 			children = (
+				914F3F2C1EE92E9D004B2C25 /* MineConst */,
+				911291221EE8EB8A00A0B529 /* Tool */,
 				9128330B1EE8684A0071CE69 /* Notice */,
 				9128330A1EE868380071CE69 /* Institute */,
-				911203941EE809E600E7CFB9 /* MineConst.swift */,
-				911203951EE809E600E7CFB9 /* MineController.swift */,
 				912833071EE867FE0071CE69 /* MineInfo */,
-				9112039A1EE809E600E7CFB9 /* UIView + Extension.swift */,
+				914F3F1F1EE92BCE004B2C25 /* MineController.h */,
+				914F3F201EE92BCE004B2C25 /* MineController.m */,
 			);
 			path = Mine;
+			sourceTree = "<group>";
+		};
+		911291221EE8EB8A00A0B529 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				911291231EE8EBA900A0B529 /* YHNetworkTool.h */,
+				911291241EE8EBA900A0B529 /* YHNetworkTool.m */,
+			);
+			name = Tool;
 			sourceTree = "<group>";
 		};
 		912833071EE867FE0071CE69 /* MineInfo */ = {
 			isa = PBXGroup;
 			children = (
+				914F3F2D1EE93C56004B2C25 /* View */,
 				9128330C1EE8686F0071CE69 /* Model */,
-				911203961EE809E600E7CFB9 /* MineHeadView.swift */,
-				9112039B1EE809E600E7CFB9 /* UserViewController.swift */,
+				914F3F221EE92BE7004B2C25 /* MineInfoViewController.h */,
+				914F3F231EE92BE7004B2C25 /* MineInfoViewController.m */,
 			);
 			name = MineInfo;
 			sourceTree = "<group>";
@@ -1155,7 +1166,8 @@
 		9128330A1EE868380071CE69 /* Institute */ = {
 			isa = PBXGroup;
 			children = (
-				911203A41EE80B6F00E7CFB9 /* InstituteViewController.swift */,
+				914F3F251EE92BF8004B2C25 /* InstituteViewController.h */,
+				914F3F261EE92BF8004B2C25 /* InstituteViewController.m */,
 			);
 			name = Institute;
 			sourceTree = "<group>";
@@ -1163,9 +1175,8 @@
 		9128330B1EE8684A0071CE69 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
-				911203991EE809E600E7CFB9 /* NoticeTableViewController.swift */,
-				911203981EE809E600E7CFB9 /* NoticeTableViewCell.xib */,
-				911203971EE809E600E7CFB9 /* NoticeTableViewCell.swift */,
+				914F3F281EE92C08004B2C25 /* NoticeTableViewController.h */,
+				914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */,
 			);
 			name = Notice;
 			sourceTree = "<group>";
@@ -1177,6 +1188,22 @@
 				912833101EE868A50071CE69 /* Person.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		914F3F2C1EE92E9D004B2C25 /* MineConst */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = MineConst;
+			sourceTree = "<group>";
+		};
+		914F3F2D1EE93C56004B2C25 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				914F3F2E1EE93C78004B2C25 /* MineHeadView.h */,
+				914F3F2F1EE93C78004B2C25 /* MineHeadView.m */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		C40343351D6ADEAB00625D53 /* ViewBadge */ = {
@@ -2771,7 +2798,6 @@
 				F62457471EA5FBB2006834D2 /* MultipleBarChartViewController.xib in Resources */,
 				F62456BB1EA5FB21006834D2 /* ChartHeaderView.xib in Resources */,
 				F624572D1EA5FBB1006834D2 /* AnotherBarChartViewController.xib in Resources */,
-				911203A01EE809E600E7CFB9 /* NoticeTableViewCell.xib in Resources */,
 				F6E1E68D1ED567890094ABA4 /* icons.zip in Resources */,
 				F62457451EA5FBB2006834D2 /* LineChartTimeViewController.xib in Resources */,
 				F62456BD1EA5FB21006834D2 /* ChartHeaderViewCell.xib in Resources */,
@@ -2881,6 +2907,7 @@
 				F65548541E8CE3B400B4048C /* UserHeadView.m in Sources */,
 				F68C25AD1EC2D4670069C041 /* JYModuleTwoBaseModel.m in Sources */,
 				F62457E61EA5FD01006834D2 /* PermissionManager.m in Sources */,
+				914F3F241EE92BE7004B2C25 /* MineInfoViewController.m in Sources */,
 				F68C25DC1EC2D4790069C041 /* JYInvertButton.m in Sources */,
 				F68C25DD1EC2D4790069C041 /* JYLandscapeBar.m in Sources */,
 				F68C25941EC2D44F0069C041 /* JYPortraitBarView.m in Sources */,
@@ -2931,7 +2958,6 @@
 				F62457441EA5FBB2006834D2 /* LineChartTimeViewController.m in Sources */,
 				F62457E41EA5FD01006834D2 /* CommonTableViewCell.m in Sources */,
 				F624564B1EA5FACD006834D2 /* CommonAlertView.m in Sources */,
-				911203A51EE80B6F00E7CFB9 /* InstituteViewController.swift in Sources */,
 				F62456DD1EA5FB3F006834D2 /* DemoListViewController.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
@@ -2948,9 +2974,9 @@
 				F68C25E31EC2D4790069C041 /* JYRowViewCell.m in Sources */,
 				F62457E81EA5FD01006834D2 /* NSArray+PureLayout.m in Sources */,
 				F62457961EA5FBE0006834D2 /* UIAlertView+Category.m in Sources */,
+				914F3F271EE92BF8004B2C25 /* InstituteViewController.m in Sources */,
 				C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */,
 				F68C25D71EC2D4790069C041 /* JYClickableLine.m in Sources */,
-				9112039D1EE809E600E7CFB9 /* MineController.swift in Sources */,
 				F62456521EA5FACD006834D2 /* WynCountDownView.m in Sources */,
 				F655484A1E8CE04200B4048C /* PushDevice.m in Sources */,
 				F62457941EA5FBE0006834D2 /* NSString+verification.m in Sources */,
@@ -2959,14 +2985,12 @@
 				F65548431E8CE02100B4048C /* SettingArrayViewController.m in Sources */,
 				C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */,
 				F624579F1EA5FBE1006834D2 /* UIScrollView+Size.m in Sources */,
-				9112039E1EE809E600E7CFB9 /* MineHeadView.swift in Sources */,
 				F62457981EA5FBE0006834D2 /* UIButton+FillColor.m in Sources */,
 				F68C25901EC2D44F0069C041 /* JYModuleTwoCell.m in Sources */,
 				F62457EF1EA5FD01006834D2 /* UINavigationBar+Awesome.m in Sources */,
 				F68C25E41EC2D4790069C041 /* JYSectionViewCell.m in Sources */,
 				F62457EA1EA5FD01006834D2 /* TableViewAndCollectionPackage.m in Sources */,
 				F68C258E1EC2D44F0069C041 /* JYLandscapeBarView.m in Sources */,
-				911203A21EE809E600E7CFB9 /* UIView + Extension.swift in Sources */,
 				F62456401EA5FACD006834D2 /* IQUIViewController+Additions.m in Sources */,
 				C48924E71D858F0A00859411 /* OneButtonTableViewCell.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
@@ -2998,20 +3022,20 @@
 				F62457521EA5FBB2006834D2 /* RadarChartViewController.m in Sources */,
 				F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */,
 				F68C25911EC2D44F0069C041 /* JYNumberCircleView.m in Sources */,
-				9112039C1EE809E600E7CFB9 /* MineConst.swift in Sources */,
 				F655484B1E8CE04200B4048C /* UserInfoModel.m in Sources */,
 				F62457E71EA5FD01006834D2 /* ALView+PureLayout.m in Sources */,
 				F68C25DE1EC2D4790069C041 /* JYLineChartView.m in Sources */,
 				F62457501EA5FBB2006834D2 /* PositiveNegativeBarChartViewController.m in Sources */,
 				F6025CB31EC5E2CE0025CC71 /* JumpCommonView.m in Sources */,
 				F624564F1EA5FACD006834D2 /* PSTAlertController.m in Sources */,
-				911203A11EE809E600E7CFB9 /* NoticeTableViewController.swift in Sources */,
+				911291251EE8EBA900A0B529 /* YHNetworkTool.m in Sources */,
 				C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */,
 				F624572C1EA5FBB1006834D2 /* AnotherBarChartViewController.m in Sources */,
 				F68C25D91EC2D4790069C041 /* JYFreezeViewCell.m in Sources */,
 				C48924E81D858F0A00859411 /* PgyUpdateTableViewCell.m in Sources */,
 				F68C25A11EC2D45D0069C041 /* UIColor+Utility.m in Sources */,
 				F62456501EA5FACD006834D2 /* UpdateVersionAlertView.m in Sources */,
+				914F3F301EE93C78004B2C25 /* MineHeadView.m in Sources */,
 				F660A3EC1EBAD69B00C6C510 /* SuperChartMainModel.m in Sources */,
 				F62457921EA5FBE0006834D2 /* NSObject+NSObject.m in Sources */,
 				F68C25A01EC2D45D0069C041 /* UIBezierPath+curved.m in Sources */,
@@ -3022,6 +3046,7 @@
 				F62457EB1EA5FD01006834D2 /* AddShopCarsAnimationTool.m in Sources */,
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
+				914F3F211EE92BCE004B2C25 /* MineController.m in Sources */,
 				F62457B91EA5FC24006834D2 /* TCBaseAppDelegate.mm in Sources */,
 				F62457A91EA5FBE1006834D2 /* UIViewController+Category.m in Sources */,
 				F68C25951EC2D44F0069C041 /* JYSaleView.m in Sources */,
@@ -3078,13 +3103,12 @@
 				F62456D71EA5FB21006834D2 /* YHMarkerV.swift in Sources */,
 				F63D49FB1EB329A20004BCC8 /* DoubleClickSuperChartHeaderCell.m in Sources */,
 				F62456E41EA5FB5D006834D2 /* DateValueFormatter.m in Sources */,
-				911203A31EE809E600E7CFB9 /* UserViewController.swift in Sources */,
 				F68C25DF1EC2D4790069C041 /* JYMainViewCell.m in Sources */,
 				C46903971D5CC81A00233D05 /* SelectStoreViewController.m in Sources */,
 				F6EC68D01E53F560008E0B5F /* ManualInputViewController.m in Sources */,
+				914F3F2A1EE92C08004B2C25 /* NoticeTableViewController.m in Sources */,
 				F62456BC1EA5FB21006834D2 /* ChartHeaderViewCell.m in Sources */,
 				F68C25AB1EC2D4670069C041 /* JYComponentModel.m in Sources */,
-				9112039F1EE809E600E7CFB9 /* NoticeTableViewCell.swift in Sources */,
 				F62456451EA5FACD006834D2 /* IQBarButtonItem.m in Sources */,
 				F62456C31EA5FB21006834D2 /* HomeIndexCollectionCellContentView.m in Sources */,
 				F691E5E41E28835C00BDC73E /* FindPasswordViewController.m in Sources */,

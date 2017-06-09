@@ -10,13 +10,19 @@ import UIKit
 
 class UserViewController: UIViewController {
 
+    var person:Person? {
+        return YHNetworkTool.shareNetWork().loadUserInfo()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.yellow;
-        
+       // loadUserDate()
+        setupTableView()
         // Do any additional setup after loading the view.
     }
-
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -28,9 +34,15 @@ class UserViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-        
+        tableView.tableHeaderView  = headerView
+        headerView.userHead = person
     }
     
+    var headerView:MineHeadView = {
+        let headerView = MineHeadView()
+        headerView.frame = CGRect(x: 0, y: 0, width: SCREENWIDTH, height: 300)
+        return headerView
+    }()
     
     /*
     // MARK: - Navigation

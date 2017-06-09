@@ -62,6 +62,7 @@ PODS:
   - MRProgress/Stopable (0.8.3):
     - MRProgress/Helper
   - Reachability (3.2)
+  - ReactiveObjC (3.0.0)
   - SCLAlertView-Objective-C (0.7.9)
   - SDWebImage (4.0.0):
     - SDWebImage/Core (= 4.0.0)
@@ -88,6 +89,7 @@ DEPENDENCIES:
   - MJRefresh
   - MRProgress
   - Reachability (~> 3.2)
+  - ReactiveObjC
   - SCLAlertView-Objective-C (~> 0.7.9)
   - SDWebImage
   - SSZipArchive (~> 0.3.2)
@@ -122,6 +124,7 @@ SPEC CHECKSUMS:
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   MRProgress: 16de7cc9f347e8846797a770db102a323fe7ef09
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  ReactiveObjC: ce79989e8684b9086b5f8d0c74bc7b81a8729c9e
   SCLAlertView-Objective-C: e36ab12dc1ec4ff6f932888083b21d71a3a1ad23
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
   SSZipArchive: 2cf2a6d3ac9f03252b7d96f93728b9b983be9afb
@@ -130,6 +133,6 @@ SPEC CHECKSUMS:
   ZXingObjC: bf15b3814f7a105b6d99f47da2333c93a063650a
   ZYCornerRadius: 485a8e9304d16d1620641054a08b9c0f55dd512c
 
-PODFILE CHECKSUM: 502d93463c0d341504b9dcf510037e77865ab190
+PODFILE CHECKSUM: 3cec58c8f0a0e1238ca88f9409e4ed1da41e34b3
 
 COCOAPODS: 1.2.1

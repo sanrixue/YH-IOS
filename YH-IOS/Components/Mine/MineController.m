@@ -11,6 +11,7 @@
 #import "MineInfoViewController.h"
 #import "InstituteViewController.h"
 #import "NoticeTableViewController.h"
+#import "UIButton+NewBadge.h"
 
 @interface MineController ()<UIScrollViewDelegate>
 
@@ -28,12 +29,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationController.navigationBar setHidden:YES];
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupChildViewController];
     [self setupTitlesView];
     [self setupCotentView];
     // Do any additional setup after loading the view.
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:YES];
+    [self.navigationController.navigationBar setHidden:YES];
+  //  self.navigationController.navigationBar.translucent = YES;
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.tabBarController.tabBar.translucent = YES;
+    [self.tabBarController.tabBar setHidden:NO];
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:YES];
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 -(void)setupChildViewController{
@@ -65,19 +79,22 @@
     UIView *titlesView = [[UIView alloc]init];
     titlesView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 35.0);
     [bgView addSubview:titlesView];
+    titlesView.backgroundColor = [UIColor whiteColor];
     self.titlesView = titlesView;
     
     // 顶部绿色指示器
     UIView *indicatorView = [[UIView alloc]init];
-    indicatorView.backgroundColor = [UIColor greenColor];
+    indicatorView.backgroundColor = [UIColor colorWithHexString:@"#6aa657"];
     indicatorView.height = 2;
-    indicatorView.mj_y = 33;
+    indicatorView.mj_y = 32;
     indicatorView.tag = -1;
     self.indicatorview = indicatorView;
     
+    //顶部分割线
+    
     NSUInteger count = self.childViewControllers.count;
     CGFloat width = titlesView.width/count;
-    CGFloat height = titlesView.height - 2;
+    CGFloat height = titlesView.height - 3;
     
     for(int index = 0; index<count;index++){
         UIButton *button = [[UIButton alloc]init];
@@ -86,6 +103,19 @@
         button.width = width;
         button.mj_x = index*width;
         button.tag = index;
+        button.badgeBGColor = [UIColor colorWithHexString:@"#6aa657"];
+        button.badgeValue = @" ";
+        button.badgeMinSize = 2;
+        [button.badge setHidden:YES];
+        if (button.tag == 0) {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hiddenIcon:) name:@"mineTopHiddenIocn1" object:nil];
+        }
+        if (button.tag == 1) {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hiddenIcon:) name:@"mineTopHiddenIocn2" object:nil];
+        }
+        if (button.tag == 2) {
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hiddenIcon:) name:@"mineTopHiddenIocn3" object:nil];
+        }
         
         UIViewController *vc = self.childViewControllers[index];
         [button setTitle:vc.title forState:UIControlStateNormal];
@@ -107,6 +137,10 @@
     
     [titlesView addSubview:indicatorView];
     
+}
+
+-(void)hiddenIcon:(UIButton*)sendser{
+    [sendser.badge setHighlighted:YES];
 }
 
 -(void)titleClick:(UIButton*)button {

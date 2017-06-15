@@ -39,6 +39,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     cellnum = 0;
+    [self.navigationController.navigationBar setHidden:NO];
+    self.automaticallyAdjustsScrollViewInsets = YES;
+    [self.tabBarController.tabBar setHidden:YES];
      [self setupUI];
      NSString* noticeFilePath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     self.noticeDict = [FileUtils readConfigFile:noticeFilePath];
@@ -48,7 +51,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:false];
+  /*  [self.navigationController setNavigationBarHidden:false];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     //@{}代表Dictionary
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -64,7 +67,7 @@
     [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     self.navigationController.navigationBar.translucent = NO;
-    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];*/
     if ([self.title isEqualToString:@"应用详情"]) {
         [self actionCheckUpgrade];
     }

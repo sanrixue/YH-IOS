@@ -9,13 +9,23 @@
 #import "MineInfoViewController.h"
 #import "MineHeadView.h"
 #import "MineInfoTableViewCell.h"
+#import "MineResetPwdViewController.h"
+#import "MineQuestionViewController.h"
+#import "MineRequestListViewController.h"
+#import "FileUtils.h"
+#import "HttpUtils.h"
+#import "User.h"
+#import "MineSingleSettingViewController.h"
+#import "LoginViewController.h"
+#import "APIHelper.h"
 
-@interface MineInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface MineInfoViewController ()<UITableViewDelegate,UITableViewDataSource,MineHeadDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate >
 {
     NSArray *titleArray;
     NSArray *secondArray;
     NSArray *titleIameArray;
     NSArray *seconImageArray;
+    User *user;
 }
 
 @property (nonatomic, strong) MineHeadView *mineHeaderView;
@@ -30,6 +40,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    user = [[User alloc]init];
+    _mineHeaderView = [[MineHeadView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 300)];
+    _mineHeaderView.delegate =self;
     //[self loadData];
     titleArray = @[@"用户角色",@"归属部门",@"密码修改",@"问题反馈"];
     titleIameArray = @[@"list_ic_person",@"list_ic_department",@"list_ic_lock",@"list_ic_feedback"];
@@ -43,14 +56,13 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    _mineHeaderView = [[MineHeadView alloc]init];
-    _mineHeaderView.frame  = CGRectMake(0, 0, SCREEN_WIDTH, 300);
-    self.minetableView.tableHeaderView = _mineHeaderView;
     [self BindDate];
     RACSignal *requestSingal = [self.requestCommane execute:nil];
     [requestSingal subscribeNext:^(Person *x) {
         self.person = x;
-        [self refreshHeadView];
+        [_mineHeaderView  refreshViewWith:self.person];
+        [self.minetableView reloadData];
+        
     }];
 }
 
@@ -86,21 +98,74 @@
 -(void)setupTableView {
     
     self.minetableView= [[UITableView alloc]init];
-    self.minetableView.frame = self.view.frame;
+    self.minetableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49);
     [self.view addSubview:self.minetableView];
-    
-    
+    [self.minetableView setScrollEnabled:YES];
+      self.minetableView.tableHeaderView=_mineHeaderView;
     self.minetableView.delegate = self;
     self.minetableView.dataSource = self;
-     self.minetableView.tableHeaderView = _mineHeaderView;
-    [self.minetableView sendSubviewToBack:_mineHeaderView];
     self.minetableView.separatorStyle = UITableViewCellSelectionStyleNone;
     UINib *mineInfoCell = [UINib nibWithNibName:@"MineInfoTableViewCell" bundle:nil];
     [self.minetableView registerNib:mineInfoCell forCellReuseIdentifier:@"MineInfoTableViewCell"];
+    self.minetableView.tableFooterView = [self LogoutFooterView];
     
   //  [self.mineHeaderView.avaterImageView sd_setImageWithURL:self.person.icon];
 }
 
+// 上传图像
+
+-(void)ClickButton:(UIButton *)btn{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = YES;
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"从相册选取" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+        [self presentViewController:imagePickerController animated:YES completion:^{}];
+    }];
+    UIAlertAction *photoAction = [UIAlertAction actionWithTitle:@"拍照" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:imagePickerController animated:YES completion:^{}];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *action){}];
+    [alertController addAction:okAction];
+    [alertController addAction:cancelAction];
+    [alertController addAction:photoAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+
+#pragma mark - upload user gravatar
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    [picker dismissViewControllerAnimated:YES completion:^{}];
+    UIImage* userIconImage = [info objectForKey:UIImagePickerControllerEditedImage];
+    NSData *imageData = UIImageJPEGRepresentation(userIconImage, 1.0);
+    [_mineHeaderView refeshAvaImgeView:userIconImage];
+    [self.minetableView reloadData];
+    NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
+    NSString *gravatarName = [NSString stringWithFormat:@"%@-%@-%@.jpg", kAppCode, user.userNum, timestamp];
+     NSString *urlPath = [NSString stringWithFormat:kUploadGravatarAPIPath, user.deviceID, user.userID];
+    AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
+    AFHTTPRequestOperation *op = [manager POST:urlPath parameters:@{} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        [formData appendPartWithFileData:imageData name:@"gravatar" fileName:gravatarName mimeType:@"image/jpg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+
+    }];
+    [op start];
+}
+
+
+/*- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if (section == 0) {
+        return _mineHeaderView;
+    }
+    else{
+        return nil;
+    }
+}*/
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 35;
@@ -126,28 +191,111 @@
     else if (section == 2) {
         return 15;
     }
+    else if(section == 0){
+        return 0;
+    }
     else {
-        return 0.01f;
+        return 0.01;
     }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MineInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MineInfoTableViewCell" forIndexPath:indexPath];
     if (indexPath.section == 0) {
-        cell.userTitle.text = titleArray[indexPath.row];
-        cell.noticeIcon.image = [UIImage  imageNamed:titleIameArray[indexPath.row]];
-        cell.userDetailLable.text = @"小店长";
+        if (indexPath.row == 0) {
+            cell.userTitle.text = titleArray[indexPath.row];
+            cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
+            cell.userDetailLable.text = user.userName;
+        }
+        else if (indexPath.row == 1){
+            cell.userTitle.text = titleArray[indexPath.row];
+             NSString *userRole =[NSString stringWithFormat:@"%@", user.roleName];
+            cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
+            cell.userDetailLable.text = userRole;
+        }
+        else {
+            cell.userTitle.text = titleArray[indexPath.row];
+            cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
+            cell.userDetailLable.text = @"";
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
     }
     else if (indexPath.section == 1) {
+        
         cell.userTitle.text = secondArray[indexPath.row];
         cell.noticeIcon.image = [UIImage imageNamed:seconImageArray[indexPath.row]];
         cell.userDetailLable.text = @"";
-                                 
+         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
     }
     if (!(indexPath.row % 2)) {
         cell.backgroundColor = [UIColor colorWithHexString:@"fbfcf5"];
     }
     return cell;
+}
+
+
+-(UIView *)LogoutFooterView{
+    
+    UIView *logoutView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
+    UIButton *logoutButton = [[UIButton alloc]initWithFrame:CGRectMake(100, 20,SCREEN_WIDTH-200, 20)];
+    [logoutView addSubview:logoutButton];
+    [logoutButton setTitle:@"退出登录" forState:UIControlStateNormal];
+    [logoutButton addTarget:self action:@selector(logoutButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [logoutButton setTitleColor:[UIColor colorWithHexString:@"#010101"] forState:UIControlStateNormal];
+    logoutView.backgroundColor = [UIColor colorWithHexString:@"#fbfcf5"];
+    
+    return logoutView;
+    
+}
+
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ((indexPath.section == 0 ) && (indexPath.row == 2)) {
+        MineResetPwdViewController *mineResetPwdCtrl = [[MineResetPwdViewController alloc]init];
+        mineResetPwdCtrl.title = @"密码修改";
+        [self.navigationController pushViewController:mineResetPwdCtrl animated:YES];
+        
+    }
+    else if ((indexPath.section == 0)&&(indexPath.row == 3)){
+        MineRequestListViewController *mineQuestionCtrl = [[MineRequestListViewController  alloc]init];
+        mineQuestionCtrl.title = @"生意人反馈收集";
+        [self.navigationController pushViewController:mineQuestionCtrl animated:YES];
+    }
+    else if ((indexPath.section ==1)&&(indexPath.row ==1)){
+        MineSingleSettingViewController *settingCtrl = [[MineSingleSettingViewController alloc]init];
+        settingCtrl.title = @"我的设置";
+        [self.navigationController pushViewController:settingCtrl animated:YES];
+    }
+}
+
+- (void)logoutButtonClick:(UIButton*) button {
+    [self jumpToLogin];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        [APIHelper deleteUserDevice:@"ios" withDeviceID:user.deviceID];
+        @try {
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[kActionALCName] = @"退出登录";
+            [APIHelper actionLog:logParams];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"%@", exception);
+        }
+    });
+}
+
+- (void)jumpToLogin {
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    userDict[kIsLoginCUName] = @(NO);
+    [userDict writeToFile:userConfigPath atomically:YES];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:kMainSBName bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:kLoginVCName];
+    self.view.window.rootViewController = loginViewController;
 }
 
 

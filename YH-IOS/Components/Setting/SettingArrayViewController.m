@@ -22,6 +22,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.navigationController.navigationBar setHidden:NO];
+    self.automaticallyAdjustsScrollViewInsets = YES;
+    [self.tabBarController.tabBar setHidden:YES];
     [self setupUI];
     // Do any additional setup after loading the view.
 }
@@ -38,7 +41,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:false];
+  /*  [self.navigationController setNavigationBarHidden:false];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     //@{}代表Dictionary
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -54,7 +57,7 @@
     space.width = -20;
     UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
-    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.translucent = NO;*/
 }
 
 - (void)backAction{

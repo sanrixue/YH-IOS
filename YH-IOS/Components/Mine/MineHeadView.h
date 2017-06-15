@@ -8,19 +8,32 @@
 
 #import <UIKit/UIKit.h>
 #import "Person.h"
+#import "UserCountView.h"
+
+
+@protocol MineHeadDelegate <NSObject>
+
+-(void)ClickButton:(UIButton *)btn;
+
+@end
 
 @interface MineHeadView : UIView
 
 @property (nonatomic, strong)Person *person;
-@property (nonatomic, strong)UIImageView *avaterImageView;
+@property (nonatomic, strong)UIButton *avaterImageView;
 @property (nonatomic, strong)UILabel *userNameLabel;
 @property (nonatomic, strong)UILabel *lastLoginMessageLabel;
-@property (nonatomic, strong)UIView *loginCountView;
-@property (nonatomic, strong)UIView *reportScanCountView;
-@property (nonatomic, strong)UIView *precentView;
+@property (nonatomic, strong)UserCountView *loginCountView;
+@property (nonatomic, strong)UserCountView *reportScanCountView;
+@property (nonatomic, strong)UserCountView *precentView;
+@property (nonatomic, weak) id<MineHeadDelegate> delegate;
+
 
 // 刷新视图
 
 -(void)refreshViewWith:(Person *)person;
 -(instancetype)initWithFrame:(CGRect)frame withPerson:(Person*)person;
+-(void)addVaildData;
+-(void)refeshAvaImgeView:(UIImage *)image;
+
 @end

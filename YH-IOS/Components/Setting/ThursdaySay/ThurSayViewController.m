@@ -23,6 +23,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self.navigationController.navigationBar setHidden:NO];
+    self.automaticallyAdjustsScrollViewInsets = YES;
+    [self.tabBarController.tabBar setHidden:YES];
     self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     [self.view addSubview:self.browser];
     
@@ -32,7 +35,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated {
-    [self.navigationController setNavigationBarHidden:false];
+  /*  [self.navigationController setNavigationBarHidden:false];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     //@{}代表Dictionary
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
@@ -52,7 +55,7 @@
    // backBtn.imageEdgeInsets = UIEdgeInsetsMake(0, -20, 0, 0);
     //self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:backBtn];
   //  [self.navigationItem.leftBarButtonItem setTitlePositionAdjustment:UIOffsetMake(-30, 0) forBarMetrics:UIBarMetricsDefault];
-    //[backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    //[backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];*/
 }
 
 

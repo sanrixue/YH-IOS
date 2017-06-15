@@ -16,6 +16,57 @@
 		914F3F271EE92BF8004B2C25 /* InstituteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F261EE92BF8004B2C25 /* InstituteViewController.m */; };
 		914F3F2A1EE92C08004B2C25 /* NoticeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */; };
 		914F3F301EE93C78004B2C25 /* MineHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F2F1EE93C78004B2C25 /* MineHeadView.m */; };
+		91D77F161EEA8746007405A0 /* UserCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F151EEA8746007405A0 /* UserCountView.m */; };
+		91D77F261EEA915C007405A0 /* MineNoticeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F241EEA915C007405A0 /* MineNoticeTableViewCell.m */; };
+		91D77F271EEA915C007405A0 /* MineNoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D77F251EEA915C007405A0 /* MineNoticeTableViewCell.xib */; };
+		91D77F2E1EEAA1C0007405A0 /* MineResetPwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F2D1EEAA1C0007405A0 /* MineResetPwdViewController.m */; };
+		91D77F371EEAA4D1007405A0 /* LeftIamgeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F351EEAA4D1007405A0 /* LeftIamgeTableViewCell.m */; };
+		91D77F381EEAA4D1007405A0 /* LeftIamgeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D77F361EEAA4D1007405A0 /* LeftIamgeTableViewCell.xib */; };
+		91D77F3C1EEAA61D007405A0 /* RightButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F3A1EEAA61D007405A0 /* RightButtonTableViewCell.m */; };
+		91D77F3D1EEAA61D007405A0 /* RightButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D77F3B1EEAA61D007405A0 /* RightButtonTableViewCell.xib */; };
+		91DB235C1EEB98F900FC8413 /* SingleLabelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB235B1EEB98F900FC8413 /* SingleLabelTableViewCell.m */; };
+		91DB235F1EEBBC7600FC8413 /* MineQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB235E1EEBBC7600FC8413 /* MineQuestionViewController.m */; };
+		91DB23D01EEBF66700FC8413 /* NoticeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB23CF1EEBF66700FC8413 /* NoticeDetailViewController.m */; };
+		91DB24261EED7A3000FC8413 /* PhotoBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB23DC1EED7A2F00FC8413 /* PhotoBaseViewController.m */; };
+		91DB24271EED7A3000FC8413 /* PhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB23DF1EED7A2F00FC8413 /* PhotoCell.m */; };
+		91DB24281EED7A3000FC8413 /* PhotoDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB23E11EED7A2F00FC8413 /* PhotoDetailCell.m */; };
+		91DB24291EED7A3000FC8413 /* PhotoGroupCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB23E31EED7A2F00FC8413 /* PhotoGroupCell.m */; };
+		91DB242A1EED7A3000FC8413 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91DB23E71EED7A2F00FC8413 /* back@2x.png */; };
+		91DB242B1EED7A3000FC8413 /* select@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91DB23E81EED7A2F00FC8413 /* select@2x.png */; };
+		91DB242C1EED7A3000FC8413 /* select@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91DB23E91EED7A2F00FC8413 /* select@3x.png */; };
+		91DB242D1EED7A3000FC8413 /* unSelect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91DB23EA1EED7A2F00FC8413 /* unSelect@2x.png */; };
+		91DB242E1EED7A3000FC8413 /* unSelect@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91DB23EB1EED7A2F00FC8413 /* unSelect@3x.png */; };
+		91DB243B1EED7A3000FC8413 /* PhotoSelectManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB240C1EED7A2F00FC8413 /* PhotoSelectManager.m */; };
+		91DB243C1EED7A3000FC8413 /* PSMessageDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB240F1EED7A2F00FC8413 /* PSMessageDialog.m */; };
+		91DB243D1EED7A3000FC8413 /* ScaleAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24111EED7A2F00FC8413 /* ScaleAnimation.m */; };
+		91DB243E1EED7A3000FC8413 /* UINavigationBar+leoAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24131EED7A2F00FC8413 /* UINavigationBar+leoAdd.m */; };
+		91DB243F1EED7A3000FC8413 /* UIView+building.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24151EED7A2F00FC8413 /* UIView+building.m */; };
+		91DB24401EED7A3000FC8413 /* UIView+leoAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24171EED7A2F00FC8413 /* UIView+leoAdd.m */; };
+		91DB24411EED7A3000FC8413 /* BottomToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB241A1EED7A2F00FC8413 /* BottomToolbar.m */; };
+		91DB24421EED7A3000FC8413 /* PhotoSelectButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB241C1EED7A2F00FC8413 /* PhotoSelectButton.m */; };
+		91DB24431EED7A3000FC8413 /* PhotoCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB241F1EED7A2F00FC8413 /* PhotoCollectionViewController.m */; };
+		91DB24441EED7A3000FC8413 /* PhotoDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24211EED7A3000FC8413 /* PhotoDetailController.m */; };
+		91DB24451EED7A3000FC8413 /* PhotoGroupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24231EED7A3000FC8413 /* PhotoGroupViewController.m */; };
+		91DB24461EED7A3000FC8413 /* PhotoNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24251EED7A3000FC8413 /* PhotoNavigationController.m */; };
+		91DB244B1EED7CA700FC8413 /* PhotoRevealCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB244A1EED7CA700FC8413 /* PhotoRevealCell.m */; };
+		91DB24531EEE4D3900FC8413 /* MessageNotice.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24521EEE4D3900FC8413 /* MessageNotice.m */; };
+		91DB24571EEE698700FC8413 /* zoomPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24561EEE698700FC8413 /* zoomPopup.m */; };
+		91DB245A1EEE6A1100FC8413 /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24591EEE6A1100FC8413 /* UIImage+StackBlur.m */; };
+		91DB24631EEE95E400FC8413 /* UIView+FrameChange.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24621EEE95E400FC8413 /* UIView+FrameChange.m */; };
+		91DB24661EEE99C600FC8413 /* UIView+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24651EEE99C600FC8413 /* UIView+Category.m */; };
+		91DB24691EEE9A1D00FC8413 /* MLMOptionSelectView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24681EEE9A1D00FC8413 /* MLMOptionSelectView.m */; };
+		91DB246D1EEE9A7200FC8413 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB246B1EEE9A7200FC8413 /* CustomCell.m */; };
+		91DB246E1EEE9A7200FC8413 /* CustomCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91DB246C1EEE9A7200FC8413 /* CustomCell.xib */; };
+		91DB24711EEEB7D600FC8413 /* MineRequestListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24701EEEB7D600FC8413 /* MineRequestListViewController.m */; };
+		91DB247B1EEFA24A00FC8413 /* MineRequestListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24791EEFA24A00FC8413 /* MineRequestListCell.m */; };
+		91DB247C1EEFA24A00FC8413 /* MineRequestListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91DB247A1EEFA24A00FC8413 /* MineRequestListCell.xib */; };
+		91DB247F1EEFCECE00FC8413 /* UIButton+NewBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB247E1EEFCECE00FC8413 /* UIButton+NewBadge.m */; };
+		91DB24851EF0DD0900FC8413 /* MyQuestion.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24841EF0DD0900FC8413 /* MyQuestion.m */; };
+		91DB248A1EF0E10F00FC8413 /* MyRequestDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24891EF0E10F00FC8413 /* MyRequestDetailViewController.m */; };
+		91DB248D1EF11BC300FC8413 /* MineSingleSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB248C1EF11BC300FC8413 /* MineSingleSettingViewController.m */; };
+		91DB24991EF244F900FC8413 /* SYReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DB24981EF244F900FC8413 /* SYReportViewController.swift */; };
+		91DB249B1EF2451300FC8413 /* SYTopicCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DB249A1EF2451300FC8413 /* SYTopicCollectionViewController.swift */; };
+		91DB249E1EF24A8B00FC8413 /* SYReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91DB249D1EF24A8B00FC8413 /* SYReportView.swift */; };
 		9E9EEC1875A034202F52C155 /* libPods-YH-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A867606F7216FABE6624278 /* libPods-YH-IOS.a */; };
 		C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343371D6ADEAB00625D53 /* UIButton+Badge.m */; };
 		C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343391D6ADEAB00625D53 /* UILabel+Badge.m */; };
@@ -448,6 +499,96 @@
 		914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeTableViewController.m; sourceTree = "<group>"; };
 		914F3F2E1EE93C78004B2C25 /* MineHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineHeadView.h; sourceTree = "<group>"; };
 		914F3F2F1EE93C78004B2C25 /* MineHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineHeadView.m; sourceTree = "<group>"; };
+		91D77F141EEA8746007405A0 /* UserCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCountView.h; sourceTree = "<group>"; };
+		91D77F151EEA8746007405A0 /* UserCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCountView.m; sourceTree = "<group>"; };
+		91D77F231EEA915C007405A0 /* MineNoticeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineNoticeTableViewCell.h; sourceTree = "<group>"; };
+		91D77F241EEA915C007405A0 /* MineNoticeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineNoticeTableViewCell.m; sourceTree = "<group>"; };
+		91D77F251EEA915C007405A0 /* MineNoticeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineNoticeTableViewCell.xib; sourceTree = "<group>"; };
+		91D77F2C1EEAA1C0007405A0 /* MineResetPwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineResetPwdViewController.h; sourceTree = "<group>"; };
+		91D77F2D1EEAA1C0007405A0 /* MineResetPwdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineResetPwdViewController.m; sourceTree = "<group>"; };
+		91D77F341EEAA4D1007405A0 /* LeftIamgeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeftIamgeTableViewCell.h; sourceTree = "<group>"; };
+		91D77F351EEAA4D1007405A0 /* LeftIamgeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeftIamgeTableViewCell.m; sourceTree = "<group>"; };
+		91D77F361EEAA4D1007405A0 /* LeftIamgeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LeftIamgeTableViewCell.xib; sourceTree = "<group>"; };
+		91D77F391EEAA61D007405A0 /* RightButtonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightButtonTableViewCell.h; sourceTree = "<group>"; };
+		91D77F3A1EEAA61D007405A0 /* RightButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightButtonTableViewCell.m; sourceTree = "<group>"; };
+		91D77F3B1EEAA61D007405A0 /* RightButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightButtonTableViewCell.xib; sourceTree = "<group>"; };
+		91DB235A1EEB98F900FC8413 /* SingleLabelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleLabelTableViewCell.h; sourceTree = "<group>"; };
+		91DB235B1EEB98F900FC8413 /* SingleLabelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleLabelTableViewCell.m; sourceTree = "<group>"; };
+		91DB235D1EEBBC7600FC8413 /* MineQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineQuestionViewController.h; sourceTree = "<group>"; };
+		91DB235E1EEBBC7600FC8413 /* MineQuestionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineQuestionViewController.m; sourceTree = "<group>"; };
+		91DB23CE1EEBF66700FC8413 /* NoticeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoticeDetailViewController.h; sourceTree = "<group>"; };
+		91DB23CF1EEBF66700FC8413 /* NoticeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeDetailViewController.m; sourceTree = "<group>"; };
+		91DB23DB1EED7A2F00FC8413 /* PhotoBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoBaseViewController.h; sourceTree = "<group>"; };
+		91DB23DC1EED7A2F00FC8413 /* PhotoBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoBaseViewController.m; sourceTree = "<group>"; };
+		91DB23DE1EED7A2F00FC8413 /* PhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCell.h; sourceTree = "<group>"; };
+		91DB23DF1EED7A2F00FC8413 /* PhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCell.m; sourceTree = "<group>"; };
+		91DB23E01EED7A2F00FC8413 /* PhotoDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoDetailCell.h; sourceTree = "<group>"; };
+		91DB23E11EED7A2F00FC8413 /* PhotoDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoDetailCell.m; sourceTree = "<group>"; };
+		91DB23E21EED7A2F00FC8413 /* PhotoGroupCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoGroupCell.h; sourceTree = "<group>"; };
+		91DB23E31EED7A2F00FC8413 /* PhotoGroupCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoGroupCell.m; sourceTree = "<group>"; };
+		91DB23E51EED7A2F00FC8413 /* PhotoManagerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoManagerConfig.h; sourceTree = "<group>"; };
+		91DB23E71EED7A2F00FC8413 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
+		91DB23E81EED7A2F00FC8413 /* select@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "select@2x.png"; sourceTree = "<group>"; };
+		91DB23E91EED7A2F00FC8413 /* select@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "select@3x.png"; sourceTree = "<group>"; };
+		91DB23EA1EED7A2F00FC8413 /* unSelect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unSelect@2x.png"; sourceTree = "<group>"; };
+		91DB23EB1EED7A2F00FC8413 /* unSelect@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "unSelect@3x.png"; sourceTree = "<group>"; };
+		91DB240B1EED7A2F00FC8413 /* PhotoSelectManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoSelectManager.h; sourceTree = "<group>"; };
+		91DB240C1EED7A2F00FC8413 /* PhotoSelectManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoSelectManager.m; sourceTree = "<group>"; };
+		91DB240E1EED7A2F00FC8413 /* PSMessageDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSMessageDialog.h; sourceTree = "<group>"; };
+		91DB240F1EED7A2F00FC8413 /* PSMessageDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSMessageDialog.m; sourceTree = "<group>"; };
+		91DB24101EED7A2F00FC8413 /* ScaleAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScaleAnimation.h; sourceTree = "<group>"; };
+		91DB24111EED7A2F00FC8413 /* ScaleAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScaleAnimation.m; sourceTree = "<group>"; };
+		91DB24121EED7A2F00FC8413 /* UINavigationBar+leoAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+leoAdd.h"; sourceTree = "<group>"; };
+		91DB24131EED7A2F00FC8413 /* UINavigationBar+leoAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+leoAdd.m"; sourceTree = "<group>"; };
+		91DB24141EED7A2F00FC8413 /* UIView+building.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+building.h"; sourceTree = "<group>"; };
+		91DB24151EED7A2F00FC8413 /* UIView+building.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+building.m"; sourceTree = "<group>"; };
+		91DB24161EED7A2F00FC8413 /* UIView+leoAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+leoAdd.h"; sourceTree = "<group>"; };
+		91DB24171EED7A2F00FC8413 /* UIView+leoAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+leoAdd.m"; sourceTree = "<group>"; };
+		91DB24191EED7A2F00FC8413 /* BottomToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomToolbar.h; sourceTree = "<group>"; };
+		91DB241A1EED7A2F00FC8413 /* BottomToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomToolbar.m; sourceTree = "<group>"; };
+		91DB241B1EED7A2F00FC8413 /* PhotoSelectButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoSelectButton.h; sourceTree = "<group>"; };
+		91DB241C1EED7A2F00FC8413 /* PhotoSelectButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoSelectButton.m; sourceTree = "<group>"; };
+		91DB241E1EED7A2F00FC8413 /* PhotoCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCollectionViewController.h; sourceTree = "<group>"; };
+		91DB241F1EED7A2F00FC8413 /* PhotoCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCollectionViewController.m; sourceTree = "<group>"; };
+		91DB24201EED7A2F00FC8413 /* PhotoDetailController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoDetailController.h; sourceTree = "<group>"; };
+		91DB24211EED7A3000FC8413 /* PhotoDetailController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoDetailController.m; sourceTree = "<group>"; };
+		91DB24221EED7A3000FC8413 /* PhotoGroupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoGroupViewController.h; sourceTree = "<group>"; };
+		91DB24231EED7A3000FC8413 /* PhotoGroupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoGroupViewController.m; sourceTree = "<group>"; };
+		91DB24241EED7A3000FC8413 /* PhotoNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoNavigationController.h; sourceTree = "<group>"; };
+		91DB24251EED7A3000FC8413 /* PhotoNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoNavigationController.m; sourceTree = "<group>"; };
+		91DB24491EED7CA700FC8413 /* PhotoRevealCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoRevealCell.h; sourceTree = "<group>"; };
+		91DB244A1EED7CA700FC8413 /* PhotoRevealCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoRevealCell.m; sourceTree = "<group>"; };
+		91DB24511EEE4D3900FC8413 /* MessageNotice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessageNotice.h; sourceTree = "<group>"; };
+		91DB24521EEE4D3900FC8413 /* MessageNotice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageNotice.m; sourceTree = "<group>"; };
+		91DB24551EEE698700FC8413 /* zoomPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zoomPopup.h; sourceTree = "<group>"; };
+		91DB24561EEE698700FC8413 /* zoomPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zoomPopup.m; sourceTree = "<group>"; };
+		91DB24581EEE6A1100FC8413 /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+StackBlur.h"; sourceTree = "<group>"; };
+		91DB24591EEE6A1100FC8413 /* UIImage+StackBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+StackBlur.m"; sourceTree = "<group>"; };
+		91DB24611EEE95E400FC8413 /* UIView+FrameChange.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FrameChange.h"; sourceTree = "<group>"; };
+		91DB24621EEE95E400FC8413 /* UIView+FrameChange.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FrameChange.m"; sourceTree = "<group>"; };
+		91DB24641EEE99C600FC8413 /* UIView+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Category.h"; sourceTree = "<group>"; };
+		91DB24651EEE99C600FC8413 /* UIView+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Category.m"; sourceTree = "<group>"; };
+		91DB24671EEE9A1D00FC8413 /* MLMOptionSelectView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLMOptionSelectView.h; sourceTree = "<group>"; };
+		91DB24681EEE9A1D00FC8413 /* MLMOptionSelectView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLMOptionSelectView.m; sourceTree = "<group>"; };
+		91DB246A1EEE9A7200FC8413 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCell.h; sourceTree = "<group>"; };
+		91DB246B1EEE9A7200FC8413 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCell.m; sourceTree = "<group>"; };
+		91DB246C1EEE9A7200FC8413 /* CustomCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomCell.xib; sourceTree = "<group>"; };
+		91DB246F1EEEB7D600FC8413 /* MineRequestListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineRequestListViewController.h; sourceTree = "<group>"; };
+		91DB24701EEEB7D600FC8413 /* MineRequestListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineRequestListViewController.m; sourceTree = "<group>"; };
+		91DB24781EEFA24A00FC8413 /* MineRequestListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineRequestListCell.h; sourceTree = "<group>"; };
+		91DB24791EEFA24A00FC8413 /* MineRequestListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineRequestListCell.m; sourceTree = "<group>"; };
+		91DB247A1EEFA24A00FC8413 /* MineRequestListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MineRequestListCell.xib; sourceTree = "<group>"; };
+		91DB247D1EEFCECE00FC8413 /* UIButton+NewBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+NewBadge.h"; sourceTree = "<group>"; };
+		91DB247E1EEFCECE00FC8413 /* UIButton+NewBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+NewBadge.m"; sourceTree = "<group>"; };
+		91DB24831EF0DD0900FC8413 /* MyQuestion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQuestion.h; sourceTree = "<group>"; };
+		91DB24841EF0DD0900FC8413 /* MyQuestion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyQuestion.m; sourceTree = "<group>"; };
+		91DB24881EF0E10F00FC8413 /* MyRequestDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyRequestDetailViewController.h; sourceTree = "<group>"; };
+		91DB24891EF0E10F00FC8413 /* MyRequestDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyRequestDetailViewController.m; sourceTree = "<group>"; };
+		91DB248B1EF11BC300FC8413 /* MineSingleSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineSingleSettingViewController.h; sourceTree = "<group>"; };
+		91DB248C1EF11BC300FC8413 /* MineSingleSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineSingleSettingViewController.m; sourceTree = "<group>"; };
+		91DB24981EF244F900FC8413 /* SYReportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYReportViewController.swift; sourceTree = "<group>"; };
+		91DB249A1EF2451300FC8413 /* SYTopicCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYTopicCollectionViewController.swift; sourceTree = "<group>"; };
+		91DB249D1EF24A8B00FC8413 /* SYReportView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SYReportView.swift; sourceTree = "<group>"; };
 		C40343361D6ADEAB00625D53 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
 		C40343371D6ADEAB00625D53 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		C40343381D6ADEAB00625D53 /* UILabel+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Badge.h"; sourceTree = "<group>"; };
@@ -1160,6 +1301,7 @@
 		912833071EE867FE0071CE69 /* MineInfo */ = {
 			isa = PBXGroup;
 			children = (
+				91D77F281EEA9CC7007405A0 /* ViewController */,
 				914F3F2D1EE93C56004B2C25 /* View */,
 				9128330C1EE8686F0071CE69 /* Model */,
 				914F3F221EE92BE7004B2C25 /* MineInfoViewController.h */,
@@ -1180,8 +1322,15 @@
 		9128330B1EE8684A0071CE69 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
+				91DB24541EEE697400FC8413 /* Tool */,
+				91DB244E1EEE4D2700FC8413 /* Model */,
+				91D77F191EEA90D5007405A0 /* View */,
 				914F3F281EE92C08004B2C25 /* NoticeTableViewController.h */,
 				914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */,
+				91DB23CE1EEBF66700FC8413 /* NoticeDetailViewController.h */,
+				91DB23CF1EEBF66700FC8413 /* NoticeDetailViewController.m */,
+				91DB24671EEE9A1D00FC8413 /* MLMOptionSelectView.h */,
+				91DB24681EEE9A1D00FC8413 /* MLMOptionSelectView.m */,
 			);
 			name = Notice;
 			sourceTree = "<group>";
@@ -1191,6 +1340,8 @@
 			children = (
 				9128330F1EE868A50071CE69 /* Person.h */,
 				912833101EE868A50071CE69 /* Person.m */,
+				91DB24831EF0DD0900FC8413 /* MyQuestion.h */,
+				91DB24841EF0DD0900FC8413 /* MyQuestion.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1207,11 +1358,201 @@
 			children = (
 				914F3F2E1EE93C78004B2C25 /* MineHeadView.h */,
 				914F3F2F1EE93C78004B2C25 /* MineHeadView.m */,
+				91D77F141EEA8746007405A0 /* UserCountView.h */,
+				91D77F151EEA8746007405A0 /* UserCountView.m */,
 				9114619B1EEA63B4006A35AF /* MineInfoTableViewCell.h */,
 				9114619C1EEA63B4006A35AF /* MineInfoTableViewCell.m */,
 				9114619D1EEA63B4006A35AF /* MineInfoTableViewCell.xib */,
+				91D77F341EEAA4D1007405A0 /* LeftIamgeTableViewCell.h */,
+				91D77F351EEAA4D1007405A0 /* LeftIamgeTableViewCell.m */,
+				91D77F361EEAA4D1007405A0 /* LeftIamgeTableViewCell.xib */,
+				91D77F391EEAA61D007405A0 /* RightButtonTableViewCell.h */,
+				91D77F3A1EEAA61D007405A0 /* RightButtonTableViewCell.m */,
+				91D77F3B1EEAA61D007405A0 /* RightButtonTableViewCell.xib */,
+				91DB235A1EEB98F900FC8413 /* SingleLabelTableViewCell.h */,
+				91DB235B1EEB98F900FC8413 /* SingleLabelTableViewCell.m */,
+				91DB24491EED7CA700FC8413 /* PhotoRevealCell.h */,
+				91DB244A1EED7CA700FC8413 /* PhotoRevealCell.m */,
+				91DB24781EEFA24A00FC8413 /* MineRequestListCell.h */,
+				91DB24791EEFA24A00FC8413 /* MineRequestListCell.m */,
+				91DB247A1EEFA24A00FC8413 /* MineRequestListCell.xib */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		91D77F191EEA90D5007405A0 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				91D77F231EEA915C007405A0 /* MineNoticeTableViewCell.h */,
+				91D77F241EEA915C007405A0 /* MineNoticeTableViewCell.m */,
+				91D77F251EEA915C007405A0 /* MineNoticeTableViewCell.xib */,
+				91DB246A1EEE9A7200FC8413 /* CustomCell.h */,
+				91DB246B1EEE9A7200FC8413 /* CustomCell.m */,
+				91DB246C1EEE9A7200FC8413 /* CustomCell.xib */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		91D77F281EEA9CC7007405A0 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				91D77F2C1EEAA1C0007405A0 /* MineResetPwdViewController.h */,
+				91D77F2D1EEAA1C0007405A0 /* MineResetPwdViewController.m */,
+				91DB235D1EEBBC7600FC8413 /* MineQuestionViewController.h */,
+				91DB235E1EEBBC7600FC8413 /* MineQuestionViewController.m */,
+				91DB246F1EEEB7D600FC8413 /* MineRequestListViewController.h */,
+				91DB24701EEEB7D600FC8413 /* MineRequestListViewController.m */,
+				91DB24881EF0E10F00FC8413 /* MyRequestDetailViewController.h */,
+				91DB24891EF0E10F00FC8413 /* MyRequestDetailViewController.m */,
+				91DB248B1EF11BC300FC8413 /* MineSingleSettingViewController.h */,
+				91DB248C1EF11BC300FC8413 /* MineSingleSettingViewController.m */,
+			);
+			name = ViewController;
+			sourceTree = "<group>";
+		};
+		91DB23D91EED7A2F00FC8413 /* PSPhotoManager */ = {
+			isa = PBXGroup;
+			children = (
+				91DB23DA1EED7A2F00FC8413 /* BaseClass */,
+				91DB23DD1EED7A2F00FC8413 /* Cell */,
+				91DB23E41EED7A2F00FC8413 /* Config */,
+				91DB23E61EED7A2F00FC8413 /* img */,
+				91DB240A1EED7A2F00FC8413 /* Manager */,
+				91DB240D1EED7A2F00FC8413 /* Tools */,
+				91DB24181EED7A2F00FC8413 /* View */,
+				91DB241D1EED7A2F00FC8413 /* ViewController */,
+			);
+			path = PSPhotoManager;
+			sourceTree = "<group>";
+		};
+		91DB23DA1EED7A2F00FC8413 /* BaseClass */ = {
+			isa = PBXGroup;
+			children = (
+				91DB23DB1EED7A2F00FC8413 /* PhotoBaseViewController.h */,
+				91DB23DC1EED7A2F00FC8413 /* PhotoBaseViewController.m */,
+			);
+			path = BaseClass;
+			sourceTree = "<group>";
+		};
+		91DB23DD1EED7A2F00FC8413 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				91DB23DE1EED7A2F00FC8413 /* PhotoCell.h */,
+				91DB23DF1EED7A2F00FC8413 /* PhotoCell.m */,
+				91DB23E01EED7A2F00FC8413 /* PhotoDetailCell.h */,
+				91DB23E11EED7A2F00FC8413 /* PhotoDetailCell.m */,
+				91DB23E21EED7A2F00FC8413 /* PhotoGroupCell.h */,
+				91DB23E31EED7A2F00FC8413 /* PhotoGroupCell.m */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		91DB23E41EED7A2F00FC8413 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				91DB23E51EED7A2F00FC8413 /* PhotoManagerConfig.h */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		91DB23E61EED7A2F00FC8413 /* img */ = {
+			isa = PBXGroup;
+			children = (
+				91DB23E71EED7A2F00FC8413 /* back@2x.png */,
+				91DB23E81EED7A2F00FC8413 /* select@2x.png */,
+				91DB23E91EED7A2F00FC8413 /* select@3x.png */,
+				91DB23EA1EED7A2F00FC8413 /* unSelect@2x.png */,
+				91DB23EB1EED7A2F00FC8413 /* unSelect@3x.png */,
+			);
+			path = img;
+			sourceTree = "<group>";
+		};
+		91DB240A1EED7A2F00FC8413 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				91DB240B1EED7A2F00FC8413 /* PhotoSelectManager.h */,
+				91DB240C1EED7A2F00FC8413 /* PhotoSelectManager.m */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		91DB240D1EED7A2F00FC8413 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				91DB240E1EED7A2F00FC8413 /* PSMessageDialog.h */,
+				91DB240F1EED7A2F00FC8413 /* PSMessageDialog.m */,
+				91DB24101EED7A2F00FC8413 /* ScaleAnimation.h */,
+				91DB24111EED7A2F00FC8413 /* ScaleAnimation.m */,
+				91DB24121EED7A2F00FC8413 /* UINavigationBar+leoAdd.h */,
+				91DB24131EED7A2F00FC8413 /* UINavigationBar+leoAdd.m */,
+				91DB24141EED7A2F00FC8413 /* UIView+building.h */,
+				91DB24151EED7A2F00FC8413 /* UIView+building.m */,
+				91DB24161EED7A2F00FC8413 /* UIView+leoAdd.h */,
+				91DB24171EED7A2F00FC8413 /* UIView+leoAdd.m */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		91DB24181EED7A2F00FC8413 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				91DB24191EED7A2F00FC8413 /* BottomToolbar.h */,
+				91DB241A1EED7A2F00FC8413 /* BottomToolbar.m */,
+				91DB241B1EED7A2F00FC8413 /* PhotoSelectButton.h */,
+				91DB241C1EED7A2F00FC8413 /* PhotoSelectButton.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		91DB241D1EED7A2F00FC8413 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				91DB241E1EED7A2F00FC8413 /* PhotoCollectionViewController.h */,
+				91DB241F1EED7A2F00FC8413 /* PhotoCollectionViewController.m */,
+				91DB24201EED7A2F00FC8413 /* PhotoDetailController.h */,
+				91DB24211EED7A3000FC8413 /* PhotoDetailController.m */,
+				91DB24221EED7A3000FC8413 /* PhotoGroupViewController.h */,
+				91DB24231EED7A3000FC8413 /* PhotoGroupViewController.m */,
+				91DB24241EED7A3000FC8413 /* PhotoNavigationController.h */,
+				91DB24251EED7A3000FC8413 /* PhotoNavigationController.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		91DB244E1EEE4D2700FC8413 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				91DB24511EEE4D3900FC8413 /* MessageNotice.h */,
+				91DB24521EEE4D3900FC8413 /* MessageNotice.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		91DB24541EEE697400FC8413 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				91DB24551EEE698700FC8413 /* zoomPopup.h */,
+				91DB24561EEE698700FC8413 /* zoomPopup.m */,
+				91DB24581EEE6A1100FC8413 /* UIImage+StackBlur.h */,
+				91DB24591EEE6A1100FC8413 /* UIImage+StackBlur.m */,
+				91DB24611EEE95E400FC8413 /* UIView+FrameChange.h */,
+				91DB24621EEE95E400FC8413 /* UIView+FrameChange.m */,
+				91DB24641EEE99C600FC8413 /* UIView+Category.h */,
+				91DB24651EEE99C600FC8413 /* UIView+Category.m */,
+				91DB247D1EEFCECE00FC8413 /* UIButton+NewBadge.h */,
+				91DB247E1EEFCECE00FC8413 /* UIButton+NewBadge.m */,
+			);
+			name = Tool;
+			sourceTree = "<group>";
+		};
+		91DB248F1EF240B500FC8413 /* Report */ = {
+			isa = PBXGroup;
+			children = (
+				91DB24981EF244F900FC8413 /* SYReportViewController.swift */,
+				91DB249A1EF2451300FC8413 /* SYTopicCollectionViewController.swift */,
+				91DB249D1EF24A8B00FC8413 /* SYReportView.swift */,
+			);
+			name = Report;
 			sourceTree = "<group>";
 		};
 		C40343351D6ADEAB00625D53 /* ViewBadge */ = {
@@ -1421,6 +1762,8 @@
 		C4C628381C0C1ED6000AD5D8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				91DB248F1EF240B500FC8413 /* Report */,
+				91DB23D91EED7A2F00FC8413 /* PSPhotoManager */,
 				911203931EE809E600E7CFB9 /* Mine */,
 				F6F1C85C1E88C01800754034 /* MainViewController */,
 				F6F1C8521E88BE9800754034 /* Application */,
@@ -2770,6 +3113,7 @@
 			files = (
 				C4EFE4BC1C99812B0009411A /* WebViewJavascriptBridge.js.txt in Resources */,
 				F62457431EA5FBB2006834D2 /* LineChartFilledViewController.xib in Resources */,
+				91D77F271EEA915C007405A0 /* MineNoticeTableViewCell.xib in Resources */,
 				F624574B1EA5FBB2006834D2 /* NegativeStackedBarChartViewController.xib in Resources */,
 				F62456511EA5FACD006834D2 /* UpdateVersionAlertView.xib in Resources */,
 				F63D49FC1EB329A20004BCC8 /* DoubleClickSuperChartHeaderCell.xib in Resources */,
@@ -2778,8 +3122,11 @@
 				F624574D1EA5FBB2006834D2 /* PieChartViewController.xib in Resources */,
 				F62456DE1EA5FB3F006834D2 /* DemoListViewController.xib in Resources */,
 				F62456C21EA5FB21006834D2 /* HomeIndexCollectionCell.xib in Resources */,
+				91DB242D1EED7A3000FC8413 /* unSelect@2x.png in Resources */,
 				F624564A1EA5FACD006834D2 /* IQKeyboardManager.bundle in Resources */,
+				91DB242B1EED7A3000FC8413 /* select@2x.png in Resources */,
 				F62457591EA5FBB2006834D2 /* StackedBarChartViewController.xib in Resources */,
+				91D77F3D1EEAA61D007405A0 /* RightButtonTableViewCell.xib in Resources */,
 				F62456C41EA5FB21006834D2 /* HomeIndexCollectionCellContentView.xib in Resources */,
 				C4EFE4B21C98F60A0009411A /* images.zip in Resources */,
 				F62456D81EA5FB21006834D2 /* YHMarkerV.xib in Resources */,
@@ -2794,6 +3141,7 @@
 				F624574F1EA5FBB2006834D2 /* PiePolylineChartViewController.xib in Resources */,
 				F62457391EA5FBB2006834D2 /* CubicLineChartViewController.xib in Resources */,
 				F63D4A081EB329A20004BCC8 /* SelectListVc.xib in Resources */,
+				91DB246E1EEE9A7200FC8413 /* CustomCell.xib in Resources */,
 				F62457551EA5FBB2006834D2 /* ScatterChartViewController.xib in Resources */,
 				C4EFE4AF1C98F60A0009411A /* fonts.zip in Resources */,
 				F62457491EA5FBB2006834D2 /* MultipleLinesChartViewController.xib in Resources */,
@@ -2803,6 +3151,7 @@
 				F62457511EA5FBB2006834D2 /* PositiveNegativeBarChartViewController.xib in Resources */,
 				C4EFE4B11C98F60A0009411A /* javascripts.zip in Resources */,
 				F63D4A0B1EB329A20004BCC8 /* SuperChartVc.xib in Resources */,
+				91DB242E1EED7A3000FC8413 /* unSelect@3x.png in Resources */,
 				F62457471EA5FBB2006834D2 /* MultipleBarChartViewController.xib in Resources */,
 				F62456BB1EA5FB21006834D2 /* ChartHeaderView.xib in Resources */,
 				F624572D1EA5FBB1006834D2 /* AnotherBarChartViewController.xib in Resources */,
@@ -2812,11 +3161,14 @@
 				C4EFE4B31C98F60A0009411A /* assets.zip in Resources */,
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
 				F624573B1EA5FBB2006834D2 /* HalfPieChartViewController.xib in Resources */,
+				91DB242C1EED7A3000FC8413 /* select@3x.png in Resources */,
 				9114619F1EEA63B4006A35AF /* MineInfoTableViewCell.xib in Resources */,
+				91DB242A1EED7A3000FC8413 /* back@2x.png in Resources */,
 				F62456C91EA5FB21006834D2 /* HomeIndexDetailListVC.xib in Resources */,
 				F63D4A061EB329A20004BCC8 /* SelectListCell.xib in Resources */,
 				F624573F1EA5FBB2006834D2 /* LineChart1ViewController.xib in Resources */,
 				F624564C1EA5FACD006834D2 /* CommonAlertView.xib in Resources */,
+				91DB247C1EEFA24A00FC8413 /* MineRequestListCell.xib in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
 				F624573D1EA5FBB2006834D2 /* HorizontalBarChartViewController.xib in Resources */,
@@ -2826,6 +3178,7 @@
 				F62457311EA5FBB1006834D2 /* BubbleChartViewController.xib in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
 				F62457411EA5FBB2006834D2 /* LineChart2ViewController.xib in Resources */,
+				91D77F381EEAA4D1007405A0 /* LeftIamgeTableViewCell.xib in Resources */,
 				F656DF791EC016C400DECD7F /* kpi_data.json in Resources */,
 				F62457351EA5FBB1006834D2 /* ColoredLineChartViewController.xib in Resources */,
 				F63D4A011EB329A20004BCC8 /* FilterSuperChartHeaderCell.xib in Resources */,
@@ -2912,7 +3265,9 @@
 				F62456C61EA5FB21006834D2 /* HomeIndexDetailListCell.m in Sources */,
 				912833111EE868A50071CE69 /* Person.m in Sources */,
 				C4A564E41C2CECC10067516F /* UIColor+Hex.m in Sources */,
+				91DB24631EEE95E400FC8413 /* UIView+FrameChange.m in Sources */,
 				F68C25D41EC2D4790069C041 /* JYBaseComponentView.m in Sources */,
+				91DB24441EED7A3000FC8413 /* PhotoDetailController.m in Sources */,
 				F65548541E8CE3B400B4048C /* UserHeadView.m in Sources */,
 				F68C25AD1EC2D4670069C041 /* JYModuleTwoBaseModel.m in Sources */,
 				F62457E61EA5FD01006834D2 /* PermissionManager.m in Sources */,
@@ -2933,11 +3288,15 @@
 				F624573A1EA5FBB2006834D2 /* HalfPieChartViewController.m in Sources */,
 				F68C258D1EC2D44F0069C041 /* JYHistogramView.m in Sources */,
 				F62457461EA5FBB2006834D2 /* MultipleBarChartViewController.m in Sources */,
+				91DB246D1EEE9A7200FC8413 /* CustomCell.m in Sources */,
+				91DB24531EEE4D3900FC8413 /* MessageNotice.m in Sources */,
 				C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */,
 				F62457401EA5FBB2006834D2 /* LineChart2ViewController.m in Sources */,
 				F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */,
+				91DB24571EEE698700FC8413 /* zoomPopup.m in Sources */,
 				F655483B1E8CDF5600B4048C /* NewSettingViewController.m in Sources */,
 				F62457E31EA5FD01006834D2 /* AppColor.m in Sources */,
+				91DB24691EEE9A1D00FC8413 /* MLMOptionSelectView.m in Sources */,
 				F62457B81EA5FC24006834D2 /* MainTabbarViewController.m in Sources */,
 				F62456D31EA5FB21006834D2 /* YH_LineAndBarVc.m in Sources */,
 				F68C25E61EC2D4790069C041 /* JYTrendTypeView.m in Sources */,
@@ -2945,6 +3304,7 @@
 				F63D4A001EB329A20004BCC8 /* FilterSuperChartHeaderCell.m in Sources */,
 				C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */,
 				F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */,
+				91DB243E1EED7A3000FC8413 /* UINavigationBar+leoAdd.m in Sources */,
 				F62457BA1EA5FC24006834D2 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				F62457901EA5FBE0006834D2 /* BasicTool.mm in Sources */,
 				F68C25D81EC2D4790069C041 /* JYCurveLineView.m in Sources */,
@@ -2952,6 +3312,7 @@
 				F68C25981EC2D44F0069C041 /* JYWaterLayout.m in Sources */,
 				F62456C51EA5FB21006834D2 /* HomeIndexCollectionVC.m in Sources */,
 				C48924EA1D858F0A00859411 /* SwitchTableViewCell.m in Sources */,
+				91DB244B1EED7CA700FC8413 /* PhotoRevealCell.m in Sources */,
 				F624563D1EA5FACD006834D2 /* IQUIScrollView+Additions.m in Sources */,
 				F68C25961EC2D44F0069C041 /* JYTopSinglePage.m in Sources */,
 				F63A5BC71DCB17980092FC24 /* VoiceSpeechView.m in Sources */,
@@ -2961,49 +3322,61 @@
 				C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */,
 				F68C258B1EC2D44F0069C041 /* JYFallsLayout.m in Sources */,
 				F62457E21EA5FD01006834D2 /* AppCacheManger.m in Sources */,
+				91DB24271EED7A3000FC8413 /* PhotoCell.m in Sources */,
 				F68C25DA1EC2D4790069C041 /* JYFreezeWindowView.m in Sources */,
 				F63D4A091EB329A20004BCC8 /* SuperChartModel.m in Sources */,
+				91D77F3C1EEAA61D007405A0 /* RightButtonTableViewCell.m in Sources */,
 				F62457301EA5FBB1006834D2 /* BubbleChartViewController.m in Sources */,
 				F62457441EA5FBB2006834D2 /* LineChartTimeViewController.m in Sources */,
 				F62457E41EA5FD01006834D2 /* CommonTableViewCell.m in Sources */,
 				F624564B1EA5FACD006834D2 /* CommonAlertView.m in Sources */,
 				F62456DD1EA5FB3F006834D2 /* DemoListViewController.m in Sources */,
+				91DB24851EF0DD0900FC8413 /* MyQuestion.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
 				F62457B61EA5FC24006834D2 /* BaseNavigationController.m in Sources */,
 				F68C25921EC2D44F0069C041 /* JYNumberLineView.m in Sources */,
 				C48924E91D858F0A00859411 /* SettingDefaultTableViewCell.m in Sources */,
+				91DB24431EED7A3000FC8413 /* PhotoCollectionViewController.m in Sources */,
 				F624574E1EA5FBB2006834D2 /* PiePolylineChartViewController.m in Sources */,
 				F68C25AA1EC2D4670069C041 /* JYBaseModel.m in Sources */,
 				F62457541EA5FBB2006834D2 /* ScatterChartViewController.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
 				F63D4A1A1EB32A3F0004BCC8 /* RTDragCellTableView.m in Sources */,
+				91DB24661EEE99C600FC8413 /* UIView+Category.m in Sources */,
 				F62456C81EA5FB21006834D2 /* HomeIndexDetailListVC.m in Sources */,
 				C48924EB1D858F0A00859411 /* ThurSayTableViewCell.m in Sources */,
 				F68C25E31EC2D4790069C041 /* JYRowViewCell.m in Sources */,
 				F62457E81EA5FD01006834D2 /* NSArray+PureLayout.m in Sources */,
 				F62457961EA5FBE0006834D2 /* UIAlertView+Category.m in Sources */,
 				914F3F271EE92BF8004B2C25 /* InstituteViewController.m in Sources */,
+				91DB24281EED7A3000FC8413 /* PhotoDetailCell.m in Sources */,
 				C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */,
 				F68C25D71EC2D4790069C041 /* JYClickableLine.m in Sources */,
+				91DB243B1EED7A3000FC8413 /* PhotoSelectManager.m in Sources */,
 				F62456521EA5FACD006834D2 /* WynCountDownView.m in Sources */,
 				F655484A1E8CE04200B4048C /* PushDevice.m in Sources */,
+				91DB243D1EED7A3000FC8413 /* ScaleAnimation.m in Sources */,
 				F62457941EA5FBE0006834D2 /* NSString+verification.m in Sources */,
 				F62456431EA5FACD006834D2 /* IQKeyboardReturnKeyHandler.m in Sources */,
 				F62457381EA5FBB2006834D2 /* CubicLineChartViewController.m in Sources */,
 				F65548431E8CE02100B4048C /* SettingArrayViewController.m in Sources */,
+				91DB24261EED7A3000FC8413 /* PhotoBaseViewController.m in Sources */,
 				C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */,
 				F624579F1EA5FBE1006834D2 /* UIScrollView+Size.m in Sources */,
 				F62457981EA5FBE0006834D2 /* UIButton+FillColor.m in Sources */,
+				91D77F261EEA915C007405A0 /* MineNoticeTableViewCell.m in Sources */,
 				F68C25901EC2D44F0069C041 /* JYModuleTwoCell.m in Sources */,
 				F62457EF1EA5FD01006834D2 /* UINavigationBar+Awesome.m in Sources */,
 				F68C25E41EC2D4790069C041 /* JYSectionViewCell.m in Sources */,
 				F62457EA1EA5FD01006834D2 /* TableViewAndCollectionPackage.m in Sources */,
 				F68C258E1EC2D44F0069C041 /* JYLandscapeBarView.m in Sources */,
 				F62456401EA5FACD006834D2 /* IQUIViewController+Additions.m in Sources */,
+				91DB24451EED7A3000FC8413 /* PhotoGroupViewController.m in Sources */,
 				C48924E71D858F0A00859411 /* OneButtonTableViewCell.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
+				91DB24711EEEB7D600FC8413 /* MineRequestListViewController.m in Sources */,
 				F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */,
 				C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */,
 				F62457E91EA5FD01006834D2 /* NSLayoutConstraint+PureLayout.m in Sources */,
@@ -3013,6 +3386,7 @@
 				F6E1E6901ED66F490094ABA4 /* BaseWebViewController.m in Sources */,
 				F624579A1EA5FBE0006834D2 /* UIColor+Utilities.m in Sources */,
 				F6F1C8551E88BEB900754034 /* AnalysisViewController.m in Sources */,
+				91DB235C1EEB98F900FC8413 /* SingleLabelTableViewCell.m in Sources */,
 				C48924E51D858F0A00859411 /* ResetPasswordViewController.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */,
@@ -3028,16 +3402,23 @@
 				F62456551EA5FACD006834D2 /* FXPageControl.m in Sources */,
 				F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */,
 				F62456471EA5FACD006834D2 /* IQTitleBarButtonItem.m in Sources */,
+				91DB249E1EF24A8B00FC8413 /* SYReportView.swift in Sources */,
 				F62457521EA5FBB2006834D2 /* RadarChartViewController.m in Sources */,
 				F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */,
 				F68C25911EC2D44F0069C041 /* JYNumberCircleView.m in Sources */,
+				91DB24411EED7A3000FC8413 /* BottomToolbar.m in Sources */,
+				91DB24421EED7A3000FC8413 /* PhotoSelectButton.m in Sources */,
 				F655484B1E8CE04200B4048C /* UserInfoModel.m in Sources */,
 				F62457E71EA5FD01006834D2 /* ALView+PureLayout.m in Sources */,
 				F68C25DE1EC2D4790069C041 /* JYLineChartView.m in Sources */,
 				F62457501EA5FBB2006834D2 /* PositiveNegativeBarChartViewController.m in Sources */,
 				F6025CB31EC5E2CE0025CC71 /* JumpCommonView.m in Sources */,
+				91DB248D1EF11BC300FC8413 /* MineSingleSettingViewController.m in Sources */,
+				91DB24461EED7A3000FC8413 /* PhotoNavigationController.m in Sources */,
+				91DB24401EED7A3000FC8413 /* UIView+leoAdd.m in Sources */,
 				F624564F1EA5FACD006834D2 /* PSTAlertController.m in Sources */,
 				911291251EE8EBA900A0B529 /* YHNetworkTool.m in Sources */,
+				91DB243F1EED7A3000FC8413 /* UIView+building.m in Sources */,
 				C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */,
 				F624572C1EA5FBB1006834D2 /* AnotherBarChartViewController.m in Sources */,
 				F68C25D91EC2D4790069C041 /* JYFreezeViewCell.m in Sources */,
@@ -3046,6 +3427,9 @@
 				F62456501EA5FACD006834D2 /* UpdateVersionAlertView.m in Sources */,
 				914F3F301EE93C78004B2C25 /* MineHeadView.m in Sources */,
 				F660A3EC1EBAD69B00C6C510 /* SuperChartMainModel.m in Sources */,
+				91DB247B1EEFA24A00FC8413 /* MineRequestListCell.m in Sources */,
+				91DB248A1EF0E10F00FC8413 /* MyRequestDetailViewController.m in Sources */,
+				91DB249B1EF2451300FC8413 /* SYTopicCollectionViewController.swift in Sources */,
 				F62457921EA5FBE0006834D2 /* NSObject+NSObject.m in Sources */,
 				F68C25A01EC2D45D0069C041 /* UIBezierPath+curved.m in Sources */,
 				F62456531EA5FACD006834D2 /* ZoomView.m in Sources */,
@@ -3099,7 +3483,11 @@
 				F68C25E21EC2D4790069C041 /* JYPortraitBar.m in Sources */,
 				F62457581EA5FBB2006834D2 /* StackedBarChartViewController.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,
+				91D77F2E1EEAA1C0007405A0 /* MineResetPwdViewController.m in Sources */,
+				91DB247F1EEFCECE00FC8413 /* UIButton+NewBadge.m in Sources */,
+				91DB243C1EED7A3000FC8413 /* PSMessageDialog.m in Sources */,
 				F63D4A051EB329A20004BCC8 /* SelectListCell.m in Sources */,
+				91DB23D01EEBF66700FC8413 /* NoticeDetailViewController.m in Sources */,
 				F62456BA1EA5FB21006834D2 /* ChartHeaderView.m in Sources */,
 				F624563B1EA5FACD006834D2 /* iCarousel.m in Sources */,
 				F62457991EA5FBE0006834D2 /* UICollectionViewCell+Category.m in Sources */,
@@ -3107,6 +3495,8 @@
 				F68C258A1EC2D44F0069C041 /* JYFallsCell.m in Sources */,
 				F62456481EA5FACD006834D2 /* IQToolbar.m in Sources */,
 				F624563F1EA5FACD006834D2 /* IQUIView+Hierarchy.m in Sources */,
+				91DB24291EED7A3000FC8413 /* PhotoGroupCell.m in Sources */,
+				91D77F371EEAA4D1007405A0 /* LeftIamgeTableViewCell.m in Sources */,
 				F62456E51EA5FB5D006834D2 /* IntAxisValueFormatter.m in Sources */,
 				F624563C1EA5FACD006834D2 /* IQNSArray+Sort.m in Sources */,
 				F62456D71EA5FB21006834D2 /* YHMarkerV.swift in Sources */,
@@ -3124,6 +3514,7 @@
 				C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */,
 				C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */,
 				C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */,
+				91D77F161EEA8746007405A0 /* UserCountView.m in Sources */,
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				F6F1C85F1E88C03900754034 /* MianTabBarViewController.m in Sources */,
 				F6F1C8581E88BFA100754034 /* MessageViewController.m in Sources */,
@@ -3159,7 +3550,9 @@
 				F68C255C1EC2D4420069C041 /* JYHomeViewController.m in Sources */,
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
 				F63D49F91EB329A20004BCC8 /* DoubleClickSuperChartCell.m in Sources */,
+				91DB24991EF244F900FC8413 /* SYReportViewController.swift in Sources */,
 				C48924E61D858F0A00859411 /* GestureTableViewCell.m in Sources */,
+				91DB245A1EEE6A1100FC8413 /* UIImage+StackBlur.m in Sources */,
 				F62456BE1EA5FB21006834D2 /* ChartHudView.m in Sources */,
 				F68C25D61EC2D4790069C041 /* JYCircleProgressView.m in Sources */,
 				F624579D1EA5FBE1006834D2 /* UILabel+ContentSize.m in Sources */,
@@ -3172,6 +3565,7 @@
 				F63D4A071EB329A20004BCC8 /* SelectListVc.m in Sources */,
 				F68C25E81EC2DE9D0069C041 /* JYComponentViewController.m in Sources */,
 				C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */,
+				91DB235F1EEBBC7600FC8413 /* MineQuestionViewController.m in Sources */,
 				F62457EC1EA5FD01006834D2 /* GifRefreshHeader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

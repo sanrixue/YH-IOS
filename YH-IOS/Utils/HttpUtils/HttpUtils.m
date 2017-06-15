@@ -647,10 +647,13 @@
     NSString *gravatarConfigPath = [FileUtils dirPath:kConfigDirName FileName:kGravatarConfigFileName];
     [FileUtils writeJSON:gravatarDict Into:gravatarConfigPath];
 
+    // 测试用 url
+ //   NSURL *imageurl = [NSURL URLWithString:@"http:192.168.0.137:3000/api/v1/user/1/render/program"];
     NSData *imageData = [NSData dataWithContentsOfFile:imagePath];
+ //  AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:imageurl];
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     AFHTTPRequestOperation *op = [manager POST:uploadPath parameters:@{} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:imageData name:@"gravatar" fileName:imageName mimeType:@"image/jpeg"];
+        [formData appendPartWithFileData:imageData name:@"gravatar" fileName:imageName mimeType:@"image/jpg"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@ ***** %@", operation.responseString, responseObject);
         NSString *gravatarConfigPath = [FileUtils dirPath:kConfigDirName FileName:kGravatarConfigFileName];

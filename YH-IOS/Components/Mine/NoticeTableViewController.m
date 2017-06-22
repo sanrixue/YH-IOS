@@ -72,15 +72,16 @@
     
     _isHidden = YES;
     
-    self.filterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 38, 65, 40, 24)];
+    self.filterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 38, 56, 40, 24)];
   //  [_filterButton setImage:[UIImage imageNamed:@"btn-filter"] forState:UIControlStateNormal];
     [_filterButton setBackgroundImage:[UIImage imageNamed:@"btn-filter"] forState:UIControlStateNormal];
     [self.view addSubview:_filterButton];
+    _filterButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     _filterButton.titleLabel.font = [UIFont systemFontOfSize:10];
     [_filterButton setTitle:@"筛选" forState:UIControlStateNormal];
     [self.tableView bringSubviewToFront:_filterButton];
     [self getDataWithType];
-    _showpopViewRectView = [[UIView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 20, 75,2 , 2)];
+    _showpopViewRectView = [[UIView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 20, 65,2 , 2)];
     [self.view addSubview:_showpopViewRectView];
                                                                    
     typeArray = @[@"系统公告",@"业务公告",@"预警系统",@"报表评论"];
@@ -111,7 +112,8 @@
 
 
 -(void)getDataWithType{
-    
+    //WEAK(weakSelf, self);
+    //[weakSelf.cellView dismiss];
     [self.dataArray removeAllObjects];
     [MRProgressOverlayView showOverlayAddedTo:self.tableView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
     NSMutableString *tyeString = [[NSMutableString alloc]init];

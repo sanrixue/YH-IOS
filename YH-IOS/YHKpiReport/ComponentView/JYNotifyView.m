@@ -12,6 +12,7 @@
 
 @interface JYNotifyView () <UIScrollViewDelegate> {
     UIScrollView *sc;
+    UIImageView *imageTitleView;
     NSTimer *timer;
     NSInteger idx;
     NSInteger ntCount;
@@ -51,7 +52,11 @@
     
     ntCount = self.notifications.count + 2;
     
-    sc = [[UIScrollView alloc] initWithFrame:self.bounds];
+    imageTitleView = [[UIImageView alloc]initWithFrame:CGRectMake(12, 12, 43, 37)];
+    [self addSubview:imageTitleView];
+    imageTitleView.image = [[UIImage imageNamed:@"data_title"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
+    sc = [[UIScrollView alloc] initWithFrame:CGRectMake(65, 12, self.bounds.size.width-65, 40)];
     sc.pagingEnabled = YES;
     sc.showsVerticalScrollIndicator = NO;
     sc.delegate = self;
@@ -59,7 +64,18 @@
     CGFloat wight = CGRectGetWidth(sc.bounds) - 8 * 2 - 15;
     for (int i = 0; i < ntCount; i++) {
         
-        UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(8, height * i, wight, height)];
+        UILabel *imglb = [[UILabel alloc]initWithFrame:CGRectMake(0, height * i + height/4, 30, height/2)];
+        imglb.text = @"推荐";
+        imglb.textAlignment = NSTextAlignmentCenter;
+        imglb.textColor = [UIColor colorWithHexString:@"#f39800"];
+        imglb.layer.cornerRadius = 2;
+        imglb.layer.borderColor = [UIColor colorWithHexString:@"#f39800"].CGColor;
+        imglb.layer.borderWidth = 1;
+        imglb.font = [UIFont systemFontOfSize:10];
+        [sc addSubview:imglb];
+        
+        
+        UILabel *lb = [[UILabel alloc] initWithFrame:CGRectMake(36, height * i, wight, height)];
         lb.font = [UIFont systemFontOfSize:13];
         lb.textColor = [UIColor colorWithHexString:@"999"];
         [sc addSubview:lb];
@@ -168,7 +184,7 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     CGPoint currentOffset = scrollView.contentOffset;
-    idx = currentOffset.y / CGRectGetHeight(scrollView.bounds);
+    idx = currentOffset.y / CGRectGetHeight(scrollView.bounds)/2;
     
     [timer setFireDate:[NSDate date]];
 }
@@ -182,7 +198,7 @@
     if (currentOffset.y == ((ntCount - 1) * CGRectGetHeight(sc.bounds))) {
         scrollView.contentOffset = CGPointMake(0, CGRectGetHeight(scrollView.bounds));
     }
-    idx = currentOffset.y / CGRectGetHeight(scrollView.bounds);
+    idx = currentOffset.y / CGRectGetHeight(scrollView.bounds)/2;
 }
 
 @end

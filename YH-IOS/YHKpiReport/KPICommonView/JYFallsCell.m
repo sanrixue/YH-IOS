@@ -7,10 +7,11 @@
 //
 
 #import "JYFallsCell.h"
+#import "YHKPIModel.h"
 
 @implementation JYFallsCell
 
-- (void)setModel:(JYDashboardModel *)model {
+- (void)setModel:(YHKPIDetailModel *)model {
     [super setModel:model];
     
     switch (model.dashboardType) {
@@ -29,6 +30,14 @@
         case DashBoardTypeLine:
             self.numberLine.model = self.model;
             [self addSubview:self.numberLine];
+            break;
+        case DashBoardTypeSignleValue:
+            self.signleValue.model = self.model;
+            [self addSubview:self.signleValue];
+            break;
+        case DashBoardTypeSignleLongValue:
+            self.signleLongValue.model  = self.model;
+            [self addSubview:self.signleLongValue];
             break;
             
         default:

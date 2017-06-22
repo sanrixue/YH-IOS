@@ -13,6 +13,8 @@ typedef NS_ENUM(NSUInteger, DashBoardType) {
     DashBoardTypeLine       = 2,
     DashBoardTypeRing       = 3,
     DashBoardTypeNumber     = 4,
+    DashBoardTypeSignleValue = 5,
+    DashBoardTypeSignleLongValue = 6,
 };
 
 
@@ -25,6 +27,9 @@ typedef NS_ENUM(NSUInteger, DashBoardType) {
 @property (nonatomic, strong, readonly) NSString *targeturl;
 @property (nonatomic, strong, readonly) NSString *groupName; // 所属组
 @property (nonatomic, assign, readonly) BOOL stick; // 置顶
+
+@property (nonatomic, strong, readonly) NSString *memo1; // 所属组
+@property (nonatomic, strong, readonly) NSString *memo2; // 所属组
 
 @property (nonatomic, strong, readonly) NSArray *chartData; // 图标数据
 @property (nonatomic, strong, readonly) NSDictionary *hightLightData; // 高亮数据

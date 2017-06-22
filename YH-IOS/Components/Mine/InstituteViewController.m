@@ -7,8 +7,13 @@
 //
 
 #import "InstituteViewController.h"
+#import "FileUtils.h"
+#import "WebViewJavascriptBridge.h"
 
 @interface InstituteViewController ()
+
+@property WebViewJavascriptBridge* bridge;
+@property (nonatomic,strong)UIWebView *webView;
 
 @end
 
@@ -17,6 +22,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64 -49)];
+    NSString *distPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"dist"];
+    NSString *disthtmlPath = [distPath stringByAppendingPathComponent:@"index.html"];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:disthtmlPath]]];
+    [self.view addSubview:self.webView];
     // Do any additional setup after loading the view.
 }
 

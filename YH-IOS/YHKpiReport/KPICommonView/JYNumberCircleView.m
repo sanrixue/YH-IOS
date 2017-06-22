@@ -48,7 +48,7 @@
     self.layer.shadowOpacity = 0.8;
 }
 
-- (void)setModel:(JYDashboardModel *)model {
+- (void)setModel:(YHKPIDetailModel *)model {
     if (![_model isEqual:model]) {
         _model = model;
         
@@ -101,7 +101,7 @@
 - (void)refreshSubViewData {
     
     self.title.text = self.model.title;
-    self.progressView.percent =[self.model.saleNumber floatValue]/[self.model.hightLightData[@"compare"] floatValue];
+   // self.progressView.percent =[self.model.saleNumber floatValue]/[self.model.hightLightData[@"compare"] floatValue];
     self.saleNumberLB.text = self.model.saleNumber;
     unit.text = self.model.percentage ? @"%" : self.model.unit;
 }

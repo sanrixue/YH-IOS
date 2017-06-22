@@ -16,6 +16,9 @@
 
 - (void)layoutComputeFinish:(CGFloat)maxHeight;
 
+// 获取行宽
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(JYWaterLayout *)layout withSection:(NSInteger )section;
+
 @end
 
 @interface JYWaterLayout : UICollectionViewLayout

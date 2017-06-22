@@ -27,9 +27,8 @@
 {
     self = [super init];
     if (self) {
-        self.numberOfColumns = 2;
+       // self.numberOfColumns = 1;
         self.topAndBottomDustance = 0;
-        self.cellDistance = JYDefaultMargin;
         _headerViewHeight = 0;
         _footViewHeight = 0;
         self.startY = 0;
@@ -53,13 +52,18 @@
     [self.maxYForColumn removeAllObjects];
     self.startY = 0;
     
-    
-    CGFloat viewWidth = self.collectionView.frame.size.width;
-    CGFloat itemWidth = (viewWidth - self.cellDistance*(self.numberOfColumns + 1))/self.numberOfColumns;
-    
     NSInteger sectionsCount = [self.collectionView numberOfSections];
     for (NSInteger section = 0; section < sectionsCount; section++) {
-
+        self.numberOfColumns =[(id<JYWaterLayoutDelegate>)self.delegate collectionView:self.collectionView layout:self withSection:(NSInteger )section];
+        if (self.numberOfColumns ==1) {
+            self.cellDistance = 0;
+        }
+        else{
+            self.cellDistance = JYDefaultMargin;
+        }
+        CGFloat viewWidth = self.collectionView.frame.size.width;
+        CGFloat itemWidth = (viewWidth - self.cellDistance*(self.numberOfColumns + 1))/self.numberOfColumns;
+        
         NSIndexPath *supplementaryViewIndexPath = [NSIndexPath indexPathForRow:0 inSection:section];
         if (_headerViewHeight>0 && [self.collectionView.dataSource respondsToSelector:@selector(collectionView: viewForSupplementaryElementOfKind: atIndexPath:)]) {
             
@@ -93,6 +97,7 @@
             
             CGFloat x = self.cellDistance + (self.cellDistance + itemWidth)*currentRow;
             CGFloat height = [(id<JYWaterLayoutDelegate>)self.delegate collectionView:self.collectionView layout:self heightOfItemAtIndexPath:cellIndePath itemWidth:itemWidth];
+
             attribute.frame = CGRectMake(x, y, itemWidth, height);
             y = y + self.cellDistance + height;
             self.maxYForColumn[@(currentRow)] = @(y);

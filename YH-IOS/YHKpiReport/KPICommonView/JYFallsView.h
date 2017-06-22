@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JYDashboardModel.h"
+#import "YHKPIModel.h"
 
 @class JYFallsView;
 
@@ -22,6 +23,6 @@
 
 @property (nonatomic, strong) NSMutableArray* titleArray;
 @property (nonatomic, weak) id <JYFallsViewDelegate> delegate;
-@property (nonatomic, copy) NSArray <NSArray<JYDashboardModel *> *> *dataSource;
+@property (nonatomic, copy) NSArray <YHKPIModel *> *dataSource;
 
 @end

@@ -92,6 +92,7 @@ static NSString *const reUse = @"reUse";
     UIButton *submitButton = [[UIButton alloc]init];
     [submitButton setTitle:@"提交" forState:UIControlStateNormal];
     submitButton.backgroundColor = [UIColor colorWithHexString:@"#6aa657"];
+    [submitButton addTarget:self action:@selector(submitMyProblem) forControlEvents:UIControlEventTouchUpInside];
     [bgView addSubview:submitButton];
     
     // 描述文字
@@ -325,6 +326,22 @@ static NSString *const reUse = @"reUse";
         _collectionView.delegate = self;
     }
     return _collectionView;
+}
+
+
+-(void)submitMyProblem{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager POST:@"http://192.168.0.187:3000/api/v1/user/123456/problem_render" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        ALAsset *asset = self.dataArray[0];
+        // 显示缩略图
+        UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
+        NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+        [formData appendPartWithFileData:imageData name:@"feedback" fileName:@"image1.ipg" mimeType:@"image/jpeg"];
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"%@",responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@",@"上传失败了");
+    }];
 }
 
 

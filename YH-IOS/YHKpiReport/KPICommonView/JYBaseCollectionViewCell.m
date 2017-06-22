@@ -16,7 +16,7 @@
 
 @implementation JYBaseCollectionViewCell
 
-- (void)setModel:(JYDashboardModel *)model {
+- (void)setModel:(YHKPIDetailModel *)model {
     if (![model isEqual:_model]) {
         _model = model;
     }
@@ -65,5 +65,22 @@
     return _numberLine;
 }
 
+
+-(JYSigleValueView *)signleValue{
+    if (!_signleValue) {
+        _signleValue = [[JYSigleValueView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width,87)];
+        _signleValue.model = self.model;
+    }
+    return _signleValue;
+}
+
+
+-(JYSignleValueLoneView *)signleLongValue{
+    if (!_signleLongValue) {
+        _signleLongValue = [[JYSignleValueLoneView alloc]initWithFrame:CGRectMake(8, 0, self.bounds.size.width-16,58)];
+         _signleLongValue.model = self.model;
+    }
+    return _signleLongValue;
+}
 
 @end

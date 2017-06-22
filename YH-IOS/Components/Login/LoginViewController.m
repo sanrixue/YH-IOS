@@ -40,11 +40,11 @@
     [super viewDidLoad];
     
     self.bgView = [[UIImageView alloc] initWithFrame:self.view.frame];
-    self.bgView.image = [UIImage imageNamed:@"background"];
+    self.bgView.image = [UIImage imageNamed:@"login-bg"];
     [self.view addSubview:self.bgView];
     self.bgView.userInteractionEnabled = YES;
     // logoView
-    self.logoView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Logo"]];
+    self.logoView = [[UIImageView alloc] initWithImage:[[UIImage imageNamed:@"logo"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal]];
     self.logoView.contentMode = UIViewContentModeScaleToFill;
     [self.bgView addSubview:self.logoView];
     
@@ -52,45 +52,45 @@
     self.sloganLabel = [[UILabel alloc] init];
     self.sloganLabel.text = kLoginSlogan;
     [self.bgView addSubview:self.sloganLabel];
-    [self.sloganLabel setTextColor:[UIColor whiteColor]];
+    [self.sloganLabel setTextColor:[UIColor colorWithHexString:@"#000"]];
     self.sloganLabel.textAlignment = NSTextAlignmentCenter;
     
     // userName
-    self.loginUserImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Username"]];
+    self.loginUserImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_sh"]];
     [self.bgView addSubview:self.loginUserImage];
     
-    UIColor *placeHoderColor = [UIColor whiteColor];
+    UIColor *placeHoderColor = [UIColor colorWithHexString:@"#6c6c6c"];
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     self.userNameText = [[UITextField alloc] init];
     self.userNameText.textAlignment = NSTextAlignmentCenter;
     self.userNameText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入帐户名" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
+    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"帐户" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userNameText.borderStyle = UITextBorderStyleNone;
     self.userNameText.delegate = self;
     if (![userDict[@"user_name"] isEqualToString:@""] && userDict[@"user_name"]) {
         self.userNameText.text = userDict[@"user_num"];
     }
-    self.userNameText.textColor = [UIColor whiteColor];
+    self.userNameText.textColor = [UIColor blackColor];
     self.userNameText.userInteractionEnabled = YES;
     self.userNameText.returnKeyType = UIReturnKeyDone;
     [self.userNameText becomeFirstResponder];
     [self.bgView addSubview:self.userNameText];
     
     self.seperateView1 = [[UIView alloc] init];
-    self.seperateView1.backgroundColor = [UIColor whiteColor];
+    self.seperateView1.backgroundColor = [UIColor blackColor];
     [self.bgView addSubview:self.seperateView1];
     
     // userPassword
-    self.loginPasswordImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Login-Password"]];
+    self.loginPasswordImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_lock"]];
     [self.bgView addSubview:self.loginPasswordImage];
     self.userPasswordText = [[UITextField alloc] init];
     self.userPasswordText.textAlignment = NSTextAlignmentCenter;
     self.userPasswordText.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    self.userPasswordText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"请输入密码" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
+    self.userPasswordText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"密码" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     self.userPasswordText.secureTextEntry = YES;
     self.userPasswordText.delegate = self;
-    [self.userPasswordText setTextColor:[UIColor whiteColor]];
+    [self.userPasswordText setTextColor:[UIColor blackColor]];
     self.userPasswordText.returnKeyType = UIReturnKeyDone;
     self.userPasswordText.userInteractionEnabled = YES;
     self.userPasswordText.borderStyle = UITextBorderStyleNone;
@@ -98,23 +98,23 @@
     [self.bgView addSubview:self.userPasswordText];
     
     self.seperateView2 = [[UIView alloc] init];
-    self.seperateView2.backgroundColor = [UIColor whiteColor];
+    self.seperateView2.backgroundColor = [UIColor blackColor];
     [self.bgView addSubview:self.seperateView2];
     
     // loginButton
     self.loginButton = [[UIButton alloc] init];
+    self.loginButton.backgroundColor = [UIColor colorWithHexString:@"#64b04a"];
     [self.loginButton setTitle:@"登录" forState:UIControlStateNormal];
     [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    self.loginButton.layer.borderWidth = 2;
     self.loginButton.layer.cornerRadius = 6;
-    self.loginButton.layer.borderColor = [[UIColor whiteColor] CGColor];
+   // self.loginButton.layer.borderColor = [[UIColor whiteColor] CGColor];
     [self.loginButton addTarget:self action:@selector(loginBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.bgView addSubview:self.loginButton];
     
     
     self.registerBtn = [[UIButton alloc]init];
     [self.registerBtn setTitle:@"申请注册" forState:UIControlStateNormal];
-    [self.registerBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.registerBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.registerBtn.backgroundColor = [UIColor clearColor];
     self.registerBtn.titleLabel.font = [UIFont systemFontOfSize:10];
     [self.registerBtn addTarget:self action:@selector(clickRegisterBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -122,7 +122,7 @@
     
     self.findPassword = [[UIButton alloc]init];
     [self.findPassword setTitle:@"忘记密码" forState:UIControlStateNormal];
-    [self.findPassword setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.findPassword setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     self.findPassword.backgroundColor = [UIColor clearColor];
     self.findPassword.titleLabel.font = [UIFont systemFontOfSize:10];
     [self.findPassword addTarget:self action:@selector(jumpToFindPassword) forControlEvents:UIControlEventTouchUpInside];
@@ -148,6 +148,10 @@
                                              selector:@selector(userinfoMoveToBottom:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    // 隐藏掉的一些东西
+    [self.findPassword setHidden:YES];
+    [self.versionLabel setHidden:YES];
     isPad ? [self layoutWithIpad] : [self layoutView];
 }
 
@@ -173,7 +177,7 @@
     NSDictionary *ViewDict = NSDictionaryOfVariableBindings(_logoView, _sloganLabel, _loginButton, _loginPasswordImage, _loginUserImage, _seperateView1, _seperateView2, _userNameText, _userPasswordText,_versionLabel,_findPassword,_registerBtn);
     // [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-[_logoView]-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraint:[NSLayoutConstraint constraintWithItem:_logoView attribute:NSLayoutAttributeCenterX relatedBy:NSLayoutRelationEqual toItem:_bgView attribute:NSLayoutAttributeCenterX multiplier:1.0f constant:0]];
-    NSString *strl =[NSString stringWithFormat: @"V:|-100-[_logoView(42)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-2-[_seperateView1(2)]-20-[_userPasswordText(30)]-2-[_seperateView2(2)]-10-[_findPassword]-10-[_loginButton(40)]-(>=50)-[_versionLabel(20)]-10-|", kSloganHeight];
+    NSString *strl =[NSString stringWithFormat: @"V:|-100-[_logoView(55)]-20-[_sloganLabel(20)]-%f-[_userNameText(30)]-8-[_seperateView1(1)]-20-[_userPasswordText(30)]-8-[_seperateView2(1)]-10-[_findPassword]-30-[_loginButton(40)]-(>=50)-[_versionLabel(20)]-10-|", kSloganHeight];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:strl options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-80-[_sloganLabel]-80-|" options:0 metrics:nil views:ViewDict]];
     [_bgView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-40-[_seperateView1]-40-|" options:0 metrics:nil views:ViewDict]];
@@ -256,7 +260,7 @@
 
 //add: 登录按钮事件
 - (void)loginBtnClick {
-    if (self.userNameText.text.length == 0) {
+  /* if (self.userNameText.text.length == 0) {
         [self showProgressHUD:@"请输入用户名 " mode: MBProgressHUDModeText];
         [self.progressHUD hide:YES afterDelay:1.5];
         return;
@@ -276,7 +280,7 @@
         return;
     }
     
-    [self showProgressHUD:@"跳转中"];
+    [self showProgressHUD:@"跳转中"];*/
     [self jumpToDashboardView];
     
 }

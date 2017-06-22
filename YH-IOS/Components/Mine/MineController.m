@@ -36,6 +36,10 @@
     // Do any additional setup after loading the view.
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleDefault;
+}
+
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
     [self.navigationController.navigationBar setHidden:YES];
@@ -49,6 +53,7 @@
     [super viewDidDisappear:YES];
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
+
 
 -(void)setupChildViewController{
     
@@ -77,7 +82,7 @@
     // 标签
     
     UIView *titlesView = [[UIView alloc]init];
-    titlesView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 35.0);
+    titlesView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 36.0);
     [bgView addSubview:titlesView];
     titlesView.backgroundColor = [UIColor whiteColor];
     self.titlesView = titlesView;
@@ -86,11 +91,16 @@
     UIView *indicatorView = [[UIView alloc]init];
     indicatorView.backgroundColor = [UIColor colorWithHexString:@"#6aa657"];
     indicatorView.height = 2;
-    indicatorView.mj_y = 32;
+    indicatorView.mj_y = 33;
     indicatorView.tag = -1;
     self.indicatorview = indicatorView;
     
     //顶部分割线
+    UIView *topSepLine = [[UIView alloc]init];
+    topSepLine.backgroundColor = [UIColor colorWithHexString:@"#d2d2d2"];
+    topSepLine.height = 1;
+    topSepLine.mj_y = 35;
+    
     
     NSUInteger count = self.childViewControllers.count;
     CGFloat width = titlesView.width/count;
@@ -134,8 +144,9 @@
         }
         
     }
-    
+    topSepLine.width=SCREEN_WIDTH;
     [titlesView addSubview:indicatorView];
+    [titlesView addSubview:topSepLine];
     
 }
 

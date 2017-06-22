@@ -15,6 +15,7 @@
     
     _contentIamge = [[UIImageView alloc]initWithFrame:CGRectMake(13, 9, 14, 16)];
     [_leftImage addSubview:_contentIamge];
+    [_rightText setSecureTextEntry:YES];
     
    // _rightText.layer.backgroundColor = [UIColor colorWithHexString:@"#bdbdbd"].CGColor;
     //_rightText.layer.borderColor = [UIColor colorWithHexString:@"#aaa"].CGColor;

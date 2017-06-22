@@ -466,17 +466,18 @@ static CGFloat arrow_W = 15;//箭头宽
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.selectedOption) {
+  /*  if (self.selectedOption) {
         self.selectedOption(indexPath);
     }
     if (!_multiSelect) {
         [self dismiss];
-    }
+    }*/
 }
 
 #pragma mark - table_edit
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return _canEdit;
+    //return _canEdit;
+    return NO;
 }
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {

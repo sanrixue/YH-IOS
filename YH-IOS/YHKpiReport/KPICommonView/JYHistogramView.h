@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "JYDashboardModel.h"
+#import "YHKPIModel.h"
 
 /* 柱状图 */
 @interface JYHistogramView : UIView
 
-@property (nonatomic, strong) JYDashboardModel *model;
+@property (nonatomic, strong) YHKPIDetailModel *model;
 
 
 @end

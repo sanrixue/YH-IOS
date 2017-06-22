@@ -36,7 +36,7 @@
     return self;
 }
 
-- (void)setModel:(JYDashboardModel *)model {
+- (void)setModel:(YHKPIDetailModel *)model {
     if (![_model isEqual:model]) {
         _model = model;
         
@@ -94,13 +94,13 @@
 - (void)refreshSubViewData {
     
     histogram.dataSource = self.model.chartData;
-    histogram.lastBarColor= self.model.arrowToColor;
+  //  histogram.lastBarColor= self.model.arrowToColor;
     groupType.text = self.model.title;
-    trendType.arrow = self.model.arrow;
+  //  trendType.arrow = self.model.arrow;
     ratio.text = self.model.floatRate;
-    ratio.textColor = self.model.arrowToColor;
+ //   ratio.textColor = self.model.arrowToColor;
     money.text = self.model.saleNumber;
-    money.textColor = self.model.arrowToColor;
+  //  money.textColor = self.model.arrowToColor;
     unit.text = self.model.percentage ? @"%" : self.model.unit;
     
 }

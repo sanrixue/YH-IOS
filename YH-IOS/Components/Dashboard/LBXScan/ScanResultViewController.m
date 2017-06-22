@@ -261,7 +261,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
  *  @param sender
  */
 -(void)dropTableView:(UIBarButtonItem *)sender {
-    [self initDropMenu];
+    SelectStoreViewController *select = [[SelectStoreViewController alloc] init];
+    UINavigationController* selectCtrl = [[UINavigationController alloc]initWithRootViewController:select];
+    [self.navigationController presentViewController:selectCtrl animated:YES completion:nil];
+  /*  [self initDropMenu];
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
     dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
     dropTableViewController.preferredContentSize = CGSizeMake(150,self.dropMenuTitles.count*150/4);
@@ -274,7 +277,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [popover setSourceRect:sender.customView.frame];
     [popover setSourceView:self.view];
     popover.backgroundColor = [UIColor colorWithHexString:kDropViewColor];
-    [self presentViewController:dropTableViewController animated:YES completion:nil];
+    [self presentViewController:dropTableViewController animated:YES completion:nil];*/
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {

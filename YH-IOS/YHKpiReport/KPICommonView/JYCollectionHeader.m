@@ -13,9 +13,12 @@
 @property (nonatomic, strong) UILabel *titleLab;
 
 @end
+
 @implementation JYCollectionHeader
 
+
 - (void)prepareForReuse {
+    
     self.titleLab.text = self.sectionTitle;
 }
 
@@ -28,10 +31,15 @@
 
 - (UILabel *)titleLab {
     if (!_titleLab) {
-        _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(JYDefaultMargin, 0, JYScreenWidth - JYDefaultMargin, CGRectGetHeight(self.frame))];
+        UIImageView *greenImageLine = [[UIImageView alloc]initWithFrame:CGRectMake(6, 12, 4, self.frame.size.height-24)];
+        greenImageLine.backgroundColor = [UIColor colorWithHexString:@"#6aa657"];
+        greenImageLine.image = [[UIImage imageNamed:@"ic_green_line"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        [self addSubview:greenImageLine];
+        
+        _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(22, 0, JYScreenWidth - 22, CGRectGetHeight(self.frame))];
         _titleLab.text = _sectionTitle;
-        _titleLab.textColor = [UIColor colorWithHexString:@"#333333"];
-        _titleLab.font = [UIFont systemFontOfSize:20];
+        _titleLab.textColor = [UIColor colorWithHexString:@"#000"];
+        _titleLab.font = [UIFont systemFontOfSize:16];
         [self addSubview:_titleLab];
     }
     return _titleLab;

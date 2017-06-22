@@ -42,7 +42,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIImageView* imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Banner-Logo"]];
+  /*  UIImageView* imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"Banner-Logo"]];
     imageView.contentMode =UIViewContentModeScaleAspectFit;
     imageView.frame = CGRectMake(self.view.frame.size.width/2-50, 0, 100, 50);
     [self.navigationController.navigationBar addSubview:imageView];
@@ -56,7 +56,8 @@
     self.localNotificationKeys = @[kTabKPILNName, kTabAnalyseLNName, kTabAppLNName, kTabMessageLNName, kSettingThursdaySayLNName];
     self.localNotificationPath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     //@{}代表Dictionary
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];*/
+    self.title = @"生意概况";
     self.sharedPath = [FileUtils sharedPath];
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
@@ -64,7 +65,7 @@
     [JumpCommonView clearMenu]; // 清除window菜单
     [self checkFromViewController];
     [self initDropMenu]; //重新生成菜单
-         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
+         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Barcode-Scan-1"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
 
     // Do any additional setup after loading the view.
 }
@@ -239,7 +240,8 @@
  *  @param sender
  */
 -(void)dropTableView:(UIBarButtonItem *)sender {
-    DropViewController *dropTableViewController = [[DropViewController alloc]init];
+    [self actionBarCodeScanView:nil];
+   /* DropViewController *dropTableViewController = [[DropViewController alloc]init];
     dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
     dropTableViewController.preferredContentSize = CGSizeMake(150,self.dropMenuTitles.count*150/4);
     dropTableViewController.dataSource = self;
@@ -251,7 +253,7 @@
     [popover setSourceRect:sender.customView.frame];
     [popover setSourceView:self.view];
     popover.backgroundColor = [UIColor colorWithHexString:kDropViewColor];
-    [self presentViewController:dropTableViewController animated:YES completion:nil];
+    [self presentViewController:dropTableViewController animated:YES completion:nil];*/
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {

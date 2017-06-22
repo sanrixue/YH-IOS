@@ -12,7 +12,7 @@
 
 @implementation JYDashboardModel
 
-
+/*
 - (DashBoardType)dashboardType {
     NSString *type = self.params[@"dashboard_type"];
     DashBoardType dbType;
@@ -28,6 +28,12 @@
     else if ([type isEqualToString:@"ring"]){
         dbType = DashBoardTypeRing;
     }
+    else if ([type isEqualToString:@"number2"]){
+        dbType = DashBoardTypeSignleValue;
+    }
+    else if ([type isEqualToString:@"number3"]){
+        dbType = DashBoardTypeSignleLongValue;
+    }
     return dbType;
 }
 
@@ -37,6 +43,14 @@
 
 - (NSString *)title {
     return self.params[@"title"];
+}
+
+-(NSString *)memo1{
+    return self.params[@"memo1"];
+}
+
+-(NSString *)memo2{
+    return self.params[@"memo2"];
 }
 
 - (NSString *)targeturl {
@@ -92,5 +106,5 @@ NSString * numberToString(NSNumber *number) {
 - (BOOL)percentage {
     return [self.hightLightData[@"percentage"] boolValue];
 }
-
+*/
 @end

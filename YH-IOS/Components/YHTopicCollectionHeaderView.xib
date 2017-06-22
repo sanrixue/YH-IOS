@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U6b-Vx-4bR" customClass="YHTopicCollectionHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="360" height="76"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="line_green" translatesAutoresizingMaskIntoConstraints="NO" id="70r-5L-d70">
+                    <rect key="frame" x="9" y="10" width="4" height="56"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="4" id="HhE-Xk-uXO"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="这是一些假的数据" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oyc-Sr-NNA">
+                    <rect key="frame" x="23" y="10" width="337" height="56"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" red="0.096057966800000005" green="0.52024508250000001" blue="0.02177695713" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <constraints>
+                <constraint firstItem="Oyc-Sr-NNA" firstAttribute="top" secondItem="70r-5L-d70" secondAttribute="top" id="3Am-oh-7b8"/>
+                <constraint firstItem="Oyc-Sr-NNA" firstAttribute="top" secondItem="U6b-Vx-4bR" secondAttribute="top" constant="10" id="JPG-Zw-4Sn"/>
+                <constraint firstItem="Oyc-Sr-NNA" firstAttribute="leading" secondItem="70r-5L-d70" secondAttribute="trailing" constant="10" id="Pph-9c-QUA"/>
+                <constraint firstAttribute="trailing" secondItem="Oyc-Sr-NNA" secondAttribute="trailing" id="mMA-UO-enz"/>
+                <constraint firstItem="70r-5L-d70" firstAttribute="centerY" secondItem="Oyc-Sr-NNA" secondAttribute="centerY" id="pY4-RO-1S4"/>
+                <constraint firstAttribute="bottom" secondItem="Oyc-Sr-NNA" secondAttribute="bottom" constant="10" id="pxN-sd-wbF"/>
+                <constraint firstItem="70r-5L-d70" firstAttribute="leading" secondItem="U6b-Vx-4bR" secondAttribute="leading" constant="9" id="rPn-7g-r3Q"/>
+            </constraints>
+            <connections>
+                <outlet property="leftImage" destination="70r-5L-d70" id="ODP-MB-Y8q"/>
+                <outlet property="rightLabel" destination="Oyc-Sr-NNA" id="YLa-uo-dYN"/>
+            </connections>
+            <point key="canvasLocation" x="52" y="116"/>
+        </collectionReusableView>
+    </objects>
+    <resources>
+        <image name="line_green" width="3" height="14"/>
+    </resources>
+</document>

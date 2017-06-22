@@ -16,6 +16,7 @@
 @interface JYFallsView () <UICollectionViewDelegate, UICollectionViewDataSource, JYWaterLayoutDelegate/*JYFallsLayoutDelegate*/>
 
 @property (nonatomic, strong) UICollectionView *collectView;
+@property (nonatomic, strong) NSIndexPath *indexpath;
 
 @end
 
@@ -23,7 +24,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor colorWithHexString:@"#f7fef5"];
         
         [self initilizedSubView];
     }
@@ -40,8 +41,7 @@
         
         JYWaterLayout *layout = [[JYWaterLayout alloc] init];
         layout.delegate = self;
-        layout.headerViewHeight = 50;
-        
+        layout.headerViewHeight = 41;
         _collectView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
         _collectView.backgroundColor = [UIColor clearColor];
         [_collectView registerClass:[JYFallsCell class] forCellWithReuseIdentifier:@"JYFallsCell"];
@@ -56,8 +56,8 @@
     return _collectView;
 }
 
-- (JYDashboardModel *)dataForIndexPath:(NSIndexPath *)indexPath {
-    return (self.dataSource[indexPath.section][indexPath.row]);
+- (YHKPIDetailModel *)dataForIndexPath:(NSIndexPath *)indexPath {
+    return (self.dataSource[indexPath.section].data[indexPath.row]);
 }
 
 #pragma mark - <JYFallsLayoutDelegate>
@@ -78,21 +78,21 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     JYFallsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JYFallsCell" forIndexPath:indexPath];
     cell.model = [self dataForIndexPath:indexPath];
+    cell.backgroundColor = [UIColor whiteColor];
     
     return cell;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     
-    return self.dataSource[section].count;
+    return self.dataSource[section].data.count;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     JYCollectionHeader *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"JYCollectionHeader" forIndexPath:indexPath];
-    header.sectionTitle = [self dataForIndexPath:indexPath].groupName;
+    header.sectionTitle = self.dataSource[indexPath.section].group_name;
     return header;
 }
 
@@ -112,11 +112,37 @@
         ([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeBar) {
         itemH = 280;
     }
+    else if (([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeSignleLongValue){
+        itemH = 58;
+    }
+    
+    else if (([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeSignleValue){
+        itemH = 87;
+    }
     else {
         itemH = (280 - JYDefaultMargin) / 2.0;
     }
     return itemH;
 }
 
+-(CGFloat)collectionView:(UICollectionView *)collectionView layout:(JYWaterLayout *)layout withSection:(NSInteger )section{
+     CGFloat itemW;
+    if (self.dataSource[section].data[0].dashboardType == DashBoardTypeLine ||
+        self.dataSource[section].data[0].dashboardType == DashBoardTypeBar) {
+        itemW = 2;
+    }
+    else if (self.dataSource[section].data[0].dashboardType == DashBoardTypeSignleLongValue){
+        itemW = 1;
+    }
+    
+    else if (self.dataSource[section].data[0].dashboardType == DashBoardTypeSignleValue){
+        itemW = 2;
+    }
+    else {
+        itemW = 2;
+    }
+    
+    return itemW;
+}
 
 @end

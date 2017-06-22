@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Person.h"
 #import "UserCountView.h"
+#import "User.h"
 
 
 @protocol MineHeadDelegate <NSObject>
@@ -31,7 +32,7 @@
 
 // 刷新视图
 
--(void)refreshViewWith:(Person *)person;
+-(void)refreshViewWith:(NSDictionary *)person;
 -(instancetype)initWithFrame:(CGRect)frame withPerson:(Person*)person;
 -(void)addVaildData;
 -(void)refeshAvaImgeView:(UIImage *)image;

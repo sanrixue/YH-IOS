@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "JYDashboardModel.h"
+#import "YHKPIModel.h"
 
 /* 带销售值的折线图 */
 @interface JYNumberLineView : UIView
 
-@property (nonatomic, copy) JYDashboardModel *model;
+@property (nonatomic, copy) YHKPIDetailModel *model;
 
 @end

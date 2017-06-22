@@ -52,7 +52,7 @@
     self.layer.shadowOpacity = 0.8;
 }
 
-- (void)setModel:(JYDashboardModel *)model {
+- (void)setModel:(YHKPIDetailModel *)model {
     if (![_model isEqual:model]) {
         _model = model;
         
@@ -123,13 +123,13 @@
     
     self.lineView.dataSource = self.model.chartData;
     self.groupNameLB.text = self.model.title;
-    self.trendTypeView.arrow = self.model.arrow;
+   // self.trendTypeView.arrow = self.model.arrow;
     
     self.ratio.text = self.model.floatRate;
-    self.ratio.textColor = self.model.arrowToColor;
+   // self.ratio.textColor = self.model.arrowToColor;
     
     self.saleNumberLB.text = self.model.saleNumber;
-    self.saleNumberLB.textColor = self.model.arrowToColor;
+   // self.saleNumberLB.textColor = self.model.arrowToColor;
     
     unit.text = self.model.percentage ? @"%" : self.model.unit;
 }

@@ -104,7 +104,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     // self.bannerView.height = 0;
    // self.browser.frame = CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, self.view.frame.size.height + 40);
     [self.navigationController setNavigationBarHidden:false];
-    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+   // [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     //@{}代表Dictionary
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
@@ -511,13 +511,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)loadOuterLink {
     
-    NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
+    //NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     
-    NSString *splitString = [self.urlString containsString:@"?"] ? @"&" : @"?";
-    NSString *appendParams = [NSString stringWithFormat:@"user_num=%@&timestamp=%@", self.user.userNum, timestamp];
-    self.urlString = [NSString stringWithFormat:@"%@%@%@", self.urlString, splitString, appendParams];
+   // NSString *splitString = [self.urlString containsString:@"?"] ? @"&" : @"?";
+   // NSString *appendParams = [NSString stringWithFormat:@"user_num=%@&timestamp=%@", self.user.userNum, timestamp];
+    //self.urlString = [NSString stringWithFormat:@"%@%@%@", self.urlString, splitString, appendParams];
     
-    NSLog(@"%@", self.urlString);
+    //NSLog(@"%@", self.urlString);
     [self.browser loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.urlString]]];
     self.isLoadFinish = !self.browser.isLoading;
 }
@@ -535,8 +535,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      * format: /mobile/report/:report_id/group/:group_id
      */
     NSArray *components = [self.link componentsSeparatedByString:@"/"];
-    self.templateID = components[6];
-    self.reportID = components[8];
+    self.templateID = components[5];
+    self.reportID = components[7];
     
     /**
      * 内部报表具有筛选功能时

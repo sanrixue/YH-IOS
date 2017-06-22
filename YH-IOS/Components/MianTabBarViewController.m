@@ -16,6 +16,8 @@
 #import "JYHomeViewController.h"
 #import "YH_IOS-Swift.h"
 #import "MineController.h"
+#import "YHReportViewController.h"
+#import "YHTopicViewController.h"
 
 @interface MianTabBarViewController ()
 
@@ -57,8 +59,10 @@
 
 - (void)addchildControllers{
     
-    ApplicationViewController *applicationRootView = [[ApplicationViewController alloc]init];
+    YHTopicViewController *applicationRootView  = [[YHTopicViewController alloc]init];
+   // ApplicationViewController *applicationRootView = [[ApplicationViewController alloc]init];
     UINavigationController *applicationRootViewController = [[UINavigationController alloc]initWithRootViewController:applicationRootView];
+    applicationRootView.title = @"专题";
     applicationRootViewController.tabBarItem.title = @"专题";
     [applicationRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
     applicationRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-App"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -72,9 +76,10 @@
     messageRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-Message"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     messageRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-Message-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    SYReportViewController *analysisRootView = [[SYReportViewController alloc]init];
-   // AnalysisViewController *analysisRootView = [[AnalysisViewController alloc]init];
+    YHReportViewController *analysisRootView = [[YHReportViewController alloc]init];
+    //AnalysisViewController *analysisRootView = [[AnalysisViewController alloc]init];
     UINavigationController *analysisRootViewController = [[UINavigationController alloc]initWithRootViewController:analysisRootView];
+    analysisRootView.title = @"报表";
     analysisRootViewController.tabBarItem.title = @"报表";
     [analysisRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
     analysisRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-Analyse"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];

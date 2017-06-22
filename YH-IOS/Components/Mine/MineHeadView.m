@@ -9,6 +9,11 @@
 #import "MineHeadView.h"
 #import <SDWebImage/UIButton+WebCache.h>
 
+@interface MineHeadView()
+
+@property(nonatomic, strong)User *user;
+
+@end
 
 @implementation MineHeadView
 
@@ -16,6 +21,7 @@
 -(instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
+        _user = [[User alloc]init];
         [self stupUI];
     }
     return self;
@@ -32,7 +38,8 @@
     self.avaterImageView = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH/2-44, 70, 88, 88)];
     [self.avaterImageView addTarget:self action:@selector(ClickAvaIamge:) forControlEvents:UIControlEventTouchUpInside];
     self.avaterImageView.layer.cornerRadius =44;
-    [self.avaterImageView setImage:[UIImage imageNamed:@"user_ava"] forState:UIControlStateNormal];
+   // [self.avaterImageView setImage:[UIImage imageNamed:@"user_ava"] forState:UIControlStateNormal];
+    [self.avaterImageView sd_setImageWithURL:[NSURL URLWithString:_user.gravatar] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"user_ava"]];
     //_avaterImageView.layer.cornerRadius = 44;
     [self addSubview:_avaterImageView];
     [self.avaterImageView.layer setMasksToBounds:YES];
@@ -127,19 +134,19 @@
 }
 
 
--(void)refreshViewWith:(Person *)person {
+-(void)refreshViewWith:(NSDictionary *)person {
    
-    [self.avaterImageView sd_setImageWithURL:person.icon forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"user_ava"]];
-    self.userNameLabel.text = person.userNamer;
-    self.loginCountView.dataLable.text = person.days;
+   // [self.avaterImageView sd_setImageWithURL:person.icon forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"user_ava"]];
+    //self.userNameLabel.text = person.userNamer;
+    self.loginCountView.dataLable.text = [NSString stringWithFormat:@"%@",person[@"login_duration"]];
     self.loginCountView.utilLabel.text = @"天";
     self.loginCountView.noteLabel.text = @"累计登录";
-    NSString *lastLoginState = [NSString stringWithFormat:@"最近一次: %@   %@",person.lastlocation,person.time];
-    self.lastLoginMessageLabel.text = lastLoginState;
-    self.reportScanCountView.dataLable.text = person.readed_num;
+   // NSString *lastLoginState = [NSString stringWithFormat:@"最近一次: %@   %@",person.lastlocation,person.time];
+  //  self.lastLoginMessageLabel.text = lastLoginState;
+    self.reportScanCountView.dataLable.text =[NSString stringWithFormat:@"%@", person[@"browse_report_count"]];
     self.reportScanCountView.utilLabel.text = @"支";
     self.reportScanCountView.noteLabel.text = @"浏览报表";
-    self.precentView.dataLable.text = person.precent;
+    self.precentView.dataLable.text = [NSString stringWithFormat:@"%@",person[@"surpass_percentage"]];
     self.precentView.utilLabel.text = @"%";
     self.precentView.noteLabel.text = @"超越用户";
 }

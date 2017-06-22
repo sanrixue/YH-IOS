@@ -51,7 +51,7 @@
     self.layer.shadowOpacity = 0.8;
 }
 
-- (void)setModel:(JYDashboardModel *)model {
+- (void)setModel:(YHKPIDetailModel *)model {
     if (![_model isEqual:model]) {
         _model = model;
         
@@ -104,12 +104,11 @@
     if ([self.model.saleNumber boolValue]) {
         self.groupNameLB.text = self.model.title;
         self.groupNameLB.numberOfLines = 0;
-        // self.groupNameLB.adjustsFontSizeToFitWidth = YES;
-        self.trendTypeView.arrow = self.model.arrow;
+      //  self.trendTypeView.arrow = self.model.arrow;
         self.saleNumberLB.text = self.model.saleNumber;
-        self.saleNumberLB.textColor = self.model.arrowToColor;
+        //self.saleNumberLB.textColor = self.model.arrowToColor;
         self.ratio.text = self.model.floatRate;
-        self.ratio.textColor = self.model.arrowToColor;
+        //self.ratio.textColor = self.model.arrowToColor;
         unit.text = self.model.percentage ? @"%" : self.model.unit;
     }
     else {
@@ -117,14 +116,11 @@
         _saleNumberLB.textColor = [UIColor colorWithRed:0.28 green:0.29 blue:0.29 alpha:1.00];
         self.groupNameLB.text = @"";
         self.groupNameLB.numberOfLines = 0;
-        // self.groupNameLB.adjustsFontSizeToFitWidth = YES;
-       // self.trendTypeView.arrow = @"";
         self.saleNumberLB.numberOfLines = 0;
         self.saleNumberLB.font = [UIFont systemFontOfSize:22];
         self.saleNumberLB.text = self.model.title;
-     //   self.saleNumberLB.textColor = self.model.arrowToColor;
         self.ratio.text = @"";
-        self.ratio.textColor = self.model.arrowToColor;
+     //   self.ratio.textColor = self.model.arrowToColor;
         unit.text = @"";
     }
 }

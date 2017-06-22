@@ -22,16 +22,19 @@
 #import "HttpUtils.h"
 #import "ResetPasswordViewController.h"
 #import "User.h"
+#import "SDCycleScrollView.h"
+#import "YHKPIModel.h"
 
 
-#define kJYNotifyHeight 30
+#define kJYNotifyHeight 60
 
-@interface JYHomeViewController () <UITableViewDelegate, UITableViewDataSource, PagedFlowViewDelegate, PagedFlowViewDataSource, JYNotifyDelegate, JYFallsViewDelegate> {
+@interface JYHomeViewController () <UITableViewDelegate, UITableViewDataSource, PagedFlowViewDelegate, PagedFlowViewDataSource, JYNotifyDelegate, JYFallsViewDelegate,SDCycleScrollViewDelegate> {
     
     CGFloat bottomViewHeight;
     NSArray *dataListTop;
-    NSArray *dataListButtom;
+    NSMutableArray *dataListButtom;
     NSArray *dataList;
+    SDCycleScrollView *_cycleScrollView;
 }
 
 @property (nonatomic, strong) UITableView *rootTBView;
@@ -47,7 +50,8 @@
 @property (nonatomic, strong) NSArray *dropMenuIcons;
 @property (nonatomic, strong) UITableView *dropMenu;
 @property (nonatomic, strong) NSMutableArray* titleArray;
-
+@property (nonatomic, strong) NSArray<YHKPIModel *> * modelKpiArray;
+@property (nonatomic, strong) YHKPIModel* modeltop;
 
 @end
 
@@ -60,12 +64,16 @@
     self.view.backgroundColor = JYColor_LightGray_White;
     _noticeArray = [[NSMutableArray alloc]init];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    [self loadData];
+    dataListButtom = [NSMutableArray new];
+    self.tabBarController.tabBar.backgroundColor = [UIColor whiteColor];
+   // [self loadData];
+    [self getData];
    // self.edgesForExtendedLayout = UIRectEdgeNone;
     [self idColor];
     bottomViewHeight = JYVCHeight;
-    self.automaticallyAdjustsScrollViewInsets = NO;
     
+    UIView *topIamgeView = [self addHeaderView];
+    [self.view addSubview:topIamgeView];
     [self.view addSubview:self.notifyView];
     [self.view addSubview:self.rootSCView];
     
@@ -79,7 +87,7 @@
 
 -(void)loadNewData{
     [self.rootTBView.mj_header beginRefreshing];
-    [self loadData];
+    [self getData];
    // [self.rootTBView reloadData];
    // _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight, JYVCWidth, JYVCHeight - (kJYNotifyHeight)) style:UITableViewStylePlain];
     [_rootTBView.mj_header endRefreshing];
@@ -90,7 +98,8 @@
     // 数据准备
     _user = [[User alloc]init];
     _titleArray = [[NSMutableArray alloc]init];
-    NSString *kpiUrl = [NSString stringWithFormat:@"%@/mobile/v2/data/group/%@/role/%@/kpi",kBaseUrl,self.user.groupID,self.user.roleID];
+    NSString *kpiUrl = [NSString stringWithFormat:@"%@/api/v1/group/%@/role/%@/kpi",kBaseUrl2,self.user.groupID,self.user.roleID];
+   // NSString *kpiUrl = @"http://yonghui-test.idata.mobi/api/v1/group/165/role/7/kpi";
     NSData *data;
      NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
      NSString*fileName =  [HttpUtils urlTofilename:kpiUrl suffix:@".kpi"][0];
@@ -111,15 +120,29 @@
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"kpi_data" ofType:@"json"];
   //  NSData *data = [NSData dataWithContentsOfFile:path];
     NSArray *arraySource = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
+    NSArray *demolArray = [MTLJSONAdapter modelsOfClass:YHKPIModel.class fromJSONArray:arraySource error:nil];
+    self.modelKpiArray = [demolArray copy];
+    NSArray *arraySource1 = arraySource[1][@"data"];
     NSMutableArray<JYDashboardModel *> *arr = [NSMutableArray arrayWithCapacity:arraySource.count];
-    [arraySource enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [arraySource1 enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         JYDashboardModel *model = [JYDashboardModel modelWithParams:obj];
         [arr addObject:model];
        // [_titleArray addObject:model.groupName];
     }];
+      dataList = [NSMutableArray new];
+    [dataList arrayByAddingObjectsFromArray:arr];
     
-    dataList = [arr copy];
+    NSArray *arraySource2 = arraySource[2][@"data"];
+    NSMutableArray<JYDashboardModel *> *arr1 = [NSMutableArray arrayWithCapacity:arraySource.count];
+    [arraySource2 enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        JYDashboardModel *model = [JYDashboardModel modelWithParams:obj];
+        [arr1 addObject:model];
+        // [_titleArray addObject:model.groupName];
+    }];
     
+    [dataList arrayByAddingObjectsFromArray:arr1];
+    
+    // NSArray *arraySource2 = arraySource[0][@"data"];
     NSMutableArray<JYDashboardModel *> *topList = [NSMutableArray array];
     NSMutableArray<JYDashboardModel *> *buttomList = [NSMutableArray array];
     [arr enumerateObjectsUsingBlock:^(JYDashboardModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -129,7 +152,7 @@
         else {
             [buttomList addObject:obj];
             if (![_titleArray containsObject:obj.groupName]) {
-                [_titleArray addObject:obj.groupName];
+          //      [_titleArray addObject:obj.groupName];
             }
         }
     }];
@@ -146,7 +169,7 @@
         NSString* keyString = _titleArray[i];
         [dicArray addObject:dic[keyString]];
     }
-    dataListButtom = [dicArray copy];
+   // dataListButtom = @[arr,arr1];
     
     NSString *messageUrl = [NSString stringWithFormat:@"%@/api/v1/role/%@/group/%@/user/%@/message",kBaseUrl,self.user.roleID,self.user.groupID,self.user.userID];
     HttpResponse *responsemessage = [HttpUtils httpGet:messageUrl header:nil timeoutInterval:10];
@@ -164,6 +187,43 @@
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"kpi_data" ofType:@"json"];
     //  NSData *data = [NSData dataWithContentsOfFile:path];
     
+}
+
+- (void)getData{
+    _user = [[User alloc]init];
+    [dataListButtom removeAllObjects];
+    NSString *kpiUrl = [NSString stringWithFormat:@"%@/api/v1/group/%@/role/%@/kpi",kBaseUrl2,self.user.groupID,self.user.roleID];
+    // NSString *kpiUrl = @"http://yonghui-test.idata.mobi/api/v1/group/165/role/7/kpi";
+    NSData *data;
+    NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
+    NSString*fileName =  [HttpUtils urlTofilename:kpiUrl suffix:@".kpi"][0];
+    javascriptPath = [javascriptPath stringByAppendingPathComponent:fileName];
+    
+    if ([HttpUtils isNetworkAvailable2]) {
+        HttpResponse *reponse = [HttpUtils httpGet:kpiUrl];
+        if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
+            [FileUtils removeFile:javascriptPath];
+        }
+        data = reponse.received;
+        [reponse.received writeToFile:javascriptPath atomically:YES];
+    }
+    else{
+        data= [NSData dataWithContentsOfFile:javascriptPath];
+    }
+    
+    //NSString *path = [[NSBundle mainBundle] pathForResource:@"kpi_data" ofType:@"json"];
+    //  NSData *data = [NSData dataWithContentsOfFile:path];
+    NSArray *arraySource = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
+    NSArray<YHKPIModel *> *demolArray = [MTLJSONAdapter modelsOfClass:YHKPIModel.class fromJSONArray:arraySource error:nil];
+    for (int i=0; i<demolArray.count; i++) {
+        if ([demolArray[i].group_name isEqualToString:@"top_data"]) {
+            self.modeltop = demolArray[i];
+        }
+        else{
+            [dataListButtom addObject:demolArray[i]];
+        }
+    }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -192,7 +252,7 @@
 - (void)idColor {
     UIView* idView = [[UIView alloc]initWithFrame:CGRectMake(self.view.frame.size.width-50,34, 30, 10)];
     //idView.backgroundColor = [UIColor redColor];
-    [self.navigationController.navigationBar addSubview:idView];
+    //[self.navigationController.navigationBar addSubview:idView];
     
     UIImageView* idColor0 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 1, 4, 4)];
     idColor0.layer.cornerRadius = 2;
@@ -259,11 +319,62 @@
     }
 }
 
+
+// 添加顶部轮播图
+
+- (UIView*)addHeaderView{
+    
+    UIView *header=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.width, 150)];
+   // NSArray *imagesURLStrings = @[
+     //                             @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t1402/221/421883372/88115/8cc2231a/55815835N35a44559.jpg",
+       //                           @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t976/208/1221678737/91179/5d7143d5/5588e849Na2c20c1a.jpg",
+         //                         @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t805/241/1199341035/289354/8648fe55/5581211eN7a2ebb8a.jpg",
+           //                       @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t1606/199/444346922/48930/355f9ef/55841cd0N92d9fa7c.jpg",
+             //                     @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t1609/58/409100493/49144/7055bec5/557e76bfNc065aeaf.jpg",
+               //                   @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t895/234/1192509025/111466/512174ab/557fed56N3e023b70.jpg",
+                 //                 @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t835/313/1196724882/359493/b53c7b70/5581392cNa08ff0a9.jpg",
+                   //               @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t898/15//1262262696/95281/57d1f12f/558baeb4Nbfd44d3a.jpg"
+                                  //];
+    
+    NSMutableArray *imagesURLStrings = [[NSMutableArray alloc]init];
+    [imagesURLStrings removeAllObjects];
+    for (int i =0 ;i<self.modeltop.data.count; i++) {
+        [imagesURLStrings addObject:@"banner-bg"];
+    }
+    
+    // 网络加载 --- 创建不带标题的图片轮播器
+    _cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, self.view.width, 150) imageURLStringsGroup:nil];
+    _cycleScrollView.model = self.modeltop;
+    _cycleScrollView.infiniteLoop = YES;
+    _cycleScrollView.delegate = self;
+    _cycleScrollView.placeholderImage=[UIImage imageNamed:@"banner-bg"];
+    _cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
+    _cycleScrollView.autoScrollTimeInterval = 2.0; // 轮播时间间隔，默认1.0秒，可自定义
+    
+    
+    //模拟加载延迟
+    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        _cycleScrollView.imageURLStringsGroup = [imagesURLStrings copy];
+   // });
+    
+    [header addSubview:_cycleScrollView];
+    
+    
+    return header;
+}
+
+
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+    YHKPIDetailModel *item = self.modeltop.data[index];
+    
+    [self jumpToDetailView:item.targeturl viewTitle:item.title];
+}
+
 - (UIScrollView *)rootSCView {
     
     if (!_rootTBView) {
         //给通知视图预留40height
-        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight, JYVCWidth, self.view.frame.size.height - (kJYNotifyHeight + 64 + 40)) style:UITableViewStylePlain];
+        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight+150, JYVCWidth, self.view.frame.size.height - kJYNotifyHeight - 150 -64 -49) style:UITableViewStylePlain];
         _rootTBView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _rootTBView.showsVerticalScrollIndicator = NO;
         _rootTBView.dataSource = self;
@@ -278,7 +389,7 @@
 - (JYNotifyView *)notifyView {
     if (!_notifyView) {
         NSMutableArray* noticearray = [[NSMutableArray alloc]init];
-        _notifyView = [[JYNotifyView alloc] initWithFrame:CGRectMake(0, 0, JYVCWidth, kJYNotifyHeight - 2)];
+        _notifyView = [[JYNotifyView alloc] initWithFrame:CGRectMake(0, 150, JYVCWidth, kJYNotifyHeight)];
         if (_noticeArray.count >=2) {
             [noticearray addObject:[NSString stringWithFormat:@"消息(%lu): %@", (unsigned long)_noticeArray.count,_noticeArray[0]]];
              [noticearray addObject:[NSString stringWithFormat:@"消息(%lu): %@", (unsigned long)_noticeArray.count,_noticeArray[1]]];
@@ -435,7 +546,7 @@
 
 - (void)fallsView:(JYFallsView *)fallsView didSelectedItemAtIndex:(NSInteger)idx data:(id)data{
     NSLog(@"seleted index:%zi data:%@", idx, data);
-    JYDashboardModel *model = data;
+    YHKPIDetailModel *model = data;
     NSLog(@"%@",model.targeturl);
      NSString *targetString = [NSString stringWithFormat:@"%@",model.targeturl];
     if (![model.targeturl hasPrefix:@"http"]) {

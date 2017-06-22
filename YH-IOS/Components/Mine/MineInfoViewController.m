@@ -18,6 +18,8 @@
 #import "MineSingleSettingViewController.h"
 #import "LoginViewController.h"
 #import "APIHelper.h"
+#import <SDWebImage/UIButton+WebCache.h>
+
 
 @interface MineInfoViewController ()<UITableViewDelegate,UITableViewDataSource,MineHeadDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate >
 {
@@ -58,9 +60,8 @@
     [super viewWillAppear:YES];
     [self BindDate];
     RACSignal *requestSingal = [self.requestCommane execute:nil];
-    [requestSingal subscribeNext:^(Person *x) {
-        self.person = x;
-        [_mineHeaderView  refreshViewWith:self.person];
+    [requestSingal subscribeNext:^(NSDictionary *x) {
+        [_mineHeaderView  refreshViewWith:x];
         [self.minetableView reloadData];
         
     }];
@@ -70,7 +71,7 @@
     _requestCommane = [[RACCommand  alloc]initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
         RACSignal *requestSignal = [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
             AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            [manager GET:@"http://192.168.0.137:3000/api/v1/user/1/mine/user_info" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [manager GET:@"http://yonghui-test.idata.mobi/api/v1/user/13564379606/group/0/role/0/statistics" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSLog(@"用户信息 %@",responseObject);
                 [subscriber sendNext:responseObject];
                 [subscriber sendCompleted];
@@ -81,18 +82,13 @@
              return nil;
         }];
         return [requestSignal map:^id(NSDictionary *value){
-            NSDictionary *dict = value[@"data"];
+            NSDictionary *dict = value;
             self.userMessageDict = dict;
-            Person *person = [MTLJSONAdapter modelOfClass:Person.class fromJSONDictionary:dict error:nil];
-            return person;
+            return dict;
         }];
     }];
 }
 
-
--(void)refreshHeadView {
-    _mineHeaderView = [[MineHeadView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 300) withPerson:self.person];
-}
 
 
 -(void)setupTableView {
@@ -101,10 +97,10 @@
     self.minetableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49);
     [self.view addSubview:self.minetableView];
     [self.minetableView setScrollEnabled:YES];
-      self.minetableView.tableHeaderView=_mineHeaderView;
+    self.minetableView.tableHeaderView=_mineHeaderView;
     self.minetableView.delegate = self;
     self.minetableView.dataSource = self;
-    self.minetableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    self.minetableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     UINib *mineInfoCell = [UINib nibWithNibName:@"MineInfoTableViewCell" bundle:nil];
     [self.minetableView registerNib:mineInfoCell forCellReuseIdentifier:@"MineInfoTableViewCell"];
     self.minetableView.tableFooterView = [self LogoutFooterView];
@@ -144,7 +140,8 @@
     [self.minetableView reloadData];
     NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     NSString *gravatarName = [NSString stringWithFormat:@"%@-%@-%@.jpg", kAppCode, user.userNum, timestamp];
-     NSString *urlPath = [NSString stringWithFormat:kUploadGravatarAPIPath, user.deviceID, user.userID];
+    NSString *urlPath = [NSString stringWithFormat:kUploadGravatarAPIPath, user.deviceID, user.userID];
+   // NSString *urlPath = @"http://192.168.0.187:3000/api/v1/user/123456/problem_render";
     AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseUrl]];
     AFHTTPRequestOperation *op = [manager POST:urlPath parameters:@{} constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileData:imageData name:@"gravatar" fileName:gravatarName mimeType:@"image/jpg"];
@@ -201,6 +198,7 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MineInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MineInfoTableViewCell" forIndexPath:indexPath];
+    [cell.noticeImage setHidden:YES];
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
             cell.userTitle.text = titleArray[indexPath.row];
@@ -218,6 +216,9 @@
             cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
             cell.userDetailLable.text = @"";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            if (indexPath.row == 2 && [user.password isEqualToString:@"123456".md5]) {
+                [cell.noticeImage setHidden:NO];
+            }
         }
     }
     else if (indexPath.section == 1) {
@@ -238,17 +239,25 @@
 -(UIView *)LogoutFooterView{
     
     UIView *logoutView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
-    UIButton *logoutButton = [[UIButton alloc]initWithFrame:CGRectMake(100, 20,SCREEN_WIDTH-200, 20)];
+    UIButton *logoutButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 10,SCREEN_WIDTH, 40)];
     [logoutView addSubview:logoutButton];
+    logoutButton.layer.borderWidth = 1;
+    logoutButton.layer.borderColor = [UIColor colorWithHexString:@"#d2d2d2"].CGColor;
     [logoutButton setTitle:@"退出登录" forState:UIControlStateNormal];
     [logoutButton addTarget:self action:@selector(logoutButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [logoutButton setTitleColor:[UIColor colorWithHexString:@"#010101"] forState:UIControlStateNormal];
-    logoutView.backgroundColor = [UIColor colorWithHexString:@"#fbfcf5"];
+    logoutButton.backgroundColor = [UIColor colorWithHexString:@"#fbfcf5"];
+    logoutView.backgroundColor = [UIColor whiteColor];
     
     return logoutView;
     
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    cell.layoutMargins = UIEdgeInsetsZero;
+    cell.separatorInset = UIEdgeInsetsZero;
+    cell.preservesSuperviewLayoutMargins = NO;
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if ((indexPath.section == 0 ) && (indexPath.row == 2)) {

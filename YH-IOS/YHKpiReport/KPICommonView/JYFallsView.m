@@ -42,6 +42,7 @@
         JYWaterLayout *layout = [[JYWaterLayout alloc] init];
         layout.delegate = self;
         layout.headerViewHeight = 41;
+        layout.minimumLineSpacing =8;
         _collectView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:layout];
         _collectView.backgroundColor = [UIColor clearColor];
         [_collectView registerClass:[JYFallsCell class] forCellWithReuseIdentifier:@"JYFallsCell"];
@@ -82,6 +83,10 @@
     cell.model = [self dataForIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
     
+    UIImageView *bgView = [[UIImageView alloc]initWithFrame:cell.frame];
+    bgView.image = [UIImage imageNamed:@"B_bg"];
+    cell.backgroundView = bgView;
+    
     return cell;
 }
 
@@ -93,6 +98,7 @@
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     JYCollectionHeader *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"JYCollectionHeader" forIndexPath:indexPath];
     header.sectionTitle = self.dataSource[indexPath.section].group_name;
+    header.backgroundColor = [UIColor colorWithHexString:@"#f7fef5"];
     return header;
 }
 
@@ -102,6 +108,13 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(fallsView:didSelectedItemAtIndex:data:)]) {
         [self.delegate fallsView:self didSelectedItemAtIndex:indexPath.row data:[self dataForIndexPath:indexPath]];
     }
+}
+
+
+//节颜色
+
+-(UIColor *)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout backgroundColorForSection:(NSInteger)section{
+    return [UIColor whiteColor];
 }
 
 
@@ -117,7 +130,7 @@
     }
     
     else if (([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeSignleValue){
-        itemH = 87;
+        itemH = 107;
     }
     else {
         itemH = (280 - JYDefaultMargin) / 2.0;

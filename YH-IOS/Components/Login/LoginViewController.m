@@ -260,7 +260,7 @@
 
 //add: 登录按钮事件
 - (void)loginBtnClick {
-  /* if (self.userNameText.text.length == 0) {
+  if (self.userNameText.text.length == 0) {
         [self showProgressHUD:@"请输入用户名 " mode: MBProgressHUDModeText];
         [self.progressHUD hide:YES afterDelay:1.5];
         return;
@@ -280,7 +280,7 @@
         return;
     }
     
-    [self showProgressHUD:@"跳转中"];*/
+    [self showProgressHUD:@"跳转中"];
     [self jumpToDashboardView];
     
 }

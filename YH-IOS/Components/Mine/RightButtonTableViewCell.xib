@@ -19,35 +19,20 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vkg-Pc-6u7">
-                        <rect key="frame" x="28" y="5" width="217" height="41.5"/>
+                        <rect key="frame" x="28" y="5" width="304" height="41.5"/>
                         <nil key="textColor"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
                     </textField>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="itm-YL-DhI">
-                        <rect key="frame" x="252" y="5" width="80" height="41.5"/>
-                        <color key="backgroundColor" red="0.096057966800000005" green="0.52024508250000001" blue="0.02177695713" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="80" id="s5i-gN-sud"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <state key="normal" title="获取验证码">
-                            <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        </state>
-                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Vkg-Pc-6u7" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="INQ-h6-hjt"/>
-                    <constraint firstItem="itm-YL-DhI" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="Nwr-do-gPT"/>
-                    <constraint firstAttribute="trailing" secondItem="itm-YL-DhI" secondAttribute="trailing" constant="28" id="YGM-VN-tb4"/>
-                    <constraint firstAttribute="bottom" secondItem="itm-YL-DhI" secondAttribute="bottom" constant="5" id="fAS-OU-Jd9"/>
+                    <constraint firstAttribute="trailing" secondItem="Vkg-Pc-6u7" secondAttribute="trailing" constant="28" id="c4b-pP-CMo"/>
                     <constraint firstAttribute="bottom" secondItem="Vkg-Pc-6u7" secondAttribute="bottom" constant="5" id="mm0-lA-k5V"/>
                     <constraint firstItem="Vkg-Pc-6u7" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="28" id="pQ4-ij-8am"/>
-                    <constraint firstItem="itm-YL-DhI" firstAttribute="leading" secondItem="Vkg-Pc-6u7" secondAttribute="trailing" constant="7" id="tgU-5Z-k4o"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="getVerifyCode" destination="itm-YL-DhI" id="XjI-ph-Ov4"/>
                 <outlet property="verifyText" destination="Vkg-Pc-6u7" id="124-tz-z4M"/>
             </connections>
             <point key="canvasLocation" x="45" y="56"/>

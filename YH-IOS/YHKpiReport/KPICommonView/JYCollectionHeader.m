@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) UILabel *titleLab;
 
+
 @end
 
 @implementation JYCollectionHeader
@@ -20,6 +21,7 @@
 - (void)prepareForReuse {
     
     self.titleLab.text = self.sectionTitle;
+
 }
 
 - (void)setSectionTitle:(NSString *)sectionTitle {
@@ -36,7 +38,7 @@
         greenImageLine.image = [[UIImage imageNamed:@"ic_green_line"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [self addSubview:greenImageLine];
         
-        _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(22, 0, JYScreenWidth - 22, CGRectGetHeight(self.frame))];
+        _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(22, 6, JYScreenWidth - 22, CGRectGetHeight(self.frame)-12)];
         _titleLab.text = _sectionTitle;
         _titleLab.textColor = [UIColor colorWithHexString:@"#000"];
         _titleLab.font = [UIFont systemFontOfSize:16];

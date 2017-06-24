@@ -34,6 +34,7 @@
     self.titleLable = [UILabel new];
     self.titleLable.font = [UIFont systemFontOfSize:16];
     self.titleLable.text = @"小店销售概况";
+    self.titleLable.numberOfLines = 0;
     //self.titleLable.adjustsFontSizeToFitWidth = YES;
     self.titleLable.textAlignment = NSTextAlignmentLeft;
     [self addSubview:_titleLable];
@@ -42,7 +43,8 @@
     self.valueLable = [UILabel new];
     self.valueLable.font = [UIFont systemFontOfSize:15];
     self.valueLable.text = @"12345";
-    self.valueLable.textAlignment = NSTextAlignmentRight;
+
+    self.valueLable.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_valueLable];
     
     // 添加值单位
@@ -56,6 +58,7 @@
     // 添加值描述
     self.detailUtilLable = [UILabel new];
     self.detailUtilLable.font = [UIFont systemFontOfSize:9];
+    self.detailUtilLable.textColor =[UIColor colorWithHexString:@"#808080"];
     self.detailUtilLable.text = @"小店品类周销售额";
     self.detailUtilLable.textAlignment = NSTextAlignmentCenter;
     [self addSubview:_detailUtilLable];
@@ -71,6 +74,7 @@
     [self addSubview:self.warnLable];
     
     self.detailWarnLable = [UILabel new];
+    self.detailWarnLable.textColor =[UIColor colorWithHexString:@"#808080"];
     self.detailWarnLable.font = [UIFont systemFontOfSize:9];
     self.detailWarnLable.text = @"周同比增长率";
     [self addSubview:self.detailWarnLable];

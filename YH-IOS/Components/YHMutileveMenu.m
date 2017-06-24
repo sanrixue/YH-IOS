@@ -134,20 +134,18 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
     if (!cell) {
         cell = [[YHReportLeftTextTableViewCell alloc]init];
     }
-    if (indexPath.row ==0) {
-        self.noteSepView = [[UIView alloc]initWithFrame:CGRectMake(kLeftWidth-2, cell.frame.origin.y, 2, 38)];
-        self.noteSepView.backgroundColor = [UIColor colorWithHexString:@"#6aa657"];
-        [self addSubview:self.noteSepView];
-    }
     cell.contentLabel.text =_allData[indexPath.row].category;
     cell.contentLabel.font = [UIFont systemFontOfSize:14];
     cell.bottomSepLine.backgroundColor = [UIColor clearColor];
+    UIImageView *bgView = [[UIImageView alloc]initWithFrame:cell.frame];
+    bgView.image = [UIImage imageNamed:@"left_list_bg"];
+    cell.selectedBackgroundView = bgView;
    // cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.selectedBackgroundView = [[UIView alloc]initWithFrame:cell.frame];
+   // cell.selectedBackgroundView = [[UIView alloc]initWithFrame:cell.frame];
     //cell.selectedBackgroundView.layer.borderWidth = 1;
     //cell.selectedBackgroundView.layer.backgroundColor = [UIColor colorWithHexString:@"#d2d2d2"].CGColor;
-    cell.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
-    cell.contentLabel.highlightedTextColor = [UIColor colorWithHexString:@"#6aa657"];
+   // cell.selectedBackgroundView.backgroundColor = [UIColor whiteColor];
+    //cell.contentLabel.highlightedTextColor = [UIColor colorWithHexString:@"#6aa657"];
     return cell;
 }
 
@@ -155,12 +153,12 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
     _selectIndex = indexPath.row;
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.textLabel.textColor = [UIColor colorWithHexString:@"#6aa657"];
-    if (self.noteSepView) {
+   /* if (self.noteSepView) {
         [self.noteSepView removeFromSuperview];
     }
     self.noteSepView = [[UIView alloc]initWithFrame:CGRectMake(kLeftWidth-2, cell.frame.origin.y, 2, cell.frame.size.height)];
     self.noteSepView.backgroundColor = [UIColor colorWithHexString:@"#6aa657"];
-    [self addSubview:self.noteSepView];
+    [self addSubview:self.noteSepView];*/
    // cell.backgroundColor = [UIColor whiteColor];
     [self.rightCollection reloadData];
 }

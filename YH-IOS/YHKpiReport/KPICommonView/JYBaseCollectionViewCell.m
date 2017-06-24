@@ -68,7 +68,7 @@
 
 -(JYSigleValueView *)signleValue{
     if (!_signleValue) {
-        _signleValue = [[JYSigleValueView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width,87)];
+        _signleValue = [[JYSigleValueView alloc]initWithFrame:CGRectMake(0, 0, self.bounds.size.width,107)];
         _signleValue.model = self.model;
     }
     return _signleValue;

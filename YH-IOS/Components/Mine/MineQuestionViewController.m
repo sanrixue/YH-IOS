@@ -13,6 +13,8 @@
 #import "UIImage+StackBlur.h"
 #import "zoomPopup.h"
 #import "UIImage+StackBlur.h"
+#import "User.h"
+#import "Version.h"
 
 static NSString *const reUse = @"reUse";
 
@@ -20,6 +22,8 @@ static NSString *const reUse = @"reUse";
 {
     UIView *background;
     NSInteger  clickImageNumber;
+    User *user;
+    
 }
 
 @property (nonatomic,strong)UITextView *questionTextField;
@@ -27,6 +31,8 @@ static NSString *const reUse = @"reUse";
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) NSArray <ALAsset *>*dataArray;
 @property (nonatomic, strong) UILabel *imageNotelabel;
+@property (nonatomic, strong) NSMutableArray<UIImage *> * imageArray;
+@property (nonatomic, strong) Version *version;
 
 @end
 
@@ -34,6 +40,9 @@ static NSString *const reUse = @"reUse";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.imageArray = [NSMutableArray new];
+    user = [[User alloc]init];
+    self.version = [[Version alloc] init];
      [self.navigationController.navigationBar setHidden:NO];
     [self.tabBarController.tabBar setHidden:YES];
     self.view.backgroundColor = [UIColor colorWithHexString:@"#fbfcf5"];
@@ -93,6 +102,8 @@ static NSString *const reUse = @"reUse";
     [submitButton setTitle:@"提交" forState:UIControlStateNormal];
     submitButton.backgroundColor = [UIColor colorWithHexString:@"#6aa657"];
     [submitButton addTarget:self action:@selector(submitMyProblem) forControlEvents:UIControlEventTouchUpInside];
+    submitButton.layer.masksToBounds = YES;
+    submitButton.layer.cornerRadius = 8;
     [bgView addSubview:submitButton];
     
     // 描述文字
@@ -172,6 +183,7 @@ static NSString *const reUse = @"reUse";
     [imageViews addSubview:imagePicButton];
     [imagePicButton setImage:[UIImage imageNamed:@"btn_add_biack"] forState:UIControlStateNormal];
     [imagePicButton addTarget:self action:@selector(handleSelectPhotosAction:) forControlEvents:UIControlEventTouchUpInside];
+
     
     
     [bgView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -261,6 +273,7 @@ static NSString *const reUse = @"reUse";
     WeakSelf(self)
     [navigationController getSelectedPhotosWithBlock:^(NSArray<ALAsset *> *selectedArray) {
         weakSelf.dataArray = [NSArray arrayWithArray:selectedArray];
+        [self.imageArray removeAllObjects];
         [weakSelf.collectionView reloadData];
         
     }];
@@ -290,6 +303,7 @@ static NSString *const reUse = @"reUse";
     ALAsset *asset = self.dataArray[indexPath.row];
     // 显示缩略图
     UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
+    [self.imageArray addObject:image];
     [cell reloadDataWithImage:image];
     return cell;
 }
@@ -330,15 +344,21 @@ static NSString *const reUse = @"reUse";
 
 
 -(void)submitMyProblem{
+    
+    NSDictionary *parames = @{@"feedback":@{@"content":self.questionTextField.text,@"title":@"生意人问题反馈",@"user_num":user.userNum,@"app_version":self.version.current,@"platform":@"ios",@"platform_version":self.version.platform}};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager POST:@"http://192.168.0.187:3000/api/v1/user/123456/problem_render" parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        ALAsset *asset = self.dataArray[0];
-        // 显示缩略图
-        UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
-        NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
-        [formData appendPartWithFileData:imageData name:@"feedback" fileName:@"image1.ipg" mimeType:@"image/jpeg"];
+    NSString *postString = [NSString stringWithFormat:@"%@/api/v1/feedback",kBaseUrl];
+    [manager POST:postString parameters:parames constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        for (int i = 0; i < self.imageArray.count; i++) {
+            UIImage *image = self.imageArray[i];
+            NSData *data = UIImagePNGRepresentation(image);
+            [formData appendPartWithFileData:data name:[NSString stringWithFormat:@"photos[%d]",i] fileName:[NSString stringWithFormat:@"image%d.png",i] mimeType:@"multipart/form-data"];
+        }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"%@",responseObject);
+        if ([responseObject[@"code"] isEqualToNumber:@(201)]) {
+             [ViewUtils showPopupView:self.view Info:@"上传成功"];
+        }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",@"上传失败了");
     }];

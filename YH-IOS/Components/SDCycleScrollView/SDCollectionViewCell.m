@@ -34,6 +34,8 @@
 
 - (void)setupTitleLabel
 {
+    
+    
     UILabel *titleLabel = [[UILabel alloc] init];
     _titleLabel = titleLabel;
     _titleLabel.font = [UIFont systemFontOfSize:18];
@@ -41,8 +43,9 @@
     _titleLabel.textColor = [UIColor whiteColor];
     _titleLabel.text = @"好人一生平安";
     _titleLabel.hidden = NO;
-    _titleLabel.textAlignment = NSTextAlignmentRight;
+    _titleLabel.textAlignment = NSTextAlignmentCenter;
     [self addSubview:titleLabel];
+    
     
     self.valueLable = [UILabel new];
     self.valueLable.backgroundColor = [UIColor clearColor];
@@ -71,12 +74,13 @@
     self.unitLabel.font  = [UIFont systemFontOfSize:14];
     self.unitLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:self.unitLabel];
+
+    
     
     [_titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_top).mas_offset(14);
         make.bottom.equalTo(self.valueLable.mas_top).mas_offset(-14);
-        make.left.equalTo(self.mas_left).mas_offset(10);
-        make.right.equalTo(self.mas_centerX).mas_offset(40);
+        make.centerX.equalTo(self.mas_centerX).mas_offset(0);
     }];
     
     [_unitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -97,7 +101,7 @@
     [_numberValueLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(_valueLable.mas_bottom).mas_offset(5);
         make.bottom.equalTo(self.mas_bottom).mas_offset(-25);
-        make.left.equalTo(self.numberTitleLabel.mas_right).mas_offset(20);
+        make.left.equalTo(self.numberTitleLabel.mas_right).mas_offset(10);
         make.right.equalTo(self.mas_right).mas_offset(-20);
     }];
     

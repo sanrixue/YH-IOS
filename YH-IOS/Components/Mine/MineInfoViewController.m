@@ -49,8 +49,8 @@
     titleArray = @[@"用户角色",@"归属部门",@"密码修改",@"问题反馈"];
     titleIameArray = @[@"list_ic_person",@"list_ic_department",@"list_ic_lock",@"list_ic_feedback"];
     
-    secondArray = @[@"文章收藏",@"我的设置"];
-    seconImageArray = @[@"list_ic_save",@"list_ic_set"];
+    secondArray = @[@"我的设置"];
+    seconImageArray = @[@"list_ic_set"];
      [self setupTableView];
     // Do any additional setup after loading the view.
 }
@@ -173,7 +173,7 @@
         return 4;
     }
     else{
-        return 2;
+        return 1;
     }
 }
 
@@ -203,11 +203,12 @@
         if (indexPath.row == 0) {
             cell.userTitle.text = titleArray[indexPath.row];
             cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
-            cell.userDetailLable.text = user.userName;
+            cell.userDetailLable.text = [NSString stringWithFormat:@"%@", user.roleName];
         }
         else if (indexPath.row == 1){
             cell.userTitle.text = titleArray[indexPath.row];
-             NSString *userRole =[NSString stringWithFormat:@"%@", user.roleName];
+            NSString *userRole =[NSString stringWithFormat:@"%@", user.groupName];
+
             cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
             cell.userDetailLable.text = userRole;
         }
@@ -226,7 +227,7 @@
         cell.userTitle.text = secondArray[indexPath.row];
         cell.noticeIcon.image = [UIImage imageNamed:seconImageArray[indexPath.row]];
         cell.userDetailLable.text = @"";
-         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
     }
     if (!(indexPath.row % 2)) {
@@ -267,11 +268,11 @@
         
     }
     else if ((indexPath.section == 0)&&(indexPath.row == 3)){
-        MineRequestListViewController *mineQuestionCtrl = [[MineRequestListViewController  alloc]init];
+        MineQuestionViewController *mineQuestionCtrl = [[MineQuestionViewController  alloc]init];
         mineQuestionCtrl.title = @"生意人反馈收集";
         [self.navigationController pushViewController:mineQuestionCtrl animated:YES];
     }
-    else if ((indexPath.section ==1)&&(indexPath.row ==1)){
+    else if ((indexPath.section ==1)&&(indexPath.row ==0)){
         MineSingleSettingViewController *settingCtrl = [[MineSingleSettingViewController alloc]init];
         settingCtrl.title = @"我的设置";
         [self.navigationController pushViewController:settingCtrl animated:YES];

@@ -127,7 +127,7 @@
          [tyeString appendString:[NSString stringWithFormat:@"%lu",(unsigned long)_typeChoiceArray.count]];
     }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:[ NSString stringWithFormat:@"%@/api/v1/user/%@/type/%@/page/1/limit/10/notices", kBaseUrl,user.userID,tyeString]
+    [manager GET:[ NSString stringWithFormat:@"%@/api/v1/user/%@/type/%@/page/1/limit/10/notices", kBaseUrl,user.userNum,tyeString]
       parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
           NSLog(@"JSON: %@", responseObject);
           NSArray *dataArray = responseObject[@"data"];

@@ -45,7 +45,7 @@ static NSString *resusedFooterCell = @"reusedFooter";
         flowLayout.minimumInteritemSpacing = 23.0f;*/
         JHCollectionViewFlowLayout *jhFlowLayout = [[JHCollectionViewFlowLayout alloc] init];
         jhFlowLayout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        jhFlowLayout.itemSize = CGSizeMake(64, 93);
+        jhFlowLayout.itemSize = CGSizeMake(64, 63);
         jhFlowLayout.minimumInteritemSpacing = (SCREEN_WIDTH-16-64*4-56)/3;
         jhFlowLayout.minimumLineSpacing = 20;
         jhFlowLayout.sectionInset = UIEdgeInsetsMake(20, 29, 0, 29);
@@ -110,7 +110,12 @@ static NSString *resusedFooterCell = @"reusedFooter";
     NSString *imagestring =item.icon_link;
     imagestring =[imagestring stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURL *imageurl =[NSURL URLWithString:imagestring];
-    cell.topImage.contentMode = UIViewContentModeScaleAspectFit;
+    UIImageView *bgImageView = [[UIImageView alloc]initWithFrame:cell.frame];
+    bgImageView.backgroundColor = [UIColor clearColor];
+    cell.backgroundView = bgImageView;
+    cell.topImage.contentMode = UIImageRenderingModeAlwaysOriginal;
+    cell.titleLabel.text = item.listName;
+    [[[SDWebImageManager sharedManager] imageCache] clearMemory];
     [cell.topImage sd_setImageWithURL:imageurl placeholderImage:[UIImage imageNamed:@"user_ava"]];
     //cell.backgroundColor = [UIColor whiteColor];
     //cell.titleLabel.text = @"好吧很多人";
@@ -133,7 +138,7 @@ static NSString *resusedFooterCell = @"reusedFooter";
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    UIEdgeInsets inset = UIEdgeInsetsMake(20, 28, 0, 28);
+    UIEdgeInsets inset = UIEdgeInsetsMake(2, 28, 10, 28);
     return inset;
     
 }

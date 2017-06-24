@@ -536,7 +536,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
      */
     NSArray *components = [self.link componentsSeparatedByString:@"/"];
     self.templateID = components[5];
-    self.reportID = components[7];
+    self.reportID = components[8];
     
     /**
      * 内部报表具有筛选功能时

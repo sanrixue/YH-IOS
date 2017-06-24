@@ -24,5 +24,6 @@
 @property (nonatomic, strong) NSMutableArray* titleArray;
 @property (nonatomic, weak) id <JYFallsViewDelegate> delegate;
 @property (nonatomic, copy) NSArray <YHKPIModel *> *dataSource;
+@property (nonatomic, strong) NSMutableArray<UICollectionViewLayoutAttributes *> *decorationViewAttrs;
 
 @end

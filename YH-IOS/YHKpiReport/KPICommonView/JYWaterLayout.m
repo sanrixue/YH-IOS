@@ -7,6 +7,11 @@
 //
 
 #import "JYWaterLayout.h"
+#import "JHCollectionReusableView.h"
+#import "JHCollectionViewLayoutAttributes.h"
+
+//NSString *const JHCollectionViewSectionBackground = @"JHCollectionViewSectionBackground";
+
 
 @interface JYWaterLayout()
 
@@ -27,7 +32,7 @@
 {
     self = [super init];
     if (self) {
-       // self.numberOfColumns = 1;
+        // self.numberOfColumns = 1;
         self.topAndBottomDustance = 0;
         _headerViewHeight = 0;
         _footViewHeight = 0;
@@ -37,8 +42,15 @@
         self.cellLayoutInfo = [NSMutableDictionary dictionary];
         self.headLayoutInfo = [NSMutableDictionary dictionary];
         self.footLayoutInfo = [NSMutableDictionary dictionary];
+        self.decorationViewAttrs = [NSMutableArray array];
+        [self setup];
     }
     return self;
+}
+
+- (void)setup
+{
+    [self registerClass:[JHCollectionReusableView class] forDecorationViewOfKind:@"JHCollectionViewSectionBackground"];
 }
 
 - (void)prepareLayout
@@ -79,7 +91,7 @@
         for (int i = 0; i < _numberOfColumns; i++) {
             self.maxYForColumn[@(i)] = @(self.startY);
         }
-
+        
         NSInteger rowsCount = [self.collectionView numberOfItemsInSection:section];
         
         for (NSInteger row = 0; row < rowsCount; row++) {
@@ -97,7 +109,7 @@
             
             CGFloat x = self.cellDistance + (self.cellDistance + itemWidth)*currentRow;
             CGFloat height = [(id<JYWaterLayoutDelegate>)self.delegate collectionView:self.collectionView layout:self heightOfItemAtIndexPath:cellIndePath itemWidth:itemWidth];
-
+            
             attribute.frame = CGRectMake(x, y, itemWidth, height);
             y = y + self.cellDistance + height;
             self.maxYForColumn[@(currentRow)] = @(y);
@@ -114,7 +126,7 @@
                 }
                 self.startY = maxY - self.cellDistance + self.topAndBottomDustance;
             }
-        }        
+        }
         
         if (_footViewHeight>0 && [self.collectionView.dataSource respondsToSelector:@selector(collectionView: viewForSupplementaryElementOfKind: atIndexPath:)]) {
             
@@ -137,6 +149,7 @@
     }
     
 }
+
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
@@ -163,6 +176,7 @@
     return allAttributes;
 }
 
+
 - (UICollectionViewLayoutAttributes *)layoutAttributesForSupplementaryViewOfKind:(NSString *)elementKind atIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewLayoutAttributes *attribute = nil;
@@ -178,7 +192,4 @@
 {
     return CGSizeMake(self.collectionView.frame.size.width, MAX(self.startY, self.collectionView.frame.size.height));
 }
-
-
-
 @end

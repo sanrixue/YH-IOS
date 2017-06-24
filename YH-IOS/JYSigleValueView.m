@@ -24,9 +24,9 @@
     
     //self.backgroundColor = [UIColor redColor];
     
-    self.layer.borderWidth = 2;
+   /* self.layer.borderWidth = 2;
     self.layer.borderColor = [UIColor colorWithHexString:@"#bdbdbd"].CGColor;
-    self.layer.cornerRadius = 4;
+    self.layer.cornerRadius = 4;*/
     //添加标题视图
     self.titleLable = [UILabel new];
     self.titleLable.textColor = [UIColor colorWithHexString:@"#000"];
@@ -74,7 +74,7 @@
         make.left.equalTo(self.mas_left).mas_offset(10);
         make.right.equalTo(self.mas_right).mas_offset(-1);
         make.bottom.equalTo(self.valueLable.mas_top).mas_offset(-12);
-        make.height.equalTo(@20);
+        make.height.equalTo(@40);
     }];
     
     [self.valueLable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -91,7 +91,7 @@
         make.left.equalTo(self.valueLable.mas_right).mas_offset(6);
         make.bottom.equalTo(self.valueLable.mas_bottom).mas_offset(0);
         make.width.equalTo(@15);
-        make.height.equalTo(self.valueLable.mas_height);
+       // make.height.equalTo(self.valueLable.mas_height);
     }];
     
     [self.rateLable mas_makeConstraints:^(MASConstraintMaker *make) {

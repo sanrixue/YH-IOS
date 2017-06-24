@@ -76,13 +76,13 @@
     
     // 标题图
     UIView *bgView = [[UIView alloc]init];
-    bgView.frame = CGRectMake(0, 20, SCREEN_WIDTH,35.0);
+    bgView.frame = CGRectMake(0, 20, SCREEN_WIDTH,40.0);
     [self.view addSubview:bgView];
     
     // 标签
     
     UIView *titlesView = [[UIView alloc]init];
-    titlesView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 36.0);
+    titlesView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40.0);
     [bgView addSubview:titlesView];
     titlesView.backgroundColor = [UIColor whiteColor];
     self.titlesView = titlesView;
@@ -91,7 +91,7 @@
     UIView *indicatorView = [[UIView alloc]init];
     indicatorView.backgroundColor = [UIColor colorWithHexString:@"#6aa657"];
     indicatorView.height = 2;
-    indicatorView.mj_y = 33;
+    indicatorView.mj_y = 37;
     indicatorView.tag = -1;
     self.indicatorview = indicatorView;
     
@@ -99,7 +99,7 @@
     UIView *topSepLine = [[UIView alloc]init];
     topSepLine.backgroundColor = [UIColor colorWithHexString:@"#d2d2d2"];
     topSepLine.height = 1;
-    topSepLine.mj_y = 35;
+    topSepLine.mj_y = 39;
     
     
     NSUInteger count = self.childViewControllers.count;

@@ -85,45 +85,43 @@
 
 
 -(void)layoutUI {
-    
-   
-    
     [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         NSLog(@"图片的底部是:--%f ",self.avaterImageView.bottom);
         NSLog(@"图片高是 -- %f",self.avaterImageView.width);
-        make.top.mas_equalTo(self.top).mas_offset(173);
-        make.left.mas_equalTo(self.left).mas_offset(10);
+        make.top.mas_equalTo(self.mas_top).mas_offset(173);
+        make.left.mas_equalTo(self.mas_left).mas_offset(10);
         make.height.mas_equalTo(20);
        // make.bottom.mas_greaterThanOrEqualTo(self.bottom).mas_offset(-10);
-        make.right.mas_equalTo(self.right).mas_offset(-10);
+        make.right.mas_equalTo(self.mas_right).mas_offset(-10);
     }];
     
     [self.lastLoginMessageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.top).mas_offset(200);
+        make.top.mas_equalTo(self.userNameLabel.mas_bottom).mas_offset(7);
         make.left.right.mas_equalTo(self);
         make.height.mas_equalTo(12);
     }];
     
     [self.loginCountView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.top).mas_offset(224);
-        make.left.mas_equalTo(self.left).mas_offset(40);
-        make.bottom.mas_equalTo(self.bottom).mas_equalTo(-14.5);
+        make.top.mas_equalTo(self.lastLoginMessageLabel.mas_bottom).mas_offset(13);
+        make.left.mas_equalTo(self.mas_left).mas_offset(20);
+        make.bottom.mas_equalTo(self.mas_bottom).mas_equalTo(-14.5);
        // make.width.mas_equalTo(self.reportScanCountView.width);
-        make.width.mas_equalTo((SCREEN_WIDTH-112-80)/3);
+        make.right.equalTo(self.reportScanCountView.mas_left).mas_offset(-20);
        // make.width.mas_equalTo(self.precentView.width);
     }];
     [self.reportScanCountView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.top).mas_offset(224);
-        make.left.mas_equalTo(self.left).mas_offset((SCREEN_WIDTH-112-80)/3 + 56 + 40);
-        make.bottom.mas_equalTo(self.bottom).mas_equalTo(-14.5);
-        make.width.mas_equalTo((SCREEN_WIDTH-112-80)/3);
+        make.top.mas_equalTo(self.loginCountView.mas_top).mas_offset(0);
+        make.left.mas_equalTo(self.loginCountView.mas_right).mas_offset(20);
+        make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-14.5);
+        make.centerX.equalTo(self.mas_centerX).mas_offset(0);
         //make.right.mas_equalTo(self.precentView.left).mas_offset(56);
     }];
     [self.precentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.top).mas_offset(224);
-        make.bottom.mas_equalTo(self.bottom).mas_equalTo(-14.5);
-        make.right.mas_equalTo(self.right).mas_offset(-40);
-        make.width.mas_equalTo((SCREEN_WIDTH-112-80)/3);
+        make.top.mas_equalTo(self.loginCountView.mas_top).mas_offset(0);
+        make.bottom.mas_equalTo(self.mas_bottom).mas_offset(-14.5);
+        make.right.mas_equalTo(self.mas_right).mas_offset(-40);
+        make.left.mas_equalTo(self.reportScanCountView.mas_right).mas_offset(20);
+        make.width.equalTo(@[self.reportScanCountView.mas_width,self.loginCountView.mas_width]);
     }];
     
 }
@@ -137,7 +135,7 @@
 -(void)refreshViewWith:(NSDictionary *)person {
    
    // [self.avaterImageView sd_setImageWithURL:person.icon forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"user_ava"]];
-    //self.userNameLabel.text = person.userNamer;
+    self.userNameLabel.text = _user.userName;
     self.loginCountView.dataLable.text = [NSString stringWithFormat:@"%@",person[@"login_duration"]];
     self.loginCountView.utilLabel.text = @"天";
     self.loginCountView.noteLabel.text = @"累计登录";

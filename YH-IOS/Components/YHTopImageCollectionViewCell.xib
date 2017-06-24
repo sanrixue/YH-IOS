@@ -31,7 +31,7 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="这是什么呢" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0b-bs-qBK">
-                        <rect key="frame" x="0.0" y="56" width="75" height="24"/>
+                        <rect key="frame" x="0.0" y="56" width="80" height="24"/>
                         <fontDescription key="fontDescription" type="system" pointSize="10"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
@@ -39,7 +39,7 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="U0b-bs-qBK" secondAttribute="trailing" constant="5" id="4n8-rk-xRz"/>
+                <constraint firstAttribute="trailing" secondItem="U0b-bs-qBK" secondAttribute="trailing" id="4n8-rk-xRz"/>
                 <constraint firstAttribute="trailing" secondItem="4AT-v3-uhX" secondAttribute="trailing" id="4qU-aa-g5X"/>
                 <constraint firstItem="U0b-bs-qBK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="F4E-M1-31M"/>
                 <constraint firstItem="4AT-v3-uhX" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="11" id="J7I-DR-OsW"/>

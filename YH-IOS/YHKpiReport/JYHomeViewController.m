@@ -66,15 +66,15 @@
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataListButtom = [NSMutableArray new];
     self.tabBarController.tabBar.backgroundColor = [UIColor whiteColor];
-   // [self loadData];
+    [self loadData];
     [self getData];
    // self.edgesForExtendedLayout = UIRectEdgeNone;
     [self idColor];
     bottomViewHeight = JYVCHeight;
     
-    UIView *topIamgeView = [self addHeaderView];
-    [self.view addSubview:topIamgeView];
-    [self.view addSubview:self.notifyView];
+    //UIView *topIamgeView = [self addHeaderView];
+    //[self.view addSubview:topIamgeView];
+    //[self.view addSubview:self.notifyView];
     [self.view addSubview:self.rootSCView];
     
     _header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
@@ -96,7 +96,7 @@
 
 - (void)loadData {
     // 数据准备
-    _user = [[User alloc]init];
+   /* _user = [[User alloc]init];
     _titleArray = [[NSMutableArray alloc]init];
     NSString *kpiUrl = [NSString stringWithFormat:@"%@/api/v1/group/%@/role/%@/kpi",kBaseUrl2,self.user.groupID,self.user.roleID];
    // NSString *kpiUrl = @"http://yonghui-test.idata.mobi/api/v1/group/165/role/7/kpi";
@@ -170,7 +170,7 @@
         [dicArray addObject:dic[keyString]];
     }
    // dataListButtom = @[arr,arr1];
-    
+    */
     NSString *messageUrl = [NSString stringWithFormat:@"%@/api/v1/role/%@/group/%@/user/%@/message",kBaseUrl,self.user.roleID,self.user.groupID,self.user.userID];
     HttpResponse *responsemessage = [HttpUtils httpGet:messageUrl header:nil timeoutInterval:10];
     if ([responsemessage.statusCode isEqualToNumber:@(200)]) {
@@ -374,11 +374,12 @@
     
     if (!_rootTBView) {
         //给通知视图预留40height
-        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight+150, JYVCWidth, self.view.frame.size.height - kJYNotifyHeight - 150 -64 -49) style:UITableViewStylePlain];
+        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, JYVCWidth, self.view.frame.size.height -49 -64) style:UITableViewStylePlain];
         _rootTBView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _rootTBView.showsVerticalScrollIndicator = NO;
         _rootTBView.dataSource = self;
         _rootTBView.delegate = self;
+        _rootTBView.tableHeaderView = [self addHeaderView];
         self.edgesForExtendedLayout = UIRectEdgeNone;
         _rootTBView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _rootTBView.backgroundColor = JYColor_LightGray_White;
@@ -389,7 +390,7 @@
 - (JYNotifyView *)notifyView {
     if (!_notifyView) {
         NSMutableArray* noticearray = [[NSMutableArray alloc]init];
-        _notifyView = [[JYNotifyView alloc] initWithFrame:CGRectMake(0, 150, JYVCWidth, kJYNotifyHeight)];
+        _notifyView = [[JYNotifyView alloc] initWithFrame:CGRectMake(0, 0, JYVCWidth, kJYNotifyHeight)];
         if (_noticeArray.count >=2) {
             [noticearray addObject:[NSString stringWithFormat:@"消息(%lu): %@", (unsigned long)_noticeArray.count,_noticeArray[0]]];
              [noticearray addObject:[NSString stringWithFormat:@"消息(%lu): %@", (unsigned long)_noticeArray.count,_noticeArray[1]]];
@@ -403,6 +404,7 @@
         _notifyView.notifications = noticearray;
         _notifyView.delegate = self;
         _notifyView.interval = 9.0;
+        _notifyView.userInteractionEnabled = NO;
         _notifyView.notifyColor = [UIColor colorWithHexString:@"#999"];
         _notifyView.closeBtnColor = [UIColor colorWithRed:0.84 green:0.30 blue:0.19 alpha:1.00];
     }
@@ -460,10 +462,10 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([dataListTop count] >0 && dataListTop != nil) {
-       return indexPath.section == 0 ? kJYPageHeight : bottomViewHeight;
+       return indexPath.section == 0 ? JYVCHeight : bottomViewHeight;
     }
     else{
-        return indexPath.section == 0 ? 0: bottomViewHeight;
+        return indexPath.section == 0 ? kJYNotifyHeight: bottomViewHeight;
     }
 }
 
@@ -474,15 +476,16 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.contentView.backgroundColor = JYColor_LightGray_White;
     if (indexPath.section == 0) {
-        if ([dataListTop count] >0 && dataListTop != nil){
-          [cell.contentView addSubview:self.pageView];
-        }
-        else{
+        //if ([dataListTop count] >0 && dataListTop != nil){
+          [cell.contentView addSubview:self.notifyView];
+      //  }
+       /* else{
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
             cell.height = 0;
-        }
+        }*/
+       // [cell.contentView addSubview:_notifyView];
     }
-    else {
+    else{
         [cell.contentView addSubview:self.fallsView];
     }
     

@@ -45,7 +45,7 @@
 
 -(void)initMenu{
     
-    YHTopicCollectionView *collectionview = [[YHTopicCollectionView alloc]initWithFrame:CGRectMake(8, 64,SCREEN_WIDTH-16, self.view.frame.size.height - 49-20) WithData:_listArray withSelectIndex:^(NSInteger left, ListItem* info) {
+    YHTopicCollectionView *collectionview = [[YHTopicCollectionView alloc]initWithFrame:CGRectMake(8, 64,SCREEN_WIDTH-16, self.view.frame.size.height - 49-20-44) WithData:_listArray withSelectIndex:^(NSInteger left, ListItem* info) {
         NSLog(@"点击了");
         [self jumpToSubjectView:info];
     }];

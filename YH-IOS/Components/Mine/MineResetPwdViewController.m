@@ -105,22 +105,24 @@
         cell.userInteractionEnabled=NO;
         return cell;
     }
+    else if (indexPath.row == 1) {
+        RightButtonTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RightButtonTableViewCell" forIndexPath:indexPath];
+        cell.verifyText.placeholder= @"请输入旧密码";
+        cell.verifyText.tag = indexPath.row;
+        [cell.verifyText addTarget:self action:@selector(textfiledWithText:) forControlEvents:UIControlEventAllEditingEvents];
+        return cell;
+    }
+    
     else{
         LeftIamgeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LeftIamgeTableViewCell" forIndexPath:indexPath];
         [cell.rightText addTarget:self action:@selector(textfiledWithText:) forControlEvents:UIControlEventAllEditingEvents];
         cell.rightText.tag = indexPath.row;
-        if (indexPath.row == 1) {
-            cell.contentIamge.image = [UIImage imageNamed:@"ic_lock.png"];
-            cell.rightText.placeholder= @"请输入旧密码";
+        cell.contentIamge.image = [UIImage imageNamed:@"ic_lock.png"];
+        if (indexPath.row == 2) {
+            cell.rightText.placeholder = @"请输入新密码";
         }
         else{
-            cell.contentIamge.image = [UIImage imageNamed:@"ic_lock.png"];
-            if (indexPath.row == 2) {
-                cell.rightText.placeholder = @"请输入新密码";
-            }
-            else{
-                 cell.rightText.placeholder = @"请再次输入新密码";
-            }
+            cell.rightText.placeholder = @"请再次输入新密码";
         }
         return cell;
     }

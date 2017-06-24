@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+
 @class JYWaterLayout;
 @protocol JYWaterLayoutDelegate <NSObject>
 
@@ -19,9 +20,12 @@
 // 获取行宽
 -(CGFloat)collectionView:(UICollectionView *)collectionView layout:(JYWaterLayout *)layout withSection:(NSInteger )section;
 
-@end
 
-@interface JYWaterLayout : UICollectionViewLayout
+- (UIColor *)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout backgroundColorForSection:(NSInteger)section;
+
+@end 
+
+@interface JYWaterLayout : UICollectionViewFlowLayout
 
 @property (assign, nonatomic) NSInteger numberOfColumns;//瀑布流有列
 @property (assign, nonatomic) CGFloat cellDistance;//cell之间的间距
@@ -30,5 +34,6 @@
 @property (assign, nonatomic) CGFloat footViewHeight;//尾视图的高度
 
 @property(nonatomic, weak) id<JYWaterLayoutDelegate> delegate;
+@property (nonatomic, strong) NSMutableArray<UICollectionViewLayoutAttributes *> *decorationViewAttrs;
 
 @end

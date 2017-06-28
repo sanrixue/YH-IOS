@@ -52,11 +52,11 @@
     
     ntCount = self.notifications.count + 2;
     
-    imageTitleView = [[UIImageView alloc]initWithFrame:CGRectMake(12, 12, 43, 37)];
+    imageTitleView = [[UIImageView alloc]initWithFrame:CGRectMake(12, 5, 30, 30)];
     [self addSubview:imageTitleView];
     imageTitleView.image = [[UIImage imageNamed:@"data_title"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
-    sc = [[UIScrollView alloc] initWithFrame:CGRectMake(65, 12, self.bounds.size.width-65, 40)];
+    sc = [[UIScrollView alloc] initWithFrame:CGRectMake(65, 10, self.bounds.size.width-65, 20)];
     sc.pagingEnabled = YES;
     sc.showsVerticalScrollIndicator = NO;
     sc.delegate = self;
@@ -64,7 +64,7 @@
     CGFloat wight = CGRectGetWidth(sc.bounds) - 8 * 2 - 15;
     for (int i = 0; i < ntCount; i++) {
         
-        UILabel *imglb = [[UILabel alloc]initWithFrame:CGRectMake(0, height * i + height/4, 30, height/2)];
+        UILabel *imglb = [[UILabel alloc]initWithFrame:CGRectMake(0, height * i + height, 30, height)];
         imglb.text = @"推荐";
         imglb.textAlignment = NSTextAlignmentCenter;
         imglb.textColor = [UIColor colorWithHexString:@"#f39800"];
@@ -82,6 +82,7 @@
         
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(8, height * i, wight, height);
+        [btn addTarget:self action:@selector(selectedNotify:) forControlEvents:UIControlEventTouchUpInside];
         if (i == 0) {
             lb.text = self.notifications[ntCount - 2 - 1];
         }

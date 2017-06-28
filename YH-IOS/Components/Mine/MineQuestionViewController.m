@@ -43,6 +43,7 @@ static NSString *const reUse = @"reUse";
     self.imageArray = [NSMutableArray new];
     user = [[User alloc]init];
     self.version = [[Version alloc] init];
+     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
      [self.navigationController.navigationBar setHidden:NO];
     [self.tabBarController.tabBar setHidden:YES];
     self.view.backgroundColor = [UIColor colorWithHexString:@"#fbfcf5"];
@@ -59,6 +60,8 @@ static NSString *const reUse = @"reUse";
     
     UIView *bgView = [[UIView alloc]init];
     bgView.backgroundColor = [UIColor whiteColor];
+    bgView.layer.borderWidth = 1;
+    bgView.layer.borderColor = [UIColor colorWithHexString:@"#d2d2d2"].CGColor;
     [self.view addSubview:bgView];
     //顶部绿色
     UILabel *topLabel =[[UILabel alloc]init];
@@ -68,7 +71,7 @@ static NSString *const reUse = @"reUse";
     // 描述头
     UILabel *titleLable = [[UILabel alloc]init];
     titleLable.backgroundColor = [UIColor clearColor];
-    titleLable.text = @"生意人 1.4.2 反馈收集";
+    titleLable.text = @"生意人反馈收集";
     titleLable.textColor = [UIColor colorWithHexString:@"#000"];
     titleLable.font = [UIFont systemFontOfSize:16];
     [bgView addSubview:titleLable];
@@ -78,15 +81,15 @@ static NSString *const reUse = @"reUse";
     UILabel *detialLable = [[UILabel alloc]init];
     detialLable.backgroundColor = [UIColor clearColor];
     detialLable.textColor = [UIColor colorWithHexString:@"#000"];
-    detialLable.font = [UIFont systemFontOfSize:9];
-    detialLable.numberOfLines = 0;
+    detialLable.font = [UIFont systemFontOfSize:12];
+    detialLable.numberOfLines = 3;
     detialLable.text = @"遇到问题了? 很抱歉生意人给您带来不好的体验，请您把遇到的问题反馈给我们.永辉生意人测试团队会尽快改进哦～";
     [bgView addSubview:detialLable];
     
     //分割线1
     UIView *sepertView1 = [[UIView alloc]init];
-    sepertView1.backgroundColor = [UIColor colorWithHexString:@"#7d7d7d"];
-    sepertView1.frame = CGRectMake(0, 116+64, SCREEN_WIDTH - 30, 1);
+    sepertView1.backgroundColor = [UIColor colorWithHexString:@"#d2d2d2"];
+    sepertView1.frame = CGRectMake(0, 184+13, SCREEN_WIDTH - 30, 1);
     [bgView addSubview:sepertView1];
     
     // 描述细节头
@@ -110,10 +113,10 @@ static NSString *const reUse = @"reUse";
     
     self.questionTextField = [[UITextView alloc]init];
    // self.questionTextField.placeholder = @"问题描述请直戳要点~ 如能附上具体操作步骤更佳，万分感谢!";
-    self.questionTextField.layer.borderColor = [UIColor lightTextColor].CGColor;
+  //  self.questionTextField.layer.borderColor = [UIColor colorWithHexString:@"#959595"].CGColor;
     self.questionTextField.font = [UIFont systemFontOfSize:9];
     self.questionTextField.clipsToBounds = YES;
-    self.questionTextField.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    self.questionTextField.layer.borderColor = [UIColor colorWithHexString:@"#959595"].CGColor;
     self.questionTextField.layer.borderWidth = 1;
     self.questionTextField.delegate = self;
    // self.questionTextField.borderStyle = UITextBorderStyleLine;
@@ -122,9 +125,10 @@ static NSString *const reUse = @"reUse";
     self.questionPalceHolderView = [[UILabel alloc]init];
     self.questionPalceHolderView.frame = CGRectMake(4, 4, SCREEN_WIDTH-60, 15);
     [self.questionTextField addSubview:_questionPalceHolderView];
+    self.questionPalceHolderView.layer.borderColor = [UIColor colorWithHexString:@"#959595"].CGColor;
     self.questionPalceHolderView.text = @"问题描述请直戳要点~ 如能附上具体操作步骤更佳，万分感谢!";
     self.questionPalceHolderView.font = [UIFont systemFontOfSize:9];
-    self.questionPalceHolderView.textColor = [UIColor lightGrayColor];
+    self.questionPalceHolderView.textColor = [UIColor colorWithHexString:@"#959595"];
     // 问题截图头
     
     UILabel *imageTitle = [[UILabel alloc]init];
@@ -137,7 +141,7 @@ static NSString *const reUse = @"reUse";
     // 上传问题截图框
     
     
-    UIView *imageViews = [[UIView alloc]initWithFrame:CGRectMake(30, 300+64+19, SCREEN_WIDTH - 90, 59.5)];
+    UIView *imageViews = [[UIView alloc]initWithFrame:CGRectMake(30, 300+64+19+17, SCREEN_WIDTH - 90, 59.5)];
     
    // imageViews.layer.borderColor = [UIColor lightGrayColor].CGColor;
     //imageViews.layer.borderWidth = 1.5;
@@ -151,13 +155,13 @@ static NSString *const reUse = @"reUse";
     
     //    borderLayer.path = [UIBezierPath bezierPathWithRect:borderLayer.bounds].CGPath;
     borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:borderLayer.bounds cornerRadius:0].CGPath;
-    borderLayer.lineWidth = 1. / [[UIScreen mainScreen] scale];
+    borderLayer.lineWidth = 4. / [[UIScreen mainScreen] scale];
     //虚线边框
-    borderLayer.lineDashPattern = @[@8, @8];
+    borderLayer.lineDashPattern = @[@3, @2];
     //实线边框
     //    borderLayer.lineDashPattern = nil;
     borderLayer.fillColor = [UIColor clearColor].CGColor;
-    borderLayer.strokeColor = [UIColor lightGrayColor].CGColor;
+    borderLayer.strokeColor = [UIColor colorWithHexString:@"#959595"].CGColor;
     [imageViews.layer addSublayer:borderLayer];
     
     //添加图片提示
@@ -211,18 +215,18 @@ static NSString *const reUse = @"reUse";
         make.top.mas_equalTo(self.view.top).mas_offset(83+64);
         make.left.mas_equalTo(self.view.left).mas_offset(30);
         make.right.mas_equalTo(self.view.right).mas_offset(-30);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(45);
     }];
     
     [descripeTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view.top).mas_offset(119+64 +15);
+        make.top.mas_equalTo(self.view.top).mas_offset(119+64+15 +15);
         make.left.mas_equalTo(self.view.left).mas_offset(30);
         make.right.mas_equalTo(self.view.right).mas_offset(-30);
         make.height.mas_equalTo(20);
     }];
     
     [self.questionTextField mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view.top).mas_offset(142+64+19);
+        make.top.mas_equalTo(self.view.top).mas_offset(142+64+19+15);
         make.left.mas_equalTo(self.view.left).mas_offset(30);
         make.right.mas_equalTo(self.view.right).mas_offset(-30);
         make.height.mas_equalTo(111.5);
@@ -230,7 +234,7 @@ static NSString *const reUse = @"reUse";
     
     
     [imageTitle mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view.top).mas_offset(270+64+19);
+        make.top.mas_equalTo(self.view.top).mas_offset(270+64+19+15);
         make.left.mas_equalTo(self.view.left).mas_offset(30);
         make.right.mas_equalTo(self.view.right).mas_offset(-30);
         make.height.mas_equalTo(20);

@@ -59,7 +59,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+   //  [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     [self.view addSubview:self.collectionVc.view];
     [self.view addSubview:self.tableViewVc.view];
     [self.view addSubview: self.chartVc.view];

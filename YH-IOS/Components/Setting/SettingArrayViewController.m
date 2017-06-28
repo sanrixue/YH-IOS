@@ -26,6 +26,7 @@
     self.automaticallyAdjustsScrollViewInsets = YES;
     [self.tabBarController.tabBar setHidden:YES];
     [self setupUI];
+     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     // Do any additional setup after loading the view.
 }
 // 支持设备自动旋转

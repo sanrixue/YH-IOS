@@ -60,19 +60,19 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getDataWithType) name:@"needrefreshTableView" object:nil];
     self.typeChoiceArray = [NSMutableArray arrayWithObjects:@1,@1,@1,@1, nil];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 55, SCREEN_WIDTH, SCREEN_HEIGHT-35-30- 49) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-35-30- 49) style:UITableViewStylePlain];
     [self.view addSubview:_tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource =self;
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView registerNib:[UINib nibWithNibName:@"MineNoticeTableViewCell" bundle:nil] forCellReuseIdentifier:@"MineNoticeTableViewCell"];
     self.dataArray = [[NSMutableArray alloc]init];
-    self.selectView = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-130, 35, 122, 120)];
-    [self.tableView addSubview:_selectView];
+    //self.selectView = [[UIView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH-130, 35, 122, 120)];
+    //[self.tableView addSubview:_selectView];
     
     _isHidden = YES;
     
-    self.filterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 38, 56, 40, 24)];
+    self.filterButton = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 38, 64, 40, 24)];
   //  [_filterButton setImage:[UIImage imageNamed:@"btn-filter"] forState:UIControlStateNormal];
     [_filterButton setBackgroundImage:[UIImage imageNamed:@"btn-filter"] forState:UIControlStateNormal];
     [self.view addSubview:_filterButton];
@@ -126,6 +126,12 @@
     if ([_typeChoiceArray[_typeChoiceArray.count-1] boolValue]) {
          [tyeString appendString:[NSString stringWithFormat:@"%lu",(unsigned long)_typeChoiceArray.count]];
     }
+    if (tyeString.length == 0) {
+        [_dataArray removeAllObjects];
+        [MRProgressOverlayView dismissOverlayForView:self.tableView animated:YES];
+        [self.tableView reloadData];
+        return;
+    }
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:[ NSString stringWithFormat:@"%@/api/v1/user/%@/type/%@/page/1/limit/10/notices", kBaseUrl,user.userNum,tyeString]
       parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -140,6 +146,7 @@
           [self.tableView reloadData];
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"Error: %@", error);
+          [MRProgressOverlayView dismissOverlayForView:self.tableView animated:YES];
       }];
 }
 
@@ -151,6 +158,10 @@
             NSString *addString = [NSString stringWithFormat:@"%d,",i+1];
             [tyeString appendString:addString];
         }
+    }
+    if (_typeChoiceArray.count ==0) {
+        [self.dataArray removeAllObjects];
+        [self.tableView reloadData];
     }
     if ([_typeChoiceArray[_typeChoiceArray.count-1] boolValue]) {
         [tyeString appendString:[NSString stringWithFormat:@"%lu",(unsigned long)_typeChoiceArray.count]];
@@ -221,10 +232,11 @@
         _cellView.selectedOption = nil;
         
 #warning ---- 想保持无论何种情况都上、下对齐,可以选择自己想要对齐的边，重新设置edgeInset
+      //  CGRect rect = [MLMOptionSelectView targetView:_showpopViewRectView];
         CGRect rect = [MLMOptionSelectView targetView:_showpopViewRectView];
-        _cellView.edgeInsets = UIEdgeInsetsMake(rect.origin.y+10, 100, 0, 0);
+        _cellView.edgeInsets = UIEdgeInsetsMake(rect.origin.y+10, 0, 0, 0);
         
-        [_cellView showOffSetScale:.2 viewWidth:150 targetView:_showpopViewRectView direction:MLMOptionSelectViewRight];
+        [_cellView showOffSetScale:.5 viewWidth:150 targetView:_showpopViewRectView direction:MLMOptionSelectViewRight];
     }];
 }
 

@@ -34,9 +34,9 @@
     if (self) {
         // self.numberOfColumns = 1;
         self.topAndBottomDustance = 0;
-        _headerViewHeight = 0;
-        _footViewHeight = 0;
-        self.startY = 0;
+        _headerViewHeight = 41;
+        _footViewHeight = 10;
+        self.startY = 1;
         self.maxYForColumn = [NSMutableDictionary dictionary];
         self.shouldanimationArr = [NSMutableArray array];
         self.cellLayoutInfo = [NSMutableDictionary dictionary];
@@ -62,7 +62,7 @@
     [self.headLayoutInfo removeAllObjects];
     [self.footLayoutInfo removeAllObjects];
     [self.maxYForColumn removeAllObjects];
-    self.startY = 0;
+    self.startY = 1;
     
     NSInteger sectionsCount = [self.collectionView numberOfSections];
     for (NSInteger section = 0; section < sectionsCount; section++) {
@@ -71,7 +71,7 @@
             self.cellDistance = 0;
         }
         else{
-            self.cellDistance = JYDefaultMargin;
+            self.cellDistance = 8;
         }
         CGFloat viewWidth = self.collectionView.frame.size.width;
         CGFloat itemWidth = (viewWidth - self.cellDistance*(self.numberOfColumns + 1))/self.numberOfColumns;
@@ -187,6 +187,7 @@
     }
     return attribute;
 }
+
 
 - (CGSize)collectionViewContentSize
 {

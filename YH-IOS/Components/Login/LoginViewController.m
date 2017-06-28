@@ -132,7 +132,7 @@
     //versionLabel
     self.versionLabel = [[UILabel alloc] init];
     self.version = [[Version alloc] init];
-    self.versionLabel.textColor = [UIColor whiteColor];
+    self.versionLabel.textColor = [UIColor blackColor];
     self.versionLabel.font = [UIFont systemFontOfSize:12];
     self.versionLabel.text = [NSString stringWithFormat:@"i%@(%@)", self.version.current, self.version.build];
     self.versionLabel.textAlignment = NSTextAlignmentCenter;
@@ -149,9 +149,6 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    // 隐藏掉的一些东西
-    [self.findPassword setHidden:YES];
-    [self.versionLabel setHidden:YES];
     isPad ? [self layoutWithIpad] : [self layoutView];
 }
 

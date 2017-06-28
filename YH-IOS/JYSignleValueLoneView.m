@@ -11,11 +11,12 @@
 @implementation JYSignleValueLoneView
 
 
--(id)initWithFrame:(CGRect)frame{
+-(id)initWithFrame:(CGRect)frame withShow:(BOOL)isShow{
     self = [super initWithFrame:frame];
     if (!self) {
         return nil;
     }
+     self.isShow = isShow;
     [self layoutAllSubView];
     return self;
 }
@@ -26,6 +27,17 @@
     UIView *seperLine = [[UIView alloc]init];
     seperLine.backgroundColor = [UIColor colorWithHexString:@"#bdbdbd"];
     [self addSubview:seperLine];
+    [seperLine setHidden:NO];
+    
+    _seperLine2 = [[UIView alloc]init];
+    _seperLine2.backgroundColor = [UIColor colorWithHexString:@"#bdbdbd"];
+    [self addSubview:_seperLine2];
+    if (_isShow) {
+         [_seperLine2 setHidden:NO];
+    }
+    else{
+        [_seperLine2 setHidden:YES];
+    }
     
     //self.backgroundColor = [UIColor yellowColor];
    // self.layer.borderColor = [UIColor colorWithHexString:@"#959595"].CGColor;
@@ -70,7 +82,7 @@
     self.warnLable.layer.cornerRadius = 3;
     self.warnLable.clipsToBounds = YES;
     self.warnLable.textColor = [UIColor whiteColor];
-    self.warnLable.backgroundColor = [UIColor redColor];
+    self.warnLable.backgroundColor = [UIColor colorWithHexString:@"#ff0000"];
     [self addSubview:self.warnLable];
     
     self.detailWarnLable = [UILabel new];
@@ -128,10 +140,17 @@
     }];
     
     [seperLine mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.mas_left).mas_offset(5);
-        make.bottom.equalTo(self.mas_bottom).mas_offset(-1);
-        make.height.equalTo(@1);
-        make.right.equalTo(self.mas_right).mas_offset(-5);
+        make.left.equalTo(self.mas_left).mas_offset(-2);
+        make.bottom.equalTo(self.mas_bottom).mas_offset(0);
+        make.height.equalTo(@0.5);
+        make.right.equalTo(self.mas_right).mas_offset(2);
+    }];
+    
+    [_seperLine2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.mas_left).mas_offset(-2);
+        make.top.equalTo(self.mas_top).mas_offset(0);
+        make.height.equalTo(@0.5);
+        make.right.equalTo(self.mas_right).mas_offset(2);
     }];
 }
 
@@ -152,6 +171,7 @@
     self.warnLable.backgroundColor = [self.model getMainColor];
     self.detailUtilLable.text = self.model.memo1;
     self.detailWarnLable.text = self.model.memo2;
+    self.utilLable.text =self.model.unit;
 }
 
 

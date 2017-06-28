@@ -26,7 +26,7 @@
 #import "YHKPIModel.h"
 
 
-#define kJYNotifyHeight 60
+#define kJYNotifyHeight 40
 
 @interface JYHomeViewController () <UITableViewDelegate, UITableViewDataSource, PagedFlowViewDelegate, PagedFlowViewDataSource, JYNotifyDelegate, JYFallsViewDelegate,SDCycleScrollViewDelegate> {
     
@@ -60,12 +60,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.automaticallyAdjustsScrollViewInsets = YES;
-    self.view.backgroundColor = JYColor_LightGray_White;
+    //self.automaticallyAdjustsScrollViewInsets = YES;
+     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.view.backgroundColor = [UIColor whiteColor];
     _noticeArray = [[NSMutableArray alloc]init];
     self.edgesForExtendedLayout = UIRectEdgeNone;
     dataListButtom = [NSMutableArray new];
-    self.tabBarController.tabBar.backgroundColor = [UIColor whiteColor];
+    self.tabBarController.tabBar.backgroundColor = [UIColor colorWithHexString:@"#f9f9f9f"];
+    self.navigationController.navigationBar.backgroundColor =[UIColor colorWithHexString:@"#f9f9f9f"];
     [self loadData];
     [self getData];
    // self.edgesForExtendedLayout = UIRectEdgeNone;
@@ -80,7 +82,10 @@
     _header = [MJRefreshGifHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNewData)];
     _header.lastUpdatedTimeLabel.hidden = YES;
    self.navigationController.navigationBar.translucent = NO;
+    self.tabBarController.tabBar.translucent = NO;
     self.rootTBView.mj_header = _header;
+    
+    
     [self noteToChangePwd];
     
 }
@@ -189,10 +194,19 @@
     
 }
 
+-(UIView*)footerView{
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 36)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH/2-11, 7, 22, 22)];
+    imageView.image = [UIImage imageNamed:@"refresh-footer"];
+    [footerView addSubview:imageView];
+    return footerView;
+}
+
+
 - (void)getData{
     _user = [[User alloc]init];
     [dataListButtom removeAllObjects];
-    NSString *kpiUrl = [NSString stringWithFormat:@"%@/api/v1/group/%@/role/%@/kpi",kBaseUrl2,self.user.groupID,self.user.roleID];
+    NSString *kpiUrl = [NSString stringWithFormat:@"%@/api/v1/group/%@/role/%@/kpi",kBaseUrl,self.user.groupID,self.user.roleID];
     // NSString *kpiUrl = @"http://yonghui-test.idata.mobi/api/v1/group/165/role/7/kpi";
     NSData *data;
     NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
@@ -211,6 +225,14 @@
         data= [NSData dataWithContentsOfFile:javascriptPath];
     }
     
+    if ([data isEqual:nil]) {
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        [alert addButton:@"重新加载" actionBlock:^(void) {
+            [self getData];
+        }];
+        [alert showSuccess:self title:@"温馨提示" subTitle:@"请检查您的网络状态" closeButtonTitle:nil duration:0.0f];
+        return;
+    }
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"kpi_data" ofType:@"json"];
     //  NSData *data = [NSData dataWithContentsOfFile:path];
     NSArray *arraySource = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
@@ -228,6 +250,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
+      self.tabBarController.tabBar.translucent = NO;
     
   /*  self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(2, 0, 70, 40)];
@@ -366,23 +389,28 @@
 
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
     YHKPIDetailModel *item = self.modeltop.data[index];
-    
-    [self jumpToDetailView:item.targeturl viewTitle:item.title];
+    NSString *targetString = [NSString stringWithFormat:@"%@",item.targeturl];
+    if (![item.targeturl hasPrefix:@"http"]) {
+        targetString = [NSString stringWithFormat:@"/%@",item.targeturl];
+    }
+    [self jumpToDetailView:targetString viewTitle:item.title];
 }
 
 - (UIScrollView *)rootSCView {
     
     if (!_rootTBView) {
         //给通知视图预留40height
-        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, JYVCWidth, self.view.frame.size.height -49 -64) style:UITableViewStylePlain];
+        _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, JYVCWidth, self.view.frame.size.height) style:UITableViewStylePlain];
         _rootTBView.separatorStyle = UITableViewCellSeparatorStyleNone;
         _rootTBView.showsVerticalScrollIndicator = NO;
         _rootTBView.dataSource = self;
         _rootTBView.delegate = self;
+        _rootTBView.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         _rootTBView.tableHeaderView = [self addHeaderView];
         self.edgesForExtendedLayout = UIRectEdgeNone;
+        _rootTBView.tableFooterView = [self footerView];
         _rootTBView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        _rootTBView.backgroundColor = JYColor_LightGray_White;
+        _rootTBView.backgroundColor = [UIColor whiteColor];
     }
     return _rootTBView;
 }
@@ -392,11 +420,11 @@
         NSMutableArray* noticearray = [[NSMutableArray alloc]init];
         _notifyView = [[JYNotifyView alloc] initWithFrame:CGRectMake(0, 0, JYVCWidth, kJYNotifyHeight)];
         if (_noticeArray.count >=2) {
-            [noticearray addObject:[NSString stringWithFormat:@"消息(%lu): %@", (unsigned long)_noticeArray.count,_noticeArray[0]]];
-             [noticearray addObject:[NSString stringWithFormat:@"消息(%lu): %@", (unsigned long)_noticeArray.count,_noticeArray[1]]];
+            [noticearray addObject:[NSString stringWithFormat:@"%@", _noticeArray[0]]];
+             [noticearray addObject:[NSString stringWithFormat:@"%@",_noticeArray[1]]];
         }
         else if (_noticeArray.count ==1){
-             [noticearray addObject:[NSString stringWithFormat:@"消息(1): %@",_noticeArray[0]]];
+             [noticearray addObject:[NSString stringWithFormat:@"%@",_noticeArray[0]]];
         }
         else{
             [noticearray addObject:@"暂无消息"];
@@ -444,7 +472,7 @@
 - (JYFallsView *)fallsView {
     if (!_fallsView) {
         
-        _fallsView = [[JYFallsView alloc] initWithFrame:CGRectMake(0, 0, JYVCWidth, JYVCHeight)];
+        _fallsView = [[JYFallsView alloc] initWithFrame:CGRectMake(5, 5, JYVCWidth-10, JYVCHeight-10)];
         _fallsView.dataSource = dataListButtom;
         _fallsView.delegate = self;
     }
@@ -486,6 +514,7 @@
        // [cell.contentView addSubview:_notifyView];
     }
     else{
+        cell.contentView.backgroundColor = [UIColor colorWithHexString:@"#f7fef5"];
         [cell.contentView addSubview:self.fallsView];
     }
     
@@ -494,6 +523,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 1;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        self.tabBarController.selectedIndex = 3;
+    }
 }
 
 #pragma mark - <PagedFlowViewDataSource>

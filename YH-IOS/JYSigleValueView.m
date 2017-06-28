@@ -61,12 +61,13 @@
     
     self.rateLable = [UILabel new];
     self.rateLable.text = @"-0.77";
-    self.rateLable.font = [UIFont systemFontOfSize:16];
+    self.rateLable.font = [UIFont systemFontOfSize:20];
     self.rateLable.textAlignment = NSTextAlignmentRight;
     [self addSubview:_rateLable];
     
     self.warnIamgeView = [UIImageView new];
     self.warnIamgeView.image = [UIImage imageNamed:@"ic_red_sign"];
+    self.warnIamgeView.contentMode = UIImageRenderingModeAlwaysOriginal;
     [self addSubview:_warnIamgeView];
     
     [self.titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -82,22 +83,20 @@
         make.left.equalTo(self.titleLable.mas_left).mas_offset(0);
         make.right.equalTo(self.utilLable.mas_left).mas_offset(-6);
         make.bottom.equalTo(self.warnLable.mas_top).mas_offset(-13);
-        make.width.equalTo(@50);
+        //make.width.equalTo(@50);
         make.height.lessThanOrEqualTo(@17);
     }];
     
     [self.utilLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.valueLable.mas_top).mas_offset(0);
-        make.left.equalTo(self.valueLable.mas_right).mas_offset(6);
-        make.bottom.equalTo(self.valueLable.mas_bottom).mas_offset(0);
+        make.bottom.equalTo(self.valueLable.mas_bottom).mas_offset(-2);
         make.width.equalTo(@15);
        // make.height.equalTo(self.valueLable.mas_height);
     }];
     
     [self.rateLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_top).mas_offset(38);
+        make.top.equalTo(self.mas_top).mas_offset(58);
         make.right.equalTo(self.mas_right).mas_offset(-10);
-        make.left.equalTo(self.utilLable.mas_right).mas_offset(10);
+       // make.left.equalTo(self.utilLable.mas_right).mas_offset(10);
         make.bottom.equalTo(@[self.valueLable.mas_bottom,self.utilLable.mas_bottom]);
     }];
     
@@ -130,6 +129,7 @@
     self.valueLable.textColor = [self.model getMainColor];
     self.valueLable.text = self.model.hightLightData.number;
     self.warnLable.text = self.model.memo1;
+    self.utilLable.text = self.model.unit;
     self.rateLable.textColor=[self.model getMainColor];
     self.rateLable.text =self.model.hightLightData.compare;
 }

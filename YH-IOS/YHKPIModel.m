@@ -80,8 +80,8 @@
 -(UIColor *)getMainColor{
     NSArray *colorArray = @[@"#ff0000",@"#f39800",@"#6aa657",@"#ff0000",@"#f39800",@"#6aa657"];
     UIColor *color;
-    if (self.hightLightData.arrow > 0) {
-      color =  [UIColor colorWithHexString:colorArray[self.hightLightData.arrow-1]];
+    if (self.hightLightData.arrow >= 0) {
+      color =  [UIColor colorWithHexString:colorArray[self.hightLightData.arrow]];
     }
     return color;
 }

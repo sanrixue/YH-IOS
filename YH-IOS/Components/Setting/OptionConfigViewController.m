@@ -34,7 +34,7 @@
     self.automaticallyAdjustsScrollViewInsets = YES;
     [self.tabBarController.tabBar setHidden:YES];
     [self setupUI];
-    
+     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     self.settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kSettingConfigFileName];
     // Do any additional setup after loading the view.
 }
@@ -52,12 +52,12 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     if ([self.title isEqualToString:@"选项配置"]) {
-        NSDictionary *infodict = @{@"锁屏设置": @(YES), @"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
+        NSDictionary *infodict = @{@"锁屏设置": @(YES), @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
         _userdict = [FileUtils readConfigFile:userConfigPath];
         BOOL isUseGesturePassword = [_userdict[kIsUseGesturePasswordCUName] boolValue];
         if (!isUseGesturePassword) {
-            infodict = @{@"锁屏设置": @(NO), @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""} };
+            infodict = @{@"锁屏设置": @(NO), @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""} };
         }
         self.arraydict = infodict;
         [self.tableView reloadData];

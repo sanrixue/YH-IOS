@@ -25,7 +25,7 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KEm-AE-C5n">
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" onImage="btn_switch_close" offImage="btn_switch_open" translatesAutoresizingMaskIntoConstraints="NO" id="KEm-AE-C5n">
                         <rect key="frame" x="255" y="5" width="22" height="33.5"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="20" id="2R2-w2-Ge8"/>
@@ -48,4 +48,8 @@
             </connections>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="btn_switch_close" width="50" height="25"/>
+        <image name="btn_switch_open" width="50" height="25"/>
+    </resources>
 </document>

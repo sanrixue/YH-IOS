@@ -12,7 +12,14 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
+    self.septopView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
+    self.septopView.backgroundColor = [UIColor colorWithHexString:@"#bdbdbd"];
+    [self addSubview:self.septopView];
+    
+    self.sepbottomView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height-0.5, SCREEN_WIDTH, 0.5)];
+    self.sepbottomView.backgroundColor = [UIColor colorWithHexString:@"#bdbdbd"];
+    //[self addSubview:self.sepbottomView];
+   // Initialization code
 }
 
 

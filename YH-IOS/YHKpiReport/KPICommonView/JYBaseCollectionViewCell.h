@@ -35,5 +35,6 @@
 
 //长单值类型
 @property (nonatomic, strong) JYSignleValueLoneView *signleLongValue;
+@property (nonatomic, assign) BOOL isFirstRow;
 
 @end

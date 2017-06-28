@@ -29,7 +29,7 @@ NSString *json1 = @"{\"name\":\"销售额\",\"config\":{\"color\":[\"#686868\",\
         // 暂时写死json
         NSString *newjson;
         User* user = [[User alloc]init];
-        NSString *baseString = [NSString stringWithFormat:@"http://development.shengyiplus.com/api/v1/group/%@/template/5/report/9903/json",user.groupID];
+        NSString *baseString = [NSString stringWithFormat:@"%@/api/v1/group/%@/template/5/report/9903/json",kBaseUrl,user.groupID];
         NSString *jsonURL = [NSString stringWithFormat:@"%@",baseString];
         HttpResponse *reponse = [HttpUtils httpGet:jsonURL];
         newjson = reponse.string;

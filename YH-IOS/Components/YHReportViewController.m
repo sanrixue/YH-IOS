@@ -25,6 +25,8 @@
 }
 
 @property (nonatomic, strong)NSArray<ListPageList *> *listArray;
+@property (nonatomic, strong)YHMutileveMenu *menuView ;
+@property (nonatomic, strong) UIRefreshControl* refreshControl;
 
 @end
 
@@ -32,17 +34,45 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tabBarController.tabBar.backgroundColor = [UIColor colorWithHexString:@"#f9f9f9f"];
+    self.navigationController.navigationBar.backgroundColor =[UIColor colorWithHexString:@"#f9f9f9f"];
     _list = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5", nil];
     //[self initCategoryMenu];
      self.view.backgroundColor = [UIColor colorWithHexString:@"#f7fef5"];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    [self getdata];
+   // [self getdata];
+    [self getSomeThingNew];
    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Barcode-Scan-1"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(jumpToScanView)];
+    
+   _menuView  = [[YHMutileveMenu alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 49) WithData:_listArray withSelectIndex:^(NSInteger left, NSInteger right, ListItem* info) {
+       // NSLog(@"%@",info);
+        
+        [self jumpToSubjectView:info];
+    }];
+    _menuView.needToScorllerIndex = 0;
+    _menuView.leftSelectBgColor = [UIColor whiteColor];
+    _menuView.isRecordLastScroll = NO;
+    [self.view addSubview:_menuView];
+    
+    _refreshControl = [[UIRefreshControl alloc] init];
+    
+    [_refreshControl addTarget:self
+     
+                        action:@selector(getSomeThingNew)
+     
+              forControlEvents:UIControlEventValueChanged];
+    
+    [_refreshControl setAttributedTitle:[[NSAttributedString alloc] init]];
+    
+    [self.menuView.rightCollection addSubview:_refreshControl];
     // Do any additional setup after loading the view.
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [self.navigationController.navigationBar setHidden:NO];
+    [self.navigationController.navigationBar setTintColor:[UIColor blackColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,16 +81,8 @@
 }
 
 - (void)initCategoryMenu {
-    
-    YHMutileveMenu *view = [[YHMutileveMenu alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 49) WithData:_listArray withSelectIndex:^(NSInteger left, NSInteger right, ListItem* info) {
-        NSLog(@"%@",info);
-
-        [self jumpToSubjectView:info];
-    }];
-    view.needToScorllerIndex = 0;
-    view.leftSelectBgColor = [UIColor whiteColor];
-    view.isRecordLastScroll = NO;
-    [self.view addSubview:view];
+    [self.refreshControl endRefreshing];
+    [self.menuView reloadData];
 }
 
 
@@ -213,7 +235,7 @@
 -(void)getdata{
     user = [[User alloc]init];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:[NSString stringWithFormat:@"http://development.shengyiplus.com/api/v1/group/%@/role/%@/analyses",user.groupID,user.roleID]
+    [manager GET:[NSString stringWithFormat:@"%@/api/v1/group/%@/role/%@/analyses",kBaseUrl,user.groupID,user.roleID]
       parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
           NSLog(@"下载成功");
           NSArray *dic = responseObject[@"data"];
@@ -223,6 +245,57 @@
       } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
           NSLog(@"Error: %@", error);
       }];
+}
+
+
+-(void)getSomeThingNew {
+    user = [[User alloc]init];
+    NSString *kpiUrl = [NSString stringWithFormat:@"%@/api/v1/group/%@/role/%@/analyses",kBaseUrl,user.groupID,user.roleID];
+    NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
+    NSString*fileName =  @"home_report";
+    javascriptPath = [javascriptPath stringByAppendingPathComponent:fileName];
+    if ([HttpUtils isNetworkAvailable2]) {
+        HttpResponse *reponse = [HttpUtils httpGet:kpiUrl];
+        if ([reponse.statusCode  isEqual: @200] || [HttpUtils isNetworkAvailable2]) {
+            NSData *data = reponse.received;
+            if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
+                [FileUtils removeFile:javascriptPath];
+            }
+            [reponse.received writeToFile:javascriptPath atomically:YES];
+            NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
+            NSArray<ListPageList*> *array= [MTLJSONAdapter modelsOfClass:ListPageList.class fromJSONArray:dic error:nil];
+            self.listArray = [array copy];
+            [self initCategoryMenu];
+        }
+        else{
+            NSData *data = [NSData dataWithContentsOfFile:javascriptPath];
+            NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
+            if (dic.count == 0) {
+                SCLAlertView *alert = [[SCLAlertView alloc] init];
+                    [alert addButton:@"重新加载" actionBlock:^(void) {
+                        [self getSomeThingNew];
+                    }];
+                    [alert showSuccess:self title:@"温馨提示" subTitle:@"暂无数据" closeButtonTitle:nil duration:0.0f];
+            }
+            NSArray<ListPageList*> *array= [MTLJSONAdapter modelsOfClass:ListPageList.class fromJSONArray:dic error:nil];
+            self.listArray = [array copy];
+            [self initCategoryMenu];
+        }
+    }
+    else{
+        NSData *data = [NSData dataWithContentsOfFile:javascriptPath];
+        NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
+        if (dic.count == 0) {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            [alert addButton:@"重新加载" actionBlock:^(void) {
+                [self getSomeThingNew];
+            }];
+            [alert showSuccess:self title:@"温馨提示" subTitle:@"请检查您的网络状态" closeButtonTitle:nil duration:0.0f];
+        }
+        NSArray<ListPageList*> *array= [MTLJSONAdapter modelsOfClass:ListPageList.class fromJSONArray:dic error:nil];
+        self.listArray = [array copy];
+        [self initCategoryMenu];
+    }
 }
 
 @end

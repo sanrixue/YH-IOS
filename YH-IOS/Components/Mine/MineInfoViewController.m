@@ -71,7 +71,7 @@
     _requestCommane = [[RACCommand  alloc]initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
         RACSignal *requestSignal = [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
             AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            [manager GET:@"http://yonghui-test.idata.mobi/api/v1/user/13564379606/group/0/role/0/statistics" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            [manager GET:[NSString stringWithFormat:@"%@/api/v1/user/%@/group/%@/role/%@/statistics",kBaseUrl,user.userNum,user.groupID,user.roleID] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSLog(@"用户信息 %@",responseObject);
                 [subscriber sendNext:responseObject];
                 [subscriber sendCompleted];
@@ -100,7 +100,7 @@
     self.minetableView.tableHeaderView=_mineHeaderView;
     self.minetableView.delegate = self;
     self.minetableView.dataSource = self;
-    self.minetableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.minetableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     UINib *mineInfoCell = [UINib nibWithNibName:@"MineInfoTableViewCell" bundle:nil];
     [self.minetableView registerNib:mineInfoCell forCellReuseIdentifier:@"MineInfoTableViewCell"];
     self.minetableView.tableFooterView = [self LogoutFooterView];
@@ -166,6 +166,15 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 35;
+}
+
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 35)];
+    headView.backgroundColor = [UIColor whiteColor];
+    UIView *sepView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
+    sepView.backgroundColor = [UIColor colorWithHexString:@"#bdbdbd"];
+    [headView addSubview:sepView];
+    return headView;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -239,8 +248,11 @@
 
 -(UIView *)LogoutFooterView{
     
-    UIView *logoutView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
-    UIButton *logoutButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 10,SCREEN_WIDTH, 40)];
+    UIView *logoutView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
+    UIView *sepView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
+    sepView.backgroundColor = [UIColor colorWithHexString:@"#bdbdbd"];
+    [logoutView addSubview:sepView];
+    UIButton *logoutButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 20,SCREEN_WIDTH, 40)];
     [logoutView addSubview:logoutButton];
     logoutButton.layer.borderWidth = 1;
     logoutButton.layer.borderColor = [UIColor colorWithHexString:@"#d2d2d2"].CGColor;

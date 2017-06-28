@@ -49,7 +49,7 @@
     NSDictionary* betaDict = [FileUtils readConfigFile:settingsConfigPath];
     self.userInfo = [[UserInfoModel alloc] initWithDict:betaDict];
     NSLog(@"%@",_userInfo.user_name);
-    
+     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     [UIApplication sharedApplication].applicationSupportsShakeToEdit = YES;
     [self becomeFirstResponder];
     // Do any additional setup after loading the view.

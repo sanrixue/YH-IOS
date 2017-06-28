@@ -22,7 +22,7 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
 @interface YHMutileveMenu()
 
 @property (strong, nonatomic) UITableView *leftTable;
-@property (strong, nonatomic) UICollectionView *rightCollection;
+
 
 @property (assign, nonatomic) BOOL isReturnLastOffset;
 @property (strong, nonatomic) UIView *sepView;
@@ -33,7 +33,7 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
 @implementation YHMutileveMenu
 
 
--(id)initWithFrame:(CGRect)frame WithData:(NSArray *)data withSelectIndex:(void (^)(NSInteger, NSInteger, id))selectIndex{
+-(id)initWithFrame:(CGRect)frame WithData:(NSArray *)data withSelectIndex:(void (^)(NSInteger, NSInteger, ListItem*))selectIndex{
     if (self == [self initWithFrame:frame]) {
         if (data.count == 0) {
             return nil;
@@ -140,6 +140,7 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
     UIImageView *bgView = [[UIImageView alloc]initWithFrame:cell.frame];
     bgView.image = [UIImage imageNamed:@"left_list_bg"];
     cell.selectedBackgroundView = bgView;
+    cell.contentLabel.highlightedTextColor = [UIColor colorWithHexString:@"#6aa657"];
    // cell.selectionStyle = UITableViewCellSelectionStyleNone;
    // cell.selectedBackgroundView = [[UIView alloc]initWithFrame:cell.frame];
     //cell.selectedBackgroundView.layer.borderWidth = 1;
@@ -152,7 +153,7 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _selectIndex = indexPath.row;
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.textLabel.textColor = [UIColor colorWithHexString:@"#6aa657"];
+    cell.textLabel.highlightedTextColor = [UIColor colorWithHexString:@"#6aa657"];
    /* if (self.noteSepView) {
         [self.noteSepView removeFromSuperview];
     }
@@ -185,13 +186,13 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
 
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
-    CGSize size = CGSizeMake(kScreenWidth-100-20, 20);
+    CGSize size = CGSizeMake(kScreenWidth-100-20, 30);
     return size;
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     
-    UIEdgeInsets inset = UIEdgeInsetsMake(10, 10, 10, 10);
+    UIEdgeInsets inset = UIEdgeInsetsMake(10, 10, 0, 10);
     return inset;
 }
 
@@ -236,8 +237,11 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
         if ((indexPath.row+1) % 3 == 0) {
             bgImageView  = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"btn_bg_aaa"]];
         }
-        else if ((indexPath.row+1) % 3 == 1 || indexPath.row+1 == 1){
+        else if (((indexPath.row+1) % 3 == 1 && indexPath.row > 3) || indexPath.row+1 == 1){
             bgImageView  = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"btn_bg_a"]];
+        }
+        else if ((indexPath.row+1) % 3 == 1){
+            bgImageView  = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"btn_bg_ab"]];
         }
         else{
             bgImageView  = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"btn_bg_aa"]];
@@ -251,7 +255,7 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
 
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    id menu = _allData[_selectIndex].listpage[indexPath.section].listData[indexPath.row];
+    ListItem* menu = _allData[_selectIndex].listpage[indexPath.section].listData[indexPath.row];
     void (^select)(NSInteger left,NSInteger right,id info) = self.block;
     select(self.selectIndex,indexPath.row,menu);
 }

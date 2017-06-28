@@ -46,6 +46,7 @@
      NSString* noticeFilePath = [FileUtils dirPath:kConfigDirName FileName:kLocalNotificationConfigFileName];
     self.noticeDict = [FileUtils readConfigFile:noticeFilePath];
     self.version = [[Version alloc]init];
+     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
  //   self.pgyLinkString =  [NSString stringWithFormat:@"i%@(%@)", _version.current, _version.build];
     // Do any additional setup after loading the view.
 }

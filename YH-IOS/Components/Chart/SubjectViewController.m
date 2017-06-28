@@ -19,6 +19,7 @@
 #import "DropTableViewCell.h"
 #import "DropViewController.h"
 #import "CommentViewController.h"
+#import "ThreeSelectViewController.h"
 
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
@@ -716,7 +717,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 }
 
 - (void)actionDisplaySearchItems {
-    UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    ThreeSelectViewController *selectorView = [[ThreeSelectViewController alloc]init];
+    UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:selectorView];
+    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
+  /* UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     ReportSelectorViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"ReportSelectorSegueIdentifier"];
     subjectView.bannerName = self.bannerName;
@@ -724,8 +729,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     subjectView.reportID = self.reportID;
     subjectView.templateID  =self.templateID;
     UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
-    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
-   // [self performSegueWithIdentifier:kReportSelectorSegueIdentifier sender:nil];
+    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];*/
+    
 }
 
 - (void)actionWebviewScreenShot{
@@ -734,13 +739,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             UIImage *image;
             NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kSettingConfigFileName];
             betaDict = [FileUtils readConfigFile:settingsConfigPath];
-            if (betaDict[@"image_within_screen"] || [betaDict[@"image_within_screen"] boolValue]) {
-                image = [self saveWebViewAsImage];
+           // if (betaDict[@"image_within_screen"] || [betaDict[@"image_within_screen"] boolValue]) {
+             //   image = [self saveWebViewAsImage];
               //  image = [self createViewImage:self.navigationController.view];
-            }
-            else {
+            //}
+            //else {
                 image = [self createViewImage:self.navigationController.view];
-            }
+            //}
             dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1ull *NSEC_PER_SEC);
             dispatch_after(time, dispatch_get_main_queue(), ^{
                 [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;

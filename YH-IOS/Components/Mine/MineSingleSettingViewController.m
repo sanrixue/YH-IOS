@@ -39,6 +39,7 @@
     [self.navigationController.navigationBar setHidden:NO];
     self.automaticallyAdjustsScrollViewInsets = YES;
     [self.tabBarController.tabBar setHidden:YES];
+     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     userInfoArray = @[@"应用信息",@"选项配置",@"消息推送",@"更新日志"];
     user =[[User alloc]init];
     [self setupUI];
@@ -147,14 +148,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 1:{
-            NSDictionary *infodict = @{@"锁屏设置":@"", @"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@""};
+            NSDictionary *infodict = @{@"锁屏设置":@"", @"报表操作":@"", @"清理缓存":@""};
             NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
             BOOL isUseGesturePassword = [userDict[kIsUseGesturePasswordCUName] boolValue];
             if (!isUseGesturePassword) {
-                infodict = @{@"锁屏设置": @{@"启用锁屏":@NO}, @"分享微信长图":@"", @"报表操作":@"", @"清理缓存":@""};
+                infodict = @{@"锁屏设置": @{@"启用锁屏":@NO},  @"报表操作":@"", @"清理缓存":@""};
             }
-            NSArray* titleArray = @[@"锁屏设置",@"报表操作",@"微信分享长图",@"清理缓存"];
+            NSArray* titleArray = @[@"锁屏设置",@"报表操作",@"清理缓存"];
             OptionConfigViewController *optionView = [[OptionConfigViewController alloc]init];
             optionView.title = userInfoArray[indexPath.row];
             optionView.arraydict = infodict;

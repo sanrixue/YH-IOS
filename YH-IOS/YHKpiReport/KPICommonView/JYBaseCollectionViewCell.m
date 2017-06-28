@@ -77,7 +77,7 @@
 
 -(JYSignleValueLoneView *)signleLongValue{
     if (!_signleLongValue) {
-        _signleLongValue = [[JYSignleValueLoneView alloc]initWithFrame:CGRectMake(8, 0, self.bounds.size.width-16,58)];
+        _signleLongValue = [[JYSignleValueLoneView alloc]initWithFrame:CGRectMake(8, 0, self.bounds.size.width-16,58) withShow:self.isFirstRow];
          _signleLongValue.model = self.model;
     }
     return _signleLongValue;

@@ -25,6 +25,7 @@
 #import "iflyMSC/IFlySpeechSynthesizer.h"
 #import "iflyMSC/IFlySpeechUtility.h"
 #import <UserNotifications/UserNotifications.h>
+#import "GuidePageViewController.h"
 
 
 #define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
@@ -88,10 +89,29 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _isReApp = YES;
+    
+    // 获取版本号
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    // app版本
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    // app build版本
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
-    
-    [self.window setRootViewController:initViewController];
+    NSString *old_Version =[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"firstStart"]];
+    if([old_Version isEqual:nil] || ![app_Version isEqualToString:old_Version] ){
+        
+        [[NSUserDefaults standardUserDefaults] setObject:app_Version forKey:@"firstStart"];
+        GuidePageViewController *guidePage = [[GuidePageViewController alloc]init];
+        [self.window setRootViewController:guidePage];
+        NSString* sharedPath = [FileUtils sharedPath];
+        NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", sharedPath, kCachedHeaderConfigFileName];
+        [FileUtils removeFile:cachedHeaderPath];
+        cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
+        [FileUtils removeFile:cachedHeaderPath];
+    }else{
+        [self.window setRootViewController:initViewController];
+    }
+    //[self.window setRootViewController:initViewController];
     [self.window makeKeyAndVisible];
     NSString *initString  = [NSString stringWithFormat:@"appid = %@",@"581aad1c"];
     [IFlySpeechUtility createUtility:initString];

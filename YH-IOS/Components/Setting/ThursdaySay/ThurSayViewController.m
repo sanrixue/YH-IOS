@@ -23,10 +23,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self.navigationController.navigationBar setHidden:NO];
-    self.automaticallyAdjustsScrollViewInsets = YES;
+    self.view.backgroundColor = [UIColor whiteColor];
     [self.tabBarController.tabBar setHidden:YES];
-    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.navigationController.navigationBar setHidden:NO];
+    //self.automaticallyAdjustsScrollViewInsets = YES;
+    self.browser = [[UIWebView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height+49)];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    self.browser.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.browser];
     
     self.urlString = [NSString stringWithFormat:kThursdaySayMobilePath, kBaseUrl, [FileUtils currentUIVersion]];

@@ -37,6 +37,7 @@
             break;
         case DashBoardTypeSignleLongValue:
             self.signleLongValue.model  = self.model;
+            self.signleLongValue.isShow = self.isFirstRow;
             [self addSubview:self.signleLongValue];
             break;
             

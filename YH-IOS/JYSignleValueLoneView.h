@@ -17,7 +17,11 @@
 @property(nonatomic, strong)UILabel *warnLable;
 @property(nonatomic, strong)UILabel *detailUtilLable;
 @property(nonatomic, strong)UILabel *detailWarnLable;
+@property(nonatomic, strong)UIView *seperLine2;
+@property(nonatomic, assign)BOOL isShow;
 
 @property (nonatomic, copy) YHKPIDetailModel *model;
+
+-(id)initWithFrame:(CGRect)frame withShow:(BOOL)isShow;
 
 @end

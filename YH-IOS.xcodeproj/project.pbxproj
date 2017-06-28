@@ -15,12 +15,17 @@
 		9129DD3C1EF4D60600900611 /* JHCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9129DD381EF4D60600900611 /* JHCollectionViewFlowLayout.m */; };
 		9129DD3D1EF4D60600900611 /* JHCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9129DD3A1EF4D60600900611 /* JHCollectionViewLayoutAttributes.m */; };
 		9129DD3F1EF51FF400900611 /* dist.zip in Resources */ = {isa = PBXBuildFile; fileRef = 9129DD3E1EF51FF400900611 /* dist.zip */; };
+		914509781F02247D00ED82D6 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 914509771F02247D00ED82D6 /* Node.m */; };
+		9145097B1F0224C100ED82D6 /* TreeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9145097A1F0224C100ED82D6 /* TreeTableView.m */; };
+		9145097E1F02257100ED82D6 /* ThreeSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9145097D1F02257100ED82D6 /* ThreeSelectViewController.m */; };
 		914F0A031EFA47DD0094D13A /* JYSignleValueLoneView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F0A021EFA47DD0094D13A /* JYSignleValueLoneView.m */; };
 		914F3F211EE92BCE004B2C25 /* MineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F201EE92BCE004B2C25 /* MineController.m */; };
 		914F3F241EE92BE7004B2C25 /* MineInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F231EE92BE7004B2C25 /* MineInfoViewController.m */; };
 		914F3F271EE92BF8004B2C25 /* InstituteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F261EE92BF8004B2C25 /* InstituteViewController.m */; };
 		914F3F2A1EE92C08004B2C25 /* NoticeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */; };
 		914F3F301EE93C78004B2C25 /* MineHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F2F1EE93C78004B2C25 /* MineHeadView.m */; };
+		9169BC631F00FB9A00419E52 /* GuidePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9169BC621F00FB9A00419E52 /* GuidePageViewController.m */; };
+		91A751A81EFF953500D1037E /* JYCollectionFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A751A71EFF953500D1037E /* JYCollectionFooterView.m */; };
 		91B70D5F1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B70D5D1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m */; };
 		91B70D601EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B70D5E1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib */; };
 		91B70D681EF8C84600C02F16 /* JYSigleValueView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B70D671EF8C84600C02F16 /* JYSigleValueView.m */; };
@@ -32,6 +37,7 @@
 		91D77F381EEAA4D1007405A0 /* LeftIamgeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D77F361EEAA4D1007405A0 /* LeftIamgeTableViewCell.xib */; };
 		91D77F3C1EEAA61D007405A0 /* RightButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F3A1EEAA61D007405A0 /* RightButtonTableViewCell.m */; };
 		91D77F3D1EEAA61D007405A0 /* RightButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D77F3B1EEAA61D007405A0 /* RightButtonTableViewCell.xib */; };
+		91DA7F021F03B1E5007E25B8 /* RightSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DA7F011F03B1E5007E25B8 /* RightSwitchTableViewCell.m */; };
 		91DB235C1EEB98F900FC8413 /* SingleLabelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB235B1EEB98F900FC8413 /* SingleLabelTableViewCell.m */; };
 		91DB235F1EEBBC7600FC8413 /* MineQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB235E1EEBBC7600FC8413 /* MineQuestionViewController.m */; };
 		91DB23D01EEBF66700FC8413 /* NoticeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB23CF1EEBF66700FC8413 /* NoticeDetailViewController.m */; };
@@ -526,6 +532,12 @@
 		9129DD391EF4D60600900611 /* JHCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JHCollectionViewLayoutAttributes.h; path = Class/JHCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
 		9129DD3A1EF4D60600900611 /* JHCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JHCollectionViewLayoutAttributes.m; path = Class/JHCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
 		9129DD3E1EF51FF400900611 /* dist.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = dist.zip; sourceTree = "<group>"; };
+		914509761F02247D00ED82D6 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		914509771F02247D00ED82D6 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
+		914509791F0224C100ED82D6 /* TreeTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeTableView.h; sourceTree = "<group>"; };
+		9145097A1F0224C100ED82D6 /* TreeTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TreeTableView.m; sourceTree = "<group>"; };
+		9145097C1F02257100ED82D6 /* ThreeSelectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreeSelectViewController.h; sourceTree = "<group>"; };
+		9145097D1F02257100ED82D6 /* ThreeSelectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThreeSelectViewController.m; sourceTree = "<group>"; };
 		914F0A011EFA47DD0094D13A /* JYSignleValueLoneView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYSignleValueLoneView.h; sourceTree = "<group>"; };
 		914F0A021EFA47DD0094D13A /* JYSignleValueLoneView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYSignleValueLoneView.m; sourceTree = "<group>"; };
 		914F3F1F1EE92BCE004B2C25 /* MineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineController.h; sourceTree = "<group>"; };
@@ -538,6 +550,10 @@
 		914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeTableViewController.m; sourceTree = "<group>"; };
 		914F3F2E1EE93C78004B2C25 /* MineHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineHeadView.h; sourceTree = "<group>"; };
 		914F3F2F1EE93C78004B2C25 /* MineHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineHeadView.m; sourceTree = "<group>"; };
+		9169BC611F00FB9A00419E52 /* GuidePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuidePageViewController.h; path = Login/GuidePageViewController.h; sourceTree = "<group>"; };
+		9169BC621F00FB9A00419E52 /* GuidePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuidePageViewController.m; path = Login/GuidePageViewController.m; sourceTree = "<group>"; };
+		91A751A61EFF953500D1037E /* JYCollectionFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYCollectionFooterView.h; sourceTree = "<group>"; };
+		91A751A71EFF953500D1037E /* JYCollectionFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYCollectionFooterView.m; sourceTree = "<group>"; };
 		91B70D5C1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHReportLeftTextTableViewCell.h; sourceTree = "<group>"; };
 		91B70D5D1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHReportLeftTextTableViewCell.m; sourceTree = "<group>"; };
 		91B70D5E1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YHReportLeftTextTableViewCell.xib; sourceTree = "<group>"; };
@@ -556,6 +572,8 @@
 		91D77F391EEAA61D007405A0 /* RightButtonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightButtonTableViewCell.h; sourceTree = "<group>"; };
 		91D77F3A1EEAA61D007405A0 /* RightButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightButtonTableViewCell.m; sourceTree = "<group>"; };
 		91D77F3B1EEAA61D007405A0 /* RightButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightButtonTableViewCell.xib; sourceTree = "<group>"; };
+		91DA7F001F03B1E5007E25B8 /* RightSwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightSwitchTableViewCell.h; sourceTree = "<group>"; };
+		91DA7F011F03B1E5007E25B8 /* RightSwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightSwitchTableViewCell.m; sourceTree = "<group>"; };
 		91DB235A1EEB98F900FC8413 /* SingleLabelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleLabelTableViewCell.h; sourceTree = "<group>"; };
 		91DB235B1EEB98F900FC8413 /* SingleLabelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleLabelTableViewCell.m; sourceTree = "<group>"; };
 		91DB235D1EEBBC7600FC8413 /* MineQuestionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineQuestionViewController.h; sourceTree = "<group>"; };
@@ -1445,6 +1463,19 @@
 			name = CollectionLayout;
 			sourceTree = "<group>";
 		};
+		914509731F02244800ED82D6 /* SelectView */ = {
+			isa = PBXGroup;
+			children = (
+				914509761F02247D00ED82D6 /* Node.h */,
+				914509771F02247D00ED82D6 /* Node.m */,
+				914509791F0224C100ED82D6 /* TreeTableView.h */,
+				9145097A1F0224C100ED82D6 /* TreeTableView.m */,
+				9145097C1F02257100ED82D6 /* ThreeSelectViewController.h */,
+				9145097D1F02257100ED82D6 /* ThreeSelectViewController.m */,
+			);
+			name = SelectView;
+			sourceTree = "<group>";
+		};
 		914F3F2C1EE92E9D004B2C25 /* MineConst */ = {
 			isa = PBXGroup;
 			children = (
@@ -1479,6 +1510,15 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		9169BC5E1F00FB8700419E52 /* GuideView */ = {
+			isa = PBXGroup;
+			children = (
+				9169BC611F00FB9A00419E52 /* GuidePageViewController.h */,
+				9169BC621F00FB9A00419E52 /* GuidePageViewController.m */,
+			);
+			name = GuideView;
+			sourceTree = "<group>";
+		};
 		91D77F191EEA90D5007405A0 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -1488,6 +1528,8 @@
 				91DB246A1EEE9A7200FC8413 /* CustomCell.h */,
 				91DB246B1EEE9A7200FC8413 /* CustomCell.m */,
 				91DB246C1EEE9A7200FC8413 /* CustomCell.xib */,
+				91DA7F001F03B1E5007E25B8 /* RightSwitchTableViewCell.h */,
+				91DA7F011F03B1E5007E25B8 /* RightSwitchTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -1951,6 +1993,7 @@
 		C4C628381C0C1ED6000AD5D8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				9169BC5E1F00FB8700419E52 /* GuideView */,
 				9129DD321EF4D5F000900611 /* CollectionLayout */,
 				91EF8DCB1EF389F600333746 /* Topic */,
 				91DB248F1EF240B500FC8413 /* Report */,
@@ -1987,6 +2030,7 @@
 		C4C6283A1C0C1ED6000AD5D8 /* Subject */ = {
 			isa = PBXGroup;
 			children = (
+				914509731F02244800ED82D6 /* SelectView */,
 				C4E93F0C1D38BFC000DBEC90 /* ReportSelector */,
 				C4C6283B1C0C1ED6000AD5D8 /* SubjectViewController.h */,
 				C4C6283C1C0C1ED6000AD5D8 /* SubjectViewController.m */,
@@ -2932,6 +2976,8 @@
 				F68C25601EC2D44F0069C041 /* JYClickableLineView.m */,
 				F68C25611EC2D44F0069C041 /* JYCollectionHeader.h */,
 				F68C25621EC2D44F0069C041 /* JYCollectionHeader.m */,
+				91A751A61EFF953500D1037E /* JYCollectionFooterView.h */,
+				91A751A71EFF953500D1037E /* JYCollectionFooterView.m */,
 				F68C25631EC2D44F0069C041 /* JYCompareSaleView.h */,
 				F68C25641EC2D44F0069C041 /* JYCompareSaleView.m */,
 				F68C25651EC2D44F0069C041 /* JYExcelView.h */,
@@ -3486,6 +3532,7 @@
 				F68C25DD1EC2D4790069C041 /* JYLandscapeBar.m in Sources */,
 				F68C25941EC2D44F0069C041 /* JYPortraitBarView.m in Sources */,
 				F68C25851EC2D44F0069C041 /* JYBaseCollectionViewCell.m in Sources */,
+				9169BC631F00FB9A00419E52 /* GuidePageViewController.m in Sources */,
 				F624579E1EA5FBE1006834D2 /* UINavigationBar+Category.m in Sources */,
 				F62456391EA5FACD006834D2 /* Foundation + Log.m in Sources */,
 				F63D49F81EB329A20004BCC8 /* ChangeLineSpaceVc.m in Sources */,
@@ -3530,6 +3577,7 @@
 				F68C25961EC2D44F0069C041 /* JYTopSinglePage.m in Sources */,
 				91E6CFAE1EFB6B8C00507B7E /* UIView+SDExtension.m in Sources */,
 				F63A5BC71DCB17980092FC24 /* VoiceSpeechView.m in Sources */,
+				91A751A81EFF953500D1037E /* JYCollectionFooterView.m in Sources */,
 				F624574A1EA5FBB2006834D2 /* NegativeStackedBarChartViewController.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				F68C258C1EC2D44F0069C041 /* JYFallsView.m in Sources */,
@@ -3595,6 +3643,7 @@
 				91DB24711EEEB7D600FC8413 /* MineRequestListViewController.m in Sources */,
 				F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */,
 				C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */,
+				9145097B1F0224C100ED82D6 /* TreeTableView.m in Sources */,
 				F62457E91EA5FD01006834D2 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
 				F68C25871EC2D44F0069C041 /* JYCollectionHeader.m in Sources */,
@@ -3640,6 +3689,7 @@
 				F624572C1EA5FBB1006834D2 /* AnotherBarChartViewController.m in Sources */,
 				F68C25D91EC2D4790069C041 /* JYFreezeViewCell.m in Sources */,
 				C48924E81D858F0A00859411 /* PgyUpdateTableViewCell.m in Sources */,
+				914509781F02247D00ED82D6 /* Node.m in Sources */,
 				F68C25A11EC2D45D0069C041 /* UIColor+Utility.m in Sources */,
 				F62456501EA5FACD006834D2 /* UpdateVersionAlertView.m in Sources */,
 				91E6CFAB1EFB6B8C00507B7E /* UIView+SDExtension.m in Sources */,
@@ -3676,6 +3726,7 @@
 				F62457A31EA5FBE1006834D2 /* UITableViewCell+Category.m in Sources */,
 				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,
 				C4BA6EA41C7DB24A0059F101 /* FileUtils+Assets.m in Sources */,
+				9145097E1F02257100ED82D6 /* ThreeSelectViewController.m in Sources */,
 				F624572E1EA5FBB1006834D2 /* BarChartViewController.m in Sources */,
 				F62456491EA5FACD006834D2 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				F62457321EA5FBB1006834D2 /* CandleStickChartViewController.m in Sources */,
@@ -3751,6 +3802,7 @@
 				F62456C11EA5FB21006834D2 /* HomeIndexCollectionCell.m in Sources */,
 				91EF8DDD1EF3AD1A00333746 /* YHTopicCollectionHeaderView.m in Sources */,
 				F62456CE1EA5FB21006834D2 /* OneLableCell.m in Sources */,
+				91DA7F021F03B1E5007E25B8 /* RightSwitchTableViewCell.m in Sources */,
 				F62457971EA5FBE0006834D2 /* UIBarButtonItem+Category.m in Sources */,
 				9114619E1EEA63B4006A35AF /* MineInfoTableViewCell.m in Sources */,
 				F62456D41EA5FB21006834D2 /* YH_ScrollTitleLineAndBarVC.m in Sources */,

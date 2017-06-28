@@ -38,6 +38,10 @@
         greenImageLine.image = [[UIImage imageNamed:@"ic_green_line"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [self addSubview:greenImageLine];
         
+        UIView *sepView = [[UIView alloc]initWithFrame:CGRectMake(0,CGRectGetHeight(self.frame)-2, JYScreenWidth, 1)];
+        sepView.backgroundColor = [UIColor colorWithHexString:@"#d1d1d1"];
+       // [self addSubview:sepView];
+        
         _titleLab = [[UILabel alloc] initWithFrame:CGRectMake(22, 6, JYScreenWidth - 22, CGRectGetHeight(self.frame)-12)];
         _titleLab.text = _sectionTitle;
         _titleLab.textColor = [UIColor colorWithHexString:@"#000"];

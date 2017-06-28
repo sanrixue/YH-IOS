@@ -17,7 +17,7 @@
 @property (copy, nonatomic, readonly ) id block;
 @property (assign, nonatomic) BOOL isRecordLastScroll;
 @property (assign, nonatomic, readonly) NSInteger selectIndex;
-
+@property (strong, nonatomic) UICollectionView *rightCollection;
 
 /**
  *  为了 不修改原来的，因此增加了一个属性，选中指定 行数
@@ -55,6 +55,8 @@
 @property(strong,nonatomic) UIColor * leftSeparatorColor;
 
 
--(id)initWithFrame:(CGRect)frame WithData:(NSArray *)data withSelectIndex:(void (^)(NSInteger left,NSInteger right,id info))selectIndex;
+-(id)initWithFrame:(CGRect)frame WithData:(NSArray *)data withSelectIndex:(void (^)(NSInteger left,NSInteger right,ListItem* info))selectIndex;
+
+-(void)reloadData;
 
 @end

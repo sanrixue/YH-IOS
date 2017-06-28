@@ -15,6 +15,10 @@
 
 
 @property(copy,nonatomic,readonly) id block;
+@property (nonatomic, strong)UICollectionView *collectionView;
+
+
+-(void)reloadData;
 
 
 -(id)initWithFrame:(CGRect)frame WithData:(NSArray *)data withSelectIndex:(void (^)(NSInteger left, id info))selectIndex;

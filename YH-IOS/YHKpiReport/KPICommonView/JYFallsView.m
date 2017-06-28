@@ -12,6 +12,7 @@
 #import "JYWaterLayout.h"
 #import "JYFallsCell.h"
 #import "JYCollectionHeader.h"
+#import "JYCollectionFooterView.h"
 
 @interface JYFallsView () <UICollectionViewDelegate, UICollectionViewDataSource, JYWaterLayoutDelegate/*JYFallsLayoutDelegate*/>
 
@@ -24,7 +25,7 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        self.backgroundColor = [UIColor colorWithHexString:@"#f7fef5"];
+        self.backgroundColor = [UIColor whiteColor];
         
         [self initilizedSubView];
     }
@@ -48,6 +49,7 @@
         [_collectView registerClass:[JYFallsCell class] forCellWithReuseIdentifier:@"JYFallsCell"];
         [_collectView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"cell"];
         [_collectView registerClass:[JYCollectionHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"JYCollectionHeader"];
+        [_collectView registerClass:[JYCollectionFooterView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"JYCollectionFooterView"];
         _collectView.dataSource = self;
         _collectView.delegate = self;
         _collectView.scrollEnabled = NO;
@@ -80,9 +82,14 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     JYFallsCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"JYFallsCell" forIndexPath:indexPath];
+    if (indexPath.item == 0) {
+        cell.isFirstRow = YES;
+    }
+    else{
+        cell.isFirstRow = NO;
+    }
     cell.model = [self dataForIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
-    
     UIImageView *bgView = [[UIImageView alloc]initWithFrame:cell.frame];
     bgView.image = [UIImage imageNamed:@"B_bg"];
     cell.backgroundView = bgView;
@@ -96,10 +103,16 @@
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    JYCollectionHeader *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"JYCollectionHeader" forIndexPath:indexPath];
-    header.sectionTitle = self.dataSource[indexPath.section].group_name;
-    header.backgroundColor = [UIColor colorWithHexString:@"#f7fef5"];
-    return header;
+    if (kind == UICollectionElementKindSectionHeader) {
+        JYCollectionHeader *header = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"JYCollectionHeader" forIndexPath:indexPath];
+        header.sectionTitle = self.dataSource[indexPath.section].group_name;
+        header.backgroundColor = [UIColor whiteColor];
+        return header;
+    }
+    else{
+        JYCollectionFooterView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"JYCollectionFooterView" forIndexPath:indexPath];
+        return footer;
+    }
 }
 
 #pragma mark - <UICollectionViewDelegate>
@@ -157,5 +170,6 @@
     
     return itemW;
 }
+
 
 @end

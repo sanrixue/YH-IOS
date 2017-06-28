@@ -13,7 +13,10 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.noteView.backgroundColor = [UIColor colorWithHexString:@"#6aa657"];
+    
     self.noteView.layer.cornerRadius =3;
+    
+    self.timeLable.font = [UIFont boldSystemFontOfSize:12];
     
     self.timeLable.textColor = [UIColor colorWithHexString:@"#bfbfbf"];
     self.contentLable.textColor = [UIColor colorWithHexString:@"#bfbfbf"];

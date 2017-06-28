@@ -14,5 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *noticeIcon;
 @property (weak, nonatomic) IBOutlet UILabel *userTitle;
 @property (weak, nonatomic) IBOutlet UILabel *userDetailLable;
+@property (strong, nonatomic) UIView *septopView;
+@property (strong, nonatomic) UIView *sepbottomView;
 
 @end

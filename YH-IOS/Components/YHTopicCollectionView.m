@@ -19,7 +19,6 @@ static NSString *resusedFooterCell = @"reusedFooter";
 
 @interface YHTopicCollectionView()<JHCollectionViewDelegateFlowLayout>
 
-@property (nonatomic, strong)UICollectionView *collectionView;
 
 @end
 
@@ -49,7 +48,7 @@ static NSString *resusedFooterCell = @"reusedFooter";
         jhFlowLayout.minimumInteritemSpacing = (SCREEN_WIDTH-16-64*4-56)/3;
         jhFlowLayout.minimumLineSpacing = 20;
         jhFlowLayout.sectionInset = UIEdgeInsetsMake(20, 29, 0, 29);
-        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 10, frame.size.width, frame.size.height) collectionViewLayout:jhFlowLayout];
+        self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, frame.size.height) collectionViewLayout:jhFlowLayout];
         [self.collectionView registerNib:[UINib nibWithNibName:@"YHTopicCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:resusedCell];
         [self.collectionView registerNib:[UINib nibWithNibName:@"YHTopicCollectionHeaderView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:resusedHeaderCell];
         [self.collectionView registerNib:[UINib nibWithNibName:@"YHTopicFooterCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:resusedFooterCell];
@@ -62,6 +61,10 @@ static NSString *resusedFooterCell = @"reusedFooter";
         //self.backgroundColor = [UIColor redColor];
     }
     return self;
+}
+
+-(void)reloadData{
+    [self.collectionView reloadData];
 }
 
 

@@ -84,7 +84,7 @@ static CGFloat arrow_W = 15;//箭头宽
 #pragma mark - 默认设置
 - (void)initSetting {
     _maxLine = maxOption;
-    cell_height = 40.f;
+    cell_height = 39.f;
     _cornerRadius = 5;
     self.backColor = [UIColor whiteColor];
     _coverColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.3];

@@ -26,7 +26,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 59, SCREEN_WIDTH, SCREEN_HEIGHT- 59 -49)];
     NSString *distPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"dist"];
-    NSString *disthtmlPath = [distPath stringByAppendingPathComponent:[NSString stringWithFormat:@"index.html?userId=123455"]];
+    NSString *disthtmlPath = [distPath stringByAppendingPathComponent:[NSString stringWithFormat:@"index.html?userId%@",user.userNum]];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:disthtmlPath]]];
     [self.view addSubview:self.webView];
     // Do any additional setup after loading the view.

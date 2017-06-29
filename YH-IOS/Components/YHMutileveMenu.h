@@ -13,11 +13,12 @@
 
 @interface YHMutileveMenu : UIView<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
-@property (strong, nonatomic, readonly)NSArray<ListPageList *> *allData;
+@property (strong, nonatomic)NSArray<ListPageList *> *allData;
 @property (copy, nonatomic, readonly ) id block;
 @property (assign, nonatomic) BOOL isRecordLastScroll;
 @property (assign, nonatomic, readonly) NSInteger selectIndex;
 @property (strong, nonatomic) UICollectionView *rightCollection;
+@property (nonatomic, assign) int selectedID;
 
 /**
  *  为了 不修改原来的，因此增加了一个属性，选中指定 行数

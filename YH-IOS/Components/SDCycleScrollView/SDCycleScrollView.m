@@ -160,7 +160,7 @@ NSString * const ID = @"cycleCell";
     _timer = nil;
     
     if (_autoScroll) {
-      //  [self setupTimer];
+        [self setupTimer];
     }
 }
 
@@ -302,7 +302,8 @@ NSString * const ID = @"cycleCell";
     int targetIndex = currentIndex + 1;
     if (targetIndex == _totalItemsCount) {
         if (self.infiniteLoop) {
-            targetIndex = _totalItemsCount * 0.5;
+           // targetIndex = _totalItemsCount * 0.5;
+            targetIndex = 0;
         }else{
             targetIndex = 0;
         }
@@ -449,7 +450,7 @@ NSString * const ID = @"cycleCell";
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (self.autoScroll) {
-       // [self setupTimer];
+        [self setupTimer];
     }
 }
 

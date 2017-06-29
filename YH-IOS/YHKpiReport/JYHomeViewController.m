@@ -85,7 +85,10 @@
     self.tabBarController.tabBar.translucent = NO;
     self.rootTBView.mj_header = _header;
     
-    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"receiveRemote"] boolValue]) {
+        self.tabBarController.selectedIndex = 3;
+        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"receiveRemote"];
+    }
     [self noteToChangePwd];
     
 }
@@ -225,7 +228,7 @@
         data= [NSData dataWithContentsOfFile:javascriptPath];
     }
     
-    if ([data isEqual:nil]) {
+    if (!data) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
         [alert addButton:@"重新加载" actionBlock:^(void) {
             [self getData];
@@ -233,6 +236,7 @@
         [alert showSuccess:self title:@"温馨提示" subTitle:@"请检查您的网络状态" closeButtonTitle:nil duration:0.0f];
         return;
     }
+    else {
     //NSString *path = [[NSBundle mainBundle] pathForResource:@"kpi_data" ofType:@"json"];
     //  NSData *data = [NSData dataWithContentsOfFile:path];
     NSArray *arraySource = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
@@ -244,6 +248,7 @@
         else{
             [dataListButtom addObject:demolArray[i]];
         }
+    }
     }
 
 }
@@ -372,7 +377,7 @@
     _cycleScrollView.delegate = self;
     _cycleScrollView.placeholderImage=[UIImage imageNamed:@"banner-bg"];
     _cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleClassic;
-    _cycleScrollView.autoScrollTimeInterval = 2.0; // 轮播时间间隔，默认1.0秒，可自定义
+    _cycleScrollView.autoScrollTimeInterval = 9.0; // 轮播时间间隔，默认1.0秒，可自定义
     
     
     //模拟加载延迟

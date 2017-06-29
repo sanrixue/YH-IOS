@@ -46,7 +46,7 @@
     
     [_dataLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_top).mas_offset(0);
-        make.centerX.equalTo(self.mas_centerX).mas_offset(0);
+        make.centerX.equalTo(self.mas_centerX).mas_offset(-5);
         make.right.equalTo(self.utilLabel.mas_left).mas_offset(-7);
         make.bottom.equalTo(self.noteLabel.mas_top).mas_offset(-12);
     }];

@@ -183,7 +183,7 @@ static NSString *const reUse = @"reUse";
     
     // 点击上传按钮
     
-    UIButton *imagePicButton = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-90)/2  -15,20 , 30, 30)];
+    UIButton *imagePicButton = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-90)/2  - 15,20 , 30, 30)];
     [imageViews addSubview:imagePicButton];
     [imagePicButton setImage:[UIImage imageNamed:@"btn_add_biack"] forState:UIControlStateNormal];
     [imagePicButton addTarget:self action:@selector(handleSelectPhotosAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -241,7 +241,7 @@ static NSString *const reUse = @"reUse";
     }];
     
     [submitButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.mas_equalTo(self.view.bottom).mas_offset(-61);
+        make.bottom.mas_equalTo(self.view.bottom).mas_offset(-30);
         make.left.mas_equalTo(self.view.left).mas_offset(30);
         make.right.mas_equalTo(self.view.right).mas_offset(-30);
         make.height.mas_equalTo(40);

@@ -83,6 +83,7 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
         self.rightCollection.delegate =self;
         self.rightCollection.dataSource = self;
         [self addSubview:self.rightCollection];
+        self.rightCollection.alwaysBounceVertical = YES;
         
         self.isReturnLastOffset = YES;
         self.rightCollection.backgroundColor = [UIColor colorWithHexString:@"#f7fef5"];
@@ -152,8 +153,8 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     _selectIndex = indexPath.row;
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.textLabel.highlightedTextColor = [UIColor colorWithHexString:@"#6aa657"];
+  //  UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    //cell.textLabel.highlightedTextColor = [UIColor colorWithHexString:@"#6aa657"];
    /* if (self.noteSepView) {
         [self.noteSepView removeFromSuperview];
     }
@@ -259,5 +260,41 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
     void (^select)(NSInteger left,NSInteger right,id info) = self.block;
     select(self.selectIndex,indexPath.row,menu);
 }
+
+#pragma mark---记录滑动的坐标
+-(void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if ([scrollView isEqual:self.rightCollection]) {
+        
+        self.isReturnLastOffset=YES;
+    }
+}
+
+-(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if ([scrollView isEqual:self.rightCollection]) {
+        self.isReturnLastOffset=NO;
+        
+    }
+    
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    if ([scrollView isEqual:self.rightCollection]) {
+        
+        self.isReturnLastOffset=NO;
+        
+    }
+    
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    if ([scrollView isEqual:self.rightCollection] && self.isReturnLastOffset) {
+        
+        
+    }
+}
+
 
 @end

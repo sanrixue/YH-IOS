@@ -15,6 +15,9 @@
 		9129DD3C1EF4D60600900611 /* JHCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9129DD381EF4D60600900611 /* JHCollectionViewFlowLayout.m */; };
 		9129DD3D1EF4D60600900611 /* JHCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9129DD3A1EF4D60600900611 /* JHCollectionViewLayoutAttributes.m */; };
 		9129DD3F1EF51FF400900611 /* dist.zip in Resources */ = {isa = PBXBuildFile; fileRef = 9129DD3E1EF51FF400900611 /* dist.zip */; };
+		914465641F04BFB900795E54 /* TopHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914465631F04BFB900795E54 /* TopHeaderCollectionReusableView.m */; };
+		914465681F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914465661F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.m */; };
+		914465691F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 914465671F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.xib */; };
 		914509781F02247D00ED82D6 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 914509771F02247D00ED82D6 /* Node.m */; };
 		9145097B1F0224C100ED82D6 /* TreeTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9145097A1F0224C100ED82D6 /* TreeTableView.m */; };
 		9145097E1F02257100ED82D6 /* ThreeSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9145097D1F02257100ED82D6 /* ThreeSelectViewController.m */; };
@@ -532,6 +535,11 @@
 		9129DD391EF4D60600900611 /* JHCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JHCollectionViewLayoutAttributes.h; path = Class/JHCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
 		9129DD3A1EF4D60600900611 /* JHCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JHCollectionViewLayoutAttributes.m; path = Class/JHCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
 		9129DD3E1EF51FF400900611 /* dist.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = dist.zip; sourceTree = "<group>"; };
+		914465621F04BFB900795E54 /* TopHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopHeaderCollectionReusableView.h; sourceTree = "<group>"; };
+		914465631F04BFB900795E54 /* TopHeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopHeaderCollectionReusableView.m; sourceTree = "<group>"; };
+		914465651F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHToptopicHeaderCollectionReusableView.h; sourceTree = "<group>"; };
+		914465661F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHToptopicHeaderCollectionReusableView.m; sourceTree = "<group>"; };
+		914465671F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YHToptopicHeaderCollectionReusableView.xib; sourceTree = "<group>"; };
 		914509761F02247D00ED82D6 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		914509771F02247D00ED82D6 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
 		914509791F0224C100ED82D6 /* TreeTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TreeTableView.h; sourceTree = "<group>"; };
@@ -1773,6 +1781,9 @@
 				91EF8DDF1EF3B27C00333746 /* YHTopicFooterCollectionReusableView.h */,
 				91EF8DE01EF3B27C00333746 /* YHTopicFooterCollectionReusableView.m */,
 				91EF8DE11EF3B27C00333746 /* YHTopicFooterCollectionReusableView.xib */,
+				914465651F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.h */,
+				914465661F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.m */,
+				914465671F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.xib */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -2976,6 +2987,8 @@
 				F68C25601EC2D44F0069C041 /* JYClickableLineView.m */,
 				F68C25611EC2D44F0069C041 /* JYCollectionHeader.h */,
 				F68C25621EC2D44F0069C041 /* JYCollectionHeader.m */,
+				914465621F04BFB900795E54 /* TopHeaderCollectionReusableView.h */,
+				914465631F04BFB900795E54 /* TopHeaderCollectionReusableView.m */,
 				91A751A61EFF953500D1037E /* JYCollectionFooterView.h */,
 				91A751A71EFF953500D1037E /* JYCollectionFooterView.m */,
 				F68C25631EC2D44F0069C041 /* JYCompareSaleView.h */,
@@ -3409,6 +3422,7 @@
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
 				91EF8DD91EF399F000333746 /* YHTopicCollectionViewCell.xib in Resources */,
 				F624573B1EA5FBB2006834D2 /* HalfPieChartViewController.xib in Resources */,
+				914465691F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.xib in Resources */,
 				91DB242C1EED7A3000FC8413 /* select@3x.png in Resources */,
 				9114619F1EEA63B4006A35AF /* MineInfoTableViewCell.xib in Resources */,
 				91DB242A1EED7A3000FC8413 /* back@2x.png in Resources */,
@@ -3579,10 +3593,12 @@
 				F63A5BC71DCB17980092FC24 /* VoiceSpeechView.m in Sources */,
 				91A751A81EFF953500D1037E /* JYCollectionFooterView.m in Sources */,
 				F624574A1EA5FBB2006834D2 /* NegativeStackedBarChartViewController.m in Sources */,
+				914465681F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.m in Sources */,
 				C4DB7DC11C02EE3800DA534E /* DateUtils.m in Sources */,
 				F68C258C1EC2D44F0069C041 /* JYFallsView.m in Sources */,
 				C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */,
 				F68C258B1EC2D44F0069C041 /* JYFallsLayout.m in Sources */,
+				914465641F04BFB900795E54 /* TopHeaderCollectionReusableView.m in Sources */,
 				F62457E21EA5FD01006834D2 /* AppCacheManger.m in Sources */,
 				91DB24271EED7A3000FC8413 /* PhotoCell.m in Sources */,
 				F68C25DA1EC2D4790069C041 /* JYFreezeWindowView.m in Sources */,

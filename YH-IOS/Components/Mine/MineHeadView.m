@@ -35,7 +35,7 @@
 -(void)setLayout {
     
     //用户头像
-    self.avaterImageView = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH/2-44, 70, 88, 88)];
+    self.avaterImageView = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH/2-44, 40, 88, 88)];
     [self.avaterImageView addTarget:self action:@selector(ClickAvaIamge:) forControlEvents:UIControlEventTouchUpInside];
     self.avaterImageView.layer.cornerRadius =44;
    // [self.avaterImageView setImage:[UIImage imageNamed:@"user_ava"] forState:UIControlStateNormal];
@@ -88,7 +88,7 @@
     [self.userNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         NSLog(@"图片的底部是:--%f ",self.avaterImageView.bottom);
         NSLog(@"图片高是 -- %f",self.avaterImageView.width);
-        make.top.mas_equalTo(self.mas_top).mas_offset(173);
+        make.top.mas_equalTo(self.mas_top).mas_offset(143);
         make.left.mas_equalTo(self.mas_left).mas_offset(10);
         make.height.mas_equalTo(20);
        // make.bottom.mas_greaterThanOrEqualTo(self.bottom).mas_offset(-10);
@@ -96,13 +96,13 @@
     }];
     
     [self.lastLoginMessageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.userNameLabel.mas_bottom).mas_offset(7);
+        make.top.mas_equalTo(self.userNameLabel.mas_bottom).mas_offset(10);
         make.left.right.mas_equalTo(self);
         make.height.mas_equalTo(12);
     }];
     
     [self.loginCountView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.lastLoginMessageLabel.mas_bottom).mas_offset(13);
+        make.top.mas_equalTo(self.lastLoginMessageLabel.mas_bottom).mas_offset(17.5);
         make.left.mas_equalTo(self.mas_left).mas_offset(20);
         make.bottom.mas_equalTo(self.mas_bottom).mas_equalTo(-14.5);
        // make.width.mas_equalTo(self.reportScanCountView.width);
@@ -135,12 +135,12 @@
    
    // [self.avaterImageView sd_setImageWithURL:person.icon forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"user_ava"]];
     self.userNameLabel.text = _user.userName;
-    self.loginCountView.dataLable.text = [NSString stringWithFormat:@"%@",person[@"login_count"]];
+    self.loginCountView.dataLable.text = [NSString stringWithFormat:@"%@",person[@"login_duration"]];
     self.loginCountView.utilLabel.text = @"天";
     self.loginCountView.noteLabel.text = @"累计登录";
    // NSString *lastLoginState = [NSString stringWithFormat:@"最近一次: %@   %@",person.lastlocation,person.time];
   //  self.lastLoginMessageLabel.text = lastLoginState;
-    self.reportScanCountView.dataLable.text =[NSString stringWithFormat:@"%@", person[@"browse_count"]];
+    self.reportScanCountView.dataLable.text =[NSString stringWithFormat:@"%@", person[@"browse_report_count"]];
     self.reportScanCountView.utilLabel.text = @"支";
     self.reportScanCountView.noteLabel.text = @"浏览报表";
     self.precentView.dataLable.text = [NSString stringWithFormat:@"%@",person[@"surpass_percentage"]];

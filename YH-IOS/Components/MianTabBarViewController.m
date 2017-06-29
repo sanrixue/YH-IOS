@@ -64,6 +64,7 @@
     UINavigationController *applicationRootViewController = [[UINavigationController alloc]initWithRootViewController:applicationRootView];
     applicationRootView.title = @"专题";
     applicationRootViewController.tabBarItem.title = @"专题";
+    applicationRootViewController.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -4);
     [applicationRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
     applicationRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-App"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     applicationRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-App-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -72,6 +73,7 @@
    // MessageViewController *messageRootView= [[MessageViewController alloc]init];
     UINavigationController *messageRootViewController = [[UINavigationController alloc]initWithRootViewController:messageRootView];
     messageRootViewController.tabBarItem.title = @"我的";
+    messageRootViewController.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -4);
     [messageRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
     messageRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-Message"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     messageRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-Message-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -81,6 +83,7 @@
     UINavigationController *analysisRootViewController = [[UINavigationController alloc]initWithRootViewController:analysisRootView];
     analysisRootView.title = @"报表";
     analysisRootViewController.tabBarItem.title = @"报表";
+    analysisRootViewController.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -4);
     [analysisRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
     analysisRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-Analyse"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     analysisRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-Analyse-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -94,7 +97,7 @@
     kpiRootViewController.edgesForExtendedLayout = UIRectEdgeNone;
     kpiRootViewController.tabBarItem.image = [[UIImage imageNamed:@"TabBar-KPI"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     kpiRootViewController.tabBarItem.selectedImage = [[UIImage imageNamed:@"TabBar-KPI-Selected"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    
+    kpiRootViewController.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -4);
     self.viewControllers = @[kpiRootViewController,analysisRootViewController,applicationRootViewController,messageRootViewController];
     
 }

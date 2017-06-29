@@ -44,8 +44,13 @@
     [self getSomeThingNew];
    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Barcode-Scan-1"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(jumpToScanView)];
     
-   _menuView  = [[YHMutileveMenu alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 49) WithData:_listArray withSelectIndex:^(NSInteger left, NSInteger right, ListItem* info) {
-       // NSLog(@"%@",info);
+    // Do any additional setup after loading the view.
+}
+
+
+-(void)addMuneView {
+    _menuView  = [[YHMutileveMenu alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 49) WithData:_listArray withSelectIndex:^(NSInteger left, NSInteger right, ListItem* info) {
+        // NSLog(@"%@",info);
         
         [self jumpToSubjectView:info];
     }];
@@ -58,14 +63,13 @@
     
     [_refreshControl addTarget:self
      
-                        action:@selector(getSomeThingNew)
+                        action:@selector(getSomeThingNewRefresh)
      
               forControlEvents:UIControlEventValueChanged];
     
     [_refreshControl setAttributedTitle:[[NSAttributedString alloc] init]];
     
     [self.menuView.rightCollection addSubview:_refreshControl];
-    // Do any additional setup after loading the view.
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -81,6 +85,7 @@
 }
 
 - (void)initCategoryMenu {
+    self.menuView.allData = _listArray;
     [self.refreshControl endRefreshing];
     [self.menuView reloadData];
 }
@@ -265,37 +270,88 @@
             NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
             NSArray<ListPageList*> *array= [MTLJSONAdapter modelsOfClass:ListPageList.class fromJSONArray:dic error:nil];
             self.listArray = [array copy];
+            [self addMuneView];
+        }
+        else{
+            NSData *data = [NSData dataWithContentsOfFile:javascriptPath];
+            NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
+            if (!data || dic.count == 0) {
+                SCLAlertView *alert = [[SCLAlertView alloc] init];
+                    [alert addButton:@"重新加载" actionBlock:^(void) {
+                        [self getSomeThingNewRefresh];
+                    }];
+                    [alert showSuccess:self title:@"温馨提示" subTitle:@"暂无数据" closeButtonTitle:nil duration:0.0f];
+            }
+          
+        }
+    }
+    else{
+        NSData *data = [NSData dataWithContentsOfFile:javascriptPath];
+        if (!data) {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            [alert addButton:@"重新加载" actionBlock:^(void) {
+                [self getSomeThingNewRefresh];
+            }];
+            [alert showSuccess:self title:@"温馨提示" subTitle:@"请检查您的网络状态" closeButtonTitle:nil duration:0.0f];
+        }
+        else {
+        NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
+        NSArray<ListPageList*> *array= [MTLJSONAdapter modelsOfClass:ListPageList.class fromJSONArray:dic error:nil];
+        self.listArray = [array copy];
+        [self addMuneView];
+        }
+    }
+}
+
+-(void)getSomeThingNewRefresh {
+    user = [[User alloc]init];
+    NSString *kpiUrl = [NSString stringWithFormat:@"%@/api/v1/group/%@/role/%@/analyses",kBaseUrl,user.groupID,user.roleID];
+    NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
+    NSString*fileName =  @"home_report";
+    javascriptPath = [javascriptPath stringByAppendingPathComponent:fileName];
+    if ([HttpUtils isNetworkAvailable2]) {
+        HttpResponse *reponse = [HttpUtils httpGet:kpiUrl];
+        if ([reponse.statusCode  isEqual: @200] || [HttpUtils isNetworkAvailable2]) {
+            NSData *data = reponse.received;
+            if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
+                [FileUtils removeFile:javascriptPath];
+            }
+            [reponse.received writeToFile:javascriptPath atomically:YES];
+            NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
+            NSArray<ListPageList*> *array= [MTLJSONAdapter modelsOfClass:ListPageList.class fromJSONArray:dic error:nil];
+            self.listArray = [array copy];
             [self initCategoryMenu];
         }
         else{
             NSData *data = [NSData dataWithContentsOfFile:javascriptPath];
             NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
-            if (dic.count == 0) {
+            if (!data || dic.count == 0) {
                 SCLAlertView *alert = [[SCLAlertView alloc] init];
-                    [alert addButton:@"重新加载" actionBlock:^(void) {
-                        [self getSomeThingNew];
-                    }];
-                    [alert showSuccess:self title:@"温馨提示" subTitle:@"暂无数据" closeButtonTitle:nil duration:0.0f];
+                [alert addButton:@"重新加载" actionBlock:^(void) {
+                    [self getSomeThingNewRefresh];
+                }];
+                [alert showSuccess:self title:@"温馨提示" subTitle:@"暂无数据" closeButtonTitle:nil duration:0.0f];
             }
+            
+        }
+    }
+    else{
+        NSData *data = [NSData dataWithContentsOfFile:javascriptPath];
+        if (!data) {
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            [alert addButton:@"确定" actionBlock:^(void) {
+               // [self getSomeThingNewRefresh];
+            }];
+            [alert showSuccess:self title:@"温馨提示" subTitle:@"请检查您的网络状态" closeButtonTitle:nil duration:0.0f];
+        }
+        else {
+            NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
             NSArray<ListPageList*> *array= [MTLJSONAdapter modelsOfClass:ListPageList.class fromJSONArray:dic error:nil];
             self.listArray = [array copy];
             [self initCategoryMenu];
         }
     }
-    else{
-        NSData *data = [NSData dataWithContentsOfFile:javascriptPath];
-        NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
-        if (dic.count == 0) {
-            SCLAlertView *alert = [[SCLAlertView alloc] init];
-            [alert addButton:@"重新加载" actionBlock:^(void) {
-                [self getSomeThingNew];
-            }];
-            [alert showSuccess:self title:@"温馨提示" subTitle:@"请检查您的网络状态" closeButtonTitle:nil duration:0.0f];
-        }
-        NSArray<ListPageList*> *array= [MTLJSONAdapter modelsOfClass:ListPageList.class fromJSONArray:dic error:nil];
-        self.listArray = [array copy];
-        [self initCategoryMenu];
-    }
 }
+
 
 @end

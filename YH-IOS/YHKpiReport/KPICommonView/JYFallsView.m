@@ -109,6 +109,11 @@
         header.backgroundColor = [UIColor whiteColor];
         return header;
     }
+  /*  else if ([kind isEqualToString:@"background"]){
+        UICollectionReusableView *backView = [[UICollectionReusableView alloc]init];
+        backView.backgroundColor = [UIColor redColor];
+        return backView;
+    }*/
     else{
         JYCollectionFooterView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"JYCollectionFooterView" forIndexPath:indexPath];
         return footer;

@@ -43,7 +43,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     user = [[User alloc]init];
-    _mineHeaderView = [[MineHeadView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 300)];
+    _mineHeaderView = [[MineHeadView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 280)];
     _mineHeaderView.delegate =self;
     //[self loadData];
     titleArray = @[@"用户角色",@"归属部门",@"密码修改",@"问题反馈"];
@@ -94,7 +94,7 @@
 -(void)setupTableView {
     
     self.minetableView= [[UITableView alloc]init];
-    self.minetableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49);
+    self.minetableView.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-49-64);
     [self.view addSubview:self.minetableView];
     [self.minetableView setScrollEnabled:YES];
     self.minetableView.tableHeaderView=_mineHeaderView;
@@ -224,8 +224,15 @@
         else {
             cell.userTitle.text = titleArray[indexPath.row];
             cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
-            cell.userDetailLable.text = @"";
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            UIImageView *imageView = [[UIImageView alloc]init];
+            imageView.image = [UIImage imageNamed:@"list_ic_arroow.png-1"];
+            [cell.userDetailLable addSubview:imageView];
+            UIView *superView = cell.userDetailLable;
+            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(superView.mas_top).mas_offset(-8);
+                make.right.equalTo(superView.mas_right).mas_offset(8);
+            }];
+          //  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             if (indexPath.row == 2 && [user.password isEqualToString:@"123456".md5]) {
                 [cell.noticeImage setHidden:NO];
             }
@@ -236,7 +243,7 @@
         cell.userTitle.text = secondArray[indexPath.row];
         cell.noticeIcon.image = [UIImage imageNamed:seconImageArray[indexPath.row]];
         cell.userDetailLable.text = @"";
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+      //  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         
     }
     if (!(indexPath.row % 2)) {

@@ -89,7 +89,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     _isReApp = YES;
-    
+    // [[NSUserDefaults standardUserDefaults]  setBool:YES forKey:@"receiveRemote"];
     // 获取版本号
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     // app版本
@@ -207,6 +207,7 @@ void UncaughtExceptionHandler(NSException * exception) {
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self savePushDict:userInfo];
      [[NSNotificationCenter defaultCenter] postNotificationName:@"remotepush" object:nil userInfo:userInfo];
+    [[NSUserDefaults standardUserDefaults]  setBool:YES forKey:@"receiveRemote"];
     // 关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];

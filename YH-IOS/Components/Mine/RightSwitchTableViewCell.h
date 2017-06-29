@@ -11,18 +11,22 @@
 
 @protocol RightSwitchCellDelegate <NSObject>
 
--(void)SwitchTableViewCellButtonClick:(UISwitch *)button with:(NSInteger)cellId;
+-(void)SwitchTableViewCellButtonClick:(UIButton *)button with:(NSInteger)cellId withIsClick:(BOOL)click;
 
 @end
 
 
 @interface RightSwitchTableViewCell : UITableViewCell
 
-@property (strong, nonatomic) UILabel *label1;
+@property (strong, nonatomic) UILabel *titleLabel;
 
-@property (strong, nonatomic) UISwitch *SwitchButton;
+@property (strong, nonatomic) UIButton *SwitchButton;
 
 @property (weak, nonatomic) id<RightSwitchCellDelegate> delegate;
 @property (nonatomic,assign) NSInteger cellId;
+@property (nonatomic, strong) UIImageView *switchButtonChangeImage;
+@property (nonatomic, assign) BOOL isClick;
 
+
+-(id)initWith:(BOOL)isclick;
 @end

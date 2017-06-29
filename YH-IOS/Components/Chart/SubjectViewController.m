@@ -287,6 +287,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 //判断是否离线
 -(void)isLoadHtmlFromService {
     if (([HttpUtils isNetworkAvailable2] &&  self.isInnerLink) || !self.isInnerLink ) {
+        self.title = [NSString stringWithFormat:@"%@",self.bannerName];
         [self loadHtml];
     }
     else{
@@ -589,7 +590,12 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             reportSelectedItem = [NSString stringWithFormat:@"%@(NONE)", self.title];
         }
     }
-    self.title = reportSelectedItem;
+    if ([HttpUtils isNetworkAvailable2]) {
+        self.title = [NSString stringWithFormat:@"%@",reportSelectedItem];
+    }
+    else{
+        self.title = [NSString stringWithFormat:@"%@(离线)",reportSelectedItem];
+    }
 }
 
 
@@ -718,10 +724,10 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)actionDisplaySearchItems {
     
-    ThreeSelectViewController *selectorView = [[ThreeSelectViewController alloc]init];
+  /*  ThreeSelectViewController *selectorView = [[ThreeSelectViewController alloc]init];
     UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:selectorView];
-    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
-  /* UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];*/
+   UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     ReportSelectorViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"ReportSelectorSegueIdentifier"];
     subjectView.bannerName = self.bannerName;
@@ -729,7 +735,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     subjectView.reportID = self.reportID;
     subjectView.templateID  =self.templateID;
     UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
-    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];*/
+    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
     
 }
 

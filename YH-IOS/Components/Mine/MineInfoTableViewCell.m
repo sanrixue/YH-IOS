@@ -19,6 +19,7 @@
     self.sepbottomView = [[UIView alloc]initWithFrame:CGRectMake(0, self.frame.size.height-0.5, SCREEN_WIDTH, 0.5)];
     self.sepbottomView.backgroundColor = [UIColor colorWithHexString:@"#bdbdbd"];
     //[self addSubview:self.sepbottomView];
+    self.detailTextLabel.adjustsFontSizeToFitWidth = YES;
    // Initialization code
 }
 

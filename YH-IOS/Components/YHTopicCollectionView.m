@@ -12,10 +12,12 @@
 #import "YHTopicFooterCollectionReusableView.h"
 #import "JHCollectionViewFlowLayout.h"
 #import "ListPage.h"
+#import "YHToptopicHeaderCollectionReusableView.h"
 
 static NSString *resusedCell = @"reusedCell";
 static NSString *resusedHeaderCell = @"reusedHeader";
 static NSString *resusedFooterCell = @"reusedFooter";
+static NSString *resusedtopHeaderCell = @"reusedtopHeader";
 
 @interface YHTopicCollectionView()<JHCollectionViewDelegateFlowLayout>
 
@@ -51,6 +53,7 @@ static NSString *resusedFooterCell = @"reusedFooter";
         self.collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0,0, SCREEN_WIDTH, frame.size.height) collectionViewLayout:jhFlowLayout];
         [self.collectionView registerNib:[UINib nibWithNibName:@"YHTopicCollectionViewCell" bundle:nil] forCellWithReuseIdentifier:resusedCell];
         [self.collectionView registerNib:[UINib nibWithNibName:@"YHTopicCollectionHeaderView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:resusedHeaderCell];
+        [self.collectionView registerNib:[UINib nibWithNibName:@"YHToptopicHeaderCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:resusedtopHeaderCell];
         [self.collectionView registerNib:[UINib nibWithNibName:@"YHTopicFooterCollectionReusableView" bundle:nil] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:resusedFooterCell];
         [self addSubview:self.collectionView];
         self.collectionView.delegate = self;
@@ -95,11 +98,20 @@ static NSString *resusedFooterCell = @"reusedFooter";
         return footerView;
     }
     else{
+        if (indexPath.section == 0) {
+            YHToptopicHeaderCollectionReusableView *headerview = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:resusedtopHeaderCell forIndexPath:indexPath];
+            headerview.backgroundColor = [UIColor whiteColor];
+            headerview.titleLable.text = _allData[indexPath.section].group_name;
+            //headerview.rightLabel.text = @"等于什么呢";
+            return headerview;
+        }
+        else{
         YHTopicCollectionHeaderView *headerview = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:resusedHeaderCell forIndexPath:indexPath];
         headerview.backgroundColor = [UIColor whiteColor];
         headerview.rightLabel.text = _allData[indexPath.section].group_name;
         //headerview.rightLabel.text = @"等于什么呢";
         return headerview;
+        }
     }
 }
 

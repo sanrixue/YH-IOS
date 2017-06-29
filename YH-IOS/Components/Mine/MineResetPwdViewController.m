@@ -101,7 +101,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         SingleLabelTableViewCell *cell = [[SingleLabelTableViewCell alloc]init];
-        cell.contentLable.text = [NSString stringWithFormat:@"工号:%@",_user.userID];
+        cell.contentLable.text = [NSString stringWithFormat:@"工号:%@",_user.userNum];
         cell.userInteractionEnabled=NO;
         return cell;
     }

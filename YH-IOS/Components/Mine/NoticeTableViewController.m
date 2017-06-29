@@ -18,8 +18,9 @@
 #import "UIView+Category.h"
 #import "CustomCell.h"
 #import "User.h"
+#import "RightSwitchTableViewCell.h"
 
-@interface NoticeTableViewController ()<UITableViewDelegate,UITableViewDataSource,CustomCellDelegate>
+@interface NoticeTableViewController ()<UITableViewDelegate,UITableViewDataSource,RightSwitchCellDelegate>
 {
     NSMutableArray *listArray;
     
@@ -236,7 +237,7 @@
         CGRect rect = [MLMOptionSelectView targetView:_showpopViewRectView];
         _cellView.edgeInsets = UIEdgeInsetsMake(rect.origin.y+10, 0, 0, 0);
         
-        [_cellView showOffSetScale:.5 viewWidth:150 targetView:_showpopViewRectView direction:MLMOptionSelectViewRight];
+        [_cellView showOffSetScale:1 viewWidth:175 targetView:_showpopViewRectView direction:MLMOptionSelectViewRight];
     }];
 }
 
@@ -249,16 +250,21 @@
     _cellView.layer.cornerRadius = 0;
     _cellView.layer.borderColor = [UIColor lightGrayColor].CGColor;
     _cellView.layer.borderWidth = 1;
-    [_cellView registerNib:[UINib nibWithNibName:@"CustomCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
+   // [_cellView registerNib:[UINib nibWithNibName:@"CustomCell" bundle:nil] forCellReuseIdentifier:@"CustomCell"];
+    [_cellView registerClass:[RightSwitchTableViewCell class] forCellReuseIdentifier:@"CustomCell"];
     _cellView.cell = ^(NSIndexPath *indexPath){
-        CustomCell *cell = [weakSelf.cellView dequeueReusableCellWithIdentifier:@"CustomCell"];
-        cell.label1.text = weaklistArray[indexPath.row];
+        RightSwitchTableViewCell *cell;
+        if (_typeChoiceArray.count == 4) {
+           cell  = [[RightSwitchTableViewCell alloc]initWith:[_typeChoiceArray[indexPath.row] boolValue]];
+        }
+        cell.titleLabel.text = weaklistArray[indexPath.row];
         cell.cellId = indexPath.row;
+        cell.tag = indexPath.row;
         cell.delegate = weakSelf;
         return cell;
     };
     _cellView.optionCellHeight = ^{
-        return 40.f;
+        return 39.f;
     };
     _cellView.rowNumber = ^(){
         return (NSInteger)weaklistArray.count;
@@ -276,9 +282,9 @@
     };
 }
 
--(void)SwitchTableViewCellButtonClick:(UISwitch *)button with:(NSInteger)cellId{
+-(void)SwitchTableViewCellButtonClick:(UIButton *)button with:(NSInteger)cellId withIsClick:(BOOL)click{
     NSLog(@"这最好的时代");
-    if (!button.isOn) {
+    if (!click) {
         self.typeChoiceArray[cellId] = @0;
     }
     else{

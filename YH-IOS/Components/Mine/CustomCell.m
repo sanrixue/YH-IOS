@@ -13,8 +13,8 @@
 -(id)init{
    self =  [super init];
     if (self) {
-        self.SwitchButton.onImage = [[UIImage imageNamed:@"btn_switch_close"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        self.SwitchButton.offImage = [[UIImage imageNamed:@"btn_switch_close"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.SwitchButton.onImage = [[UIImage imageNamed:@"btn_open_pre.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        self.SwitchButton.offImage = [[UIImage imageNamed:@"btn_open_pre.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     }
     return self;
     
@@ -22,19 +22,13 @@
 
 -(void)awakeFromNib{
     [super awakeFromNib];
-    self.SwitchButton.onImage = [[UIImage imageNamed:@"btn_switch_close"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    self.SwitchButton.offImage = [[UIImage imageNamed:@"btn_switch_close"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.SwitchButton.onImage = [[UIImage imageNamed:@"btn_open_pre.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    self.SwitchButton.offImage = [[UIImage imageNamed:@"btn_open_pre.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     self.SwitchButton.transform = CGAffineTransformMakeScale(0.75, 0.6);
     self.SwitchButton.onTintColor = [UIColor colorWithHexString:@"#a7d20f"];
     [self.SwitchButton addTarget:self action:@selector(UISwitchValueChange:) forControlEvents:UIControlEventValueChanged];
 }
 
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    
-    // Configure the view for the selected state
-}
 
 - (void)UISwitchValueChange:(UISwitch *)changeStatueButton {
     [_delegate SwitchTableViewCellButtonClick:changeStatueButton with:self.cellId];

@@ -35,7 +35,7 @@
         // self.numberOfColumns = 1;
         self.topAndBottomDustance = 0;
         _headerViewHeight = 41;
-        _footViewHeight = 10;
+        _footViewHeight = 15.5;
         self.startY = 1;
         self.maxYForColumn = [NSMutableDictionary dictionary];
         self.shouldanimationArr = [NSMutableArray array];
@@ -62,13 +62,14 @@
     [self.headLayoutInfo removeAllObjects];
     [self.footLayoutInfo removeAllObjects];
     [self.maxYForColumn removeAllObjects];
+    self.sectionInset = UIEdgeInsetsMake(10, 0, -20, 0);
     self.startY = 1;
     
     NSInteger sectionsCount = [self.collectionView numberOfSections];
     for (NSInteger section = 0; section < sectionsCount; section++) {
         self.numberOfColumns =[(id<JYWaterLayoutDelegate>)self.delegate collectionView:self.collectionView layout:self withSection:(NSInteger )section];
         if (self.numberOfColumns ==1) {
-            self.cellDistance = 0;
+            self.cellDistance = 8;
         }
         else{
             self.cellDistance = 8;

@@ -9,12 +9,14 @@
 #import "ThreeSelectViewController.h"
 #import "FileUtils+Report.h"
 #import "User.h"
+#import "SelectDataModel.h"
 
 @interface ThreeSelectViewController ()<TreeTableCellDelegate>
 @property (strong, nonatomic) NSArray *searchItems;
 @property (strong, nonatomic) NSString *selectedItem;
 @property (strong, nonatomic) User *user;
-@property (strong, nonatomic) NSMutableDictionary *allDict;
+@property (strong, nonatomic) NSMutableArray *allarray;
+@property (strong, nonatomic) NSString *lastTitleString;
 
 @end
 
@@ -24,14 +26,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.user = [[User alloc]init];
-    _allDict = [NSMutableDictionary new];
+    _allarray = [NSMutableArray new];
     self.searchItems = [FileUtils reportSearchItems:self.user.groupID templateID:self.templateID reportID:self.reportID];
     self.selectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
     if((self.selectedItem == NULL || [self.selectedItem length] == 0) && [self.searchItems count] > 0) {
         self.selectedItem = [self.searchItems firstObject];
     }
+    self.title = self.selectedItem;
     [self handleData];
-    [self initData];
+    //[self initData];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    [self.navigationController setNavigationBarHidden:false];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
+    //@{}代表Dictionary
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kThemeColor];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 20, 44, 40)];
+    UIImage *imageback = [[UIImage imageNamed:@"Banner-Back"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImageView *bakImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 44, 44)];
+    bakImage.image = imageback;
+    [bakImage setContentMode:UIViewContentModeScaleAspectFit];
+    [backBtn addTarget:self action:@selector(backAction) forControlEvents:UIControlEventTouchUpInside];
+    [backBtn addSubview:bakImage];
+    UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    space.width = -20;
+    self.navigationController.navigationBar.translucent = NO;
+    UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+    [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
 }
 
 -(void)initData{
@@ -89,13 +113,20 @@
      *  筛选项列表按字母排序，以便于用户查找
      *  self.searchItems 不做任何修改，列表源使用变量 self.dataList
      */
-    [_allDict removeAllObjects];
+    [_allarray removeAllObjects];
     self.searchItems = [self.searchItems sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     for (int i = 0; i<self.searchItems.count; i++) {
-        NSArray *array= [self.searchItems[i] componentsSeparatedByString:@"//"];
-        [self.allDict setObject:array[0] forKey:array[1]];
+        NSArray *array= [self.searchItems[i] componentsSeparatedByString:@"||"];
+        SelectDataModel *model = [[SelectDataModel alloc]initWithFirst:array[0] withSeconArray:@{array[1]:array[2]}];
+        [self.allarray addObject:model];
     }
     
+}
+
+
+- (void)backAction{
+        [super dismissViewControllerAnimated:YES completion:^{
+        }];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -47,6 +47,33 @@
     }
 }
 
+//扫一扫获取数据
+#pragma todo: pass assetsPath as parameter
++ (void)reportScodeData:(NSNumber *)storeID barcodeID:(NSString *)barcodeID {
+    NSString *urlString = [NSString stringWithFormat:@"%@/mobile/v2/store/%@/barcode/%@/attachment",kBaseUrl,storeID,barcodeID];
+    
+    NSString *assetsPath = [FileUtils dirPath:kHTMLDirName];
+    NSString *javascriptPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
+    
+    HttpResponse *httpResponse = [HttpUtils checkResponseHeader:urlString assetsPath:assetsPath];
+    if ([httpResponse.statusCode isEqualToNumber:@(200)]) {
+        NSDictionary *httpHeader = [httpResponse.response allHeaderFields];
+        NSString *disposition = httpHeader[@"Content-Disposition"];
+        NSArray *array = [disposition componentsSeparatedByString:@"\""];
+        NSString *cacheFilePath = array[1];
+        NSString *cachePath = [FileUtils dirPath:kCachedDirName];
+        NSString *fullFileCachePath = [cachePath stringByAppendingPathComponent:cacheFilePath];
+        javascriptPath = [javascriptPath stringByAppendingPathComponent:cacheFilePath];
+        [httpResponse.received writeToFile:fullFileCachePath atomically:YES];
+        if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
+            [FileUtils removeFile:javascriptPath];
+        }
+        [[NSFileManager defaultManager] copyItemAtPath:fullFileCachePath toPath:javascriptPath error:nil];
+        [FileUtils removeFile:[cachePath stringByAppendingPathComponent:fullFileCachePath]];
+    }
+}
+
+
 
 +(NSString*)getJsonDataWithZip:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID{
     

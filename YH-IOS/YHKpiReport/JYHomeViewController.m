@@ -360,7 +360,7 @@
            //                       @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t1606/199/444346922/48930/355f9ef/55841cd0N92d9fa7c.jpg",
              //                     @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t1609/58/409100493/49144/7055bec5/557e76bfNc065aeaf.jpg",
                //                   @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t895/234/1192509025/111466/512174ab/557fed56N3e023b70.jpg",
-                 //                 @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t835/313/1196724882/359493/b53c7b70/5581392cNa08ff0a9.jpg",
+                 //                 @"http://img30.360buyimg.com/mobilecms/sc480x180_jfs/t835/313/1196724882/359493/b53c7b70/5581392cNa08ff0a9.jpg",
                    //               @"http://img30.360buyimg.com/mobilecms/s480x180_jfs/t898/15//1262262696/95281/57d1f12f/558baeb4Nbfd44d3a.jpg"
                                   //];
     

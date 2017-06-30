@@ -47,6 +47,9 @@
     if([userDict.allKeys containsObject:keyName] && [userDict[keyName] isEqualToString:md5String]) {
         isShouldUnZip = NO;
     }
+    if ([fileName isEqualToString:@"dist"]) {
+        isShouldUnZip = YES;
+    }
     
     if(isShouldUnZip) {
         NSString *assetsPath = sharedPath;

@@ -99,4 +99,6 @@
 
 + (HttpResponse *)findPassword:(NSString *)userNum withMobile:(NSString *)moblieNum;
 
++ (void)reportScodeData:(NSNumber *)storeID barcodeID:(NSString *)barcodeID;
+
 @end

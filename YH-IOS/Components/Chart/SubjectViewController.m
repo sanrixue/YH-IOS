@@ -724,9 +724,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)actionDisplaySearchItems {
     
-  /*  ThreeSelectViewController *selectorView = [[ThreeSelectViewController alloc]init];
+    ThreeSelectViewController *selectorView = [[ThreeSelectViewController alloc]init];
     UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:selectorView];
-    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];*/
+    selectorView.bannerName = self.bannerName;
+    selectorView.groupID = self.user.groupID;
+    selectorView.reportID = self.reportID;
+    selectorView.templateID  =self.templateID;
+    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
+    /*
+   
    UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     ReportSelectorViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"ReportSelectorSegueIdentifier"];
@@ -735,7 +741,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     subjectView.reportID = self.reportID;
     subjectView.templateID  =self.templateID;
     UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
-    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
+    [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];*/
     
 }
 

@@ -84,7 +84,8 @@
     if ([_lbxTextField.text length] != 0) {
         scanResultVC.codeInfo = _lbxTextField.text;
         scanResultVC.codeType = @"input";
-        [self presentViewController:scanResultVC animated:YES completion:nil];
+        UINavigationController *scanresult = [[UINavigationController alloc]initWithRootViewController:scanResultVC];
+        [self presentViewController:scanresult animated:YES completion:nil];
     }
     else {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"提交失败"

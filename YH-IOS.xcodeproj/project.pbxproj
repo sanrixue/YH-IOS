@@ -14,7 +14,6 @@
 		9129DD3B1EF4D60600900611 /* JHCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9129DD361EF4D60600900611 /* JHCollectionReusableView.m */; };
 		9129DD3C1EF4D60600900611 /* JHCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9129DD381EF4D60600900611 /* JHCollectionViewFlowLayout.m */; };
 		9129DD3D1EF4D60600900611 /* JHCollectionViewLayoutAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 9129DD3A1EF4D60600900611 /* JHCollectionViewLayoutAttributes.m */; };
-		9129DD3F1EF51FF400900611 /* dist.zip in Resources */ = {isa = PBXBuildFile; fileRef = 9129DD3E1EF51FF400900611 /* dist.zip */; };
 		914465641F04BFB900795E54 /* TopHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914465631F04BFB900795E54 /* TopHeaderCollectionReusableView.m */; };
 		914465681F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914465661F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.m */; };
 		914465691F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 914465671F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.xib */; };
@@ -32,6 +31,10 @@
 		91B70D5F1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B70D5D1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m */; };
 		91B70D601EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B70D5E1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib */; };
 		91B70D681EF8C84600C02F16 /* JYSigleValueView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B70D671EF8C84600C02F16 /* JYSigleValueView.m */; };
+		91D4D66D1F060DBD0087783C /* YHInstituteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D66C1F060DBD0087783C /* YHInstituteDetailViewController.m */; };
+		91D4D6711F0624DB0087783C /* dist.zip in Resources */ = {isa = PBXBuildFile; fileRef = 91D4D6701F0624DB0087783C /* dist.zip */; };
+		91D4D6741F0634F10087783C /* SelectDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D6731F0634F10087783C /* SelectDataModel.m */; };
+		91D4D6781F0658670087783C /* distnew.zip in Resources */ = {isa = PBXBuildFile; fileRef = 91D4D6771F0658670087783C /* distnew.zip */; };
 		91D77F161EEA8746007405A0 /* UserCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F151EEA8746007405A0 /* UserCountView.m */; };
 		91D77F261EEA915C007405A0 /* MineNoticeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F241EEA915C007405A0 /* MineNoticeTableViewCell.m */; };
 		91D77F271EEA915C007405A0 /* MineNoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D77F251EEA915C007405A0 /* MineNoticeTableViewCell.xib */; };
@@ -534,7 +537,6 @@
 		9129DD381EF4D60600900611 /* JHCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JHCollectionViewFlowLayout.m; path = Class/JHCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		9129DD391EF4D60600900611 /* JHCollectionViewLayoutAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JHCollectionViewLayoutAttributes.h; path = Class/JHCollectionViewLayoutAttributes.h; sourceTree = "<group>"; };
 		9129DD3A1EF4D60600900611 /* JHCollectionViewLayoutAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JHCollectionViewLayoutAttributes.m; path = Class/JHCollectionViewLayoutAttributes.m; sourceTree = "<group>"; };
-		9129DD3E1EF51FF400900611 /* dist.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = dist.zip; sourceTree = "<group>"; };
 		914465621F04BFB900795E54 /* TopHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopHeaderCollectionReusableView.h; sourceTree = "<group>"; };
 		914465631F04BFB900795E54 /* TopHeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopHeaderCollectionReusableView.m; sourceTree = "<group>"; };
 		914465651F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHToptopicHeaderCollectionReusableView.h; sourceTree = "<group>"; };
@@ -567,6 +569,12 @@
 		91B70D5E1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YHReportLeftTextTableViewCell.xib; sourceTree = "<group>"; };
 		91B70D661EF8C84600C02F16 /* JYSigleValueView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYSigleValueView.h; sourceTree = "<group>"; };
 		91B70D671EF8C84600C02F16 /* JYSigleValueView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYSigleValueView.m; sourceTree = "<group>"; };
+		91D4D66B1F060DBD0087783C /* YHInstituteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHInstituteDetailViewController.h; sourceTree = "<group>"; };
+		91D4D66C1F060DBD0087783C /* YHInstituteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHInstituteDetailViewController.m; sourceTree = "<group>"; };
+		91D4D6701F0624DB0087783C /* dist.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = dist.zip; sourceTree = "<group>"; };
+		91D4D6721F0634F10087783C /* SelectDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDataModel.h; sourceTree = "<group>"; };
+		91D4D6731F0634F10087783C /* SelectDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectDataModel.m; sourceTree = "<group>"; };
+		91D4D6771F0658670087783C /* distnew.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = distnew.zip; sourceTree = "<group>"; };
 		91D77F141EEA8746007405A0 /* UserCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCountView.h; sourceTree = "<group>"; };
 		91D77F151EEA8746007405A0 /* UserCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCountView.m; sourceTree = "<group>"; };
 		91D77F231EEA915C007405A0 /* MineNoticeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineNoticeTableViewCell.h; sourceTree = "<group>"; };
@@ -1427,6 +1435,8 @@
 			children = (
 				914F3F251EE92BF8004B2C25 /* InstituteViewController.h */,
 				914F3F261EE92BF8004B2C25 /* InstituteViewController.m */,
+				91D4D66B1F060DBD0087783C /* YHInstituteDetailViewController.h */,
+				91D4D66C1F060DBD0087783C /* YHInstituteDetailViewController.m */,
 			);
 			name = Institute;
 			sourceTree = "<group>";
@@ -1480,6 +1490,8 @@
 				9145097A1F0224C100ED82D6 /* TreeTableView.m */,
 				9145097C1F02257100ED82D6 /* ThreeSelectViewController.h */,
 				9145097D1F02257100ED82D6 /* ThreeSelectViewController.m */,
+				91D4D6721F0634F10087783C /* SelectDataModel.h */,
+				91D4D6731F0634F10087783C /* SelectDataModel.m */,
 			);
 			name = SelectView;
 			sourceTree = "<group>";
@@ -2215,7 +2227,8 @@
 		C4DB7DC51C02EE6000DA534E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				9129DD3E1EF51FF400900611 /* dist.zip */,
+				91D4D6771F0658670087783C /* distnew.zip */,
+				91D4D6701F0624DB0087783C /* dist.zip */,
 				F6E1E68C1ED567890094ABA4 /* icons.zip */,
 				C46903931D5CC75F00233D05 /* BarCodeScan.zip */,
 				C4EFE4AA1C98F60A0009411A /* fonts.zip */,
@@ -3379,6 +3392,7 @@
 				F62456CF1EA5FB21006834D2 /* OneLableCell.xib in Resources */,
 				F624574D1EA5FBB2006834D2 /* PieChartViewController.xib in Resources */,
 				F62456DE1EA5FB3F006834D2 /* DemoListViewController.xib in Resources */,
+				91D4D6781F0658670087783C /* distnew.zip in Resources */,
 				F62456C21EA5FB21006834D2 /* HomeIndexCollectionCell.xib in Resources */,
 				91DB242D1EED7A3000FC8413 /* unSelect@2x.png in Resources */,
 				F624564A1EA5FACD006834D2 /* IQKeyboardManager.bundle in Resources */,
@@ -3405,6 +3419,7 @@
 				C4EFE4AF1C98F60A0009411A /* fonts.zip in Resources */,
 				F62457491EA5FBB2006834D2 /* MultipleLinesChartViewController.xib in Resources */,
 				F62457371EA5FBB2006834D2 /* CombinedChartViewController.xib in Resources */,
+				91D4D6711F0624DB0087783C /* dist.zip in Resources */,
 				C46F6A981D06720A00C561CE /* CodeScan.bundle in Resources */,
 				91EF8DE31EF3B27C00333746 /* YHTopicFooterCollectionReusableView.xib in Resources */,
 				F62457531EA5FBB2006834D2 /* RadarChartViewController.xib in Resources */,
@@ -3439,7 +3454,6 @@
 				F624572F1EA5FBB1006834D2 /* BarChartViewController.xib in Resources */,
 				F62456CD1EA5FB21006834D2 /* HomeIndexVC.xib in Resources */,
 				F62457311EA5FBB1006834D2 /* BubbleChartViewController.xib in Resources */,
-				9129DD3F1EF51FF400900611 /* dist.zip in Resources */,
 				C4DB7D811C02EC0500DA534E /* Main.storyboard in Resources */,
 				91EF8DEC1EF3DB1200333746 /* YHMutileveHeaderView.xib in Resources */,
 				F62457411EA5FBB2006834D2 /* LineChart2ViewController.xib in Resources */,
@@ -3823,6 +3837,7 @@
 				9114619E1EEA63B4006A35AF /* MineInfoTableViewCell.m in Sources */,
 				F62456D41EA5FB21006834D2 /* YH_ScrollTitleLineAndBarVC.m in Sources */,
 				C49BB9AA1D8C2538004C9F70 /* Constant.m in Sources */,
+				91D4D6741F0634F10087783C /* SelectDataModel.m in Sources */,
 				F62456461EA5FACD006834D2 /* IQPreviousNextView.m in Sources */,
 				F62456D61EA5FB21006834D2 /* YHLinechart1Vc.m in Sources */,
 				91E6CFA71EFB6B8C00507B7E /* TAAbstractDotView.m in Sources */,
@@ -3847,6 +3862,7 @@
 				C488E6A61C0F03C800EB946D /* BaseViewController.m in Sources */,
 				F63D49F91EB329A20004BCC8 /* DoubleClickSuperChartCell.m in Sources */,
 				91B70D681EF8C84600C02F16 /* JYSigleValueView.m in Sources */,
+				91D4D66D1F060DBD0087783C /* YHInstituteDetailViewController.m in Sources */,
 				C48924E61D858F0A00859411 /* GestureTableViewCell.m in Sources */,
 				91DB245A1EEE6A1100FC8413 /* UIImage+StackBlur.m in Sources */,
 				F62456BE1EA5FB21006834D2 /* ChartHudView.m in Sources */,

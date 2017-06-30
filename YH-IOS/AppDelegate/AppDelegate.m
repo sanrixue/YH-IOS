@@ -108,6 +108,10 @@ void UncaughtExceptionHandler(NSException * exception) {
         [FileUtils removeFile:cachedHeaderPath];
         cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
         [FileUtils removeFile:cachedHeaderPath];
+         NSString *distPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"dist"];
+        if ([ FileUtils checkFileExist:distPath isDir:YES]) {
+            [FileUtils removeFile:distPath];
+        }
     }else{
         [self.window setRootViewController:initViewController];
     }

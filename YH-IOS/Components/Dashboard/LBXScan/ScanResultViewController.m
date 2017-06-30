@@ -29,12 +29,14 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (weak, nonatomic) IBOutlet UIButton *selectBtn;
 @property (strong, nonatomic) NSArray *dropMenuTitles;
 @property (strong, nonatomic) NSArray *dropMenuIcons;
+@property (strong, nonatomic)     NSString *storeID;
 @end
 
 @implementation ScanResultViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+       self.storeID = @"-1";
     [WebViewJavascriptBridge enableLogging];
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         responseCallback(@"DashboardViewController - Response for message from ObjC");
@@ -169,7 +171,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)loadHtml {
     DeviceState deviceState = [APIHelper deviceState];
     if(deviceState == StateOK) {
-        [self _loadHtml];
+        [self loadInnerLink];
     }
     else if(deviceState == StateForbid) {
         SCLAlertView *alert = [[SCLAlertView alloc] init];
@@ -196,7 +198,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
-    NSString *storeID = @"-1";
     if ((!cacheDict[@"store"] || !cacheDict[@"store"][@"id"]) &&
         userDict[kStoreIDsCUName] && [userDict[kStoreIDsCUName] count] > 0) {
         
@@ -221,11 +222,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         }
     }
     
-    storeID = cacheDict[@"store"][@"id"];
+    _storeID = cacheDict[@"store"][@"id"];
     self.title = cacheDict[@"store"][@"name"];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-      BOOL jsonFormateRight = [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:storeID code:self.codeInfo type:self.codeType];
+      BOOL jsonFormateRight = [APIHelper barCodeScan:self.user.userNum group:self.user.groupID role:self.user.roleID store:_storeID code:self.codeInfo type:self.codeType];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             [self clearBrowserCache];
@@ -238,6 +239,94 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         });
     });
 }
+
+
+// 新版扫一扫加载的代码
+
+- (void)loadInnerLink {
+    /**
+     *  only inner link clean browser cache
+     */
+    [self clearBrowserCache];
+    [self showLoading:LoadingLoad];
+    
+    NSString *cacheJsonPath = [FileUtils dirPath:kCachedDirName FileName:kBarCodeResultFileName];
+    NSMutableDictionary *cacheDict = [FileUtils readConfigFile:cacheJsonPath];
+    
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
+    
+    if ((!cacheDict[@"store"] || !cacheDict[@"store"][@"id"]) &&
+        userDict[kStoreIDsCUName] && [userDict[kStoreIDsCUName] count] > 0) {
+        
+        cacheDict[@"store"] = userDict[kStoreIDsCUName][0];
+        [FileUtils writeJSON:cacheDict Into:cacheJsonPath];
+    }
+    else {
+        // 缓存的门店信息可能过期，判断是否在用户权限门店列表中（user.plist）
+        BOOL isExpired = YES;
+        NSDictionary *storeDict = [NSDictionary dictionary];
+        for(NSInteger i = 0, len = [userDict[kStoreIDsCUName] count]; i < len; i++) {
+            storeDict = userDict[kStoreIDsCUName][i];
+            if(storeDict[@"name"] && storeDict[@"id"] && ([storeDict[@"id"] integerValue] == [cacheDict[@"store"][@"id"] integerValue])) {
+                isExpired = NO;
+                break;
+            }
+        }
+        
+        if(isExpired) {
+          //  cacheDict[@"store"] = userDict[kStoreIDsCUName][0];
+            cacheDict[@"store"] = @"9275";
+            [FileUtils writeJSON:cacheDict Into:cacheJsonPath];
+        }
+    }
+    
+    _storeID = cacheDict[@"store"][@"id"];
+    // _storeID = @"9275";
+    self.title = cacheDict[@"store"][@"name"];
+      [self showLoading:LoadingLoad];
+    
+    /*
+     * format: /mobile/v1/group/:group_id/template/:template_id/report/:report_id
+     * deprecated
+     * format: /mobile/report/:report_id/group/:group_id
+     */
+  //  NSArray *components = [self.urlString componentsSeparatedByString:@"/"];
+    self.urlString = [NSString stringWithFormat:@"%@/mobile/v2/store/%@/barcode/%@/view",kBaseUrl,self.storeID,self.codeInfo];
+    
+    /**
+     * 内部报表具有筛选功能时
+     *   - 如果用户已选择，则 banner 显示该选项名称
+     *   - 未设置时，默认显示筛选项列表中第一个
+     *
+     *  初次加载时，判断筛选功能的条件还未生效
+     *  此处仅在第二次及以后才会生效
+     */
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [APIHelper reportScodeData:[self.storeID numberValue] barcodeID:self.codeInfo];
+        
+        HttpResponse *httpResponse = [HttpUtils checkResponseHeader:self.urlString assetsPath:self.assetsPath];
+        
+        __block NSString *htmlPath;
+        if([httpResponse.statusCode isEqualToNumber:@(200)]) {
+            htmlPath = [HttpUtils urlConvertToLocal:self.urlString content:httpResponse.string assetsPath:self.assetsPath writeToLocal:kIsUrlWrite2Local];
+        }
+        else {
+            NSString *htmlName = [HttpUtils urlTofilename:self.urlString suffix:@".html"][0];
+            htmlPath = [self.assetsPath stringByAppendingPathComponent:htmlName];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self clearBrowserCache];
+            NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
+            [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
+           // [MRProgressOverlayView dismissOverlayForView:self.browser animated:YES];
+            
+        });
+    });
+}
+
 
 #pragma mark
 - (void)initDropMenu {
@@ -264,7 +353,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     SelectStoreViewController *select = [[SelectStoreViewController alloc] init];
     UINavigationController* selectCtrl = [[UINavigationController alloc]initWithRootViewController:select];
     [self.navigationController presentViewController:selectCtrl animated:YES completion:nil];
-  /*  [self initDropMenu];
+    [self initDropMenu];
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
     dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
     dropTableViewController.preferredContentSize = CGSizeMake(150,self.dropMenuTitles.count*150/4);
@@ -277,7 +366,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [popover setSourceRect:sender.customView.frame];
     [popover setSourceView:self.view];
     popover.backgroundColor = [UIColor colorWithHexString:kDropViewColor];
-    [self presentViewController:dropTableViewController animated:YES completion:nil];*/
+    [self presentViewController:dropTableViewController animated:YES completion:nil];
 }
 
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {

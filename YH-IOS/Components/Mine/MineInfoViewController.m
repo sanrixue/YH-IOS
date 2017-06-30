@@ -216,16 +216,18 @@
         }
         else if (indexPath.row == 1){
             cell.userTitle.text = titleArray[indexPath.row];
+            
             NSString *userRole =[NSString stringWithFormat:@"%@", user.groupName];
 
             cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
+            cell.userDetailLable.adjustsFontSizeToFitWidth = YES;
             cell.userDetailLable.text = userRole;
         }
         else {
             cell.userTitle.text = titleArray[indexPath.row];
             cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
             UIImageView *imageView = [[UIImageView alloc]init];
-            imageView.image = [UIImage imageNamed:@"list_ic_arroow.png-1"];
+            imageView.image = [UIImage imageNamed:@"list_ic_arroow.png"];
             [cell.userDetailLable addSubview:imageView];
             UIView *superView = cell.userDetailLable;
             [imageView mas_makeConstraints:^(MASConstraintMaker *make) {

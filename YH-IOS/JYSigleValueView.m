@@ -23,10 +23,9 @@
 -(void)layoutAllSubView{
     
     //self.backgroundColor = [UIColor redColor];
-    
-   /* self.layer.borderWidth = 2;
+    self.layer.borderWidth = 1;
     self.layer.borderColor = [UIColor colorWithHexString:@"#bdbdbd"].CGColor;
-    self.layer.cornerRadius = 4;*/
+    self.layer.cornerRadius = 4;
     //添加标题视图
     self.titleLable = [UILabel new];
     self.titleLable.textColor = [UIColor colorWithHexString:@"#000"];
@@ -67,7 +66,7 @@
     
     self.warnIamgeView = [UIImageView new];
     self.warnIamgeView.image = [UIImage imageNamed:@"ic_red_sign"];
-    self.warnIamgeView.contentMode = UIImageRenderingModeAlwaysOriginal;
+    self.warnIamgeView.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:_warnIamgeView];
     
     [self.titleLable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -108,10 +107,12 @@
     }];
     
     [self.warnIamgeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.warnLable.mas_top).mas_offset(0);
+       // make.top.equalTo(self.utilLable.mas_top).mas_offset(15);
         make.left.equalTo(self.mas_left).mas_offset(10);
+        make.centerY.equalTo(self.warnLable.mas_centerY).mas_offset(0);
+      //  make.width.equalTo(@3);
         make.right.equalTo(self.warnLable.mas_left).mas_offset(-5);
-        make.bottom.equalTo(self.warnLable.mas_bottom).mas_offset(0);
+        //make.bottom.equalTo(self.warnLable.mas_bottom).mas_offset(0);
     }];
 }
 

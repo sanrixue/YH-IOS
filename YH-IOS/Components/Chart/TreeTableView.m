@@ -64,6 +64,11 @@
     
     Node *node = [_tempData objectAtIndex:indexPath.row];
     
+    cell.imageView.image = [[UIImage imageNamed:@"triangle-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [cell.imageView setHidden:NO];
+    if (node.depth == 2) {
+        [cell.imageView setHidden:YES];
+    }
     // cell有缩进的方法
     cell.indentationLevel = node.depth; // 缩进级别
     cell.indentationWidth = 30.f; // 每个缩进级别的距离
@@ -103,7 +108,7 @@
     if (_treeTableCellDelegate && [_treeTableCellDelegate respondsToSelector:@selector(cellClick:)]) {
         [_treeTableCellDelegate cellClick:parentNode];
     }
-    
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     NSUInteger startPosition = indexPath.row+1;
     NSUInteger endPosition = startPosition;
     BOOL expand = NO;
@@ -112,11 +117,13 @@
         if (node.parentId == parentNode.nodeId) {
             node.expand = !node.expand;
             if (node.expand) {
+                    cell.imageView.image = [[UIImage imageNamed:@"triangle"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
                 [_tempData insertObject:node atIndex:endPosition];
                 expand = YES;
                 endPosition++;
             }else{
                 expand = NO;
+                    cell.imageView.image = [[UIImage imageNamed:@"triangle-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
                 endPosition = [self removeAllNodesAtParentNode:parentNode];
                 break;
             }

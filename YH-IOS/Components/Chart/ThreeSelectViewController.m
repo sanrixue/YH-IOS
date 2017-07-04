@@ -12,11 +12,20 @@
 #import "SelectDataModel.h"
 
 @interface ThreeSelectViewController ()<TreeTableCellDelegate>
+{
+    int firstLayerCount;
+    int secondLayerCount;
+}
 @property (strong, nonatomic) NSArray *searchItems;
 @property (strong, nonatomic) NSString *selectedItem;
 @property (strong, nonatomic) User *user;
-@property (strong, nonatomic) NSMutableArray *allarray;
+@property (strong, nonatomic) NSArray<SelectDataModel *> *allarray;
 @property (strong, nonatomic) NSString *lastTitleString;
+@property (strong, nonatomic) NSMutableArray *keyArray;
+@property (strong, nonatomic) NSString *firstTitle;
+@property (strong, nonatomic) NSString *SecondTitle;
+@property (strong, nonatomic) NSMutableArray<Node*> *allNodeArray;
+
 
 @end
 
@@ -27,14 +36,16 @@
     [super viewDidLoad];
     self.user = [[User alloc]init];
     _allarray = [NSMutableArray new];
+    _allNodeArray = [NSMutableArray new];
     self.searchItems = [FileUtils reportSearchItems:self.user.groupID templateID:self.templateID reportID:self.reportID];
     self.selectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    NSString *reportSelectedItem = [_selectedItem stringByReplacingOccurrencesOfString:@"||" withString:@"•"];
     if((self.selectedItem == NULL || [self.selectedItem length] == 0) && [self.searchItems count] > 0) {
-        self.selectedItem = [self.searchItems firstObject];
+      //  self.selectedItem = [self.searchItems firstObject];
     }
-    self.title = self.selectedItem;
+    self.title = reportSelectedItem;
     [self handleData];
-    //[self initData];
+   // [self initData];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -57,6 +68,7 @@
     UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
 }
+
 
 -(void)initData{
     
@@ -96,7 +108,7 @@
     NSArray *data = [NSArray arrayWithObjects:country1,province1,city1,city2,city3,province2,city4,city5,province3,city6,country2,province4,province5,city7,province6,city8,city9,country3,province7,province8,province9, nil];
     
     
-    TreeTableView *tableview = [[TreeTableView alloc] initWithFrame:CGRectMake(0, 20, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)-20) withData:data];
+    TreeTableView *tableview = [[TreeTableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)) withData:data];
     tableview.treeTableCellDelegate = self;
     [self.view addSubview:tableview];
 }
@@ -104,23 +116,91 @@
 
 #pragma mark - TreeTableCellDelegate
 -(void)cellClick:(Node *)node{
-    NSLog(@"%@",node.name);
+    if (node.depth == 2) {
+        NSString *parentName = _allNodeArray[node.parentId].name;
+        NSString *fistParentName = _allNodeArray[_allNodeArray[node.parentId].parentId].name;
+       /* for (Node *nodeParent in _allNodeArray) {
+            if (nodeParent.nodeId == node.parentId) {
+                parentName = nodeParent.name;
+            }
+        }*/
+        NSLog(@"%@------>%@ ----> %@",node.name,parentName,fistParentName);
+        NSString *ClickItem = [NSString stringWithFormat:@"%@||%@||%@", fistParentName, parentName, node.name];
+        NSString *selectedItemPath = [NSString stringWithFormat:@"%@.selected_item", [FileUtils reportJavaScriptDataPath:self.user.groupID templateID:self.templateID reportID:self.reportID]];
+        [ClickItem writeToFile:selectedItemPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+        [self dismissViewControllerAnimated:YES completion:^{
+        }];
+    }
 }
 
+
+- (NSString *)getdata{
+    
+    return  @"data:[{\"titles\":\"201612\",\"infos\":[{\"titles\":\"世界村店\",\"infos\":[\"休闲食品\",\"健康有机生活馆\",\"加工\"]},{\"titles\":\"东城万达店\",\"infos\":[\"后勤小店\",\"家用文体家电\",\"干性杂货日配\"]}]}, {\"titles\": \"201701\",\"infos\": [{\"titles\": \"东方伟业广场店\",\"infos\": [ \"后勤小店\",\"家居生活馆\",\"干性杂货日配\"]},{\"titles\": \"东方名城店\",\"infos\": [ \"健康有机生活馆\",\"家用文体家电\",\"干性杂货日配\"]},{\"titles\": \"中南城店\",\"infos\": [ \"电商小店\",\"肉禽水产\",\"干性杂货日配\",\"清洁用品\"]}]}]";
+}
 
 -(void)handleData{
     /**
      *  筛选项列表按字母排序，以便于用户查找
      *  self.searchItems 不做任何修改，列表源使用变量 self.dataList
      */
-    [_allarray removeAllObjects];
-    self.searchItems = [self.searchItems sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+   // [_allarray removeAllObjects];
+    _allarray = [MTLJSONAdapter modelsOfClass:SelectDataModel.class fromJSONArray:self.searchItems error:nil];
+    NSString *allCount = [NSString stringWithFormat:@"%lu",_allarray.count];
+    firstLayerCount = [allCount intValue];
+    secondLayerCount = 0;
+    for (int i = 0; i < firstLayerCount; i++) {
+        for (int j = 0; j<_allarray[i].infos.count; j++) {
+            secondLayerCount ++;
+        }
+    }
+    [self getNodeArrayData];
+    
+    //self.searchItems = [self.searchItems sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
+   /* self.keyArray = [[NSMutableArray alloc]init];
     for (int i = 0; i<self.searchItems.count; i++) {
         NSArray *array= [self.searchItems[i] componentsSeparatedByString:@"||"];
-        SelectDataModel *model = [[SelectDataModel alloc]initWithFirst:array[0] withSeconArray:@{array[1]:array[2]}];
-        [self.allarray addObject:model];
+        [_keyArray addObject:array[0]];
+       // SelectDataModel *model = [[SelectDataModel alloc]initWithFirst:array[0] withSeconArray:@{array[1]:array[2]}];
+        [self.allarray addObject:array];
     }
     
+    [self getTwoLayerData];
+    */
+}
+
+
+// 多层如何转成一个个 Node
+-(void)getNodeArrayData{
+    NSString *allCount = [NSString stringWithFormat:@"%lu",_allarray.count];
+    int secondID = 0;
+    int NodeId= 0;
+    int firstLayerID = 0;
+    if (_allarray.count > 0) {
+        for (SelectDataModel * model in _allarray) {
+            Node *nodeName = [[Node alloc] initWithParentId:-1 nodeId:NodeId name:model.titles depth:0 expand:YES];
+            firstLayerID =NodeId;
+            NodeId ++;
+            [_allNodeArray addObject:nodeName];
+            for (SelectDataModel * model1 in model.infos) {
+
+                Node *nodeName = [[Node alloc] initWithParentId:firstLayerID nodeId:NodeId name:model1.titles depth:1 expand:NO];
+                secondID = NodeId;
+                NodeId ++;
+                [_allNodeArray addObject:nodeName];
+                for (SelectDataModel * model2 in model1.infos) {
+                    Node *nodeName = [[Node alloc] initWithParentId:secondID nodeId:NodeId name:model2.titles depth:2 expand:NO];
+                    NodeId ++;
+                    [_allNodeArray addObject:nodeName];
+                }
+            }
+        }
+    }
+    
+    TreeTableView *tableview = [[TreeTableView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)) withData:_allNodeArray];
+    tableview.treeTableCellDelegate = self;
+    [self.view addSubview:tableview];
 }
 
 

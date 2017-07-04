@@ -49,13 +49,13 @@
  *  @return 选项列表
  */
 + (NSArray *)reportSearchItems:(NSNumber *)groupID templateID:(NSString *)templateID reportID:(NSString *)reportID {
-    NSArray *searchItems = [NSArray array];
+    NSDictionary *searchItems = [NSDictionary new];
     NSString *searchItemsPath = [NSString stringWithFormat:@"%@.search_items", [self reportJavaScriptDataPath:groupID templateID:templateID reportID:reportID]];
     if([FileUtils checkFileExist:searchItemsPath isDir:NO]) {
-        searchItems = [NSArray arrayWithContentsOfFile:searchItemsPath];
+        searchItems = [NSDictionary dictionaryWithContentsOfFile:searchItemsPath];
     }
     
-    return searchItems;
+    return searchItems[@"data"];
 }
 
 /**

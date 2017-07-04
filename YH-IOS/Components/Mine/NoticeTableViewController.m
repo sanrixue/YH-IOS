@@ -85,7 +85,7 @@
     _showpopViewRectView = [[UIView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - 20, 65,2 , 2)];
     [self.view addSubview:_showpopViewRectView];
                                                                    
-    typeArray = @[@"系统公告",@"业务公告",@"预警系统",@"报表评论"];
+    typeArray = @[@"系统公告",@"业务公告",@"预警体系",@"报表评论"];
     listArray = [NSMutableArray arrayWithArray:typeArray];
     
     _cellView = [[MLMOptionSelectView alloc] initOptionView];
@@ -118,14 +118,14 @@
     [self.dataArray removeAllObjects];
     [MRProgressOverlayView showOverlayAddedTo:self.tableView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
     NSMutableString *tyeString = [[NSMutableString alloc]init];
-    for (int i =0; i<_typeChoiceArray.count - 1; i++) {
+    for (int i = 0; i<_typeChoiceArray.count - 1; i++) {
         if ([_typeChoiceArray[i] boolValue]) {
-            NSString *addString = [NSString stringWithFormat:@"%d,",i+1];
+            NSString *addString = [NSString stringWithFormat:@"%d,",i];
             [tyeString appendString:addString];
         }
     }
     if ([_typeChoiceArray[_typeChoiceArray.count-1] boolValue]) {
-         [tyeString appendString:[NSString stringWithFormat:@"%lu",(unsigned long)_typeChoiceArray.count]];
+         [tyeString appendString:[NSString stringWithFormat:@"%lu",(unsigned long)_typeChoiceArray.count-1]];
     }
     if (tyeString.length == 0) {
         [_dataArray removeAllObjects];
@@ -156,7 +156,7 @@
     NSMutableString *tyeString = [[NSMutableString alloc]init];
     for (int i =0; i<_typeChoiceArray.count - 1; i++) {
         if ([_typeChoiceArray[i] boolValue]) {
-            NSString *addString = [NSString stringWithFormat:@"%d,",i+1];
+            NSString *addString = [NSString stringWithFormat:@"%d,",i];
             [tyeString appendString:addString];
         }
     }
@@ -313,7 +313,7 @@
         cell = [[MineNoticeTableViewCell alloc]init];
     }
     
-    cell.titleLable.text = [NSString stringWithFormat:@"#%@#%@" ,typeArray[self.dataArray[indexPath.row].noticeType-1],self.dataArray[indexPath.row].title];
+    cell.titleLable.text = [NSString stringWithFormat:@"#%@#%@" ,typeArray[self.dataArray[indexPath.row].noticeType],self.dataArray[indexPath.row].title];
     cell.timeLable.text = self.dataArray[indexPath.row].time;
     cell.contentLable.text = self.dataArray[indexPath.row].abstracts;
     [cell.noteView setHidden:self.dataArray[indexPath.row].see];

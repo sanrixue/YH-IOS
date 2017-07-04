@@ -36,9 +36,9 @@ static NSString *resusedtopHeaderCell = @"reusedtopHeader";
 -(id)initWithFrame:(CGRect)frame WithData:(NSArray *)data withSelectIndex:(void (^)(NSInteger,id info))selectIndex
 {
     if (self == [super initWithFrame:frame]) {
-        if (data.count == 0) {
-            return nil;
-        }
+       /* if (data.count == 0) {
+            return self;
+        }*/
         
         _block = selectIndex;
        /* UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc]init];

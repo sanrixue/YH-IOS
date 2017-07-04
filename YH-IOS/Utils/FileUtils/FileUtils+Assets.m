@@ -47,7 +47,7 @@
     if([userDict.allKeys containsObject:keyName] && [userDict[keyName] isEqualToString:md5String]) {
         isShouldUnZip = NO;
     }
-    if ([fileName isEqualToString:@"dist"]) {
+    if ([fileName isEqualToString:@"dist.zip"]) {
         isShouldUnZip = YES;
     }
     

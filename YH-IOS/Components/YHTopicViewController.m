@@ -40,7 +40,7 @@
      _list = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5", nil];
     self.automaticallyAdjustsScrollViewInsets = NO;
    // [self getdata];
-    [self getSomeThingNew];
+    [self addCollection];
       self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Barcode-Scan-1"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(jumpToScanView)];
     // Do any additional setup after loading the view.
     
@@ -50,6 +50,7 @@
     [self.navigationController.navigationBar setTintColor:[UIColor blackColor]];
     //@{}代表Dictionary
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor blackColor]}];
+     [self getSomeThingNew];
 }
 
 
@@ -165,7 +166,7 @@
             self.listArray = [array[0].listpage copy];
         }
         // NSLog(@"%@",array[0]);
-        [self addCollection];
+        [self initMenu];
      }
     else{
         NSData *data = [NSData dataWithContentsOfFile:javascriptPath];
@@ -182,7 +183,7 @@
             self.listArray = [array[0].listpage copy];
         }
         // NSLog(@"%@",array[0]);
-        [self addCollection];
+        [self initMenu];
     }
     }
     else{
@@ -201,7 +202,7 @@
             self.listArray = [array[0].listpage copy];
         }
         // NSLog(@"%@",array[0]);
-        [self addCollection];
+        [self initMenu];
         }
     }
 }

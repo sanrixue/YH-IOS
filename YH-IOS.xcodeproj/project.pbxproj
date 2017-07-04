@@ -34,7 +34,11 @@
 		91D4D66D1F060DBD0087783C /* YHInstituteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D66C1F060DBD0087783C /* YHInstituteDetailViewController.m */; };
 		91D4D6711F0624DB0087783C /* dist.zip in Resources */ = {isa = PBXBuildFile; fileRef = 91D4D6701F0624DB0087783C /* dist.zip */; };
 		91D4D6741F0634F10087783C /* SelectDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D6731F0634F10087783C /* SelectDataModel.m */; };
-		91D4D6781F0658670087783C /* distnew.zip in Resources */ = {isa = PBXBuildFile; fileRef = 91D4D6771F0658670087783C /* distnew.zip */; };
+		91D4D6911F08C0360087783C /* RootTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D6861F08C0360087783C /* RootTableController.m */; };
+		91D4D6921F08C0360087783C /* MyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D6891F08C0360087783C /* MyModel.m */; };
+		91D4D6931F08C0360087783C /* LastSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D68C1F08C0360087783C /* LastSectionView.m */; };
+		91D4D6941F08C0360087783C /* SectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D68E1F08C0360087783C /* SectionHeaderView.m */; };
+		91D4D6951F08C0360087783C /* TwoSectionTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D6901F08C0360087783C /* TwoSectionTableCell.m */; };
 		91D77F161EEA8746007405A0 /* UserCountView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F151EEA8746007405A0 /* UserCountView.m */; };
 		91D77F261EEA915C007405A0 /* MineNoticeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F241EEA915C007405A0 /* MineNoticeTableViewCell.m */; };
 		91D77F271EEA915C007405A0 /* MineNoticeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D77F251EEA915C007405A0 /* MineNoticeTableViewCell.xib */; };
@@ -43,6 +47,7 @@
 		91D77F381EEAA4D1007405A0 /* LeftIamgeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D77F361EEAA4D1007405A0 /* LeftIamgeTableViewCell.xib */; };
 		91D77F3C1EEAA61D007405A0 /* RightButtonTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D77F3A1EEAA61D007405A0 /* RightButtonTableViewCell.m */; };
 		91D77F3D1EEAA61D007405A0 /* RightButtonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91D77F3B1EEAA61D007405A0 /* RightButtonTableViewCell.xib */; };
+		91D8C9E51F0B7C2C008A150E /* SelectViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D8C9E41F0B7C2C008A150E /* SelectViewCell.m */; };
 		91DA7F021F03B1E5007E25B8 /* RightSwitchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DA7F011F03B1E5007E25B8 /* RightSwitchTableViewCell.m */; };
 		91DB235C1EEB98F900FC8413 /* SingleLabelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB235B1EEB98F900FC8413 /* SingleLabelTableViewCell.m */; };
 		91DB235F1EEBBC7600FC8413 /* MineQuestionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DB235E1EEBBC7600FC8413 /* MineQuestionViewController.m */; };
@@ -574,7 +579,16 @@
 		91D4D6701F0624DB0087783C /* dist.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = dist.zip; sourceTree = "<group>"; };
 		91D4D6721F0634F10087783C /* SelectDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDataModel.h; sourceTree = "<group>"; };
 		91D4D6731F0634F10087783C /* SelectDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectDataModel.m; sourceTree = "<group>"; };
-		91D4D6771F0658670087783C /* distnew.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = distnew.zip; sourceTree = "<group>"; };
+		91D4D6851F08C0360087783C /* RootTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootTableController.h; sourceTree = "<group>"; };
+		91D4D6861F08C0360087783C /* RootTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootTableController.m; sourceTree = "<group>"; };
+		91D4D6881F08C0360087783C /* MyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyModel.h; sourceTree = "<group>"; };
+		91D4D6891F08C0360087783C /* MyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyModel.m; sourceTree = "<group>"; };
+		91D4D68B1F08C0360087783C /* LastSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LastSectionView.h; sourceTree = "<group>"; };
+		91D4D68C1F08C0360087783C /* LastSectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LastSectionView.m; sourceTree = "<group>"; };
+		91D4D68D1F08C0360087783C /* SectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionHeaderView.h; sourceTree = "<group>"; };
+		91D4D68E1F08C0360087783C /* SectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionHeaderView.m; sourceTree = "<group>"; };
+		91D4D68F1F08C0360087783C /* TwoSectionTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoSectionTableCell.h; sourceTree = "<group>"; };
+		91D4D6901F08C0360087783C /* TwoSectionTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoSectionTableCell.m; sourceTree = "<group>"; };
 		91D77F141EEA8746007405A0 /* UserCountView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCountView.h; sourceTree = "<group>"; };
 		91D77F151EEA8746007405A0 /* UserCountView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCountView.m; sourceTree = "<group>"; };
 		91D77F231EEA915C007405A0 /* MineNoticeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineNoticeTableViewCell.h; sourceTree = "<group>"; };
@@ -588,6 +602,8 @@
 		91D77F391EEAA61D007405A0 /* RightButtonTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightButtonTableViewCell.h; sourceTree = "<group>"; };
 		91D77F3A1EEAA61D007405A0 /* RightButtonTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightButtonTableViewCell.m; sourceTree = "<group>"; };
 		91D77F3B1EEAA61D007405A0 /* RightButtonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RightButtonTableViewCell.xib; sourceTree = "<group>"; };
+		91D8C9E31F0B7C2C008A150E /* SelectViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectViewCell.h; sourceTree = "<group>"; };
+		91D8C9E41F0B7C2C008A150E /* SelectViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectViewCell.m; sourceTree = "<group>"; };
 		91DA7F001F03B1E5007E25B8 /* RightSwitchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RightSwitchTableViewCell.h; sourceTree = "<group>"; };
 		91DA7F011F03B1E5007E25B8 /* RightSwitchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RightSwitchTableViewCell.m; sourceTree = "<group>"; };
 		91DB235A1EEB98F900FC8413 /* SingleLabelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleLabelTableViewCell.h; sourceTree = "<group>"; };
@@ -1492,6 +1508,8 @@
 				9145097D1F02257100ED82D6 /* ThreeSelectViewController.m */,
 				91D4D6721F0634F10087783C /* SelectDataModel.h */,
 				91D4D6731F0634F10087783C /* SelectDataModel.m */,
+				91D8C9E31F0B7C2C008A150E /* SelectViewCell.h */,
+				91D8C9E41F0B7C2C008A150E /* SelectViewCell.m */,
 			);
 			name = SelectView;
 			sourceTree = "<group>";
@@ -1537,6 +1555,55 @@
 				9169BC621F00FB9A00419E52 /* GuidePageViewController.m */,
 			);
 			name = GuideView;
+			sourceTree = "<group>";
+		};
+		91D4D6821F08BF970087783C /* NewSelectView */ = {
+			isa = PBXGroup;
+			children = (
+				91D4D6831F08C0360087783C /* NewSelectView */,
+			);
+			name = NewSelectView;
+			sourceTree = "<group>";
+		};
+		91D4D6831F08C0360087783C /* NewSelectView */ = {
+			isa = PBXGroup;
+			children = (
+				91D4D6841F08C0360087783C /* Controller */,
+				91D4D6871F08C0360087783C /* Model */,
+				91D4D68A1F08C0360087783C /* View */,
+			);
+			path = NewSelectView;
+			sourceTree = "<group>";
+		};
+		91D4D6841F08C0360087783C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				91D4D6851F08C0360087783C /* RootTableController.h */,
+				91D4D6861F08C0360087783C /* RootTableController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		91D4D6871F08C0360087783C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				91D4D6881F08C0360087783C /* MyModel.h */,
+				91D4D6891F08C0360087783C /* MyModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		91D4D68A1F08C0360087783C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				91D4D68B1F08C0360087783C /* LastSectionView.h */,
+				91D4D68C1F08C0360087783C /* LastSectionView.m */,
+				91D4D68D1F08C0360087783C /* SectionHeaderView.h */,
+				91D4D68E1F08C0360087783C /* SectionHeaderView.m */,
+				91D4D68F1F08C0360087783C /* TwoSectionTableCell.h */,
+				91D4D6901F08C0360087783C /* TwoSectionTableCell.m */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		91D77F191EEA90D5007405A0 /* View */ = {
@@ -2053,6 +2120,7 @@
 		C4C6283A1C0C1ED6000AD5D8 /* Subject */ = {
 			isa = PBXGroup;
 			children = (
+				91D4D6821F08BF970087783C /* NewSelectView */,
 				914509731F02244800ED82D6 /* SelectView */,
 				C4E93F0C1D38BFC000DBEC90 /* ReportSelector */,
 				C4C6283B1C0C1ED6000AD5D8 /* SubjectViewController.h */,
@@ -2227,7 +2295,6 @@
 		C4DB7DC51C02EE6000DA534E /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				91D4D6771F0658670087783C /* distnew.zip */,
 				91D4D6701F0624DB0087783C /* dist.zip */,
 				F6E1E68C1ED567890094ABA4 /* icons.zip */,
 				C46903931D5CC75F00233D05 /* BarCodeScan.zip */,
@@ -3392,7 +3459,6 @@
 				F62456CF1EA5FB21006834D2 /* OneLableCell.xib in Resources */,
 				F624574D1EA5FBB2006834D2 /* PieChartViewController.xib in Resources */,
 				F62456DE1EA5FB3F006834D2 /* DemoListViewController.xib in Resources */,
-				91D4D6781F0658670087783C /* distnew.zip in Resources */,
 				F62456C21EA5FB21006834D2 /* HomeIndexCollectionCell.xib in Resources */,
 				91DB242D1EED7A3000FC8413 /* unSelect@2x.png in Resources */,
 				F624564A1EA5FACD006834D2 /* IQKeyboardManager.bundle in Resources */,
@@ -3540,6 +3606,7 @@
 				F62457E51EA5FD01006834D2 /* DataManager.m in Sources */,
 				C4DB7DC21C02EE3800DA534E /* ExtendNSLogFunctionality.m in Sources */,
 				F62456CA1EA5FB21006834D2 /* HomeIndexItemModel.m in Sources */,
+				91D8C9E51F0B7C2C008A150E /* SelectViewCell.m in Sources */,
 				F630499B1E9CAFB000831413 /* MainViewController.m in Sources */,
 				F62456D21EA5FB21006834D2 /* YH_BarView.m in Sources */,
 				F68C255B1EC2D4420069C041 /* JYDemoViewController.m in Sources */,
@@ -3707,6 +3774,7 @@
 				F62457E71EA5FD01006834D2 /* ALView+PureLayout.m in Sources */,
 				F68C25DE1EC2D4790069C041 /* JYLineChartView.m in Sources */,
 				F62457501EA5FBB2006834D2 /* PositiveNegativeBarChartViewController.m in Sources */,
+				91D4D6941F08C0360087783C /* SectionHeaderView.m in Sources */,
 				F6025CB31EC5E2CE0025CC71 /* JumpCommonView.m in Sources */,
 				91DB248D1EF11BC300FC8413 /* MineSingleSettingViewController.m in Sources */,
 				91DB24461EED7A3000FC8413 /* PhotoNavigationController.m in Sources */,
@@ -3804,6 +3872,7 @@
 				F624563C1EA5FACD006834D2 /* IQNSArray+Sort.m in Sources */,
 				F62456D71EA5FB21006834D2 /* YHMarkerV.swift in Sources */,
 				F63D49FB1EB329A20004BCC8 /* DoubleClickSuperChartHeaderCell.m in Sources */,
+				91D4D6911F08C0360087783C /* RootTableController.m in Sources */,
 				F62456E41EA5FB5D006834D2 /* DateValueFormatter.m in Sources */,
 				F68C25DF1EC2D4790069C041 /* JYMainViewCell.m in Sources */,
 				C46903971D5CC81A00233D05 /* SelectStoreViewController.m in Sources */,
@@ -3824,7 +3893,9 @@
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				F6F1C85F1E88C03900754034 /* MianTabBarViewController.m in Sources */,
 				F6F1C8581E88BFA100754034 /* MessageViewController.m in Sources */,
+				91D4D6921F08C0360087783C /* MyModel.m in Sources */,
 				F62457A01EA5FBE1006834D2 /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
+				91D4D6931F08C0360087783C /* LastSectionView.m in Sources */,
 				F62456C01EA5FB21006834D2 /* ChartModel.m in Sources */,
 				C488E6A11C0ED9F600EB946D /* APIHelper.m in Sources */,
 				F624573E1EA5FBB2006834D2 /* LineChart1ViewController.m in Sources */,
@@ -3865,6 +3936,7 @@
 				91D4D66D1F060DBD0087783C /* YHInstituteDetailViewController.m in Sources */,
 				C48924E61D858F0A00859411 /* GestureTableViewCell.m in Sources */,
 				91DB245A1EEE6A1100FC8413 /* UIImage+StackBlur.m in Sources */,
+				91D4D6951F08C0360087783C /* TwoSectionTableCell.m in Sources */,
 				F62456BE1EA5FB21006834D2 /* ChartHudView.m in Sources */,
 				F68C25D61EC2D4790069C041 /* JYCircleProgressView.m in Sources */,
 				F624579D1EA5FBE1006834D2 /* UILabel+ContentSize.m in Sources */,

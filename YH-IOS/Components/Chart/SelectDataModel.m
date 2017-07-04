@@ -10,15 +10,34 @@
 
 @implementation SelectDataModel
 
--(id)initWithFirst:(NSString *)firstsection withSeconArray:(NSDictionary*) secondArray{
-    self = [self init];
-    if (!self) {
++(NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+             @"titles":@"titles",
+             @"infos":@"infos"
+             };
+}
+
++(NSValueTransformer *)infosJSONTransformer {
+    return [MTLJSONAdapter arrayTransformerWithModelClass:[SelectDataModel class]];
+}
+
+-(instancetype)initWithDictionary:(NSDictionary *)dictionaryValue error:(NSError *__autoreleasing *)error{
+    self = [super initWithDictionary:dictionaryValue error:error];
+    if (self == nil) {
         return nil;
     }
-    self.firstSection = firstsection;
-    self.seconSection = [[NSMutableArray alloc]init];
-    [self.seconSection addObject:secondArray];
     return self;
-    
 }
+
+@end
+
+@implementation SelectDataSecondModel
+
++(NSDictionary *)JSONKeyPathsByPropertyKey {
+    return @{
+             @"titles":@"titles",
+             @"infos":@"infos"
+             };
+}
+
 @end

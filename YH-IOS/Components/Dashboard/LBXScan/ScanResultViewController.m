@@ -30,6 +30,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 @property (strong, nonatomic) NSArray *dropMenuTitles;
 @property (strong, nonatomic) NSArray *dropMenuIcons;
 @property (strong, nonatomic)     NSString *storeID;
+@property (strong, nonatomic) NSString *javascriptPath;
+
 @end
 
 @implementation ScanResultViewController
@@ -47,6 +49,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         [self loadHtml];
     }];
     [self idColor];
+     [self addWebViewJavascriptBridge];
     self.htmlPath = [FileUtils sharedDirPath:kBarCodeScanFolderName FileName:kBarCodeScanFileName];
     self.htmlContent = [NSString stringWithContentsOfFile:self.htmlPath encoding:NSUTF8StringEncoding error:nil];
 }
@@ -73,6 +76,62 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Banner-Setting"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
     [self clearBrowserCache];
     [self loadHtml];
+}
+
+- (void)addWebViewJavascriptBridge {
+    
+    [self.bridge registerHandler:@"pageTabIndex" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *behaviorPath = [FileUtils dirPath:kConfigDirName FileName:kBehaviorConfigFileName];
+        NSMutableDictionary *behaviorDict = [FileUtils readConfigFile:behaviorPath];
+        
+        NSString *action = data[@"action"], *pageName = data[@"pageName"];
+        NSNumber *tabIndex = data[@"tabIndex"];
+        
+        if([action isEqualToString:@"store"]) {
+            behaviorDict[kReportUBCName][pageName] = tabIndex;
+            [behaviorDict writeToFile:behaviorPath atomically:YES];
+        }
+        else if([action isEqualToString:@"restore"]) {
+            tabIndex = behaviorDict[kReportUBCName] && behaviorDict[kReportUBCName][pageName] ? behaviorDict[kReportUBCName][pageName] : @(0);
+            
+            responseCallback(tabIndex);
+        }
+        else {
+            NSLog(@"unkown action %@", action);
+        }
+    }];
+    
+    [self.bridge registerHandler:@"searchItems" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *reportDataFileName = [NSString stringWithFormat:@"store_%@_barcode_%@_attachment", self.storeID, self.codeInfo];
+        NSString *javascriptFolder = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
+        self.javascriptPath = [javascriptFolder stringByAppendingPathComponent:reportDataFileName];
+        NSString *searchItemsPath = [NSString stringWithFormat:@"%@.search_items", self.javascriptPath];
+        
+        [data[@"items"] writeToFile:searchItemsPath atomically:YES];
+        
+        /**
+         *  判断筛选的条件: data[@"items"] 数组不为空
+         *  报表第一次加载时，此处为判断筛选功能的关键点
+         */
+     
+    }];
+
+    
+    [self.bridge registerHandler:@"selectedItem" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *reportDataFileName = [NSString stringWithFormat:@"store_%@_barcode_%@_attachment", self.storeID, self.codeInfo];
+        NSString *javascriptFolder = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
+        self.javascriptPath = [javascriptFolder stringByAppendingPathComponent:reportDataFileName];
+        NSString *selectedItemPath = [NSString stringWithFormat:@"%@.selected_item", self.javascriptPath];
+        NSString *selectedItem = NULL;
+        if([FileUtils checkFileExist:selectedItemPath isDir:NO]) {
+            selectedItem = [NSString stringWithContentsOfFile:selectedItemPath encoding:NSUTF8StringEncoding error:nil];
+        }
+        responseCallback(selectedItem);
+    }];
+    
+    // UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+    //[refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    //[self.browser.scrollView addSubview:refreshControl]; //<- this is point to use. Add "scrollView" property.
 }
 
 
@@ -281,8 +340,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         }
     }
     
-    _storeID = cacheDict[@"store"][@"id"];
-    // _storeID = @"9275";
+   _storeID = cacheDict[@"store"][@"id"];
+   // _storeID = @"9318";
     self.title = cacheDict[@"store"][@"name"];
       [self showLoading:LoadingLoad];
     
@@ -350,10 +409,11 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
  *  @param sender
  */
 -(void)dropTableView:(UIBarButtonItem *)sender {
-    SelectStoreViewController *select = [[SelectStoreViewController alloc] init];
+    [self initDropMenu];
+   /* SelectStoreViewController *select = [[SelectStoreViewController alloc] init];
     UINavigationController* selectCtrl = [[UINavigationController alloc]initWithRootViewController:select];
     [self.navigationController presentViewController:selectCtrl animated:YES completion:nil];
-    [self initDropMenu];
+    [self initDropMenu];*/
     DropViewController *dropTableViewController = [[DropViewController alloc]init];
     dropTableViewController.view.frame = CGRectMake(0, 0, 150, 150);
     dropTableViewController.preferredContentSize = CGSizeMake(150,self.dropMenuTitles.count*150/4);
@@ -403,7 +463,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             [self actionWebviewScreenShot];
         }
         else if ([itemName isEqualToString:kDropRefreshText]) {
-            [self loadHtml];
+            [self loadInnerLink];
         }
     }];
     

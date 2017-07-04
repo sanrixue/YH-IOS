@@ -90,9 +90,9 @@
     }
     cell.model = [self dataForIndexPath:indexPath];
     cell.backgroundColor = [UIColor whiteColor];
-    UIImageView *bgView = [[UIImageView alloc]initWithFrame:cell.frame];
-    bgView.image = [UIImage imageNamed:@"B_bg"];
-    cell.backgroundView = bgView;
+   // UIImageView *bgView = [[UIImageView alloc]initWithFrame:cell.frame];
+   // bgView.image = [UIImage imageNamed:@"B_bg"];
+    //cell.backgroundView = bgView;
     
     return cell;
 }

@@ -48,7 +48,7 @@
     [self.SwitchButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.titleLabel.mas_top).mas_offset(0);
         make.right.equalTo(self.mas_right).mas_offset(-26);
-        make.bottom.equalTo(self.titleLabel.mas_bottom).mas_offset(-6);
+        make.bottom.equalTo(self.titleLabel.mas_bottom).mas_offset(-4);
     }];
     
 }

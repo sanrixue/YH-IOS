@@ -36,15 +36,20 @@
     [super viewDidLoad];
     self.tabBarController.tabBar.backgroundColor = [UIColor colorWithHexString:@"#f9f9f9f"];
     self.navigationController.navigationBar.backgroundColor =[UIColor colorWithHexString:@"#f9f9f9f"];
-    _list = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5", nil];
+    _list = [NSMutableArray new];
     //[self initCategoryMenu];
      self.view.backgroundColor = [UIColor colorWithHexString:@"#f7fef5"];
     self.automaticallyAdjustsScrollViewInsets = NO;
    // [self getdata];
-    [self getSomeThingNew];
+   [self addMuneView];
    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Barcode-Scan-1"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(jumpToScanView)];
     
     // Do any additional setup after loading the view.
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    [self getSomeThingNew];
 }
 
 
@@ -270,7 +275,7 @@
             NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
             NSArray<ListPageList*> *array= [MTLJSONAdapter modelsOfClass:ListPageList.class fromJSONArray:dic error:nil];
             self.listArray = [array copy];
-            [self addMuneView];
+            [self initCategoryMenu];
         }
         else{
             NSData *data = [NSData dataWithContentsOfFile:javascriptPath];
@@ -298,7 +303,7 @@
         NSArray *dic = [[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] objectForKey:@"data"];
         NSArray<ListPageList*> *array= [MTLJSONAdapter modelsOfClass:ListPageList.class fromJSONArray:dic error:nil];
         self.listArray = [array copy];
-        [self addMuneView];
+        [self initCategoryMenu];
         }
     }
 }

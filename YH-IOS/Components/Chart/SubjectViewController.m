@@ -20,6 +20,8 @@
 #import "DropViewController.h"
 #import "CommentViewController.h"
 #import "ThreeSelectViewController.h"
+#import "RootTableController.h"
+#import "SelectDataModel.h"
 
 static NSString *const kCommentSegueIdentifier        = @"ToCommentSegueIdentifier";
 static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueIdentifier";
@@ -102,6 +104,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self hiddenShadow];
+        [MRProgressOverlayView showOverlayAddedTo:self.browser title:@"加载中" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
     // self.bannerView.height = 0;
    // self.browser.frame = CGRectMake(self.view.frame.origin.x, 0, self.view.frame.size.width, self.view.frame.size.height + 40);
     [self.navigationController setNavigationBarHidden:false];
@@ -571,7 +574,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             [self clearBrowserCache];
             NSString *htmlContent = [FileUtils loadLocalAssetsWithPath:htmlPath];
             [self.browser loadHTMLString:htmlContent baseURL:[NSURL fileURLWithPath:self.sharedPath]];
-            [MRProgressOverlayView dismissOverlayForView:self.browser animated:YES];
+           // [MRProgressOverlayView dismissOverlayForView:self.browser animated:YES];
             self.isLoadFinish = !self.browser.isLoading;
         });
     });
@@ -580,11 +583,14 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 - (void)displayBannerTitleAndSearchIcon {
     self.btnSearch.hidden = NO;
     
-    NSString *reportSelectedItem = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    NSString *reportSelected = [FileUtils reportSelectedItem:self.user.groupID templateID:self.templateID reportID:self.reportID];
+    NSString *reportSelectedItem = [reportSelected stringByReplacingOccurrencesOfString:@"||" withString:@"•"];
+    
     if(reportSelectedItem == NULL || [reportSelectedItem length] == 0) {
         NSArray *reportSearchItems = [FileUtils reportSearchItems:self.user.groupID templateID:self.templateID reportID:self.reportID];
         if([reportSearchItems count] > 0) {
-            reportSelectedItem = [reportSearchItems firstObject];
+               NSArray<SelectDataModel *>  *allarray = [MTLJSONAdapter modelsOfClass:SelectDataModel.class fromJSONArray:reportSearchItems error:nil];
+            reportSelectedItem = [NSString stringWithFormat:@"%@•%@•%@", allarray[0].titles,allarray[0].infos[0].titles,allarray[0].infos[0].infos[0].titles];
         }
         else {
             reportSelectedItem = [NSString stringWithFormat:@"%@(NONE)", self.title];
@@ -724,16 +730,24 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 - (void)actionDisplaySearchItems {
     
-    ThreeSelectViewController *selectorView = [[ThreeSelectViewController alloc]init];
+   ThreeSelectViewController *selectorView = [[ThreeSelectViewController alloc]init];
     UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:selectorView];
     selectorView.bannerName = self.bannerName;
     selectorView.groupID = self.user.groupID;
     selectorView.reportID = self.reportID;
     selectorView.templateID  =self.templateID;
     [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];
-    /*
+    
+    /*RootTableController *selectorView = [[RootTableController alloc]init];
+    UINavigationController *commentCtrl = [[UINavigationController alloc]initWithRootViewController:selectorView];
+    selectorView.bannerName = self.bannerName;
+    selectorView.groupID = self.user.groupID;
+    selectorView.reportID = self.reportID;
+    selectorView.templateID  =self.templateID;
+  [self.navigationController presentViewController:commentCtrl animated:YES completion:nil];*/
+    
    
-   UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+  /* UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     ReportSelectorViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"ReportSelectorSegueIdentifier"];
     subjectView.bannerName = self.bannerName;
@@ -890,7 +904,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 #pragma mark - UIWebview delegate
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-    [MRProgressOverlayView showOverlayAddedTo:self.browser title:@"加载中" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSURL *url = [request URL];
         if (![[url scheme] hasPrefix:@";file"] && ![[url relativeString] hasPrefix:@"http://222.76.27.51"]) {

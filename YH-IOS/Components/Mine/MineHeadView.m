@@ -143,7 +143,7 @@
     self.reportScanCountView.dataLable.text =[NSString stringWithFormat:@"%@", person[@"browse_report_count"]];
     self.reportScanCountView.utilLabel.text = @"支";
     self.reportScanCountView.noteLabel.text = @"浏览报表";
-    self.precentView.dataLable.text = [NSString stringWithFormat:@"%@",person[@"surpass_percentage"]];
+    self.precentView.dataLable.text = [NSString stringWithFormat:@"%.1f",[person[@"surpass_percentage"] floatValue]];
     self.precentView.utilLabel.text = @"%";
     self.precentView.noteLabel.text = @"超越用户";
 }

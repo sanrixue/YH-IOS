@@ -35,10 +35,7 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
 
 -(id)initWithFrame:(CGRect)frame WithData:(NSArray *)data withSelectIndex:(void (^)(NSInteger, NSInteger, ListItem*))selectIndex{
     if (self == [self initWithFrame:frame]) {
-        if (data.count == 0) {
-            return nil;
-        }
-        
+
         _block = selectIndex;
         self.leftSelectBgColor=[UIColor whiteColor];
         self.leftBgColor=[UIColor whiteColor];
@@ -65,7 +62,9 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
             self.leftTable.separatorInset=UIEdgeInsetsZero;
         }
         NSIndexPath *ip=[NSIndexPath indexPathForRow:0 inSection:0];
-        [self.leftTable selectRowAtIndexPath:ip animated:YES scrollPosition:UITableViewScrollPositionBottom];
+        if (data.count != 0) {
+            [self.leftTable selectRowAtIndexPath:ip animated:YES scrollPosition:UITableViewScrollPositionBottom];
+        }
         
         self.sepView = [[UIView alloc]initWithFrame:CGRectMake(kLeftWidth-2, 0,1, frame.size.height)];
         self.sepView.backgroundColor = [UIColor colorWithHexString:@"#dedede"];

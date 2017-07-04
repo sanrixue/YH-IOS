@@ -11,24 +11,20 @@
 @class SelectDataSecondModel;
 @class SelectDataThreeModel;
 
-@interface SelectDataModel : NSObject
+@interface SelectDataModel : MTLModel<MTLJSONSerializing>
 
-@property (nonatomic,strong) NSString *firstSection;
-@property (nonatomic,strong) NSMutableArray<NSDictionary *> *seconSection;
-
--(id)initWithFirst:(NSString *)firstsection withSeconArray:(NSDictionary*) secondArray;
+@property (nonatomic, strong)NSString *titles;
+@property (nonatomic, strong)NSArray<SelectDataModel *> *infos;
+@property (nonatomic, assign) int parentNodeID;
+@property (nonatomic, assign) int nodeID;
 
 @end
 
 @interface SelectDataSecondModel : NSObject
 
-@property (nonatomic, strong) NSString *secondTitle;
-@property (nonatomic, strong) NSMutableArray *threeArray;
+@property (nonatomic, strong)NSString *titles;
+@property (nonatomic, strong)NSArray  *infos;
 
 @end
 
-@interface SelectDataThreeModel : NSObject
 
-@property (nonatomic, strong) NSString *threeTitle;
-
-@end

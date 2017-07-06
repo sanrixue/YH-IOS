@@ -590,7 +590,15 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         NSArray *reportSearchItems = [FileUtils reportSearchItems:self.user.groupID templateID:self.templateID reportID:self.reportID];
         if([reportSearchItems count] > 0) {
                NSArray<SelectDataModel *>  *allarray = [MTLJSONAdapter modelsOfClass:SelectDataModel.class fromJSONArray:reportSearchItems error:nil];
-            reportSelectedItem = [NSString stringWithFormat:@"%@•%@•%@", allarray[0].titles,allarray[0].infos[0].titles,allarray[0].infos[0].infos[0].titles];
+            if (allarray[0].deep == 1) {
+                reportSelectedItem = [NSString stringWithFormat:@"%@", allarray[0].titles];
+            }
+            else if(allarray[0].deep == 2){
+                reportSelectedItem = [NSString stringWithFormat:@"%@•%@", allarray[0].titles,allarray[0].infos[0].titles];
+            }
+            else if (allarray[0].deep == 3){
+                  reportSelectedItem = [NSString stringWithFormat:@"%@•%@•%@", allarray[0].titles,allarray[0].infos[0].titles,allarray[0].infos[0].infos[0].titles];
+            }
         }
         else {
             reportSelectedItem = [NSString stringWithFormat:@"%@(NONE)", self.title];

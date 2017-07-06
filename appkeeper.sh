@@ -17,7 +17,7 @@ check_assets() {
 
     local filename="$1.zip"
     local filepath="$shared_path/$filename"
-    local url="https://development.shengyiplus.com/api/v1/download/$1.zip"
+    local url="http://isearch.shengyiplus.com/api/v1/download/$1.zip"
 
     echo -e "\n## $filename\n"
     local status_code=$(curl -s -o /dev/null -I -w "%{http_code}" $url)

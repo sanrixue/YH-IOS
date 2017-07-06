@@ -17,6 +17,7 @@
 @property (nonatomic, strong)NSArray<SelectDataModel *> *infos;
 @property (nonatomic, assign) int parentNodeID;
 @property (nonatomic, assign) int nodeID;
+@property (nonatomic, assign) int deep;
 
 @end
 

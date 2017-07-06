@@ -12,7 +12,7 @@
 #import "PhotoCollectionViewController.h"
 
 // 默认最大选择数量
-static NSInteger const kDefaultMaxSelectedCount = 9;
+static NSInteger const kDefaultMaxSelectedCount = 3;
 
 @interface PhotoNavigationController ()
 

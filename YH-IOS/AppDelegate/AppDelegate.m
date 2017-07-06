@@ -106,6 +106,8 @@ void UncaughtExceptionHandler(NSException * exception) {
         NSString* sharedPath = [FileUtils sharedPath];
         NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", sharedPath, kCachedHeaderConfigFileName];
         [FileUtils removeFile:cachedHeaderPath];
+       NSString* assetsPath = [sharedPath stringByAppendingPathComponent:@"assets"];
+        [FileUtils removeFile:assetsPath];
         cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
         [FileUtils removeFile:cachedHeaderPath];
          NSString *distPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"dist"];

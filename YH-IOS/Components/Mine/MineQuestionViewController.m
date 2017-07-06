@@ -32,6 +32,7 @@ static NSString *const reUse = @"reUse";
 @property (nonatomic, strong) NSArray <ALAsset *>*dataArray;
 @property (nonatomic, strong) UILabel *imageNotelabel;
 @property (nonatomic, strong) NSMutableArray<UIImage *> * imageArray;
+@property (nonatomic, strong) NSMutableArray<UIImage *> * imageArrayorigin;
 @property (nonatomic, strong) Version *version;
 
 @end
@@ -41,6 +42,7 @@ static NSString *const reUse = @"reUse";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.imageArray = [NSMutableArray new];
+    self.imageArrayorigin = [NSMutableArray new];
     user = [[User alloc]init];
     self.version = [[Version alloc] init];
      self.navigationController.navigationBar.tintColor = [UIColor blackColor];
@@ -306,9 +308,21 @@ static NSString *const reUse = @"reUse";
     PhotoRevealCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reUse forIndexPath:indexPath];
     ALAsset *asset = self.dataArray[indexPath.row];
     // 显示缩略图
-    UIImage *image = [UIImage imageWithCGImage:[asset thumbnail]];
-    [self.imageArray addObject:image];
-    [cell reloadDataWithImage:image];
+    UIImage *image;
+   /* ALAssetRepresentation *image_representation = [asset defaultRepresentation];
+    uint8_t buffer = (Byte)malloc(image_representation.size);
+    NSUInteger length = [image_representation getBytes:&buffer fromOffset: 0.0 length:image_representation.size error:nil];
+    
+    if (length != 0)  {
+        NSData *adata = [[NSData alloc] initWithBytesNoCopy:buffer length:image_representation.size freeWhenDone:YES];
+        image = [UIImage imageWithData:adata];
+    }*/
+     ALAssetRepresentation * representation = [asset defaultRepresentation];
+     image = [UIImage imageWithCGImage:[representation fullScreenImage] scale:1.0 orientation:UIImageOrientationDownMirrored];
+    [self.imageArrayorigin addObject:image];
+    [self.imageArray addObject:[UIImage imageWithCGImage:[asset thumbnail]]];
+
+    [cell reloadDataWithImage:[UIImage imageWithCGImage:[asset thumbnail]]];
     return cell;
 }
 
@@ -348,24 +362,28 @@ static NSString *const reUse = @"reUse";
 
 
 -(void)submitMyProblem{
-    
+    [MRProgressOverlayView showOverlayAddedTo:self.view title:@"正在上传" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
     NSDictionary *parames = @{@"feedback":@{@"content":self.questionTextField.text,@"title":@"生意人问题反馈",@"user_num":user.userNum,@"app_version":self.version.current,@"platform":@"ios",@"platform_version":self.version.platform}};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *postString = [NSString stringWithFormat:@"%@/api/v1/feedback",kBaseUrl];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager POST:postString parameters:parames constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        for (int i = 0; i < self.imageArray.count; i++) {
-            UIImage *image = self.imageArray[i];
+        for (int i = 0; i < self.imageArrayorigin.count; i++) {
+            UIImage *image = self.imageArrayorigin[i];
             NSData *data = UIImagePNGRepresentation(image);
-            [formData appendPartWithFileData:data name:[NSString stringWithFormat:@"photos[%d]",i] fileName:[NSString stringWithFormat:@"image%d.png",i] mimeType:@"multipart/form-data"];
+            [formData appendPartWithFileData:data name:[NSString stringWithFormat:@"image%d",i] fileName:[NSString stringWithFormat:@"image%d.png",i] mimeType:@"multipart/form-data"];
         }
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"%@",responseObject);
-        if ([responseObject[@"code"] isEqualToNumber:@(201)]) {
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",dic);
+        if ([dic[@"code"] isEqualToNumber:@(201)]) {
+            [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
              [ViewUtils showPopupView:self.view Info:@"上传成功"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",@"上传失败了");
     }];
+    
 }
 
 

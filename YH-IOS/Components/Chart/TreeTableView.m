@@ -20,13 +20,14 @@
 
 @implementation TreeTableView
 
--(instancetype)initWithFrame:(CGRect)frame withData : (NSArray *)data{
+-(instancetype)initWithFrame:(CGRect)frame withData : (NSArray *)data withDeep:(int )deep{
     self = [super initWithFrame:frame style:UITableViewStyleGrouped];
     if (self) {
         self.dataSource = self;
         self.delegate = self;
         _data = data;
         _tempData = [self createTempData:data];
+        _allDataDeep = deep-1;
     }
     return self;
 }
@@ -66,7 +67,7 @@
     
     cell.imageView.image = [[UIImage imageNamed:@"triangle-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [cell.imageView setHidden:NO];
-    if (node.depth == 2) {
+    if (node.depth == self.allDataDeep) {
         [cell.imageView setHidden:YES];
     }
     // cell有缩进的方法

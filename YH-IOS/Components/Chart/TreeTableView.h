@@ -20,6 +20,7 @@
 
 @property (nonatomic , weak) id<TreeTableCellDelegate> treeTableCellDelegate;
 
--(instancetype)initWithFrame:(CGRect)frame withData : (NSArray *)data;
+-(instancetype)initWithFrame:(CGRect)frame withData : (NSArray *)data withDeep:(int )deep;
+@property (nonatomic, assign) int allDataDeep;
 
 @end

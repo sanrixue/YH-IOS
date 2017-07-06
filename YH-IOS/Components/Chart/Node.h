@@ -20,7 +20,7 @@
 @property (nonatomic , assign) int depth;//该节点的深度
 
 @property (nonatomic , assign) BOOL expand;//该节点是否处于展开状态
-
+@property (nonatomic , assign) BOOL isleaf;//该节点是否处于展开状态
 
 /**
  *快速实例化该对象模型

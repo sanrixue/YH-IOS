@@ -405,7 +405,7 @@ NSString * const ID = @"cycleCell";
     cell.numberValueLable.text = item.hightLightData.compare;
     cell.valueLable.text = item.hightLightData.number;
     cell.unitLabel.text = item.unit;
-    cell.titleLabel.text = item.title;
+    cell.titleLabel.text = item.memo2;
 
     return cell;
 }

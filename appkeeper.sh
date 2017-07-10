@@ -17,7 +17,7 @@ check_assets() {
 
     local filename="$1.zip"
     local filepath="$shared_path/$filename"
-    local url="http://isearch.shengyiplus.com/api/v1/download/$1.zip"
+    local url="https://yonghui.idata.mobi/api/v1/download/$1.zip"
 
     echo -e "\n## $filename\n"
     local status_code=$(curl -s -o /dev/null -I -w "%{http_code}" $url)
@@ -75,11 +75,11 @@ case "$1" in
   yonghuitest)
      bundle exec ruby config/app_keeper.rb --app="$1" --plist --assets --constant
      downloadassets="https://development.shengyiplus.com"
-;;
+  ;;
   yonghui)
      bundle exec ruby config/app_keeper.rb --app="$1" --plist --assets --constant
      downloadassets="https://yonghui.idata.mobi"
-;;
+  ;;
   pgyer)
       bundle exec ruby config/app_keeper.rb --app="$(cat .current-app)" --pgyer
   ;;

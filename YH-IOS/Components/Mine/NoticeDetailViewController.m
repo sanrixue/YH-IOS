@@ -25,7 +25,7 @@
     [self.navigationController.navigationBar setHidden:NO];
     [self.tabBarController.tabBar setHidden:YES];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    self.view.backgroundColor = [UIColor colorWithHexString:@"#fbfcf5"];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"#f7fef5"];
     self.view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64);
     self.user = [[User alloc]init];
     _bgView = [[UIView alloc]init];
@@ -35,9 +35,9 @@
     
     [_bgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.view.top).mas_offset(64);
-        make.left.mas_equalTo(self.view.left).mas_offset(15);
-        make.right.mas_equalTo(self.view.right).mas_offset(-15);
-        make.bottom.mas_equalTo(self.view.bottom).mas_offset(-15);
+        make.left.mas_equalTo(self.view.left).mas_offset(10);
+        make.right.mas_equalTo(self.view.right).mas_offset(-10);
+        make.bottom.mas_equalTo(self.view.bottom).mas_offset(-10);
     }];
    // [self setupToolUI];
     // Do any additional setup after loading the view.
@@ -145,14 +145,12 @@
     timeLable.text =self.messageNotice.time;
     [_bgView addSubview:timeLable];
     
-    UITextView *contentLable = [[UITextView alloc]init];
-    contentLable.textColor = [UIColor colorWithHexString:@"#6e6e6e"];
-    contentLable.font = [UIFont systemFontOfSize:12];
-    contentLable.userInteractionEnabled = NO;
-    //contentLable.textAlignment = NSTextAlignmentLeft;
-    //[contentLable sizeToFit];
-    //contentLable.numberOfLines = 0;
-    contentLable.text  = self.messageNotice.abstracts;
+    UIWebView *contentLable = [[UIWebView alloc]init];
+   // contentLable.textColor = [UIColor colorWithHexString:@"#6e6e6e"];
+  //  contentLable.font = [UIFont systemFontOfSize:12];
+    //contentLable.userInteractionEnabled = NO;
+   // contentLable.text  = self.messageNotice.content;
+    [contentLable loadHTMLString:self.messageNotice.content baseURL:nil];
     [_bgView addSubview:contentLable];
     
 
@@ -177,7 +175,7 @@
     [contentLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.view.superview.top).mas_offset(50);
         make.right.mas_equalTo(self.view.superview.right).mas_offset(-10);
-        make.height.mas_equalTo(350);
+        make.bottom.mas_offset(self.view.superview.bottom).mas_offset(0);
         make.left.mas_equalTo(self.view.superview.left).mas_offset(10);
     }];
 }
@@ -198,6 +196,7 @@
           NSLog(@"Error: %@", error);
       }];
 }
+
 
 
 - (void)didReceiveMemoryWarning {

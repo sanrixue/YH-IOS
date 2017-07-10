@@ -99,16 +99,19 @@ void UncaughtExceptionHandler(NSException * exception) {
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
     NSString *old_Version =[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"firstStart"]];
     if([old_Version isEqual:nil] || ![app_Version isEqualToString:old_Version] ){
-        
-        [[NSUserDefaults standardUserDefaults] setObject:app_Version forKey:@"firstStart"];
-        GuidePageViewController *guidePage = [[GuidePageViewController alloc]init];
-        [self.window setRootViewController:guidePage];
         NSString* sharedPath = [FileUtils sharedPath];
         NSString *cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", sharedPath, kCachedHeaderConfigFileName];
         [FileUtils removeFile:cachedHeaderPath];
-       NSString* assetsPath = [sharedPath stringByAppendingPathComponent:@"assets"];
+        NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+        if ([FileUtils checkFileExist:userConfigPath isDir:NO]) {
+            [FileUtils removeFile:userConfigPath];
+        }
+        NSString* assetsPath = [sharedPath stringByAppendingPathComponent:@"assets"];
         [FileUtils removeFile:assetsPath];
         cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
+        [[NSUserDefaults standardUserDefaults] setObject:app_Version forKey:@"firstStart"];
+        GuidePageViewController *guidePage = [[GuidePageViewController alloc]init];
+        [self.window setRootViewController:guidePage];
         [FileUtils removeFile:cachedHeaderPath];
          NSString *distPath = [[FileUtils sharedPath] stringByAppendingPathComponent:@"dist"];
         if ([ FileUtils checkFileExist:distPath isDir:YES]) {

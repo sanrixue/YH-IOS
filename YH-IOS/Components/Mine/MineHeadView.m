@@ -63,6 +63,7 @@
     // 累计登录次数
     self.loginCountView = [[UserCountView alloc]init];
     self.loginCountView.utilLabel.text =@"天";
+    self.loginCountView.dataLable.text = @"0";
     self.loginCountView.noteLabel.text = @"累计登录";
    // self.loginCountView.frame = CGRectMake(40, 224, 80, 80);
     [self addSubview:self.loginCountView];
@@ -70,12 +71,14 @@
     //浏览报表次数
     self.reportScanCountView = [[UserCountView alloc]init];
     self.reportScanCountView.utilLabel.text = @"支";
+    self.reportScanCountView.dataLable.text = @"0";
     self.reportScanCountView.noteLabel.text = @"浏览报表";
     [self addSubview:self.reportScanCountView];
     
     // 超越用户
     self.precentView = [[UserCountView alloc]init];
     self.precentView.utilLabel.text = @"%";
+    self.precentView.dataLable.text = @"0";
     self.precentView.noteLabel.text = @"超越用户";
     [self addSubview:self.precentView];
     

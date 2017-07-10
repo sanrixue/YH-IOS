@@ -38,6 +38,9 @@
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
+    else{
+        self.assetsPath = [FileUtils sharedPath];
+    }
       self.title = @"找回密码";
     [self.navigationController setNavigationBarHidden:false];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
@@ -156,7 +159,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-    [self loadHtml];
+    [self _loadHtml];
 }
 
 #pragma mark - assistant methods

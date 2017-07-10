@@ -52,12 +52,12 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     if ([self.title isEqualToString:@"选项配置"]) {
-        NSDictionary *infodict = @{@"锁屏设置": @(YES), @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
+        NSDictionary *infodict = @{@"锁屏设置": @(YES), @"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""}};
         NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
         _userdict = [FileUtils readConfigFile:userConfigPath];
         BOOL isUseGesturePassword = [_userdict[kIsUseGesturePasswordCUName] boolValue];
         if (!isUseGesturePassword) {
-            infodict = @{@"锁屏设置": @(NO), @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""} };
+            infodict = @{@"锁屏设置": @(NO), @"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@{@"手工清理":@"",@"校正":@""} };
         }
         self.arraydict = infodict;
         [self.tableView reloadData];
@@ -121,7 +121,7 @@
         cell.messageLabel.text = key;
         cell.delegate = self;
         cell.cellId  = indexPath.row;
-        if ([key  isEqualToString:@"分享微信长图"]) {
+        if ([key  isEqualToString:@"微信分享长图"]) {
             NSMutableDictionary* betaDict = [FileUtils readConfigFile:self.settingsConfigPath];
             cell.changStatusBtn.on = (betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]);
         }

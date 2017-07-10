@@ -102,7 +102,7 @@
     [self.warnLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.utilLable.mas_bottom).mas_offset(13);
         make.left.equalTo(self.mas_left).mas_offset(22);
-        make.right.equalTo(self.mas_right).mas_offset(-20);
+        make.right.equalTo(self.mas_right).mas_offset(-10);
         make.bottom.equalTo(self.mas_bottom).mas_offset(-11);
     }];
     

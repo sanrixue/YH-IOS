@@ -19,7 +19,7 @@
     self.timeLable.font = [UIFont boldSystemFontOfSize:12];
     
     self.timeLable.textColor = [UIColor colorWithHexString:@"#bfbfbf"];
-    self.contentLable.textColor = [UIColor colorWithHexString:@"#bfbfbf"];
+    self.contentLable.textColor = [UIColor colorWithHexString:@"#6e6e6e"];
     // Initialization code
 }
 

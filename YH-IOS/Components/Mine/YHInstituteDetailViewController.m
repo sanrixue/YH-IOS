@@ -8,7 +8,8 @@
 
 #import "YHInstituteDetailViewController.h"
 
-@interface YHInstituteDetailViewController ()
+@interface YHInstituteDetailViewController ()<UIWebViewDelegate>
+@property (nonatomic,strong)UIWebView *webView;
 
 @end
 
@@ -16,11 +17,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/mobile/v2/user/%@/article/%@",kBaseUrl,self.userId,self.dataId]]];
-    UIWebView *webView = [[UIWebView alloc]initWithFrame:self.view.frame];
-    [webView loadRequest:request];
-    [self.view addSubview:webView];
-    // Do any additional setup after loading the view.
+    NSString *kpiString = [NSString stringWithFormat:@"%@/mobile/v2/user/%@/article/%@",kBaseUrl,self.userId,self.dataId];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:kpiString]];
+    self.webView = [[UIWebView alloc]initWithFrame:self.view.frame];
+    self.webView.delegate = self;
+    [MRProgressOverlayView showOverlayAddedTo:_webView title:@"加载中" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
+    [_webView loadRequest:request];
+    [self.view addSubview:_webView];
+   // [MRProgressOverlayView dismissOverlayForView:self.webView animated:YES];
+ //   // Do any additional setup after loading the view.
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -43,9 +48,18 @@
     UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)webViewDidFinishLoad:(UIWebView *)webView {
+    [MRProgressOverlayView dismissOverlayForView:self.webView animated:YES];
+}
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    [MRProgressOverlayView dismissOverlayForView:self.webView animated:YES];
 }
 
 -(void)backAction {

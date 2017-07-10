@@ -148,14 +148,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
         case 1:{
-            NSDictionary *infodict = @{@"锁屏设置":@"", @"报表操作":@"", @"清理缓存":@""};
+            NSDictionary *infodict = @{@"锁屏设置":@"",@"微信分享长图":@"", @"报表操作":@"", @"清理缓存":@""};
             NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
             NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
             BOOL isUseGesturePassword = [userDict[kIsUseGesturePasswordCUName] boolValue];
             if (!isUseGesturePassword) {
-                infodict = @{@"锁屏设置": @{@"启用锁屏":@NO},  @"报表操作":@"", @"清理缓存":@""};
+                infodict = @{@"锁屏设置": @{@"启用锁屏":@NO}, @"微信分享长图":@"" ,@"报表操作":@"", @"清理缓存":@""};
             }
-            NSArray* titleArray = @[@"锁屏设置",@"报表操作",@"清理缓存"];
+            NSArray* titleArray = @[@"锁屏设置",@"微信分享长图",@"报表操作",@"清理缓存"];
             OptionConfigViewController *optionView = [[OptionConfigViewController alloc]init];
             optionView.title = userInfoArray[indexPath.row];
             optionView.arraydict = infodict;

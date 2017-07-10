@@ -131,7 +131,7 @@ static NSString *resusedtopHeaderCell = @"reusedtopHeader";
     cell.topImage.contentMode = UIImageRenderingModeAlwaysOriginal;
     cell.titleLabel.text = item.listName;
     [[[SDWebImageManager sharedManager] imageCache] clearMemory];
-    [cell.topImage sd_setImageWithURL:imageurl placeholderImage:[UIImage imageNamed:@"user_ava"]];
+    [cell.topImage sd_setImageWithURL:imageurl placeholderImage:[UIImage imageNamed:@"icon-default"]];
     //cell.backgroundColor = [UIColor whiteColor];
     //cell.titleLabel.text = @"好吧很多人";
     return cell;

@@ -59,6 +59,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _user = [[User alloc]init];
     // Do any additional setup after loading the view.
     //self.automaticallyAdjustsScrollViewInsets = YES;
      self.automaticallyAdjustsScrollViewInsets = NO;
@@ -207,7 +208,6 @@
 
 
 - (void)getData{
-    _user = [[User alloc]init];
     [dataListButtom removeAllObjects];
     NSString *kpiUrl = [NSString stringWithFormat:@"%@/api/v1/group/%@/role/%@/kpi",kBaseUrl,self.user.groupID,self.user.roleID];
     // NSString *kpiUrl = @"http://yonghui-test.idata.mobi/api/v1/group/165/role/7/kpi";

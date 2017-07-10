@@ -165,7 +165,6 @@
         if (array.count >0) {
             self.listArray = [array[0].listpage copy];
         }
-        // NSLog(@"%@",array[0]);
         [self initMenu];
      }
     else{

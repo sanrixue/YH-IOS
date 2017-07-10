@@ -313,12 +313,16 @@
     if (!cell) {
         cell = [[MineNoticeTableViewCell alloc]init];
     }
-    
+    cell.backgroundColor = [UIColor whiteColor];
     cell.titleLable.text = [NSString stringWithFormat:@"#%@#%@" ,typeArray[self.dataArray[indexPath.row].noticeType],self.dataArray[indexPath.row].title];
     cell.timeLable.text = self.dataArray[indexPath.row].time;
-    cell.contentLable.text = self.dataArray[indexPath.row].abstracts;
     [cell.noteView setHidden:self.dataArray[indexPath.row].see];
-    
+    cell.contentLable.textAlignment = NSTextAlignmentCenter;
+    cell.contentLable.numberOfLines = 0;
+    NSMutableAttributedString * attrStr = [[NSMutableAttributedString alloc] initWithData:[self.dataArray[indexPath.row].abstracts dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+    [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(0, attrStr.length)];
+    cell.contentLable.textColor = [UIColor lightGrayColor];
+    cell.contentLable.attributedText = attrStr;
     cell.selectedBackgroundView = [[UIView alloc]initWithFrame:cell.frame];
     cell.selectedBackgroundView.backgroundColor = [UIColor colorWithHexString:@"f7fef5"];
     

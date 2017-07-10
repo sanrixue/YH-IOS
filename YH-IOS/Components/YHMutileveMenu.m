@@ -221,7 +221,7 @@ static NSString *mutileresuedLeftCell = @"mutilresuedLeftCell";
     imagestring =[imagestring stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     NSURL *imageurl =[NSURL URLWithString:imagestring];
     cell.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [cell.imageView sd_setImageWithURL:imageurl placeholderImage:[UIImage imageNamed:@"user_ava"]];
+    [cell.imageView sd_setImageWithURL:imageurl placeholderImage:[UIImage imageNamed:@"icon-default"]];
     UIImageView *bgImageView;
     if (_allData[_selectIndex].listpage[indexPath.section].listData.count == 1) {
       bgImageView  = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"btn_bg_ab"]];

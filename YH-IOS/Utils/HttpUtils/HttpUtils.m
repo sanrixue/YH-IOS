@@ -94,7 +94,7 @@
     NSError *error;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc]initWithURL:url
                                                                cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                           timeoutInterval:3.0];
+                                                           timeoutInterval:10.0];
     [request setHTTPMethod:@"POST"];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     [request setValue:[self webViewUserAgent] forHTTPHeaderField:@"User-Agent"];

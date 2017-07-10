@@ -363,7 +363,7 @@ static NSString *const reUse = @"reUse";
 
 -(void)submitMyProblem{
     [MRProgressOverlayView showOverlayAddedTo:self.view title:@"正在上传" mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
-    NSDictionary *parames = @{@"feedback":@{@"content":self.questionTextField.text,@"title":@"生意人问题反馈",@"user_num":user.userNum,@"app_version":self.version.current,@"platform":@"ios",@"platform_version":self.version.platform}};
+    NSDictionary *parames = @{@"content":self.questionTextField.text,@"title":@"生意人问题反馈",@"user_num":user.userNum,@"app_version":self.version.current,@"platform":@"ios",@"platform_version":self.version.platform};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSString *postString = [NSString stringWithFormat:@"%@/api/v1/feedback",kBaseUrl];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
@@ -376,12 +376,18 @@ static NSString *const reUse = @"reUse";
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers | NSJSONReadingMutableLeaves error:nil];
         NSLog(@"%@",dic);
+        [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
         if ([dic[@"code"] isEqualToNumber:@(201)]) {
-            [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
              [ViewUtils showPopupView:self.view Info:@"上传成功"];
+        }
+        else{
+            [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
+            [ViewUtils showPopupView:self.view Info:@"上传失败，请重试"];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",@"上传失败了");
+        [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
+        [ViewUtils showPopupView:self.view Info:@"上传失败，请重试"];
     }];
     
 }

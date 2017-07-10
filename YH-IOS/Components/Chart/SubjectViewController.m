@@ -773,13 +773,13 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             UIImage *image;
             NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kSettingConfigFileName];
             betaDict = [FileUtils readConfigFile:settingsConfigPath];
-           // if (betaDict[@"image_within_screen"] || [betaDict[@"image_within_screen"] boolValue]) {
-             //   image = [self saveWebViewAsImage];
-              //  image = [self createViewImage:self.navigationController.view];
-            //}
-            //else {
+            if (betaDict[@"image_within_screen"] || [betaDict[@"image_within_screen"] boolValue]) {
+               image = [self saveWebViewAsImage];
+               // image = [self createViewImage:self.navigationController.view];
+            }
+            else {
                 image = [self createViewImage:self.navigationController.view];
-            //}
+            }
             dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 1ull *NSEC_PER_SEC);
             dispatch_after(time, dispatch_get_main_queue(), ^{
                 [UMSocialData defaultData].extConfig.wxMessageType = UMSocialWXMessageTypeImage;

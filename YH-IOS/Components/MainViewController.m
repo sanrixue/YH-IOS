@@ -49,8 +49,8 @@
             if(!userDict[kUserNumCUName]) {
                 return;
             }
-            
-            NSString *msg = [APIHelper userAuthentication:userDict[kUserNumCUName] password:userDict[kPasswordCUName]];
+            NSString *userlocation = [[NSUserDefaults standardUserDefaults] objectForKey:@"USERLOCATION"];
+            NSString *msg = [APIHelper userAuthentication:userDict[kUserNumCUName] password:userDict[kPasswordCUName] coordinate:userlocation];
             if(msg.length > 0) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self jumpToLogin];

@@ -85,11 +85,6 @@
    self.navigationController.navigationBar.translucent = NO;
     self.tabBarController.tabBar.translucent = NO;
     self.rootTBView.mj_header = _header;
-    
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"receiveRemote"] boolValue]) {
-        self.tabBarController.selectedIndex = 3;
-        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"receiveRemote"];
-    }
     [self noteToChangePwd];
     
 }
@@ -101,6 +96,7 @@
    // _rootTBView = [[UITableView alloc] initWithFrame:CGRectMake(0, kJYNotifyHeight, JYVCWidth, JYVCHeight - (kJYNotifyHeight)) style:UITableViewStylePlain];
     [_rootTBView.mj_header endRefreshing];
 }
+
 
 
 - (void)loadData {

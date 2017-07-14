@@ -565,8 +565,8 @@ static NSString *const kResetPasswordSegueIdentifier = @"ResetPasswordSegueIdent
     [FileUtils removeFile:cachedHeaderPath];
     cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
     [FileUtils removeFile:cachedHeaderPath];
-    
-    [APIHelper userAuthentication:self.user.userNum password:self.user.password];
+    NSString *userlocation = [[NSUserDefaults standardUserDefaults] objectForKey:@"USERLOCATION"];
+    [APIHelper userAuthentication:self.user.userNum password:self.user.password coordinate:userlocation];
     
     [self checkAssetsUpdate];
     

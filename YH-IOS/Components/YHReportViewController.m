@@ -17,6 +17,7 @@
 #import "LBXScanResult.h"
 #import "LBXScanWrapper.h"
 #import "SubLBXScanViewController.h"
+#import "YHScanStoreViewController.h"
 
 @interface YHReportViewController ()
 {
@@ -163,7 +164,13 @@
 }
 
 -(void)jumpToScanView {
-    [self actionBarCodeScanView:nil];
+    [self jumpToStoreScan];
+   // [self actionBarCodeScanView:nil];
+}
+
+-(void)jumpToStoreScan{
+    YHScanStoreViewController *scanStore = [[YHScanStoreViewController alloc]init];
+    [self.navigationController pushViewController:scanStore animated:YES];
 }
 
 - (IBAction)actionBarCodeScanView:(UIButton *)sender {

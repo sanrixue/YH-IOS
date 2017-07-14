@@ -15,10 +15,12 @@
 #import "Version.h"
 #import "FindPasswordViewController.h"
 #import "MianTabBarViewController.h"
+#import "YHLocation.h"
+#import <CoreLocation/CoreLocation.h>
 
 #define kSloganHeight [[UIScreen mainScreen]bounds].size.height / 6
 
-@interface LoginViewController () <UITextFieldDelegate>
+@interface LoginViewController () <UITextFieldDelegate,CLLocationManagerDelegate>
 
 @property (nonatomic, strong) UIImageView *bgView;
 @property (nonatomic, strong) UIImageView *logoView;
@@ -31,6 +33,10 @@
 @property (nonatomic, assign) int sideblank;
 @property (nonatomic, strong) Version *version;
 @property (nonatomic, strong) UIButton *registerBtn;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property(nonatomic, strong) NSString *userLongitude;
+@property(nonatomic, strong) NSString *userlatitude;
+
 
 @end
 
@@ -39,6 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self startLocation];
     self.bgView = [[UIImageView alloc] initWithFrame:self.view.frame];
     self.bgView.image = [UIImage imageNamed:@"login-bg"];
     [self.view addSubview:self.bgView];
@@ -164,6 +171,44 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
+// 获取经纬度
+
+-(void)startLocation {
+    if ([CLLocationManager locationServicesEnabled]) {
+        self.locationManager = [[CLLocationManager alloc]init];
+        self.locationManager.delegate = self;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+        [self.locationManager requestAlwaysAuthorization];
+        self.locationManager.distanceFilter = 10.0f;
+        [self.locationManager requestAlwaysAuthorization];
+        [self.locationManager startUpdatingLocation];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    if ([error code] == kCLErrorDenied) {
+        NSLog(@"访问被拒绝");
+    }
+    if ([error code] == kCLErrorLocationUnknown) {
+        NSLog(@"无法获取位置信息");
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    CLLocation *newLocation = locations[0];
+    
+    // 获取当前所在的城市名
+    CLLocationCoordinate2D oldCoordinate = newLocation.coordinate;
+    
+    NSLog(@"旧的经度：%f,旧的纬度：%f",oldCoordinate.longitude,oldCoordinate.latitude);
+    self.userlatitude = [NSString stringWithFormat:@"%.14f",oldCoordinate.latitude];
+    self.userLongitude = [NSString stringWithFormat:@"%.14f", oldCoordinate.longitude];
+    //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
+    [manager stopUpdatingLocation];
+    
+}
+
+
 //布局视图
 - (void)layoutView {
     for (UIView *view in [self.bgView subviews]) {
@@ -268,15 +313,36 @@
         return;
     }
     [self showProgressHUD:@"验证中"];
-    NSString *msg = [APIHelper userAuthentication:self.userNameText.text password:self.userPasswordText.text.md5];
+    NSString *coordianteString = [NSString stringWithFormat:@"%@|%@",self.userLongitude,self.userlatitude];
+    [[NSUserDefaults standardUserDefaults] setObject:coordianteString forKey:@"USERLOCATION"];
+    NSString *msg = [APIHelper userAuthentication:self.userNameText.text password:self.userPasswordText.text.md5 coordinate:coordianteString];
     [self.progressHUD hide:YES];
     
     if (!(msg.length == 0)) {
         [self showProgressHUD:msg mode:MBProgressHUDModeText];
         [self.progressHUD hide:YES afterDelay:2.0];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            // 用户行为记录, 单独异常处理，不可影响用户体验
+            
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[@"action"]  = @"unlogin";
+                logParams[@"user_name"] = [NSString stringWithFormat:@"%@|;|%@",self.userNameText.text,[self.userPasswordText.text md5]];
+                logParams[@"platform"] = @"iOS";
+                logParams[@"obj_title"] = msg;
+                logParams[@"app_version"] =[NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
+                 NSString *urlString = [NSString stringWithFormat:kActionLogAPIPath, kBaseUrl];
+                NSMutableDictionary *params = [NSMutableDictionary dictionary];
+                params[kActionLogALCName] = logParams;
+                [HttpUtils httpPost:urlString Params:params];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
         return;
     }
-    
     [self showProgressHUD:@"跳转中"];
     [self jumpToDashboardView];
     

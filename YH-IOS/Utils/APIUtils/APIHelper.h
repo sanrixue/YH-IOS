@@ -24,7 +24,7 @@
  *  @return error msg when authentication failed
  */
 
-+ (NSString *)userAuthentication:(NSString *)username password:(NSString *)password;
++ (NSString *)userAuthentication:(NSString *)username password:(NSString *)password coordinate:(NSString *)coordinate;
 
 /**
  * 删除用户和设备的关联

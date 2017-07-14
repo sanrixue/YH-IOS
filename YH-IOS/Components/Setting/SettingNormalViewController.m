@@ -291,8 +291,8 @@
     [FileUtils removeFile:cachedHeaderPath];
     cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
     [FileUtils removeFile:cachedHeaderPath];
-    
-    [APIHelper userAuthentication:user.userNum password:user.password];
+    NSString *userlocation = [[NSUserDefaults standardUserDefaults] objectForKey:@"USERLOCATION"];
+    [APIHelper userAuthentication:user.userNum password:user.password coordinate:userlocation];
     
     [self checkAssetsUpdate];
     

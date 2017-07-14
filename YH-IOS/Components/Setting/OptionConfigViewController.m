@@ -15,14 +15,18 @@
 #import "LTHPasscodeViewController.h"
 #import <AFNetworking.h>
 #import "FileUtils+Assets.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface OptionConfigViewController ()<UITableViewDelegate,UITableViewDataSource,SwitchTableViewCellDelegate>
+@interface OptionConfigViewController ()<UITableViewDelegate,UITableViewDataSource,SwitchTableViewCellDelegate,CLLocationManagerDelegate>
 @property(nonatomic,strong)UITableView *tableView;
 @property (assign, nonatomic) BOOL isChangeLochPassword;
 @property (strong, nonatomic) NSString *settingsConfigPath;
 @property (strong, nonatomic) NSString *sharedPath;
 @property (assign, nonatomic) BOOL isSuccess;
 @property (strong, nonatomic) NSMutableDictionary *userdict;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property(nonatomic, strong) NSString *userLongitude;
+@property(nonatomic, strong) NSString *userlatitude;
 
 @end
 
@@ -30,6 +34,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self startLocation];
     [self.navigationController.navigationBar setHidden:NO];
     self.automaticallyAdjustsScrollViewInsets = YES;
     [self.tabBarController.tabBar setHidden:YES];
@@ -138,6 +143,44 @@
     }
 }
 
+// 获取经纬度
+
+-(void)startLocation {
+    if ([CLLocationManager locationServicesEnabled]) {
+        self.locationManager = [[CLLocationManager alloc]init];
+        self.locationManager.delegate = self;
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer;
+        [self.locationManager requestAlwaysAuthorization];
+        self.locationManager.distanceFilter = 10.0f;
+        [self.locationManager requestAlwaysAuthorization];
+        [self.locationManager startUpdatingLocation];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
+    if ([error code] == kCLErrorDenied) {
+        NSLog(@"访问被拒绝");
+    }
+    if ([error code] == kCLErrorLocationUnknown) {
+        NSLog(@"无法获取位置信息");
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    CLLocation *newLocation = locations[0];
+    
+    // 获取当前所在的城市名
+    CLLocationCoordinate2D oldCoordinate = newLocation.coordinate;
+    
+    NSLog(@"旧的经度：%f,旧的纬度：%f",oldCoordinate.longitude,oldCoordinate.latitude);
+    self.userlatitude = [NSString stringWithFormat:@"%.14f",oldCoordinate.latitude];
+    self.userLongitude = [NSString stringWithFormat:@"%.14f", oldCoordinate.longitude];
+    //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
+    [manager stopUpdatingLocation];
+    
+}
+
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString* key = _titleArray[indexPath.row];
     if ([key isEqualToString:@"锁屏设置"]) {
@@ -194,8 +237,9 @@
     [FileUtils removeFile:cachedHeaderPath];
     cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
     [FileUtils removeFile:cachedHeaderPath];
-    
-    [APIHelper userAuthentication:user.userNum password:user.password];
+    NSString *coordianteString = [NSString stringWithFormat:@"%@|%@",self.userLongitude,self.userlatitude];
+    [[NSUserDefaults standardUserDefaults] setObject:coordianteString forKey:@"USERLOCATION"];
+    [APIHelper userAuthentication:user.userNum password:user.password coordinate:coordianteString];
     
     [self checkAssetsUpdate];
     

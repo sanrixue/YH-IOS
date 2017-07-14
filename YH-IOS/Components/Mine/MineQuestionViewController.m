@@ -14,6 +14,7 @@
 #import "zoomPopup.h"
 #import "UIImage+StackBlur.h"
 #import "User.h"
+#import "SCLAlertView.h"
 #import "Version.h"
 
 static NSString *const reUse = @"reUse";
@@ -378,7 +379,13 @@ static NSString *const reUse = @"reUse";
         NSLog(@"%@",dic);
         [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
         if ([dic[@"code"] isEqualToNumber:@(201)]) {
-             [ViewUtils showPopupView:self.view Info:@"上传成功"];
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+                [alert addButton:@"确定" actionBlock:^(void) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+                [alert addButton:@"取消" actionBlock:^(void) {
+                }];
+                [alert showSuccess:self title:@"温馨提示" subTitle:@"提交成功" closeButtonTitle:nil duration:0.0f];
         }
         else{
             [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];

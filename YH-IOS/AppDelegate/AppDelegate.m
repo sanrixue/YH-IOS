@@ -120,6 +120,12 @@ void UncaughtExceptionHandler(NSException * exception) {
     }else{
         [self.window setRootViewController:initViewController];
     }
+    NSDictionary* userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if(userInfo){//推送信息
+       NSDictionary* userInfo1  = [userInfo copy];//[userInfo copy]
+        NSLog(@"%@",userInfo);
+    }
+    
     //[self.window setRootViewController:initViewController];
     [self.window makeKeyAndVisible];
     NSString *initString  = [NSString stringWithFormat:@"appid = %@",@"581aad1c"];
@@ -135,8 +141,6 @@ void UncaughtExceptionHandler(NSException * exception) {
     
     application.applicationIconBadgeNumber = 0;
     [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    [self savePushDict:userInfo];
     if (IOS10_OR_LATER) {
         UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
         center.delegate =self;
@@ -220,10 +224,23 @@ void UncaughtExceptionHandler(NSException * exception) {
     // 关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
-    if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateBackground) {
-        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
-        [alertView show];
+    NSString *pushConfigPath = [[FileUtils userspace] stringByAppendingPathComponent:@"receiveRemote"];
+    if ([FileUtils checkFileExist:pushConfigPath isDir:NO]) {
+        [FileUtils removeFile:pushConfigPath];
     }
+    [[NSFileManager defaultManager] createFileAtPath:pushConfigPath contents:nil attributes:nil];
+    [userInfo writeToFile:pushConfigPath atomically:YES];
+    
+    if (application.applicationState == UIApplicationStateActive) {
+        SCLAlertView *alert = [[SCLAlertView alloc] init];
+        [alert addButton:@"确定" actionBlock:^(void) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReceiveRemote" object:nil];
+        }];
+        [alert addButton:@"取消" actionBlock:^(void) {
+        }];
+        [alert showSuccess:self.window.rootViewController title:@"温馨提示" subTitle:userInfo[@"aps"][@"alert"] closeButtonTitle:nil duration:0.0f];
+    }
+    
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *initViewController = [storyBoard instantiateInitialViewController];
     

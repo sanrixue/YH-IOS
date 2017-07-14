@@ -21,6 +21,7 @@
 #import <Reachability/Reachability.h>
 #import <PgyUpdate/PgyUpdateManager.h>
 #import <SCLAlertView.h>
+#import "SubjectViewController.h"
 
 @interface JYBaseViewController ()<UITableViewDelegate,UITableViewDataSource,UIPopoverPresentationControllerDelegate>
 // 设置按钮点击下拉菜单
@@ -35,6 +36,7 @@
 @property (nonatomic, strong) JumpCommonView* menuView;
 @property (strong, nonatomic) NSString *localNotificationPath;
 @property (strong, nonatomic) NSArray *localNotificationKeys;
+@property (strong, nonatomic) NSMutableDictionary *remoteDict;
 
 @end
 
@@ -62,12 +64,42 @@
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToRemote) name:@"ReceiveRemote" object:nil];
     [JumpCommonView clearMenu]; // 清除window菜单
     [self checkFromViewController];
+    NSString *pushConfigPath = [[FileUtils userspace] stringByAppendingPathComponent:@"receiveRemote"];
+    if ([FileUtils checkFileExist:pushConfigPath isDir:NO]) {
+        self.remoteDict = [[FileUtils readConfigFile:pushConfigPath] copy];
+        NSLog(@"%@",_remoteDict);
+        [self DealRemote];
+        [FileUtils removeFile:pushConfigPath];
+    }
     [self initDropMenu]; //重新生成菜单
          self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Barcode-Scan-1"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(dropTableView:)];
 
     // Do any additional setup after loading the view.
+}
+
+-(void)DealRemote{
+    NSString *remoteType = _remoteDict[@"type"];
+    if ([remoteType isEqualToString:@"kpi"]) {
+        return;
+    }
+    else if ([remoteType isEqualToString:@"report"]){
+        [self jumpToDetailViewWithDict:_remoteDict];
+    }
+    else if ([remoteType isEqualToString:@"message"]){
+        self.tabBarController.selectedIndex = 3;
+    }
+    else if ([remoteType isEqualToString:@"analyse"]){
+        self.tabBarController.selectedIndex = 1;
+    }
+    else if ([remoteType isEqualToString:@"app"]){
+        self.tabBarController.selectedIndex = 2;
+    }
+    else{
+        return;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -75,6 +107,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)jumpToRemote {
+    NSString *pushConfigPath = [[FileUtils userspace] stringByAppendingPathComponent:@"receiveRemote"];
+    if ([FileUtils checkFileExist:pushConfigPath isDir:NO]) {
+        self.remoteDict = [[FileUtils readConfigFile:pushConfigPath] copy];
+        NSLog(@"%@",_remoteDict);
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self DealRemote];
+        [FileUtils removeFile:pushConfigPath];
+    }
+}
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:YES];
@@ -109,7 +151,8 @@
                 return;
             }
             
-            NSString *msg = [APIHelper userAuthentication:userDict[kUserNumCUName] password:userDict[kPasswordCUName]];
+            NSString *userlocation = [[NSUserDefaults standardUserDefaults] objectForKey:@"USERLOCATION"];
+            NSString *msg = [APIHelper userAuthentication:userDict[kUserNumCUName] password:userDict[kPasswordCUName] coordinate:userlocation];
             if(msg.length != 0) {
                 userDict[kIsLoginCUName] = @(NO);
                 [userDict writeToFile:userConfigPath atomically:YES];
@@ -176,6 +219,31 @@
             [alert showSuccess:self title:kUpgradeTitleText subTitle:subTitle closeButtonTitle:kCancelBtnText duration:0.0f];
         }
     }
+}
+
+
+-(void)jumpToDetailViewWithDict:(NSDictionary*)dict{
+        UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        
+        SubjectViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"SubjectViewController"];
+        subjectView.bannerName =dict[@"title"];
+        subjectView.link = dict[@"url"];
+        subjectView.commentObjectType = [dict[@"obj_type"] intValue];
+        subjectView.objectID = dict[@"obj_id"];
+               /* else if ([data[@"link"] rangeOfString:@"template/"].location != NSNotFound){
+         if ([data[@"link"] rangeOfString:@"template/5/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/1/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/2/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/3/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/4/"].location == NSNotFound) {
+         SCLAlertView *alert = [[SCLAlertView alloc] init];
+         [alert addButton:@"下一次" actionBlock:^(void) {}];
+         [alert addButton:@"立刻升级" actionBlock:^(void) {
+         NSURL *url = [NSURL URLWithString:[kPgyerUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+         [[UIApplication sharedApplication] openURL:url];
+         }];
+         [alert showSuccess:self title:@"温馨提示" subTitle:@"您当前的版本暂不支持该模块，请升级之后查看" closeButtonTitle:nil duration:0.0f];
+         }
+         }*/
+
+            UINavigationController *subjectCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+            [self presentViewController:subjectCtrl animated:YES completion:nil];
 }
 
 - (void)exitApplication {

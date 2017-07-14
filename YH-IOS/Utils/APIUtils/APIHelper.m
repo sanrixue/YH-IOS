@@ -117,7 +117,7 @@
  *
  *  @return error msg when authentication failed
  */
-+ (NSString *)userAuthentication:(NSString *)usernum password:(NSString *)password {
++ (NSString *)userAuthentication:(NSString *)usernum password:(NSString *)password coordinate:(NSString *)coordinate{
     NSString *urlString = [NSString stringWithFormat:kUserAuthenticateAPIPath, kBaseUrl, @"IOS", usernum, password];
     NSString *alertMsg = @"";
     
@@ -127,9 +127,10 @@
         @"platform": @"ios",
         @"os": [Version machineHuman],
         @"os_version": [[UIDevice currentDevice] systemVersion],
-        @"uuid": [OpenUDID value]
+        @"uuid": [OpenUDID value],
     };
     deviceDict[@"app_version"] = [NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
+    deviceDict[@"coordinate"] = coordinate;
 
     HttpResponse *response = [HttpUtils httpPost:urlString Params:deviceDict];
     

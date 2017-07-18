@@ -173,6 +173,7 @@ NSString *const kUserNameCUName          = @"user_name";
 NSString *const kUserNumCUName           = @"user_num";
 NSString *const kPasswordCUName          = @"user_md5";
 NSString *const kUserDeviceIDCUName      = @"user_device_id";
+NSString *const kUserLocationName        = @"coordinate";
 NSString *const kGesturePasswordCUName   = @"gesture_password";
 NSString *const kIsUseGesturePasswordCUName = @"use_gesture_password";
 NSString *const kAppVersionCUName        = @"app_version";

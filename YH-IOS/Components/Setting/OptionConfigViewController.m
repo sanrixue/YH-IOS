@@ -173,8 +173,8 @@
     CLLocationCoordinate2D oldCoordinate = newLocation.coordinate;
     
     NSLog(@"旧的经度：%f,旧的纬度：%f",oldCoordinate.longitude,oldCoordinate.latitude);
-    self.userlatitude = [NSString stringWithFormat:@"%.14f",oldCoordinate.latitude];
-    self.userLongitude = [NSString stringWithFormat:@"%.14f", oldCoordinate.longitude];
+    self.userlatitude = [NSString stringWithFormat:@"%.6f",oldCoordinate.latitude];
+    self.userLongitude = [NSString stringWithFormat:@"%.6f", oldCoordinate.longitude];
     //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
     [manager stopUpdatingLocation];
     
@@ -237,7 +237,7 @@
     [FileUtils removeFile:cachedHeaderPath];
     cachedHeaderPath  = [NSString stringWithFormat:@"%@/%@", [FileUtils dirPath:kHTMLDirName], kCachedHeaderConfigFileName];
     [FileUtils removeFile:cachedHeaderPath];
-    NSString *coordianteString = [NSString stringWithFormat:@"%@|%@",self.userLongitude,self.userlatitude];
+    NSString *coordianteString = [NSString stringWithFormat:@"%@,%@",self.userLongitude,self.userlatitude];
     [[NSUserDefaults standardUserDefaults] setObject:coordianteString forKey:@"USERLOCATION"];
     [APIHelper userAuthentication:user.userNum password:user.password coordinate:coordianteString];
     

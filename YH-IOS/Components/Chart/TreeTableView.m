@@ -65,7 +65,7 @@
     
     Node *node = [_tempData objectAtIndex:indexPath.row];
     
-    cell.imageView.image = [[UIImage imageNamed:@"triangle-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    cell.imageView.image = [[UIImage imageNamed:@"triangle"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [cell.imageView setHidden:NO];
     if (node.depth == self.allDataDeep) {
         [cell.imageView setHidden:YES];
@@ -118,13 +118,13 @@
         if (node.parentId == parentNode.nodeId) {
             node.expand = !node.expand;
             if (node.expand) {
-                    cell.imageView.image = [[UIImage imageNamed:@"triangle"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+                    cell.imageView.image = [[UIImage imageNamed:@"triangle-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
                 [_tempData insertObject:node atIndex:endPosition];
                 expand = YES;
                 endPosition++;
             }else{
                 expand = NO;
-                    cell.imageView.image = [[UIImage imageNamed:@"triangle-1"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+                    cell.imageView.image = [[UIImage imageNamed:@"triangle"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
                 endPosition = [self removeAllNodesAtParentNode:parentNode];
                 break;
             }

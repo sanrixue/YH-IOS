@@ -342,9 +342,11 @@
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
     NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
+    NSString *userlocation = [[NSUserDefaults standardUserDefaults] objectForKey:@"USERLOCATION"];
     param[kUserIDCUName]       = userDict[kUserIDCUName];
     param[kUserNameCUName]     = userDict[kUserNameCUName];
     param[kUserDeviceIDCUName] = userDict[kUserDeviceIDCUName];
+    param[kUserLocationName] = userlocation;
     param[kAppVersionCUName]   = [NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
     
     

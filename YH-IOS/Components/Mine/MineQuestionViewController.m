@@ -16,6 +16,7 @@
 #import "User.h"
 #import "SCLAlertView.h"
 #import "Version.h"
+#import "APIHelper.h"
 
 static NSString *const reUse = @"reUse";
 
@@ -386,15 +387,37 @@ static NSString *const reUse = @"reUse";
                 [alert addButton:@"取消" actionBlock:^(void) {
                 }];
                 [alert showSuccess:self title:@"温馨提示" subTitle:@"提交成功" closeButtonTitle:nil duration:0.0f];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                /*
+                 * 用户行为记录, 单独异常处理，不可影响用户体验
+                 */
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[kActionALCName] = @"点击/问题反馈成功";
+                [APIHelper actionLog:logParams];
+            });
         }
         else{
             [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
-            [ViewUtils showPopupView:self.view Info:@"上传失败，请重试"];
+            SCLAlertView *alert = [[SCLAlertView alloc] init];
+            [alert addButton:@"重试" actionBlock:^(void) {
+                [self submitMyProblem];
+            }];
+            [alert addButton:@"取消" actionBlock:^(void) {
+            }];
+            [alert showSuccess:self title:@"温馨提示" subTitle:@"上传失败" closeButtonTitle:nil duration:0.0f];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"%@",@"上传失败了");
         [MRProgressOverlayView dismissOverlayForView:self.view animated:YES];
         [ViewUtils showPopupView:self.view Info:@"上传失败，请重试"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[kActionALCName] = @"点击/问题反馈失败";
+            [APIHelper actionLog:logParams];
+        });
     }];
     
 }

@@ -131,7 +131,7 @@
             [_allNodeArray addObject:nodeName];
             for (SelectDataModel * model1 in model.infos) {
                 BOOL isexpand = model.deep >2;
-                Node *nodeName = [[Node alloc] initWithParentId:firstLayerID nodeId:NodeId name:model1.titles depth:1 expand:!isexpand];
+                Node *nodeName = [[Node alloc] initWithParentId:firstLayerID nodeId:NodeId name:model1.titles depth:1 expand:isexpand];
                 secondID = NodeId;
                 NodeId ++;
                 [_allNodeArray addObject:nodeName];

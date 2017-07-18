@@ -72,7 +72,8 @@
     _requestCommane = [[RACCommand  alloc]initWithSignalBlock:^RACSignal * _Nonnull(id  _Nullable input) {
         RACSignal *requestSignal = [RACSignal createSignal:^RACDisposable * _Nullable(id<RACSubscriber>  _Nonnull subscriber) {
             AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-            [manager GET:[NSString stringWithFormat:@"%@/api/v1/user/%@/group/%@/role/%@/statistics",kBaseUrl,user.userNum,user.groupID,user.roleID] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+            NSString *kpiUrl = [NSString stringWithFormat:@"%@/api/v1/user/%@/group/%@/role/%@/statistics",kBaseUrl,user.userNum,user.groupID,user.roleID];
+            [manager GET:kpiUrl parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 NSLog(@"用户信息 %@",responseObject);
                 [subscriber sendNext:responseObject];
                 [subscriber sendCompleted];
@@ -267,7 +268,10 @@
     logoutButton.layer.borderWidth = 1;
     logoutButton.layer.borderColor = [UIColor colorWithHexString:@"#d2d2d2"].CGColor;
     [logoutButton setTitle:@"退出登录" forState:UIControlStateNormal];
-    [logoutButton addTarget:self action:@selector(logoutButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+    [[logoutButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
+        [self logoutButtonClick:logoutButton];
+    }];
+    //[logoutButton addTarget:self action:@selector(logoutButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [logoutButton setTitleColor:[UIColor colorWithHexString:@"#010101"] forState:UIControlStateNormal];
     logoutButton.backgroundColor = [UIColor colorWithHexString:@"#fbfcf5"];
     logoutView.backgroundColor = [UIColor whiteColor];

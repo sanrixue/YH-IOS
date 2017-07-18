@@ -138,17 +138,38 @@
    
    // [self.avaterImageView sd_setImageWithURL:person.icon forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"user_ava"]];
     self.userNameLabel.text = _user.userName;
-    self.loginCountView.dataLable.text = [NSString stringWithFormat:@"%@",person[@"login_duration"]];
+    if ([person[@"login_duration"] isEqualToString:@""] || person[@"login_duration"] == nil) {
+        self.loginCountView.dataLable.text = @"0";
+    }
+    else{
+        self.loginCountView.dataLable.text = [NSString stringWithFormat:@"%@",person[@"login_duration"]];
+    }
     self.loginCountView.utilLabel.text = @"天";
     self.loginCountView.noteLabel.text = @"累计登录";
    // NSString *lastLoginState = [NSString stringWithFormat:@"最近一次: %@   %@",person.lastlocation,person.time];
   //  self.lastLoginMessageLabel.text = lastLoginState;
-    self.reportScanCountView.dataLable.text =[NSString stringWithFormat:@"%@", person[@"browse_report_count"]];
+    if ([person[@"browse_report_count"] isEqualToString:@""] || person[@"browse_report_count"] == nil) {
+            self.reportScanCountView.dataLable.text = @"0";
+    }
+    else {
+            self.reportScanCountView.dataLable.text =[NSString stringWithFormat:@"%@", person[@"browse_report_count"]];
+    }
     self.reportScanCountView.utilLabel.text = @"支";
     self.reportScanCountView.noteLabel.text = @"浏览报表";
-    self.precentView.dataLable.text = [NSString stringWithFormat:@"%.1f",[person[@"surpass_percentage"] floatValue]];
+    if (person[@"surpass_percentage"] == nil ) {
+            self.precentView.dataLable.text = [NSString stringWithFormat:@"%.1f",[@"0.0" floatValue]];
+    }
+    else{
+        self.precentView.dataLable.text = [NSString stringWithFormat:@"%.1f",[person[@"surpass_percentage"] floatValue]];
+         }
     self.precentView.utilLabel.text = @"%";
     self.precentView.noteLabel.text = @"超越用户";
+    if ([person[@"coordinate_location"] isEqualToString:@""] || person[@"coordinate_location"] == nil) {
+            self.lastLoginMessageLabel.text = [NSString stringWithFormat:@"上次登录:%@",@"暂无上次登录信息"];
+    }
+    else{
+      self.lastLoginMessageLabel.text = [NSString stringWithFormat:@"上次登录:%@",person[@"coordinate_location"]];
+         }
 }
 
 

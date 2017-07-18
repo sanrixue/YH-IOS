@@ -100,7 +100,25 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             NSLog(@"unkown action %@", action);
         }
     }];
+    [self.bridge registerHandler:@"jsException" handler:^(id data, WVJBResponseCallback responseCallback) {
+        // [self showLoading:LoadingRefresh];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            @try {
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[kActionALCName]   = @"JS异常";
+                logParams[kObjTitleALCName] = [NSString stringWithFormat:@"扫码页面/%@", data[@"ex"]];
+                [APIHelper actionLog:logParams];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"%@", exception);
+            }
+        });
+    }];
     
+
     [self.bridge registerHandler:@"searchItems" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSString *reportDataFileName = [NSString stringWithFormat:@"store_%@_barcode_%@_attachment", self.storeID, self.codeInfo];
         NSString *javascriptFolder = [[FileUtils sharedPath] stringByAppendingPathComponent:@"assets/javascripts"];
@@ -457,6 +475,14 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         if([itemName isEqualToString:kDropSearchText]) {
             SelectStoreViewController *select = [[SelectStoreViewController alloc] init];
             UINavigationController* selectCtrl = [[UINavigationController alloc]initWithRootViewController:select];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                /*
+                 * 用户行为记录, 单独异常处理，不可影响用户体验
+                 */
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[kActionALCName] = @"点击/扫码/筛选";
+                [APIHelper actionLog:logParams];
+            });
             [self.navigationController presentViewController:selectCtrl animated:YES completion:nil];
         }
         else if([itemName isEqualToString:kDropShareText]) {
@@ -464,6 +490,14 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
         }
         else if ([itemName isEqualToString:kDropRefreshText]) {
             [self loadInnerLink];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                /*
+                 * 用户行为记录, 单独异常处理，不可影响用户体验
+                 */
+                NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                logParams[kActionALCName] = @"刷新/扫码/浏览器";
+                [APIHelper actionLog:logParams];
+            });
         }
     }];
     
@@ -473,7 +507,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     UIImage *image;
     NSString *settingsConfigPath = [FileUtils dirPath:kConfigDirName FileName:kBetaConfigFileName];
     betaDict = [FileUtils readConfigFile:settingsConfigPath];
-    if (!betaDict[@"image_within_screen"] || [betaDict[@"image_within_screen"] boolValue]) {
+    if (!betaDict[@"image_within_screen"] && [betaDict[@"image_within_screen"] boolValue]) {
         image = [self saveWebViewAsImage];
     }
     else {
@@ -509,8 +543,8 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     UIScrollView *scrollview = self.browser.scrollView;
     UIImage *image = nil;
     CGSize boundsSize = self.browser.scrollView.contentSize;
-    if (boundsSize.height > kScreenHeight * 6) {
-        boundsSize.height = kScreenHeight * 6;
+    if (boundsSize.height > kScreenHeight * 3) {
+        boundsSize.height = kScreenHeight * 3;
     }
     UIGraphicsBeginImageContextWithOptions(boundsSize ,NO, 0.0);
     CGPoint savedContentOffset = scrollview.contentOffset;

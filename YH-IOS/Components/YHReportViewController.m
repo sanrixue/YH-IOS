@@ -18,6 +18,7 @@
 #import "LBXScanWrapper.h"
 #import "SubLBXScanViewController.h"
 #import "YHScanStoreViewController.h"
+#import "SubjectOutterViewController.h"
 
 @interface YHReportViewController ()
 {
@@ -35,24 +36,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.tabBarController.tabBar.backgroundColor = [UIColor colorWithHexString:@"#f9f9f9f"];
-    self.navigationController.navigationBar.backgroundColor =[UIColor colorWithHexString:@"#f9f9f9f"];
+   // self.tabBarController.tabBar.backgroundColor = [UIColor colorWithHexString:@"#f9f9f9f"];
+    //self.navigationController.navigationBar.backgroundColor =[UIColor colorWithHexString:@"#f9f9f9f"];
     _list = [NSMutableArray new];
-    //[self initCategoryMenu];
+    
+   // [self initCategoryMenu];
      self.view.backgroundColor = [UIColor colorWithHexString:@"#f7fef5"];
     self.automaticallyAdjustsScrollViewInsets = NO;
    // [self getdata];
-   [self addMuneView];
-   self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Barcode-Scan-1"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(jumpToScanView)];
+    [self addMuneView];
+    [self getSomeThingNew];
     
     // Do any additional setup after loading the view.
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:YES];
-    [self getSomeThingNew];
+    self.tabBarController.tabBar.backgroundColor = [UIColor colorWithHexString:@"#f9f9f9f"];
+    self.navigationController.navigationBar.backgroundColor =[UIColor colorWithHexString:@"#f9f9f9f"];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[[UIImage imageNamed:@"Barcode-Scan-1"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(jumpToScanView)];
 }
-
 
 -(void)addMuneView {
     _menuView  = [[YHMutileveMenu alloc]initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 49) WithData:_listArray withSelectIndex:^(NSInteger left, NSInteger right, ListItem* info) {
@@ -99,6 +102,7 @@
 
 -(void)jumpToSubjectView:(ListItem *)item {
     NSString *targeturl = item.linkPath;
+       NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
   //  NSArray *urlArray = [targeturl componentsSeparatedByString:@"/"];
     if ([targeturl isEqualToString:@""] || targeturl == nil) {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
@@ -112,13 +116,7 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
     else{
-        UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        
-        SubjectViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"SubjectViewController"];
-        subjectView.bannerName = item.listName;
-        subjectView.link = targeturl;
-        subjectView.commentObjectType = ObjectTypeAnalyse;
-        subjectView.objectID = @(item.itemID);
+        BOOL isInnerLink = !([targeturl hasPrefix:@"http://"] || [targeturl hasPrefix:@"https://"]);
         if ([targeturl rangeOfString:@"template/3/"].location != NSNotFound) {
             HomeIndexVC *vc = [[HomeIndexVC alloc] init];
             vc.bannerTitle = item.listName;
@@ -126,6 +124,21 @@
             vc.objectID =@(item.itemID);
             vc.commentObjectType = ObjectTypeAnalyse;
             UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
+            logParams[kActionALCName]   = @"点击/报表/报表";
+            logParams[kObjIDALCName]    = @(item.itemID);
+            logParams[kObjTypeALCName]  = @(ObjectTypeAnalyse);
+            logParams[kObjTitleALCName] =  item.listName;
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                @try {
+                    [APIHelper actionLog:logParams];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"%@", exception);
+                }
+            });
             [self presentViewController:rootchatNav animated:YES completion:nil];
             
         }
@@ -136,6 +149,22 @@
             superChaerCtrl.objectID =@(item.itemID);
             superChaerCtrl.commentObjectType = ObjectTypeAnalyse;
             UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
+            logParams[kActionALCName]   = @"点击/报表/报表";
+            logParams[kObjIDALCName]    = @(item.itemID);
+            logParams[kObjTypeALCName]  = @(ObjectTypeAnalyse);
+            logParams[kObjTitleALCName] =  item.listName;
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                @try {
+                    [APIHelper actionLog:logParams];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"%@", exception);
+                }
+            });
+
             [self presentViewController:superChartNavCtrl animated:YES completion:nil];
         }
         /* else if ([data[@"link"] rangeOfString:@"template/"].location != NSNotFound){
@@ -157,15 +186,50 @@
            // [self presentViewController:superChartNavCtrl animated:YES completion:nil];
         }
         else{ //跳转事件
-            UINavigationController *subjectCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
-            [self presentViewController:subjectCtrl animated:YES completion:nil];
+            logParams[kActionALCName]   = @"点击/报表/报表";
+            logParams[kObjIDALCName]    = @(item.itemID);
+            logParams[kObjTypeALCName]  = @(ObjectTypeAnalyse);
+            logParams[kObjTitleALCName] =  item.listName;
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                @try {
+                    [APIHelper actionLog:logParams];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"%@", exception);
+                }
+            });
+            if (isInnerLink) {
+                UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                
+                SubjectViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"SubjectViewController"];
+                subjectView.bannerName = item.listName;
+                subjectView.link = targeturl;
+                subjectView.commentObjectType = ObjectTypeAnalyse;
+                subjectView.objectID = @(item.itemID);
+                UINavigationController *subCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+                [self.navigationController presentViewController:subCtrl animated:YES completion:nil];
+            }
+            else{
+                
+                SubjectOutterViewController *subjectView = [[SubjectOutterViewController alloc]init];
+                subjectView.bannerName = item.listName;
+                subjectView.link = targeturl;
+                subjectView.commentObjectType = ObjectTypeAnalyse;
+                subjectView.objectID = @(item.itemID);
+                //UINavigationController *subCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+                
+                [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+            }
         }
     }
 }
 
 -(void)jumpToScanView {
-    [self jumpToStoreScan];
-   // [self actionBarCodeScanView:nil];
+   // [self jumpToStoreScan];
+    [self actionBarCodeScanView:nil];
 }
 
 -(void)jumpToStoreScan{

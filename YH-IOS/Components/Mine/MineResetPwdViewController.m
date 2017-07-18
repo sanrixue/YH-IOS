@@ -186,7 +186,7 @@
                  */
                 @try {
                     NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
-                    logParams[@"action"] = @"重置密码";
+                    logParams[@"action"] = @"点击/密码修改";
                     [APIHelper actionLog:logParams];
                 }
                 @catch (NSException *exception) {

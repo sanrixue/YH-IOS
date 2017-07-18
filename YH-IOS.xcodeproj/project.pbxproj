@@ -27,6 +27,7 @@
 		914F3F2A1EE92C08004B2C25 /* NoticeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */; };
 		914F3F301EE93C78004B2C25 /* MineHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F2F1EE93C78004B2C25 /* MineHeadView.m */; };
 		9169BC631F00FB9A00419E52 /* GuidePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9169BC621F00FB9A00419E52 /* GuidePageViewController.m */; };
+		918302631F1B98690039B8CD /* SubjectOutterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 918302621F1B98690039B8CD /* SubjectOutterViewController.m */; };
 		91A751A81EFF953500D1037E /* JYCollectionFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A751A71EFF953500D1037E /* JYCollectionFooterView.m */; };
 		91B70D5F1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B70D5D1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m */; };
 		91B70D601EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B70D5E1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib */; };
@@ -569,6 +570,8 @@
 		914F3F2F1EE93C78004B2C25 /* MineHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineHeadView.m; sourceTree = "<group>"; };
 		9169BC611F00FB9A00419E52 /* GuidePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuidePageViewController.h; path = Login/GuidePageViewController.h; sourceTree = "<group>"; };
 		9169BC621F00FB9A00419E52 /* GuidePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuidePageViewController.m; path = Login/GuidePageViewController.m; sourceTree = "<group>"; };
+		918302611F1B98690039B8CD /* SubjectOutterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectOutterViewController.h; sourceTree = "<group>"; };
+		918302621F1B98690039B8CD /* SubjectOutterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectOutterViewController.m; sourceTree = "<group>"; };
 		91A751A61EFF953500D1037E /* JYCollectionFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYCollectionFooterView.h; sourceTree = "<group>"; };
 		91A751A71EFF953500D1037E /* JYCollectionFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYCollectionFooterView.m; sourceTree = "<group>"; };
 		91B70D5C1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHReportLeftTextTableViewCell.h; sourceTree = "<group>"; };
@@ -2150,6 +2153,8 @@
 				C4E93F0C1D38BFC000DBEC90 /* ReportSelector */,
 				C4C6283B1C0C1ED6000AD5D8 /* SubjectViewController.h */,
 				C4C6283C1C0C1ED6000AD5D8 /* SubjectViewController.m */,
+				918302611F1B98690039B8CD /* SubjectOutterViewController.h */,
+				918302621F1B98690039B8CD /* SubjectOutterViewController.m */,
 			);
 			name = Subject;
 			path = Chart;
@@ -3668,6 +3673,7 @@
 				F68C258D1EC2D44F0069C041 /* JYHistogramView.m in Sources */,
 				F62457461EA5FBB2006834D2 /* MultipleBarChartViewController.m in Sources */,
 				91DB246D1EEE9A7200FC8413 /* CustomCell.m in Sources */,
+				918302631F1B98690039B8CD /* SubjectOutterViewController.m in Sources */,
 				91DB24531EEE4D3900FC8413 /* MessageNotice.m in Sources */,
 				C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */,
 				F62457401EA5FBB2006834D2 /* LineChart2ViewController.m in Sources */,

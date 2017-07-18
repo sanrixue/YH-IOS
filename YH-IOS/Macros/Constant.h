@@ -227,6 +227,7 @@ extern NSString *const kUserNameALCName;
 extern NSString *const kPasswordALCName;
 extern NSString *const kUserALCName;
 extern NSString *const kScreenshotType;
+extern NSString *const kUserLocationName;
 
 /**
  *  API#Post Comment column names

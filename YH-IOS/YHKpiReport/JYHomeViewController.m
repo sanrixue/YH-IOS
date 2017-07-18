@@ -24,6 +24,7 @@
 #import "User.h"
 #import "SDCycleScrollView.h"
 #import "YHKPIModel.h"
+#import "SubjectOutterViewController.h"
 
 
 #define kJYNotifyHeight 40
@@ -85,6 +86,11 @@
    self.navigationController.navigationBar.translucent = NO;
     self.tabBarController.tabBar.translucent = NO;
     self.rootTBView.mj_header = _header;
+    //原始推送跳转
+    /*if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"receiveRemote"] boolValue]) {
+        self.tabBarController.selectedIndex = 3;
+        [[NSUserDefaults standardUserDefaults]setBool:NO forKey:@"receiveRemote"];
+    }*/
     [self noteToChangePwd];
     
 }
@@ -246,6 +252,7 @@
         }
     }
     }
+    [self.rootTBView reloadData];
 
 }
 
@@ -631,6 +638,7 @@
 
 -(void)jumpToDetailView:(NSString*)targeturl viewTitle:(NSString*)title{
     NSArray *urlArray = [targeturl componentsSeparatedByString:@"/"];
+    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
     if ([targeturl isEqualToString:@""] || targeturl == nil) {
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:@""
                                                                        message:@"该功能正在开发中"
@@ -643,13 +651,7 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
     else{
-        UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    
-        SubjectViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"SubjectViewController"];
-        subjectView.bannerName =title;
-        subjectView.link = targeturl;
-        subjectView.commentObjectType = ObjectTypeKpi;
-        subjectView.objectID = [urlArray lastObject];
+        BOOL isInnerLink = !([targeturl hasPrefix:@"http://"] || [targeturl hasPrefix:@"https://"]);
        if ([targeturl rangeOfString:@"template/3/"].location != NSNotFound) {
           HomeIndexVC *vc = [[HomeIndexVC alloc] init];
           vc.bannerTitle = title;
@@ -657,6 +659,22 @@
            vc.objectID =[urlArray lastObject];
           vc.commentObjectType = ObjectTypeAnalyse;
           UINavigationController *rootchatNav = [[UINavigationController alloc]initWithRootViewController:vc];
+           logParams[kActionALCName]   = @"点击/生意概况/报表";
+           logParams[kObjIDALCName]    = [NSString stringWithFormat:@"%@",[urlArray lastObject]];
+           logParams[kObjTypeALCName]  = @(ObjectTypeKpi);
+           logParams[kObjTitleALCName] =  title;
+           /*
+            * 用户行为记录, 单独异常处理，不可影响用户体验
+            */
+           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+               @try {
+                   [APIHelper actionLog:logParams];
+               }
+               @catch (NSException *exception) {
+                   NSLog(@"%@", exception);
+               }
+           });
+
           [self presentViewController:rootchatNav animated:YES completion:nil];
         
      }
@@ -665,8 +683,24 @@
          superChaerCtrl.bannerTitle = title;
          superChaerCtrl.dataLink = targeturl;
          superChaerCtrl.objectID =[urlArray lastObject];
-         superChaerCtrl.commentObjectType = ObjectTypeAnalyse;
+         superChaerCtrl.commentObjectType = ObjectTypeKpi;
          UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
+         logParams[kActionALCName]   = @"点击/生意概况/报表";
+         logParams[kObjIDALCName]    = [NSString stringWithFormat:@"%@",[urlArray lastObject]];
+         logParams[kObjTypeALCName]  = @(ObjectTypeKpi);
+         logParams[kObjTitleALCName] =  title;
+         /*
+          * 用户行为记录, 单独异常处理，不可影响用户体验
+          */
+         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             @try {
+                 [APIHelper actionLog:logParams];
+             }
+             @catch (NSException *exception) {
+                 NSLog(@"%@", exception);
+             }
+         });
+
          [self presentViewController:superChartNavCtrl animated:YES completion:nil];
      }
     /* else if ([data[@"link"] rangeOfString:@"template/"].location != NSNotFound){
@@ -685,11 +719,48 @@
           jyHome.bannerTitle = title;
           jyHome.dataLink = targeturl;
           UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:jyHome];
+           
           [self presentViewController:superChartNavCtrl animated:YES completion:nil];
       }
       else{ //跳转事件
-          UINavigationController *subjectCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
-          [self presentViewController:subjectCtrl animated:YES completion:nil];
+          logParams[kActionALCName]   = @"点击/生意概况/报表";
+          logParams[kObjIDALCName]    = [NSString stringWithFormat:@"%@",[urlArray lastObject]];
+          logParams[kObjTypeALCName]  = @(ObjectTypeKpi);
+          logParams[kObjTitleALCName] =  title;
+          /*
+           * 用户行为记录, 单独异常处理，不可影响用户体验
+           */
+          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+              @try {
+                  [APIHelper actionLog:logParams];
+              }
+              @catch (NSException *exception) {
+                  NSLog(@"%@", exception);
+              }
+          });
+
+          if (isInnerLink) {
+              UIStoryboard *mainStoryBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+              
+              SubjectViewController *subjectView = [mainStoryBoard instantiateViewControllerWithIdentifier:@"SubjectViewController"];
+              subjectView.bannerName =title;
+              subjectView.link = targeturl;
+              subjectView.commentObjectType = ObjectTypeKpi;
+              subjectView.objectID = [urlArray lastObject];
+              UINavigationController *subCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+              [self.navigationController presentViewController:subCtrl animated:YES completion:nil];
+          }
+          else{
+              
+              SubjectOutterViewController *subjectView = [[SubjectOutterViewController alloc]init];
+              subjectView.bannerName = title;
+              subjectView.link = targeturl;
+              subjectView.commentObjectType = ObjectTypeKpi;
+              subjectView.objectID = [urlArray lastObject];
+              //UINavigationController *subCtrl = [[UINavigationController alloc]initWithRootViewController:subjectView];
+              
+              [self.navigationController presentViewController:subjectView animated:YES completion:nil];
+          }
       }
     }
 }

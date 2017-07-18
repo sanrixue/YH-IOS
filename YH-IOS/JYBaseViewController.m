@@ -64,7 +64,7 @@
     if(self.user.userID) {
         self.assetsPath = [FileUtils dirPath:kHTMLDirName];
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToRemote) name:@"ReceiveRemote" object:nil];
+   // [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(jumpToRemote) name:@"ReceiveRemote" object:nil];
     [JumpCommonView clearMenu]; // 清除window菜单
     [self checkFromViewController];
     NSString *pushConfigPath = [[FileUtils userspace] stringByAppendingPathComponent:@"receiveRemote"];

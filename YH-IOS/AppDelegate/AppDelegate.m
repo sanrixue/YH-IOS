@@ -219,33 +219,20 @@ void UncaughtExceptionHandler(NSException * exception) {
  */
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [self savePushDict:userInfo];
-     [[NSNotificationCenter defaultCenter] postNotificationName:@"remotepush" object:nil userInfo:userInfo];
+    NSString *pushConfigPath = [[FileUtils userspace] stringByAppendingPathComponent:@"receiveRemote"];
+    [userInfo writeToFile:pushConfigPath atomically:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"remotepush" object:nil userInfo:userInfo];
     [[NSUserDefaults standardUserDefaults]  setBool:YES forKey:@"receiveRemote"];
     // 关闭友盟自带的弹出框
     [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
-    NSString *pushConfigPath = [[FileUtils userspace] stringByAppendingPathComponent:@"receiveRemote"];
-    if ([FileUtils checkFileExist:pushConfigPath isDir:NO]) {
-        [FileUtils removeFile:pushConfigPath];
+    if (application.applicationState == UIApplicationStateActive || application.applicationState == UIApplicationStateInactive) {
+        UIAlertView *alertView =[[UIAlertView alloc]initWithTitle:kWarningTitleText message:userInfo[@"aps"][@"alert"] delegate:self cancelButtonTitle:kCancelBtnText otherButtonTitles:kViewInstantBtnText,nil];
+        [alertView show];
     }
-    [[NSFileManager defaultManager] createFileAtPath:pushConfigPath contents:nil attributes:nil];
-    [userInfo writeToFile:pushConfigPath atomically:YES];
-    
-    if (application.applicationState == UIApplicationStateActive) {
-        SCLAlertView *alert = [[SCLAlertView alloc] init];
-        [alert addButton:@"确定" actionBlock:^(void) {
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"ReceiveRemote" object:nil];
-        }];
-        [alert addButton:@"取消" actionBlock:^(void) {
-        }];
-        [alert showSuccess:self.window.rootViewController title:@"温馨提示" subTitle:userInfo[@"aps"][@"alert"] closeButtonTitle:nil duration:0.0f];
+    else{
+        [self checkIsLoginThenJump];
     }
-    
-    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *initViewController = [storyBoard instantiateInitialViewController];
-    
-    [self.window setRootViewController:initViewController];
-    [self.window makeKeyAndVisible];
 }
 
 
@@ -254,7 +241,11 @@ void UncaughtExceptionHandler(NSException * exception) {
     /* SystemSoundID soundID = 1008;//具体参数详情下面贴出来
      //播放声音
      AudioServicesPlaySystemSound(soundID);*/
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"remotepush" object:nil];
+    NSDictionary * userInfo = response.notification.request.content.userInfo;
+    NSString *pushConfigPath = [[FileUtils userspace] stringByAppendingPathComponent:@"receiveRemote"];
+    [userInfo writeToFile:pushConfigPath atomically:YES];
+     [self checkIsLoginThenJump];
+   // [[NSNotificationCenter defaultCenter] postNotificationName:@"remotepush" object:nil];
 }
 
 #pragma mark - 程序在运行时候接收到通知
@@ -365,6 +356,9 @@ void UncaughtExceptionHandler(NSException * exception) {
             _isReApp = NO;
         }
     }
+    NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+    logParams[kActionALCName]   = [NSString stringWithFormat:@"解锁"];
+    [APIHelper actionLog:logParams];
   //  MianTabBarViewController *mainTabbar = [[MianTabBarViewController alloc]init];
     //_window.rootViewController = mainTabbar;
 }
@@ -381,7 +375,7 @@ void UncaughtExceptionHandler(NSException * exception) {
     }
     return @"";
 }
-
+ 
 
 - (void)jumpToLogin {
     NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];

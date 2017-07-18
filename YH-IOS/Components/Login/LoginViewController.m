@@ -201,8 +201,8 @@
     CLLocationCoordinate2D oldCoordinate = newLocation.coordinate;
     
     NSLog(@"旧的经度：%f,旧的纬度：%f",oldCoordinate.longitude,oldCoordinate.latitude);
-    self.userlatitude = [NSString stringWithFormat:@"%.14f",oldCoordinate.latitude];
-    self.userLongitude = [NSString stringWithFormat:@"%.14f", oldCoordinate.longitude];
+    self.userlatitude = [NSString stringWithFormat:@"%.6f",oldCoordinate.latitude];
+    self.userLongitude = [NSString stringWithFormat:@"%.6f", oldCoordinate.longitude];
     //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
     [manager stopUpdatingLocation];
     
@@ -313,7 +313,7 @@
         return;
     }
     [self showProgressHUD:@"验证中"];
-    NSString *coordianteString = [NSString stringWithFormat:@"%@|%@",self.userLongitude,self.userlatitude];
+    NSString *coordianteString = [NSString stringWithFormat:@"%@,%@",self.userLongitude,self.userlatitude];
     [[NSUserDefaults standardUserDefaults] setObject:coordianteString forKey:@"USERLOCATION"];
     NSString *msg = [APIHelper userAuthentication:self.userNameText.text password:self.userPasswordText.text.md5 coordinate:coordianteString];
     [self.progressHUD hide:YES];
@@ -327,8 +327,10 @@
             
             @try {
                 NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+                NSString *coordianteString = [NSString stringWithFormat:@"%@,%@",self.userLongitude,self.userlatitude];
                 logParams[@"action"]  = @"unlogin";
                 logParams[@"user_name"] = [NSString stringWithFormat:@"%@|;|%@",self.userNameText.text,[self.userPasswordText.text md5]];
+                logParams[@"coordinate"] = coordianteString;
                 logParams[@"platform"] = @"iOS";
                 logParams[@"obj_title"] = msg;
                 logParams[@"app_version"] =[NSString stringWithFormat:@"i%@", [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]];
@@ -346,6 +348,14 @@
     [self showProgressHUD:@"跳转中"];
     [self jumpToDashboardView];
     
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        /*
+         * 用户行为记录, 单独异常处理，不可影响用户体验
+         */
+        NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+        logParams[kActionALCName] = @"登录";
+        [APIHelper actionLog:logParams];
+    });
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{

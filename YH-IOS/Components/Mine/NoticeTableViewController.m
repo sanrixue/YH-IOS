@@ -19,6 +19,7 @@
 #import "CustomCell.h"
 #import "User.h"
 #import "RightSwitchTableViewCell.h"
+#import "APIHelper.h"
 
 @interface NoticeTableViewController ()<UITableViewDelegate,UITableViewDataSource,RightSwitchCellDelegate>
 {
@@ -342,7 +343,16 @@
       NoticeDetailViewController *detailCtrl = [[NoticeDetailViewController alloc]init];
        detailCtrl.title = @"公告详情";
        detailCtrl.noticeID =[NSString stringWithFormat:@"%d" ,self.dataArray[indexPath.row].noticeID];
-          [self.navigationController pushViewController:detailCtrl animated:YES];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[kActionALCName] = @"点击/公告预警";
+            logParams[kObjIDALCName] = [NSString stringWithFormat:@"%d" ,self.dataArray[indexPath.row].noticeID];
+            [APIHelper actionLog:logParams];
+        });
+       [self.navigationController pushViewController:detailCtrl animated:YES];
     }
 }
 

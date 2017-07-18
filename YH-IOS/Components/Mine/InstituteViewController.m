@@ -11,6 +11,7 @@
 #import "WebViewJavascriptBridge.h"
 #import "User.h"
 #import "YHInstituteDetailViewController.h"
+#import "APIHelper.h"
 
 @interface InstituteViewController ()<UIWebViewDelegate>
 {
@@ -54,6 +55,15 @@
         instiDetail.userId = user.userNum;
         instiDetail.title = data[@"bannerName"];
         UINavigationController *instiDetailNav = [[UINavigationController alloc]initWithRootViewController:instiDetail];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            NSMutableDictionary *logParams = [NSMutableDictionary dictionary];
+            logParams[kActionALCName] = @"点击/数据学院";
+            logParams[kObjIDALCName] = _DataId;
+            [APIHelper actionLog:logParams];
+        });
        [self.navigationController presentViewController: instiDetailNav animated:YES completion:^{
         }];
     }];

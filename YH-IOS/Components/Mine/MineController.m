@@ -197,7 +197,6 @@
     
 }
 
-
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     [self scrollViewDidEndScrollingAnimation:scrollView];
     int index = scrollView.contentOffset.x/scrollView.width;

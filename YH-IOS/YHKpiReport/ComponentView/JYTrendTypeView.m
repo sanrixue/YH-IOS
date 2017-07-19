@@ -23,6 +23,7 @@
         self.backgroundColor = [UIColor clearColor];
         trendArrow = [[UIImageView alloc] initWithFrame:self.bounds];
         [self addSubview:trendArrow];
+        self.arrow = TrendTypeArrowUpRed;
     }
     return self;
 }

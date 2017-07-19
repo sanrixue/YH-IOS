@@ -69,6 +69,8 @@
 #define JYViewHeight CGRectGetHeight(self.bounds)
 #define JYVCWidth CGRectGetWidth(self.view.bounds)
 #define JYVCHeight CGRectGetHeight(self.view.bounds)
+#define JYColor_TextColor_Chief ([UIColor colorWithHexString:@"#595b57"]) // co3
+#define JYColor_TextColor_Minor ([UIColor colorWithHexString:@"#bcbcbc"]) // co4
 
 
 #define JYDefaultMargin (8.0)
@@ -80,6 +82,18 @@
 #define JYColor_ArrowColor_Red ([UIColor colorWithHexString:@"F57658"])
 #define JYColor_ArrowColor_Yellow ([UIColor colorWithHexString:@"f4bc45"])
 #define JYColor_ArrowColor_Green ([UIColor colorWithHexString:@"91c941"])
+#define JYColor_AlertBackgroudColor_BlackGray ([UIColor colorWithHexString:@"434a4d"]) // co6
+#define JYColor_LineColor_LightOrange ([UIColor colorWithHexString:@"f57658"]) //co5
+#define JYColor_BackgroudColor_SubWhite ([UIColor colorWithHexString:@"f8f8f8"]) // co8
+#define JYColor_BackgroudColor_Main ([UIColor colorWithHexString:@"eeeff1"]) // co7
+#define JYColor_LineColor_LightBlue ([UIColor colorWithHexString:@"71a3ed"]) // co14
+#define JYColor_LineColor_LightPurple ([UIColor colorWithHexString:@"a984d3"]) //co16
+#define JYColor_BackgroudColor_White ([UIColor colorWithHexString:@"ffffff"]) //co10
+#define JYColor_LineColor_LightOrange ([UIColor colorWithHexString:@"f57658"]) //co5
 
-
+#define JYColor_BackgroudColor_SubWhite ([UIColor colorWithHexString:@"f8f8f8"]) // co8
+#define JYColor_BackgroudColor_Main ([UIColor colorWithHexString:@"eeeff1"]) // co
+#define JYColor_ThemeColor_LightGreen ([UIColor colorWithHexString:@"51aa38"]) //co1
+#define JYColor_SubColor_LightGreen ([UIColor colorWithHexString:@"91c941"]) //co2
+#define JYColor_ArrowColor_Unkown (JYColor_TextColor_Minor)
 #endif /* PrefixHeader_pch */

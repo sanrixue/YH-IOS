@@ -26,12 +26,52 @@
 		914F3F271EE92BF8004B2C25 /* InstituteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F261EE92BF8004B2C25 /* InstituteViewController.m */; };
 		914F3F2A1EE92C08004B2C25 /* NoticeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */; };
 		914F3F301EE93C78004B2C25 /* MineHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 914F3F2F1EE93C78004B2C25 /* MineHeadView.m */; };
+		915A8CD81F1E0B9400262311 /* JYBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CA51F1E0B9300262311 /* JYBannerView.m */; };
+		915A8CD91F1E0B9400262311 /* JYClickableLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CA71F1E0B9300262311 /* JYClickableLineView.m */; };
+		915A8CDA1F1E0B9400262311 /* JYCompareSaleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CA91F1E0B9300262311 /* JYCompareSaleView.m */; };
+		915A8CE61F1E0B9400262311 /* JYExcelView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CC31F1E0B9400262311 /* JYExcelView.m */; };
+		915A8CE71F1E0B9400262311 /* JYHelpInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CC51F1E0B9400262311 /* JYHelpInfoView.m */; };
+		915A8CE81F1E0B9400262311 /* JYInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CC71F1E0B9400262311 /* JYInfoView.m */; };
+		915A8CE91F1E0B9400262311 /* JYLandscapeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CC91F1E0B9400262311 /* JYLandscapeBarView.m */; };
+		915A8CEA1F1E0B9400262311 /* JYModuleTwoBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CCB1F1E0B9400262311 /* JYModuleTwoBaseView.m */; };
+		915A8CEB1F1E0B9400262311 /* JYModuleTwoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CCD1F1E0B9400262311 /* JYModuleTwoCell.m */; };
+		915A8CEC1F1E0B9400262311 /* JYModuleTwoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CCF1F1E0B9400262311 /* JYModuleTwoView.m */; };
+		915A8CED1F1E0B9400262311 /* JYPortraitBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CD11F1E0B9400262311 /* JYPortraitBarView.m */; };
+		915A8CEE1F1E0B9400262311 /* JYSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CD31F1E0B9400262311 /* JYSheetView.m */; };
+		915A8CEF1F1E0B9400262311 /* JYStatementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CD51F1E0B9400262311 /* JYStatementView.m */; };
+		915A8CF01F1E0B9400262311 /* JYSubSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CD71F1E0B9400262311 /* JYSubSheetView.m */; };
+		915A8D091F1E0BA500262311 /* JYBannerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CF21F1E0BA500262311 /* JYBannerModel.m */; };
+		915A8D0A1F1E0BA500262311 /* JYBargraphModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CF41F1E0BA500262311 /* JYBargraphModel.m */; };
+		915A8D0B1F1E0BA500262311 /* JYChartModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CF61F1E0BA500262311 /* JYChartModel.m */; };
+		915A8D0C1F1E0BA500262311 /* JYExcelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CF81F1E0BA500262311 /* JYExcelModel.m */; };
+		915A8D0D1F1E0BA500262311 /* JYInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CFA1F1E0BA500262311 /* JYInfoModel.m */; };
+		915A8D0E1F1E0BA500262311 /* JYMainDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CFC1F1E0BA500262311 /* JYMainDataModel.m */; };
+		915A8D0F1F1E0BA500262311 /* JYModuleTwoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8CFE1F1E0BA500262311 /* JYModuleTwoModel.m */; };
+		915A8D101F1E0BA500262311 /* JYSeriesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8D001F1E0BA500262311 /* JYSeriesModel.m */; };
+		915A8D111F1E0BA500262311 /* JYSheetModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8D021F1E0BA500262311 /* JYSheetModel.m */; };
+		915A8D121F1E0BA500262311 /* JYSingleValueModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8D041F1E0BA500262311 /* JYSingleValueModel.m */; };
+		915A8D131F1E0BA500262311 /* JYStatementModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8D061F1E0BA500262311 /* JYStatementModel.m */; };
+		915A8D141F1E0BA500262311 /* JYSubDataModlel.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8D081F1E0BA500262311 /* JYSubDataModlel.m */; };
+		915A8D2A1F1E0C7000262311 /* JYHudView.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8D291F1E0C7000262311 /* JYHudView.m */; };
+		915A8D311F1E0F2800262311 /* JYDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 915A8D301F1E0F2800262311 /* JYDemoViewController.m */; };
+		915A8D351F1E106000262311 /* report_v24.json in Resources */ = {isa = PBXBuildFile; fileRef = 915A8D341F1E106000262311 /* report_v24.json */; };
 		9169BC631F00FB9A00419E52 /* GuidePageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9169BC621F00FB9A00419E52 /* GuidePageViewController.m */; };
 		918302631F1B98690039B8CD /* SubjectOutterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 918302621F1B98690039B8CD /* SubjectOutterViewController.m */; };
 		91A751A81EFF953500D1037E /* JYCollectionFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91A751A71EFF953500D1037E /* JYCollectionFooterView.m */; };
 		91B70D5F1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B70D5D1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m */; };
 		91B70D601EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B70D5E1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib */; };
 		91B70D681EF8C84600C02F16 /* JYSigleValueView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B70D671EF8C84600C02F16 /* JYSigleValueView.m */; };
+		91D364091F1F220400CD7159 /* JYAnimationTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D363F41F1F220400CD7159 /* JYAnimationTool.m */; };
+		91D3640A1F1F220400CD7159 /* JYCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D363F61F1F220400CD7159 /* JYCursor.m */; };
+		91D3640B1F1F220400CD7159 /* JYItemManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D363F81F1F220400CD7159 /* JYItemManager.m */; };
+		91D3640C1F1F220400CD7159 /* JYRootScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D363FA1F1F220400CD7159 /* JYRootScrollView.m */; };
+		91D3640D1F1F220400CD7159 /* JYRootScrollViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D363FC1F1F220400CD7159 /* JYRootScrollViewCell.m */; };
+		91D3640E1F1F220400CD7159 /* JYRootScrollViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D363FE1F1F220400CD7159 /* JYRootScrollViewManager.m */; };
+		91D3640F1F1F220400CD7159 /* JYScrollNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D364001F1F220400CD7159 /* JYScrollNavBar.m */; };
+		91D364101F1F220400CD7159 /* JYSortButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D364021F1F220400CD7159 /* JYSortButton.m */; };
+		91D364111F1F220400CD7159 /* JYSortItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D364041F1F220400CD7159 /* JYSortItemView.m */; };
+		91D364121F1F220400CD7159 /* UIColor+RGBA.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D364061F1F220400CD7159 /* UIColor+RGBA.m */; };
+		91D364131F1F220400CD7159 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D364081F1F220400CD7159 /* UIView+Extension.m */; };
 		91D4D66D1F060DBD0087783C /* YHInstituteDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D66C1F060DBD0087783C /* YHInstituteDetailViewController.m */; };
 		91D4D6711F0624DB0087783C /* dist.zip in Resources */ = {isa = PBXBuildFile; fileRef = 91D4D6701F0624DB0087783C /* dist.zip */; };
 		91D4D6741F0634F10087783C /* SelectDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D4D6731F0634F10087783C /* SelectDataModel.m */; };
@@ -405,24 +445,16 @@
 		F68089541D8930C400CDBAF8 /* DropViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68089531D8930C400CDBAF8 /* DropViewController.m */; };
 		F684C0751EA5F16700DBDBD4 /* Charts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F684C0701EA5F15500DBDBD4 /* Charts.framework */; };
 		F684C0761EA5F16700DBDBD4 /* Charts.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F684C0701EA5F15500DBDBD4 /* Charts.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		F68C255B1EC2D4420069C041 /* JYDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25581EC2D4420069C041 /* JYDemoViewController.m */; };
 		F68C255C1EC2D4420069C041 /* JYHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C255A1EC2D4420069C041 /* JYHomeViewController.m */; };
 		F68C25851EC2D44F0069C041 /* JYBaseCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C255E1EC2D44F0069C041 /* JYBaseCollectionViewCell.m */; };
-		F68C25861EC2D44F0069C041 /* JYClickableLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25601EC2D44F0069C041 /* JYClickableLineView.m */; };
 		F68C25871EC2D44F0069C041 /* JYCollectionHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25621EC2D44F0069C041 /* JYCollectionHeader.m */; };
-		F68C25881EC2D44F0069C041 /* JYCompareSaleView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25641EC2D44F0069C041 /* JYCompareSaleView.m */; };
-		F68C25891EC2D44F0069C041 /* JYExcelView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25661EC2D44F0069C041 /* JYExcelView.m */; };
 		F68C258A1EC2D44F0069C041 /* JYFallsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25681EC2D44F0069C041 /* JYFallsCell.m */; };
 		F68C258B1EC2D44F0069C041 /* JYFallsLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C256A1EC2D44F0069C041 /* JYFallsLayout.m */; };
 		F68C258C1EC2D44F0069C041 /* JYFallsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C256C1EC2D44F0069C041 /* JYFallsView.m */; };
 		F68C258D1EC2D44F0069C041 /* JYHistogramView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C256E1EC2D44F0069C041 /* JYHistogramView.m */; };
-		F68C258E1EC2D44F0069C041 /* JYLandscapeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25701EC2D44F0069C041 /* JYLandscapeBarView.m */; };
-		F68C258F1EC2D44F0069C041 /* JYModuleTwoBaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25721EC2D44F0069C041 /* JYModuleTwoBaseView.m */; };
-		F68C25901EC2D44F0069C041 /* JYModuleTwoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25741EC2D44F0069C041 /* JYModuleTwoCell.m */; };
 		F68C25911EC2D44F0069C041 /* JYNumberCircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25761EC2D44F0069C041 /* JYNumberCircleView.m */; };
 		F68C25921EC2D44F0069C041 /* JYNumberLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25781EC2D44F0069C041 /* JYNumberLineView.m */; };
 		F68C25931EC2D44F0069C041 /* JYPercentCircelView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C257A1EC2D44F0069C041 /* JYPercentCircelView.m */; };
-		F68C25941EC2D44F0069C041 /* JYPortraitBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C257C1EC2D44F0069C041 /* JYPortraitBarView.m */; };
 		F68C25951EC2D44F0069C041 /* JYSaleView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C257E1EC2D44F0069C041 /* JYSaleView.m */; };
 		F68C25961EC2D44F0069C041 /* JYTopSinglePage.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25801EC2D44F0069C041 /* JYTopSinglePage.m */; };
 		F68C25971EC2D44F0069C041 /* JYTrendView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25821EC2D44F0069C041 /* JYTrendView.m */; };
@@ -453,7 +485,6 @@
 		F68C25E41EC2D4790069C041 /* JYSectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25CF1EC2D4790069C041 /* JYSectionViewCell.m */; };
 		F68C25E51EC2D4790069C041 /* JYSignView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25D11EC2D4790069C041 /* JYSignView.m */; };
 		F68C25E61EC2D4790069C041 /* JYTrendTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25D31EC2D4790069C041 /* JYTrendTypeView.m */; };
-		F68C25E81EC2DE9D0069C041 /* JYComponentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F68C25E71EC2DE9D0069C041 /* JYComponentViewController.m */; };
 		F68EB9E91DB74CB40020DD17 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = F68EB9E81DB74CB40020DD17 /* LoadingView.m */; };
 		F691E5E41E28835C00BDC73E /* FindPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F691E5E31E28835C00BDC73E /* FindPasswordViewController.m */; };
 		F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F6D749E81DCC767300921C76 /* PcmPlayer.m */; };
@@ -568,6 +599,63 @@
 		914F3F291EE92C08004B2C25 /* NoticeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NoticeTableViewController.m; sourceTree = "<group>"; };
 		914F3F2E1EE93C78004B2C25 /* MineHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineHeadView.h; sourceTree = "<group>"; };
 		914F3F2F1EE93C78004B2C25 /* MineHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineHeadView.m; sourceTree = "<group>"; };
+		915A8CA41F1E0B9300262311 /* JYBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYBannerView.h; path = YHKpiReport/KPICommonView/JYBannerView.h; sourceTree = "<group>"; };
+		915A8CA51F1E0B9300262311 /* JYBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYBannerView.m; path = YHKpiReport/KPICommonView/JYBannerView.m; sourceTree = "<group>"; };
+		915A8CA61F1E0B9300262311 /* JYClickableLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYClickableLineView.h; path = YHKpiReport/KPICommonView/JYClickableLineView.h; sourceTree = "<group>"; };
+		915A8CA71F1E0B9300262311 /* JYClickableLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYClickableLineView.m; path = YHKpiReport/KPICommonView/JYClickableLineView.m; sourceTree = "<group>"; };
+		915A8CA81F1E0B9300262311 /* JYCompareSaleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYCompareSaleView.h; path = YHKpiReport/KPICommonView/JYCompareSaleView.h; sourceTree = "<group>"; };
+		915A8CA91F1E0B9300262311 /* JYCompareSaleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYCompareSaleView.m; path = YHKpiReport/KPICommonView/JYCompareSaleView.m; sourceTree = "<group>"; };
+		915A8CC21F1E0B9400262311 /* JYExcelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYExcelView.h; path = YHKpiReport/KPICommonView/JYExcelView.h; sourceTree = "<group>"; };
+		915A8CC31F1E0B9400262311 /* JYExcelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYExcelView.m; path = YHKpiReport/KPICommonView/JYExcelView.m; sourceTree = "<group>"; };
+		915A8CC41F1E0B9400262311 /* JYHelpInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYHelpInfoView.h; path = YHKpiReport/KPICommonView/JYHelpInfoView.h; sourceTree = "<group>"; };
+		915A8CC51F1E0B9400262311 /* JYHelpInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYHelpInfoView.m; path = YHKpiReport/KPICommonView/JYHelpInfoView.m; sourceTree = "<group>"; };
+		915A8CC61F1E0B9400262311 /* JYInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYInfoView.h; path = YHKpiReport/KPICommonView/JYInfoView.h; sourceTree = "<group>"; };
+		915A8CC71F1E0B9400262311 /* JYInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYInfoView.m; path = YHKpiReport/KPICommonView/JYInfoView.m; sourceTree = "<group>"; };
+		915A8CC81F1E0B9400262311 /* JYLandscapeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYLandscapeBarView.h; path = YHKpiReport/KPICommonView/JYLandscapeBarView.h; sourceTree = "<group>"; };
+		915A8CC91F1E0B9400262311 /* JYLandscapeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYLandscapeBarView.m; path = YHKpiReport/KPICommonView/JYLandscapeBarView.m; sourceTree = "<group>"; };
+		915A8CCA1F1E0B9400262311 /* JYModuleTwoBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYModuleTwoBaseView.h; path = YHKpiReport/KPICommonView/JYModuleTwoBaseView.h; sourceTree = "<group>"; };
+		915A8CCB1F1E0B9400262311 /* JYModuleTwoBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYModuleTwoBaseView.m; path = YHKpiReport/KPICommonView/JYModuleTwoBaseView.m; sourceTree = "<group>"; };
+		915A8CCC1F1E0B9400262311 /* JYModuleTwoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYModuleTwoCell.h; path = YHKpiReport/KPICommonView/JYModuleTwoCell.h; sourceTree = "<group>"; };
+		915A8CCD1F1E0B9400262311 /* JYModuleTwoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYModuleTwoCell.m; path = YHKpiReport/KPICommonView/JYModuleTwoCell.m; sourceTree = "<group>"; };
+		915A8CCE1F1E0B9400262311 /* JYModuleTwoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYModuleTwoView.h; path = YHKpiReport/KPICommonView/JYModuleTwoView.h; sourceTree = "<group>"; };
+		915A8CCF1F1E0B9400262311 /* JYModuleTwoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYModuleTwoView.m; path = YHKpiReport/KPICommonView/JYModuleTwoView.m; sourceTree = "<group>"; };
+		915A8CD01F1E0B9400262311 /* JYPortraitBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYPortraitBarView.h; path = YHKpiReport/KPICommonView/JYPortraitBarView.h; sourceTree = "<group>"; };
+		915A8CD11F1E0B9400262311 /* JYPortraitBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYPortraitBarView.m; path = YHKpiReport/KPICommonView/JYPortraitBarView.m; sourceTree = "<group>"; };
+		915A8CD21F1E0B9400262311 /* JYSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYSheetView.h; path = YHKpiReport/KPICommonView/JYSheetView.h; sourceTree = "<group>"; };
+		915A8CD31F1E0B9400262311 /* JYSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYSheetView.m; path = YHKpiReport/KPICommonView/JYSheetView.m; sourceTree = "<group>"; };
+		915A8CD41F1E0B9400262311 /* JYStatementView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYStatementView.h; path = YHKpiReport/KPICommonView/JYStatementView.h; sourceTree = "<group>"; };
+		915A8CD51F1E0B9400262311 /* JYStatementView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYStatementView.m; path = YHKpiReport/KPICommonView/JYStatementView.m; sourceTree = "<group>"; };
+		915A8CD61F1E0B9400262311 /* JYSubSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYSubSheetView.h; path = YHKpiReport/KPICommonView/JYSubSheetView.h; sourceTree = "<group>"; };
+		915A8CD71F1E0B9400262311 /* JYSubSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYSubSheetView.m; path = YHKpiReport/KPICommonView/JYSubSheetView.m; sourceTree = "<group>"; };
+		915A8CF11F1E0BA500262311 /* JYBannerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYBannerModel.h; path = YHKpiReport/Model/JYBannerModel.h; sourceTree = "<group>"; };
+		915A8CF21F1E0BA500262311 /* JYBannerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYBannerModel.m; path = YHKpiReport/Model/JYBannerModel.m; sourceTree = "<group>"; };
+		915A8CF31F1E0BA500262311 /* JYBargraphModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYBargraphModel.h; path = YHKpiReport/Model/JYBargraphModel.h; sourceTree = "<group>"; };
+		915A8CF41F1E0BA500262311 /* JYBargraphModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYBargraphModel.m; path = YHKpiReport/Model/JYBargraphModel.m; sourceTree = "<group>"; };
+		915A8CF51F1E0BA500262311 /* JYChartModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYChartModel.h; path = YHKpiReport/Model/JYChartModel.h; sourceTree = "<group>"; };
+		915A8CF61F1E0BA500262311 /* JYChartModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYChartModel.m; path = YHKpiReport/Model/JYChartModel.m; sourceTree = "<group>"; };
+		915A8CF71F1E0BA500262311 /* JYExcelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYExcelModel.h; path = YHKpiReport/Model/JYExcelModel.h; sourceTree = "<group>"; };
+		915A8CF81F1E0BA500262311 /* JYExcelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYExcelModel.m; path = YHKpiReport/Model/JYExcelModel.m; sourceTree = "<group>"; };
+		915A8CF91F1E0BA500262311 /* JYInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYInfoModel.h; path = YHKpiReport/Model/JYInfoModel.h; sourceTree = "<group>"; };
+		915A8CFA1F1E0BA500262311 /* JYInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYInfoModel.m; path = YHKpiReport/Model/JYInfoModel.m; sourceTree = "<group>"; };
+		915A8CFB1F1E0BA500262311 /* JYMainDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYMainDataModel.h; path = YHKpiReport/Model/JYMainDataModel.h; sourceTree = "<group>"; };
+		915A8CFC1F1E0BA500262311 /* JYMainDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYMainDataModel.m; path = YHKpiReport/Model/JYMainDataModel.m; sourceTree = "<group>"; };
+		915A8CFD1F1E0BA500262311 /* JYModuleTwoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYModuleTwoModel.h; path = YHKpiReport/Model/JYModuleTwoModel.h; sourceTree = "<group>"; };
+		915A8CFE1F1E0BA500262311 /* JYModuleTwoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYModuleTwoModel.m; path = YHKpiReport/Model/JYModuleTwoModel.m; sourceTree = "<group>"; };
+		915A8CFF1F1E0BA500262311 /* JYSeriesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYSeriesModel.h; path = YHKpiReport/Model/JYSeriesModel.h; sourceTree = "<group>"; };
+		915A8D001F1E0BA500262311 /* JYSeriesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYSeriesModel.m; path = YHKpiReport/Model/JYSeriesModel.m; sourceTree = "<group>"; };
+		915A8D011F1E0BA500262311 /* JYSheetModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYSheetModel.h; path = YHKpiReport/Model/JYSheetModel.h; sourceTree = "<group>"; };
+		915A8D021F1E0BA500262311 /* JYSheetModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYSheetModel.m; path = YHKpiReport/Model/JYSheetModel.m; sourceTree = "<group>"; };
+		915A8D031F1E0BA500262311 /* JYSingleValueModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYSingleValueModel.h; path = YHKpiReport/Model/JYSingleValueModel.h; sourceTree = "<group>"; };
+		915A8D041F1E0BA500262311 /* JYSingleValueModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYSingleValueModel.m; path = YHKpiReport/Model/JYSingleValueModel.m; sourceTree = "<group>"; };
+		915A8D051F1E0BA500262311 /* JYStatementModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYStatementModel.h; path = YHKpiReport/Model/JYStatementModel.h; sourceTree = "<group>"; };
+		915A8D061F1E0BA500262311 /* JYStatementModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYStatementModel.m; path = YHKpiReport/Model/JYStatementModel.m; sourceTree = "<group>"; };
+		915A8D071F1E0BA500262311 /* JYSubDataModlel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYSubDataModlel.h; path = YHKpiReport/Model/JYSubDataModlel.h; sourceTree = "<group>"; };
+		915A8D081F1E0BA500262311 /* JYSubDataModlel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYSubDataModlel.m; path = YHKpiReport/Model/JYSubDataModlel.m; sourceTree = "<group>"; };
+		915A8D281F1E0C7000262311 /* JYHudView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYHudView.h; path = YHKpiReport/JYHudView.h; sourceTree = "<group>"; };
+		915A8D291F1E0C7000262311 /* JYHudView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYHudView.m; path = YHKpiReport/JYHudView.m; sourceTree = "<group>"; };
+		915A8D2F1F1E0F2800262311 /* JYDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYDemoViewController.h; path = YHKpiReport/JYDemoViewController.h; sourceTree = "<group>"; };
+		915A8D301F1E0F2800262311 /* JYDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYDemoViewController.m; path = YHKpiReport/JYDemoViewController.m; sourceTree = "<group>"; };
+		915A8D341F1E106000262311 /* report_v24.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = report_v24.json; path = YHKpiReport/report_v24.json; sourceTree = "<group>"; };
 		9169BC611F00FB9A00419E52 /* GuidePageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuidePageViewController.h; path = Login/GuidePageViewController.h; sourceTree = "<group>"; };
 		9169BC621F00FB9A00419E52 /* GuidePageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuidePageViewController.m; path = Login/GuidePageViewController.m; sourceTree = "<group>"; };
 		918302611F1B98690039B8CD /* SubjectOutterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectOutterViewController.h; sourceTree = "<group>"; };
@@ -579,6 +667,28 @@
 		91B70D5E1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YHReportLeftTextTableViewCell.xib; sourceTree = "<group>"; };
 		91B70D661EF8C84600C02F16 /* JYSigleValueView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYSigleValueView.h; sourceTree = "<group>"; };
 		91B70D671EF8C84600C02F16 /* JYSigleValueView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYSigleValueView.m; sourceTree = "<group>"; };
+		91D363F31F1F220400CD7159 /* JYAnimationTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYAnimationTool.h; path = YHKpiReport/KPICommonView/JYAnimationTool.h; sourceTree = "<group>"; };
+		91D363F41F1F220400CD7159 /* JYAnimationTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYAnimationTool.m; path = YHKpiReport/KPICommonView/JYAnimationTool.m; sourceTree = "<group>"; };
+		91D363F51F1F220400CD7159 /* JYCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYCursor.h; path = YHKpiReport/KPICommonView/JYCursor.h; sourceTree = "<group>"; };
+		91D363F61F1F220400CD7159 /* JYCursor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYCursor.m; path = YHKpiReport/KPICommonView/JYCursor.m; sourceTree = "<group>"; };
+		91D363F71F1F220400CD7159 /* JYItemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYItemManager.h; path = YHKpiReport/KPICommonView/JYItemManager.h; sourceTree = "<group>"; };
+		91D363F81F1F220400CD7159 /* JYItemManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYItemManager.m; path = YHKpiReport/KPICommonView/JYItemManager.m; sourceTree = "<group>"; };
+		91D363F91F1F220400CD7159 /* JYRootScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYRootScrollView.h; path = YHKpiReport/KPICommonView/JYRootScrollView.h; sourceTree = "<group>"; };
+		91D363FA1F1F220400CD7159 /* JYRootScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYRootScrollView.m; path = YHKpiReport/KPICommonView/JYRootScrollView.m; sourceTree = "<group>"; };
+		91D363FB1F1F220400CD7159 /* JYRootScrollViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYRootScrollViewCell.h; path = YHKpiReport/KPICommonView/JYRootScrollViewCell.h; sourceTree = "<group>"; };
+		91D363FC1F1F220400CD7159 /* JYRootScrollViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYRootScrollViewCell.m; path = YHKpiReport/KPICommonView/JYRootScrollViewCell.m; sourceTree = "<group>"; };
+		91D363FD1F1F220400CD7159 /* JYRootScrollViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYRootScrollViewManager.h; path = YHKpiReport/KPICommonView/JYRootScrollViewManager.h; sourceTree = "<group>"; };
+		91D363FE1F1F220400CD7159 /* JYRootScrollViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYRootScrollViewManager.m; path = YHKpiReport/KPICommonView/JYRootScrollViewManager.m; sourceTree = "<group>"; };
+		91D363FF1F1F220400CD7159 /* JYScrollNavBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYScrollNavBar.h; path = YHKpiReport/KPICommonView/JYScrollNavBar.h; sourceTree = "<group>"; };
+		91D364001F1F220400CD7159 /* JYScrollNavBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYScrollNavBar.m; path = YHKpiReport/KPICommonView/JYScrollNavBar.m; sourceTree = "<group>"; };
+		91D364011F1F220400CD7159 /* JYSortButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYSortButton.h; path = YHKpiReport/KPICommonView/JYSortButton.h; sourceTree = "<group>"; };
+		91D364021F1F220400CD7159 /* JYSortButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYSortButton.m; path = YHKpiReport/KPICommonView/JYSortButton.m; sourceTree = "<group>"; };
+		91D364031F1F220400CD7159 /* JYSortItemView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYSortItemView.h; path = YHKpiReport/KPICommonView/JYSortItemView.h; sourceTree = "<group>"; };
+		91D364041F1F220400CD7159 /* JYSortItemView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYSortItemView.m; path = YHKpiReport/KPICommonView/JYSortItemView.m; sourceTree = "<group>"; };
+		91D364051F1F220400CD7159 /* UIColor+RGBA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+RGBA.h"; path = "YHKpiReport/KPICommonView/UIColor+RGBA.h"; sourceTree = "<group>"; };
+		91D364061F1F220400CD7159 /* UIColor+RGBA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+RGBA.m"; path = "YHKpiReport/KPICommonView/UIColor+RGBA.m"; sourceTree = "<group>"; };
+		91D364071F1F220400CD7159 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+Extension.h"; path = "YHKpiReport/KPICommonView/UIView+Extension.h"; sourceTree = "<group>"; };
+		91D364081F1F220400CD7159 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+Extension.m"; path = "YHKpiReport/KPICommonView/UIView+Extension.m"; sourceTree = "<group>"; };
 		91D4D66B1F060DBD0087783C /* YHInstituteDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHInstituteDetailViewController.h; sourceTree = "<group>"; };
 		91D4D66C1F060DBD0087783C /* YHInstituteDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHInstituteDetailViewController.m; sourceTree = "<group>"; };
 		91D4D6701F0624DB0087783C /* dist.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = dist.zip; sourceTree = "<group>"; };
@@ -1238,21 +1348,12 @@
 		F684BF6A1EA5E21100DBDBD4 /* YH-IOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "YH-IOS-Bridging-Header.h"; sourceTree = "<group>"; };
 		F684C05A1EA5E34900DBDBD4 /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		F684C0691EA5F15400DBDBD4 /* Charts.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Charts.xcodeproj; path = "Charts-master/Charts.xcodeproj"; sourceTree = SOURCE_ROOT; };
-		F68C25561EC2D4420069C041 /* JYComponentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYComponentViewController.h; path = YHKpiReport/JYComponentViewController.h; sourceTree = "<group>"; };
-		F68C25571EC2D4420069C041 /* JYDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYDemoViewController.h; path = YHKpiReport/JYDemoViewController.h; sourceTree = "<group>"; };
-		F68C25581EC2D4420069C041 /* JYDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYDemoViewController.m; path = YHKpiReport/JYDemoViewController.m; sourceTree = "<group>"; };
 		F68C25591EC2D4420069C041 /* JYHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYHomeViewController.h; path = YHKpiReport/JYHomeViewController.h; sourceTree = "<group>"; };
 		F68C255A1EC2D4420069C041 /* JYHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYHomeViewController.m; path = YHKpiReport/JYHomeViewController.m; sourceTree = "<group>"; };
 		F68C255D1EC2D44F0069C041 /* JYBaseCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYBaseCollectionViewCell.h; path = YHKpiReport/KPICommonView/JYBaseCollectionViewCell.h; sourceTree = "<group>"; };
 		F68C255E1EC2D44F0069C041 /* JYBaseCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYBaseCollectionViewCell.m; path = YHKpiReport/KPICommonView/JYBaseCollectionViewCell.m; sourceTree = "<group>"; };
-		F68C255F1EC2D44F0069C041 /* JYClickableLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYClickableLineView.h; path = YHKpiReport/KPICommonView/JYClickableLineView.h; sourceTree = "<group>"; };
-		F68C25601EC2D44F0069C041 /* JYClickableLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYClickableLineView.m; path = YHKpiReport/KPICommonView/JYClickableLineView.m; sourceTree = "<group>"; };
 		F68C25611EC2D44F0069C041 /* JYCollectionHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYCollectionHeader.h; path = YHKpiReport/KPICommonView/JYCollectionHeader.h; sourceTree = "<group>"; };
 		F68C25621EC2D44F0069C041 /* JYCollectionHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYCollectionHeader.m; path = YHKpiReport/KPICommonView/JYCollectionHeader.m; sourceTree = "<group>"; };
-		F68C25631EC2D44F0069C041 /* JYCompareSaleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYCompareSaleView.h; path = YHKpiReport/KPICommonView/JYCompareSaleView.h; sourceTree = "<group>"; };
-		F68C25641EC2D44F0069C041 /* JYCompareSaleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYCompareSaleView.m; path = YHKpiReport/KPICommonView/JYCompareSaleView.m; sourceTree = "<group>"; };
-		F68C25651EC2D44F0069C041 /* JYExcelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYExcelView.h; path = YHKpiReport/KPICommonView/JYExcelView.h; sourceTree = "<group>"; };
-		F68C25661EC2D44F0069C041 /* JYExcelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYExcelView.m; path = YHKpiReport/KPICommonView/JYExcelView.m; sourceTree = "<group>"; };
 		F68C25671EC2D44F0069C041 /* JYFallsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYFallsCell.h; path = YHKpiReport/KPICommonView/JYFallsCell.h; sourceTree = "<group>"; };
 		F68C25681EC2D44F0069C041 /* JYFallsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYFallsCell.m; path = YHKpiReport/KPICommonView/JYFallsCell.m; sourceTree = "<group>"; };
 		F68C25691EC2D44F0069C041 /* JYFallsLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYFallsLayout.h; path = YHKpiReport/KPICommonView/JYFallsLayout.h; sourceTree = "<group>"; };
@@ -1261,20 +1362,12 @@
 		F68C256C1EC2D44F0069C041 /* JYFallsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYFallsView.m; path = YHKpiReport/KPICommonView/JYFallsView.m; sourceTree = "<group>"; };
 		F68C256D1EC2D44F0069C041 /* JYHistogramView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYHistogramView.h; path = YHKpiReport/KPICommonView/JYHistogramView.h; sourceTree = "<group>"; };
 		F68C256E1EC2D44F0069C041 /* JYHistogramView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYHistogramView.m; path = YHKpiReport/KPICommonView/JYHistogramView.m; sourceTree = "<group>"; };
-		F68C256F1EC2D44F0069C041 /* JYLandscapeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYLandscapeBarView.h; path = YHKpiReport/KPICommonView/JYLandscapeBarView.h; sourceTree = "<group>"; };
-		F68C25701EC2D44F0069C041 /* JYLandscapeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYLandscapeBarView.m; path = YHKpiReport/KPICommonView/JYLandscapeBarView.m; sourceTree = "<group>"; };
-		F68C25711EC2D44F0069C041 /* JYModuleTwoBaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYModuleTwoBaseView.h; path = YHKpiReport/KPICommonView/JYModuleTwoBaseView.h; sourceTree = "<group>"; };
-		F68C25721EC2D44F0069C041 /* JYModuleTwoBaseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYModuleTwoBaseView.m; path = YHKpiReport/KPICommonView/JYModuleTwoBaseView.m; sourceTree = "<group>"; };
-		F68C25731EC2D44F0069C041 /* JYModuleTwoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYModuleTwoCell.h; path = YHKpiReport/KPICommonView/JYModuleTwoCell.h; sourceTree = "<group>"; };
-		F68C25741EC2D44F0069C041 /* JYModuleTwoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYModuleTwoCell.m; path = YHKpiReport/KPICommonView/JYModuleTwoCell.m; sourceTree = "<group>"; };
 		F68C25751EC2D44F0069C041 /* JYNumberCircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYNumberCircleView.h; path = YHKpiReport/KPICommonView/JYNumberCircleView.h; sourceTree = "<group>"; };
 		F68C25761EC2D44F0069C041 /* JYNumberCircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYNumberCircleView.m; path = YHKpiReport/KPICommonView/JYNumberCircleView.m; sourceTree = "<group>"; };
 		F68C25771EC2D44F0069C041 /* JYNumberLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYNumberLineView.h; path = YHKpiReport/KPICommonView/JYNumberLineView.h; sourceTree = "<group>"; };
 		F68C25781EC2D44F0069C041 /* JYNumberLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYNumberLineView.m; path = YHKpiReport/KPICommonView/JYNumberLineView.m; sourceTree = "<group>"; };
 		F68C25791EC2D44F0069C041 /* JYPercentCircelView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYPercentCircelView.h; path = YHKpiReport/KPICommonView/JYPercentCircelView.h; sourceTree = "<group>"; };
 		F68C257A1EC2D44F0069C041 /* JYPercentCircelView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYPercentCircelView.m; path = YHKpiReport/KPICommonView/JYPercentCircelView.m; sourceTree = "<group>"; };
-		F68C257B1EC2D44F0069C041 /* JYPortraitBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYPortraitBarView.h; path = YHKpiReport/KPICommonView/JYPortraitBarView.h; sourceTree = "<group>"; };
-		F68C257C1EC2D44F0069C041 /* JYPortraitBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYPortraitBarView.m; path = YHKpiReport/KPICommonView/JYPortraitBarView.m; sourceTree = "<group>"; };
 		F68C257D1EC2D44F0069C041 /* JYSaleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYSaleView.h; path = YHKpiReport/KPICommonView/JYSaleView.h; sourceTree = "<group>"; };
 		F68C257E1EC2D44F0069C041 /* JYSaleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYSaleView.m; path = YHKpiReport/KPICommonView/JYSaleView.m; sourceTree = "<group>"; };
 		F68C257F1EC2D44F0069C041 /* JYTopSinglePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYTopSinglePage.h; path = YHKpiReport/KPICommonView/JYTopSinglePage.h; sourceTree = "<group>"; };
@@ -1335,7 +1428,6 @@
 		F68C25D11EC2D4790069C041 /* JYSignView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYSignView.m; path = YHKpiReport/ComponentView/JYSignView.m; sourceTree = "<group>"; };
 		F68C25D21EC2D4790069C041 /* JYTrendTypeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYTrendTypeView.h; path = YHKpiReport/ComponentView/JYTrendTypeView.h; sourceTree = "<group>"; };
 		F68C25D31EC2D4790069C041 /* JYTrendTypeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYTrendTypeView.m; path = YHKpiReport/ComponentView/JYTrendTypeView.m; sourceTree = "<group>"; };
-		F68C25E71EC2DE9D0069C041 /* JYComponentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYComponentViewController.m; path = YHKpiReport/JYComponentViewController.m; sourceTree = "<group>"; };
 		F68EB9E71DB74CB40020DD17 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
 		F68EB9E81DB74CB40020DD17 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		F691E5E21E28835C00BDC73E /* FindPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FindPasswordViewController.h; sourceTree = "<group>"; };
@@ -2996,11 +3088,12 @@
 		F656DEED1EC00F8D00DECD7F /* YHKpiReport */ = {
 			isa = PBXGroup;
 			children = (
+				915A8D341F1E106000262311 /* report_v24.json */,
+				915A8D2F1F1E0F2800262311 /* JYDemoViewController.h */,
+				915A8D301F1E0F2800262311 /* JYDemoViewController.m */,
+				915A8D281F1E0C7000262311 /* JYHudView.h */,
+				915A8D291F1E0C7000262311 /* JYHudView.m */,
 				91E6CF921EFB6B8C00507B7E /* SDCycleScrollView */,
-				F68C25E71EC2DE9D0069C041 /* JYComponentViewController.m */,
-				F68C25561EC2D4420069C041 /* JYComponentViewController.h */,
-				F68C25571EC2D4420069C041 /* JYDemoViewController.h */,
-				F68C25581EC2D4420069C041 /* JYDemoViewController.m */,
 				F68C25591EC2D4420069C041 /* JYHomeViewController.h */,
 				F68C255A1EC2D4420069C041 /* JYHomeViewController.m */,
 				F6025C8B1EC4477B0025CC71 /* JYBaseViewController.h */,
@@ -3062,6 +3155,30 @@
 		F656DF271EC013BE00DECD7F /* YHKpiModel */ = {
 			isa = PBXGroup;
 			children = (
+				915A8CF11F1E0BA500262311 /* JYBannerModel.h */,
+				915A8CF21F1E0BA500262311 /* JYBannerModel.m */,
+				915A8CF31F1E0BA500262311 /* JYBargraphModel.h */,
+				915A8CF41F1E0BA500262311 /* JYBargraphModel.m */,
+				915A8CF51F1E0BA500262311 /* JYChartModel.h */,
+				915A8CF61F1E0BA500262311 /* JYChartModel.m */,
+				915A8CF71F1E0BA500262311 /* JYExcelModel.h */,
+				915A8CF81F1E0BA500262311 /* JYExcelModel.m */,
+				915A8CF91F1E0BA500262311 /* JYInfoModel.h */,
+				915A8CFA1F1E0BA500262311 /* JYInfoModel.m */,
+				915A8CFB1F1E0BA500262311 /* JYMainDataModel.h */,
+				915A8CFC1F1E0BA500262311 /* JYMainDataModel.m */,
+				915A8CFD1F1E0BA500262311 /* JYModuleTwoModel.h */,
+				915A8CFE1F1E0BA500262311 /* JYModuleTwoModel.m */,
+				915A8CFF1F1E0BA500262311 /* JYSeriesModel.h */,
+				915A8D001F1E0BA500262311 /* JYSeriesModel.m */,
+				915A8D011F1E0BA500262311 /* JYSheetModel.h */,
+				915A8D021F1E0BA500262311 /* JYSheetModel.m */,
+				915A8D031F1E0BA500262311 /* JYSingleValueModel.h */,
+				915A8D041F1E0BA500262311 /* JYSingleValueModel.m */,
+				915A8D051F1E0BA500262311 /* JYStatementModel.h */,
+				915A8D061F1E0BA500262311 /* JYStatementModel.m */,
+				915A8D071F1E0BA500262311 /* JYSubDataModlel.h */,
+				915A8D081F1E0BA500262311 /* JYSubDataModlel.m */,
 				F68C25A21EC2D4670069C041 /* JYBaseModel.h */,
 				F68C25A31EC2D4670069C041 /* JYBaseModel.m */,
 				F68C25A41EC2D4670069C041 /* JYComponentModel.h */,
@@ -3092,20 +3209,64 @@
 		F656DF3E1EC0140600DECD7F /* YHKpiCommon */ = {
 			isa = PBXGroup;
 			children = (
+				91D363F31F1F220400CD7159 /* JYAnimationTool.h */,
+				91D363F41F1F220400CD7159 /* JYAnimationTool.m */,
+				91D363F51F1F220400CD7159 /* JYCursor.h */,
+				91D363F61F1F220400CD7159 /* JYCursor.m */,
+				91D363F71F1F220400CD7159 /* JYItemManager.h */,
+				91D363F81F1F220400CD7159 /* JYItemManager.m */,
+				91D363F91F1F220400CD7159 /* JYRootScrollView.h */,
+				91D363FA1F1F220400CD7159 /* JYRootScrollView.m */,
+				91D363FB1F1F220400CD7159 /* JYRootScrollViewCell.h */,
+				91D363FC1F1F220400CD7159 /* JYRootScrollViewCell.m */,
+				91D363FD1F1F220400CD7159 /* JYRootScrollViewManager.h */,
+				91D363FE1F1F220400CD7159 /* JYRootScrollViewManager.m */,
+				91D363FF1F1F220400CD7159 /* JYScrollNavBar.h */,
+				91D364001F1F220400CD7159 /* JYScrollNavBar.m */,
+				91D364011F1F220400CD7159 /* JYSortButton.h */,
+				91D364021F1F220400CD7159 /* JYSortButton.m */,
+				91D364031F1F220400CD7159 /* JYSortItemView.h */,
+				91D364041F1F220400CD7159 /* JYSortItemView.m */,
+				91D364051F1F220400CD7159 /* UIColor+RGBA.h */,
+				91D364061F1F220400CD7159 /* UIColor+RGBA.m */,
+				91D364071F1F220400CD7159 /* UIView+Extension.h */,
+				91D364081F1F220400CD7159 /* UIView+Extension.m */,
+				915A8CA41F1E0B9300262311 /* JYBannerView.h */,
+				915A8CA51F1E0B9300262311 /* JYBannerView.m */,
+				915A8CA61F1E0B9300262311 /* JYClickableLineView.h */,
+				915A8CA71F1E0B9300262311 /* JYClickableLineView.m */,
+				915A8CA81F1E0B9300262311 /* JYCompareSaleView.h */,
+				915A8CA91F1E0B9300262311 /* JYCompareSaleView.m */,
+				915A8CC21F1E0B9400262311 /* JYExcelView.h */,
+				915A8CC31F1E0B9400262311 /* JYExcelView.m */,
+				915A8CC41F1E0B9400262311 /* JYHelpInfoView.h */,
+				915A8CC51F1E0B9400262311 /* JYHelpInfoView.m */,
+				915A8CC61F1E0B9400262311 /* JYInfoView.h */,
+				915A8CC71F1E0B9400262311 /* JYInfoView.m */,
+				915A8CC81F1E0B9400262311 /* JYLandscapeBarView.h */,
+				915A8CC91F1E0B9400262311 /* JYLandscapeBarView.m */,
+				915A8CCA1F1E0B9400262311 /* JYModuleTwoBaseView.h */,
+				915A8CCB1F1E0B9400262311 /* JYModuleTwoBaseView.m */,
+				915A8CCC1F1E0B9400262311 /* JYModuleTwoCell.h */,
+				915A8CCD1F1E0B9400262311 /* JYModuleTwoCell.m */,
+				915A8CCE1F1E0B9400262311 /* JYModuleTwoView.h */,
+				915A8CCF1F1E0B9400262311 /* JYModuleTwoView.m */,
+				915A8CD01F1E0B9400262311 /* JYPortraitBarView.h */,
+				915A8CD11F1E0B9400262311 /* JYPortraitBarView.m */,
+				915A8CD21F1E0B9400262311 /* JYSheetView.h */,
+				915A8CD31F1E0B9400262311 /* JYSheetView.m */,
+				915A8CD41F1E0B9400262311 /* JYStatementView.h */,
+				915A8CD51F1E0B9400262311 /* JYStatementView.m */,
+				915A8CD61F1E0B9400262311 /* JYSubSheetView.h */,
+				915A8CD71F1E0B9400262311 /* JYSubSheetView.m */,
 				F68C255D1EC2D44F0069C041 /* JYBaseCollectionViewCell.h */,
 				F68C255E1EC2D44F0069C041 /* JYBaseCollectionViewCell.m */,
-				F68C255F1EC2D44F0069C041 /* JYClickableLineView.h */,
-				F68C25601EC2D44F0069C041 /* JYClickableLineView.m */,
 				F68C25611EC2D44F0069C041 /* JYCollectionHeader.h */,
 				F68C25621EC2D44F0069C041 /* JYCollectionHeader.m */,
 				914465621F04BFB900795E54 /* TopHeaderCollectionReusableView.h */,
 				914465631F04BFB900795E54 /* TopHeaderCollectionReusableView.m */,
 				91A751A61EFF953500D1037E /* JYCollectionFooterView.h */,
 				91A751A71EFF953500D1037E /* JYCollectionFooterView.m */,
-				F68C25631EC2D44F0069C041 /* JYCompareSaleView.h */,
-				F68C25641EC2D44F0069C041 /* JYCompareSaleView.m */,
-				F68C25651EC2D44F0069C041 /* JYExcelView.h */,
-				F68C25661EC2D44F0069C041 /* JYExcelView.m */,
 				F68C25671EC2D44F0069C041 /* JYFallsCell.h */,
 				F68C25681EC2D44F0069C041 /* JYFallsCell.m */,
 				F68C25691EC2D44F0069C041 /* JYFallsLayout.h */,
@@ -3118,20 +3279,12 @@
 				914F0A021EFA47DD0094D13A /* JYSignleValueLoneView.m */,
 				F68C256D1EC2D44F0069C041 /* JYHistogramView.h */,
 				F68C256E1EC2D44F0069C041 /* JYHistogramView.m */,
-				F68C256F1EC2D44F0069C041 /* JYLandscapeBarView.h */,
-				F68C25701EC2D44F0069C041 /* JYLandscapeBarView.m */,
-				F68C25711EC2D44F0069C041 /* JYModuleTwoBaseView.h */,
-				F68C25721EC2D44F0069C041 /* JYModuleTwoBaseView.m */,
-				F68C25731EC2D44F0069C041 /* JYModuleTwoCell.h */,
-				F68C25741EC2D44F0069C041 /* JYModuleTwoCell.m */,
 				F68C25751EC2D44F0069C041 /* JYNumberCircleView.h */,
 				F68C25761EC2D44F0069C041 /* JYNumberCircleView.m */,
 				F68C25771EC2D44F0069C041 /* JYNumberLineView.h */,
 				F68C25781EC2D44F0069C041 /* JYNumberLineView.m */,
 				F68C25791EC2D44F0069C041 /* JYPercentCircelView.h */,
 				F68C257A1EC2D44F0069C041 /* JYPercentCircelView.m */,
-				F68C257B1EC2D44F0069C041 /* JYPortraitBarView.h */,
-				F68C257C1EC2D44F0069C041 /* JYPortraitBarView.m */,
 				F68C257D1EC2D44F0069C041 /* JYSaleView.h */,
 				F68C257E1EC2D44F0069C041 /* JYSaleView.m */,
 				F68C257F1EC2D44F0069C041 /* JYTopSinglePage.h */,
@@ -3510,6 +3663,7 @@
 				F63D49FA1EB329A20004BCC8 /* DoubleClickSuperChartCell.xib in Resources */,
 				F624574F1EA5FBB2006834D2 /* PiePolylineChartViewController.xib in Resources */,
 				F62457391EA5FBB2006834D2 /* CubicLineChartViewController.xib in Resources */,
+				915A8D351F1E106000262311 /* report_v24.json in Resources */,
 				F63D4A081EB329A20004BCC8 /* SelectListVc.xib in Resources */,
 				91DB246E1EEE9A7200FC8413 /* CustomCell.xib in Resources */,
 				F62457551EA5FBB2006834D2 /* ScatterChartViewController.xib in Resources */,
@@ -3632,15 +3786,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				F62457361EA5FBB1006834D2 /* CombinedChartViewController.m in Sources */,
+				915A8D0B1F1E0BA500262311 /* JYChartModel.m in Sources */,
 				91E6CFA81EFB6B8C00507B7E /* TAAnimatedDotView.m in Sources */,
 				91EF8DEB1EF3DB1200333746 /* YHMutileveHeaderView.m in Sources */,
 				F62457E51EA5FD01006834D2 /* DataManager.m in Sources */,
 				C4DB7DC21C02EE3800DA534E /* ExtendNSLogFunctionality.m in Sources */,
 				F62456CA1EA5FB21006834D2 /* HomeIndexItemModel.m in Sources */,
 				91D8C9E51F0B7C2C008A150E /* SelectViewCell.m in Sources */,
+				91D3640D1F1F220400CD7159 /* JYRootScrollViewCell.m in Sources */,
 				F630499B1E9CAFB000831413 /* MainViewController.m in Sources */,
 				F62456D21EA5FB21006834D2 /* YH_BarView.m in Sources */,
-				F68C255B1EC2D4420069C041 /* JYDemoViewController.m in Sources */,
 				F62456411EA5FACD006834D2 /* IQUIWindow+Hierarchy.m in Sources */,
 				F62456C61EA5FB21006834D2 /* HomeIndexDetailListCell.m in Sources */,
 				912833111EE868A50071CE69 /* Person.m in Sources */,
@@ -3655,8 +3810,8 @@
 				F62457E61EA5FD01006834D2 /* PermissionManager.m in Sources */,
 				914F3F241EE92BE7004B2C25 /* MineInfoViewController.m in Sources */,
 				F68C25DC1EC2D4790069C041 /* JYInvertButton.m in Sources */,
+				91D3640A1F1F220400CD7159 /* JYCursor.m in Sources */,
 				F68C25DD1EC2D4790069C041 /* JYLandscapeBar.m in Sources */,
-				F68C25941EC2D44F0069C041 /* JYPortraitBarView.m in Sources */,
 				F68C25851EC2D44F0069C041 /* JYBaseCollectionViewCell.m in Sources */,
 				9169BC631F00FB9A00419E52 /* GuidePageViewController.m in Sources */,
 				F624579E1EA5FBE1006834D2 /* UINavigationBar+Category.m in Sources */,
@@ -3667,6 +3822,7 @@
 				91E6CFAA1EFB6B8C00507B7E /* TAPageControl.m in Sources */,
 				F68C259F1EC2D45D0069C041 /* NSTimer+JYTimer.m in Sources */,
 				F62457A61EA5FBE1006834D2 /* UIView+border.m in Sources */,
+				915A8D101F1E0BA500262311 /* JYSeriesModel.m in Sources */,
 				F62457421EA5FBB2006834D2 /* LineChartFilledViewController.m in Sources */,
 				C46F6A961D0671C900C561CE /* SubLBXScanViewController.m in Sources */,
 				F624573A1EA5FBB2006834D2 /* HalfPieChartViewController.m in Sources */,
@@ -3675,6 +3831,8 @@
 				91DB246D1EEE9A7200FC8413 /* CustomCell.m in Sources */,
 				918302631F1B98690039B8CD /* SubjectOutterViewController.m in Sources */,
 				91DB24531EEE4D3900FC8413 /* MessageNotice.m in Sources */,
+				91D3640E1F1F220400CD7159 /* JYRootScrollViewManager.m in Sources */,
+				915A8D121F1E0BA500262311 /* JYSingleValueModel.m in Sources */,
 				C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */,
 				F62457401EA5FBB2006834D2 /* LineChart2ViewController.m in Sources */,
 				91E6CFAD1EFB6B8C00507B7E /* SDCycleScrollView.m in Sources */,
@@ -3694,6 +3852,7 @@
 				91DB243E1EED7A3000FC8413 /* UINavigationBar+leoAdd.m in Sources */,
 				F62457BA1EA5FC24006834D2 /* TPKeyboardAvoidingScrollView.m in Sources */,
 				F62457901EA5FBE0006834D2 /* BasicTool.mm in Sources */,
+				915A8CEC1F1E0B9400262311 /* JYModuleTwoView.m in Sources */,
 				F68C25D81EC2D4790069C041 /* JYCurveLineView.m in Sources */,
 				F68C25E51EC2D4790069C041 /* JYSignView.m in Sources */,
 				F68C25981EC2D44F0069C041 /* JYWaterLayout.m in Sources */,
@@ -3712,10 +3871,13 @@
 				C40D06B41C917BF80029D142 /* XPathQuery.m in Sources */,
 				F68C258B1EC2D44F0069C041 /* JYFallsLayout.m in Sources */,
 				914465641F04BFB900795E54 /* TopHeaderCollectionReusableView.m in Sources */,
+				91D364091F1F220400CD7159 /* JYAnimationTool.m in Sources */,
+				91D364131F1F220400CD7159 /* UIView+Extension.m in Sources */,
 				F62457E21EA5FD01006834D2 /* AppCacheManger.m in Sources */,
 				91DB24271EED7A3000FC8413 /* PhotoCell.m in Sources */,
 				F68C25DA1EC2D4790069C041 /* JYFreezeWindowView.m in Sources */,
 				F63D4A091EB329A20004BCC8 /* SuperChartModel.m in Sources */,
+				915A8CEE1F1E0B9400262311 /* JYSheetView.m in Sources */,
 				91D77F3C1EEAA61D007405A0 /* RightButtonTableViewCell.m in Sources */,
 				F62457301EA5FBB1006834D2 /* BubbleChartViewController.m in Sources */,
 				F62457441EA5FBB2006834D2 /* LineChartTimeViewController.m in Sources */,
@@ -3737,14 +3899,17 @@
 				F63D4A1A1EB32A3F0004BCC8 /* RTDragCellTableView.m in Sources */,
 				91DB24661EEE99C600FC8413 /* UIView+Category.m in Sources */,
 				F62456C81EA5FB21006834D2 /* HomeIndexDetailListVC.m in Sources */,
+				915A8CE71F1E0B9400262311 /* JYHelpInfoView.m in Sources */,
 				C48924EB1D858F0A00859411 /* ThurSayTableViewCell.m in Sources */,
 				F68C25E31EC2D4790069C041 /* JYRowViewCell.m in Sources */,
 				F62457E81EA5FD01006834D2 /* NSArray+PureLayout.m in Sources */,
+				915A8CE81F1E0B9400262311 /* JYInfoView.m in Sources */,
 				F62457961EA5FBE0006834D2 /* UIAlertView+Category.m in Sources */,
 				914F3F271EE92BF8004B2C25 /* InstituteViewController.m in Sources */,
 				91DB24281EED7A3000FC8413 /* PhotoDetailCell.m in Sources */,
 				C4EFE4BD1C99812B0009411A /* WebViewJavascriptBridge.m in Sources */,
 				F68C25D71EC2D4790069C041 /* JYClickableLine.m in Sources */,
+				915A8D0A1F1E0BA500262311 /* JYBargraphModel.m in Sources */,
 				91DB243B1EED7A3000FC8413 /* PhotoSelectManager.m in Sources */,
 				F62456521EA5FACD006834D2 /* WynCountDownView.m in Sources */,
 				F655484A1E8CE04200B4048C /* PushDevice.m in Sources */,
@@ -3752,21 +3917,24 @@
 				9129DD3D1EF4D60600900611 /* JHCollectionViewLayoutAttributes.m in Sources */,
 				F62457941EA5FBE0006834D2 /* NSString+verification.m in Sources */,
 				F62456431EA5FACD006834D2 /* IQKeyboardReturnKeyHandler.m in Sources */,
+				915A8CEB1F1E0B9400262311 /* JYModuleTwoCell.m in Sources */,
 				F62457381EA5FBB2006834D2 /* CubicLineChartViewController.m in Sources */,
 				F65548431E8CE02100B4048C /* SettingArrayViewController.m in Sources */,
+				91D3640C1F1F220400CD7159 /* JYRootScrollView.m in Sources */,
+				91D364121F1F220400CD7159 /* UIColor+RGBA.m in Sources */,
 				91DB24261EED7A3000FC8413 /* PhotoBaseViewController.m in Sources */,
 				C40D06B31C917BF80029D142 /* TFHppleElement.m in Sources */,
 				F624579F1EA5FBE1006834D2 /* UIScrollView+Size.m in Sources */,
 				F62457981EA5FBE0006834D2 /* UIButton+FillColor.m in Sources */,
 				91D77F261EEA915C007405A0 /* MineNoticeTableViewCell.m in Sources */,
-				F68C25901EC2D44F0069C041 /* JYModuleTwoCell.m in Sources */,
 				F62457EF1EA5FD01006834D2 /* UINavigationBar+Awesome.m in Sources */,
 				F68C25E41EC2D4790069C041 /* JYSectionViewCell.m in Sources */,
+				915A8CD91F1E0B9400262311 /* JYClickableLineView.m in Sources */,
 				F62457EA1EA5FD01006834D2 /* TableViewAndCollectionPackage.m in Sources */,
-				F68C258E1EC2D44F0069C041 /* JYLandscapeBarView.m in Sources */,
 				F62456401EA5FACD006834D2 /* IQUIViewController+Additions.m in Sources */,
 				91DB24451EED7A3000FC8413 /* PhotoGroupViewController.m in Sources */,
 				C48924E71D858F0A00859411 /* OneButtonTableViewCell.m in Sources */,
+				915A8D0D1F1E0BA500262311 /* JYInfoModel.m in Sources */,
 				C4379B571C18232D0058257A /* User.m in Sources */,
 				C4A564E51C2CECC10067516F /* UIWebView+Clean.m in Sources */,
 				91DB24711EEEB7D600FC8413 /* MineRequestListViewController.m in Sources */,
@@ -3776,11 +3944,13 @@
 				F62457E91EA5FD01006834D2 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */,
 				F68C25871EC2D44F0069C041 /* JYCollectionHeader.m in Sources */,
+				915A8CED1F1E0B9400262311 /* JYPortraitBarView.m in Sources */,
 				F6F1C84F1E88BD8C00754034 /* KPIViewController.m in Sources */,
 				F6E1E6901ED66F490094ABA4 /* BaseWebViewController.m in Sources */,
 				F624579A1EA5FBE0006834D2 /* UIColor+Utilities.m in Sources */,
 				F6F1C8551E88BEB900754034 /* AnalysisViewController.m in Sources */,
 				91DB24A91EF25D8500FC8413 /* YHMutileveMenu.m in Sources */,
+				91D3640F1F1F220400CD7159 /* JYScrollNavBar.m in Sources */,
 				91DB235C1EEB98F900FC8413 /* SingleLabelTableViewCell.m in Sources */,
 				C48924E51D858F0A00859411 /* ResetPasswordViewController.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
@@ -3788,14 +3958,15 @@
 				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
 				F62456CC1EA5FB21006834D2 /* HomeIndexVC.m in Sources */,
 				C40D06B21C917BF80029D142 /* TFHpple.m in Sources */,
-				F68C25891EC2D44F0069C041 /* JYExcelView.m in Sources */,
 				F62457A41EA5FBE1006834D2 /* UITextField+Additionals.m in Sources */,
 				F63D4A161EB32A200004BCC8 /* MenuTableViewCell.m in Sources */,
 				F62457A71EA5FBE1006834D2 /* UIView+MJExtension.m in Sources */,
+				915A8D2A1F1E0C7000262311 /* JYHudView.m in Sources */,
 				C4448C6C1C0AE3030053B431 /* HttpUtils.m in Sources */,
 				F63D49FD1EB329A20004BCC8 /* DoubleClickSuperChartVc.m in Sources */,
 				F62456551EA5FACD006834D2 /* FXPageControl.m in Sources */,
 				F6D749EA1DCC767300921C76 /* PcmPlayer.m in Sources */,
+				915A8CEF1F1E0B9400262311 /* JYStatementView.m in Sources */,
 				F62456471EA5FACD006834D2 /* IQTitleBarButtonItem.m in Sources */,
 				F62457521EA5FBB2006834D2 /* RadarChartViewController.m in Sources */,
 				F6F5CBC51D7C157100A1E779 /* UIButton+SettingBadge.m in Sources */,
@@ -3817,6 +3988,7 @@
 				91DB243F1EED7A3000FC8413 /* UIView+building.m in Sources */,
 				C4EFE4BE1C99812B0009411A /* WebViewJavascriptBridgeBase.m in Sources */,
 				F624572C1EA5FBB1006834D2 /* AnotherBarChartViewController.m in Sources */,
+				915A8D111F1E0BA500262311 /* JYSheetModel.m in Sources */,
 				F68C25D91EC2D4790069C041 /* JYFreezeViewCell.m in Sources */,
 				C48924E81D858F0A00859411 /* PgyUpdateTableViewCell.m in Sources */,
 				914509781F02247D00ED82D6 /* Node.m in Sources */,
@@ -3840,20 +4012,20 @@
 				C4DB7DB01C02EC3D00DA534E /* AppDelegate.m in Sources */,
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
 				914F3F211EE92BCE004B2C25 /* MineController.m in Sources */,
+				915A8CD81F1E0B9400262311 /* JYBannerView.m in Sources */,
 				F62457B91EA5FC24006834D2 /* TCBaseAppDelegate.mm in Sources */,
 				F62457A91EA5FBE1006834D2 /* UIViewController+Category.m in Sources */,
 				F68C25951EC2D44F0069C041 /* JYSaleView.m in Sources */,
 				F63D4A0A1EB329A20004BCC8 /* SuperChartVc.m in Sources */,
 				C45D27121C23FC490087C6F2 /* README.md in Sources */,
 				F62457341EA5FBB1006834D2 /* ColoredLineChartViewController.m in Sources */,
-				F68C25881EC2D44F0069C041 /* JYCompareSaleView.m in Sources */,
 				F65548441E8CE02100B4048C /* SettingNormalViewController.m in Sources */,
 				F62457931EA5FBE0006834D2 /* NSString+Category.m in Sources */,
 				F655483E1E8CDF7C00B4048C /* OptionConfigViewController.m in Sources */,
 				C49E1AB31C19632000CFFE3C /* SettingViewController.m in Sources */,
 				F62456D01EA5FB21006834D2 /* ScrollChartsVc.m in Sources */,
+				915A8D141F1E0BA500262311 /* JYSubDataModlel.m in Sources */,
 				F68C25D51EC2D4790069C041 /* JYBlockButton.m in Sources */,
-				F68C25861EC2D44F0069C041 /* JYClickableLineView.m in Sources */,
 				F62457B71EA5FC24006834D2 /* BaseRequest.m in Sources */,
 				F62457A31EA5FBE1006834D2 /* UITableViewCell+Category.m in Sources */,
 				C48DC6FF1C1E8FDD00CECB95 /* Version.m in Sources */,
@@ -3863,6 +4035,7 @@
 				F62456491EA5FACD006834D2 /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				F62457321EA5FBB1006834D2 /* CandleStickChartViewController.m in Sources */,
 				C4C628431C0C1ED6000AD5D8 /* SubjectViewController.m in Sources */,
+				915A8D0E1F1E0BA500262311 /* JYMainDataModel.m in Sources */,
 				F68C25931EC2D44F0069C041 /* JYPercentCircelView.m in Sources */,
 				F68C25E01EC2D4790069C041 /* JYNotifyView.m in Sources */,
 				91B70D5F1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m in Sources */,
@@ -3888,6 +4061,7 @@
 				91EF8DE21EF3B27C00333746 /* YHTopicFooterCollectionReusableView.m in Sources */,
 				F62457581EA5FBB2006834D2 /* StackedBarChartViewController.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,
+				915A8CEA1F1E0B9400262311 /* JYModuleTwoBaseView.m in Sources */,
 				91D77F2E1EEAA1C0007405A0 /* MineResetPwdViewController.m in Sources */,
 				91DB247F1EEFCECE00FC8413 /* UIButton+NewBadge.m in Sources */,
 				91DB243C1EED7A3000FC8413 /* PSMessageDialog.m in Sources */,
@@ -3897,9 +4071,12 @@
 				F624563B1EA5FACD006834D2 /* iCarousel.m in Sources */,
 				F62457991EA5FBE0006834D2 /* UICollectionViewCell+Category.m in Sources */,
 				F6025C8D1EC4477B0025CC71 /* JYBaseViewController.m in Sources */,
+				915A8D0C1F1E0BA500262311 /* JYExcelModel.m in Sources */,
 				F68C258A1EC2D44F0069C041 /* JYFallsCell.m in Sources */,
 				F62456481EA5FACD006834D2 /* IQToolbar.m in Sources */,
+				915A8CE61F1E0B9400262311 /* JYExcelView.m in Sources */,
 				F624563F1EA5FACD006834D2 /* IQUIView+Hierarchy.m in Sources */,
+				91D364111F1F220400CD7159 /* JYSortItemView.m in Sources */,
 				91DB24291EED7A3000FC8413 /* PhotoGroupCell.m in Sources */,
 				91D77F371EEAA4D1007405A0 /* LeftIamgeTableViewCell.m in Sources */,
 				F62456E51EA5FB5D006834D2 /* IntAxisValueFormatter.m in Sources */,
@@ -3911,9 +4088,12 @@
 				F68C25DF1EC2D4790069C041 /* JYMainViewCell.m in Sources */,
 				C46903971D5CC81A00233D05 /* SelectStoreViewController.m in Sources */,
 				9129DD3C1EF4D60600900611 /* JHCollectionViewFlowLayout.m in Sources */,
+				915A8CDA1F1E0B9400262311 /* JYCompareSaleView.m in Sources */,
 				F6EC68D01E53F560008E0B5F /* ManualInputViewController.m in Sources */,
 				914F3F2A1EE92C08004B2C25 /* NoticeTableViewController.m in Sources */,
 				F62456BC1EA5FB21006834D2 /* ChartHeaderViewCell.m in Sources */,
+				915A8CF01F1E0B9400262311 /* JYSubSheetView.m in Sources */,
+				91D364101F1F220400CD7159 /* JYSortButton.m in Sources */,
 				91EF8DD01EF38A1700333746 /* YHTopicViewController.m in Sources */,
 				F68C25AB1EC2D4670069C041 /* JYComponentModel.m in Sources */,
 				F62456451EA5FACD006834D2 /* IQBarButtonItem.m in Sources */,
@@ -3924,6 +4104,7 @@
 				C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */,
 				91D77F161EEA8746007405A0 /* UserCountView.m in Sources */,
 				91EF8DE71EF3BA4D00333746 /* ListPage.m in Sources */,
+				915A8D131F1E0BA500262311 /* JYStatementModel.m in Sources */,
 				C45D27111C23FC490087C6F2 /* OpenUDID.m in Sources */,
 				F6F1C85F1E88C03900754034 /* MianTabBarViewController.m in Sources */,
 				F6F1C8581E88BFA100754034 /* MessageViewController.m in Sources */,
@@ -3938,6 +4119,7 @@
 				91EF8DDD1EF3AD1A00333746 /* YHTopicCollectionHeaderView.m in Sources */,
 				F62456CE1EA5FB21006834D2 /* OneLableCell.m in Sources */,
 				91DA7F021F03B1E5007E25B8 /* RightSwitchTableViewCell.m in Sources */,
+				915A8D311F1E0F2800262311 /* JYDemoViewController.m in Sources */,
 				F62457971EA5FBE0006834D2 /* UIBarButtonItem+Category.m in Sources */,
 				9114619E1EEA63B4006A35AF /* MineInfoTableViewCell.m in Sources */,
 				F62456D41EA5FB21006834D2 /* YH_ScrollTitleLineAndBarVC.m in Sources */,
@@ -3946,14 +4128,15 @@
 				F62456461EA5FACD006834D2 /* IQPreviousNextView.m in Sources */,
 				F62456D61EA5FB21006834D2 /* YHLinechart1Vc.m in Sources */,
 				91E6CFA71EFB6B8C00507B7E /* TAAbstractDotView.m in Sources */,
-				F68C258F1EC2D44F0069C041 /* JYModuleTwoBaseView.m in Sources */,
 				F63D4A021EB329A20004BCC8 /* FilterSuperChartVc.m in Sources */,
 				F62456441EA5FACD006834D2 /* IQTextView.m in Sources */,
 				F624564E1EA5FACD006834D2 /* GUATool.m in Sources */,
 				F62456421EA5FACD006834D2 /* IQKeyboardManager.m in Sources */,
 				F62456571EA5FACD006834D2 /* BHInfiniteScrollViewTitleView.m in Sources */,
+				915A8CE91F1E0B9400262311 /* JYLandscapeBarView.m in Sources */,
 				91DB24AD1EF2840400FC8413 /* YHTopImageCollectionViewCell.m in Sources */,
 				F660A3DB1EB9A9F100C6C510 /* DALabeledCircularProgressView.m in Sources */,
+				915A8D091F1E0BA500262311 /* JYBannerModel.m in Sources */,
 				F63D4A1D1EB32A570004BCC8 /* FormScrollView.m in Sources */,
 				F62457A81EA5FBE1006834D2 /* UIView.m in Sources */,
 				F62456541EA5FACD006834D2 /* BHInfiniteScrollView.m in Sources */,
@@ -3978,10 +4161,11 @@
 				F68C25DB1EC2D4790069C041 /* JYHistogram.m in Sources */,
 				F68C25AC1EC2D4670069C041 /* JYDashboardModel.m in Sources */,
 				C42ECED41D66EE8E00C5F762 /* DropTableViewCell.m in Sources */,
+				91D3640B1F1F220400CD7159 /* JYItemManager.m in Sources */,
 				F624573C1EA5FBB2006834D2 /* HorizontalBarChartViewController.m in Sources */,
+				915A8D0F1F1E0BA500262311 /* JYModuleTwoModel.m in Sources */,
 				F63D4A141EB32A200004BCC8 /* CommonMenuView.m in Sources */,
 				F63D4A071EB329A20004BCC8 /* SelectListVc.m in Sources */,
-				F68C25E81EC2DE9D0069C041 /* JYComponentViewController.m in Sources */,
 				C4A564E31C2CECC10067516F /* NSData+MD5.m in Sources */,
 				91DB235F1EEBBC7600FC8413 /* MineQuestionViewController.m in Sources */,
 				9129DD3B1EF4D60600900611 /* JHCollectionReusableView.m in Sources */,

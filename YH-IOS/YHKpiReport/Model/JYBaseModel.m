@@ -10,7 +10,7 @@
 
 @implementation JYBaseModel
 
-+ (instancetype)modelWithParams:(NSDictionary *)params {
++ (instancetype)modelWithParams:(id)params {
     
     JYBaseModel *model = [[self alloc] init];
     if (model) {
@@ -20,7 +20,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<%@: %p> \n%@", [self class], &self, self.params];
+    return [NSString stringWithFormat:@"<%@: %p>\n%@", [self class], &self, self.params];
 }
 
 - (id)safeObject:(id)obj {
@@ -46,6 +46,7 @@
     else if ([obj isKindOfClass:[NSNull class]]) {
         safeObj = @"";
     }
+    
     
     return safeObj;
 }
@@ -122,21 +123,21 @@
     switch (arrow) {
         case TrendTypeArrowUpRed:
         case TrendTypeArrowDownRed:
-            color = [UIColor colorWithHexString:@"F57658"];
+            color = JYColor_ArrowColor_Red;
             break;
             
         case TrendTypeArrowUpGreen:
         case TrendTypeArrowDownGreen:
-            color = [UIColor colorWithHexString:@"91c941"];
+            color = JYColor_ArrowColor_Green;
             break;
             
         case TrendTypeArrowUpYellow:
         case TrendTypeArrowDownYellow:
-            color = [UIColor colorWithHexString:@"f4bc45"];
+            color = JYColor_ArrowColor_Yellow;
             break;
             
         case TrendTypeArrowNoArrow:
-            color = [UIColor colorWithHexString:@"595b57"];
+            color = JYColor_ArrowColor_Unkown;
             break;
             
         default:

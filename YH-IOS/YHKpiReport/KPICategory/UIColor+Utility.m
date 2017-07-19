@@ -58,5 +58,14 @@
     
 }
 
+- (UIColor *)appendAlpha:(CGFloat)alpha {
+    const CGFloat *compnents = CGColorGetComponents(self.CGColor);
+    CGFloat red = compnents[0];
+    CGFloat green = compnents[1];
+    CGFloat blue = compnents[1];
+    
+    return [UIColor colorWithRed:red green:green blue:blue alpha:alpha];
+}
+
 
 @end

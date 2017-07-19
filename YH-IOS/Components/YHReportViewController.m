@@ -19,6 +19,7 @@
 #import "SubLBXScanViewController.h"
 #import "YHScanStoreViewController.h"
 #import "SubjectOutterViewController.h"
+#import "JYDemoViewController.h"
 
 @interface YHReportViewController ()
 {
@@ -233,7 +234,7 @@
 }
 
 -(void)jumpToStoreScan{
-    YHScanStoreViewController *scanStore = [[YHScanStoreViewController alloc]init];
+    JYDemoViewController *scanStore = [[JYDemoViewController alloc]init];
     [self.navigationController pushViewController:scanStore animated:YES];
 }
 

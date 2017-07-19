@@ -143,11 +143,11 @@
         ([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeBar) {
         itemH = 280;
     }
-    else if (([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeSignleLongValue){
+    else if (([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeSignleLongValue1){
         itemH = 58;
     }
     
-    else if (([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeSignleValue){
+    else if (([self dataForIndexPath:indexPath]).dashboardType == DashBoardTypeSignleValue1){
         itemH = 107;
     }
     else {
@@ -162,11 +162,11 @@
         self.dataSource[section].data[0].dashboardType == DashBoardTypeBar) {
         itemW = 2;
     }
-    else if (self.dataSource[section].data[0].dashboardType == DashBoardTypeSignleLongValue){
+    else if (self.dataSource[section].data[0].dashboardType == DashBoardTypeSignleLongValue1){
         itemW = 1;
     }
     
-    else if (self.dataSource[section].data[0].dashboardType == DashBoardTypeSignleValue){
+    else if (self.dataSource[section].data[0].dashboardType == DashBoardTypeSignleValue1){
         itemW = 2;
     }
     else {

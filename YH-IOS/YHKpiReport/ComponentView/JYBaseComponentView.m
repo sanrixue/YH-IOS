@@ -13,12 +13,16 @@
 - (void)setModel:(JYBaseModel *)model {
     if (![_model isEqual:model]) {
         _model = model;
-        [self refreshSubViewData];
     }
+    [self refreshSubViewData];
 }
 
 - (void)refreshSubViewData {
     
+}
+
+- (CGFloat)estimateViewHeight:(JYBaseModel *)model {
+    return 0;
 }
 
 @end

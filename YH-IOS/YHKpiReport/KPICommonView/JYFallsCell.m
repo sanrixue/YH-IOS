@@ -31,11 +31,11 @@
             self.numberLine.model = self.model;
             [self addSubview:self.numberLine];
             break;
-        case DashBoardTypeSignleValue:
+        case DashBoardTypeSignleValue1:
             self.signleValue.model = self.model;
             [self addSubview:self.signleValue];
             break;
-        case DashBoardTypeSignleLongValue:
+        case DashBoardTypeSignleLongValue1:
             self.signleLongValue.model  = self.model;
             self.signleLongValue.isShow = self.isFirstRow;
             [self addSubview:self.signleLongValue];

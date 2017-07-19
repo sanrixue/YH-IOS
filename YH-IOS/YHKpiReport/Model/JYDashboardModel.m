@@ -12,7 +12,7 @@
 
 @implementation JYDashboardModel
 
-/*
+
 - (DashBoardType)dashboardType {
     NSString *type = self.params[@"dashboard_type"];
     DashBoardType dbType;
@@ -28,12 +28,6 @@
     else if ([type isEqualToString:@"ring"]){
         dbType = DashBoardTypeRing;
     }
-    else if ([type isEqualToString:@"number2"]){
-        dbType = DashBoardTypeSignleValue;
-    }
-    else if ([type isEqualToString:@"number3"]){
-        dbType = DashBoardTypeSignleLongValue;
-    }
     return dbType;
 }
 
@@ -43,14 +37,6 @@
 
 - (NSString *)title {
     return self.params[@"title"];
-}
-
--(NSString *)memo1{
-    return self.params[@"memo1"];
-}
-
--(NSString *)memo2{
-    return self.params[@"memo2"];
 }
 
 - (NSString *)targeturl {
@@ -76,14 +62,10 @@
 }
 
 - (NSString *)floatRate {
-    if (![self.hightLightData[@"number"] floatValue] || ![self.hightLightData[@"compare"] floatValue]) {
-        return NULL;
-    }
-    CGFloat flt = ([self.hightLightData[@"number"] floatValue] - [self.hightLightData[@"compare"] floatValue])/([self.hightLightData[@"compare"] floatValue]);
+    CGFloat flt = [self.hightLightData[@"number"] floatValue] / [self.hightLightData[@"compare"] floatValue];
     flt = !isnan(flt) ? flt : 0.0;
     flt = !isinf(flt) ? flt : [self.hightLightData[@"number"] floatValue];
-    flt = flt*100;
-    NSString *rate = [NSString stringWithFormat:@"%.2f%@", flt,@"%"];
+    NSString *rate = [NSString stringWithFormat:@"%@ %.2f", ([self.hightLightData[@"number"] floatValue] >= [self.hightLightData[@"compare"] floatValue] ? @"+" : @"-"), flt];
     return rate;
 }
 
@@ -106,5 +88,5 @@ NSString * numberToString(NSNumber *number) {
 - (BOOL)percentage {
     return [self.hightLightData[@"percentage"] boolValue];
 }
-*/
+
 @end

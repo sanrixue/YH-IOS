@@ -21,11 +21,10 @@ typedef NS_ENUM(NSUInteger, TrendTypeArrow) {
 
 @interface JYBaseModel : NSObject
 
-@property (nonatomic, copy) NSDictionary *params;
+@property (nonatomic, copy) id params;
 @property (nonatomic, assign, readonly) TrendTypeArrow arrow; // 箭头类型
 
 + (instancetype)modelWithParams:(NSDictionary *)params;
-
 
 - (UIColor *)arrowToColor;
 + (UIColor *)arrowToColor:(TrendTypeArrow)arrow;

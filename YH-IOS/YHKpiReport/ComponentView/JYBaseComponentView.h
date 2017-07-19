@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "JYDashboardModel.h"
-#import "JYComponentModel.h"
+
 
 @protocol JYBaseComponentViewProtocal <NSObject>
 
@@ -24,6 +24,6 @@
 @property (nonatomic, assign) NSTimeInterval interval;
 @property (nonatomic, strong) JYBaseModel *model;
 
-
+- (CGFloat)estimateViewHeight:(JYBaseModel *)model;
 
 @end

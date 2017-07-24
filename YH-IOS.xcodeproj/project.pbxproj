@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3BEBB36F1F2597EE007FB66D /* RefreshTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBB36C1F2597EE007FB66D /* RefreshTool.m */; };
+		3BEBB3701F2597EE007FB66D /* RefreshToolDownPullHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBB36E1F2597EE007FB66D /* RefreshToolDownPullHeader.m */; };
 		911291251EE8EBA900A0B529 /* YHNetworkTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 911291241EE8EBA900A0B529 /* YHNetworkTool.m */; };
 		9114619E1EEA63B4006A35AF /* MineInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9114619C1EEA63B4006A35AF /* MineInfoTableViewCell.m */; };
 		9114619F1EEA63B4006A35AF /* MineInfoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9114619D1EEA63B4006A35AF /* MineInfoTableViewCell.xib */; };
@@ -560,6 +562,10 @@
 
 /* Begin PBXFileReference section */
 		12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.release.xcconfig"; sourceTree = "<group>"; };
+		3BEBB36B1F2597EE007FB66D /* RefreshTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshTool.h; sourceTree = "<group>"; };
+		3BEBB36C1F2597EE007FB66D /* RefreshTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshTool.m; sourceTree = "<group>"; };
+		3BEBB36D1F2597EE007FB66D /* RefreshToolDownPullHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshToolDownPullHeader.h; sourceTree = "<group>"; };
+		3BEBB36E1F2597EE007FB66D /* RefreshToolDownPullHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshToolDownPullHeader.m; sourceTree = "<group>"; };
 		6A867606F7216FABE6624278 /* libPods-YH-IOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-YH-IOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		766890D48B9541057B438511 /* Pods-YH-IOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.debug.xcconfig"; sourceTree = "<group>"; };
 		911291231EE8EBA900A0B529 /* YHNetworkTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHNetworkTool.h; sourceTree = "<group>"; };
@@ -1503,6 +1509,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3BEBB36A1F2597EE007FB66D /* RefreshTool */ = {
+			isa = PBXGroup;
+			children = (
+				3BEBB36B1F2597EE007FB66D /* RefreshTool.h */,
+				3BEBB36C1F2597EE007FB66D /* RefreshTool.m */,
+				3BEBB36D1F2597EE007FB66D /* RefreshToolDownPullHeader.h */,
+				3BEBB36E1F2597EE007FB66D /* RefreshToolDownPullHeader.m */,
+			);
+			path = RefreshTool;
+			sourceTree = "<group>";
+		};
 		6B174869F4F001C543623475 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -2366,6 +2383,7 @@
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3BEBB36A1F2597EE007FB66D /* RefreshTool */,
 				91E65A061F1737340046B615 /* Location */,
 				F660A3D51EB9A9A100C6C510 /* Loading */,
 				C40343351D6ADEAB00625D53 /* ViewBadge */,
@@ -3872,6 +3890,7 @@
 				F68C258B1EC2D44F0069C041 /* JYFallsLayout.m in Sources */,
 				914465641F04BFB900795E54 /* TopHeaderCollectionReusableView.m in Sources */,
 				91D364091F1F220400CD7159 /* JYAnimationTool.m in Sources */,
+				3BEBB36F1F2597EE007FB66D /* RefreshTool.m in Sources */,
 				91D364131F1F220400CD7159 /* UIView+Extension.m in Sources */,
 				F62457E21EA5FD01006834D2 /* AppCacheManger.m in Sources */,
 				91DB24271EED7A3000FC8413 /* PhotoCell.m in Sources */,
@@ -3999,6 +4018,7 @@
 				F660A3EC1EBAD69B00C6C510 /* SuperChartMainModel.m in Sources */,
 				91DB247B1EEFA24A00FC8413 /* MineRequestListCell.m in Sources */,
 				91DB248A1EF0E10F00FC8413 /* MyRequestDetailViewController.m in Sources */,
+				3BEBB3701F2597EE007FB66D /* RefreshToolDownPullHeader.m in Sources */,
 				F62457921EA5FBE0006834D2 /* NSObject+NSObject.m in Sources */,
 				91E65A1C1F18979B0046B615 /* YHScanStoreViewController.m in Sources */,
 				91E65A0B1F17374E0046B615 /* YHLocation.m in Sources */,

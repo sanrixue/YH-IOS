@@ -30,13 +30,13 @@
 
 - (void)addDownPullHeaderWithScrollView:(UIScrollView*)scrollView delegate:(id<RefreshToolDelegate>)delegate{
     _delegate = delegate;
-    _scrollView = scrollView;
+    self.scrollView = scrollView;
     _scrollView.mj_header = self.downPullHeader;
 }
 
 - (void)addTopPullHeaderWithScrollView:(UIScrollView*)scrollView delegate:(id<RefreshToolDelegate>)delegate{
     _delegate = delegate;
-    _scrollView = scrollView;
+    self.scrollView = scrollView;
     _scrollView.mj_footer = self.upPullFooter;
 }
 

@@ -18,6 +18,7 @@
 #import "MineController.h"
 #import "YHReportViewController.h"
 #import "YHTopicViewController.h"
+#import "BaseNavigationController.h"
 
 @interface MianTabBarViewController ()
 
@@ -61,7 +62,7 @@
     
     YHTopicViewController *applicationRootView  = [[YHTopicViewController alloc]init];
    // ApplicationViewController *applicationRootView = [[ApplicationViewController alloc]init];
-    UINavigationController *applicationRootViewController = [[UINavigationController alloc]initWithRootViewController:applicationRootView];
+    UINavigationController *applicationRootViewController = [[BaseNavigationController alloc]initWithRootViewController:applicationRootView];
     applicationRootView.title = @"专题";
     applicationRootViewController.tabBarItem.title = @"专题";
     applicationRootViewController.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -4);
@@ -71,7 +72,7 @@
     
     MineController *messageRootView = [[MineController alloc]init];
    // MessageViewController *messageRootView= [[MessageViewController alloc]init];
-    UINavigationController *messageRootViewController = [[UINavigationController alloc]initWithRootViewController:messageRootView];
+    UINavigationController *messageRootViewController = [[BaseNavigationController alloc]initWithRootViewController:messageRootView];
     messageRootViewController.tabBarItem.title = @"我的";
     messageRootViewController.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -4);
     [messageRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
@@ -80,7 +81,7 @@
     
     YHReportViewController *analysisRootView = [[YHReportViewController alloc]init];
     //AnalysisViewController *analysisRootView = [[AnalysisViewController alloc]init];
-    UINavigationController *analysisRootViewController = [[UINavigationController alloc]initWithRootViewController:analysisRootView];
+    UINavigationController *analysisRootViewController = [[BaseNavigationController alloc]initWithRootViewController:analysisRootView];
     analysisRootView.title = @"报表";
     analysisRootViewController.tabBarItem.title = @"报表";
     analysisRootViewController.tabBarItem.titlePositionAdjustment = UIOffsetMake(0, -4);
@@ -91,7 +92,7 @@
    // KPIViewController *kpiRootView = [[KPIViewController alloc]init];
     //UINavigationController *kpiRootViewController  = [[UINavigationController alloc]initWithRootViewController:kpiRootView];
     JYHomeViewController *kpiRootView = [[JYHomeViewController alloc]init];
-    UINavigationController *kpiRootViewController  = [[UINavigationController alloc]initWithRootViewController:kpiRootView];
+    UINavigationController *kpiRootViewController  = [[BaseNavigationController alloc]initWithRootViewController:kpiRootView];
     kpiRootViewController.tabBarItem.title = @"生意概况";
     [kpiRootViewController.tabBarItem setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorWithHexString:kThemeColor]} forState:UIControlStateSelected];
     kpiRootViewController.edgesForExtendedLayout = UIRectEdgeNone;

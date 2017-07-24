@@ -9,6 +9,7 @@
 #import "YHWarningNoticeController.h"
 #import "RefreshTool.h"
 #import "YHWarningNoticeCell.h"
+#import "SDAutoLayout.h"
 
 @interface YHWarningNoticeController () <UITableViewDelegate,UITableViewDataSource,RefreshToolDelegate>
 
@@ -35,13 +36,14 @@
         for (int i=0; i<10; i++) {
             [self.dataList addObject:@""];
         }
-        [tool endDownPullWithReload:true];
+        [tool endDownPullWithReload:YES];
     });
 }
 
 #pragma mark - 列表代理
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     YHWarningNoticeCell *cell = [YHWarningNoticeCell cellWithTableView:tableView needXib:YES];
+    [cell setupAutoHeightWithBottomView:cell.bottomLab bottomMargin:15];
     return cell;
 }
 
@@ -49,9 +51,10 @@
     return self.dataList.count + 5;
 }
 
-- (CGFloat)cellHeightForIndexPath:(NSIndexPath *)indexPath cellContentViewWidth:(CGFloat)width tableView:(UITableView *)tableView{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [self cellHeightForIndexPath:indexPath cellContentViewWidth:SCREEN_WIDTH tableView:tableView];
 }
+
 
 #pragma mark - lazy
 

@@ -40,14 +40,16 @@
     //    [self.navigationBar.layer addSublayer:gradientLayer];
     self.interactivePopGestureRecognizer.delegate = self;
     self.navigationBar.opaque = NO;
-    //    self.navigationBar.barTintColor = [AppColor oneColor];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.navigationBar.barTintColor = [UIColor whiteColor];
+    self.navigationBar.translucent = NO;
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor redColor]}];
     //    [self.navigationBar setBackgroundImage:[UIImage imageWithColor:[AppColor oneColor]] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     
     //    [self.navigationBar.layer insertSublayer:self.gradientLayer atIndex:0];
     
-    [self.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:16],NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    [self.navigationBar lt_setBackgroundColor:[AppColor app_1color]];
+    [self.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:16],NSForegroundColorAttributeName:[UIColor blackColor]}];
+//    [self.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
     //    [self.navigationBar setBackIndicatorTransitionMaskImage:[UIImage imageWithColor:[UIColor clearColor]]];
     [self.navigationBar setShadowImage:[UIImage imageWithColor:[UIColor clearColor]]];
     //    [self.navigationBar insertSubview:self.barBg atIndex:0];

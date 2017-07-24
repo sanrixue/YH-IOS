@@ -45,6 +45,9 @@
     [super prepare];
     self.mj_h = 60.0;
     [self addSubview:self.loadingImageV];
+//    [_loadingImageV mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.center.mas_equalTo(self);
+//    }];
 }
 
 - (void)placeSubviews{
@@ -58,6 +61,7 @@
 - (UIImageView *)loadingImageV{
     if (!_loadingImageV) {
         _loadingImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading"]];
+        [_loadingImageV sizeToFit];
     }
     return _loadingImageV;
 }

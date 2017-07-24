@@ -30,7 +30,7 @@
     [super viewDidLoad];
     user = [[User alloc]init];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.webView = [[UIWebView alloc]initWithFrame:CGRectMake(0, 59, SCREEN_WIDTH, SCREEN_HEIGHT- 59 -49)];
+    self.webView = [[UIWebView alloc]initWithFrame:self.view.bounds];
     self.webView.delegate = self;
     [self.view addSubview:self.webView];
     [WebViewJavascriptBridge enableLogging];

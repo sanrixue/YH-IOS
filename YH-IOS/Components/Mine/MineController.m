@@ -14,6 +14,8 @@
 #import "UIButton+NewBadge.h"
 #import "YHWarningNoticeController.h"
 
+#import "ScrollControllersVc.h"
+
 @interface MineController ()<UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIView *titlesView;
@@ -24,6 +26,11 @@
 @property (nonatomic, strong) UIButton *selectedButton;
 @property (nonatomic, strong) UIScrollView *contentView;
 
+@property (nonatomic, strong) ScrollControllersVc* scrollVc;
+@property (nonatomic, strong) YHWarningNoticeController* warningVc;
+@property (nonatomic, strong) InstituteViewController* instituteVc;
+@property (nonatomic, strong) MineInfoViewController* mineInfoVc;
+
 @end
 
 @implementation MineController
@@ -33,9 +40,16 @@
     self.tabBarController.tabBar.backgroundColor = [UIColor colorWithHexString:@"#f9f9f9f"];
     self.navigationController.navigationBar.backgroundColor =[UIColor colorWithHexString:@"#f9f9f9f"];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self setupChildViewController];
+//    [self setupChildViewController];
     [self setupTitlesView];
-    [self setupCotentView];
+    
+    [self.view sd_addSubviews:@[self.scrollVc.view]];
+    [self.scrollVc.view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(self.view).insets(UIEdgeInsetsMake(40, 0, 0, 0));
+    }];
+    
+    
+//    [self setupCotentView];
     // Do any additional setup after loading the view.
 }
 
@@ -210,14 +224,34 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - lazy
+- (ScrollControllersVc *)scrollVc{
+    if (!_scrollVc) {
+        _scrollVc = [[ScrollControllersVc alloc] initWithControllers:@[self.warningVc,self.instituteVc,self.mineInfoVc]];
+        _scrollVc.view.frame = self.view.bounds;
+    }
+    return _scrollVc;
 }
-*/
+
+- (YHWarningNoticeController *)warningVc{
+    if (!_warningVc) {
+        _warningVc = [[YHWarningNoticeController alloc] init];
+    }
+    return _warningVc;
+}
+
+- (InstituteViewController *)instituteVc{
+    if (!_instituteVc) {
+        _instituteVc = [[InstituteViewController alloc] init];
+    }
+    return _instituteVc;
+}
+
+- (MineInfoViewController *)mineInfoVc{
+    if (!_mineInfoVc) {
+        _mineInfoVc = [[MineInfoViewController alloc] init];
+    }
+    return _mineInfoVc;
+}
 
 @end

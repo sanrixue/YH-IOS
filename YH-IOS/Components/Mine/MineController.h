@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MineController : UIViewController
+@interface MineController : YHBaseViewController
 
 @end

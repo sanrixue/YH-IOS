@@ -219,7 +219,7 @@
     NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
     NSString*fileName =  @"home_apps";
     javascriptPath = [javascriptPath stringByAppendingPathComponent:fileName];
-    if ([HttpUtils isNetworkAvailable2]) {
+    if ([HttpUtils isNetworkAvailable3]) {
     HttpResponse *reponse = [HttpUtils httpGet:kpiUrl];
     if ([reponse.statusCode  isEqual: @200]) {
         NSData *data = reponse.received;
@@ -276,7 +276,7 @@
     NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
     NSString*fileName =  @"home_apps";
     javascriptPath = [javascriptPath stringByAppendingPathComponent:fileName];
-    if ([HttpUtils isNetworkAvailable2]) {
+    if ([HttpUtils isNetworkAvailable3]) {
         HttpResponse *reponse = [HttpUtils httpGet:kpiUrl];
         if ([reponse.statusCode  isEqual: @200]) {
             NSData *data = reponse.received;

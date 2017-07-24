@@ -47,7 +47,7 @@ NSString *jsons = @"[{\"period\":\"201605\",\"xaxis_order\":\"201605\",\"head\":
     javascriptPath = [javascriptPath stringByAppendingPathComponent:fileName];
     NSMutableArray *models;
     
-    if ([HttpUtils isNetworkAvailable2]) {
+    if ([HttpUtils isNetworkAvailable3]) {
          HttpResponse *reponse = [HttpUtils httpGet:jsonURL];
         if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
             [FileUtils removeFile:javascriptPath];

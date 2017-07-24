@@ -336,9 +336,9 @@
     NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
     NSString*fileName =  @"home_report";
     javascriptPath = [javascriptPath stringByAppendingPathComponent:fileName];
-    if ([HttpUtils isNetworkAvailable2]) {
+    if ([HttpUtils isNetworkAvailable3]) {
         HttpResponse *reponse = [HttpUtils httpGet:kpiUrl];
-        if ([reponse.statusCode  isEqual: @200] || [HttpUtils isNetworkAvailable2]) {
+        if ([reponse.statusCode  isEqual: @200] || [HttpUtils isNetworkAvailable3]) {
             NSData *data = reponse.received;
             if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
                 [FileUtils removeFile:javascriptPath];
@@ -386,9 +386,9 @@
     NSString *javascriptPath = [[FileUtils userspace] stringByAppendingPathComponent:@"HTML"];
     NSString*fileName =  @"home_report";
     javascriptPath = [javascriptPath stringByAppendingPathComponent:fileName];
-    if ([HttpUtils isNetworkAvailable2]) {
+    if ([HttpUtils isNetworkAvailable3]) {
         HttpResponse *reponse = [HttpUtils httpGet:kpiUrl];
-        if ([reponse.statusCode  isEqual: @200] || [HttpUtils isNetworkAvailable2]) {
+        if ([reponse.statusCode  isEqual: @200] || [HttpUtils isNetworkAvailable3]) {
             NSData *data = reponse.received;
             if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
                 [FileUtils removeFile:javascriptPath];

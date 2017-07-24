@@ -296,7 +296,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
 
 //判断是否离线
 -(void)isLoadHtmlFromService {
-    if (([HttpUtils isNetworkAvailable2] &&  self.isInnerLink) || !self.isInnerLink ) {
+    if (([HttpUtils isNetworkAvailable3] &&  self.isInnerLink) || !self.isInnerLink ) {
         self.title = [NSString stringWithFormat:@"%@",self.bannerName];
         [self loadHtml];
     }
@@ -713,7 +713,7 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
             reportSelectedItem = [NSString stringWithFormat:@"%@(NONE)", self.title];
         }
     }
-    if ([HttpUtils isNetworkAvailable2]) {
+    if ([HttpUtils isNetworkAvailable3]) {
         self.title = [NSString stringWithFormat:@"%@",reportSelectedItem];
     }
     else{

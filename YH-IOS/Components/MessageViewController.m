@@ -31,7 +31,7 @@
 }
 
 -(void)isLoadHtmlFromService {
-    if ([HttpUtils isNetworkAvailable2]) {
+    if ([HttpUtils isNetworkAvailable3]) {
         [self loadHtml];
     }
     else{

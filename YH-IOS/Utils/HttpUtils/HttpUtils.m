@@ -156,6 +156,20 @@
     
     return isExistenceNetwork;
 }
+
++ (BOOL) isNetworkAvailable3 {
+  __block  BOOL isExistenceNetwork = YES;
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        if (status == AFNetworkReachabilityStatusReachableViaWiFi || status == AFNetworkReachabilityStatusReachableViaWWAN) {
+            isExistenceNetwork = YES;
+        }
+        else{
+            isExistenceNetwork = NO;
+        }
+    }];
+    return isExistenceNetwork;
+}
 /**
  *  有网络环境时的网络类型
  *

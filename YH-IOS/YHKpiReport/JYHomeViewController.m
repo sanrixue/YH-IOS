@@ -218,7 +218,7 @@
     NSString*fileName =  [HttpUtils urlTofilename:kpiUrl suffix:@".kpi"][0];
     javascriptPath = [javascriptPath stringByAppendingPathComponent:fileName];
     
-    if ([HttpUtils isNetworkAvailable2]) {
+    if ([HttpUtils isNetworkAvailable3]) {
         HttpResponse *reponse = [HttpUtils httpGet:kpiUrl];
         if ([FileUtils checkFileExist:javascriptPath isDir:NO]) {
             [FileUtils removeFile:javascriptPath];
@@ -478,12 +478,12 @@
 // ************************************ 平铺部分 **************************************
 
 - (JYFallsView *)fallsView {
-    if (!_fallsView) {
+    //if (!_fallsView) {
         
         _fallsView = [[JYFallsView alloc] initWithFrame:CGRectMake(5, 5, JYVCWidth-10, JYVCHeight-10)];
         _fallsView.dataSource = dataListButtom;
         _fallsView.delegate = self;
-    }
+   // }
     return _fallsView;
 }
 

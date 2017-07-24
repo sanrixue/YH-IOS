@@ -63,6 +63,7 @@
  *  @return 有网络则为true
  */
 + (BOOL)isNetworkAvailable2;
++ (BOOL)isNetworkAvailable3;
 + (NSString *) networkType;
 /**
  *  网页链接转换成本地html

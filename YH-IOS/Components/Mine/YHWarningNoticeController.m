@@ -10,6 +10,8 @@
 #import "RefreshTool.h"
 #import "YHWarningNoticeCell.h"
 #import "SDAutoLayout.h"
+#import "YHHttpRequestAPI.h"
+#import "NoticeWarningModel.h"
 
 @interface YHWarningNoticeController () <UITableViewDelegate,UITableViewDataSource,RefreshToolDelegate>
 
@@ -31,13 +33,19 @@
     [self.reTool beginDownPull];
 }
 
+- (void)getData:(BOOL)needLoding{
+    if (needLoding) {
+        // to do show loading
+    }
+    [YHHttpRequestAPI yh_getNoticeWarningListWithTypes:@[@"1",@"2"] page:0 finish:^(BOOL success, id model, NSString *jsonObjc) {
+        
+        [_reTool endRefreshDownPullEnd:YES topPullEnd:YES reload:YES noMore:YES];
+    }];
+    
+}
+
 - (void)refreshToolBeginDownRefreshWithScrollView:(UIScrollView *)scrollView tool:(RefreshTool *)tool{
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        for (int i=0; i<10; i++) {
-            [self.dataList addObject:@""];
-        }
-        [tool endDownPullWithReload:YES];
-    });
+    [self getData:NO];
 }
 
 #pragma mark - 列表代理

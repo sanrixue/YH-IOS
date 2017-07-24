@@ -82,74 +82,109 @@
     }];
     
 }
-/** post请求 */
-/*
+//* post请求 
 + (void)postRequestWithUrl:(NSString *)url Params:(NSDictionary *)params needHandle:(BOOL)needHandle requestBack:(RequestBack)requestBack{
 
     DLog(@"\n请求url*****************************************\n%@\n请求参数*************************************\n%@",url,params);
-    [CurAfnManager POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [CurAfnManager POST:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         NSString *jsonStr = nil;
         if (responseObject) {
             jsonStr = ((NSDictionary*)responseObject).mj_JSONString;
         }
         DLog(@"\n url = %@ \n请求结果******************************************\n%@",url,jsonStr);
         requestBack(YES, responseObject, jsonStr);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
 //        NSError *underError = error.userInfo[@"NSUnderlyingError"];
         NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
         NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         DLog(@"\n请求失败************************************************\n%@",errorStr);
+        if (needHandle) {
+            [self handelRequestSuccess:NO successBack:nil];
+        }else{
+            requestBack(NO, nil, nil);
+        }
+
+    }];
+//    [CurAfnManager POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSString *jsonStr = nil;
+//        if (responseObject) {
+//            jsonStr = ((NSDictionary*)responseObject).mj_JSONString;
+//        }
+//        DLog(@"\n url = %@ \n请求结果******************************************\n%@",url,jsonStr);
+//        requestBack(YES, responseObject, jsonStr);
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        NSError *underError = error.userInfo[@"NSUnderlyingError"];
+//        NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+//        NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        DLog(@"\n请求失败************************************************\n%@",errorStr);
 //        if (needHandle) {
 //            [self handelRequestSuccess:NO successBack:nil];
 //        }else{
-            requestBack(NO, nil, nil);
+//            requestBack(NO, nil, nil);
 //        }
-    }];
-}*/
-/** get请求 */
-/*
+//    }];
+}
+//* get请求
 + (void)getRequestWithUrl:(NSString *)url Params:(NSDictionary *)params needHandle:(BOOL)needHandle requestBack:(RequestBack)requestBack{
     DLog(@"\n请求url*****************************************\n%@\n请求参数*************************************\n%@",url,params);
-    [CurAfnManager GET:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [CurAfnManager GET:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
         DLog(@"\n请求结果******************************************\n%@",responseObject);
         NSString *jsonStr = nil;
         if (responseObject) {
             jsonStr = ((NSDictionary*)responseObject).mj_JSONString;
         }
         requestBack(YES, responseObject, jsonStr);
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
         NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        DLog(@"\n请求失败************************************************\n%@",errorStr);//        if (needHandle) {
+        DLog(@"\n请求失败************************************************\n%@",errorStr);        if (needHandle) {
+            [self handelRequestSuccess:NO successBack:nil];
+        }else{
+            requestBack(NO, nil, nil);
+        }
+    }];
+//    [CurAfnManager GET:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        DLog(@"\n请求结果******************************************\n%@",responseObject);
+//        NSString *jsonStr = nil;
+//        if (responseObject) {
+//            jsonStr = ((NSDictionary*)responseObject).mj_JSONString;
+//        }
+//        requestBack(YES, responseObject, jsonStr);
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+//        NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        DLog(@"\n请求失败************************************************\n%@",errorStr);        if (needHandle) {
 //            [self handelRequestSuccess:NO successBack:nil];
 //        }else{
-            requestBack(NO, nil, nil);
+//            requestBack(NO, nil, nil);
 //        }
-    }];
+//    }];
 }
-
-+ (void)upLoadWithUrl:(NSString *)url Params:(NSDictionary *)params FormData:(void (^)(id))formDataRet Progress:(void (^)(NSProgress *))progress Success:(void (^)(id))success Failed:(void (^)(NSError *))failed{
-    DLog(@"\n请求url*****************************************\n%@\n请求参数*************************************\n%@",url,params);
-    [CurAfnManager POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        if (formDataRet) {
-            formDataRet(formData);
-        }
-    } progress:^(NSProgress * _Nonnull uploadProgress) {
-        DLog(@"\n请求进度%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        DLog(@"\n请求结果******************************************\n%@",responseObject);
-        if (success) {
-            success(responseObject);
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
-        NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        DLog(@"\n请求失败************************************************\n%@",errorStr);
-        if (failed) {
-            failed(error);
-        }
-    }];
-}
+//
+//+ (void)upLoadWithUrl:(NSString *)url Params:(NSDictionary *)params FormData:(void (^)(id))formDataRet Progress:(void (^)(NSProgress *))progress Success:(void (^)(id))success Failed:(void (^)(NSError *))failed{
+//    DLog(@"\n请求url*****************************************\n%@\n请求参数*************************************\n%@",url,params);
+//    [CurAfnManager POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+//        if (formDataRet) {
+//            formDataRet(formData);
+//        }
+//    } progress:^(NSProgress * _Nonnull uploadProgress) {
+//        DLog(@"\n请求进度%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        DLog(@"\n请求结果******************************************\n%@",responseObject);
+//        if (success) {
+//            success(responseObject);
+//        }
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
+//        NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        DLog(@"\n请求失败************************************************\n%@",errorStr);
+//        if (failed) {
+//            failed(error);
+//        }
+//    }];
+//}
 
 + (void)putRequestWithUrl:(NSString *)url Params:(NSDictionary *)params needHandle:(BOOL)needHandle requestBack:(RequestBack)requestBack{
     DLog(@"\n请求url*****************************************\n%@\n请求参数*************************************\n%@",url,params);
@@ -164,14 +199,14 @@
         NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
         NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         DLog(@"\n请求失败************************************************\n%@",errorStr);
-        //        if (needHandle) {
-        //            [self handelRequestSuccess:NO successBack:nil];
-        //        }else{
+                if (needHandle) {
+                    [self handelRequestSuccess:NO successBack:nil];
+                }else{
         requestBack(NO, nil, nil);
-        //        }
+                }
     }];
 }
-*/
+ 
 + (void)handelRequestSuccess:(BOOL)success successBack:(void (^)())ret{
     if (success) {
         if (ret) {

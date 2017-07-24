@@ -129,11 +129,11 @@
 + (void)getRequestWithUrl:(NSString *)url Params:(NSDictionary *)params needHandle:(BOOL)needHandle requestBack:(RequestBack)requestBack{
     DLog(@"\n请求url*****************************************\n%@\n请求参数*************************************\n%@",url,params);
     [CurAfnManager GET:url parameters:params success:^(NSURLSessionDataTask *task, id responseObject) {
-        DLog(@"\n请求结果******************************************\n%@",responseObject);
         NSString *jsonStr = nil;
         if (responseObject) {
             jsonStr = ((NSDictionary*)responseObject).mj_JSONString;
         }
+        DLog(@"\n请求结果******************************************\n%@",jsonStr);
         requestBack(YES, responseObject, jsonStr);
 
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -208,13 +208,13 @@
 }
  
 + (void)handelRequestSuccess:(BOOL)success successBack:(void (^)())ret{
-    if (success) {
-        if (ret) {
-            ret();
-        }
-    }else{
-        [GUATool hideAllGifImageHUD];
-    }
+//    if (success) {
+//        if (ret) {
+//            ret();
+//        }
+//    }else{
+//        [GUATool hideAllGifImageHUD];
+//    }
 }
 
 @end

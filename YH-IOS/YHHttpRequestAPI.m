@@ -24,9 +24,11 @@
             typeStr = [typeStr stringByAppendingString:@","];
         }
     }
-    NSString* url = [NSString stringWithFormat:@"%@/api/v1/user/%@/type/%@/page/%zd/limit/%zd/notices",kBaseUrl,[self user].userID,typeStr,page,defaultLimit];
+    NSString* url = [NSString stringWithFormat:@"%@/api/v1/user/%@/type/%@/page/%zd/limit/%@/notices",kBaseUrl,[self user].userID,typeStr,page,defaultLimit];
     [BaseRequest getRequestWithUrl:url Params:nil needHandle:YES requestBack:^(BOOL requestSuccess, id response, NSString *responseJson) {
-        NoticeWarningModel* model = [NoticeWarningModel mj_objectWithKeyValues:response];
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"Test" ofType:@"plist"];
+        NSDictionary *dic = [[NSDictionary alloc] initWithContentsOfFile:path];
+        NoticeWarningModel* model = [NoticeWarningModel mj_objectWithKeyValues:[dic valueForKey:@"key"]];
         finish(requestSuccess,model,responseJson);
     }];
 }

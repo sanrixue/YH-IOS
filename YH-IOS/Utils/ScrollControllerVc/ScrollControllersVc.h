@@ -15,7 +15,7 @@ typedef void(^CommonBack)(id item);
 @interface ScrollControllersVc: UIViewController
 /** 选中第几个控制器, item interger类型 */
 @property (nonatomic, copy) CommonBack selectBack;
-/** 移动的比例系数 item cgfloat类型*/
+/** 移动的比例系数 item number类型*/
 @property (nonatomic, copy) CommonBack scaleBack;
 
 @property (nonatomic, assign) NSInteger curIndex;

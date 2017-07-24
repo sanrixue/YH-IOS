@@ -8,6 +8,10 @@
 
 #import "YHWarningNoticeCell.h"
 
+@interface YHWarningNoticeCell ()
+
+@end
+
 @implementation YHWarningNoticeCell
 
 - (void)awakeFromNib {
@@ -19,6 +23,14 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (void)setNoticeWarningModel:(NoticeWarningModel *)model{
+    _unReadImageV.hidden = model.see;
+    _topLab.text = model.title;
+    _centerLab.attributedText = [NSString strToAttriWithStr:model.abstracts];
+    _bottomLab.text = model.time;
+    [self setupAutoHeightWithBottomView:_bottomLab bottomMargin:15];
 }
 
 @end

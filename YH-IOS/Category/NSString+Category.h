@@ -30,6 +30,8 @@
  */
 @interface NSString (Category)
 
++ (NSAttributedString *)strToAttriWithStr:(NSString *)htmlStr;
+
 - (UIImage*)imageFromSelf;
 
 + (BOOL)isEmptyOrWhitespace:(NSString*)string;

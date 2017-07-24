@@ -10,4 +10,13 @@
 
 @interface NoticeWarningModel : BaseModel
 
+@property (nonatomic, strong) NSArray<NoticeWarningModel*>* data;
+
+@property (nonatomic, strong) NSString* type;
+@property (nonatomic, strong) NSString* title;
+@property (nonatomic, strong) NSString* abstracts;
+@property (nonatomic, strong) NSString* time;
+@property (nonatomic, assign) BOOL see;
+
+
 @end

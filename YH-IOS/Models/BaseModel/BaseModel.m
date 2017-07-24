@@ -13,6 +13,34 @@
 
 @implementation BaseModel
 
++ (NSDictionary *)mj_replacedKeyFromPropertyName{
+    return @{
+             @"identifier":@"id"
+             };
+}
+
++ (BOOL)handleResult:(id)model{
+    if (model && [model isKindOfClass:[BaseModel class]]) {
+        BaseModel* base = model;
+        if ([base.code isEqualToString:@"200"]) {
+            return YES;
+        }else{
+            // to do show hud message
+            
+            DLog(@"message ===  %@",base.message);
+            return NO;
+        }
+    }
+    return NO;
+}
+
+- (BOOL)isNoMore{
+    if (self.total_page == self.curr_page) {
+        return YES;
+    }
+    return NO;
+}
+
 - (NSString *)to_s:(BOOL)isFormat {
     unsigned int outCount, i;
     objc_property_t *properties = class_copyPropertyList([self class], &outCount);

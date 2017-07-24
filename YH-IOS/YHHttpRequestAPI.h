@@ -11,10 +11,16 @@
 
 typedef void(^YHHttpRequestBlock)( BOOL success, id model, NSString* jsonObjc);
 
-NSInteger defaultLimit = 15;
+#define defaultLimit @"15"
 
 @interface YHHttpRequestAPI : NSObject
+/**
+ 获取消息警告列表接口
 
+ @param types @[1,2,3,4]自由组合
+ @param page page description
+ @param finish finish description
+ */
 + (void)yh_getNoticeWarningListWithTypes:(NSArray<NSString*>*)types
                                     page:(NSInteger)page
                                    finish:(YHHttpRequestBlock)finish;

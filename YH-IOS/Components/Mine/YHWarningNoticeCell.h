@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NoticeWarningModel.h"
 
 @interface YHWarningNoticeCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *topLab;
@@ -14,5 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *centerLab;
 @property (weak, nonatomic) IBOutlet UILabel *bottomLab;
 @property (weak, nonatomic) IBOutlet UIView *lineView;
+
+- (void)setNoticeWarningModel:(NoticeWarningModel*)model;
 
 @end

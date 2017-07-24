@@ -13,6 +13,16 @@
 
 @interface BaseModel : NSObject
 
+@property (nonatomic, strong) NSString* identifier;
+@property (nonatomic, strong) NSString* code;
+@property (nonatomic, strong) NSString* message;
+@property (nonatomic, assign) NSInteger curr_page;
+@property (nonatomic, assign) NSInteger total_page;
+
++ (BOOL)handleResult:(id)model;
+
+- (BOOL)isNoMore;
+
 - (NSString *)to_s:(BOOL)isFormat;
 - (NSString *)to_s;
 - (NSString *)inspect;

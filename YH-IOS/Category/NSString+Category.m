@@ -11,6 +11,12 @@
 
 @implementation NSString (Category)
 
++ (NSAttributedString *)strToAttriWithStr:(NSString *)htmlStr{
+    return [[NSAttributedString alloc] initWithData:[htmlStr dataUsingEncoding:NSUnicodeStringEncoding]
+                                            options:@{NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
+                                 documentAttributes:nil
+                                              error:nil];
+}
 
 + (NSString *)safeText:(NSString *)text{
     if ([self isEmptyOrWhitespace:text]) {

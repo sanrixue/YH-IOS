@@ -10,4 +10,10 @@
 
 @implementation NoticeWarningModel
 
++ (NSDictionary *)mj_objectClassInArray{
+    return @{
+             @"data":@"NoticeWarningModel"
+             };
+}
+
 @end

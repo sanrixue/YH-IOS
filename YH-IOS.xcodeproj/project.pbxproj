@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B30EEDA1F25F60500A702EC /* UITableView+SDAutoTableViewCellHeight.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B30EED71F25F60500A702EC /* UITableView+SDAutoTableViewCellHeight.m */; };
+		3B30EEDB1F25F60500A702EC /* UIView+SDAutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B30EED91F25F60500A702EC /* UIView+SDAutoLayout.m */; };
+		3B30EEE11F25F60F00A702EC /* ScrollControllersVc.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B30EEE01F25F60F00A702EC /* ScrollControllersVc.m */; };
+		3B30EEE81F25F63200A702EC /* YHWarningNoticeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B30EEE31F25F63200A702EC /* YHWarningNoticeCell.m */; };
+		3B30EEE91F25F63200A702EC /* YHWarningNoticeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B30EEE41F25F63200A702EC /* YHWarningNoticeCell.xib */; };
+		3B30EEEA1F25F63200A702EC /* YHWarningNoticeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B30EEE61F25F63200A702EC /* YHWarningNoticeController.m */; };
+		3B30EEEB1F25F63200A702EC /* YHWarningNoticeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3B30EEE71F25F63200A702EC /* YHWarningNoticeController.xib */; };
 		3BEBB36F1F2597EE007FB66D /* RefreshTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBB36C1F2597EE007FB66D /* RefreshTool.m */; };
 		3BEBB3701F2597EE007FB66D /* RefreshToolDownPullHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBB36E1F2597EE007FB66D /* RefreshToolDownPullHeader.m */; };
 		911291251EE8EBA900A0B529 /* YHNetworkTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 911291241EE8EBA900A0B529 /* YHNetworkTool.m */; };
@@ -562,6 +569,19 @@
 
 /* Begin PBXFileReference section */
 		12271BD9C7ACC15E638BF692 /* Pods-YH-IOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YH-IOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-YH-IOS/Pods-YH-IOS.release.xcconfig"; sourceTree = "<group>"; };
+		3B30EED51F25F60500A702EC /* SDAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDAutoLayout.h; sourceTree = "<group>"; };
+		3B30EED61F25F60500A702EC /* UITableView+SDAutoTableViewCellHeight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableView+SDAutoTableViewCellHeight.h"; sourceTree = "<group>"; };
+		3B30EED71F25F60500A702EC /* UITableView+SDAutoTableViewCellHeight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableView+SDAutoTableViewCellHeight.m"; sourceTree = "<group>"; };
+		3B30EED81F25F60500A702EC /* UIView+SDAutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+SDAutoLayout.h"; sourceTree = "<group>"; };
+		3B30EED91F25F60500A702EC /* UIView+SDAutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+SDAutoLayout.m"; sourceTree = "<group>"; };
+		3B30EEDF1F25F60F00A702EC /* ScrollControllersVc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScrollControllersVc.h; sourceTree = "<group>"; };
+		3B30EEE01F25F60F00A702EC /* ScrollControllersVc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScrollControllersVc.m; sourceTree = "<group>"; };
+		3B30EEE21F25F63200A702EC /* YHWarningNoticeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHWarningNoticeCell.h; sourceTree = "<group>"; };
+		3B30EEE31F25F63200A702EC /* YHWarningNoticeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHWarningNoticeCell.m; sourceTree = "<group>"; };
+		3B30EEE41F25F63200A702EC /* YHWarningNoticeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YHWarningNoticeCell.xib; sourceTree = "<group>"; };
+		3B30EEE51F25F63200A702EC /* YHWarningNoticeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHWarningNoticeController.h; sourceTree = "<group>"; };
+		3B30EEE61F25F63200A702EC /* YHWarningNoticeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHWarningNoticeController.m; sourceTree = "<group>"; };
+		3B30EEE71F25F63200A702EC /* YHWarningNoticeController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YHWarningNoticeController.xib; sourceTree = "<group>"; };
 		3BEBB36B1F2597EE007FB66D /* RefreshTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshTool.h; sourceTree = "<group>"; };
 		3BEBB36C1F2597EE007FB66D /* RefreshTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshTool.m; sourceTree = "<group>"; };
 		3BEBB36D1F2597EE007FB66D /* RefreshToolDownPullHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshToolDownPullHeader.h; sourceTree = "<group>"; };
@@ -1509,6 +1529,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3B30EED41F25F60500A702EC /* SDAutoLayout */ = {
+			isa = PBXGroup;
+			children = (
+				3B30EED51F25F60500A702EC /* SDAutoLayout.h */,
+				3B30EED61F25F60500A702EC /* UITableView+SDAutoTableViewCellHeight.h */,
+				3B30EED71F25F60500A702EC /* UITableView+SDAutoTableViewCellHeight.m */,
+				3B30EED81F25F60500A702EC /* UIView+SDAutoLayout.h */,
+				3B30EED91F25F60500A702EC /* UIView+SDAutoLayout.m */,
+			);
+			path = SDAutoLayout;
+			sourceTree = "<group>";
+		};
+		3B30EEDE1F25F60F00A702EC /* ScrollControllerVc */ = {
+			isa = PBXGroup;
+			children = (
+				3B30EEDF1F25F60F00A702EC /* ScrollControllersVc.h */,
+				3B30EEE01F25F60F00A702EC /* ScrollControllersVc.m */,
+			);
+			path = ScrollControllerVc;
+			sourceTree = "<group>";
+		};
 		3BEBB36A1F2597EE007FB66D /* RefreshTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -1578,6 +1619,12 @@
 		9128330B1EE8684A0071CE69 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
+				3B30EEE21F25F63200A702EC /* YHWarningNoticeCell.h */,
+				3B30EEE31F25F63200A702EC /* YHWarningNoticeCell.m */,
+				3B30EEE41F25F63200A702EC /* YHWarningNoticeCell.xib */,
+				3B30EEE51F25F63200A702EC /* YHWarningNoticeController.h */,
+				3B30EEE61F25F63200A702EC /* YHWarningNoticeController.m */,
+				3B30EEE71F25F63200A702EC /* YHWarningNoticeController.xib */,
 				91DB24541EEE697400FC8413 /* Tool */,
 				91DB244E1EEE4D2700FC8413 /* Model */,
 				91D77F191EEA90D5007405A0 /* View */,
@@ -2080,6 +2127,7 @@
 		C4771B881C05871300AAF44F /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				3B30EED41F25F60500A702EC /* SDAutoLayout */,
 				C46F6A971D06720A00C561CE /* CodeScan.bundle */,
 				C4EFE4B41C99812B0009411A /* WebViewJavascriptBridge */,
 				C40D06AB1C917BF80029D142 /* hpple */,
@@ -2383,6 +2431,7 @@
 		C4DB7DB51C02EE3800DA534E /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3B30EEDE1F25F60F00A702EC /* ScrollControllerVc */,
 				3BEBB36A1F2597EE007FB66D /* RefreshTool */,
 				91E65A061F1737340046B615 /* Location */,
 				F660A3D51EB9A9A100C6C510 /* Loading */,
@@ -3672,6 +3721,7 @@
 				F62456D81EA5FB21006834D2 /* YHMarkerV.xib in Resources */,
 				C46903941D5CC75F00233D05 /* BarCodeScan.zip in Resources */,
 				91B70D601EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib in Resources */,
+				3B30EEE91F25F63200A702EC /* YHWarningNoticeCell.xib in Resources */,
 				F62456BF1EA5FB21006834D2 /* ChartHudView.xib in Resources */,
 				F62456C71EA5FB21006834D2 /* HomeIndexDetailListCell.xib in Resources */,
 				C4EFE4B01C98F60A0009411A /* stylesheets.zip in Resources */,
@@ -3693,6 +3743,7 @@
 				91EF8DE31EF3B27C00333746 /* YHTopicFooterCollectionReusableView.xib in Resources */,
 				F62457531EA5FBB2006834D2 /* RadarChartViewController.xib in Resources */,
 				F62457511EA5FBB2006834D2 /* PositiveNegativeBarChartViewController.xib in Resources */,
+				3B30EEEB1F25F63200A702EC /* YHWarningNoticeController.xib in Resources */,
 				C4EFE4B11C98F60A0009411A /* javascripts.zip in Resources */,
 				F63D4A0B1EB329A20004BCC8 /* SuperChartVc.xib in Resources */,
 				91DB242E1EED7A3000FC8413 /* unSelect@3x.png in Resources */,
@@ -3906,9 +3957,11 @@
 				91DB24851EF0DD0900FC8413 /* MyQuestion.m in Sources */,
 				C4DB7DC31C02EE3800DA534E /* FileUtils.m in Sources */,
 				C49E1AB71C196B5400CFFE3C /* ViewUtils.m in Sources */,
+				3B30EEE11F25F60F00A702EC /* ScrollControllersVc.m in Sources */,
 				91EF8DD81EF399F000333746 /* YHTopicCollectionViewCell.m in Sources */,
 				F62457B61EA5FC24006834D2 /* BaseNavigationController.m in Sources */,
 				F68C25921EC2D44F0069C041 /* JYNumberLineView.m in Sources */,
+				3B30EEDA1F25F60500A702EC /* UITableView+SDAutoTableViewCellHeight.m in Sources */,
 				C48924E91D858F0A00859411 /* SettingDefaultTableViewCell.m in Sources */,
 				91DB24431EED7A3000FC8413 /* PhotoCollectionViewController.m in Sources */,
 				F624574E1EA5FBB2006834D2 /* PiePolylineChartViewController.m in Sources */,
@@ -3972,6 +4025,7 @@
 				91D3640F1F1F220400CD7159 /* JYScrollNavBar.m in Sources */,
 				91DB235C1EEB98F900FC8413 /* SingleLabelTableViewCell.m in Sources */,
 				C48924E51D858F0A00859411 /* ResetPasswordViewController.m in Sources */,
+				3B30EEEA1F25F63200A702EC /* YHWarningNoticeController.m in Sources */,
 				C4C628451C0C1ED6000AD5D8 /* LoginViewController.m in Sources */,
 				C4E93F0F1D38C01D00DBEC90 /* ReportSelectorViewController.m in Sources */,
 				C4ECB2801C3119E900F7947B /* NSString+MD5.m in Sources */,
@@ -3999,6 +4053,7 @@
 				91D4D6941F08C0360087783C /* SectionHeaderView.m in Sources */,
 				F6025CB31EC5E2CE0025CC71 /* JumpCommonView.m in Sources */,
 				91DB248D1EF11BC300FC8413 /* MineSingleSettingViewController.m in Sources */,
+				3B30EEE81F25F63200A702EC /* YHWarningNoticeCell.m in Sources */,
 				91DB24461EED7A3000FC8413 /* PhotoNavigationController.m in Sources */,
 				91DB24401EED7A3000FC8413 /* UIView+leoAdd.m in Sources */,
 				F624564F1EA5FACD006834D2 /* PSTAlertController.m in Sources */,
@@ -4036,6 +4091,7 @@
 				F62457B91EA5FC24006834D2 /* TCBaseAppDelegate.mm in Sources */,
 				F62457A91EA5FBE1006834D2 /* UIViewController+Category.m in Sources */,
 				F68C25951EC2D44F0069C041 /* JYSaleView.m in Sources */,
+				3B30EEDB1F25F60500A702EC /* UIView+SDAutoLayout.m in Sources */,
 				F63D4A0A1EB329A20004BCC8 /* SuperChartVc.m in Sources */,
 				C45D27121C23FC490087C6F2 /* README.md in Sources */,
 				F62457341EA5FBB1006834D2 /* ColoredLineChartViewController.m in Sources */,

@@ -57,7 +57,7 @@
 #pragma mark - lazy init
 - (UIImageView *)loadingImageV{
     if (!_loadingImageV) {
-        _loadingImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@""]];
+        _loadingImageV = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loading"]];
     }
     return _loadingImageV;
 }

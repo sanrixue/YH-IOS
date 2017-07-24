@@ -12,6 +12,7 @@
 #import "InstituteViewController.h"
 #import "NoticeTableViewController.h"
 #import "UIButton+NewBadge.h"
+#import "YHWarningNoticeController.h"
 
 @interface MineController ()<UIScrollViewDelegate>
 
@@ -59,7 +60,7 @@
 
 -(void)setupChildViewController{
     
-    NoticeTableViewController *noticeView = [[NoticeTableViewController alloc]init];
+    YHWarningNoticeController *noticeView = [[YHWarningNoticeController alloc]init];
     noticeView.title = @"公告预警";
     [self addChildViewController:noticeView];
     

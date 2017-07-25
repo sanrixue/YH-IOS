@@ -19,6 +19,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.backgroundColor = [UIColor whiteColor];
         [self sd_addSubviews:@[self.btn1,self.btn2,self.btn3,self.lightView,self.lineView]];
         NSArray* btns = self.btns;
         NSArray* titles = @[@"公告预警",@"数据学院",@"个人信息"];

@@ -240,7 +240,7 @@
         _scrollVc.view.frame = self.view.bounds;
         MJWeakSelf;
         _scrollVc.scaleBack = ^(NSNumber* item) {
-            DLog(@"%f",item.floatValue);
+//            DLog(@"%f",item.floatValue);
             [weakSelf.headerView updateWithScale:item.floatValue];
         };
         _scrollVc.selectBack = ^(NSNumber* item) {

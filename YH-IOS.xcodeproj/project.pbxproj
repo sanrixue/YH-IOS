@@ -19,6 +19,7 @@
 		3B763AED1F262CF700D5E965 /* Test.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B763AEC1F262CF700D5E965 /* Test.plist */; };
 		3B763AF31F2637CC00D5E965 /* UINavigationController+FDFullscreenPopGesture.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B763AF21F2637CC00D5E965 /* UINavigationController+FDFullscreenPopGesture.m */; };
 		3B763AFC1F26396C00D5E965 /* MineControllerHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B763AFB1F26396C00D5E965 /* MineControllerHeaderView.m */; };
+		3B763B001F26E3D500D5E965 /* YHWarningNoticeHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B763AFF1F26E3D500D5E965 /* YHWarningNoticeHeaderView.m */; };
 		3BEBB36F1F2597EE007FB66D /* RefreshTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBB36C1F2597EE007FB66D /* RefreshTool.m */; };
 		3BEBB3701F2597EE007FB66D /* RefreshToolDownPullHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3BEBB36E1F2597EE007FB66D /* RefreshToolDownPullHeader.m */; };
 		911291251EE8EBA900A0B529 /* YHNetworkTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 911291241EE8EBA900A0B529 /* YHNetworkTool.m */; };
@@ -596,6 +597,8 @@
 		3B763AF21F2637CC00D5E965 /* UINavigationController+FDFullscreenPopGesture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+FDFullscreenPopGesture.m"; sourceTree = "<group>"; };
 		3B763AFA1F26396C00D5E965 /* MineControllerHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineControllerHeaderView.h; sourceTree = "<group>"; };
 		3B763AFB1F26396C00D5E965 /* MineControllerHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineControllerHeaderView.m; sourceTree = "<group>"; };
+		3B763AFE1F26E3D500D5E965 /* YHWarningNoticeHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHWarningNoticeHeaderView.h; sourceTree = "<group>"; };
+		3B763AFF1F26E3D500D5E965 /* YHWarningNoticeHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHWarningNoticeHeaderView.m; sourceTree = "<group>"; };
 		3BEBB36B1F2597EE007FB66D /* RefreshTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshTool.h; sourceTree = "<group>"; };
 		3BEBB36C1F2597EE007FB66D /* RefreshTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RefreshTool.m; sourceTree = "<group>"; };
 		3BEBB36D1F2597EE007FB66D /* RefreshToolDownPullHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RefreshToolDownPullHeader.h; sourceTree = "<group>"; };
@@ -1647,6 +1650,8 @@
 				3B30EEE21F25F63200A702EC /* YHWarningNoticeCell.h */,
 				3B30EEE31F25F63200A702EC /* YHWarningNoticeCell.m */,
 				3B30EEE41F25F63200A702EC /* YHWarningNoticeCell.xib */,
+				3B763AFE1F26E3D500D5E965 /* YHWarningNoticeHeaderView.h */,
+				3B763AFF1F26E3D500D5E965 /* YHWarningNoticeHeaderView.m */,
 				3B30EEE51F25F63200A702EC /* YHWarningNoticeController.h */,
 				3B30EEE61F25F63200A702EC /* YHWarningNoticeController.m */,
 				3B30EEE71F25F63200A702EC /* YHWarningNoticeController.xib */,
@@ -4169,6 +4174,7 @@
 				F624564D1EA5FACD006834D2 /* CommonPopupView.m in Sources */,
 				F68C25E11EC2D4790069C041 /* JYPagedFlowView.m in Sources */,
 				F68C25E21EC2D4790069C041 /* JYPortraitBar.m in Sources */,
+				3B763B001F26E3D500D5E965 /* YHWarningNoticeHeaderView.m in Sources */,
 				91EF8DE21EF3B27C00333746 /* YHTopicFooterCollectionReusableView.m in Sources */,
 				F62457581EA5FBB2006834D2 /* StackedBarChartViewController.m in Sources */,
 				C4272CC81C5C752B00E6971B /* README.md in Sources */,

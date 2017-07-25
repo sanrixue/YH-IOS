@@ -18,6 +18,8 @@
 @property (nonatomic, strong) NSString* message;
 @property (nonatomic, assign) NSInteger curr_page;
 @property (nonatomic, assign) NSInteger total_page;
+@property (nonatomic, assign) BOOL isSelected;
+
 
 + (BOOL)handleResult:(id)model;
 

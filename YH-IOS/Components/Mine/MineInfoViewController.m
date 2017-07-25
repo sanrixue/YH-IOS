@@ -19,6 +19,11 @@
 #import "LoginViewController.h"
 #import "APIHelper.h"
 #import <SDWebImage/UIButton+WebCache.h>
+#import "UserAvaTableViewCell.h"
+#import "UserMessageTableViewCell.h"
+#import "MineTwoLabelTableViewCell.h"
+#import "MineDetailTableViewCell.h"
+#import "LogoutTableViewCell.h"
 
 
 @interface MineInfoViewController ()<UITableViewDelegate,UITableViewDataSource,MineHeadDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate >
@@ -34,6 +39,10 @@
 @property (nonatomic, strong) Person *person;
 @property (nonatomic, strong) NSDictionary *userMessageDict;
 @property (nonatomic, strong) UITableView *minetableView;
+@property (nonatomic, strong) NSArray *userArray;
+@property (nonatomic, strong) NSArray *leftImageArray;
+@property (nonatomic, strong) UIImage *userAvaImage;
+@property (nonatomic, strong) NSDictionary *userDict;
 
 @end
 
@@ -45,11 +54,11 @@
     user = [[User alloc]init];
     _mineHeaderView = [[MineHeadView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 280)];
     _mineHeaderView.delegate =self;
-    //[self loadData];
-    titleArray = @[@"用户角色",@"归属部门",@"密码修改",@"问题反馈"];
-    titleIameArray = @[@"list_ic_person",@"list_ic_department",@"list_ic_lock",@"list_ic_feedback"];
+    self.userArray = @[@[],@[@"归属部门",@"工号"],@[@"文章收藏"],@[@"设置",@"修改密码",@"问题反馈"]];
+    titleIameArray = @[@"list_ic_person",@"list_ic_department"];
+    self.leftImageArray = @[@[],@[@"icon_section",@"login_jobno"],@[@"icon_collection"],@[@"icon_setting",@"icon_password",@"icon_feedback"]];
     
-    secondArray = @[@"我的设置"];
+    secondArray = @[user.groupName,user.userNum];
     seconImageArray = @[@"list_ic_set"];
      [self setupTableView];
     // Do any additional setup after loading the view.
@@ -61,9 +70,9 @@
     [self BindDate];
     RACSignal *requestSingal = [self.requestCommane execute:nil];
     [requestSingal subscribeNext:^(NSDictionary *x) {
-        [_mineHeaderView  refreshViewWith:x];
-        [self.minetableView reloadData];
         
+        self.userDict = [x copy];
+        [self.minetableView reloadData];
     }];
 }
 
@@ -96,16 +105,15 @@
 -(void)setupTableView {
     
     self.minetableView= [[UITableView alloc]init];
-    self.minetableView.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-49-64);
+    self.minetableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-49-64);
     [self.view addSubview:self.minetableView];
     [self.minetableView setScrollEnabled:YES];
-    self.minetableView.tableHeaderView=_mineHeaderView;
     self.minetableView.delegate = self;
     self.minetableView.dataSource = self;
-    self.minetableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    UINib *mineInfoCell = [UINib nibWithNibName:@"MineInfoTableViewCell" bundle:nil];
-    [self.minetableView registerNib:mineInfoCell forCellReuseIdentifier:@"MineInfoTableViewCell"];
-    self.minetableView.tableFooterView = [self LogoutFooterView];
+    self.minetableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+   // UINib *mineInfoCell = [UINib nibWithNibName:@"MineInfoTableViewCell" bundle:nil];
+    //[self.minetableView registerNib:mineInfoCell forCellReuseIdentifier:@"MineInfoTableViewCell"];
+   // self.minetableView.tableFooterView = [self LogoutFooterView];
     
   //  [self.mineHeaderView.avaterImageView sd_setImageWithURL:self.person.icon];
 }
@@ -113,7 +121,7 @@
 // 上传图像
 
 -(void)ClickButton:(UIButton *)btn{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
     imagePickerController.delegate = self;
     imagePickerController.allowsEditing = YES;
@@ -138,7 +146,7 @@
     [picker dismissViewControllerAnimated:YES completion:^{}];
     UIImage* userIconImage = [info objectForKey:UIImagePickerControllerEditedImage];
     NSData *imageData = UIImageJPEGRepresentation(userIconImage, 1.0);
-    [_mineHeaderView refeshAvaImgeView:userIconImage];
+    self.userAvaImage = userIconImage;
     [self.minetableView reloadData];
     NSString *timestamp = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970] * 1000];
     NSString *gravatarName = [NSString stringWithFormat:@"%@-%@-%@.jpg", kAppCode, user.userNum, timestamp];
@@ -156,32 +164,18 @@
     [op start];
 }
 
-
-/*- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    if (section == 0) {
-        return _mineHeaderView;
-    }
-    else{
-        return nil;
-    }
-}*/
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 35;
-}
-
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 35)];
-    headView.backgroundColor = [UIColor whiteColor];
-    UIView *sepView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
-    sepView.backgroundColor = [UIColor colorWithHexString:@"#bdbdbd"];
-    [headView addSubview:sepView];
-    return headView;
-}
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return 4;
+        return 2;
+    }
+    else if (section == 1){
+        return 2;
+    }
+    else if (section == 2){
+        return 1;
+    }
+    else if (section == 3){
+        return 3;
     }
     else{
         return 1;
@@ -189,80 +183,101 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 2;
+    return 5;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 1) {
-          return 35;
-    }
-    else if (section == 2) {
-        return 15;
-    }
-    else if(section == 0){
-        return 0;
+    return adaptHeight(10);
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        switch (indexPath.row) {
+            case 0:
+                return 95;
+                break;
+            case 1:
+                return 80;
+            default:
+                return 80;
+                break;
+        }
     }
     else {
-        return 0.01;
+        return 50;
     }
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    MineInfoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MineInfoTableViewCell" forIndexPath:indexPath];
-    [cell.noticeImage setHidden:YES];
-    if (indexPath.section == 0) {
-        if (indexPath.row == 0) {
-            cell.userTitle.text = titleArray[indexPath.row];
-            cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
-            cell.userDetailLable.text = [NSString stringWithFormat:@"%@", user.roleName];
-        }
-        else if (indexPath.row == 1){
-            cell.userTitle.text = titleArray[indexPath.row];
-            
-            NSString *userRole =[NSString stringWithFormat:@"%@", user.groupName];
-
-            cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
-            cell.userDetailLable.adjustsFontSizeToFitWidth = YES;
-            cell.userDetailLable.text = userRole;
-        }
-        else {
-            cell.userTitle.text = titleArray[indexPath.row];
-            cell.noticeIcon.image = [UIImage imageNamed:titleIameArray[indexPath.row]];
-            UIImageView *imageView = [[UIImageView alloc]init];
-            imageView.image = [UIImage imageNamed:@"list_ic_arroow.png"];
-            [cell.userDetailLable addSubview:imageView];
-            UIView *superView = cell.userDetailLable;
-            [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.top.equalTo(superView.mas_top).mas_offset(-8);
-                make.right.equalTo(superView.mas_right).mas_offset(8);
-            }];
-          //  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            if (indexPath.row == 2 && [user.password isEqualToString:@"123456".md5]) {
-                [cell.noticeImage setHidden:NO];
+    if (indexPath.section == 0 && indexPath.row == 0){
+       UserAvaTableViewCell* Cell = [[UserAvaTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"userAva"];
+        if (self.userDict != nil) {
+            Cell.userNameLabel.text = self.userDict[@"user_name"];
+            Cell.userRoleLabel.text = self.userDict[@"role_name"];
+            if (self.userAvaImage != nil) {
+                [Cell.avaterImageView setImage:self.userAvaImage forState:UIControlStateNormal];
+            }
+            else {
+                [Cell.avaterImageView sd_setImageWithURL:self.userDict[@"gravatar"] forState:UIControlStateNormal];
             }
         }
+        else {
+           Cell.userNameLabel.text = user.userName;
+           Cell.userRoleLabel.text = [NSString stringWithFormat:@"%@",user.roleName];
+           if (self.userAvaImage != nil) {
+              [Cell.avaterImageView setImage:self.userAvaImage forState:UIControlStateNormal];
+          }
+        }
+        [[Cell.avaterImageView rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
+            NSLog(@"点击了按钮");
+            [self ClickButton:Cell.avaterImageView];
+        }];
+          return Cell;
     }
+    else if (indexPath.section == 0 && indexPath.row == 1){
+    UserMessageTableViewCell*  Cell = [[UserMessageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"userMessage"];
+        Cell.userInteractionEnabled = NO;
+           if (self.userDict != nil) {
+               [Cell refreshViewWith:self.userDict];
+           }
+        return Cell;
+    }
+    
     else if (indexPath.section == 1) {
+      MineTwoLabelTableViewCell*  Cell = (MineTwoLabelTableViewCell *)[[MineTwoLabelTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"defaltCell"];
+        Cell.userInteractionEnabled = NO;
         
-        cell.userTitle.text = secondArray[indexPath.row];
-        cell.noticeIcon.image = [UIImage imageNamed:seconImageArray[indexPath.row]];
-        cell.userDetailLable.text = @"";
-      //  cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        Cell.leftLabel.text = self.userArray[indexPath.section][indexPath.row];
+        Cell.leftImageView.image = [[UIImage imageNamed:self.leftImageArray[indexPath.section][indexPath.row]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        Cell.rightLabel.text =secondArray[indexPath.row];
         
+        return Cell;
     }
-    if (!(indexPath.row % 2)) {
-        cell.backgroundColor = [UIColor colorWithHexString:@"fbfcf5"];
+    else if (indexPath.section == 4){
+        LogoutTableViewCell *Cell = [[LogoutTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"logoutCell"];
+        [[Cell.logoutButton rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
+            [self logoutButtonClick:Cell.logoutButton];
+        }];
+        return Cell;
     }
-    return cell;
+    else {
+        MineDetailTableViewCell *Cell = [[MineDetailTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"defaulttwo"];
+        Cell.leftLabel.text = self.userArray[indexPath.section][indexPath.row];
+        Cell.leftImageView.image = [[UIImage imageNamed:self.leftImageArray[indexPath.section][indexPath.row]] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        return Cell;
+    }
 }
 
+
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, kScreenWidth, 10)];
+    headView.backgroundColor = [UIColor colorWithHexString:@"#f3f3f3"];
+    return headView;
+}
 
 -(UIView *)LogoutFooterView{
     
     UIView *logoutView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 80)];
-    UIView *sepView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0.5)];
-    sepView.backgroundColor = [UIColor colorWithHexString:@"#bdbdbd"];
-    [logoutView addSubview:sepView];
     UIButton *logoutButton = [[UIButton alloc]initWithFrame:CGRectMake(0, 20,SCREEN_WIDTH, 40)];
     [logoutView addSubview:logoutButton];
     logoutButton.layer.borderWidth = 1;
@@ -287,21 +302,21 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ((indexPath.section == 0 ) && (indexPath.row == 2)) {
+    if ((indexPath.section == 3 ) && (indexPath.row == 1)) {
         MineResetPwdViewController *mineResetPwdCtrl = [[MineResetPwdViewController alloc]init];
         mineResetPwdCtrl.title = @"密码修改";
         [self.navigationController pushViewController:mineResetPwdCtrl animated:YES];
         
     }
-    else if ((indexPath.section == 0)&&(indexPath.row == 3)){
+    else if ((indexPath.section == 3)&&(indexPath.row == 2)){
         MineQuestionViewController *mineQuestionCtrl = [[MineQuestionViewController  alloc]init];
         mineQuestionCtrl.title = @"生意人反馈收集";
         [self.navigationController pushViewController:mineQuestionCtrl animated:YES];
     }
-    else if ((indexPath.section ==1)&&(indexPath.row ==0)){
+    else if ((indexPath.section ==3)&&(indexPath.row ==0)){
         MineSingleSettingViewController *settingCtrl = [[MineSingleSettingViewController alloc]init];
         settingCtrl.title = @"我的设置";
-        [self.navigationController pushViewController:settingCtrl animated:YES];
+        [self pushViewController:settingCtrl animation:YES hideBottom:YES];
     }
 }
 

@@ -73,6 +73,11 @@
 #define JYVCHeight CGRectGetHeight(self.view.bounds)
 #define JYColor_TextColor_Chief ([UIColor colorWithHexString:@"#595b57"]) // co3
 #define JYColor_TextColor_Minor ([UIColor colorWithHexString:@"#bcbcbc"]) // co4
+// 自适应设备宽度
+#define adaptWidth(w) (SCREEN_WIDTH / 375 * (w))
+
+// 自适应设备高度
+#define adaptHeight(h) (SCREEN_HEIGHT / 667 * (h))
 
 
 #define JYDefaultMargin (8.0)

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MineInfoViewController : UIViewController
+@interface MineInfoViewController : YHBaseViewController
 
 @property (nonatomic, strong) RACCommand *requestCommane;
 

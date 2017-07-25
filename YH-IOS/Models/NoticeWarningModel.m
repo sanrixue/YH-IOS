@@ -17,3 +17,9 @@
 }
 
 @end
+
+
+@implementation NoticeWarningDetailModel
+
+
+@end

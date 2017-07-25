@@ -25,4 +25,13 @@ typedef void(^YHHttpRequestBlock)( BOOL success, id model, NSString* jsonObjc);
                                     page:(NSInteger)page
                                    finish:(YHHttpRequestBlock)finish;
 
+/**
+ 获取公告预警详情
+
+ @param notice_id identifier
+ @param finish finish description
+ */
++ (void)yh_getNoticeWarningDetailWithNotice_id:(NSString*)notice_id
+                                        finish:(YHHttpRequestBlock)finish;
+
 @end

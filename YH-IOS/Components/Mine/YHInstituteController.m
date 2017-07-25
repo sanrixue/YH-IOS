@@ -12,7 +12,7 @@
 #import "YHHttpRequestAPI.h"
 #import "ArticlesModel.h"
 
-@interface YHInstituteController () <UITableViewDelegate,UITableViewDataSource,RefreshToolDelegate>
+@interface YHInstituteController () <UITableViewDelegate,UITableViewDataSource,RefreshToolDelegate,UISearchBarDelegate>
 
 @property (nonatomic, strong) UITableView* tableView;
 
@@ -82,7 +82,13 @@
     }];
 }
 
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    self.keyword = searchText;
+    [self getData:YES isDownPull:YES];
+}
+
 - (void)refreshToolBeginDownRefreshWithScrollView:(UIScrollView *)scrollView tool:(RefreshTool *)tool{
+    [self.view endEditing:YES];
     [self getData:NO isDownPull:YES];
 }
 
@@ -148,6 +154,7 @@
         _searchBar.showsCancelButton = NO;
         _searchBar.tintColor = [UIColor orangeColor];
         _searchBar.placeholder = @"搜索关键字";
+        _searchBar.delegate = self;
         for (UIView *subView in _searchBar.subviews) {
             if ([subView isKindOfClass:[UIView  class]]) {
                 [[subView.subviews objectAtIndex:0] removeFromSuperview];

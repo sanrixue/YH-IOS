@@ -38,7 +38,7 @@
     self.view.backgroundColor = [UIColor grayColor];
     [self.navigationController.navigationBar setHidden:NO];
     self.automaticallyAdjustsScrollViewInsets = YES;
-    [self.tabBarController.tabBar setHidden:YES];
+    //[self.tabBarController.tabBar setHidden:YES];
      self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     userInfoArray = @[@"应用信息",@"选项配置",@"消息推送",@"更新日志"];
     user =[[User alloc]init];

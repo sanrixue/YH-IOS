@@ -89,7 +89,7 @@
     if (!_lightView) {
         _lightView = [[UIView alloc] initWithFrame:CGRectMake((SCREEN_WIDTH/3.0)/2.0-12, 64-7, 24, 3)];
         [_lightView cornerRadius:1.5];
-        _lightView.backgroundColor = [UIColor colorWithHexString:@"f57658"];
+        _lightView.backgroundColor = [UIColor colorWithHexString:@"00a4e9"];
     }
     return _lightView;
 }

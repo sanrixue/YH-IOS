@@ -47,10 +47,15 @@
 - (void)moduleTwoList {
     
     self.automaticallyAdjustsScrollViewInsets = NO;
-    moduleTwoView = [[JYModuleTwoView alloc] initWithFrame:CGRectMake(0, 64 + JYDefaultMargin, JYVCWidth, JYVCHeight)];
+    moduleTwoView = [[JYModuleTwoView alloc] initWithFrame:CGRectMake(0,JYDefaultMargin, JYVCWidth, JYVCHeight+64)];
     moduleTwoView.moduleModel = self.moduleTwoModel;
     [self.view addSubview:moduleTwoView];
     
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:YES];
+    [self.view removeAllSubviews];
 }
 
 

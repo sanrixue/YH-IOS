@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FindPasswordViewController : UIViewController
+
+
+@interface FindPasswordViewController : UIViewController 
+
 
 @end

@@ -18,6 +18,7 @@
 #import "LBXScanWrapper.h"
 #import "SubLBXScanViewController.h"
 #import "SubjectOutterViewController.h"
+#import "JYDemoViewController.h"
 
 @interface YHTopicViewController ()
 {
@@ -60,7 +61,7 @@
 
 
 -(void)addCollection {
-    _collectionview = [[YHTopicCollectionView alloc]initWithFrame:CGRectMake(8, 64,SCREEN_WIDTH-16, self.view.frame.size.height -49 - 20-44) WithData:_listArray withSelectIndex:^(NSInteger left, ListItem* info) {
+    _collectionview = [[YHTopicCollectionView alloc]initWithFrame:CGRectMake(8, 0,SCREEN_WIDTH-16, self.view.frame.size.height -49-64) WithData:_listArray withSelectIndex:^(NSInteger left, ListItem* info) {
         NSLog(@"点击了");
         [self jumpToSubjectView:info];
     }];
@@ -151,6 +152,26 @@
                 }
             });
             [self presentViewController:superChartNavCtrl animated:YES completion:nil];
+        }
+        else if ([targeturl rangeOfString:@"template/1/"].location != NSNotFound) {
+            JYDemoViewController *superChaerCtrl = [[JYDemoViewController alloc]init];
+           // UINavigationController *superChartNavCtrl = [[UINavigationController alloc]initWithRootViewController:superChaerCtrl];
+            logParams[kActionALCName]   = @"点击/专题/报表";
+            logParams[kObjIDALCName]    = @(item.itemID);
+            logParams[kObjTypeALCName]  = @(ObjectTypeApp);
+            logParams[kObjTitleALCName] =  item.listName;
+            /*
+             * 用户行为记录, 单独异常处理，不可影响用户体验
+             */
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                @try {
+                    [APIHelper actionLog:logParams];
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"%@", exception);
+                }
+            });
+        [RootNavigationController pushViewController:superChaerCtrl animated:YES hideBottom:YES];
         }
         /* else if ([data[@"link"] rangeOfString:@"template/"].location != NSNotFound){
          if ([data[@"link"] rangeOfString:@"template/5/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/1/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/2/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/3/"].location == NSNotFound || [data[@"link"] rangeOfString:@"template/4/"].location == NSNotFound) {

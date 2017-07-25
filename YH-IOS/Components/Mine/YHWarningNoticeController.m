@@ -67,6 +67,7 @@
     }
     [YHHttpRequestAPI yh_getNoticeWarningListWithTypes:types page:page finish:^(BOOL success, NoticeWarningModel* model, NSString *jsonObjc) {
         // to do hideLoding
+        [self.reTool endRefreshDownPullEnd:true topPullEnd:true reload:false noMore:false];
         if ([BaseModel handleResult:model]) {
             if (downPull) {
                 _page = 0;

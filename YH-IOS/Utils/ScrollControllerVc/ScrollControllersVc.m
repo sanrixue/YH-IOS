@@ -112,7 +112,7 @@
 //    _controllersScrollView.backgroundColor = [UIColor blueColor];
     
     _hightLightView = [[UIView alloc] initWithFrame:CGRectMake((_lableW-16)/2.0, _lableH-3, 45, 3)];
-    _hightLightView.backgroundColor = UIColorHex(00a4e9);
+    _hightLightView.backgroundColor = [UIColor colorWithHexString:@"#00a4e9"];
     [self.titleScrollView addSubview:_hightLightView];
     [self.view addSubview:_controllersScrollView];
     

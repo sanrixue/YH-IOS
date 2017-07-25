@@ -109,6 +109,9 @@
     return javascriptPath;
 }
 
++ (NSString *)userAuthentication:(NSString *)username password:(NSString *)password {
+   return  [self userAuthentication:username password:password coordinate:nil];
+}
 /**
  *  登录验证
  *

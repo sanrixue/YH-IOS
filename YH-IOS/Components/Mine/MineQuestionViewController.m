@@ -49,7 +49,7 @@ static NSString *const reUse = @"reUse";
     self.version = [[Version alloc] init];
      self.navigationController.navigationBar.tintColor = [UIColor blackColor];
      [self.navigationController.navigationBar setHidden:NO];
-    [self.tabBarController.tabBar setHidden:YES];
+   // [self.tabBarController.tabBar setHidden:YES];
     self.view.backgroundColor = [UIColor colorWithHexString:@"#fbfcf5"];
     [self setUI];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc]initWithTitle:@"返回" style:UIBarButtonItemStyleDone target:self action:nil];
@@ -60,7 +60,7 @@ static NSString *const reUse = @"reUse";
 
 -(void)setUI{
     
-    self.view.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64);
+    self.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64);
     
     UIView *bgView = [[UIView alloc]init];
     bgView.backgroundColor = [UIColor whiteColor];

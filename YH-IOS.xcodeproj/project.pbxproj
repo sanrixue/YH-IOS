@@ -81,6 +81,22 @@
 		91B70D5F1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B70D5D1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.m */; };
 		91B70D601EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91B70D5E1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib */; };
 		91B70D681EF8C84600C02F16 /* JYSigleValueView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91B70D671EF8C84600C02F16 /* JYSigleValueView.m */; };
+		91BA00511F2721A500943596 /* AlternativeDesigns.json in Resources */ = {isa = PBXBuildFile; fileRef = 91BA00241F2721A500943596 /* AlternativeDesigns.json */; };
+		91BA00521F2721A500943596 /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BA00261F2721A500943596 /* HexColors.m */; };
+		91BA005B1F2721A500943596 /* UINavigationController+PPTopMostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BA00361F2721A500943596 /* UINavigationController+PPTopMostController.m */; };
+		91BA005C1F2721A500943596 /* UITabBarController+PPTopMostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BA00381F2721A500943596 /* UITabBarController+PPTopMostController.m */; };
+		91BA005D1F2721A500943596 /* UIViewController+PPTopMostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BA003A1F2721A500943596 /* UIViewController+PPTopMostController.m */; };
+		91BA005E1F2721A500943596 /* NotificationBackgroundWarningIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 91BA003E1F2721A500943596 /* NotificationBackgroundWarningIcon.png */; };
+		91BA005F1F2721A500943596 /* NotificationBackgroundWarningIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91BA003F1F2721A500943596 /* NotificationBackgroundWarningIcon@2x.png */; };
+		91BA00601F2721A500943596 /* NotificationButtonBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 91BA00401F2721A500943596 /* NotificationButtonBackground.png */; };
+		91BA00611F2721A500943596 /* NotificationButtonBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 91BA00411F2721A500943596 /* NotificationButtonBackground@2x.png */; };
+		91BA00621F2721A500943596 /* RMessageDefaultDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = 91BA00421F2721A500943596 /* RMessageDefaultDesign.json */; };
+		91BA00631F2721A500943596 /* RMessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91BA00441F2721A500943596 /* RMessageView.xib */; };
+		91BA00641F2721A500943596 /* RMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BA00461F2721A500943596 /* RMessage.m */; };
+		91BA00651F2721A500943596 /* RMessageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BA00481F2721A500943596 /* RMessageView.m */; };
+		91BA00661F2721A500943596 /* UINavigationController+PPTopMostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BA004A1F2721A500943596 /* UINavigationController+PPTopMostController.m */; };
+		91BA00671F2721A500943596 /* UITabBarController+PPTopMostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BA004C1F2721A500943596 /* UITabBarController+PPTopMostController.m */; };
+		91BA00681F2721A500943596 /* UIViewController+PPTopMostController.m in Sources */ = {isa = PBXBuildFile; fileRef = 91BA004E1F2721A500943596 /* UIViewController+PPTopMostController.m */; };
 		91D364091F1F220400CD7159 /* JYAnimationTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D363F41F1F220400CD7159 /* JYAnimationTool.m */; };
 		91D3640A1F1F220400CD7159 /* JYCursor.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D363F61F1F220400CD7159 /* JYCursor.m */; };
 		91D3640B1F1F220400CD7159 /* JYItemManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 91D363F81F1F220400CD7159 /* JYItemManager.m */; };
@@ -725,6 +741,32 @@
 		91B70D5E1EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YHReportLeftTextTableViewCell.xib; sourceTree = "<group>"; };
 		91B70D661EF8C84600C02F16 /* JYSigleValueView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JYSigleValueView.h; sourceTree = "<group>"; };
 		91B70D671EF8C84600C02F16 /* JYSigleValueView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JYSigleValueView.m; sourceTree = "<group>"; };
+		91BA00241F2721A500943596 /* AlternativeDesigns.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AlternativeDesigns.json; sourceTree = "<group>"; };
+		91BA00251F2721A500943596 /* HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexColors.h; sourceTree = "<group>"; };
+		91BA00261F2721A500943596 /* HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexColors.m; sourceTree = "<group>"; };
+		91BA00271F2721A500943596 /* PPTopMostControllerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PPTopMostControllerProtocol.h; sourceTree = "<group>"; };
+		91BA00351F2721A500943596 /* UINavigationController+PPTopMostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+PPTopMostController.h"; sourceTree = "<group>"; };
+		91BA00361F2721A500943596 /* UINavigationController+PPTopMostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+PPTopMostController.m"; sourceTree = "<group>"; };
+		91BA00371F2721A500943596 /* UITabBarController+PPTopMostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+PPTopMostController.h"; sourceTree = "<group>"; };
+		91BA00381F2721A500943596 /* UITabBarController+PPTopMostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+PPTopMostController.m"; sourceTree = "<group>"; };
+		91BA00391F2721A500943596 /* UIViewController+PPTopMostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PPTopMostController.h"; sourceTree = "<group>"; };
+		91BA003A1F2721A500943596 /* UIViewController+PPTopMostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PPTopMostController.m"; sourceTree = "<group>"; };
+		91BA003E1F2721A500943596 /* NotificationBackgroundWarningIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NotificationBackgroundWarningIcon.png; sourceTree = "<group>"; };
+		91BA003F1F2721A500943596 /* NotificationBackgroundWarningIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationBackgroundWarningIcon@2x.png"; sourceTree = "<group>"; };
+		91BA00401F2721A500943596 /* NotificationButtonBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NotificationButtonBackground.png; sourceTree = "<group>"; };
+		91BA00411F2721A500943596 /* NotificationButtonBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NotificationButtonBackground@2x.png"; sourceTree = "<group>"; };
+		91BA00421F2721A500943596 /* RMessageDefaultDesign.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = RMessageDefaultDesign.json; sourceTree = "<group>"; };
+		91BA00441F2721A500943596 /* RMessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RMessageView.xib; sourceTree = "<group>"; };
+		91BA00451F2721A500943596 /* RMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMessage.h; sourceTree = "<group>"; };
+		91BA00461F2721A500943596 /* RMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMessage.m; sourceTree = "<group>"; };
+		91BA00471F2721A500943596 /* RMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMessageView.h; sourceTree = "<group>"; };
+		91BA00481F2721A500943596 /* RMessageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMessageView.m; sourceTree = "<group>"; };
+		91BA00491F2721A500943596 /* UINavigationController+PPTopMostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+PPTopMostController.h"; sourceTree = "<group>"; };
+		91BA004A1F2721A500943596 /* UINavigationController+PPTopMostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+PPTopMostController.m"; sourceTree = "<group>"; };
+		91BA004B1F2721A500943596 /* UITabBarController+PPTopMostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+PPTopMostController.h"; sourceTree = "<group>"; };
+		91BA004C1F2721A500943596 /* UITabBarController+PPTopMostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+PPTopMostController.m"; sourceTree = "<group>"; };
+		91BA004D1F2721A500943596 /* UIViewController+PPTopMostController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+PPTopMostController.h"; sourceTree = "<group>"; };
+		91BA004E1F2721A500943596 /* UIViewController+PPTopMostController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+PPTopMostController.m"; sourceTree = "<group>"; };
 		91D363F31F1F220400CD7159 /* JYAnimationTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYAnimationTool.h; path = YHKpiReport/KPICommonView/JYAnimationTool.h; sourceTree = "<group>"; };
 		91D363F41F1F220400CD7159 /* JYAnimationTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JYAnimationTool.m; path = YHKpiReport/KPICommonView/JYAnimationTool.m; sourceTree = "<group>"; };
 		91D363F51F1F220400CD7159 /* JYCursor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JYCursor.h; path = YHKpiReport/KPICommonView/JYCursor.h; sourceTree = "<group>"; };
@@ -1777,6 +1819,56 @@
 			name = GuideView;
 			sourceTree = "<group>";
 		};
+		91BA00231F2721A500943596 /* PPTopMostController-Files */ = {
+			isa = PBXGroup;
+			children = (
+				91BA00241F2721A500943596 /* AlternativeDesigns.json */,
+				91BA00251F2721A500943596 /* HexColors.h */,
+				91BA00261F2721A500943596 /* HexColors.m */,
+				91BA00271F2721A500943596 /* PPTopMostControllerProtocol.h */,
+				91BA00351F2721A500943596 /* UINavigationController+PPTopMostController.h */,
+				91BA00361F2721A500943596 /* UINavigationController+PPTopMostController.m */,
+				91BA00371F2721A500943596 /* UITabBarController+PPTopMostController.h */,
+				91BA00381F2721A500943596 /* UITabBarController+PPTopMostController.m */,
+				91BA00391F2721A500943596 /* UIViewController+PPTopMostController.h */,
+				91BA003A1F2721A500943596 /* UIViewController+PPTopMostController.m */,
+			);
+			path = "PPTopMostController-Files";
+			sourceTree = "<group>";
+		};
+		91BA003C1F2721A500943596 /* RMessage */ = {
+			isa = PBXGroup;
+			children = (
+				91BA003D1F2721A500943596 /* Assets */,
+				91BA00431F2721A500943596 /* Resources */,
+				91BA00451F2721A500943596 /* RMessage.h */,
+				91BA00461F2721A500943596 /* RMessage.m */,
+				91BA00471F2721A500943596 /* RMessageView.h */,
+				91BA00481F2721A500943596 /* RMessageView.m */,
+			);
+			path = RMessage;
+			sourceTree = "<group>";
+		};
+		91BA003D1F2721A500943596 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				91BA003E1F2721A500943596 /* NotificationBackgroundWarningIcon.png */,
+				91BA003F1F2721A500943596 /* NotificationBackgroundWarningIcon@2x.png */,
+				91BA00401F2721A500943596 /* NotificationButtonBackground.png */,
+				91BA00411F2721A500943596 /* NotificationButtonBackground@2x.png */,
+				91BA00421F2721A500943596 /* RMessageDefaultDesign.json */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		91BA00431F2721A500943596 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				91BA00441F2721A500943596 /* RMessageView.xib */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		91D4D6821F08BF970087783C /* NewSelectView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2387,6 +2479,14 @@
 		C4C628401C0C1ED6000AD5D8 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				91BA00231F2721A500943596 /* PPTopMostController-Files */,
+				91BA003C1F2721A500943596 /* RMessage */,
+				91BA00491F2721A500943596 /* UINavigationController+PPTopMostController.h */,
+				91BA004A1F2721A500943596 /* UINavigationController+PPTopMostController.m */,
+				91BA004B1F2721A500943596 /* UITabBarController+PPTopMostController.h */,
+				91BA004C1F2721A500943596 /* UITabBarController+PPTopMostController.m */,
+				91BA004D1F2721A500943596 /* UIViewController+PPTopMostController.h */,
+				91BA004E1F2721A500943596 /* UIViewController+PPTopMostController.m */,
 				C4C628411C0C1ED6000AD5D8 /* LoginViewController.h */,
 				C4C628421C0C1ED6000AD5D8 /* LoginViewController.m */,
 				F691E5E21E28835C00BDC73E /* FindPasswordViewController.h */,
@@ -3685,7 +3785,7 @@
 						CreatedOnToolsVersion = 7.0;
 						DevelopmentTeam = WV94P663S4;
 						LastSwiftMigration = 0800;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.Push = {
 								enabled = 1;
@@ -3775,14 +3875,17 @@
 				91DB242D1EED7A3000FC8413 /* unSelect@2x.png in Resources */,
 				F624564A1EA5FACD006834D2 /* IQKeyboardManager.bundle in Resources */,
 				91DB242B1EED7A3000FC8413 /* select@2x.png in Resources */,
+				91BA005F1F2721A500943596 /* NotificationBackgroundWarningIcon@2x.png in Resources */,
 				F62457591EA5FBB2006834D2 /* StackedBarChartViewController.xib in Resources */,
 				91D77F3D1EEAA61D007405A0 /* RightButtonTableViewCell.xib in Resources */,
 				F62456C41EA5FB21006834D2 /* HomeIndexCollectionCellContentView.xib in Resources */,
 				C4EFE4B21C98F60A0009411A /* images.zip in Resources */,
 				F62456D81EA5FB21006834D2 /* YHMarkerV.xib in Resources */,
+				91BA00631F2721A500943596 /* RMessageView.xib in Resources */,
 				C46903941D5CC75F00233D05 /* BarCodeScan.zip in Resources */,
 				91B70D601EF79D4100C02F16 /* YHReportLeftTextTableViewCell.xib in Resources */,
 				3B30EEE91F25F63200A702EC /* YHWarningNoticeCell.xib in Resources */,
+				91BA00621F2721A500943596 /* RMessageDefaultDesign.json in Resources */,
 				F62456BF1EA5FB21006834D2 /* ChartHudView.xib in Resources */,
 				F62456C71EA5FB21006834D2 /* HomeIndexDetailListCell.xib in Resources */,
 				C4EFE4B01C98F60A0009411A /* stylesheets.zip in Resources */,
@@ -3793,6 +3896,7 @@
 				F624574F1EA5FBB2006834D2 /* PiePolylineChartViewController.xib in Resources */,
 				F62457391EA5FBB2006834D2 /* CubicLineChartViewController.xib in Resources */,
 				915A8D351F1E106000262311 /* report_v24.json in Resources */,
+				91BA005E1F2721A500943596 /* NotificationBackgroundWarningIcon.png in Resources */,
 				F63D4A081EB329A20004BCC8 /* SelectListVc.xib in Resources */,
 				91DB246E1EEE9A7200FC8413 /* CustomCell.xib in Resources */,
 				F62457551EA5FBB2006834D2 /* ScatterChartViewController.xib in Resources */,
@@ -3818,9 +3922,11 @@
 				C4272CCA1C5CBA4700E6971B /* loading.zip in Resources */,
 				91EF8DD91EF399F000333746 /* YHTopicCollectionViewCell.xib in Resources */,
 				F624573B1EA5FBB2006834D2 /* HalfPieChartViewController.xib in Resources */,
+				91BA00601F2721A500943596 /* NotificationButtonBackground.png in Resources */,
 				914465691F04C06700795E54 /* YHToptopicHeaderCollectionReusableView.xib in Resources */,
 				91DB242C1EED7A3000FC8413 /* select@3x.png in Resources */,
 				9114619F1EEA63B4006A35AF /* MineInfoTableViewCell.xib in Resources */,
+				91BA00511F2721A500943596 /* AlternativeDesigns.json in Resources */,
 				91DB242A1EED7A3000FC8413 /* back@2x.png in Resources */,
 				F62456C91EA5FB21006834D2 /* HomeIndexDetailListVC.xib in Resources */,
 				F63D4A061EB329A20004BCC8 /* SelectListCell.xib in Resources */,
@@ -3830,6 +3936,7 @@
 				91DB247C1EEFA24A00FC8413 /* MineRequestListCell.xib in Resources */,
 				C4DB7D861C02EC0500DA534E /* LaunchScreen.storyboard in Resources */,
 				C4DB7D831C02EC0500DA534E /* Assets.xcassets in Resources */,
+				91BA00611F2721A500943596 /* NotificationButtonBackground@2x.png in Resources */,
 				F624573D1EA5FBB2006834D2 /* HorizontalBarChartViewController.xib in Resources */,
 				3B763AED1F262CF700D5E965 /* Test.plist in Resources */,
 				F62456D51EA5FB21006834D2 /* YH_ScrollTitleLineAndBarVC.xib in Resources */,
@@ -3922,6 +4029,7 @@
 				3B763AE51F26108C00D5E965 /* YHHttpRequestAPI.m in Sources */,
 				91EF8DEB1EF3DB1200333746 /* YHMutileveHeaderView.m in Sources */,
 				F62457E51EA5FD01006834D2 /* DataManager.m in Sources */,
+				91BA005D1F2721A500943596 /* UIViewController+PPTopMostController.m in Sources */,
 				C4DB7DC21C02EE3800DA534E /* ExtendNSLogFunctionality.m in Sources */,
 				F62456CA1EA5FB21006834D2 /* HomeIndexItemModel.m in Sources */,
 				91D8C9E51F0B7C2C008A150E /* SelectViewCell.m in Sources */,
@@ -3929,6 +4037,7 @@
 				F630499B1E9CAFB000831413 /* MainViewController.m in Sources */,
 				F62456D21EA5FB21006834D2 /* YH_BarView.m in Sources */,
 				F62456411EA5FACD006834D2 /* IQUIWindow+Hierarchy.m in Sources */,
+				91BA00651F2721A500943596 /* RMessageView.m in Sources */,
 				F62456C61EA5FB21006834D2 /* HomeIndexDetailListCell.m in Sources */,
 				912833111EE868A50071CE69 /* Person.m in Sources */,
 				9118AEA31F26FF3600DD3FD3 /* UserAvaTableViewCell.m in Sources */,
@@ -3967,6 +4076,7 @@
 				91D3640E1F1F220400CD7159 /* JYRootScrollViewManager.m in Sources */,
 				915A8D121F1E0BA500262311 /* JYSingleValueModel.m in Sources */,
 				C48924ED1D858F0A00859411 /* ThurSayViewController.m in Sources */,
+				91BA005B1F2721A500943596 /* UINavigationController+PPTopMostController.m in Sources */,
 				F62457401EA5FBB2006834D2 /* LineChart2ViewController.m in Sources */,
 				91E6CFAD1EFB6B8C00507B7E /* SDCycleScrollView.m in Sources */,
 				F64903BC1DB5CD9B0001DD2B /* UserInfoViewController.m in Sources */,
@@ -3990,6 +4100,7 @@
 				F68C25E51EC2D4790069C041 /* JYSignView.m in Sources */,
 				F68C25981EC2D44F0069C041 /* JYWaterLayout.m in Sources */,
 				F62456C51EA5FB21006834D2 /* HomeIndexCollectionVC.m in Sources */,
+				91BA00681F2721A500943596 /* UIViewController+PPTopMostController.m in Sources */,
 				C48924EA1D858F0A00859411 /* SwitchTableViewCell.m in Sources */,
 				91DB244B1EED7CA700FC8413 /* PhotoRevealCell.m in Sources */,
 				F624563D1EA5FACD006834D2 /* IQUIScrollView+Additions.m in Sources */,
@@ -4031,6 +4142,7 @@
 				F624574E1EA5FBB2006834D2 /* PiePolylineChartViewController.m in Sources */,
 				F68C25AA1EC2D4670069C041 /* JYBaseModel.m in Sources */,
 				F62457541EA5FBB2006834D2 /* ScatterChartViewController.m in Sources */,
+				91BA00661F2721A500943596 /* UINavigationController+PPTopMostController.m in Sources */,
 				C4DB7D781C02EC0500DA534E /* main.m in Sources */,
 				F63D4A1A1EB32A3F0004BCC8 /* RTDragCellTableView.m in Sources */,
 				91DB24661EEE99C600FC8413 /* UIView+Category.m in Sources */,
@@ -4155,6 +4267,7 @@
 				C4CF3B581C1AC75C00F58E1E /* CommentViewController.m in Sources */,
 				914F3F211EE92BCE004B2C25 /* MineController.m in Sources */,
 				915A8CD81F1E0B9400262311 /* JYBannerView.m in Sources */,
+				91BA00671F2721A500943596 /* UITabBarController+PPTopMostController.m in Sources */,
 				F62457B91EA5FC24006834D2 /* TCBaseAppDelegate.mm in Sources */,
 				F62457A91EA5FBE1006834D2 /* UIViewController+Category.m in Sources */,
 				F68C25951EC2D44F0069C041 /* JYSaleView.m in Sources */,
@@ -4179,6 +4292,7 @@
 				F62457321EA5FBB1006834D2 /* CandleStickChartViewController.m in Sources */,
 				C4C628431C0C1ED6000AD5D8 /* SubjectViewController.m in Sources */,
 				915A8D0E1F1E0BA500262311 /* JYMainDataModel.m in Sources */,
+				91BA00641F2721A500943596 /* RMessage.m in Sources */,
 				F68C25931EC2D44F0069C041 /* JYPercentCircelView.m in Sources */,
 				F68C25E01EC2D4790069C041 /* JYNotifyView.m in Sources */,
 				3B763AFC1F26396C00D5E965 /* MineControllerHeaderView.m in Sources */,
@@ -4239,6 +4353,7 @@
 				914F3F2A1EE92C08004B2C25 /* NoticeTableViewController.m in Sources */,
 				F62456BC1EA5FB21006834D2 /* ChartHeaderViewCell.m in Sources */,
 				915A8CF01F1E0B9400262311 /* JYSubSheetView.m in Sources */,
+				91BA005C1F2721A500943596 /* UITabBarController+PPTopMostController.m in Sources */,
 				91D364101F1F220400CD7159 /* JYSortButton.m in Sources */,
 				91EF8DD01EF38A1700333746 /* YHTopicViewController.m in Sources */,
 				F68C25AB1EC2D4670069C041 /* JYComponentModel.m in Sources */,
@@ -4248,6 +4363,7 @@
 				C46F6A9B1D0673AB00C561CE /* MyQRViewController.m in Sources */,
 				C4C284E61D06BB1A009458E6 /* ScanResultViewController.m in Sources */,
 				3B763AEA1F26109F00D5E965 /* NoticeWarningModel.m in Sources */,
+				91BA00521F2721A500943596 /* HexColors.m in Sources */,
 				C4EFE4BF1C99812B0009411A /* WKWebViewJavascriptBridge.m in Sources */,
 				91D77F161EEA8746007405A0 /* UserCountView.m in Sources */,
 				91EF8DE71EF3BA4D00333746 /* ListPage.m in Sources */,
@@ -4477,9 +4593,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "YH-IOS/YH-IOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WV94P663S4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4499,10 +4615,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuidev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7691346b-da47-4c7b-b7b2-02bd66af787d";
-				PROVISIONING_PROFILE_SPECIFIER = yonghui.dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "YH-IOS/YH-IOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -4520,9 +4636,9 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "YH-IOS/YH-IOS.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = WV94P663S4;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4542,10 +4658,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Frameworks/UMessage_Sdk_1.2.6",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuidev;
+				PRODUCT_BUNDLE_IDENTIFIER = com.intfocus.yonghuitest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "f22e6d2f-fefc-482e-8e9d-777403a2d444";
-				PROVISIONING_PROFILE_SPECIFIER = yonghui.dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "YH-IOS/YH-IOS-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

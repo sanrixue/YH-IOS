@@ -26,6 +26,8 @@
 
 + (NSString *)userAuthentication:(NSString *)username password:(NSString *)password coordinate:(NSString *)coordinate;
 
++ (NSString *)userAuthentication:(NSString *)username password:(NSString *)password;
+
 /**
  * 删除用户和设备的关联
  */

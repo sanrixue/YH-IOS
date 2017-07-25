@@ -305,23 +305,30 @@
     if ((indexPath.section == 3 ) && (indexPath.row == 1)) {
         MineResetPwdViewController *mineResetPwdCtrl = [[MineResetPwdViewController alloc]init];
         mineResetPwdCtrl.title = @"密码修改";
-        [self.navigationController pushViewController:mineResetPwdCtrl animated:YES];
-        
+        [RootNavigationController pushViewController:mineResetPwdCtrl animated:YES hideBottom:YES];
     }
     else if ((indexPath.section == 3)&&(indexPath.row == 2)){
         MineQuestionViewController *mineQuestionCtrl = [[MineQuestionViewController  alloc]init];
         mineQuestionCtrl.title = @"生意人反馈收集";
-        [self.navigationController pushViewController:mineQuestionCtrl animated:YES];
+        [RootNavigationController pushViewController:mineQuestionCtrl animated:YES hideBottom:YES];
     }
     else if ((indexPath.section ==3)&&(indexPath.row ==0)){
         MineSingleSettingViewController *settingCtrl = [[MineSingleSettingViewController alloc]init];
         settingCtrl.title = @"我的设置";
-        [self pushViewController:settingCtrl animation:YES hideBottom:YES];
+        [RootNavigationController pushViewController:settingCtrl animated:YES hideBottom:YES];
     }
 }
 
 - (void)logoutButtonClick:(UIButton*) button {
-    [self jumpToLogin];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确认退出" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+        [self jumpToLogin];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *action){}];
+    [alertController addAction:okAction];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         /*
          * 用户行为记录, 单独异常处理，不可影响用户体验

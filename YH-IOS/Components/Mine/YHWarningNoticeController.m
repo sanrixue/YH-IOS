@@ -57,7 +57,7 @@
     }
     NSInteger page = _page + 1;
     if (downPull) {
-        page = 0;
+        page = 1;
     }
     NSMutableArray* types = [NSMutableArray array];
     for (BaseModel* type in self.typesArray) {

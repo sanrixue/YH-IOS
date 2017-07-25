@@ -30,6 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _tableView.backgroundColor = self.view.backgroundColor;
+    _tableView.estimatedRowHeight = 120; //防止reload的时候闪烁
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _page = 1;

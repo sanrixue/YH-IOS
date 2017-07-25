@@ -314,7 +314,7 @@
     }
     else if ((indexPath.section ==3)&&(indexPath.row ==0)){
         MineSingleSettingViewController *settingCtrl = [[MineSingleSettingViewController alloc]init];
-        settingCtrl.title = @"我的设置";
+        settingCtrl.title = @"设置";
         [RootNavigationController pushViewController:settingCtrl animated:YES hideBottom:YES];
     }
 }

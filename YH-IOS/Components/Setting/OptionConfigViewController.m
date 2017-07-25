@@ -104,11 +104,13 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+
     return _titleArray.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    return 50;
 }
 
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -116,7 +118,16 @@
     if ([_arraydict[key] isKindOfClass:[NSDictionary class]]) {
         NSString * resuIndetifier = [NSString stringWithFormat:@"cell%ld",(long)indexPath.row];
         UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:resuIndetifier];
-        cell.textLabel.text = key;
+//        cell.textLabel.text = key;
+        UILabel *cacheLabel=[[UILabel alloc] init];
+        [cell addSubview:cacheLabel];
+        cacheLabel.textColor=[UIColor colorWithHexString:@"#666666"];
+        cacheLabel.font=[UIFont systemFontOfSize:15];
+        cacheLabel.text = key;
+        [cacheLabel  mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(cell.contentView.mas_top).offset(17);
+            make.left.mas_equalTo(cell.contentView.mas_left).offset(20);
+        }];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;
     }
@@ -139,6 +150,8 @@
              _userdict = [FileUtils readConfigFile:userConfigPath];
             cell.changStatusBtn.on = [ _userdict[kIsUseGesturePasswordCUName] boolValue];
         }
+     
+        
         return cell;
     }
 }

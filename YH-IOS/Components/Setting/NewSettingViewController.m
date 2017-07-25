@@ -5,7 +5,7 @@
 //  Created by li hao on 17/3/28.
 //  Copyright © 2017年 com.intfocus. All rights reserved.
 //
-
+// 鉴定 暂未使用
 #import "NewSettingViewController.h"
 #import "UserHeadView.h"
 #import "FileUtils.h"
@@ -366,7 +366,7 @@
             if ([[pushData allKeys]count] == 0) {
                 pushDatavalue = @{@"暂无数据":@"0"};
             }
-            
+          
              NSDictionary *infodict;
             NSArray* infoArray = @[@"消息推送",@"关联的设备列表",@"推送的消息列表"];
             if (!devideDict || [devideDict allKeys].count == 0) {

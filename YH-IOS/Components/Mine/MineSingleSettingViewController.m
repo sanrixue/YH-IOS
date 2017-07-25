@@ -134,16 +134,53 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     if (cell) {
-        cell.textLabel.text = userInfoArray[indexPath.row];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        UILabel *cellLabel=[[UILabel alloc] init];
+        [cell addSubview:cellLabel];
+        cellLabel.text=userInfoArray[indexPath.row];
+        cellLabel.textColor=[UIColor colorWithHexString:@"#666666"];
+        cellLabel.font=[UIFont systemFontOfSize:15];
+        [cellLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(cell.contentView.mas_top).offset(17);
+            make.left.mas_equalTo(cell.contentView.mas_left).offset(20);
+        }];
+        
+//        UIImageView *cellImage=[[UIImageView alloc] init];
+//        
+//        [cell.contentView addSubview:cellImage];
+//        
+//        [cellImage setImage:[UIImage imageNamed:@"btn_more"]];
+//        
+//        [cellImage mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(cell.contentView.mas_top).offset(17);
+//            make.right.mas_equalTo(cell.contentView.mas_right).offset(-20);
+//            make.size.mas_equalTo(CGSizeMake(3, 10));
+//        }];
+        
+        
+        
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
+    
+    [cell setSeparatorInset:UIEdgeInsetsMake(0, 16, 0, 16)];
+    
     return cell;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    return 10;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 50;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    
+    
+    return self.view.frame.size.height-210;
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.row) {
@@ -161,6 +198,7 @@
             optionView.arraydict = infodict;
             optionView.titleArray = titleArray;
             [self.navigationController pushViewController:optionView animated:YES];
+
         }
             break;
             
@@ -175,6 +213,7 @@
             settingNormalView.title = userInfoArray[indexPath.row];
             [self.navigationController pushViewController:settingNormalView animated:YES];
         }
+           
             break;
         case 2:{
             NSString *pushConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kPushConfigFileName];

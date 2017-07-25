@@ -97,7 +97,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 44;
+    return 50;
 }
 
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -110,15 +110,34 @@
         cellnum++;
         return cell;
     }
-    cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-     cell.textLabel.text = _indictKey[indexPath.row];
+     cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+    
+     [cell setSeparatorInset:UIEdgeInsetsMake(0, 16, 0, 16)];
+    
+
+    
+    
+    UILabel *cellLabel=[[UILabel alloc] init];
+    [cell addSubview:cellLabel];
+    cellLabel.text=_indictKey[indexPath.row];
+    cellLabel.textColor=[UIColor colorWithHexString:@"#666666"];
+    cellLabel.font=[UIFont systemFontOfSize:15];
+    [cellLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(cell.contentView.mas_top).offset(17);
+        make.left.mas_equalTo(cell.contentView.mas_left).offset(20);
+    }];
+
+   cell.detailTextLabel.textColor=[UIColor colorWithRed:0.21 green:0.25 blue:0.29 alpha:1];
+    
+    cell.detailTextLabel.font=[UIFont systemFontOfSize:15];
+    
     NSString *key = _indictKey[indexPath.row];
     if ([_infodict[key] isKindOfClass:[NSDictionary class]]) {
         cell.detailTextLabel.text = @"";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
          if ([key isEqualToString:@"检测更新"]) {
             cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@)", _version.current, _version.build];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
     }
     else if ([_infodict[key] isKindOfClass:[NSArray class]]) {
@@ -154,11 +173,13 @@
              
          }
     }
-    
+
     else {
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",_infodict[key]];
     }
     cellnum++;
+ 
+    
     return cell;
 }
 

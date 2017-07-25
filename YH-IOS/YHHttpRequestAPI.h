@@ -25,4 +25,27 @@ typedef void(^YHHttpRequestBlock)( BOOL success, id model, NSString* jsonObjc);
                                     page:(NSInteger)page
                                    finish:(YHHttpRequestBlock)finish;
 
+/**
+ 获取公告预警详情
+
+ @param notice_id identifier
+ @param finish finish description
+ */
++ (void)yh_getNoticeWarningDetailWithNotice_id:(NSString*)notice_id
+                                        finish:(YHHttpRequestBlock)finish;
+
+/**
+ 获取数据学院文章列表
+
+ @param keyword keyword description
+ @param finish finish description
+ */
++ (void)yh_getArticleListWithKeyword:(NSString*)keyword
+                                page:(NSInteger)page
+                              finish:(YHHttpRequestBlock)finish;
+
++ (void)yh_collectArticleWithArticleId:(NSString*)identifier
+                                 isFav:(BOOL)isFav
+                              finish:(YHHttpRequestBlock)finish;
+
 @end

@@ -9,6 +9,7 @@
 #import "YHHttpRequestAPI.h"
 #import "User.h"
 #import "NoticeWarningModel.h"
+#import "ArticlesModel.h"
 
 @implementation YHHttpRequestAPI
 
@@ -24,11 +25,44 @@
             typeStr = [typeStr stringByAppendingString:@","];
         }
     }
-    NSString* url = [NSString stringWithFormat:@"%@/api/v1/user/%@/type/%@/page/%zd/limit/%@/notices",kBaseUrl,[self user].userID,typeStr,page,defaultLimit];
-    [BaseRequest getRequestWithUrl:url Params:nil needHandle:YES requestBack:^(BOOL requestSuccess, id response, NSString *responseJson) {
+    NSDictionary* dic = @{
+                          @"page":@(page),
+                          @"type":typeStr,
+                          @"limit":defaultLimit
+                          };
+    NSString* url = [NSString stringWithFormat:@"%@/api/v1/user/%@/notices",kBaseUrl,[self user].userID];
+//    url = [url stringByAppendingString:[NSString stringWithFormat:@"?page=%zd&limit=%@&type=%@",page,defaultLimit,typeStr]];
+    [BaseRequest getRequestWithUrl:url Params:dic needHandle:YES requestBack:^(BOOL requestSuccess, id response, NSString *responseJson) {
         NSString *path = [[NSBundle mainBundle] pathForResource:@"Test" ofType:@"plist"];
         NSDictionary *dic = [[NSDictionary alloc] initWithContentsOfFile:path];
         NoticeWarningModel* model = [NoticeWarningModel mj_objectWithKeyValues:[dic valueForKey:@"key"]];
+        finish(requestSuccess,model,responseJson);
+    }];
+}
+
++ (void)yh_getNoticeWarningDetailWithNotice_id:(NSString *)notice_id finish:(YHHttpRequestBlock)finish{
+    NSString* url = [NSString stringWithFormat:@"%@/api/v1/user/%@/notice/%@",kBaseUrl,[self user].userID,notice_id];
+    [BaseRequest getRequestWithUrl:url Params:nil needHandle:YES requestBack:^(BOOL requestSuccess, id response, NSString *responseJson) {
+        NoticeWarningDetailModel* model = [NoticeWarningDetailModel mj_objectWithKeyValues:response];
+        finish(requestSuccess,model,responseJson);
+    }];
+}
+
++ (void)yh_getArticleListWithKeyword:(NSString *)keyword page:(NSInteger)page finish:(YHHttpRequestBlock)finish{
+    NSString* url = [NSString stringWithFormat:@"%@/api/v1/user/%@/page/%zd/limit/%@/articles",kBaseUrl,[self user].userID,page,defaultLimit];
+    NSDictionary* dic = @{
+                          @"keyword":SafeText(keyword)
+                          };
+    [BaseRequest getRequestWithUrl:url Params:dic needHandle:YES requestBack:^(BOOL requestSuccess, id response, NSString *responseJson) {
+        ArticlesModel* model = [ArticlesModel mj_objectWithKeyValues:response];
+        finish(requestSuccess,model,responseJson);
+    }];
+}
+
++ (void)yh_collectArticleWithArticleId:(NSString *)identifier isFav:(BOOL)isFav finish:(YHHttpRequestBlock)finish{
+        NSString* url = [NSString stringWithFormat:@"%@/api/v1/user/%@/article/%@/favourite_status/%@",kBaseUrl,[self user].userID,identifier,isFav ? @"1":@"2"];
+    [BaseRequest postRequestWithUrl:url Params:nil needHandle:YES requestBack:^(BOOL requestSuccess, id response, NSString *responseJson) {
+        ArticlesModel* model = [ArticlesModel mj_objectWithKeyValues:response];
         finish(requestSuccess,model,responseJson);
     }];
 }

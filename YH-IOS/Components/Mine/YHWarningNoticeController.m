@@ -57,7 +57,7 @@
     }
     NSInteger page = _page + 1;
     if (downPull) {
-        page = 0;
+        page = 1;
     }
     NSMutableArray* types = [NSMutableArray array];
     for (BaseModel* type in self.typesArray) {
@@ -67,9 +67,10 @@
     }
     [YHHttpRequestAPI yh_getNoticeWarningListWithTypes:types page:page finish:^(BOOL success, NoticeWarningModel* model, NSString *jsonObjc) {
         // to do hideLoding
+        [self.reTool endRefreshDownPullEnd:true topPullEnd:true reload:false noMore:false];
         if ([BaseModel handleResult:model]) {
             if (downPull) {
-                _page = 0;
+                _page = 1;
                 [self.dataList removeAllObjects];
                 [self.dataList addObjectsFromArray:model.data];
             }else{
@@ -103,6 +104,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [self cellHeightForIndexPath:indexPath cellContentViewWidth:SCREEN_WIDTH tableView:tableView];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
 
 

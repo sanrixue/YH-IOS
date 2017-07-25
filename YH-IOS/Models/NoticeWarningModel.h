@@ -20,3 +20,9 @@
 
 
 @end
+
+@interface NoticeWarningDetailModel : BaseModel
+
+@property (nonatomic, strong) NoticeWarningModel* data;
+
+@end

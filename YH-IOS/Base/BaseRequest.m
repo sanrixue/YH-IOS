@@ -99,11 +99,12 @@
         NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
         NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         DLog(@"\n请求失败************************************************\n%@",errorStr);
-        if (needHandle) {
-            [self handelRequestSuccess:NO successBack:nil];
-        }else{
-            requestBack(NO, nil, nil);
-        }
+        requestBack(NO, nil, nil);
+//        if (needHandle) {
+//            [self handelRequestSuccess:NO successBack:nil];
+//        }else{
+//            requestBack(NO, nil, nil);
+//        }
 
     }];
 //    [CurAfnManager POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -139,11 +140,13 @@
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSData *data = error.userInfo[AFNetworkingOperationFailingURLResponseDataErrorKey];
         NSString *errorStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        DLog(@"\n请求失败************************************************\n%@",errorStr);        if (needHandle) {
-            [self handelRequestSuccess:NO successBack:nil];
-        }else{
-            requestBack(NO, nil, nil);
-        }
+        DLog(@"\n请求失败************************************************\n%@",errorStr);
+         requestBack(NO, nil, nil);
+//        if (needHandle) {
+//            [self handelRequestSuccess:NO successBack:nil];
+//        }else{
+//            requestBack(NO, nil, nil);
+//        }
     }];
 //    [CurAfnManager GET:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 //        DLog(@"\n请求结果******************************************\n%@",responseObject);

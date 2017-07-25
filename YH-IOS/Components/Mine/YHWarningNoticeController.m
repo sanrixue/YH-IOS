@@ -70,7 +70,7 @@
         [self.reTool endRefreshDownPullEnd:true topPullEnd:true reload:false noMore:false];
         if ([BaseModel handleResult:model]) {
             if (downPull) {
-                _page = 0;
+                _page = 1;
                 [self.dataList removeAllObjects];
                 [self.dataList addObjectsFromArray:model.data];
             }else{

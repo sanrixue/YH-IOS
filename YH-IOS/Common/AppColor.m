@@ -97,7 +97,7 @@
     return UIColorHex(393f42);
 }
 + (UIColor *)app_6color{
-    return UIColorHex(434a4d);
+    return UIColorHex(32414b);
 }
 + (UIColor *)app_7color{
     return UIColorHex(eeeff1);

@@ -9,7 +9,7 @@
 
 #import "MineController.h"
 #import "MineInfoViewController.h"
-#import "InstituteViewController.h"
+#import "YHInstituteController.h"
 #import "NoticeTableViewController.h"
 #import "UIButton+NewBadge.h"
 #import "YHWarningNoticeController.h"
@@ -30,7 +30,7 @@
 @property (nonatomic, strong) MineControllerHeaderView* headerView;
 @property (nonatomic, strong) ScrollControllersVc* scrollVc;
 @property (nonatomic, strong) YHWarningNoticeController* warningVc;
-@property (nonatomic, strong) InstituteViewController* instituteVc;
+@property (nonatomic, strong) YHInstituteController* instituteVc;
 @property (nonatomic, strong) MineInfoViewController* mineInfoVc;
 
 @end
@@ -259,9 +259,9 @@
     return _warningVc;
 }
 
-- (InstituteViewController *)instituteVc{
+- (YHInstituteController *)instituteVc{
     if (!_instituteVc) {
-        _instituteVc = [[InstituteViewController alloc] init];
+        _instituteVc = [[YHInstituteController alloc] init];
     }
     return _instituteVc;
 }

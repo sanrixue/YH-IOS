@@ -180,13 +180,18 @@
          [cell.contentView addSubview:detailLabel];
          detailLabel.textColor=[UIColor colorWithRed:0.21 green:0.25 blue:0.29 alpha:1];
          detailLabel.font=[UIFont systemFontOfSize:15];
-         detailLabel.text=_infodict[key];
+         
          NSString *detailLabelPoint=@"20";
-         if ([key isEqualToString:@"检查新版本"] || [key isEqualToString:@"蒲公英下载"]) {
+         if ([key isEqualToString:@"检查新版本"]) {
+             cell.detailTextLabel.text = self.pgyLinkString;
              detailLabelPoint=@"32";
          }
+         else if([key isEqualToString:@"蒲公英下载"]){
+         detailLabel.text=_infodict[key];
+            detailLabelPoint=@"32";
+         }
          else
-         {
+         {detailLabel.text=_infodict[key];
          detailLabelPoint=@"20";
          
          }
@@ -197,26 +202,8 @@
          
          
          if ([key isEqualToString:@"检查新版本"]) {
-//             cell.detailTextLabel.text = self.pgyLinkString;
-//             cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
-//             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+             
 
-//             UILabel *detailLabel=[[UILabel alloc] init];
-//             
-//             [cell.contentView addSubview:detailLabel];
-//             
-//             detailLabel.textColor=[UIColor colorWithRed:0.21 green:0.25 blue:0.29 alpha:1];
-//             
-//             detailLabel.font=[UIFont systemFontOfSize:15];
-//             
-//             detailLabel.text=self.pgyLinkString;
-//             
-//             [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//                 make.right.mas_equalTo(cell.contentView.mas_right).offset(-32);
-//                 make.centerY.mas_equalTo(cell.contentView.mas_centerY);
-//             }];
-             
-             
              UIImageView *cellImage=[[UIImageView alloc] init];
              
              [cell.contentView addSubview:cellImage];

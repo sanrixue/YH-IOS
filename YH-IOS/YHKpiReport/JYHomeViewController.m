@@ -619,6 +619,8 @@
 - (void)ResetPassword {
     ResetPasswordViewController *resertPwdViewController = [[ResetPasswordViewController alloc]init];
     resertPwdViewController.title = @"修改密码";
+
+    
     UINavigationController *reserPwdCtrl = [[UINavigationController alloc]initWithRootViewController:resertPwdViewController];
     [self.navigationController presentViewController:reserPwdCtrl animated:YES completion:nil];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

@@ -5,7 +5,7 @@
 //  Created by lijunjie on 15/12/29.
 //  Copyright © 2015年 com.intfocus. All rights reserved.
 //
-
+//可能已弃用
 #import "ResetPasswordViewController.h"
 #import "APIHelper.h"
 #import "HttpResponse.h"
@@ -56,6 +56,9 @@
     self.navigationController.navigationBar.translucent = NO;
     UIBarButtonItem *leftItem =  [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     [self.navigationItem setLeftBarButtonItems:[NSArray arrayWithObjects:space,leftItem, nil]];
+   
+    
+    
     self.bridge = [WebViewJavascriptBridge bridgeForWebView:self.browser webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"ResetPasswordViewController - ObjC received message from JS: %@", data);
         responseCallback(@"ResetPasswordViewController - Response for message from ObjC");

@@ -128,7 +128,23 @@
             make.top.mas_equalTo(cell.contentView.mas_top).offset(17);
             make.left.mas_equalTo(cell.contentView.mas_left).offset(20);
         }];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+        
+        UIImageView *cellImage=[[UIImageView alloc] init];
+        
+        [cell.contentView addSubview:cellImage];
+        
+        [cellImage setImage:[UIImage imageNamed:@"btn_more"]];
+        
+        [cellImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+            //            make.top.mas_equalTo(cell.contentView.mas_top).offset(17);
+            make.right.mas_equalTo(cell.contentView.mas_right).offset(-20);
+        }];
+        
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+         [cell setSeparatorInset:UIEdgeInsetsMake(0, 16, 0, 16)];
     return cell;
     }
     else {
@@ -151,7 +167,7 @@
             cell.changStatusBtn.on = [ _userdict[kIsUseGesturePasswordCUName] boolValue];
         }
      
-        
+         [cell setSeparatorInset:UIEdgeInsetsMake(0, 16, 0, 16)];
         return cell;
     }
 }
@@ -188,6 +204,9 @@
     NSLog(@"旧的经度：%f,旧的纬度：%f",oldCoordinate.longitude,oldCoordinate.latitude);
     self.userlatitude = [NSString stringWithFormat:@"%.6f",oldCoordinate.latitude];
     self.userLongitude = [NSString stringWithFormat:@"%.6f", oldCoordinate.longitude];
+    
+    
+    
     //系统会一直更新数据，直到选择停止更新，因为我们只需要获得一次经纬度即可，所以获取之后就停止更新
     [manager stopUpdatingLocation];
     

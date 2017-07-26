@@ -198,6 +198,7 @@
 		91EF8DEB1EF3DB1200333746 /* YHMutileveHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 91EF8DE91EF3DB1200333746 /* YHMutileveHeaderView.m */; };
 		91EF8DEC1EF3DB1200333746 /* YHMutileveHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91EF8DEA1EF3DB1200333746 /* YHMutileveHeaderView.xib */; };
 		9E9EEC1875A034202F52C155 /* libPods-YH-IOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A867606F7216FABE6624278 /* libPods-YH-IOS.a */; };
+		B676BB3E1F282AD800AF363A /* NewMineResetPwdController.m in Sources */ = {isa = PBXBuildFile; fileRef = B676BB3D1F282AD700AF363A /* NewMineResetPwdController.m */; };
 		C403433C1D6ADEAB00625D53 /* UIButton+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343371D6ADEAB00625D53 /* UIButton+Badge.m */; };
 		C403433D1D6ADEAB00625D53 /* UILabel+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C40343391D6ADEAB00625D53 /* UILabel+Badge.m */; };
 		C403433E1D6ADEAB00625D53 /* UITabBar+Badge.m in Sources */ = {isa = PBXBuildFile; fileRef = C403433B1D6ADEAB00625D53 /* UITabBar+Badge.m */; };
@@ -955,6 +956,8 @@
 		91EF8DE81EF3DB1200333746 /* YHMutileveHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YHMutileveHeaderView.h; sourceTree = "<group>"; };
 		91EF8DE91EF3DB1200333746 /* YHMutileveHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YHMutileveHeaderView.m; sourceTree = "<group>"; };
 		91EF8DEA1EF3DB1200333746 /* YHMutileveHeaderView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = YHMutileveHeaderView.xib; sourceTree = "<group>"; };
+		B676BB3C1F282AD700AF363A /* NewMineResetPwdController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewMineResetPwdController.h; sourceTree = "<group>"; };
+		B676BB3D1F282AD700AF363A /* NewMineResetPwdController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewMineResetPwdController.m; sourceTree = "<group>"; };
 		C40343361D6ADEAB00625D53 /* UIButton+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Badge.h"; sourceTree = "<group>"; };
 		C40343371D6ADEAB00625D53 /* UIButton+Badge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Badge.m"; sourceTree = "<group>"; };
 		C40343381D6ADEAB00625D53 /* UILabel+Badge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Badge.h"; sourceTree = "<group>"; };
@@ -1962,6 +1965,8 @@
 				91DB24891EF0E10F00FC8413 /* MyRequestDetailViewController.m */,
 				91DB248B1EF11BC300FC8413 /* MineSingleSettingViewController.h */,
 				91DB248C1EF11BC300FC8413 /* MineSingleSettingViewController.m */,
+				B676BB3C1F282AD700AF363A /* NewMineResetPwdController.h */,
+				B676BB3D1F282AD700AF363A /* NewMineResetPwdController.m */,
 			);
 			name = ViewController;
 			sourceTree = "<group>";
@@ -4353,6 +4358,7 @@
 				915A8D0C1F1E0BA500262311 /* JYExcelModel.m in Sources */,
 				F68C258A1EC2D44F0069C041 /* JYFallsCell.m in Sources */,
 				F62456481EA5FACD006834D2 /* IQToolbar.m in Sources */,
+				B676BB3E1F282AD800AF363A /* NewMineResetPwdController.m in Sources */,
 				915A8CE61F1E0B9400262311 /* JYExcelView.m in Sources */,
 				F624563F1EA5FACD006834D2 /* IQUIView+Hierarchy.m in Sources */,
 				91D364111F1F220400CD7159 /* JYSortItemView.m in Sources */,

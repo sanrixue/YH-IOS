@@ -144,21 +144,21 @@
             make.left.mas_equalTo(cell.contentView.mas_left).offset(20);
         }];
         
-//        UIImageView *cellImage=[[UIImageView alloc] init];
-//        
-//        [cell.contentView addSubview:cellImage];
-//        
-//        [cellImage setImage:[UIImage imageNamed:@"btn_more"]];
-//        
-//        [cellImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        UIImageView *cellImage=[[UIImageView alloc] init];
+        
+        [cell.contentView addSubview:cellImage];
+        
+        [cellImage setImage:[UIImage imageNamed:@"btn_more"]];
+        
+        [cellImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(cell.contentView.mas_centerY);
 //            make.top.mas_equalTo(cell.contentView.mas_top).offset(17);
-//            make.right.mas_equalTo(cell.contentView.mas_right).offset(-20);
-//            make.size.mas_equalTo(CGSizeMake(3, 10));
-//        }];
+            make.right.mas_equalTo(cell.contentView.mas_right).offset(-20);
+        }];
         
         
         
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
     [cell setSeparatorInset:UIEdgeInsetsMake(0, 16, 0, 16)];

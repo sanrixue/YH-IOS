@@ -158,6 +158,7 @@
 -(void)submitTochangePwdwithPwd:(NSString *)oldPassword withNewPwd: (NSString *)newPassword{
     oldPassword = self.oldpassword;
     newPassword = self.newpassword;
+    
     if (![oldPassword.md5 isEqualToString:self.user.password]) {
         [ViewUtils showPopupView:self.view Info:@"密码输入错误"];
         return;

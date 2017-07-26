@@ -108,14 +108,12 @@
         cell.changStatusBtn.on = [_infodict[@"消息推送"] boolValue];
         cell.delegate = self;
         cellnum++;
+         [cell setSeparatorInset:UIEdgeInsetsMake(0, 16, 0, 16)];
         return cell;
     }
      cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
     
      [cell setSeparatorInset:UIEdgeInsetsMake(0, 16, 0, 16)];
-    
-
-    
     
     UILabel *cellLabel=[[UILabel alloc] init];
     [cell addSubview:cellLabel];
@@ -127,61 +125,172 @@
         make.left.mas_equalTo(cell.contentView.mas_left).offset(20);
     }];
 
-   cell.detailTextLabel.textColor=[UIColor colorWithRed:0.21 green:0.25 blue:0.29 alpha:1];
-    
-    cell.detailTextLabel.font=[UIFont systemFontOfSize:15];
-    
     NSString *key = _indictKey[indexPath.row];
     if ([_infodict[key] isKindOfClass:[NSDictionary class]]) {
-        cell.detailTextLabel.text = @"";
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//        cell.detailTextLabel.text = @"";
+
+
+        
+        
          if ([key isEqualToString:@"检测更新"]) {
-            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@)", _version.current, _version.build];
-             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//            cell.detailTextLabel.text = [NSString stringWithFormat:@"%@(%@)", _version.current, _version.build];
+//             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+             
+             UIImageView *cellImage=[[UIImageView alloc] init];
+             
+             [cell.contentView addSubview:cellImage];
+             
+             [cellImage setImage:[UIImage imageNamed:@"btn_more"]];
+             
+             [cellImage mas_makeConstraints:^(MASConstraintMaker *make) {
+                 make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+                 make.right.mas_equalTo(cell.contentView.mas_right).offset(-20);
+             }];
+             
+             
+             UILabel *detailLabel=[[UILabel alloc] init];
+             
+             [cell.contentView addSubview:detailLabel];
+             
+             detailLabel.textColor=[UIColor colorWithRed:0.21 green:0.25 blue:0.29 alpha:1];
+             
+             detailLabel.font=[UIFont systemFontOfSize:15];
+             
+             detailLabel.text=[NSString stringWithFormat:@"%@(%@)", _version.current, _version.build];
+             
+             [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                 make.right.mas_equalTo(cell.contentView.mas_right).offset(-32);
+                 make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+             }];
+
+             
         }
     }
     else if ([_infodict[key] isKindOfClass:[NSArray class]]) {
-        cell.detailTextLabel.text = @"";
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//        cell.detailTextLabel.text = @"";
+
+//        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     
      else if ([_infodict[key] isKindOfClass:[NSString class]]){
-        cell.detailTextLabel.text = _infodict[key];
-        cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
-         cell.userInteractionEnabled = NO;
+//        cell.detailTextLabel.text = _infodict[key];
+//        cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
+//         cell.userInteractionEnabled = NO;
+         UILabel *detailLabel=[[UILabel alloc] init];
+         [cell.contentView addSubview:detailLabel];
+         detailLabel.textColor=[UIColor colorWithRed:0.21 green:0.25 blue:0.29 alpha:1];
+         detailLabel.font=[UIFont systemFontOfSize:15];
+         detailLabel.text=_infodict[key];
+         NSString *detailLabelPoint=@"20";
+         if ([key isEqualToString:@"检查新版本"] || [key isEqualToString:@"蒲公英下载"]) {
+             detailLabelPoint=@"32";
+         }
+         else
+         {
+         detailLabelPoint=@"20";
+         
+         }
+         [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+             make.right.mas_equalTo(cell.contentView.mas_right).offset(-[detailLabelPoint integerValue]);
+             make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+         }];
+         
+         
          if ([key isEqualToString:@"检查新版本"]) {
-             cell.detailTextLabel.text = self.pgyLinkString;
-             cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
-             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//             cell.detailTextLabel.text = self.pgyLinkString;
+//             cell.detailTextLabel.adjustsFontSizeToFitWidth = YES;
+//             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+//             UILabel *detailLabel=[[UILabel alloc] init];
+//             
+//             [cell.contentView addSubview:detailLabel];
+//             
+//             detailLabel.textColor=[UIColor colorWithRed:0.21 green:0.25 blue:0.29 alpha:1];
+//             
+//             detailLabel.font=[UIFont systemFontOfSize:15];
+//             
+//             detailLabel.text=self.pgyLinkString;
+//             
+//             [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//                 make.right.mas_equalTo(cell.contentView.mas_right).offset(-32);
+//                 make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+//             }];
+             
+             
+             UIImageView *cellImage=[[UIImageView alloc] init];
+             
+             [cell.contentView addSubview:cellImage];
+             
+             [cellImage setImage:[UIImage imageNamed:@"btn_more"]];
+             
+             [cellImage mas_makeConstraints:^(MASConstraintMaker *make) {
+                 make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+                 //            make.top.mas_equalTo(cell.contentView.mas_top).offset(17);
+                 make.right.mas_equalTo(cell.contentView.mas_right).offset(-20);
+             }];
+
              cell.userInteractionEnabled = YES;
+
          }
          else if ([key isEqualToString:@"蒲公英下载"]) {
-             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+             
+             
+//             UILabel *detailLabel=[[UILabel alloc] init];
+//             
+//             [cell.contentView addSubview:detailLabel];
+//             
+//             detailLabel.textColor=[UIColor colorWithRed:0.21 green:0.25 blue:0.29 alpha:1];
+//             
+//             detailLabel.font=[UIFont systemFontOfSize:15];
+//             
+//             detailLabel.text=_infodict[key];
+//             
+//             [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//                 make.right.mas_equalTo(cell.contentView.mas_right).offset(-32);
+//                 make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+//             }];
+
+        
+             UIImageView *cellImage=[[UIImageView alloc] init];
+             
+             [cell.contentView addSubview:cellImage];
+             
+             [cellImage setImage:[UIImage imageNamed:@"btn_more"]];
+             
+             [cellImage mas_makeConstraints:^(MASConstraintMaker *make) {
+                 make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+                 //            make.top.mas_equalTo(cell.contentView.mas_top).offset(17);
+                 make.right.mas_equalTo(cell.contentView.mas_right).offset(-20);
+             }];
              cell.userInteractionEnabled = YES;
          }
          else if ([key isEqualToString:@"修改密码"]) {
-             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
              cell.userInteractionEnabled = YES;
          }
          else if ([key isEqualToString:@"校正"]) {
-             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
              cell.userInteractionEnabled = YES;
          }
          else if ([key isEqualToString:@"手工清理"]) {
-             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
              cell.userInteractionEnabled = YES;
              
          }
     }
 
     else {
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",_infodict[key]];
+//        cell.detailTextLabel.text = [NSString stringWithFormat:@"%@",_infodict[key]];
     }
     cellnum++;
  
     
     return cell;
 }
+
+
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString* key = _indictKey[indexPath.row];

@@ -68,6 +68,7 @@
     
     
     
+    [self startLocation];
     
     UIImageView *Logo =[[UIImageView alloc] init];
     
@@ -84,53 +85,32 @@
         make.size.mas_equalTo(CGSizeMake(100, 100));
         
     }];
-    
-    
-    //    UILabel *APPName=[[UILabel alloc] init];
-    //
-    //    [self.view addSubview:APPName];
-    //
-    ////    APPName.text=@"永辉生意人";
-    //
-    //    APPName.textColor=[UIColor colorWithHexString:@"bcbcbc"];
-    //
-    //    //设置字间距 NSKernAttributeName:@1.0f
-    //    NSDictionary *dic = @{NSKernAttributeName:@1.0f};
-    //
-    //    APPName.font=[UIFont systemFontOfSize:15];
-    //
-    //    NSAttributedString *attributeStr = [[NSAttributedString alloc] initWithString:@"永辉生意人" attributes:dic];
-    //
-    //    APPName.attributedText = attributeStr;
-    //
-    //
-    //    [APPName mas_makeConstraints:^(MASConstraintMaker *make) {
-    //
-    //
-    ////        make.left.mas_equalTo(self.view.mas_left).offset(141);
-    //
-    //        make.top.mas_equalTo(Logo.mas_bottom).offset(14);
-    //
-    //        make.centerX.mas_equalTo(self.view.mas_centerX);
-    //
-    //        make.size.mas_equalTo(CGSizeMake(94, 15));
-    //    }];
-    //
-    
-    
-    
+
     UITextField *peopleNumber=[[UITextField alloc] init];
     
     [self.view addSubview:peopleNumber];
     
-    peopleNumber.placeholder=@"员工号";
+  
     
     peopleNumber.font=[UIFont systemFontOfSize:15];
     
     peopleNumber.textAlignment=NSTextAlignmentLeft;
     
    // peopleNumber.textColor=[UIColor colorWithHexString:@"#bcbcbc"];
+    NSString *userConfigPath = [[FileUtils basePath] stringByAppendingPathComponent:kUserConfigFileName];
+    NSMutableDictionary *userDict = [FileUtils readConfigFile:userConfigPath];
     
+    if (![userDict[@"user_name"] isEqualToString:@""] && userDict[@"user_name"]) {
+        peopleNumber.text = userDict[@"user_num"];
+        _peopleNumString=userDict[@"user_num"];
+    }
+    else
+    {
+      peopleNumber.placeholder=@"员工号";
+    }
+    
+     peopleNumber.borderStyle = UITextBorderStyleNone;
+
     [peopleNumber addTarget:self action:@selector(peopleNumberChange:) forControlEvents:UIControlEventEditingChanged];
     
     
@@ -186,11 +166,7 @@
         
         make.size.mas_equalTo(CGSizeMake(245, 1));
     }];
-    
-    
-    
-    
-    
+
     _passwordNumber=[[UITextField alloc] init];
     
     [self.view addSubview:_passwordNumber];
@@ -222,13 +198,8 @@
         make.size.mas_equalTo(CGSizeMake(245, 30));
         
     }];
-    
-    
-    
     _PasswordUnderLine = [[UIView alloc]init];
-    
-    
-    
+ 
     _PasswordUnderLine.backgroundColor= [UIColor colorWithHexString:@"#e6e6e6"];
     [self.view addSubview:_PasswordUnderLine];
     
@@ -425,9 +396,11 @@
     //    self.userNameText.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"帐户" attributes:@{NSForegroundColorAttributeName:placeHoderColor}];
     //    self.userNameText.borderStyle = UITextBorderStyleNone;
     //    self.userNameText.delegate = self;
+    
     //    if (![userDict[@"user_name"] isEqualToString:@""] && userDict[@"user_name"]) {
     //        self.userNameText.text = userDict[@"user_num"];
     //    }
+    
     //    self.userNameText.textColor = [UIColor blackColor];
     //    self.userNameText.userInteractionEnabled = YES;
     //    self.userNameText.returnKeyType = UIReturnKeyDone;
@@ -719,7 +692,11 @@
     [self showProgressHUD:@"验证中"];
     NSString *coordianteString = [NSString stringWithFormat:@"%@,%@",self.userLongitude,self.userlatitude];
     [[NSUserDefaults standardUserDefaults] setObject:coordianteString forKey:@"USERLOCATION"];
+    
     NSString *msg = [APIHelper userAuthentication:_peopleNumString password:_passwordNumString.md5 coordinate:coordianteString];
+    
+    
+    
     [self.progressHUD hide:YES];
     
     if (!(msg.length == 0)) {

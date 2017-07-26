@@ -538,7 +538,6 @@ static NSString *const kReportSelectorSegueIdentifier = @"ToReportSelectorSegueI
     [self.bridge registerHandler:@"setBannerTitle" handler:^(id data, WVJBResponseCallback responseCallback){
         [self.navigationBarTitle setTitle:data[@"title"]];
        // self.title = data[@"title"];
-       
     }];
     
     NSString *coordianteString = [NSString stringWithFormat:@"%@,%@",self.userLongitude,self.userlatitude];
